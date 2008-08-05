@@ -10,4 +10,6 @@ public interface SimonCounter extends Simon {
 	void increment();
 
 	void increment(long inc);
+
+	long getCounter();
 }

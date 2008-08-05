@@ -55,6 +55,13 @@ public abstract class AbstractSimon implements Simon {
 		state = SimonState.INHERIT;
 	}
 
+	public void setSubtreeToInherit() {
+		for (Simon child : children) {
+			child.inheritState();
+			child.setSubtreeToInherit();
+		}
+	}
+
 	public boolean isEnabled() {
 		if (state.equals(SimonState.INHERIT)) {
 			return parent.isEnabled();

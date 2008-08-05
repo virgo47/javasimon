@@ -1,5 +1,7 @@
 package org.javasimon;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 /**
  * SimonCounter.
  *
@@ -7,22 +9,26 @@ package org.javasimon;
  * @created Aug 4, 2008
  */
 public class SimonCounterImpl extends AbstractSimon implements SimonCounter {
-	private long counter;
+	private AtomicLong counter = new AtomicLong(0);
 
 	public SimonCounterImpl(String name) {
 		super(name);
 	}
 
 	public void increment() {
-		counter++;
+		counter.incrementAndGet();
 	}
 
 	public void increment(long inc) {
-		counter += inc;
+		counter.addAndGet(inc);
 	}
 
 	public void reset() {
-		counter = 0;
+		counter.set(0);
+	}
+
+	public long getCounter() {
+		return counter.longValue();
 	}
 
 	public String toString() {

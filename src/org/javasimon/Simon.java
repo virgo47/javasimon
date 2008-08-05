@@ -25,6 +25,8 @@ public interface Simon {
 
 	void inheritState();
 
+	void setSubtreeToInherit();
+
 	boolean isEnabled();
 
 	void reset();
