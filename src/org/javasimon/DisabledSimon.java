@@ -3,78 +3,57 @@ package org.javasimon;
 import java.util.List;
 
 /**
- * DisabledSimon implements emtpy action methods. Management methods however are fully
- * functional.
+ * DisabledSimon is empty simon with some unsupported operations returned if the whole
+ * Simon API is disabled. Returned name is null, isEnabled returns false, simon action methods
+ * do nothing or return zero (like disabled decorator) and the rest throw an exception.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Aug 4, 2008
+ * @created Aug 5, 2008
  */
-public final class DisabledSimon implements SimonCounter, SimonStopwatch {
-// TODO: If we want to use covariant return types for enable/disable/inheritState,
-// we have to implement disabled simon separately for every interface.
+public final class DisabledSimon extends DisabledDecorator {
+	public static final DisabledSimon INSTANCE = new DisabledSimon();
 
-	private Simon simon;
-
-	public DisabledSimon(Simon simon) {
-		this.simon = simon;
+	private DisabledSimon() {
+		super(null);
 	}
 
 	public Simon getParent() {
-		return simon.getParent();
+		throw new UnsupportedOperationException("Not suppported on Simon substitute for disabled API");
 	}
 
 	public List<Simon> getChildren() {
-		return simon.getChildren();
+		throw new UnsupportedOperationException("Not suppported on Simon substitute for disabled API");
 	}
 
 	public void addChild(Simon simon) {
-		simon.addChild(simon);
+		throw new UnsupportedOperationException("Not suppported on Simon substitute for disabled API");
 	}
 
 	public String getName() {
-		return simon.getName();
+		return null;
 	}
 
 	public SimonState getState() {
-		return SimonState.DISABLED;
+		throw new UnsupportedOperationException("Not suppported on Simon substitute for disabled API");
 	}
 
 	public void enable() {
-		simon.enable();
+		throw new UnsupportedOperationException("Not suppported on Simon substitute for disabled API");
 	}
 
 	public void disable() {
-		simon.disable();
+		throw new UnsupportedOperationException("Not suppported on Simon substitute for disabled API");
 	}
 
 	public void inheritState() {
-		simon.inheritState();
+		throw new UnsupportedOperationException("Not suppported on Simon substitute for disabled API");
+	}
+
+	public void setSubtreeToInherit() {
+		throw new UnsupportedOperationException("Not suppported on Simon substitute for disabled API");
 	}
 
 	public boolean isEnabled() {
 		return false;
-	}
-
-	public void reset() {
-		simon.reset();
-	}
-
-	// EMPTY action methods follows
-	public void addTime(long ns) {
-	}
-
-	public void increment() {
-	}
-
-	public void increment(long inc) {
-	}
-
-	public void start() {
-	}
-
-	public void restart() {
-	}
-
-	public void stop() {
 	}
 }

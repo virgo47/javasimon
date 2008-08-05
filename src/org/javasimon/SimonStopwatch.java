@@ -11,7 +11,9 @@ public interface SimonStopwatch extends Simon {
 
 	void start();
 
-	void restart();
-
 	void stop();
+
+	long getElapsedNanos();
+
+	long getCounter();
 }

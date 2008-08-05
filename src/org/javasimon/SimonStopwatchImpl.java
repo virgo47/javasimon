@@ -1,5 +1,8 @@
 package org.javasimon;
 
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
+
 /**
  * Simonatch.
  *
@@ -7,43 +10,58 @@ package org.javasimon;
  * @created Aug 4, 2008
  */
 public class SimonStopwatchImpl extends AbstractSimon implements SimonStopwatch {
-	private long elapsedNanos;
+	private AtomicLong elapsedNanos = new AtomicLong(0);
 
-	private long counter;
+	private AtomicLong counter = new AtomicLong(0);
 
-	private long start;
+	private AtomicLong start = new AtomicLong(0);
+
+	private AtomicInteger factor = new AtomicInteger(0);
 
 	public SimonStopwatchImpl(String name) {
 		super(name);
 	}
 
 	public void addTime(long ns) {
-		elapsedNanos += ns;
-		counter++;
+		elapsedNanos.addAndGet(ns);
+		counter.incrementAndGet();
 	}
 
 	public void reset() {
-		elapsedNanos = 0;
-		counter = 0;
+		elapsedNanos.set(0);
+		counter.set(0);
+		start.set(System.nanoTime());
+	}
+
+	public void start() {
+		int mul = factor.getAndIncrement();
+		long currentNano = System.nanoTime();
+		long ns = start.getAndSet(currentNano);
+		if (mul > 0) {
+			elapsedNanos.addAndGet((currentNano - ns) * mul);
+		}
+	}
+
+	public void stop() {
+		int mul = factor.getAndDecrement();
+		if (mul < 1) {
+			throw new SimonException("Stop used more times than start for Simon '" + getName() + "'");
+		}
+		long currentNano = System.nanoTime();
+		long ns = start.getAndSet(currentNano);
+		elapsedNanos.addAndGet((currentNano - ns) * mul);
+		counter.incrementAndGet();
+	}
+
+	public long getElapsedNanos() {
+		return elapsedNanos.longValue();
+	}
+
+	public long getCounter() {
+		return counter.longValue();
 	}
 
 	public String toString() {
 		return "Simon Stopwatch: " + super.toString() + " elapsedNanos=" + elapsedNanos + ", counter=" + counter;
-	}
-
-	public void start() {
-		if (start != 0) {
-			throw new SimonException("Simon Stopwatch '" + getName() + "' started again without previous stop!");
-		}
-		restart();
-	}
-
-	public void restart() {
-		start = System.nanoTime();
-	}
-
-	public void stop() {
-		elapsedNanos = System.nanoTime() - start;
-		start = 0;
 	}
 }
