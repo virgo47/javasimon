@@ -39,19 +39,16 @@ public final class DisabledSimon implements SimonCounter, SimonStopwatch {
 		return SimonState.DISABLED;
 	}
 
-	public Simon enable() {
+	public void enable() {
 		simon.enable();
-		return simon;
 	}
 
-	public Simon disable() {
+	public void disable() {
 		simon.disable();
-		return this;
 	}
 
-	public Simon inheritState() {
+	public void inheritState() {
 		simon.inheritState();
-		return SimonFactory.availabilityDecorator(simon);
 	}
 
 	public boolean isEnabled() {

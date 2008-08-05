@@ -138,7 +138,7 @@ public final class SimonFactory {
 		return Collections.unmodifiableMap(allSimons);
 	}
 
-	static void reset() {
+	public static void reset() {
 		allSimons.clear();
 		top.reset();
 		allSimons.put(TOP_SIMON_NAME, top);
@@ -153,7 +153,8 @@ public final class SimonFactory {
 		SimonCounter counter2 = getCounter("org.javasimon.test");
 		check(getSimon("org.javasimon.test") instanceof SimonCounter);
 
-		check(!getTop().disable().isEnabled());
+		getTop().disable();
+		check(!getTop().isEnabled());
 		check(!getCounter("org.javasimon.test.counter1").isEnabled());
 
 		getCounter("org.javasimon.test.counter1").enable();
@@ -164,7 +165,7 @@ public final class SimonFactory {
 		check(!getCounter("org.javasimon.test.counter1").isEnabled());
 		check(!getCounter("org.javasimon.test").isEnabled());
 
-		SimonCounter counter = getCounter("org.javasimon.test.counter1").disable();
+		getCounter("org.javasimon.test.counter1").disable();
 		
 		check(false);
 	}

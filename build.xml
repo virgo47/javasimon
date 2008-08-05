@@ -23,7 +23,7 @@
 
     <!-- Packaging section -->
     <target name="build" depends="compile" description="Package the archives">
-        <jar jarfile="build/simon-${version}.jar" description="Simon JAR">
+        <jar jarfile="build/javasimon-${version}.jar" description="Simon JAR">
             <fileset dir="build/classes"/>
         </jar>
     </target>
