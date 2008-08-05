@@ -12,8 +12,7 @@ public final class TopSimon extends SimonStopwatchImpl {
 		enable();
 	}
 
-	public Simon inheritState() {
-		return this;
+	public void inheritState() {
 	}
 
 	public String toString() {

@@ -43,19 +43,16 @@ public abstract class AbstractSimon implements Simon {
 		return name;
 	}
 
-	public Simon enable() {
+	public void enable() {
 		state = SimonState.ENABLED;
-		return this;
 	}
 
-	public Simon disable() {
+	public void disable() {
 		state = SimonState.DISABLED;
-		return this;
 	}
 
-	public Simon inheritState() {
+	public void inheritState() {
 		state = SimonState.INHERIT;
-		return this;
 	}
 
 	public boolean isEnabled() {

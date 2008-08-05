@@ -19,11 +19,11 @@ public interface Simon {
 
 	SimonState getState();
 
-	Simon enable();
+	void enable();
 
-	Simon disable();
+	void disable();
 
-	Simon inheritState();
+	void inheritState();
 
 	boolean isEnabled();
 
