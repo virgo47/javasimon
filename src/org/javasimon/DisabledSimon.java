@@ -37,19 +37,19 @@ public final class DisabledSimon extends DisabledDecorator {
 		throw new UnsupportedOperationException("Not suppported on Simon substitute for disabled API");
 	}
 
-	public void enable() {
+	public void enable(boolean resetSubtree) {
 		throw new UnsupportedOperationException("Not suppported on Simon substitute for disabled API");
 	}
 
-	public void disable() {
+	public void disable(boolean resetSubtree) {
 		throw new UnsupportedOperationException("Not suppported on Simon substitute for disabled API");
 	}
 
-	public void inheritState() {
+	public void inheritState(boolean resetSubtree) {
 		throw new UnsupportedOperationException("Not suppported on Simon substitute for disabled API");
 	}
 
-	public void setSubtreeToInherit() {
+	public void resetSubtree() {
 		throw new UnsupportedOperationException("Not suppported on Simon substitute for disabled API");
 	}
 

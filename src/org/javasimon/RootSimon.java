@@ -9,13 +9,12 @@ package org.javasimon;
 public final class RootSimon extends SimonStopwatchImpl {
 	public RootSimon(String name) {
 		super(name);
-		enable();
+		enable(false);
 	}
 
-	public void inheritState() {
-	}
-
-	public String toString() {
-		return "Top " + super.toString();
+	public void inheritState(boolean resetSubtree) {
+		if (resetSubtree) {
+			resetSubtree();
+		}
 	}
 }

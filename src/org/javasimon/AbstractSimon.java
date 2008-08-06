@@ -43,22 +43,30 @@ public abstract class AbstractSimon implements Simon {
 		return name;
 	}
 
-	public void enable() {
+	public void enable(boolean resetSubtree) {
 		state = SimonState.ENABLED;
+		if (resetSubtree) {
+			resetSubtree();
+		}
 	}
 
-	public void disable() {
+	public void disable(boolean resetSubtree) {
 		state = SimonState.DISABLED;
+		if (resetSubtree) {
+			resetSubtree();
+		}
 	}
 
-	public void inheritState() {
+	public void inheritState(boolean resetSubtree) {
 		state = SimonState.INHERIT;
+		if (resetSubtree) {
+			resetSubtree();
+		}
 	}
 
-	public void setSubtreeToInherit() {
+	public void resetSubtree() {
 		for (Simon child : children) {
-			child.inheritState();
-			child.setSubtreeToInherit();
+			child.inheritState(true);
 		}
 	}
 
@@ -72,7 +80,6 @@ public abstract class AbstractSimon implements Simon {
 	public SimonState getState() {
 		return state;
 	}
-
 
 	public String toString() {
 		return "[" + name + " (" + state + ")]";

@@ -9,7 +9,11 @@ package org.javasimon;
 public interface SimonCounter extends Simon {
 	void increment();
 
+	void decrement();
+
 	void increment(long inc);
+
+	void decrement(long inc);
 
 	long getCounter();
 }

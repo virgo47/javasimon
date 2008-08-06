@@ -1,6 +1,5 @@
 package org.javasimon;
 
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -14,9 +13,11 @@ public class SimonStopwatchImpl extends AbstractSimon implements SimonStopwatch 
 
 	private AtomicLong counter = new AtomicLong(0);
 
-	private AtomicLong start = new AtomicLong(0);
+	private ThreadLocal<Long> start = new ThreadLocal<Long>();
 
-	private AtomicInteger factor = new AtomicInteger(0);
+	private AtomicLong max = new AtomicLong(0);
+
+	private AtomicLong min = new AtomicLong(Long.MAX_VALUE);
 
 	public SimonStopwatchImpl(String name) {
 		super(name);
@@ -34,23 +35,35 @@ public class SimonStopwatchImpl extends AbstractSimon implements SimonStopwatch 
 	}
 
 	public void start() {
-		int mul = factor.getAndIncrement();
-		long currentNano = System.nanoTime();
-		long ns = start.getAndSet(currentNano);
-		if (mul > 0) {
-			elapsedNanos.addAndGet((currentNano - ns) * mul);
-		}
+		start.set(System.nanoTime());
 	}
 
 	public void stop() {
-		int mul = factor.getAndDecrement();
-		if (mul < 1) {
-			throw new SimonException("Stop used more times than start for Simon '" + getName() + "'");
-		}
-		long currentNano = System.nanoTime();
-		long ns = start.getAndSet(currentNano);
-		elapsedNanos.addAndGet((currentNano - ns) * mul);
+		long split = System.nanoTime() - start.get();
+		elapsedNanos.addAndGet(split);
 		counter.incrementAndGet();
+
+		if (split > max.get()) {
+			long val = split;
+			while (true) {
+				long preval = max.getAndSet(val);
+				if (preval <= val) {
+					break;
+				}
+				val = preval;
+			}
+		}
+
+		if (split < min.get()) {
+			long val = split;
+			while (true) {
+				long preval = min.getAndSet(val);
+				if (preval >= val) {
+					break;
+				}
+				val = preval;
+			}
+		}
 	}
 
 	public long getElapsedNanos() {
@@ -62,6 +75,10 @@ public class SimonStopwatchImpl extends AbstractSimon implements SimonStopwatch 
 	}
 
 	public String toString() {
-		return "Simon Stopwatch: " + super.toString() + " elapsedNanos=" + elapsedNanos + ", counter=" + counter;
+		return "Simon Stopwatch: " + super.toString() +
+			" elapsed " + SimonUtils.presentTime(elapsedNanos.longValue()) +
+			", counter " + counter.longValue() +
+			", max " + SimonUtils.presentTime(max.longValue()) +
+			", min " + SimonUtils.presentTime(min.longValue());
 	}
 }

@@ -19,13 +19,13 @@ public interface Simon {
 
 	SimonState getState();
 
-	void enable();
+	void enable(boolean resetSubtree);
 
-	void disable();
+	void disable(boolean resetSubtree);
 
-	void inheritState();
+	void inheritState(boolean resetSubtree);
 
-	void setSubtreeToInherit();
+	void resetSubtree();
 
 	boolean isEnabled();
 
