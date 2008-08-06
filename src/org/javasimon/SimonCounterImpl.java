@@ -11,20 +11,37 @@ import java.util.concurrent.atomic.AtomicLong;
 public class SimonCounterImpl extends AbstractSimon implements SimonCounter {
 	private AtomicLong counter = new AtomicLong(0);
 
+	private AtomicLong max = new AtomicLong(0);
+
 	public SimonCounterImpl(String name) {
 		super(name);
 	}
 
 	public void increment() {
-		counter.incrementAndGet();
+		long val = counter.incrementAndGet();
+		if (val > max.longValue()) {
+			max.set(val);
+		}
+	}
+
+	public void decrement() {
+		counter.decrementAndGet();
 	}
 
 	public void increment(long inc) {
-		counter.addAndGet(inc);
+		long val = counter.addAndGet(inc);
+		if (val > max.longValue()) {
+			max.set(val);
+		}
+	}
+
+	public void decrement(long dec) {
+		counter.addAndGet(-dec);
 	}
 
 	public void reset() {
 		counter.set(0);
+		max.set(0);
 	}
 
 	public long getCounter() {

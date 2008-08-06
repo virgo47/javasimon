@@ -36,20 +36,20 @@ public class DisabledDecorator implements SimonCounter, SimonStopwatch {
 		return SimonState.DISABLED;
 	}
 
-	public void enable() {
-		simon.enable();
+	public void enable(boolean resetSubtree) {
+		simon.enable(resetSubtree);
 	}
 
-	public void disable() {
-		simon.disable();
+	public void disable(boolean resetSubtree) {
+		simon.disable(resetSubtree);
 	}
 
-	public void inheritState() {
-		simon.inheritState();
+	public void inheritState(boolean resetSubtree) {
+		simon.inheritState(resetSubtree);
 	}
 
-	public void setSubtreeToInherit() {
-		simon.setSubtreeToInherit();
+	public void resetSubtree() {
+		simon.resetSubtree();
 	}
 
 	public boolean isEnabled() {
@@ -70,10 +70,13 @@ public class DisabledDecorator implements SimonCounter, SimonStopwatch {
 	public void increment(long inc) {
 	}
 
-	public void start() {
+	public void decrement() {
 	}
 
-	public void restart() {
+	public void decrement(long inc) {
+	}
+
+	public void start() {
 	}
 
 	public void stop() {
@@ -85,5 +88,14 @@ public class DisabledDecorator implements SimonCounter, SimonStopwatch {
 
 	public long getCounter() {
 		return 0;
+	}
+
+	Simon getWrappedSimon() {
+		return simon;
+	}
+
+	public String toString() {
+		return "DisabledDecorator for " +
+			simon;
 	}
 }

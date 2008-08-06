@@ -9,7 +9,7 @@ package org.javasimon;
 public final class DisabledEnabledComparison {
 	private static final String TEST1_SIMON_NAME = SimonFactory.generateName("-stopwatch", true);
 
-	private static final int OUTER_LOOP = 50;
+	private static final int OUTER_LOOP = 100;
 	private static final int INNER_LOOP = 1000;
 
 	public static void main(String[] args) {
@@ -25,6 +25,8 @@ public final class DisabledEnabledComparison {
 		for (int round = 0; round < 10; round++) {
 			SimonFactory.reset();
 			SimonFactory.disable();
+			SimonFactory.enableOverheadSimon();
+
 			for (int i = 0; i < OUTER_LOOP; i++) {
 				test1();
 			}
@@ -44,7 +46,7 @@ public final class DisabledEnabledComparison {
 			}
 			enabledSimonFactory += System.nanoTime() - ns;
 
-			SimonFactory.getSimon(TEST1_SIMON_NAME).disable();
+			SimonFactory.getSimon(TEST1_SIMON_NAME).disable(false);
 			for (int i = 0; i < OUTER_LOOP; i++) {
 				test1();
 			}
@@ -54,8 +56,7 @@ public final class DisabledEnabledComparison {
 			}
 			disbledTestSimon += System.nanoTime() - ns;
 
-			SimonFactory.getRootSimon().disable();
-			SimonFactory.getRootSimon().setSubtreeToInherit();
+			SimonFactory.getRootSimon().disable(true);
 			for (int i = 0; i < OUTER_LOOP; i++) {
 				test1();
 			}
@@ -65,7 +66,7 @@ public final class DisabledEnabledComparison {
 			}
 			disbledTopSimon += System.nanoTime() - ns;
 
-			SimonFactory.getSimon(TEST1_SIMON_NAME).enable();
+			SimonFactory.getSimon(TEST1_SIMON_NAME).enable(false);
 			for (int i = 0; i < OUTER_LOOP; i++) {
 				test1();
 			}
@@ -85,17 +86,17 @@ public final class DisabledEnabledComparison {
 			pureTest += System.nanoTime() - ns;
 			simonMeasurement += SimonFactory.getStopwatch(TEST1_SIMON_NAME).getElapsedNanos();
 			simonCounter += SimonFactory.getStopwatch(TEST1_SIMON_NAME).getCounter();
-			System.out.println("round " + round + " with cumulative Simon overhead: " + SimonFactory.getOverheadSimon().getElapsedNanos() + " ns");
+			System.out.println("round " + round + " with cumulative Simon overhead: " + SimonUtils.presentTime(SimonFactory.getOverheadSimon().getElapsedNanos()));
 		}
-		System.out.println("Disabled Simon Factory: " + disbledSimonFactory / 1000000 + " ms");
-		System.out.println("Enabled Simon Factory: " + enabledSimonFactory / 1000000 + " ms");
-		System.out.println("Disabled test Simon: " + disbledTestSimon / 1000000 + " ms");
-		System.out.println("Disabled top Simon: " + disbledTopSimon / 1000000 + " ms");
-		System.out.println("Explicitly enbaled test Simon: " + enabledTestSimon / 1000000 + " ms");
-		System.out.println("Pure test method without Simon: " + pureTest / 1000000 + " ms");
-		System.out.println("Simon measurement: " + simonMeasurement / 1000000 + " ms");
+		System.out.println("Disabled Simon Factory: " + SimonUtils.presentTime(disbledSimonFactory));
+		System.out.println("Enabled Simon Factory: " + SimonUtils.presentTime(enabledSimonFactory));
+		System.out.println("Disabled test Simon: " + SimonUtils.presentTime(disbledTestSimon));
+		System.out.println("Disabled top Simon: " + SimonUtils.presentTime(disbledTopSimon));
+		System.out.println("Explicitly enbaled test Simon: " + SimonUtils.presentTime(enabledTestSimon));
+		System.out.println("Pure test method without Simon: " + SimonUtils.presentTime(pureTest));
+		System.out.println("Simon measurement: " + SimonUtils.presentTime(simonMeasurement));
 		System.out.println("Simon counter: " + simonCounter);
-		System.out.println("Simon overhead: " + SimonFactory.getOverheadSimon().getElapsedNanos() / 1000000 + " ms");
+		System.out.println("Simon overhead: " + SimonUtils.presentTime(SimonFactory.getOverheadSimon().getElapsedNanos()));
 		System.out.println("Simon overhead counter: " + SimonFactory.getOverheadSimon().getCounter());
 	}
 

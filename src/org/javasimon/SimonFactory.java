@@ -17,9 +17,11 @@ public final class SimonFactory {
 
 	private static final String ROOT_SIMON_NAME = "";
 
-	private static final RootSimon root = new RootSimon(ROOT_SIMON_NAME);
+	private static final String OVERHEAD_SIMON_NAME = "Factory Overhead";
 
-	private static final RootSimon overhead = new RootSimon(null);
+	private static final SimonStopwatch root = new RootSimon(ROOT_SIMON_NAME);
+
+	private static SimonStopwatch overhead = new DisabledDecorator(new RootSimon(OVERHEAD_SIMON_NAME));
 
 	private static final Map<String, Simon> allSimons = new HashMap<String, Simon>();
 
@@ -51,7 +53,7 @@ public final class SimonFactory {
 	 * @param name name of the Counter
 	 * @return counter object
 	 */
-	public static SimonCounter getCounter(String name) {
+	public synchronized static SimonCounter getCounter(String name) {
 		if (!enabled) {
 			return DisabledSimon.INSTANCE;
 		}
@@ -67,7 +69,7 @@ public final class SimonFactory {
 	 * @param name name of the Stopwatch
 	 * @return stopwatch object
 	 */
-	public static SimonStopwatch getStopwatch(String name) {
+	public synchronized static SimonStopwatch getStopwatch(String name) {
 		if (!enabled) {
 			return DisabledSimon.INSTANCE;
 		}
@@ -178,6 +180,18 @@ public final class SimonFactory {
 		return overhead;
 	}
 
+	public static void enableOverheadSimon() {
+		if (overhead instanceof DisabledDecorator) {
+			overhead = (SimonStopwatch) ((DisabledDecorator) overhead).getWrappedSimon();
+		}
+	}
+
+	public static void disbleOverheadSimon() {
+		if (!(overhead instanceof DisabledDecorator)) {
+			overhead = new DisabledDecorator(overhead);
+		}
+	}
+
 	public static Map<String, Simon> simonMap() {
 		if (!enabled) {
 			return Collections.emptyMap();
@@ -199,22 +213,22 @@ public final class SimonFactory {
 		check(allSimons.size() == 5);
 
 		check(getSimon("org.javasimon.test") instanceof UnknownSimon);
-		SimonCounter counter2 = getCounter("org.javasimon.test");
+		getCounter("org.javasimon.test");
 		check(getSimon("org.javasimon.test") instanceof SimonCounter);
 
-		getRootSimon().disable();
+		getRootSimon().disable(true);
 		check(!getRootSimon().isEnabled());
 		check(!getCounter("org.javasimon.test.counter1").isEnabled());
 
-		getCounter("org.javasimon.test.counter1").enable();
+		getCounter("org.javasimon.test.counter1").enable(false);
 		check(getCounter("org.javasimon.test.counter1").isEnabled());
 		check(!getCounter("org.javasimon.test").isEnabled());
 
-		getCounter("org.javasimon.test.counter1").inheritState();
+		getCounter("org.javasimon.test.counter1").inheritState(false);
 		check(!getCounter("org.javasimon.test.counter1").isEnabled());
 		check(!getCounter("org.javasimon.test").isEnabled());
 
-		getCounter("org.javasimon.test.counter1").disable();
+		getCounter("org.javasimon.test.counter1").disable(false);
 
 		disable();
 		check(getSimon("org.javasimon.test") instanceof DisabledSimon);
