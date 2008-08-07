@@ -8,12 +8,10 @@ package org.javasimon;
  */
 public final class FactoryVsStopwatchComparison {
 	private static final int LOOP = 10000000;
-	private static String name;
+
+	private static final String NAME = SimonFactory.generateName("-stopwatch", false);
 
 	public static void main(String[] args) {
-		name = SimonFactory.generateName("-stopwatch", false);
-
-		SimonFactory.disbleOverheadSimon();
 		// warmup
 		factoryTest();
 
@@ -21,28 +19,13 @@ public final class FactoryVsStopwatchComparison {
 		factoryTest();
 		System.out.println("SimonFactory.getStopwatch(): " + SimonUtils.presentTime(System.nanoTime() - ns));
 
-		SimonStopwatch stopwatch = SimonFactory.getStopwatch(name);
+		SimonStopwatch stopwatch = SimonFactory.getStopwatch(NAME);
 		stopwatchTest(stopwatch);
 
 		ns = System.nanoTime();
 		stopwatchTest(stopwatch);
 		System.out.println("Stopwatch start/stop: " + SimonUtils.presentTime(System.nanoTime() - ns));
-
-		SimonFactory.enableOverheadSimon();
-		// warmup
-		factoryTest();
-
-		ns = System.nanoTime();
-		factoryTest();
-		System.out.println("SimonFactory.getStopwatch(): " + SimonUtils.presentTime(System.nanoTime() - ns));
-
-		stopwatch = SimonFactory.getStopwatch(name);
-		stopwatchTest(stopwatch);
-
-		ns = System.nanoTime();
-		stopwatchTest(stopwatch);
-		System.out.println("Stopwatch start/stop: " + SimonUtils.presentTime(System.nanoTime() - ns));
-		System.out.println("SimonFactory.getOverheadSimon() = " + SimonFactory.getOverheadSimon());
+		System.out.println("Stopwatch: " + stopwatch);
 	}
 
 	private static void stopwatchTest(SimonStopwatch stopwatch) {
@@ -54,7 +37,7 @@ public final class FactoryVsStopwatchComparison {
 
 	private static void factoryTest() {
 		for (int i = 0; i < LOOP; i++) {
-			SimonFactory.getStopwatch(name);
+			SimonFactory.getStopwatch(NAME);
 		}
 	}
 }

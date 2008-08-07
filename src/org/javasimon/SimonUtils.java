@@ -8,6 +8,9 @@ package org.javasimon;
  */
 public final class SimonUtils {
 	public static String presentTime(long time) {
+		if (time == Long.MAX_VALUE) {
+			return "undef";
+		}
 		if (time < 10000) {
 			return time + " ns";
 		}

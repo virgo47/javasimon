@@ -30,4 +30,6 @@ public interface Simon {
 	boolean isEnabled();
 
 	void reset();
+
+	Simon getDisabledDecorator();
 }

@@ -17,11 +17,7 @@ public final class SimonFactory {
 
 	private static final String ROOT_SIMON_NAME = "";
 
-	private static final String OVERHEAD_SIMON_NAME = "Factory Overhead";
-
 	private static final SimonStopwatch root = new RootSimon(ROOT_SIMON_NAME);
-
-	private static SimonStopwatch overhead = new DisabledDecorator(new RootSimon(OVERHEAD_SIMON_NAME));
 
 	private static final Map<String, Simon> allSimons = new HashMap<String, Simon>();
 
@@ -39,12 +35,9 @@ public final class SimonFactory {
 	 */
 	public static Simon getSimon(String name) {
 		if (!enabled) {
-			return DisabledSimon.INSTANCE;
+			return null;
 		}
-		overhead.start();
-		Simon simon = availabilityDecorator(allSimons.get(name));
-		overhead.stop();
-		return simon;
+		return availabilityDecorator(allSimons.get(name));
 	}
 
 	/**
@@ -55,11 +48,9 @@ public final class SimonFactory {
 	 */
 	public synchronized static SimonCounter getCounter(String name) {
 		if (!enabled) {
-			return DisabledSimon.INSTANCE;
+			return new DisabledCounter(null);
 		}
-		overhead.start();
 		Simon simon = getOrCreateSimon(name, SimonCounterImpl.class);
-		overhead.stop();
 		return (SimonCounter) simon;
 	}
 
@@ -71,11 +62,9 @@ public final class SimonFactory {
 	 */
 	public synchronized static SimonStopwatch getStopwatch(String name) {
 		if (!enabled) {
-			return DisabledSimon.INSTANCE;
+			return new DisabledStopwatch(null);
 		}
-		overhead.start();
 		Simon simon = getOrCreateSimon(name, SimonStopwatchImpl.class);
-		overhead.stop();
 		return (SimonStopwatch) simon;
 	}
 
@@ -91,7 +80,6 @@ public final class SimonFactory {
 		if (!enabled) {
 			return null;
 		}
-		overhead.start();
 		StackTraceElement stackElement = Thread.currentThread().getStackTrace()[2];
 		StringBuilder nameBuilder = new StringBuilder(stackElement.getClassName());
 		if (includeMethodName) {
@@ -100,14 +88,12 @@ public final class SimonFactory {
 		if (suffix != null) {
 			nameBuilder.append(suffix);
 		}
-		String name = nameBuilder.toString();
-		overhead.stop();
-		return name;
+		return nameBuilder.toString();
 	}
 
 	static Simon availabilityDecorator(Simon simon) {
 		if (!simon.isEnabled()) {
-			simon = new DisabledDecorator(simon);
+			simon.getDisabledDecorator();
 		}
 		return simon;
 	}
@@ -171,25 +157,9 @@ public final class SimonFactory {
 
 	public static SimonStopwatch getRootSimon() {
 		if (!enabled) {
-			return DisabledSimon.INSTANCE;
+			return new DisabledStopwatch(null);
 		}
 		return (SimonStopwatch) availabilityDecorator(root);
-	}
-
-	public static SimonStopwatch getOverheadSimon() {
-		return overhead;
-	}
-
-	public static void enableOverheadSimon() {
-		if (overhead instanceof DisabledDecorator) {
-			overhead = (SimonStopwatch) ((DisabledDecorator) overhead).getWrappedSimon();
-		}
-	}
-
-	public static void disbleOverheadSimon() {
-		if (!(overhead instanceof DisabledDecorator)) {
-			overhead = new DisabledDecorator(overhead);
-		}
 	}
 
 	public static Map<String, Simon> simonMap() {
@@ -200,11 +170,9 @@ public final class SimonFactory {
 	}
 
 	public static void reset() {
-		overhead.start();
 		allSimons.clear();
 		root.reset();
 		allSimons.put(ROOT_SIMON_NAME, root);
-		overhead.stop();
 	}
 
 	public static void main(String[] args) {
@@ -231,8 +199,8 @@ public final class SimonFactory {
 		getCounter("org.javasimon.test.counter1").disable(false);
 
 		disable();
-		check(getSimon("org.javasimon.test") instanceof DisabledSimon);
-		check(getRootSimon() instanceof DisabledSimon);
+		check(getSimon("org.javasimon.test") instanceof DisabledCounter);
+		check(getRootSimon() instanceof DisabledStopwatch);
 		check(getRootSimon().getName() == null);
 		check(generateName("-stopwatch", true) == null);
 
