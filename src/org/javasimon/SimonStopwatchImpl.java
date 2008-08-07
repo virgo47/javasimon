@@ -81,4 +81,31 @@ public class SimonStopwatchImpl extends AbstractSimon implements SimonStopwatch 
 			", max " + SimonUtils.presentTime(max.longValue()) +
 			", min " + SimonUtils.presentTime(min.longValue());
 	}
+
+	public SimonStopwatch getDisabledDecorator() {
+		return new DisabledStopwatch(this);
+	}
+}
+
+class DisabledStopwatch extends DisabledDecorator implements SimonStopwatch {
+	public DisabledStopwatch(Simon simon) {
+		super(simon);
+	}
+
+	public void addTime(long ns) {
+	}
+
+	public void start() {
+	}
+
+	public void stop() {
+	}
+
+	public long getElapsedNanos() {
+		return 0;
+	}
+
+	public long getCounter() {
+		return 0;
+	}
 }

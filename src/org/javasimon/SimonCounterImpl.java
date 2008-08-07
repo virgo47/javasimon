@@ -51,4 +51,30 @@ public class SimonCounterImpl extends AbstractSimon implements SimonCounter {
 	public String toString() {
 		return "Simon Counter: " + super.toString() + " counter=" + counter;
 	}
+
+	public SimonCounter getDisabledDecorator() {
+		return new DisabledCounter(this);
+	}
+}
+
+class DisabledCounter extends DisabledDecorator implements SimonCounter {
+	public DisabledCounter(Simon simon) {
+		super(simon);
+	}
+
+	public void increment() {
+	}
+
+	public void decrement() {
+	}
+
+	public void increment(long inc) {
+	}
+
+	public void decrement(long inc) {
+	}
+
+	public long getCounter() {
+		return 0;
+	}
 }

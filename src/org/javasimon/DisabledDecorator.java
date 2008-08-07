@@ -9,7 +9,7 @@ import java.util.List;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 4, 2008
  */
-public class DisabledDecorator implements SimonCounter, SimonStopwatch {
+public abstract class DisabledDecorator implements Simon {
 	private Simon simon;
 
 	public DisabledDecorator(Simon simon) {
@@ -60,37 +60,11 @@ public class DisabledDecorator implements SimonCounter, SimonStopwatch {
 		simon.reset();
 	}
 
-	// EMPTY action methods follows
-	public void addTime(long ns) {
+	public Simon getDisabledDecorator() {
+		return this;
 	}
 
-	public void increment() {
-	}
-
-	public void increment(long inc) {
-	}
-
-	public void decrement() {
-	}
-
-	public void decrement(long inc) {
-	}
-
-	public void start() {
-	}
-
-	public void stop() {
-	}
-
-	public long getElapsedNanos() {
-		return 0;
-	}
-
-	public long getCounter() {
-		return 0;
-	}
-
-	Simon getWrappedSimon() {
+	public Simon getWrappedSimon() {
 		return simon;
 	}
 

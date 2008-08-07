@@ -11,7 +11,6 @@ public final class SimonDepthEffect {
 	private static String name;
 
 	public static void main(String[] args) {
-		SimonFactory.disbleOverheadSimon();
 		name = "something";
 		// warmup
 		for (int i = 0; i < LOOP; i++) {
@@ -55,7 +54,6 @@ public final class SimonDepthEffect {
 		ns = System.nanoTime();
 		theMethod();
 		System.out.println("Get disabled '" + name + "': " + SimonUtils.presentTime(System.nanoTime() - ns));
-		System.out.println("SimonFactory.getOverheadSimon() = " + SimonFactory.getOverheadSimon());
 	}
 
 	private static void theMethod() {

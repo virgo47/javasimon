@@ -11,6 +11,7 @@ import java.util.concurrent.CountDownLatch;
 public final class MultithreadedStress extends Thread {
 	private static final int THREADS = 1000;
 	private static final int LOOP = 10000;
+
 	private static final String NAME = SimonFactory.generateName(null, false);
 
 	private static CountDownLatch latch;
