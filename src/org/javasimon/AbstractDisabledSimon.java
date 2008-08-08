@@ -10,7 +10,7 @@ import java.util.List;
  * @created Aug 4, 2008
  */
 public abstract class AbstractDisabledSimon implements Simon {
-	private Simon simon;
+	private final Simon simon;
 
 	public AbstractDisabledSimon(Simon simon) {
 		this.simon = simon;
