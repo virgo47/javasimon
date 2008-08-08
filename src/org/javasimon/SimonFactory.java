@@ -29,6 +29,7 @@ public final class SimonFactory {
 	}
 
 	private SimonFactory() {
+		throw new UnsupportedOperationException();
 	}
 
 	/**
