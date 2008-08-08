@@ -16,4 +16,9 @@ public interface SimonCounter extends Simon {
 	void decrement(long inc);
 
 	long getCounter();
+
+	long getMin();
+
+	long getMax();
+
 }
