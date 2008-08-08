@@ -110,6 +110,9 @@ public final class SimonFactory {
 	}
 
 	private static Simon getOrCreateSimon(String name, Class<? extends AbstractSimon> simonClass) {
+		if (name == null) {
+			throw new IllegalArgumentException("name cannot be null");
+		}
 		Simon simon = ALL_SIMONS.get(name);
 		if (simon == null) {
 			simon = newSimon(name, simonClass);

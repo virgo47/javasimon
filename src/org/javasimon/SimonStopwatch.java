@@ -13,7 +13,11 @@ public interface SimonStopwatch extends Simon {
 
 	void stop();
 
-	long getElapsedNanos();
+	long getTotal();
 
 	long getCounter();
+
+	long getMax();
+
+	long getMin();
 }

@@ -20,14 +20,14 @@ public final class FactoryVsStopwatchComparison {
 
 		long ns = System.nanoTime();
 		factoryTest();
-		System.out.println("SimonFactory.getStopwatch(): " + SimonUtils.presentTime(System.nanoTime() - ns));
+		System.out.println("SimonFactory.getStopwatch(): " + SimonUtils.presentNanoTime(System.nanoTime() - ns));
 
 		SimonStopwatch stopwatch = SimonFactory.getStopwatch(NAME);
 		stopwatchTest(stopwatch);
 
 		ns = System.nanoTime();
 		stopwatchTest(stopwatch);
-		System.out.println("Stopwatch start/stop: " + SimonUtils.presentTime(System.nanoTime() - ns));
+		System.out.println("Stopwatch start/stop: " + SimonUtils.presentNanoTime(System.nanoTime() - ns));
 		System.out.println("Stopwatch: " + stopwatch);
 	}
 

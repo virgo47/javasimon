@@ -14,7 +14,7 @@ public final class SimonUtils {
 	private SimonUtils() {
 	}
 
-	public static String presentTime(long time) {
+	public static String presentNanoTime(long time) {
 		if (time == Long.MAX_VALUE) {
 			return "undef";
 		}

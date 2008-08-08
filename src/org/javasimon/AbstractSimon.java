@@ -2,6 +2,7 @@ package org.javasimon;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * AbstractSimon implements basic enable/disable and hierarchy functionality.
@@ -30,7 +31,7 @@ public abstract class AbstractSimon implements Simon {
 	}
 
 	public final List<Simon> getChildren() {
-		return children;
+		return Collections.unmodifiableList(children);
 	}
 
 	final void setParent(Simon parent) {
