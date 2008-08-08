@@ -71,6 +71,14 @@ public final class SimonCounterImpl extends AbstractSimon implements SimonCounte
 		return counter.longValue();
 	}
 
+	public long getMin() {
+		return min.longValue();
+	}
+
+	public long getMax() {
+		return max.longValue();
+	}
+
 	public String toString() {
 		return "Simon Counter: " + super.toString() + " counter=" + counter;
 	}
@@ -98,6 +106,14 @@ class DisabledCounter extends AbstractDisabledSimon implements SimonCounter {
 	}
 
 	public long getCounter() {
+		return 0;
+	}
+
+	public long getMin() {
+		return 0;
+	}
+
+	public long getMax() {
 		return 0;
 	}
 }
