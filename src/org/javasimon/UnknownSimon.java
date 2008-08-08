@@ -18,14 +18,4 @@ public final class UnknownSimon extends AbstractSimon {
 	public String toString() {
 		return "Unknown Simon: " + super.toString();
 	}
-
-	public Simon getDisabledDecorator() {
-		return new DisabledUnknown(this);
-	}
-}
-
-class DisabledUnknown extends AbstractDisabledSimon {
-	public DisabledUnknown(Simon simon) {
-		super(simon);
-	}
 }

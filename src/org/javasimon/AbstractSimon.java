@@ -19,9 +19,11 @@ public abstract class AbstractSimon implements Simon {
 
 	private List<Simon> children = new ArrayList<Simon>();
 
+	protected boolean enabled;
+
 	public AbstractSimon(String name) {
 		this.name = name;
-		if (name != null && name.equals(SimonFactory.ROOT_SIMON_NAME)) {
+		if (name == null || name.equals(SimonFactory.ROOT_SIMON_NAME)) {
 			enable(false);
 		}
 	}
@@ -38,9 +40,10 @@ public abstract class AbstractSimon implements Simon {
 		this.parent = parent;
 	}
 
-	public final void addChild(AbstractSimon simon) {
+	final void addChild(AbstractSimon simon) {
 		children.add(simon);
 		simon.setParent(this);
+		simon.enabled = enabled;
 	}
 
 	public final String getName() {
@@ -52,6 +55,7 @@ public abstract class AbstractSimon implements Simon {
 		if (resetSubtree) {
 			resetSubtreeState();
 		}
+		updateAndPropagateEffectiveState(true);
 	}
 
 	public final void disable(boolean resetSubtree) {
@@ -59,24 +63,39 @@ public abstract class AbstractSimon implements Simon {
 		if (resetSubtree) {
 			resetSubtreeState();
 		}
+		updateAndPropagateEffectiveState(false);
 	}
 
 	public final void inheritState(boolean resetSubtree) {
 		if (name != null && !name.equals(SimonFactory.ROOT_SIMON_NAME)) {
 			state = SimonState.INHERIT;
-		}
-		if (resetSubtree) {
-			resetSubtreeState();
+			if (resetSubtree) {
+				resetSubtreeState();
+			}
+			updateAndPropagateEffectiveState(shouldBeEffectivlyEnabled());
 		}
 	}
 
-	public final void resetSubtreeState() {
+	private void updateAndPropagateEffectiveState(boolean enabled) {
+		this.enabled = enabled;
+		for (Simon child : children) {
+			if (child.getState().equals(SimonState.INHERIT)) {
+				((AbstractSimon) child).updateAndPropagateEffectiveState(enabled);
+			}
+		}
+	}
+
+	private void resetSubtreeState() {
 		for (Simon child : children) {
 			child.inheritState(true);
 		}
 	}
 
-	public final boolean isEnabled() {
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	private boolean shouldBeEffectivlyEnabled() {
 		if (state.equals(SimonState.INHERIT)) {
 			return parent.isEnabled();
 		}

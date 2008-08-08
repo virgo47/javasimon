@@ -18,6 +18,8 @@ public final class SimonFactory {
 
 	public static final String ROOT_SIMON_NAME = "";
 
+	private static final NullSimon NULL_SIMON = new NullSimon();
+
 	private static final UnknownSimon ROOT = new UnknownSimon(ROOT_SIMON_NAME);
 
 	private static final Map<String, AbstractSimon> ALL_SIMONS = new HashMap<String, AbstractSimon>();
@@ -42,7 +44,7 @@ public final class SimonFactory {
 		if (!enabled) {
 			return null;
 		}
-		return handleSimonState(ALL_SIMONS.get(name));
+		return ALL_SIMONS.get(name);
 	}
 
 	/**
@@ -53,7 +55,7 @@ public final class SimonFactory {
 	 */
 	public static synchronized SimonCounter getCounter(String name) {
 		if (!enabled) {
-			return new DisabledCounter(null);
+			return null;
 		}
 		Simon simon = getOrCreateSimon(name, SimonCounterImpl.class);
 		return (SimonCounter) simon;
@@ -67,7 +69,7 @@ public final class SimonFactory {
 	 */
 	public static synchronized SimonStopwatch getStopwatch(String name) {
 		if (!enabled) {
-			return new DisabledStopwatch(null);
+			return null;
 		}
 		Simon simon = getOrCreateSimon(name, SimonStopwatchImpl.class);
 		return (SimonStopwatch) simon;
@@ -96,20 +98,6 @@ public final class SimonFactory {
 		return nameBuilder.toString();
 	}
 
-	private static Simon handleSimonState(Simon simon) {
-		if (!simon.isEnabled()) {
-			simon = simon.getDisabledDecorator();
-			if (simon instanceof DisabledBehavior) {
-				((DisabledBehavior) simon).nowEnabled();
-			}
-		} else {
-			if (simon instanceof DisabledBehavior) {
-				((DisabledBehavior) simon).nowDisabled();
-			}
-		}
-		return simon;
-	}
-
 	private static Simon getOrCreateSimon(String name, Class<? extends AbstractSimon> simonClass) {
 		if (name == null) {
 			throw new IllegalArgumentException("name cannot be null");
@@ -124,7 +112,7 @@ public final class SimonFactory {
 				throw new SimonException("Simon named '" + name + "' already exists and its type is '" + simon.getClass().getName() + "' while requested type is '" + simonClass.getName() + "'.");
 			}
 		}
-		return handleSimonState(simon);
+		return simon;
 	}
 
 	private static Simon replaceSimon(Simon simon, Class<? extends AbstractSimon> simonClass) {
@@ -189,9 +177,9 @@ public final class SimonFactory {
 
 	public static Simon getRootSimon() {
 		if (!enabled) {
-			return ROOT.getDisabledDecorator();
+			return NULL_SIMON;
 		}
-		return handleSimonState(ROOT);
+		return ROOT;
 	}
 
 	public static Collection<String> simonNames() {

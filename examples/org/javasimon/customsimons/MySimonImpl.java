@@ -1,8 +1,6 @@
 package org.javasimon.customsimons;
 
 import org.javasimon.AbstractSimon;
-import org.javasimon.Simon;
-import org.javasimon.AbstractDisabledSimon;
 
 /**
  * MySimon - demonstration of the custom simon. MySimon only measures time and it's not threadsafe.
@@ -24,31 +22,19 @@ public final class MySimonImpl extends AbstractSimon implements MySimon {
 	}
 
 	public void start() {
-		start = System.nanoTime();
+		if (enabled) {
+			start = System.nanoTime();
+		}
 	}
 
 	public long stop() {
-		return System.nanoTime() - start;
+		if (enabled) {
+			return System.nanoTime() - start;
+		}
+		return 0;
 	}
 
 	public void reset() {
-	}
-
-	public Simon getDisabledDecorator() {
-		return null;
-	}
-}
-
-class DisabledCounter extends AbstractDisabledSimon implements MySimon {
-	public DisabledCounter(Simon simon) {
-		super(simon);
-	}
-
-	public void start() {
-	}
-
-	public long stop() {
-		return 0;
 	}
 }
 
