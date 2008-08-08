@@ -58,18 +58,18 @@ public final class DisabledEnabledComparison {
 			}
 			pureTest += System.nanoTime() - ns;
 
-			simonMeasurement += SimonFactory.getStopwatch(TEST1_SIMON_NAME).getElapsedNanos();
+			simonMeasurement += SimonFactory.getStopwatch(TEST1_SIMON_NAME).getTotal();
 			simonCounter += SimonFactory.getStopwatch(TEST1_SIMON_NAME).getCounter();
 			System.out.println("Round " + round + " finished");
 		}
-		System.out.println("Disabled Simon Factory: " + SimonUtils.presentTime(disbledSimonFactory));
-		System.out.println("Enabled Simon Factory: " + SimonUtils.presentTime(enabledSimonFactory));
-		System.out.println("Disabled test Simon: " + SimonUtils.presentTime(disbledTestSimon));
-		System.out.println("Disabled top Simon: " + SimonUtils.presentTime(disbledTopSimon));
-		System.out.println("Explicitly enbaled test Simon: " + SimonUtils.presentTime(enabledTestSimon));
-		System.out.println("Pure test method without Simon: " + SimonUtils.presentTime(pureTest));
+		System.out.println("Disabled Simon Factory: " + SimonUtils.presentNanoTime(disbledSimonFactory));
+		System.out.println("Enabled Simon Factory: " + SimonUtils.presentNanoTime(enabledSimonFactory));
+		System.out.println("Disabled test Simon: " + SimonUtils.presentNanoTime(disbledTestSimon));
+		System.out.println("Disabled top Simon: " + SimonUtils.presentNanoTime(disbledTopSimon));
+		System.out.println("Explicitly enbaled test Simon: " + SimonUtils.presentNanoTime(enabledTestSimon));
+		System.out.println("Pure test method without Simon: " + SimonUtils.presentNanoTime(pureTest));
 
-		System.out.println("Simon measurement: " + SimonUtils.presentTime(simonMeasurement));
+		System.out.println("Simon measurement: " + SimonUtils.presentNanoTime(simonMeasurement));
 		System.out.println("Simon counter: " + simonCounter);
 	}
 

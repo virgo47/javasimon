@@ -24,7 +24,7 @@ public final class SimonDepthEffect {
 		for (int i = 0; i < LOOP; i++) {
 			SimonFactory.getCounter(name);
 		}
-		System.out.println("Get short '" + name + "': " + SimonUtils.presentTime(System.nanoTime() - ns));
+		System.out.println("Get short '" + name + "': " + SimonUtils.presentNanoTime(System.nanoTime() - ns));
 
 		name = "a.b.c.d.e.f.g.h";
 		// warmup
@@ -32,7 +32,7 @@ public final class SimonDepthEffect {
 
 		ns = System.nanoTime();
 		theMethod();
-		System.out.println("Get normal '" + name + "': " + SimonUtils.presentTime(System.nanoTime() - ns));
+		System.out.println("Get normal '" + name + "': " + SimonUtils.presentNanoTime(System.nanoTime() - ns));
 
 		name = "a.b.c.d.e.f.g.h.i.j.k.l.m.n.o.p.q.r.s.t.u.v.w.x.y.z";
 		// warmup
@@ -40,7 +40,7 @@ public final class SimonDepthEffect {
 
 		ns = System.nanoTime();
 		theMethod();
-		System.out.println("Get long '" + name + "': " + SimonUtils.presentTime(System.nanoTime() - ns));
+		System.out.println("Get long '" + name + "': " + SimonUtils.presentNanoTime(System.nanoTime() - ns));
 
 		SimonFactory.getStopwatch(name).enable(false);
 		// warmup
@@ -48,7 +48,7 @@ public final class SimonDepthEffect {
 
 		ns = System.nanoTime();
 		theMethod();
-		System.out.println("Get enabled '" + name + "': " + SimonUtils.presentTime(System.nanoTime() - ns));
+		System.out.println("Get enabled '" + name + "': " + SimonUtils.presentNanoTime(System.nanoTime() - ns));
 
 		SimonFactory.getStopwatch(name).disable(false);
 		// warmup
@@ -56,7 +56,7 @@ public final class SimonDepthEffect {
 
 		ns = System.nanoTime();
 		theMethod();
-		System.out.println("Get disabled '" + name + "': " + SimonUtils.presentTime(System.nanoTime() - ns));
+		System.out.println("Get disabled '" + name + "': " + SimonUtils.presentNanoTime(System.nanoTime() - ns));
 	}
 
 	private static void theMethod() {

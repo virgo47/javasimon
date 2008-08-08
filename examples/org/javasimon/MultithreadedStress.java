@@ -22,14 +22,15 @@ public final class MultithreadedStress extends Thread {
 		// warmup
 		test();
 
-		SimonFactory.getStopwatch(NAME).reset();
-		test();
-		System.out.println("Without yield: " + SimonFactory.getStopwatch(NAME));
-
 		withYield = true;
 		SimonFactory.getStopwatch(NAME).reset();
 		test();
 		System.out.println("With yield: " + SimonFactory.getStopwatch(NAME));
+
+		withYield = false;
+		SimonFactory.getStopwatch(NAME).reset();
+		test();
+		System.out.println("Without yield: " + SimonFactory.getStopwatch(NAME));
 	}
 
 	private static void test() throws InterruptedException {

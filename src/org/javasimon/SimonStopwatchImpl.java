@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @created Aug 4, 2008
  */
 public final class SimonStopwatchImpl extends AbstractSimon implements SimonStopwatch {
-	private AtomicLong elapsedNanos = new AtomicLong(0);
+	private AtomicLong total = new AtomicLong(0);
 
 	private AtomicLong counter = new AtomicLong(0);
 
@@ -24,14 +24,13 @@ public final class SimonStopwatchImpl extends AbstractSimon implements SimonStop
 	}
 
 	public void addTime(long ns) {
-		elapsedNanos.addAndGet(ns);
+		total.addAndGet(ns);
 		counter.incrementAndGet();
 	}
 
 	public void reset() {
-		elapsedNanos.set(0);
+		total.set(0);
 		counter.set(0);
-		start.set(System.nanoTime());
 	}
 
 	public void start() {
@@ -40,7 +39,7 @@ public final class SimonStopwatchImpl extends AbstractSimon implements SimonStop
 
 	public void stop() {
 		long split = System.nanoTime() - start.get();
-		elapsedNanos.addAndGet(split);
+		total.addAndGet(split);
 		counter.incrementAndGet();
 
 		if (split > max.get()) {
@@ -66,20 +65,28 @@ public final class SimonStopwatchImpl extends AbstractSimon implements SimonStop
 		}
 	}
 
-	public long getElapsedNanos() {
-		return elapsedNanos.longValue();
+	public long getTotal() {
+		return total.longValue();
 	}
 
 	public long getCounter() {
 		return counter.longValue();
 	}
 
+	public long getMax() {
+		return max.longValue();
+	}
+
+	public long getMin() {
+		return min.longValue();
+	}
+
 	public String toString() {
 		return "Simon Stopwatch: " + super.toString() +
-			" elapsed " + SimonUtils.presentTime(elapsedNanos.longValue()) +
+			" total " + SimonUtils.presentNanoTime(total.longValue()) +
 			", counter " + counter.longValue() +
-			", max " + SimonUtils.presentTime(max.longValue()) +
-			", min " + SimonUtils.presentTime(min.longValue());
+			", max " + SimonUtils.presentNanoTime(max.longValue()) +
+			", min " + SimonUtils.presentNanoTime(min.longValue());
 	}
 
 	public SimonStopwatch getDisabledDecorator() {
@@ -101,11 +108,19 @@ class DisabledStopwatch extends AbstractDisabledSimon implements SimonStopwatch 
 	public void stop() {
 	}
 
-	public long getElapsedNanos() {
+	public long getTotal() {
 		return 0;
 	}
 
 	public long getCounter() {
+		return 0;
+	}
+
+	public long getMax() {
+		return 0;
+	}
+
+	public long getMin() {
 		return 0;
 	}
 }
