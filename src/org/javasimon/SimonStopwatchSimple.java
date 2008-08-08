@@ -70,8 +70,4 @@ public final class SimonStopwatchSimple extends AbstractSimon implements SimonSt
 			", max " + SimonUtils.presentNanoTime(max) +
 			", min " + SimonUtils.presentNanoTime(min);
 	}
-
-	public SimonStopwatch getDisabledDecorator() {
-		return new DisabledStopwatch(this);
-	}
 }

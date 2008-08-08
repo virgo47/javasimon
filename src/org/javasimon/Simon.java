@@ -73,12 +73,6 @@ public interface Simon {
 	void inheritState(boolean resetSubtree);
 
 	/**
-	 * Resets state of all children of this Simon recursively. This causes that effective
-	 * state of all sub-simons will be the same like effective state of this Simon.
-	 */
-	void resetSubtreeState();
-
-	/**
 	 * Returns true, if the Simon is enabled or if the enabled state is inherited.
 	 *
 	 * @return true, if the Simon is effectively enabled
@@ -89,11 +83,4 @@ public interface Simon {
 	 * Resets the Simon - concrete values depends on the type and the implementation.
 	 */
 	void reset();
-
-	/**
-	 * Returns disabled decorator with low overhead - this is used by SimonFactory.
-	 *
-	 * @return disabled decorator
-	 */
-	Simon getDisabledDecorator();
 }

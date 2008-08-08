@@ -34,7 +34,7 @@ public final class MultithreadedStress extends Thread {
 	}
 
 	private static void test() throws InterruptedException {
-		SimonStopwatchImpl simon = new SimonStopwatchImpl(null);
+		SimonStopwatch simon = new SimonStopwatchImpl(null);
 		simon.start();
 		latch = new CountDownLatch(THREADS);
 		for (int i = 0; i < THREADS; i++) {

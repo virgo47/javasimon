@@ -17,25 +17,26 @@ public final class DisabledEnabledComparison {
 		for (int round = 1; round <= ROUNDS; round++) {
 			SimonFactory.reset();
 			SimonFactory.enable();
-			SimonStopwatch stopwatch = new SimonStopwatchSimple(null);
-//			SimonStopwatch tested = new SimonStopwatchSimple(null);
+			SimonStopwatch stopwatch = new SimonStopwatchImpl(null);
+			SimonStopwatch tested = new SimonStopwatchImpl(null);
 
 			stopwatch.start();
 			for (int i = 0; i < LOOP; i++) {
-				SimonStopwatch tested = SimonFactory.getStopwatch("org.javasimon.stopwatch");
+//				SimonStopwatch tested = SimonFactory.getStopwatch("org.javasimon.stopwatch");
 				tested.start();
 				tested.stop();
 			}
 			stopwatch.stop();
 			System.out.println("Enabled: " + stopwatch);
 
-			stopwatch = new SimonStopwatchSimple(null);
-//			tested = new SimonStopwatchSimple(null).getDisabledDecorator();
+			stopwatch = new SimonStopwatchImpl(null);
+			tested = new SimonStopwatchImpl(null);
+			tested.disable(false);
+//			SimonFactory.disable();
 
-			SimonFactory.disable();
 			stopwatch.start();
 			for (int i = 0; i < LOOP; i++) {
-				SimonStopwatch tested = SimonFactory.getStopwatch("org.javasimon.stopwatch");
+//				SimonStopwatch tested = SimonFactory.getStopwatch("org.javasimon.stopwatch");
 				tested.start();
 				tested.stop();
 			}

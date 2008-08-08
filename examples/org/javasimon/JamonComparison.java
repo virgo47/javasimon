@@ -11,7 +11,7 @@ import com.jamonapi.Monitor;
  */
 public final class JamonComparison {
 	private static final int OUTER_LOOP = 1000000;
-	private static final int INNER_LOOP = 0;
+	private static final int INNER_LOOP = 10;
 
 	private JamonComparison() {
 	}
@@ -24,7 +24,7 @@ public final class JamonComparison {
 	}
 
 	private static void simonTest() {
-		SimonStopwatchSimple stopwatch = new SimonStopwatchSimple(null);
+		SimonStopwatch stopwatch = new SimonStopwatchImpl(null);
 
 		long ns = System.nanoTime();
 		for (int i = 0; i < OUTER_LOOP; i++) {

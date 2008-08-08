@@ -51,11 +51,12 @@ public final class FactoryTest {
 		Assert.assertFalse(SimonFactory.getCounter(ORG_JAVASIMON_TEST).isEnabled());
 
 		SimonFactory.getCounter(ORG_JAVASIMON_TEST_COUNTER).disable(false);
+		Assert.assertEquals(SimonFactory.getRootSimon().getName(), SimonFactory.ROOT_SIMON_NAME);
 
 		SimonFactory.disable();
 		Assert.assertNull(SimonFactory.getSimon(ORG_JAVASIMON_TEST));
-		Assert.assertTrue(SimonFactory.getRootSimon() instanceof DisabledUnknown);
-		Assert.assertEquals(SimonFactory.getRootSimon().getName(), SimonFactory.ROOT_SIMON_NAME);
+		Assert.assertTrue(SimonFactory.getRootSimon() instanceof NullSimon);
+		Assert.assertNull(SimonFactory.getRootSimon().getName());
 	}
 
 	@Test

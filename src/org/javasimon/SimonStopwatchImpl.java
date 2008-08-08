@@ -1,7 +1,5 @@
 package org.javasimon;
 
-import java.util.concurrent.atomic.AtomicLong;
-
 /**
  * Simonatch.
  *
@@ -9,118 +7,77 @@ import java.util.concurrent.atomic.AtomicLong;
  * @created Aug 4, 2008
  */
 public final class SimonStopwatchImpl extends AbstractSimon implements SimonStopwatch {
-	private AtomicLong total = new AtomicLong(0);
+	private long elapsedNanos = 0;
 
-	private AtomicLong counter = new AtomicLong(0);
+	private long counter = 0;
 
 	private ThreadLocal<Long> start = new ThreadLocal<Long>();
 
-	private AtomicLong max = new AtomicLong(0);
+	private long max = 0;
 
-	private AtomicLong min = new AtomicLong(Long.MAX_VALUE);
+	private long min = Long.MAX_VALUE;
 
 	public SimonStopwatchImpl(String name) {
 		super(name);
 	}
 
-	public void addTime(long ns) {
-		total.addAndGet(ns);
-		counter.incrementAndGet();
-	}
-
-	public void reset() {
-		total.set(0);
-		counter.set(0);
-	}
-
-	public void start() {
-		start.set(System.nanoTime());
-	}
-
-	public void stop() {
-		long split = System.nanoTime() - start.get();
-		total.addAndGet(split);
-		counter.incrementAndGet();
-
-		if (split > max.get()) {
-			long val = split;
-			while (true) {
-				long preval = max.getAndSet(val);
-				if (preval <= val) {
-					break;
-				}
-				val = preval;
-			}
+	public synchronized void addTime(long ns) {
+		if (enabled) {
+			elapsedNanos += ns;
+			counter++;
 		}
+	}
 
-		if (split < min.get()) {
-			long val = split;
-			while (true) {
-				long preval = min.getAndSet(val);
-				if (preval >= val) {
-					break;
-				}
-				val = preval;
+	public synchronized void reset() {
+		elapsedNanos = 0;
+		counter = 0;
+	}
+
+	public synchronized void start() {
+		if (enabled) {
+			start.set(System.nanoTime());
+		}
+	}
+
+	public synchronized void stop() {
+		if (enabled) {
+			Long end = start.get();
+			if (end == null) {
+				return;
+			}
+			long split = System.nanoTime() - end;
+			elapsedNanos += split;
+			counter++;
+			if (split > max) {
+				max = split;
+			}
+			if (split < min) {
+				min = split;
 			}
 		}
 	}
 
 	public long getTotal() {
-		return total.longValue();
+		return elapsedNanos;
 	}
 
 	public long getCounter() {
-		return counter.longValue();
+		return counter;
 	}
 
 	public long getMax() {
-		return max.longValue();
+		return max;
 	}
 
 	public long getMin() {
-		return min.longValue();
+		return min;
 	}
 
 	public String toString() {
 		return "Simon Stopwatch: " + super.toString() +
-			" total " + SimonUtils.presentNanoTime(total.longValue()) +
-			", counter " + counter.longValue() +
-			", max " + SimonUtils.presentNanoTime(max.longValue()) +
-			", min " + SimonUtils.presentNanoTime(min.longValue());
-	}
-
-	public SimonStopwatch getDisabledDecorator() {
-		return new DisabledStopwatch(this);
-	}
-}
-
-class DisabledStopwatch extends AbstractDisabledSimon implements SimonStopwatch {
-	public DisabledStopwatch(Simon simon) {
-		super(simon);
-	}
-
-	public void addTime(long ns) {
-	}
-
-	public void start() {
-	}
-
-	public void stop() {
-	}
-
-	public long getTotal() {
-		return 0;
-	}
-
-	public long getCounter() {
-		return 0;
-	}
-
-	public long getMax() {
-		return 0;
-	}
-
-	public long getMin() {
-		return 0;
+			" elapsed " + SimonUtils.presentNanoTime(elapsedNanos) +
+			", counter " + counter +
+			", max " + SimonUtils.presentNanoTime(max) +
+			", min " + SimonUtils.presentNanoTime(min);
 	}
 }
