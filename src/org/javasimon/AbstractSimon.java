@@ -14,70 +14,75 @@ public abstract class AbstractSimon implements Simon {
 
 	private SimonState state = SimonState.INHERIT;
 
-	private Simon parent;
+	private Simon parent = null;
 
 	private List<Simon> children = new ArrayList<Simon>();
 
 	public AbstractSimon(String name) {
 		this.name = name;
+		if (name != null && name.equals(SimonFactory.ROOT_SIMON_NAME)) {
+			enable(false);
+		}
 	}
 
-	public Simon getParent() {
+	public final Simon getParent() {
 		return parent;
 	}
 
-	void setParent(Simon parent) {
-		this.parent = parent;
-	}
-
-	public List<Simon> getChildren() {
+	public final List<Simon> getChildren() {
 		return children;
 	}
 
-	public void addChild(Simon simon) {
-		children.add(simon);
-		((AbstractSimon) simon).setParent(this);
+	final void setParent(Simon parent) {
+		this.parent = parent;
 	}
 
-	public String getName() {
+	public final void addChild(AbstractSimon simon) {
+		children.add(simon);
+		simon.setParent(this);
+	}
+
+	public final String getName() {
 		return name;
 	}
 
-	public void enable(boolean resetSubtree) {
+	public final void enable(boolean resetSubtree) {
 		state = SimonState.ENABLED;
 		if (resetSubtree) {
-			resetSubtree();
+			resetSubtreeState();
 		}
 	}
 
-	public void disable(boolean resetSubtree) {
+	public final void disable(boolean resetSubtree) {
 		state = SimonState.DISABLED;
 		if (resetSubtree) {
-			resetSubtree();
+			resetSubtreeState();
 		}
 	}
 
-	public void inheritState(boolean resetSubtree) {
-		state = SimonState.INHERIT;
+	public final void inheritState(boolean resetSubtree) {
+		if (name != null && !name.equals(SimonFactory.ROOT_SIMON_NAME)) {
+			state = SimonState.INHERIT;
+		}
 		if (resetSubtree) {
-			resetSubtree();
+			resetSubtreeState();
 		}
 	}
 
-	public void resetSubtree() {
+	public final void resetSubtreeState() {
 		for (Simon child : children) {
 			child.inheritState(true);
 		}
 	}
 
-	public boolean isEnabled() {
+	public final boolean isEnabled() {
 		if (state.equals(SimonState.INHERIT)) {
 			return parent.isEnabled();
 		}
 		return state.equals(SimonState.ENABLED);
 	}
 
-	public SimonState getState() {
+	public final SimonState getState() {
 		return state;
 	}
 

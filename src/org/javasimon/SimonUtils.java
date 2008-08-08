@@ -7,27 +7,34 @@ package org.javasimon;
  * @created Aug 6, 2008
  */
 public final class SimonUtils {
+	private static final int UNIT_PREFIX_FACTOR = 1000;
+	private static final int ROUNDING_OFFSET = 500;
+	private static final int CONVERSION_TRESHOLD = 10000;
+
+	private SimonUtils() {
+	}
+
 	public static String presentTime(long time) {
 		if (time == Long.MAX_VALUE) {
 			return "undef";
 		}
-		if (time < 10000) {
+		if (time < CONVERSION_TRESHOLD) {
 			return time + " ns";
 		}
-		time += 500;
-		time /= 1000;
+		time += ROUNDING_OFFSET;
+		time /= UNIT_PREFIX_FACTOR;
 
-		if (time < 10000) {
+		if (time < CONVERSION_TRESHOLD) {
 			return time + " us";
 		}
-		time += 500;
-		time /= 1000;
+		time += ROUNDING_OFFSET;
+		time /= UNIT_PREFIX_FACTOR;
 
-		if (time < 10000) {
+		if (time < CONVERSION_TRESHOLD) {
 			return time + " ms";
 		}
-		time += 500;
-		time /= 1000;
+		time += ROUNDING_OFFSET;
+		time /= UNIT_PREFIX_FACTOR;
 
 		return time + " s";
 	}

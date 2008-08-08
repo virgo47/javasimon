@@ -3,6 +3,7 @@ package org.javasimon;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Collections;
+import java.util.Collection;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
@@ -15,16 +16,19 @@ import java.lang.reflect.InvocationTargetException;
 public final class SimonFactory {
 	public static final String HIERARCHY_DELIMITER = ".";
 
-	private static final String ROOT_SIMON_NAME = "";
+	public static final String ROOT_SIMON_NAME = "";
 
-	private static final SimonStopwatch root = new RootSimon(ROOT_SIMON_NAME);
+	private static final UnknownSimon ROOT = new UnknownSimon(ROOT_SIMON_NAME);
 
-	private static final Map<String, Simon> allSimons = new HashMap<String, Simon>();
+	private static final Map<String, AbstractSimon> ALL_SIMONS = new HashMap<String, AbstractSimon>();
 
 	private static boolean enabled = true;
 
 	static {
 		reset();
+	}
+
+	private SimonFactory() {
 	}
 
 	/**
@@ -37,7 +41,7 @@ public final class SimonFactory {
 		if (!enabled) {
 			return null;
 		}
-		return availabilityDecorator(allSimons.get(name));
+		return handleSimonState(ALL_SIMONS.get(name));
 	}
 
 	/**
@@ -46,7 +50,7 @@ public final class SimonFactory {
 	 * @param name name of the Counter
 	 * @return counter object
 	 */
-	public synchronized static SimonCounter getCounter(String name) {
+	public static synchronized SimonCounter getCounter(String name) {
 		if (!enabled) {
 			return new DisabledCounter(null);
 		}
@@ -60,7 +64,7 @@ public final class SimonFactory {
 	 * @param name name of the Stopwatch
 	 * @return stopwatch object
 	 */
-	public synchronized static SimonStopwatch getStopwatch(String name) {
+	public static synchronized SimonStopwatch getStopwatch(String name) {
 		if (!enabled) {
 			return new DisabledStopwatch(null);
 		}
@@ -91,31 +95,55 @@ public final class SimonFactory {
 		return nameBuilder.toString();
 	}
 
-	static Simon availabilityDecorator(Simon simon) {
+	private static Simon handleSimonState(Simon simon) {
 		if (!simon.isEnabled()) {
-			simon.getDisabledDecorator();
+			simon = simon.getDisabledDecorator();
+			if (simon instanceof DisabledBehavior) {
+				((DisabledBehavior) simon).nowEnabled();
+			}
+		} else {
+			if (simon instanceof DisabledBehavior) {
+				((DisabledBehavior) simon).nowDisabled();
+			}
 		}
 		return simon;
 	}
 
-	private static Simon getOrCreateSimon(String name, Class<? extends Simon> simonClass) {
-		Simon simon = allSimons.get(name);
-		if (simon == null || simon instanceof UnknownSimon) {
+	private static Simon getOrCreateSimon(String name, Class<? extends AbstractSimon> simonClass) {
+		Simon simon = ALL_SIMONS.get(name);
+		if (simon == null) {
 			simon = newSimon(name, simonClass);
+		} else if (simon instanceof UnknownSimon) {
+			simon = replaceSimon(simon, simonClass);
 		} else {
 			if (!(simonClass.isInstance(simon))) {
 				throw new SimonException("Simon named '" + name + "' already exists and its type is '" + simon.getClass().getName() + "' while requested type is '" + simonClass.getName() + "'.");
 			}
 		}
-		return availabilityDecorator(simon);
+		return handleSimonState(simon);
 	}
 
-	private static Simon newSimon(String name, Class<? extends Simon> simonClass) {
-		Simon simon;
+	private static Simon replaceSimon(Simon simon, Class<? extends AbstractSimon> simonClass) {
+		AbstractSimon newSimon = instantiateSimon(simon.getName(), simonClass);
+		for (Simon child : simon.getChildren()) {
+			newSimon.addChild((AbstractSimon) child);
+		}
+		newSimon.setParent(simon.getParent());
+		ALL_SIMONS.put(simon.getName(), newSimon);
+		return newSimon;
+	}
+
+	private static Simon newSimon(String name, Class<? extends AbstractSimon> simonClass) {
+		AbstractSimon simon = instantiateSimon(name, simonClass);
+		addToHierarchy(simon, name);
+		return simon;
+	}
+
+	private static AbstractSimon instantiateSimon(String name, Class<? extends AbstractSimon> simonClass) {
+		AbstractSimon simon;
 		try {
-			Constructor<? extends Simon> constructor = simonClass.getConstructor(String.class);
+			Constructor<? extends AbstractSimon> constructor = simonClass.getConstructor(String.class);
 			simon = constructor.newInstance(name);
-			addToHierarchy(simon, name);
 		} catch (NoSuchMethodException e) {
 			throw new SimonException(e);
 		} catch (InvocationTargetException e) {
@@ -128,13 +156,13 @@ public final class SimonFactory {
 		return simon;
 	}
 
-	private static void addToHierarchy(Simon simon, String name) {
-		allSimons.put(name, simon);
+	private static void addToHierarchy(AbstractSimon simon, String name) {
+		ALL_SIMONS.put(name, simon);
 		int ix = name.lastIndexOf(HIERARCHY_DELIMITER);
-		Simon parent = root;
+		AbstractSimon parent = ROOT;
 		if (ix != -1) {
 			String parentName = name.substring(0, ix);
-			parent = allSimons.get(parentName);
+			parent = ALL_SIMONS.get(parentName);
 			if (parent == null) {
 				parent = new UnknownSimon(parentName);
 				addToHierarchy(parent, parentName);
@@ -155,64 +183,23 @@ public final class SimonFactory {
 		return enabled;
 	}
 
-	public static SimonStopwatch getRootSimon() {
+	public static Simon getRootSimon() {
 		if (!enabled) {
-			return new DisabledStopwatch(null);
+			return ROOT.getDisabledDecorator();
 		}
-		return (SimonStopwatch) availabilityDecorator(root);
+		return handleSimonState(ROOT);
 	}
 
-	public static Map<String, Simon> simonMap() {
+	public static Collection<String> simonNames() {
 		if (!enabled) {
-			return Collections.emptyMap();
+			return Collections.emptySet();
 		}
-		return Collections.unmodifiableMap(allSimons);
+		return ALL_SIMONS.keySet();
 	}
 
 	public static void reset() {
-		allSimons.clear();
-		root.reset();
-		allSimons.put(ROOT_SIMON_NAME, root);
-	}
-
-	public static void main(String[] args) {
-		check(allSimons.size() == 1);
-		getCounter("org.javasimon.test.counter1").increment();
-		check(allSimons.size() == 5);
-
-		check(getSimon("org.javasimon.test") instanceof UnknownSimon);
-		getCounter("org.javasimon.test");
-		check(getSimon("org.javasimon.test") instanceof SimonCounter);
-
-		getRootSimon().disable(true);
-		check(!getRootSimon().isEnabled());
-		check(!getCounter("org.javasimon.test.counter1").isEnabled());
-
-		getCounter("org.javasimon.test.counter1").enable(false);
-		check(getCounter("org.javasimon.test.counter1").isEnabled());
-		check(!getCounter("org.javasimon.test").isEnabled());
-
-		getCounter("org.javasimon.test.counter1").inheritState(false);
-		check(!getCounter("org.javasimon.test.counter1").isEnabled());
-		check(!getCounter("org.javasimon.test").isEnabled());
-
-		getCounter("org.javasimon.test.counter1").disable(false);
-
-		disable();
-		check(getSimon("org.javasimon.test") instanceof DisabledCounter);
-		check(getRootSimon() instanceof DisabledStopwatch);
-		check(getRootSimon().getName() == null);
-		check(generateName("-stopwatch", true) == null);
-
-		enable();
-		check(generateName("-stopwatch", true).equals("org.javasimon.SimonFactory.main-stopwatch"));
-
-		check(false);
-	}
-
-	private static void check(boolean assertion) {
-		if (!assertion) {
-			System.out.println("Problem on: " + Thread.currentThread().getStackTrace()[2]);
-		}
+		ALL_SIMONS.clear();
+		ROOT.reset();
+		ALL_SIMONS.put(ROOT_SIMON_NAME, ROOT);
 	}
 }

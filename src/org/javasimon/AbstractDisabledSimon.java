@@ -9,62 +9,58 @@ import java.util.List;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 4, 2008
  */
-public abstract class DisabledDecorator implements Simon {
+public abstract class AbstractDisabledSimon implements Simon {
 	private Simon simon;
 
-	public DisabledDecorator(Simon simon) {
+	public AbstractDisabledSimon(Simon simon) {
 		this.simon = simon;
 	}
 
-	public Simon getParent() {
+	public final Simon getParent() {
 		return simon.getParent();
 	}
 
-	public List<Simon> getChildren() {
+	public final List<Simon> getChildren() {
 		return simon.getChildren();
 	}
 
-	public void addChild(Simon simon) {
-		simon.addChild(simon);
-	}
-
-	public String getName() {
+	public final String getName() {
 		return simon.getName();
 	}
 
-	public SimonState getState() {
+	public final SimonState getState() {
 		return SimonState.DISABLED;
 	}
 
-	public void enable(boolean resetSubtree) {
+	public final void enable(boolean resetSubtree) {
 		simon.enable(resetSubtree);
 	}
 
-	public void disable(boolean resetSubtree) {
+	public final void disable(boolean resetSubtree) {
 		simon.disable(resetSubtree);
 	}
 
-	public void inheritState(boolean resetSubtree) {
+	public final void inheritState(boolean resetSubtree) {
 		simon.inheritState(resetSubtree);
 	}
 
-	public void resetSubtree() {
-		simon.resetSubtree();
+	public final void resetSubtreeState() {
+		simon.resetSubtreeState();
 	}
 
-	public boolean isEnabled() {
+	public final boolean isEnabled() {
 		return false;
 	}
 
-	public void reset() {
+	public final void reset() {
 		simon.reset();
 	}
 
-	public Simon getDisabledDecorator() {
+	public final Simon getDisabledDecorator() {
 		return this;
 	}
 
-	public Simon getWrappedSimon() {
+	public final Simon getWrappedSimon() {
 		return simon;
 	}
 

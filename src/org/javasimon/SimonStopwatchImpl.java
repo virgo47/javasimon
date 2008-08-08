@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 4, 2008
  */
-public class SimonStopwatchImpl extends AbstractSimon implements SimonStopwatch {
+public final class SimonStopwatchImpl extends AbstractSimon implements SimonStopwatch {
 	private AtomicLong elapsedNanos = new AtomicLong(0);
 
 	private AtomicLong counter = new AtomicLong(0);
@@ -87,7 +87,7 @@ public class SimonStopwatchImpl extends AbstractSimon implements SimonStopwatch 
 	}
 }
 
-class DisabledStopwatch extends DisabledDecorator implements SimonStopwatch {
+class DisabledStopwatch extends AbstractDisabledSimon implements SimonStopwatch {
 	public DisabledStopwatch(Simon simon) {
 		super(simon);
 	}

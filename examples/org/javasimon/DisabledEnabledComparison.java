@@ -11,6 +11,10 @@ public final class DisabledEnabledComparison {
 
 	private static final int OUTER_LOOP = 100;
 	private static final int INNER_LOOP = 100;
+	private static final int ROUNDS = 10;
+
+	// Random strings for test method to concatenate
+	public static final String[] STRINGS = {"AB", "ZD", "ZK", "SE", "AM", "whatever"};
 
 	private static long disbledSimonFactory = 0;
 	private static long enabledSimonFactory = 0;
@@ -19,11 +23,14 @@ public final class DisabledEnabledComparison {
 	private static long enabledTestSimon = 0;
 	private static long pureTest = 0;
 
+	private DisabledEnabledComparison() {
+	}
+
 	public static void main(String[] args) {
 		long simonMeasurement = 0;
 		long simonCounter = 0;
 
-		for (int round = 0; round < 10; round++) {
+		for (int round = 0; round < ROUNDS; round++) {
 			SimonFactory.reset();
 
 			SimonFactory.disable();
@@ -77,16 +84,13 @@ public final class DisabledEnabledComparison {
 		return System.nanoTime() - ns;
 	}
 
-	// Random strings for test method to concatenate
-	public static final String[] strings = {"AB", "ZD", "ZK", "SE", "AM", "whatever"};
-
 	private static void testMethod() {
 		SimonStopwatch simon = SimonFactory.getStopwatch(TEST1_SIMON_NAME);
 		simon.start();
 		StringBuilder builder = null;
 		for (int i = 0; i < INNER_LOOP; i++) {
 			builder = new StringBuilder();
-			for (String s : strings) {
+			for (String s : STRINGS) {
 				builder.append(s);
 			}
 			builder.reverse();
@@ -100,7 +104,7 @@ public final class DisabledEnabledComparison {
 		StringBuilder builder = null;
 		for (int i = 0; i < INNER_LOOP; i++) {
 			builder = new StringBuilder();
-			for (String s : strings) {
+			for (String s : STRINGS) {
 				builder.append(s);
 			}
 			builder.reverse();
