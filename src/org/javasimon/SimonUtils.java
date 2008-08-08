@@ -12,6 +12,7 @@ public final class SimonUtils {
 	private static final int CONVERSION_TRESHOLD = 10000;
 
 	private SimonUtils() {
+		throw new UnsupportedOperationException();
 	}
 
 	public static String presentNanoTime(long time) {
