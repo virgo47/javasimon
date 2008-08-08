@@ -30,7 +30,7 @@ public final class DisabledEnabledComparison {
 		long simonMeasurement = 0;
 		long simonCounter = 0;
 
-		for (int round = 0; round < ROUNDS; round++) {
+		for (int round = 1; round <= ROUNDS; round++) {
 			SimonFactory.reset();
 
 			SimonFactory.disable();
