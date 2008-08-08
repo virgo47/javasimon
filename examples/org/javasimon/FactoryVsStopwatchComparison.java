@@ -11,6 +11,9 @@ public final class FactoryVsStopwatchComparison {
 
 	private static final String NAME = SimonFactory.generateName("-stopwatch", false);
 
+	private FactoryVsStopwatchComparison() {
+	}
+
 	public static void main(String[] args) {
 		// warmup
 		factoryTest();

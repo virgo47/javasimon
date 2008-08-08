@@ -13,8 +13,6 @@ public interface Simon {
 
 	List<Simon> getChildren();
 
-	void addChild(Simon simon);
-
 	String getName();
 
 	SimonState getState();
@@ -25,7 +23,7 @@ public interface Simon {
 
 	void inheritState(boolean resetSubtree);
 
-	void resetSubtree();
+	void resetSubtreeState();
 
 	boolean isEnabled();
 

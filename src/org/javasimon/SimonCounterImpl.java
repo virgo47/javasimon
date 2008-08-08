@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 4, 2008
  */
-public class SimonCounterImpl extends AbstractSimon implements SimonCounter {
+public final class SimonCounterImpl extends AbstractSimon implements SimonCounter {
 	private AtomicLong counter = new AtomicLong(0);
 
 	private AtomicLong max = new AtomicLong(0);
@@ -57,7 +57,7 @@ public class SimonCounterImpl extends AbstractSimon implements SimonCounter {
 	}
 }
 
-class DisabledCounter extends DisabledDecorator implements SimonCounter {
+class DisabledCounter extends AbstractDisabledSimon implements SimonCounter {
 	public DisabledCounter(Simon simon) {
 		super(simon);
 	}

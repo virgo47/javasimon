@@ -20,7 +20,12 @@ public final class UnknownSimon extends AbstractSimon {
 	}
 
 	public Simon getDisabledDecorator() {
-		return new DisabledDecorator(this) {
-		};
+		return new DisabledUnknown(this);
+	}
+}
+
+class DisabledUnknown extends AbstractDisabledSimon {
+	public DisabledUnknown(Simon simon) {
+		super(simon);
 	}
 }

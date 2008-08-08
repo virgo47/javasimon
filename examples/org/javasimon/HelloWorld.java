@@ -10,6 +10,9 @@ package org.javasimon;
  * @since 1.0
  */
 public final class HelloWorld {
+	private HelloWorld() {
+	}
+
 	public static void main(String[] args) {
 		SimonStopwatch stopwatch = SimonFactory.getStopwatch("org.javasimon.HelloWorld-stopwatch");
 
