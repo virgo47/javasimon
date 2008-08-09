@@ -24,7 +24,8 @@ public abstract class AbstractSimon implements Simon {
 	public AbstractSimon(String name) {
 		this.name = name;
 		if (name == null || name.equals(SimonFactory.ROOT_SIMON_NAME)) {
-			setState(SimonState.ENABLED, false);
+			state = SimonState.ENABLED;
+			enabled = true;
 		}
 	}
 
@@ -50,74 +51,24 @@ public abstract class AbstractSimon implements Simon {
 		return name;
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 *
 	 * @throws IllegalArgumentException if {@code state} is {@code null}.
 	 */
-	public final void setState(SimonState state, boolean resetSubtree) {
+	public final void setState(SimonState state, boolean overrule) {
 		if (state == null) {
 			throw new IllegalArgumentException();
 		}
-		switch (state) {
-			case ENABLED:
-				enable(resetSubtree);
-				break;
-			case DISABLED:
-				disable(resetSubtree);
-				break;
-			case INHERIT:
-				inheritState(resetSubtree);
-				break;
-			default:
-				break;
+		// don't set inherit to anonymous (null) and root simons!
+		if (!isAnonymousOrRootSimon() || !state.equals(SimonState.INHERIT)) {
+			this.state = state;
+			updateAndPropagateEffectiveState(shouldBeEffectivlyEnabled(), overrule);
 		}
 	}
 
-	private void enable(boolean resetSubtree) {
-		state = SimonState.ENABLED;
-		if (resetSubtree) {
-			resetSubtreeState();
-		}
-		updateAndPropagateEffectiveState(true);
-	}
-
-	private void disable(boolean resetSubtree) {
-		state = SimonState.DISABLED;
-		if (resetSubtree) {
-			resetSubtreeState();
-		}
-		updateAndPropagateEffectiveState(false);
-	}
-
-	private void inheritState(boolean resetSubtree) {
-		if (name != null && !name.equals(SimonFactory.ROOT_SIMON_NAME)) {
-			state = SimonState.INHERIT;
-			if (resetSubtree) {
-				resetSubtreeState();
-			}
-			updateAndPropagateEffectiveState(shouldBeEffectivlyEnabled());
-		}
-	}
-
-	private void updateAndPropagateEffectiveState(boolean enabled) {
-		this.enabled = enabled;
-		for (Simon child : children) {
-			if (child.getState().equals(SimonState.INHERIT)) {
-				((AbstractSimon) child).updateAndPropagateEffectiveState(enabled);
-			}
-		}
-	}
-
-	private void resetSubtreeState() {
-		for (final Simon child : children) {
-			child.setState(SimonState.INHERIT, true);
-		}
-	}
-
-	public boolean isEnabled() {
-		return enabled;
+	private boolean isAnonymousOrRootSimon() {
+		return (name == null || name.equals(SimonFactory.ROOT_SIMON_NAME));
 	}
 
 	private boolean shouldBeEffectivlyEnabled() {
@@ -127,11 +78,33 @@ public abstract class AbstractSimon implements Simon {
 		return state.equals(SimonState.ENABLED);
 	}
 
+	private void updateAndPropagateEffectiveState(boolean enabled, boolean overrule) {
+		this.enabled = enabled;
+		for (Simon child : children) {
+			if (overrule) {
+				((AbstractSimon) child).state = SimonState.INHERIT;
+			}
+			if (child.getState().equals(SimonState.INHERIT)) {
+				((AbstractSimon) child).updateAndPropagateEffectiveState(enabled, overrule);
+			}
+		}
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
 	public final SimonState getState() {
 		return state;
 	}
 
 	public String toString() {
 		return "[" + name + " (" + state + ")]";
+	}
+
+	public void replace(Simon simon, AbstractSimon newSimon) {
+		children.remove(simon);
+		children.add(newSimon);
+		newSimon.setParent(this);
 	}
 }
