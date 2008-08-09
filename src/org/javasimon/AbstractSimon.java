@@ -77,7 +77,7 @@ public abstract class AbstractSimon implements Simon {
 
 	}
 
-	public final void enable(boolean resetSubtree) {
+	@Deprecated public final void enable(boolean resetSubtree) {
 		state = SimonState.ENABLED;
 		if (resetSubtree) {
 			resetSubtreeState();
@@ -85,7 +85,7 @@ public abstract class AbstractSimon implements Simon {
 		updateAndPropagateEffectiveState(true);
 	}
 
-	public final void disable(boolean resetSubtree) {
+	@Deprecated public final void disable(boolean resetSubtree) {
 		state = SimonState.DISABLED;
 		if (resetSubtree) {
 			resetSubtreeState();
@@ -93,7 +93,7 @@ public abstract class AbstractSimon implements Simon {
 		updateAndPropagateEffectiveState(false);
 	}
 
-	public final void inheritState(boolean resetSubtree) {
+	@Deprecated public final void inheritState(boolean resetSubtree) {
 		if (name != null && !name.equals(SimonFactory.ROOT_SIMON_NAME)) {
 			state = SimonState.INHERIT;
 			if (resetSubtree) {

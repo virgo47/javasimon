@@ -32,13 +32,13 @@ public final class NullSimon implements Simon {
 	public void setState(SimonState state, boolean resetSubtree) {
 	}
 
-	public void enable(boolean resetSubtree) {
+	@Deprecated public void enable(boolean resetSubtree) {
 	}
 
-	public void disable(boolean resetSubtree) {
+	@Deprecated public void disable(boolean resetSubtree) {
 	}
 
-	public void inheritState(boolean resetSubtree) {
+	@Deprecated public void inheritState(boolean resetSubtree) {
 	}
 
 	public boolean isEnabled() {
