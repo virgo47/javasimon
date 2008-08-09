@@ -38,25 +38,48 @@ public final class FactoryTest {
 
 	@Test
 	public void testDisabledSimons() {
-		SimonFactory.getRootSimon().disable(true);
+		SimonFactory.getRootSimon().setState(SimonState.DISABLED, true);
 		Assert.assertFalse(SimonFactory.getRootSimon().isEnabled());
 		Assert.assertFalse(SimonFactory.getCounter(ORG_JAVASIMON_TEST_COUNTER).isEnabled());
 
-		SimonFactory.getCounter(ORG_JAVASIMON_TEST_COUNTER).enable(false);
+		SimonFactory.getCounter(ORG_JAVASIMON_TEST_COUNTER).setState(SimonState.ENABLED, false);
 		Assert.assertTrue(SimonFactory.getCounter(ORG_JAVASIMON_TEST_COUNTER).isEnabled());
 		Assert.assertFalse(SimonFactory.getCounter(ORG_JAVASIMON_TEST).isEnabled());
 
-		SimonFactory.getCounter(ORG_JAVASIMON_TEST_COUNTER).inheritState(false);
+		SimonFactory.getCounter(ORG_JAVASIMON_TEST_COUNTER).setState(SimonState.INHERIT, false);
 		Assert.assertFalse(SimonFactory.getCounter(ORG_JAVASIMON_TEST_COUNTER).isEnabled());
 		Assert.assertFalse(SimonFactory.getCounter(ORG_JAVASIMON_TEST).isEnabled());
 
-		SimonFactory.getCounter(ORG_JAVASIMON_TEST_COUNTER).disable(false);
+		SimonFactory.getCounter(ORG_JAVASIMON_TEST_COUNTER).setState(SimonState.DISABLED, false);
 		Assert.assertEquals(SimonFactory.getRootSimon().getName(), SimonFactory.ROOT_SIMON_NAME);
 
 		SimonFactory.disable();
 		Assert.assertNull(SimonFactory.getSimon(ORG_JAVASIMON_TEST));
 		Assert.assertTrue(SimonFactory.getRootSimon() instanceof NullSimon);
 		Assert.assertNull(SimonFactory.getRootSimon().getName());
+	}
+
+	@Test
+	public void testStatePropagation() {
+		Assert.assertTrue(SimonFactory.getStopwatch("org.javasimon.inherit.sw1").isEnabled());
+		Assert.assertTrue(SimonFactory.getStopwatch("org.javasimon.enabled.sw1").isEnabled());
+		Assert.assertTrue(SimonFactory.getStopwatch("org.javasimon.disabled.sw1").isEnabled());
+
+		SimonFactory.getStopwatch("org.javasimon.enabled").setState(SimonState.ENABLED, true);
+		SimonFactory.getStopwatch("org.javasimon.disabled").setState(SimonState.DISABLED, true);
+		Assert.assertTrue(SimonFactory.getStopwatch("org.javasimon.inherit.sw1").isEnabled());
+		Assert.assertTrue(SimonFactory.getStopwatch("org.javasimon.enabled.sw1").isEnabled());
+		Assert.assertFalse(SimonFactory.getStopwatch("org.javasimon.disabled.sw1").isEnabled());
+
+		SimonFactory.getRootSimon().setState(SimonState.DISABLED, false);
+		Assert.assertFalse(SimonFactory.getStopwatch("org.javasimon.inherit.sw1").isEnabled());
+		Assert.assertTrue(SimonFactory.getStopwatch("org.javasimon.enabled.sw1").isEnabled());
+		Assert.assertFalse(SimonFactory.getStopwatch("org.javasimon.disabled.sw1").isEnabled());
+
+		SimonFactory.getRootSimon().setState(SimonState.ENABLED, true);
+		Assert.assertTrue(SimonFactory.getStopwatch("org.javasimon.inherit.sw1").isEnabled());
+		Assert.assertTrue(SimonFactory.getStopwatch("org.javasimon.enabled.sw1").isEnabled());
+		Assert.assertTrue(SimonFactory.getStopwatch("org.javasimon.disabled.sw1").isEnabled());
 	}
 
 	@Test

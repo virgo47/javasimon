@@ -20,9 +20,9 @@ public final class SimonFactory {
 
 	private static final NullSimon NULL_SIMON = new NullSimon();
 
-	private static final UnknownSimon ROOT = new UnknownSimon(ROOT_SIMON_NAME);
-
 	private static final Map<String, AbstractSimon> ALL_SIMONS = new HashMap<String, AbstractSimon>();
+
+	private static UnknownSimon ROOT;
 
 	private static boolean enabled = true;
 
@@ -117,10 +117,15 @@ public final class SimonFactory {
 
 	private static Simon replaceSimon(Simon simon, Class<? extends AbstractSimon> simonClass) {
 		AbstractSimon newSimon = instantiateSimon(simon.getName(), simonClass);
+		// fixes parent link and parent's children list
+		((AbstractSimon) simon.getParent()).replace(simon, newSimon);
+
+		// fixes children list and all children's parent link
 		for (Simon child : simon.getChildren()) {
 			newSimon.addChild((AbstractSimon) child);
+			((AbstractSimon) child).setParent(newSimon);
 		}
-		newSimon.setParent(simon.getParent());
+
 		ALL_SIMONS.put(simon.getName(), newSimon);
 		return newSimon;
 	}
@@ -191,7 +196,7 @@ public final class SimonFactory {
 
 	public static void reset() {
 		ALL_SIMONS.clear();
-		ROOT.reset();
+		ROOT = new UnknownSimon(ROOT_SIMON_NAME);
 		ALL_SIMONS.put(ROOT_SIMON_NAME, ROOT);
 	}
 }

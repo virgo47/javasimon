@@ -41,16 +41,15 @@ public interface Simon {
 	SimonState getState();
 
 	/**
-	 * Sets a state of the Somon. You have to specify whether you want to reset states
-	 * of all sub-simons to inherit which effectively enables the whole subtree. If you
-	 * don't reset the state some simons (with their subtree) will not be affected by
-	 * this change.
+	 * Sets the state of the Somon. You have to specify whether you want to propagate the change
+	 * and overrule states of all sub-simons which effectively sets the same state to the whole
+	 * subtree. If you don't overrule, some simons (with their subtrees) will not be affected
+	 * by this change.
 	 *
 	 * @param state a new state.
-	 *
-	 * @param resetSubtree specifies whether this change is going to be also propagated to subtree.
+	 * @param overrrule specifies whether this change is forced to the whole subtree.
 	 */
-	void setState(SimonState state, boolean resetSubtree);
+	void setState(SimonState state, boolean overrrule);
 
 	/**
 	 * Returns true, if the Simon is enabled or if the enabled state is inherited.

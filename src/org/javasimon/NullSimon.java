@@ -29,7 +29,7 @@ public final class NullSimon implements Simon {
 		return null;
 	}
 
-	public void setState(SimonState state, boolean resetSubtree) {
+	public void setState(SimonState state, boolean overrule) {
 		if (state == null) {
 			throw new IllegalArgumentException();
 		}

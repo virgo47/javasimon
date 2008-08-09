@@ -39,4 +39,30 @@ public final class SimonUtils {
 
 		return time + " s";
 	}
+
+	public static void printSimonTree(Simon simon) {
+		printSimonTree(0, simon);
+	}
+
+	private static void printSimonTree(int level, Simon simon) {
+		printSimon(level, simon);
+		for (Simon child : simon.getChildren()) {
+			printSimonTree(level + 1, child);
+		}
+	}
+
+	private static void printSimon(int level, Simon simon) {
+		for (int i = 0; i < level; i++) {
+			System.out.print("  ");
+		}
+		System.out.println(localName(simon.getName()) + ": " + simon.getState() + "(" + simon.isEnabled() + ")");
+	}
+
+	private static String localName(String name) {
+		int ix = name.lastIndexOf(SimonFactory.HIERARCHY_DELIMITER);
+		if (ix == -1) {
+			return name;
+		}
+		return name.substring(ix + 1);
+	}
 }
