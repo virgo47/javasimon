@@ -29,6 +29,9 @@ public final class NullSimon implements Simon {
 		return null;
 	}
 
+	public void setState(SimonState state, boolean resetSubtree) {
+	}
+
 	public void enable(boolean resetSubtree) {
 	}
 
