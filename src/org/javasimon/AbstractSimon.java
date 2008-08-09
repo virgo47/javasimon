@@ -50,6 +50,33 @@ public abstract class AbstractSimon implements Simon {
 		return name;
 	}
 
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @throws IllegalArgumentException if {@code state} is {@code null}.
+	 */
+	public final void setState(SimonState state, boolean resetSubtree) {
+		if (state == null) {
+			throw new IllegalArgumentException();
+		}
+
+		switch (state) {
+			case ENABLED:
+				enable(resetSubtree);
+				break;
+			case DISABLED:
+				disable(resetSubtree);
+				break;
+			case INHERIT:
+				inheritState(resetSubtree);
+				break;
+			default:
+				break;
+		}
+
+	}
+
 	public final void enable(boolean resetSubtree) {
 		state = SimonState.ENABLED;
 		if (resetSubtree) {
