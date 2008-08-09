@@ -39,13 +39,13 @@ public final class DisabledEnabledSemiRealComparison {
 			SimonFactory.enable();
 			enabledSimonFactory += performMeasurement();
 
-			SimonFactory.getSimon(TEST1_SIMON_NAME).disable(false);
+			SimonFactory.getSimon(TEST1_SIMON_NAME).setState(SimonState.DISABLED, false);
 			disbledTestSimon += performMeasurement();
 
-			SimonFactory.getRootSimon().disable(true);
+			SimonFactory.getRootSimon().setState(SimonState.DISABLED, true);
 			disbledTopSimon += performMeasurement();
 
-			SimonFactory.getSimon(TEST1_SIMON_NAME).enable(false);
+			SimonFactory.getSimon(TEST1_SIMON_NAME).setState(SimonState.ENABLED, false);
 			enabledTestSimon += performMeasurement();
 
 			// The same like measurement but without Simons

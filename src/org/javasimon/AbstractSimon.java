@@ -24,7 +24,7 @@ public abstract class AbstractSimon implements Simon {
 	public AbstractSimon(String name) {
 		this.name = name;
 		if (name == null || name.equals(SimonFactory.ROOT_SIMON_NAME)) {
-			enable(false);
+			setState(SimonState.ENABLED, false);
 		}
 	}
 
@@ -60,7 +60,6 @@ public abstract class AbstractSimon implements Simon {
 		if (state == null) {
 			throw new IllegalArgumentException();
 		}
-
 		switch (state) {
 			case ENABLED:
 				enable(resetSubtree);
@@ -74,10 +73,9 @@ public abstract class AbstractSimon implements Simon {
 			default:
 				break;
 		}
-
 	}
 
-	@Deprecated public final void enable(boolean resetSubtree) {
+	private void enable(boolean resetSubtree) {
 		state = SimonState.ENABLED;
 		if (resetSubtree) {
 			resetSubtreeState();
@@ -85,7 +83,7 @@ public abstract class AbstractSimon implements Simon {
 		updateAndPropagateEffectiveState(true);
 	}
 
-	@Deprecated public final void disable(boolean resetSubtree) {
+	private void disable(boolean resetSubtree) {
 		state = SimonState.DISABLED;
 		if (resetSubtree) {
 			resetSubtreeState();
@@ -93,7 +91,7 @@ public abstract class AbstractSimon implements Simon {
 		updateAndPropagateEffectiveState(false);
 	}
 
-	@Deprecated public final void inheritState(boolean resetSubtree) {
+	private void inheritState(boolean resetSubtree) {
 		if (name != null && !name.equals(SimonFactory.ROOT_SIMON_NAME)) {
 			state = SimonState.INHERIT;
 			if (resetSubtree) {
@@ -113,8 +111,8 @@ public abstract class AbstractSimon implements Simon {
 	}
 
 	private void resetSubtreeState() {
-		for (Simon child : children) {
-			child.inheritState(true);
+		for (final Simon child : children) {
+			child.setState(SimonState.INHERIT, true);
 		}
 	}
 
