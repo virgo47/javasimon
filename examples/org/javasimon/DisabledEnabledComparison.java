@@ -31,7 +31,7 @@ public final class DisabledEnabledComparison {
 
 			stopwatch = new SimonStopwatchImpl(null);
 			tested = new SimonStopwatchImpl(null);
-			tested.disable(false);
+			tested.setState(SimonState.DISABLED, false);
 //			SimonFactory.disable();
 
 			stopwatch.start();

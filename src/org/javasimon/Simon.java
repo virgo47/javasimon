@@ -53,44 +53,6 @@ public interface Simon {
 	void setState(SimonState state, boolean resetSubtree);
 
 	/**
-	 * Enables this Simon. You have to specify whether you want to reset states of all sub-simons
-	 * to inherit which effectively enables the whole subtree. If you don't reset the state
-	 * some simons (with their subtree) will not be affected by this change.
-	 *
-	 * @param resetSubtree if true, the whole subtree will be set to inherit (thus enabled),
-	 * if false, some explicitely set monitors (with their subtree) will not be affected by
-	 * this change
-	 *
-	 * @deprecated use {@code setState(SimonState, boolean)} instead
-	 */
-	@Deprecated void enable(boolean resetSubtree);
-
-	/**
-	 * Disables this Simon. You have to specify whether you want to reset states of all sub-simons
-	 * to inherit which effectively disables the whole subtree. If you don't reset the state
-	 * some simons (with their subtree) will not be affected by this change.
-	 *
-	 * @param resetSubtree if true, the whole subtree will be set to inherit (thus disabled),
-	 * if false, some explicitely set monitors (with their subtree) will not be affected by
-	 * this change
-	 *
-	 * @deprecated use {@code setState(SimonState, boolean)} instead
-	 */
-	@Deprecated void disable(boolean resetSubtree);
-
-	/**
-	 * Lets this Simon to inherit the state. You have to specify whether you want to reset
-	 * states of all sub-simons to inherit the state as well.
-	 *
-	 * @param resetSubtree if true, the whole subtree will be set to inherit; if false,
-	 * some explicitely set monitors (with their subtree) will not be affected by
-	 * this change
-	 *
-	 * @deprecated use {@code setState(SimonState, boolean)} instead
-	 */
-	@Deprecated void inheritState(boolean resetSubtree);
-
-	/**
 	 * Returns true, if the Simon is enabled or if the enabled state is inherited.
 	 *
 	 * @return true, if the Simon is effectively enabled
