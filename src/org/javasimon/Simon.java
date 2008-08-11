@@ -62,4 +62,6 @@ public interface Simon {
 	 * Resets the Simon - concrete values depends on the type and the implementation.
 	 */
 	void reset();
+
+	ObservationProcessor getObservationProcessor();
 }

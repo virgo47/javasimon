@@ -11,6 +11,8 @@ import java.util.Collections;
  * @created Aug 4, 2008
  */
 abstract class AbstractSimon implements Simon {
+	protected boolean enabled;
+
 	private String name;
 
 	private SimonState state = SimonState.INHERIT;
@@ -19,10 +21,11 @@ abstract class AbstractSimon implements Simon {
 
 	private List<Simon> children = new ArrayList<Simon>();
 
-	protected boolean enabled;
+	private ObservationProcessor observationProcessor;
 
-	public AbstractSimon(String name) {
+	public AbstractSimon(String name, ObservationProcessor observationProcessor) {
 		this.name = name;
+		this.observationProcessor = observationProcessor;
 		if (name == null || name.equals(SimonFactory.ROOT_SIMON_NAME)) {
 			state = SimonState.ENABLED;
 			enabled = true;
@@ -79,6 +82,13 @@ abstract class AbstractSimon implements Simon {
 	}
 
 	private void updateAndPropagateEffectiveState(boolean enabled, boolean overrule) {
+		if (this.enabled != enabled) {
+			if (enabled) {
+				enabledObserver();
+			} else {
+				disabledObserver();
+			}
+		}
 		this.enabled = enabled;
 		for (Simon child : children) {
 			if (overrule) {
@@ -90,6 +100,12 @@ abstract class AbstractSimon implements Simon {
 		}
 	}
 
+	protected void disabledObserver() {
+	}
+
+	protected void enabledObserver() {
+	}
+
 	public boolean isEnabled() {
 		return enabled;
 	}
@@ -98,8 +114,12 @@ abstract class AbstractSimon implements Simon {
 		return state;
 	}
 
+	public ObservationProcessor getObservationProcessor() {
+		return observationProcessor;
+	}
+
 	public String toString() {
-		return "[" + name + " (" + state + ")]";
+		return "[" + name + " " + state + "/opt=" + getObservationProcessor().getType() + "]";
 	}
 
 	public void replace(Simon simon, AbstractSimon newSimon) {

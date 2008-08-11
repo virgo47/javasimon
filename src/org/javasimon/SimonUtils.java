@@ -55,14 +55,21 @@ public final class SimonUtils {
 		for (int i = 0; i < level; i++) {
 			System.out.print("  ");
 		}
-		System.out.println(localName(simon.getName()) + ": " + simon.getState() + "(" + simon.isEnabled() + ")");
+		System.out.println(localName(simon.getName()) + "(" + (simon.isEnabled() ? '+' : '-') + "): " + simon);
 	}
 
 	private static String localName(String name) {
-		int ix = name.lastIndexOf(SimonFactory.HIERARCHY_DELIMITER);
+		int ix = name.lastIndexOf(SimonFactory.PROPERTY_CONFIG_FILE_NAME);
 		if (ix == -1) {
 			return name;
 		}
 		return name.substring(ix + 1);
+	}
+
+	public static double average(double sum, long count) {
+		if (count == 0) {
+			return 0;
+		}
+		return sum / count;
 	}
 }

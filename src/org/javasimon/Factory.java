@@ -20,4 +20,8 @@ interface Factory {
 	String generateName(String suffix, boolean includeMethodName);
 
 	Collection<String> simonNames();
+
+	Counter getCounter(String name, ObservationProcessorType observationProcessorType);
+
+	Stopwatch getStopwatch(String name, ObservationProcessorType observationProcessorType);
 }

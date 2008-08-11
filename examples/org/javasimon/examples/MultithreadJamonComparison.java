@@ -14,7 +14,7 @@ import org.javasimon.Stopwatch;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 6, 2008
  */
-public final class MultithreadedSimonJamonComparison {
+public final class MultithreadJamonComparison {
 	private static final int THREADS = 1000;
 	private static final int LOOP = 1000;
 

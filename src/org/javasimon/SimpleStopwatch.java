@@ -17,8 +17,8 @@ final class SimpleStopwatch extends AbstractSimon implements Stopwatch {
 
 	private long min = Long.MAX_VALUE;
 
-	public SimpleStopwatch(String name) {
-		super(name);
+	public SimpleStopwatch(String name, ObservationProcessor observationProcessor) {
+		super(name, observationProcessor);
 	}
 
 	public Stopwatch addTime(long ns) {

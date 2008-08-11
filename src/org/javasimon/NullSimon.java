@@ -84,6 +84,10 @@ final class NullSimon implements Counter, Stopwatch {
 		return 0;
 	}
 
+	public ObservationProcessor getObservationProcessor() {
+		return null;
+	}
+
 	public String toString() {
 		return "Null Simon";
 	}
