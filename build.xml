@@ -1,34 +1,34 @@
 <?xml version="1.0"?>
 <project name="Java Simon Library" default="dist" basedir=".">
-    <property name="version" value="0.1"/>
-    <property name="javac.debug" value="true"/>
-    <property name="javac.deprecation" value="false"/>
+	<property name="version" value="0.1"/>
+	<property name="javac.debug" value="true"/>
+	<property name="javac.deprecation" value="false"/>
 
-    <path id="classpath">
-	    <!--<pathelement path="..."/>-->
-    </path>
+	<path id="classpath">
+		<!--<pathelement path="..."/>-->
+	</path>
 
 	<target name="dist" depends="clean,build" description="Distribution - clean/build">
-    </target>
+	</target>
 
-    <target name="compile" description="Compile the source code">
-        <mkdir dir="build/classes"/>
-        <javac srcdir="src" destdir="build/classes" debug="${javac.debug}" deprecation="${javac.deprecation}">
-            <classpath refid="classpath"/>
-        </javac>
-        <!--<copy todir="build/classes">-->
-            <!--<fileset dir="src" includes="**/*.properties"/>-->
-        <!--</copy>-->
-    </target>
+	<target name="compile" description="Compile the source code">
+		<mkdir dir="build/classes"/>
+		<javac srcdir="src" destdir="build/classes" debug="${javac.debug}" deprecation="${javac.deprecation}">
+			<classpath refid="classpath"/>
+		</javac>
+		<copy todir="build/classes">
+			<fileset dir="src" includes="**/*.properties"/>
+		</copy>
+	</target>
 
-    <!-- Packaging section -->
-    <target name="build" depends="compile" description="Package the archives">
-        <jar jarfile="build/javasimon-${version}.jar" description="Simon JAR">
-            <fileset dir="build/classes"/>
-        </jar>
-    </target>
+	<!-- Packaging section -->
+	<target name="build" depends="compile" description="Package the archives">
+		<jar jarfile="build/javasimon-${version}.jar" description="Simon JAR">
+			<fileset dir="build/classes"/>
+		</jar>
+	</target>
 
-    <target name="clean" description="Cleans up the build directory">
-        <delete failonerror="false" dir="build"/>
-    </target>
+	<target name="clean" description="Cleans up the build directory">
+		<delete failonerror="false" dir="build"/>
+	</target>
 </project>
