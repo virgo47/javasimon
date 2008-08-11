@@ -6,7 +6,7 @@ package org.javasimon;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 4, 2008
  */
-public interface SimonCounter extends Simon {
+public interface Counter extends Simon {
 	void increment();
 
 	void decrement();

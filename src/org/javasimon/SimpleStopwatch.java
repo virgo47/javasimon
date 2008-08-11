@@ -1,12 +1,12 @@
 package org.javasimon;
 
 /**
- * Simonatch.
+ * Simple single-threaded stopwatch simon.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 4, 2008
  */
-public final class SimonStopwatchSimple extends AbstractSimon implements SimonStopwatch {
+final class SimpleStopwatch extends AbstractSimon implements Stopwatch {
 	private long elapsedNanos = 0;
 
 	private long counter = 0;
@@ -17,13 +17,14 @@ public final class SimonStopwatchSimple extends AbstractSimon implements SimonSt
 
 	private long min = Long.MAX_VALUE;
 
-	public SimonStopwatchSimple(String name) {
+	public SimpleStopwatch(String name) {
 		super(name);
 	}
 
-	public void addTime(long ns) {
+	public Stopwatch addTime(long ns) {
 		elapsedNanos += ns;
 		counter++;
+		return this;
 	}
 
 	public void reset() {
@@ -31,11 +32,12 @@ public final class SimonStopwatchSimple extends AbstractSimon implements SimonSt
 		counter = 0;
 	}
 
-	public void start() {
+	public Stopwatch start() {
 		start = System.nanoTime();
+		return this;
 	}
 
-	public void stop() {
+	public Stopwatch stop() {
 		counter++;
 		long split = System.nanoTime() - start;
 		elapsedNanos += split;
@@ -45,6 +47,7 @@ public final class SimonStopwatchSimple extends AbstractSimon implements SimonSt
 		if (split < min) {
 			min = split;
 		}
+		return this;
 	}
 
 	public long getTotal() {

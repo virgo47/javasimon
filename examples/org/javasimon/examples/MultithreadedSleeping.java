@@ -1,4 +1,7 @@
-package org.javasimon;
+package org.javasimon.examples;
+
+import org.javasimon.SimonFactory;
+import org.javasimon.Stopwatch;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -25,7 +28,7 @@ public final class MultithreadedSleeping extends Thread {
 	}
 
 	public void run() {
-		SimonStopwatch stopwatch = SimonFactory.getStopwatch(NAME);
+		Stopwatch stopwatch = SimonFactory.getStopwatch(NAME);
 		stopwatch.start();
 		try {
 			sleep(SLEEP);

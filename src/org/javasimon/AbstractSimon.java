@@ -10,7 +10,7 @@ import java.util.Collections;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 4, 2008
  */
-public abstract class AbstractSimon implements Simon {
+abstract class AbstractSimon implements Simon {
 	private String name;
 
 	private SimonState state = SimonState.INHERIT;

@@ -6,7 +6,7 @@ package org.javasimon;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 4, 2008
  */
-public final class SimonStopwatchImpl extends AbstractSimon implements SimonStopwatch {
+final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	private long elapsedNanos = 0;
 
 	private long counter = 0;
@@ -17,15 +17,16 @@ public final class SimonStopwatchImpl extends AbstractSimon implements SimonStop
 
 	private long min = Long.MAX_VALUE;
 
-	public SimonStopwatchImpl(String name) {
+	public StopwatchImpl(String name) {
 		super(name);
 	}
 
-	public synchronized void addTime(long ns) {
+	public synchronized Stopwatch addTime(long ns) {
 		if (enabled) {
 			elapsedNanos += ns;
 			counter++;
 		}
+		return this;
 	}
 
 	public synchronized void reset() {
@@ -33,17 +34,18 @@ public final class SimonStopwatchImpl extends AbstractSimon implements SimonStop
 		counter = 0;
 	}
 
-	public synchronized void start() {
+	public synchronized Stopwatch start() {
 		if (enabled) {
 			start.set(System.nanoTime());
 		}
+		return this;
 	}
 
-	public synchronized void stop() {
+	public synchronized Stopwatch stop() {
 		if (enabled) {
 			Long end = start.get();
 			if (end == null) {
-				return;
+				return this;
 			}
 			long split = System.nanoTime() - end;
 			elapsedNanos += split;
@@ -55,6 +57,7 @@ public final class SimonStopwatchImpl extends AbstractSimon implements SimonStop
 				min = split;
 			}
 		}
+		return this;
 	}
 
 	public long getTotal() {

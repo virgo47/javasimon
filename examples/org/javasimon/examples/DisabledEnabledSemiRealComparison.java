@@ -1,4 +1,9 @@
-package org.javasimon;
+package org.javasimon.examples;
+
+import org.javasimon.SimonFactory;
+import org.javasimon.SimonState;
+import org.javasimon.SimonUtils;
+import org.javasimon.Stopwatch;
 
 /**
  * DisabledEnabledComparison.
@@ -85,7 +90,7 @@ public final class DisabledEnabledSemiRealComparison {
 	}
 
 	private static void testMethod() {
-		SimonStopwatch simon = SimonFactory.getStopwatch(TEST1_SIMON_NAME);
+		Stopwatch simon = SimonFactory.getStopwatch(TEST1_SIMON_NAME);
 		simon.start();
 		StringBuilder builder = null;
 		for (int i = 0; i < INNER_LOOP; i++) {

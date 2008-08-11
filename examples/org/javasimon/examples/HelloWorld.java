@@ -1,4 +1,7 @@
-package org.javasimon;
+package org.javasimon.examples;
+
+import org.javasimon.Stopwatch;
+import org.javasimon.SimonFactory;
 
 /**
  * HelloWorld is the most basic example of Stopwatch usage. You can show this
@@ -14,7 +17,7 @@ public final class HelloWorld {
 	}
 
 	public static void main(String[] args) {
-		SimonStopwatch stopwatch = SimonFactory.getStopwatch("org.javasimon.HelloWorld-stopwatch");
+		Stopwatch stopwatch = SimonFactory.getStopwatch("org.javasimon.examples.HelloWorld-stopwatch");
 
 		stopwatch.start();
 		System.out.println("Hello world, " + stopwatch);

@@ -6,12 +6,12 @@ package org.javasimon;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 4, 2008
  */
-public interface SimonStopwatch extends Simon {
-	void addTime(long ns);
+public interface Stopwatch extends Simon {
+	Stopwatch addTime(long ns);
 
-	void start();
+	Stopwatch start();
 
-	void stop();
+	Stopwatch stop();
 
 	long getTotal();
 

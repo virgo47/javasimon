@@ -9,8 +9,10 @@ import java.util.List;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 4, 2008
  */
-public final class NullSimon implements Simon {
-	public NullSimon() {
+final class NullSimon implements Counter, Stopwatch {
+	public static final NullSimon INSTANCE = new NullSimon();
+
+	private NullSimon() {
 	}
 
 	public Simon getParent() {
@@ -40,6 +42,46 @@ public final class NullSimon implements Simon {
 	}
 
 	public void reset() {
+	}
+
+	public void increment() {
+	}
+
+	public void decrement() {
+	}
+
+	public void increment(long inc) {
+	}
+
+	public void decrement(long inc) {
+	}
+
+	public long getCounter() {
+		return 0;
+	}
+
+	public long getMin() {
+		return 0;
+	}
+
+	public long getMax() {
+		return 0;
+	}
+
+	public Stopwatch addTime(long ns) {
+		return this;
+	}
+
+	public Stopwatch start() {
+		return this;
+	}
+
+	public Stopwatch stop() {
+		return this;
+	}
+
+	public long getTotal() {
+		return 0;
 	}
 
 	public String toString() {

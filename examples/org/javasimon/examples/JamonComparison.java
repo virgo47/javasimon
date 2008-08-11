@@ -1,7 +1,10 @@
-package org.javasimon;
+package org.javasimon.examples;
 
 import com.jamonapi.MonitorFactory;
 import com.jamonapi.Monitor;
+import org.javasimon.Stopwatch;
+import org.javasimon.SimonUtils;
+import org.javasimon.SimonFactory;
 
 /**
  * JamonComparison.
@@ -24,7 +27,8 @@ public final class JamonComparison {
 	}
 
 	private static void simonTest() {
-		SimonStopwatch stopwatch = new SimonStopwatchImpl(null);
+		Stopwatch stopwatch = SimonFactory.getStopwatch("bu");
+		stopwatch.reset();
 
 		long ns = System.nanoTime();
 		for (int i = 0; i < OUTER_LOOP; i++) {

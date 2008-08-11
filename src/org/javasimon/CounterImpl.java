@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 4, 2008
  */
-public final class SimonCounterImpl extends AbstractSimon implements SimonCounter {
+final class CounterImpl extends AbstractSimon implements Counter {
 
 	/**
 	 * An internal counter.
@@ -25,7 +25,7 @@ public final class SimonCounterImpl extends AbstractSimon implements SimonCounte
 	 */
 	private final AtomicLong min = new AtomicLong(0);
 
-	public SimonCounterImpl(String name) {
+	public CounterImpl(String name) {
 		super(name);
 	}
 

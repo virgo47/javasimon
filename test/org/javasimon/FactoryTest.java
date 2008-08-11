@@ -32,7 +32,7 @@ public final class FactoryTest {
 		Assert.assertTrue(SimonFactory.getSimon(ORG_JAVASIMON_TEST) instanceof UnknownSimon);
 		Assert.assertEquals(SimonFactory.getSimon(ORG_JAVASIMON_TEST).getChildren().size(), 1);
 		SimonFactory.getCounter(ORG_JAVASIMON_TEST);
-		Assert.assertTrue(SimonFactory.getSimon(ORG_JAVASIMON_TEST) instanceof SimonCounter);
+		Assert.assertTrue(SimonFactory.getSimon(ORG_JAVASIMON_TEST) instanceof Counter);
 		Assert.assertEquals(SimonFactory.getSimon(ORG_JAVASIMON_TEST).getChildren().size(), 1);
 	}
 
