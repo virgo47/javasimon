@@ -1,4 +1,8 @@
-package org.javasimon;
+package org.javasimon.examples;
+
+import org.javasimon.SimonFactory;
+import org.javasimon.SimonUtils;
+import org.javasimon.Stopwatch;
 
 /**
  * FactoryVsStopwatchComparison.
@@ -22,7 +26,7 @@ public final class FactoryVsStopwatchComparison {
 		factoryTest();
 		System.out.println("SimonFactory.getStopwatch(): " + SimonUtils.presentNanoTime(System.nanoTime() - ns));
 
-		SimonStopwatch stopwatch = SimonFactory.getStopwatch(NAME);
+		Stopwatch stopwatch = SimonFactory.getStopwatch(NAME);
 		stopwatchTest(stopwatch);
 
 		ns = System.nanoTime();
@@ -31,7 +35,7 @@ public final class FactoryVsStopwatchComparison {
 		System.out.println("Stopwatch: " + stopwatch);
 	}
 
-	private static void stopwatchTest(SimonStopwatch stopwatch) {
+	private static void stopwatchTest(Stopwatch stopwatch) {
 		for (int i = 0; i < LOOP; i++) {
 			stopwatch.start();
 			stopwatch.stop();
