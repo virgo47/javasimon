@@ -21,7 +21,7 @@ public class Driver implements java.sql.Driver {
 
 	private static final String DEFAULT_NAME = "org.javasimon.jdbc";
 
-	private Properties drivers = new Properties();
+	private final Properties drivers = new Properties();
 
 	static {
 		try {
