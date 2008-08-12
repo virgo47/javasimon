@@ -29,36 +29,40 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		super(name);
 	}
 
-	public void increment() {
+	public Counter increment() {
 		long val = counter.incrementAndGet();
 		if (val > max.longValue()) {
 			max.set(val);
 		}
+		return this;
 	}
 
-	public void decrement() {
+	public Counter decrement() {
 		final long val = counter.decrementAndGet();
 		if (val < min.longValue()) {
 			min.set(val);
 		}
+		return this;
 	}
 
-	public void increment(long inc) {
+	public Counter increment(long inc) {
 		final long val = counter.addAndGet(inc);
 		if (val > max.longValue()) {
 			max.set(val);
 		} else if (val < min.longValue()) {
 			min.set(val);
 		}
+		return this;
 	}
 
-	public void decrement(long dec) {
+	public Counter decrement(long dec) {
 		final long val = counter.addAndGet(-dec);
 		if (val < min.longValue()) {
 			min.set(val);
 		} else if (val > max.longValue()) {
 			max.set(val);
 		}
+		return this;
 	}
 
 	public Counter reset() {

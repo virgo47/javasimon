@@ -7,13 +7,13 @@ package org.javasimon;
  * @created Aug 4, 2008
  */
 public interface Counter extends Simon {
-	void increment();
+	Counter increment();
 
-	void decrement();
+	Counter decrement();
 
-	void increment(long inc);
+	Counter increment(long inc);
 
-	void decrement(long inc);
+	Counter decrement(long inc);
 
 	long getCounter();
 

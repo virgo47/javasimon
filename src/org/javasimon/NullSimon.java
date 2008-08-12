@@ -45,16 +45,20 @@ final class NullSimon implements Counter, Stopwatch {
 		return this;
 	}
 
-	public void increment() {
+	public Counter increment() {
+		return this;
 	}
 
-	public void decrement() {
+	public Counter decrement() {
+		return this;
 	}
 
-	public void increment(long inc) {
+	public Counter increment(long inc) {
+		return this;
 	}
 
-	public void decrement(long inc) {
+	public Counter decrement(long inc) {
+		return this;
 	}
 
 	public long getCounter() {
