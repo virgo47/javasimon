@@ -7,7 +7,7 @@ package org.javasimon;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 4, 2008
  */
-final class UnknownSimon extends AbstractSimon {
+public final class UnknownSimon extends AbstractSimon {
 	public UnknownSimon(String name) {
 		super(name);
 	}
