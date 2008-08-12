@@ -84,7 +84,7 @@ final class NullSimon implements Counter, Stopwatch {
 		return 0;
 	}
 
-	public ObservationProcessor getObservationProcessor() {
+	public StatProcessor getObservationProcessor() {
 		return null;
 	}
 

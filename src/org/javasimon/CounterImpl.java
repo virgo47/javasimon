@@ -25,7 +25,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	 */
 	private final AtomicLong min = new AtomicLong(0);
 
-	public CounterImpl(String name, ObservationProcessor observationProcessor) {
+	public CounterImpl(String name, StatProcessor observationProcessor) {
 		super(name, observationProcessor);
 	}
 
