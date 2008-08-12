@@ -17,7 +17,7 @@ import java.io.IOException;
  * @created 6.8.2008 23:13:27
  * @since 1.0
  */
-public class Driver implements java.sql.Driver {
+public final class Driver implements java.sql.Driver {
 
 	private static final String DEFAULT_NAME = "org.javasimon.jdbc";
 
@@ -47,8 +47,8 @@ public class Driver implements java.sql.Driver {
 		String realUrl = url.replaceFirst("jdbc:simon", "jdbc");
 		java.sql.Driver driver = getRealDriver(realUrl, info);
 		// Todo obtain custom jdbc subpackage if exists
-//		return new org.javasimon.jdbc.Connection(driver.connect(realUrl, info), DEFAULT_NAME);
-		return driver.connect(realUrl, info);
+
+		return new org.javasimon.jdbc.Connection(driver.connect(realUrl, info), DEFAULT_NAME);
 	}
 
 	private java.sql.Driver getRealDriver(String url, Properties info) throws SQLException {
@@ -56,7 +56,7 @@ public class Driver implements java.sql.Driver {
 		try {
 			drv = DriverManager.getDriver(url);
 		} catch (SQLException e) {
-			// nothing, not a error
+			// nothing, not an error
 		}
 
 		if (drv == null && info != null && info.keySet().contains("real_drv")) {
@@ -69,7 +69,7 @@ public class Driver implements java.sql.Driver {
 		}
 
 		if (drv == null) {
-			// .*jamonrealdriver - any characters up to real_drv
+			// .*real_drv - any characters up to real_drv
 			//  [\\s=]* - any number of optional spaces surrounding the equal sign.
 			// ([\\w\\.]*) - trying to get a package name which can have any number of characters [a-zA-Z_0-9] and '.'. This value is what is needed
 			//  [\\W]? - 0 or 1 characters that aren't in a package name.
