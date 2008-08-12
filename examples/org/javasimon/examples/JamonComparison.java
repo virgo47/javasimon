@@ -20,7 +20,9 @@ public final class JamonComparison {
 	}
 
 	public static void main(String[] args) {
-		for (int round = 0; round < 10; round++) {
+		int round = 1;
+		while (true) {
+			System.out.println("\nRound: " + round++);
 			jamonTest();
 			simonTest();
 		}
@@ -32,9 +34,9 @@ public final class JamonComparison {
 
 		long ns = System.nanoTime();
 		for (int i = 0; i < OUTER_LOOP; i++) {
-			stay();
+//			stay();
 			stopwatch.start();
-			stay();
+//			stay();
 			stopwatch.stop();
 		}
 		ns = System.nanoTime() - ns;
@@ -51,9 +53,9 @@ public final class JamonComparison {
 
 		long ns = System.nanoTime();
 		for (int i = 0; i < OUTER_LOOP; i++) {
-			stay();
+//			stay();
 			monitor.start();
-			stay();
+//			stay();
 			monitor.stop();
 		}
 		ns = System.nanoTime() - ns;

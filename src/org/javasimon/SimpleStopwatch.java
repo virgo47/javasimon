@@ -5,9 +5,10 @@ package org.javasimon;
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 4, 2008
+ * @deprecated no serious performance reason - remove after publishing results
  */
 final class SimpleStopwatch extends AbstractSimon implements Stopwatch {
-	private long elapsedNanos = 0;
+	private long total = 0;
 
 	private long counter = 0;
 
@@ -17,19 +18,23 @@ final class SimpleStopwatch extends AbstractSimon implements Stopwatch {
 
 	private long min = Long.MAX_VALUE;
 
-	public SimpleStopwatch(String name, StatProcessor observationProcessor) {
-		super(name, observationProcessor);
+	public SimpleStopwatch(String name) {
+		super(name);
 	}
 
 	public Stopwatch addTime(long ns) {
-		elapsedNanos += ns;
+		total += ns;
 		counter++;
 		return this;
 	}
 
-	public void reset() {
-		elapsedNanos = 0;
+	public Stopwatch reset() {
+		total = 0;
 		counter = 0;
+		max = 0;
+		min = Long.MAX_VALUE;
+		start = 0;
+		return this;
 	}
 
 	public Stopwatch start() {
@@ -40,7 +45,7 @@ final class SimpleStopwatch extends AbstractSimon implements Stopwatch {
 	public Stopwatch stop() {
 		counter++;
 		long split = System.nanoTime() - start;
-		elapsedNanos += split;
+		total += split;
 		if (split > max) {
 			max = split;
 		}
@@ -51,7 +56,7 @@ final class SimpleStopwatch extends AbstractSimon implements Stopwatch {
 	}
 
 	public long getTotal() {
-		return elapsedNanos;
+		return total;
 	}
 
 	public long getCounter() {
@@ -68,7 +73,7 @@ final class SimpleStopwatch extends AbstractSimon implements Stopwatch {
 
 	public String toString() {
 		return "Simon Stopwatch: " + super.toString() +
-			" elapsed " + SimonUtils.presentNanoTime(elapsedNanos) +
+			" total " + SimonUtils.presentNanoTime(total) +
 			", counter " + counter +
 			", max " + SimonUtils.presentNanoTime(max) +
 			", min " + SimonUtils.presentNanoTime(min);

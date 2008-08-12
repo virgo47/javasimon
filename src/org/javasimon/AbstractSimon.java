@@ -21,11 +21,10 @@ abstract class AbstractSimon implements Simon {
 
 	private List<Simon> children = new ArrayList<Simon>();
 
-	private StatProcessor observationProcessor;
+	private StatProcessor statProcessor = NullStatProcessor.INSTANCE;
 
-	public AbstractSimon(String name, StatProcessor observationProcessor) {
+	public AbstractSimon(String name) {
 		this.name = name;
-		this.observationProcessor = observationProcessor;
 		if (name == null || name.equals(SimonFactory.ROOT_SIMON_NAME)) {
 			state = SimonState.ENABLED;
 			enabled = true;
@@ -114,17 +113,21 @@ abstract class AbstractSimon implements Simon {
 		return state;
 	}
 
-	public StatProcessor getObservationProcessor() {
-		return observationProcessor;
+	public StatProcessor getStatProcessor() {
+		return statProcessor;
 	}
 
 	public String toString() {
-		return "[" + name + " " + state + "/opt=" + getObservationProcessor().getType() + "]";
+		return "[" + name + " " + state + "/opt=" + getStatProcessor().getType() + "]";
 	}
 
 	public void replace(Simon simon, AbstractSimon newSimon) {
 		children.remove(simon);
 		children.add(newSimon);
 		newSimon.setParent(this);
+	}
+
+	public void setStatProcessor(StatProcessor statProcessor) {
+		this.statProcessor = statProcessor;
 	}
 }

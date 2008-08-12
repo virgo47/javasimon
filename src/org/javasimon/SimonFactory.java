@@ -22,9 +22,9 @@ public final class SimonFactory {
 
 	public static final String ROOT_SIMON_NAME = "";
 
-	private static final Map<String, AbstractSimon> ALL_SIMONS = new HashMap<String, AbstractSimon>();
+	private static final Map<String, AbstractSimon> allSimons = new HashMap<String, AbstractSimon>();
 
-	private static UnknownSimon ROOT;
+	private static UnknownSimon rootSimon;
 
 	private static Factory factory = EnabledFactory.INSTANCE;
 
@@ -56,7 +56,6 @@ public final class SimonFactory {
 				reader.close();
 			}
 		}
-		SimonUtils.printSimonTree(getRootSimon());
 	}
 
 	private static void initFromReader(Reader reader) throws IOException {
@@ -64,7 +63,7 @@ public final class SimonFactory {
 		properties.load(reader);
 		for (String name : properties.stringPropertyNames()) {
 			String simonType = null;
-			StatProcessorType observationProcessorType = StatProcessorType.NULL;
+			StatProcessorType statProcessorType = StatProcessorType.NULL;
 			String value = properties.getProperty(name);
 			for (String keyword : value.split(" +")) {
 				if (keyword.equals("stopwatch")) {
@@ -72,14 +71,18 @@ public final class SimonFactory {
 				} else if (keyword.equals("counter")) {
 					simonType = keyword;
 				} else if (keyword.equals("basic")) {
-					observationProcessorType = StatProcessorType.BASIC;
+					statProcessorType = StatProcessorType.BASIC;
 				}
 			}
 			if (simonType != null) {
+				Simon simon = null;
 				if (simonType.equals("stopwatch")) {
-					getStopwatch(name, observationProcessorType);
+					simon = getStopwatch(name);
 				} else if (simonType.equals("counter")) {
-					getCounter(name, observationProcessorType);
+					simon = getCounter(name);
+				}
+				if (simon != null) {
+					simon.setStatProcessor(statProcessorType.create());
 				}
 			}
 		}
@@ -102,7 +105,7 @@ public final class SimonFactory {
 	/**
 	 * Returns existing SimonCounter or creates new if necessary.
 	 *
-	 * @param name name of the Counter
+	 * @param name name of the counter
 	 * @return counter object
 	 */
 	public static Counter getCounter(String name) {
@@ -110,7 +113,7 @@ public final class SimonFactory {
 	}
 
 	/**
-	 * Returns existing SimonStopwatch or creates new if necessary.
+	 * Returns existing stopwatch or creates new if necessary.
 	 *
 	 * @param name name of the Stopwatch
 	 * @return stopwatch object
@@ -120,25 +123,13 @@ public final class SimonFactory {
 	}
 
 	/**
-	 * Returns existing SimonCounter or creates new if necessary.
-	 *
-	 * @param name name of the Counter
-	 * @param observationProcessorType observation processor type
-	 * @return counter object
-	 */
-	public static Counter getCounter(String name, StatProcessorType observationProcessorType) {
-		return factory.getCounter(name, observationProcessorType);
-	}
-
-	/**
-	 * Returns existing SimonStopwatch or creates new if necessary.
+	 * Returns existing simple stopwatch or creates new if necessary. Simple stopwatch is not threadsafe.
 	 *
 	 * @param name name of the Stopwatch
-	 * @param observationProcessorType observation processor type
 	 * @return stopwatch object
 	 */
-	public static Stopwatch getStopwatch(String name, StatProcessorType observationProcessorType) {
-		return factory.getStopwatch(name, observationProcessorType);
+	public static Stopwatch getSimpleStopwatch(String name) {
+		return factory.getStopwatch(name);
 	}
 
 	/**
@@ -153,12 +144,12 @@ public final class SimonFactory {
 		return factory.generateName(suffix, includeMethodName);
 	}
 
-	private static Simon getOrCreateSimon(String name, Class<? extends AbstractSimon> simonClass, StatProcessorType observationProcessorType) {
-		Simon simon = ALL_SIMONS.get(name);
+	private static Simon getOrCreateSimon(String name, Class<? extends AbstractSimon> simonClass) {
+		Simon simon = allSimons.get(name);
 		if (simon == null) {
-			simon = newSimon(name, simonClass, observationProcessorType);
+			simon = newSimon(name, simonClass);
 		} else if (simon instanceof UnknownSimon) {
-			simon = replaceSimon(simon, simonClass, observationProcessorType);
+			simon = replaceSimon(simon, simonClass);
 		} else {
 			if (!(simonClass.isInstance(simon))) {
 				throw new SimonException("Simon named '" + name + "' already exists and its type is '" + simon.getClass().getName() + "' while requested type is '" + simonClass.getName() + "'.");
@@ -167,8 +158,8 @@ public final class SimonFactory {
 		return simon;
 	}
 
-	private static Simon replaceSimon(Simon simon, Class<? extends AbstractSimon> simonClass, StatProcessorType observationProcessorType) {
-		AbstractSimon newSimon = instantiateSimon(simon.getName(), simonClass, observationProcessorType);
+	private static Simon replaceSimon(Simon simon, Class<? extends AbstractSimon> simonClass) {
+		AbstractSimon newSimon = instantiateSimon(simon.getName(), simonClass);
 		// fixes parent link and parent's children list
 		((AbstractSimon) simon.getParent()).replace(simon, newSimon);
 
@@ -178,23 +169,23 @@ public final class SimonFactory {
 			((AbstractSimon) child).setParent(newSimon);
 		}
 
-		ALL_SIMONS.put(simon.getName(), newSimon);
+		allSimons.put(simon.getName(), newSimon);
 		return newSimon;
 	}
 
-	private static Simon newSimon(String name, Class<? extends AbstractSimon> simonClass, StatProcessorType observationProcessorType) {
-		AbstractSimon simon = instantiateSimon(name, simonClass, observationProcessorType);
+	private static Simon newSimon(String name, Class<? extends AbstractSimon> simonClass) {
+		AbstractSimon simon = instantiateSimon(name, simonClass);
 		if (name != null) {
 			addToHierarchy(simon, name);
 		}
 		return simon;
 	}
 
-	private static AbstractSimon instantiateSimon(String name, Class<? extends AbstractSimon> simonClass, StatProcessorType observationProcessorType) {
+	private static AbstractSimon instantiateSimon(String name, Class<? extends AbstractSimon> simonClass) {
 		AbstractSimon simon;
 		try {
-			Constructor<? extends AbstractSimon> constructor = simonClass.getConstructor(String.class, StatProcessor.class);
-			simon = constructor.newInstance(name, observationProcessorType.create());
+			Constructor<? extends AbstractSimon> constructor = simonClass.getConstructor(String.class);
+			simon = constructor.newInstance(name);
 		} catch (NoSuchMethodException e) {
 			throw new SimonException(e);
 		} catch (InvocationTargetException e) {
@@ -208,12 +199,12 @@ public final class SimonFactory {
 	}
 
 	private static void addToHierarchy(AbstractSimon simon, String name) {
-		ALL_SIMONS.put(name, simon);
+		allSimons.put(name, simon);
 		int ix = name.lastIndexOf(HIERARCHY_DELIMITER);
-		AbstractSimon parent = ROOT;
+		AbstractSimon parent = rootSimon;
 		if (ix != -1) {
 			String parentName = name.substring(0, ix);
-			parent = ALL_SIMONS.get(parentName);
+			parent = allSimons.get(parentName);
 			if (parent == null) {
 				parent = new UnknownSimon(parentName);
 				addToHierarchy(parent, parentName);
@@ -243,32 +234,28 @@ public final class SimonFactory {
 	}
 
 	public static void reset() {
-		ALL_SIMONS.clear();
-		ROOT = new UnknownSimon(ROOT_SIMON_NAME);
-		ALL_SIMONS.put(ROOT_SIMON_NAME, ROOT);
+		allSimons.clear();
+		rootSimon = new UnknownSimon(ROOT_SIMON_NAME);
+		allSimons.put(ROOT_SIMON_NAME, rootSimon);
 	}
 
 	private static class EnabledFactory implements Factory {
 		public static final Factory INSTANCE = new EnabledFactory();
 
 		public Simon getSimon(String name) {
-			return ALL_SIMONS.get(name);
+			return allSimons.get(name);
 		}
 
 		public synchronized Counter getCounter(String name) {
-			return (Counter) getOrCreateSimon(name, CounterImpl.class, StatProcessorType.NULL);
+			return (Counter) getOrCreateSimon(name, CounterImpl.class);
 		}
 
 		public synchronized Stopwatch getStopwatch(String name) {
-			return (Stopwatch) getOrCreateSimon(name, StopwatchImpl.class, StatProcessorType.NULL);
+			return (Stopwatch) getOrCreateSimon(name, StopwatchImpl.class);
 		}
 
-		public synchronized Counter getCounter(String name, StatProcessorType observationProcessorType) {
-			return (Counter) getOrCreateSimon(name, CounterImpl.class, observationProcessorType);
-		}
-
-		public synchronized Stopwatch getStopwatch(String name, StatProcessorType observationProcessorType) {
-			return (Stopwatch) getOrCreateSimon(name, StopwatchImpl.class, observationProcessorType);
+		public Stopwatch getSimpleStopwatch(String name) {
+			return (Stopwatch) getOrCreateSimon(name, SimpleStopwatch.class);
 		}
 
 		public String generateName(String suffix, boolean includeMethodName) {
@@ -284,11 +271,11 @@ public final class SimonFactory {
 		}
 
 		public Simon getRootSimon() {
-			return ROOT;
+			return rootSimon;
 		}
 
 		public Collection<String> simonNames() {
-			return ALL_SIMONS.keySet();
+			return allSimons.keySet();
 		}
 	}
 
@@ -307,11 +294,7 @@ public final class SimonFactory {
 			return NullSimon.INSTANCE;
 		}
 
-		public Counter getCounter(String name, StatProcessorType observationProcessorType) {
-			return NullSimon.INSTANCE;
-		}
-
-		public Stopwatch getStopwatch(String name, StatProcessorType observationProcessorType) {
+		public Stopwatch getSimpleStopwatch(String name) {
 			return NullSimon.INSTANCE;
 		}
 

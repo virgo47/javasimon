@@ -25,7 +25,7 @@ public final class MultithreadJamonComparison {
 	public static void main(String[] args) throws InterruptedException {
 		int round = 1;
 		while (true) {
-			System.out.println("\nRound: " + round);
+			System.out.println("\nRound: " + round++);
 			Stopwatch simon = SimonFactory.getStopwatch(null).start();
 			latch = new CountDownLatch(THREADS);
 			for (int i = 0; i < THREADS; i++) {
@@ -45,8 +45,6 @@ public final class MultithreadJamonComparison {
 			simon.stop();
 			System.out.println("Result: " + MonitorFactory.getTimeMonitor("jamon-stopwatch"));
 			System.out.println("Test Jamon: " + simon);
-
-			round++;
 		}
 	}
 

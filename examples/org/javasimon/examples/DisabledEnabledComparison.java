@@ -12,7 +12,6 @@ import org.javasimon.SimonState;
  */
 public final class DisabledEnabledComparison {
 	private static final int LOOP = 10000000;
-	private static final int ROUNDS = 10;
 
 	private DisabledEnabledComparison() {
 	}
@@ -20,8 +19,9 @@ public final class DisabledEnabledComparison {
 	public static void main(String[] args) {
 		Stopwatch tested;
 		Stopwatch stopwatch;
-		for (int round = 1; round <= ROUNDS; round++) {
-			System.out.println("\nRound: " + round);
+		int round = 1;
+		while (true) {
+			System.out.println("\nRound: " + round++);
 			SimonFactory.reset();
 			SimonFactory.enable();
 

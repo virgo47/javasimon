@@ -60,8 +60,12 @@ public interface Simon {
 
 	/**
 	 * Resets the Simon - concrete values depends on the type and the implementation.
+	 *
+	 * @return returns this
 	 */
-	void reset();
+	Simon reset();
 
-	StatProcessor getObservationProcessor();
+	StatProcessor getStatProcessor();
+
+	void setStatProcessor(StatProcessor statProcessor);
 }
