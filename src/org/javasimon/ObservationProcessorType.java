@@ -14,9 +14,9 @@ public enum ObservationProcessorType {
 		switch (this) {
 			case BASIC:
 				return new BasicObservationProcessor();
+			default:
+				return new NullObservationProcessor();
 		}
-
-		// default - null implementation
-		return new NullObservationProcessor();
 	}
+
 }
