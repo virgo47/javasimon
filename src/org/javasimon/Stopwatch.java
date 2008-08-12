@@ -20,4 +20,6 @@ public interface Stopwatch extends Simon {
 	long getMax();
 
 	long getMin();
+
+	Stopwatch reset();
 }

@@ -17,8 +17,8 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 
 	private long min = Long.MAX_VALUE;
 
-	public StopwatchImpl(String name, StatProcessor observationProcessor) {
-		super(name, observationProcessor);
+	public StopwatchImpl(String name) {
+		super(name);
 	}
 
 	public synchronized Stopwatch addTime(long ns) {
@@ -29,9 +29,13 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		return this;
 	}
 
-	public synchronized void reset() {
+	public synchronized Stopwatch reset() {
 		total = 0;
 		counter = 0;
+		max = 0;
+		min = Long.MAX_VALUE;
+		start = new ThreadLocal<Long>();
+		return this;
 	}
 
 	public synchronized Stopwatch start() {
@@ -82,7 +86,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 
 	public String toString() {
 		return "Simon Stopwatch: " + super.toString() +
-			" elapsed " + SimonUtils.presentNanoTime(total) +
+			" total " + SimonUtils.presentNanoTime(total) +
 			", counter " + counter +
 			", max " + SimonUtils.presentNanoTime(max) +
 			", min " + SimonUtils.presentNanoTime(min);

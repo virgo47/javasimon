@@ -65,11 +65,4 @@ public final class SimonUtils {
 		}
 		return name.substring(ix + 1);
 	}
-
-	public static double average(double sum, long count) {
-		if (count == 0) {
-			return 0;
-		}
-		return sum / count;
-	}
 }

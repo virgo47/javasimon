@@ -1,7 +1,7 @@
 package org.javasimon;
 
 /**
- * NullObservationProcessor.
+ * NullStatProcessor.
 *
 * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
 * @created Aug 12, 2008

@@ -41,7 +41,8 @@ final class NullSimon implements Counter, Stopwatch {
 		return false;
 	}
 
-	public void reset() {
+	public NullSimon reset() {
+		return this;
 	}
 
 	public void increment() {
@@ -84,8 +85,11 @@ final class NullSimon implements Counter, Stopwatch {
 		return 0;
 	}
 
-	public StatProcessor getObservationProcessor() {
-		return null;
+	public StatProcessor getStatProcessor() {
+		return NullStatProcessor.INSTANCE;
+	}
+
+	public void setStatProcessor(StatProcessor statProcessor) {
 	}
 
 	public String toString() {

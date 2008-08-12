@@ -25,8 +25,8 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	 */
 	private final AtomicLong min = new AtomicLong(0);
 
-	public CounterImpl(String name, StatProcessor observationProcessor) {
-		super(name, observationProcessor);
+	public CounterImpl(String name) {
+		super(name);
 	}
 
 	public void increment() {
@@ -61,10 +61,11 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		}
 	}
 
-	public void reset() {
+	public Counter reset() {
 		counter.set(0);
 		max.set(0);
 		min.set(0);
+		return this;
 	}
 
 	public long getCounter() {

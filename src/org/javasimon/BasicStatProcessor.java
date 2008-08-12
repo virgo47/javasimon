@@ -1,7 +1,7 @@
 package org.javasimon;
 
 /**
- * BasicObservationProcessor.
+ * BasicStatProcessor provides following stats: sum, average.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 12, 2008
