@@ -9,7 +9,7 @@ package org.javasimon;
  */
 final class UnknownSimon extends AbstractSimon {
 	public UnknownSimon(String name) {
-		super(name, NullObservationProcessor.INSTANCE);
+		super(name, NullStatProcessor.INSTANCE);
 	}
 
 	public void reset() {

@@ -21,7 +21,7 @@ interface Factory {
 
 	Collection<String> simonNames();
 
-	Counter getCounter(String name, ObservationProcessorType observationProcessorType);
+	Counter getCounter(String name, StatProcessorType observationProcessorType);
 
-	Stopwatch getStopwatch(String name, ObservationProcessorType observationProcessorType);
+	Stopwatch getStopwatch(String name, StatProcessorType observationProcessorType);
 }

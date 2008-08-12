@@ -21,9 +21,9 @@ abstract class AbstractSimon implements Simon {
 
 	private List<Simon> children = new ArrayList<Simon>();
 
-	private ObservationProcessor observationProcessor;
+	private StatProcessor observationProcessor;
 
-	public AbstractSimon(String name, ObservationProcessor observationProcessor) {
+	public AbstractSimon(String name, StatProcessor observationProcessor) {
 		this.name = name;
 		this.observationProcessor = observationProcessor;
 		if (name == null || name.equals(SimonFactory.ROOT_SIMON_NAME)) {
@@ -114,7 +114,7 @@ abstract class AbstractSimon implements Simon {
 		return state;
 	}
 
-	public ObservationProcessor getObservationProcessor() {
+	public StatProcessor getObservationProcessor() {
 		return observationProcessor;
 	}
 

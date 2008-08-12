@@ -63,5 +63,5 @@ public interface Simon {
 	 */
 	void reset();
 
-	ObservationProcessor getObservationProcessor();
+	StatProcessor getObservationProcessor();
 }
