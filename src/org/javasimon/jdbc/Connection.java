@@ -11,7 +11,7 @@ import java.sql.*;
 /**
  * Trieda Conncetion.
  *
- * @author <a href="mailto:radovan.sninsky@siemens.com">Radovan Sninsky</a>
+ * @author Radovan Sninsky
  * @version $Revision$ $Date$
  * @created 6.8.2008 23:50:57
  * @since 1.0
@@ -21,7 +21,7 @@ public final class Connection implements java.sql.Connection {
 	private java.sql.Connection conn;
 	private String suffix;
 
-	private Stopwatch stopwatch;
+	private Stopwatch life;
 	private Counter active;
 	private Counter commits;
 	private Counter rollbacks;
@@ -30,26 +30,88 @@ public final class Connection implements java.sql.Connection {
 		this.conn = conn;
 		this.suffix = suffix;
 
-		stopwatch = SimonFactory.getStopwatch(suffix + ".conn").start();
+		life = SimonFactory.getStopwatch(suffix + ".conn").start();
 		active = SimonFactory.getCounter(suffix + ".conn.active").increment();
 		commits = SimonFactory.getCounter(suffix + ".conn.commits");
 		rollbacks = SimonFactory.getCounter(suffix + ".conn.rollbacks");
 	}
 
+	public void close() throws SQLException {
+		conn.close();
+
+		life.stop();
+		active.decrement();
+	}
+
+	public void commit() throws SQLException {
+		conn.commit();
+
+		commits.increment();
+	}
+
+	public void rollback() throws SQLException {
+		conn.rollback();
+
+		rollbacks.increment();
+	}
+
+	public void rollback(Savepoint savepoint) throws SQLException {
+		conn.rollback(savepoint);
+	}
+
 	public java.sql.Statement createStatement() throws SQLException {
-		// Todo return simon impl
-		return conn.createStatement();
+		return new Statement(conn.createStatement(), suffix);
+	}
+
+	public java.sql.Statement createStatement(int i, int i1) throws SQLException {
+		return new Statement(conn.createStatement(i, i1), suffix);
+	}
+
+	public java.sql.Statement createStatement(int i, int i1, int i2) throws SQLException {
+		return new Statement(conn.createStatement(i, i1, i2), suffix);
 	}
 
 	public java.sql.PreparedStatement prepareStatement(String s) throws SQLException {
-		// Todo return simon impl
-		return conn.prepareStatement(s);
+		return new PreparedStatement(conn.prepareStatement(s), s, suffix);
+	}
+
+	public java.sql.PreparedStatement prepareStatement(String s, int i) throws SQLException {
+		return new PreparedStatement(conn.prepareStatement(s, i), s, suffix);
+	}
+
+	public java.sql.PreparedStatement prepareStatement(String s, int i, int i1) throws SQLException {
+		return new PreparedStatement(conn.prepareStatement(s, i, i1), s, suffix);
+	}
+
+	public java.sql.PreparedStatement prepareStatement(String s, int i, int i1, int i2) throws SQLException {
+		return new PreparedStatement(conn.prepareStatement(s, i, i1, i2), s, suffix);
+	}
+
+	public java.sql.PreparedStatement prepareStatement(String s, int[] ints) throws SQLException {
+		return new PreparedStatement(conn.prepareStatement(s, ints), s, suffix);
+	}
+
+	public java.sql.PreparedStatement prepareStatement(String s, String[] strings) throws SQLException {
+		return new PreparedStatement(conn.prepareStatement(s, strings), s, suffix);
 	}
 
 	public CallableStatement prepareCall(String s) throws SQLException {
 		// Todo return simon impl
 		return conn.prepareCall(s);
 	}
+
+	public CallableStatement prepareCall(String s, int i, int i1) throws SQLException {
+		// Todo return simon impl
+		return conn.prepareCall(s, i, i1);
+	}
+
+	public CallableStatement prepareCall(String s, int i, int i1, int i2) throws SQLException {
+		// Todo return simon impl
+		return conn.prepareCall(s, i, i1, i2);
+	}
+
+
+/////////////////// Not interesting methods for monitoring
 
 	public String nativeSQL(String s) throws SQLException {
 		return conn.nativeSQL(s);
@@ -61,25 +123,6 @@ public final class Connection implements java.sql.Connection {
 
 	public boolean getAutoCommit() throws SQLException {
 		return conn.getAutoCommit();
-	}
-
-	public void commit() throws SQLException {
-		conn.commit();
-		
-		commits.increment();
-	}
-
-	public void rollback() throws SQLException {
-		conn.rollback();
-
-		rollbacks.increment();
-	}
-
-	public void close() throws SQLException {
-		conn.close();
-
-		stopwatch.stop();
-		active.decrement();
 	}
 
 	public boolean isClosed() throws SQLException {
@@ -122,21 +165,6 @@ public final class Connection implements java.sql.Connection {
 		conn.clearWarnings();
 	}
 
-	public java.sql.Statement createStatement(int i, int i1) throws SQLException {
-		// Todo return simon impl
-		return conn.createStatement(i, i1);
-	}
-
-	public java.sql.PreparedStatement prepareStatement(String s, int i, int i1) throws SQLException {
-		// Todo return simon impl
-		return conn.prepareStatement(s, i, i1);
-	}
-
-	public CallableStatement prepareCall(String s, int i, int i1) throws SQLException {
-		// Todo return simon impl
-		return conn.prepareCall(s, i, i1);
-	}
-
 	public Map<String, Class<?>> getTypeMap() throws SQLException {
 		return conn.getTypeMap();
 	}
@@ -161,42 +189,8 @@ public final class Connection implements java.sql.Connection {
 		return conn.setSavepoint(s);
 	}
 
-	public void rollback(Savepoint savepoint) throws SQLException {
-		conn.rollback(savepoint);
-	}
-
 	public void releaseSavepoint(Savepoint savepoint) throws SQLException {
 		conn.releaseSavepoint(savepoint);
-	}
-
-	public java.sql.Statement createStatement(int i, int i1, int i2) throws SQLException {
-		// Todo return simon impl
-		return conn.createStatement(i, i1, i2);
-	}
-
-	public java.sql.PreparedStatement prepareStatement(String s, int i, int i1, int i2) throws SQLException {
-		// Todo return simon impl
-		return conn.prepareStatement(s, i, i1, i2);
-	}
-
-	public CallableStatement prepareCall(String s, int i, int i1, int i2) throws SQLException {
-		// Todo return simon impl
-		return conn.prepareCall(s, i, i1, i2);
-	}
-
-	public java.sql.PreparedStatement prepareStatement(String s, int i) throws SQLException {
-		// Todo return simon impl
-		return conn.prepareStatement(s, i);
-	}
-
-	public java.sql.PreparedStatement prepareStatement(String s, int[] ints) throws SQLException {
-		// Todo return simon impl
-		return conn.prepareStatement(s, ints);
-	}
-
-	public java.sql.PreparedStatement prepareStatement(String s, String[] strings) throws SQLException {
-		// Todo return simon impl
-		return conn.prepareStatement(s, strings);
 	}
 
 	public Clob createClob() throws SQLException {
