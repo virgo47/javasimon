@@ -2,6 +2,7 @@ package org.javasimon.examples;
 
 import org.javasimon.Stopwatch;
 import org.javasimon.SimonFactory;
+import org.javasimon.Simon;
 
 /**
  * JamonComparison.
@@ -11,78 +12,96 @@ import org.javasimon.SimonFactory;
  */
 public final class NanoMillisComparison {
 	private static final int LOOP = 10000000;
+	private static Stopwatch nanos;
+	private static Stopwatch empty;
+	private static Stopwatch millis;
+	private static Stopwatch assignMs;
+	private static Stopwatch start;
+	private static Stopwatch simpleStart;
+	private static Stopwatch assignNs;
 
 	private NanoMillisComparison() {
 	}
 
 	public static void main(String[] args) {
-		int round = 1;
-		while (true) {
-			System.out.println("\nRound: " + round++);
+		DataCollector collector = null;
+		for (int round = 1; round <= 5; round++) {
+			System.out.println("\nRound: " + round);
 			emptyTest();
 			millisTest();
 			nanoTest();
 			msAssignTest();
-			nsAssignTest();
-			simonStart();
-			simonSimpleStart();
+//			nsAssignTest();
+//			simonStart();
+//			simonSimpleStart();
+			if (collector == null) {
+				 collector = new DataCollector(empty, millis, nanos, assignMs) {
+					 public double obtainValue(Simon simon) {
+						 return ((Stopwatch) simon).getTotal();
+					 }
+				 };
+			}
+			collector.collect();
 		}
+		System.out.println("\nGoogle Chart:\n" + GoogleChartGenerator.barChart(collector, "10M-loop duration", 1000000, "ms"));
 	}
 
 	private static void nanoTest() {
-		Stopwatch stopwatch = SimonFactory.getStopwatch("nanos").reset().start();
+		nanos = SimonFactory.getStopwatch("nanos").reset().start();
 		for (int i = 0; i < LOOP; i++) {
 			System.nanoTime();
 		}
-		System.out.println("Nanos: " + stopwatch.stop());
+		nanos.stop();
+		System.out.println("Nanos: " + nanos);
 	}
 
 	private static void emptyTest() {
-		Stopwatch stopwatch = SimonFactory.getStopwatch("empty").reset().start();
+		empty = SimonFactory.getStopwatch("empty").reset().start();
 		for (int i = 0; i < LOOP; i++) {
 		}
-		System.out.println("Empty: " + stopwatch.stop());
+		empty.stop();
+		System.out.println("Empty: " + empty);
 	}
 
 	private static void millisTest() {
-		Stopwatch stopwatch = SimonFactory.getStopwatch("millis").reset().start();
+		millis = SimonFactory.getStopwatch("millis").reset().start();
 		for (int i = 0; i < LOOP; i++) {
 			System.currentTimeMillis();
 		}
-		System.out.println("Millis: " + stopwatch.stop());
+		System.out.println("Millis: " + millis.stop());
 	}
 
 	private static void msAssignTest() {
-		Stopwatch stopwatch = SimonFactory.getStopwatch("assign-ms").reset().start();
+		assignMs = SimonFactory.getStopwatch("assign-ms").reset().start();
 		for (int i = 0; i < LOOP; i++) {
 			long ms = System.currentTimeMillis();
 		}
-		System.out.println("Assign ms: " + stopwatch.stop());
+		System.out.println("Assign ms: " + assignMs.stop());
 	}
 
 	private static void nsAssignTest() {
-		Stopwatch stopwatch = SimonFactory.getStopwatch("assign-ns").reset().start();
+		assignNs = SimonFactory.getStopwatch("assign-ns").reset().start();
 		for (int i = 0; i < LOOP; i++) {
 			long ns = System.nanoTime();
 		}
-		System.out.println("Assign ns: " + stopwatch.stop());
+		System.out.println("Assign ns: " + assignNs.stop());
 	}
 
 	private static void simonStart() {
 		Stopwatch simon = SimonFactory.getStopwatch(null);
-		Stopwatch stopwatch = SimonFactory.getStopwatch("simonstart").reset().start();
+		start = SimonFactory.getStopwatch("simonstart").reset().start();
 		for (int i = 0; i < LOOP; i++) {
 			simon.start();
 		}
-		System.out.println("Threadsafe start: " + stopwatch.stop());
+		System.out.println("Threadsafe start: " + start.stop());
 	}
 
 	private static void simonSimpleStart() {
 		Stopwatch simon = SimonFactory.getSimpleStopwatch(null);
-		Stopwatch stopwatch = SimonFactory.getStopwatch("simplestart").reset().start();
+		simpleStart = SimonFactory.getStopwatch("simplestart").reset().start();
 		for (int i = 0; i < LOOP; i++) {
 			simon.start();
 		}
-		System.out.println("Unsafe start: " + stopwatch.stop());
+		System.out.println("Unsafe start: " + simpleStart.stop());
 	}
 }
