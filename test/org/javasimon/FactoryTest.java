@@ -86,6 +86,16 @@ public final class FactoryTest {
 	}
 
 	@Test
+	public void testUnknownSimonReplacement() {
+		Counter counter = SimonFactory.getCounter(ORG_JAVASIMON_TEST_COUNTER);
+		Assert.assertTrue(counter.isEnabled());
+		String parentName = counter.getParent().getName();
+		Assert.assertTrue(SimonFactory.getSimon(parentName).isEnabled());
+		Assert.assertTrue(SimonFactory.getStopwatch(parentName).isEnabled());
+		Assert.assertTrue(SimonFactory.getCounter(ORG_JAVASIMON_TEST_COUNTER).isEnabled());
+	}
+
+	@Test
 	public void testGeneratedNames() {
 		Assert.assertEquals(SimonFactory.generateName("-stopwatch", true), getClass().getName() + ".testGeneratedNames-stopwatch");
 

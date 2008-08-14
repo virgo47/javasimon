@@ -65,7 +65,35 @@ public interface Simon {
 	 */
 	Simon reset();
 
+	/**
+	 * Returns statistics processor assigned to the Simon. StatProcessor extends Simon
+	 * with providing more statistic information about measured data (observations).
+	 *
+	 * @return statistics processor
+	 */
 	StatProcessor getStatProcessor();
 
+	/**
+	 * Sets statistics processor assigned to the Simon. StatProcessor extends Simon
+	 * with providing more statistic information about measured data (observations).
+	 *
+	 * @param statProcessor statistics processor
+	 */
 	void setStatProcessor(StatProcessor statProcessor);
+
+	/**
+	 * Returns note for the Simon. Note allows you to add additional information in human
+	 * readable form to the Simon.
+	 *
+	 * @return note for the Simon.
+	 */
+	String getNote();
+
+	/**
+	 * Sets note for the Simon. Note allows you to add additional information in human
+	 * readable form to the Simon.
+	 *
+	 * @param note note for the Simon.
+	 */
+	void setNote(String note);
 }

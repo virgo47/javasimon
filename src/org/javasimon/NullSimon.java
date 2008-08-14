@@ -96,6 +96,23 @@ final class NullSimon implements Counter, Stopwatch {
 	public void setStatProcessor(StatProcessor statProcessor) {
 	}
 
+	/**
+	 * Returns note for the Simon.
+	 *
+	 * @return note for the Simon.
+	 */
+	public String getNote() {
+		return null;
+	}
+
+	/**
+	 * Sets note for the Simon.
+	 *
+	 * @param note note for the Simon.
+	 */
+	public void setNote(String note) {
+	}
+
 	public String toString() {
 		return "Null Simon";
 	}
