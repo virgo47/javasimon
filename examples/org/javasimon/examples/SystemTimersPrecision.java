@@ -8,8 +8,8 @@ package org.javasimon.examples;
  * native method it's probably completely pointless. However results are printed 5 times during the
  * loop and you can check how well nanoTime call works.
  * <p/>
- * On my testing environment (Intel Q6600 2.4GHz quad core, 2GB RAM, Windows XP, JDK 1.6.0_05) it currently
- * provides following output (fifth rounds only):
+ * On my testing environment (Intel Q6600 Core 2 Quad @2.4GHz, 2GB RAM, Windows XP, JDK 1.6.0_05)
+ * it currently provides following output (fifth rounds only):
  * <pre>
  * msChanges: 188 during 2938 ms
  * nsChanges: 10000000 during 2930945951 ns
@@ -23,7 +23,14 @@ package org.javasimon.examples;
  * As you can see, ms timer is changed quite rarely while ns timer is changed on every call. This promises much
  * better precision with nanoTime instead of currentTimeMillis. However you may observe completely different
  * results on different platform. That's why you should always find out how these calls behave in your target
- * environment. 
+ * environment.
+ *
+ * Linux test shows roughly 1ms precision of 1ms timer, which is much better if you measure something that
+ * lasts more than 1 ms (Intel Pentium 4@2.8 GHz, 2.5GB RAM, Ubuntu 8.04, kernel 2.6.24, JDK 1.6.0_02):
+ * <pre>
+ * msChanges: 9132 during 9249 ms
+ * nsChanges: 10000000 during 9249735411 ns
+ * </pre>
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 13, 2008

@@ -1,4 +1,4 @@
-package org.javasimon.examples;
+package org.javasimon.examples.utils;
 
 import org.javasimon.Simon;
 

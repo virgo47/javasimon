@@ -1,10 +1,9 @@
-package org.javasimon.examples;
+package org.javasimon.examples.utils;
 
 import org.javasimon.Simon;
+import org.javasimon.examples.utils.DataCollector;
 
 import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.text.DecimalFormat;
 
