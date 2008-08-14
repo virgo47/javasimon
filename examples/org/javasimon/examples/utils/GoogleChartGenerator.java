@@ -1,7 +1,6 @@
 package org.javasimon.examples.utils;
 
 import org.javasimon.Simon;
-import org.javasimon.examples.utils.DataCollector;
 
 import java.util.List;
 import java.util.LinkedList;
@@ -14,7 +13,7 @@ import java.text.DecimalFormat;
  * @created Aug 13, 2008
  */
 public final class GoogleChartGenerator {
-	private static final String URL_START = "http://chart.apis.google.com/chart?chs=400x300";
+	private static final String URL_START = "http://chart.apis.google.com/chart?chs=600x300";
 	private static final String TYPE_BAR = "&cht=bvg&chbh=32,10,60&chco=4d89f9,c6d9fd&chxt=x,x,y";
 	private static final DecimalFormat nf = new DecimalFormat("0.00");
 
