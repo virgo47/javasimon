@@ -11,7 +11,7 @@ public interface Stopwatch extends Simon {
 
 	Stopwatch start();
 
-	Stopwatch stop();
+	long stop();
 
 	long getTotal();
 

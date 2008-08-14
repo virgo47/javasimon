@@ -81,8 +81,8 @@ final class NullSimon implements Counter, Stopwatch {
 		return this;
 	}
 
-	public Stopwatch stop() {
-		return this;
+	public long stop() {
+		return 0;
 	}
 
 	public long getTotal() {

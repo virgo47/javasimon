@@ -42,7 +42,7 @@ final class SimpleStopwatch extends AbstractSimon implements Stopwatch {
 		return this;
 	}
 
-	public Stopwatch stop() {
+	public long stop() {
 		counter++;
 		long split = System.nanoTime() - start;
 		total += split;
@@ -52,7 +52,7 @@ final class SimpleStopwatch extends AbstractSimon implements Stopwatch {
 		if (split < min) {
 			min = split;
 		}
-		return this;
+		return split;
 	}
 
 	public long getTotal() {

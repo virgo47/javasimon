@@ -44,18 +44,17 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		return this;
 	}
 
-	public Stopwatch stop() {
+	public long stop() {
 		if (enabled) {
 			Long end = start.get();
-			if (end == null) {
-				return this;
+			if (end != null) {
+				return addSplit(System.nanoTime() - end);
 			}
-			addSplit(System.nanoTime() - end);
 		}
-		return this;
+		return 0;
 	}
 
-	private synchronized void addSplit(long split) {
+	private synchronized long addSplit(long split) {
 		total += split;
 		counter++;
 		if (split > max) {
@@ -64,6 +63,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		if (split < min) {
 			min = split;
 		}
+		return split;
 	}
 
 	public long getTotal() {
@@ -91,6 +91,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 			" total " + SimonUtils.presentNanoTime(total) +
 			", counter " + counter +
 			", max " + SimonUtils.presentNanoTime(max) +
-			", min " + SimonUtils.presentNanoTime(min);
+			", min " + SimonUtils.presentNanoTime(min) +
+			(getNote() != null && !getNote().isEmpty() ? ", note '" + getNote() + "'" : "");
 	}
 }
