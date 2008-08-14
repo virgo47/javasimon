@@ -60,15 +60,15 @@ public final class Connection implements java.sql.Connection {
 	}
 
 	public java.sql.Statement createStatement() throws SQLException {
-		return new Statement(conn.createStatement(), suffix);
+		return new Statement(this, conn.createStatement(), suffix);
 	}
 
 	public java.sql.Statement createStatement(int i, int i1) throws SQLException {
-		return new Statement(conn.createStatement(i, i1), suffix);
+		return new Statement(this, conn.createStatement(i, i1), suffix);
 	}
 
 	public java.sql.Statement createStatement(int i, int i1, int i2) throws SQLException {
-		return new Statement(conn.createStatement(i, i1, i2), suffix);
+		return new Statement(this, conn.createStatement(i, i1, i2), suffix);
 	}
 
 	public java.sql.PreparedStatement prepareStatement(String s) throws SQLException {
