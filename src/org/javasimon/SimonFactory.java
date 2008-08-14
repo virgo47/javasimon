@@ -163,7 +163,7 @@ public final class SimonFactory {
 		newSimon.enabled = simon.enabled;
 
 		// fixes parent link and parent's children list
-		((AbstractSimon) simon.getParent()).replace(simon, newSimon);
+		((AbstractSimon) simon.getParent()).replaceChild(simon, newSimon);
 
 		// fixes children list and all children's parent link
 		for (Simon child : simon.getChildren()) {
