@@ -123,16 +123,6 @@ public final class SimonFactory {
 	}
 
 	/**
-	 * Returns existing simple stopwatch or creates new if necessary. Simple stopwatch is not threadsafe.
-	 *
-	 * @param name name of the Stopwatch
-	 * @return stopwatch object
-	 */
-	public static Stopwatch getSimpleStopwatch(String name) {
-		return factory.getStopwatch(name);
-	}
-
-	/**
 	 * Autogenerates name for the Simon.
 	 *
 	 * @param suffix name suffix for eventual Simon discrimination
@@ -256,10 +246,6 @@ public final class SimonFactory {
 			return (Stopwatch) getOrCreateSimon(name, StopwatchImpl.class);
 		}
 
-		public Stopwatch getSimpleStopwatch(String name) {
-			return (Stopwatch) getOrCreateSimon(name, SimpleStopwatch.class);
-		}
-
 		public String generateName(String suffix, boolean includeMethodName) {
 			StackTraceElement stackElement = Thread.currentThread().getStackTrace()[3];
 			StringBuilder nameBuilder = new StringBuilder(stackElement.getClassName());
@@ -293,10 +279,6 @@ public final class SimonFactory {
 		}
 
 		public Stopwatch getStopwatch(String name) {
-			return NullSimon.INSTANCE;
-		}
-
-		public Stopwatch getSimpleStopwatch(String name) {
 			return NullSimon.INSTANCE;
 		}
 

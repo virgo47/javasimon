@@ -17,8 +17,6 @@ interface Factory {
 
 	Stopwatch getStopwatch(String name);
 
-	Stopwatch getSimpleStopwatch(String name);
-
 	String generateName(String suffix, boolean includeMethodName);
 
 	Collection<String> simonNames();

@@ -6,19 +6,19 @@ import org.javasimon.Simon;
 import org.javasimon.examples.utils.*;
 
 /**
- * JamonComparison.
+ * Various timer calles compared along with stopwatch start/stop calls.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 7, 2008
  */
 public final class NanoMillisComparison {
 	private static final int LOOP = 10000000;
+
 	private static Stopwatch nanos;
 	private static Stopwatch empty;
 	private static Stopwatch millis;
 	private static Stopwatch assignMs;
-	private static Stopwatch start;
-	private static Stopwatch simpleStart;
+	private static Stopwatch stopwatch;
 	private static Stopwatch assignNs;
 
 	private NanoMillisComparison() {
@@ -32,11 +32,10 @@ public final class NanoMillisComparison {
 			millisTest();
 			nanoTest();
 			msAssignTest();
-//			nsAssignTest();
-//			simonStart();
-//			simonSimpleStart();
+			nsAssignTest();
+			simonUsage();
 			if (collector == null) {
-				 collector = new DataCollector(empty, millis, nanos, assignMs) {
+				 collector = new DataCollector(empty, millis, nanos, assignMs, assignNs, stopwatch) {
 					 public double obtainValue(Simon simon) {
 						 return ((Stopwatch) simon).getTotal();
 					 }
@@ -88,21 +87,13 @@ public final class NanoMillisComparison {
 		System.out.println("Assign ns: " + assignNs.stop());
 	}
 
-	private static void simonStart() {
+	private static void simonUsage() {
 		Stopwatch simon = SimonFactory.getStopwatch(null);
-		start = SimonFactory.getStopwatch("simonstart").reset().start();
+		stopwatch = SimonFactory.getStopwatch("stopwatch").reset().start();
 		for (int i = 0; i < LOOP; i++) {
 			simon.start();
+			simon.stop();
 		}
-		System.out.println("Threadsafe start: " + start.stop());
-	}
-
-	private static void simonSimpleStart() {
-		Stopwatch simon = SimonFactory.getSimpleStopwatch(null);
-		simpleStart = SimonFactory.getStopwatch("simplestart").reset().start();
-		for (int i = 0; i < LOOP; i++) {
-			simon.start();
-		}
-		System.out.println("Unsafe start: " + simpleStart.stop());
+		System.out.println("Threadsafe: " + stopwatch.stop());
 	}
 }

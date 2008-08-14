@@ -22,8 +22,9 @@ public final class StopwatchTest {
 	@Test
 	public void basicStopwatchTest() {
 		Stopwatch stopwatch = SimonFactory.getStopwatch(STOPWATCH_NAME).start();
-		stopwatch.stop();
+		long split = stopwatch.stop();
 		Assert.assertTrue(stopwatch.getTotal() >= 0);
+		Assert.assertEquals(stopwatch.getTotal(), split);
 		Assert.assertEquals(stopwatch.getCounter(), 1);
 		Assert.assertEquals(stopwatch.getMax(), stopwatch.getTotal());
 		Assert.assertEquals(stopwatch.getMin(), stopwatch.getTotal());
