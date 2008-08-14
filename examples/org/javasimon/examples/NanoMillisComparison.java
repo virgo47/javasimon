@@ -3,6 +3,7 @@ package org.javasimon.examples;
 import org.javasimon.Stopwatch;
 import org.javasimon.SimonFactory;
 import org.javasimon.Simon;
+import org.javasimon.examples.utils.*;
 
 /**
  * JamonComparison.

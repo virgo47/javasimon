@@ -23,8 +23,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 
 	public synchronized Stopwatch addTime(long ns) {
 		if (enabled) {
-			total += ns;
-			counter++;
+			addSplit(ns);
 		}
 		return this;
 	}
@@ -38,30 +37,33 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		return this;
 	}
 
-	public synchronized Stopwatch start() {
+	public Stopwatch start() {
 		if (enabled) {
 			start.set(System.nanoTime());
 		}
 		return this;
 	}
 
-	public synchronized Stopwatch stop() {
+	public Stopwatch stop() {
 		if (enabled) {
 			Long end = start.get();
 			if (end == null) {
 				return this;
 			}
-			long split = System.nanoTime() - end;
-			total += split;
-			counter++;
-			if (split > max) {
-				max = split;
-			}
-			if (split < min) {
-				min = split;
-			}
+			addSplit(System.nanoTime() - end);
 		}
 		return this;
+	}
+
+	private synchronized void addSplit(long split) {
+		total += split;
+		counter++;
+		if (split > max) {
+			max = split;
+		}
+		if (split < min) {
+			min = split;
+		}
 	}
 
 	public long getTotal() {
