@@ -149,7 +149,7 @@ public final class SimonFactory {
 		if (simon == null) {
 			simon = newSimon(name, simonClass);
 		} else if (simon instanceof UnknownSimon) {
-			simon = replaceSimon(simon, simonClass);
+			simon = replaceSimon((UnknownSimon) simon, simonClass);
 		} else {
 			if (!(simonClass.isInstance(simon))) {
 				throw new SimonException("Simon named '" + name + "' already exists and its type is '" + simon.getClass().getName() + "' while requested type is '" + simonClass.getName() + "'.");
@@ -158,8 +158,10 @@ public final class SimonFactory {
 		return simon;
 	}
 
-	private static Simon replaceSimon(Simon simon, Class<? extends AbstractSimon> simonClass) {
+	private static Simon replaceSimon(UnknownSimon simon, Class<? extends AbstractSimon> simonClass) {
 		AbstractSimon newSimon = instantiateSimon(simon.getName(), simonClass);
+		newSimon.enabled = simon.enabled;
+
 		// fixes parent link and parent's children list
 		((AbstractSimon) simon.getParent()).replace(simon, newSimon);
 
