@@ -6,8 +6,6 @@ import org.javasimon.Counter;
 
 import java.sql.*;
 import java.sql.Connection;
-import java.util.Map;
-import java.util.HashMap;
 
 /**
  * Trieda Statement.
@@ -17,23 +15,19 @@ import java.util.HashMap;
  * @created 8.8.2008 0:25:33
  * @since 1.0
  */
-public class Statement implements java.sql.Statement {
+public final class Statement implements java.sql.Statement {
 
+	private Connection conn;
 	private java.sql.Statement stmt;
-	private String sql;
+	private String suffix;
 	private Stopwatch life;
 	private Counter active;
 
-	private Map<String, Stopwatch> cmds = new HashMap<String, Stopwatch>();
-
-	public Statement(java.sql.Statement stmt, String suffix) {
+	Statement(Connection conn, java.sql.Statement stmt, String suffix) {
+		this.conn = conn;
 		this.stmt = stmt;
+		this.suffix = suffix;
 
-		cmds.put("select", SimonFactory.getStopwatch(suffix + ".stmt.select"));
-		cmds.put("insert", SimonFactory.getStopwatch(suffix + ".stmt.insert"));
-		cmds.put("update", SimonFactory.getStopwatch(suffix + ".stmt.update"));
-		cmds.put("delete", SimonFactory.getStopwatch(suffix + ".stmt.delete"));
-		cmds.put("call", SimonFactory.getStopwatch(suffix + ".stmt.call"));
 		active = SimonFactory.getCounter(suffix + ".stmt.active").increment();
 		life = SimonFactory.getStopwatch(suffix + ".stmt").start();
 	}
@@ -45,35 +39,65 @@ public class Statement implements java.sql.Statement {
 		active.decrement();
 	}
 
-	public ResultSet executeQuery(String s) throws SQLException {
-		// Todo do monitoring
-		// determine sql cmd monitor
-		// get sql cmd monitor
+	public Connection getConnection() throws SQLException {
+		return conn;
+	}
 
-		// normalize sql string
-		// find monitor with sql normalized string
-		// if not create new one
-		// start sql
-
-		// start sql cmd
-		// finally { stop sql cmd & stop sql }
-
-		Stopwatch sw = cmds.get("select").start();
+	public ResultSet executeQuery(String sql) throws SQLException {
+		String sqlCmdLabel = suffix + "." + determineSqlCmdType(sql);
+		String normalizedSql = normalizeSql(sql);
+		Stopwatch s = sql != null ? SimonFactory.getStopwatch(sqlCmdLabel + "." + normalizedSql.hashCode()).start() : null;
 		try {
-			return stmt.executeQuery(s);
+			return stmt.executeQuery(sql);
 		} finally {
-			sw.stop();
+			if (s != null) {
+				SimonFactory.getStopwatch(sqlCmdLabel).addTime(s.stop());
+				s.setNote(normalizedSql);
+			}
 		}
 	}
 
-	public int executeUpdate(String s) throws SQLException {
-		// Todo do monitoring
-		return stmt.executeUpdate(s);
+	private String determineSqlCmdType(String sql) {
+		if (sql != null) {
+			String s = sql.trim();
+			int i = s.indexOf(' ');
+			return (i > -1 ? s.substring(0, i) : s).toLowerCase();
+		} else {
+			return null;
+		}
 	}
 
-	public boolean execute(String s) throws SQLException {
-		// Todo do monitoring
-		return stmt.execute(s);
+	private String normalizeSql(String sql) {
+		// Todo implement sql normalization
+		return sql;
+	}
+
+	public int executeUpdate(String sql) throws SQLException {
+		String sqlCmdLabel = suffix + "." + determineSqlCmdType(sql);
+		String normalizedSql = normalizeSql(sql);
+		Stopwatch s = sql != null ? SimonFactory.getStopwatch(sqlCmdLabel + "." + normalizedSql.hashCode()).start() : null;
+		try {
+			return stmt.executeUpdate(sql);
+		} finally {
+			if (s != null) {
+				SimonFactory.getStopwatch(sqlCmdLabel).addTime(s.stop());
+				s.setNote(normalizedSql);
+			}
+		}
+	}
+
+	public boolean execute(String sql) throws SQLException {
+		String sqlCmdLabel = suffix + "." + determineSqlCmdType(sql);
+		String normalizedSql = normalizeSql(sql);
+		Stopwatch s = sql != null ? SimonFactory.getStopwatch(sqlCmdLabel + "." + normalizedSql.hashCode()).start() : null;
+		try {
+			return stmt.execute(sql);
+		} finally {
+			if (s != null) {
+				SimonFactory.getStopwatch(sqlCmdLabel).addTime(s.stop());
+				s.setNote(normalizedSql);
+			}
+		}
 	}
 
 	public void addBatch(String s) throws SQLException {
@@ -86,39 +110,88 @@ public class Statement implements java.sql.Statement {
 		return stmt.executeBatch();
 	}
 
-	public Connection getConnection() throws SQLException {
-		// Todo do monitoring
-		return stmt.getConnection();
+	public int executeUpdate(String sql, int i) throws SQLException {
+		String sqlCmdLabel = suffix + "." + determineSqlCmdType(sql);
+		String normalizedSql = normalizeSql(sql);
+		Stopwatch s = sql != null ? SimonFactory.getStopwatch(sqlCmdLabel + "." + normalizedSql.hashCode()).start() : null;
+		try {
+			return stmt.executeUpdate(sql, i);
+		} finally {
+			if (s != null) {
+				SimonFactory.getStopwatch(sqlCmdLabel).addTime(s.stop());
+				s.setNote(normalizedSql);
+			}
+		}
 	}
 
-	public int executeUpdate(String s, int i) throws SQLException {
-		// Todo do monitoring
-		return stmt.executeUpdate(s, i);
+	public int executeUpdate(String sql, int[] ints) throws SQLException {
+		String sqlCmdLabel = suffix + "." + determineSqlCmdType(sql);
+		String normalizedSql = normalizeSql(sql);
+		Stopwatch s = sql != null ? SimonFactory.getStopwatch(sqlCmdLabel + "." + normalizedSql.hashCode()).start() : null;
+		try {
+			return stmt.executeUpdate(sql, ints);
+		} finally {
+			if (s != null) {
+				SimonFactory.getStopwatch(sqlCmdLabel).addTime(s.stop());
+				s.setNote(normalizedSql);
+			}
+		}
 	}
 
-	public int executeUpdate(String s, int[] ints) throws SQLException {
-		// Todo do monitoring
-		return stmt.executeUpdate(s, ints);
+	public int executeUpdate(String sql, String[] strings) throws SQLException {
+		String sqlCmdLabel = suffix + "." + determineSqlCmdType(sql);
+		String normalizedSql = normalizeSql(sql);
+		Stopwatch s = sql != null ? SimonFactory.getStopwatch(sqlCmdLabel + "." + normalizedSql.hashCode()).start() : null;
+		try {
+			return stmt.executeUpdate(sql, strings);
+		} finally {
+			if (s != null) {
+				SimonFactory.getStopwatch(sqlCmdLabel).addTime(s.stop());
+				s.setNote(normalizedSql);
+			}
+		}
 	}
 
-	public int executeUpdate(String s, String[] strings) throws SQLException {
-		// Todo do monitoring
-		return stmt.executeUpdate(s, strings);
+	public boolean execute(String sql, int i) throws SQLException {
+		String sqlCmdLabel = suffix + "." + determineSqlCmdType(sql);
+		String normalizedSql = normalizeSql(sql);
+		Stopwatch s = sql != null ? SimonFactory.getStopwatch(sqlCmdLabel + "." + normalizedSql.hashCode()).start() : null;
+		try {
+			return stmt.execute(sql, i);
+		} finally {
+			if (s != null) {
+				SimonFactory.getStopwatch(sqlCmdLabel).addTime(s.stop());
+				s.setNote(normalizedSql);
+			}
+		}
 	}
 
-	public boolean execute(String s, int i) throws SQLException {
-		// Todo do monitoring
-		return stmt.execute(s, i);
+	public boolean execute(String sql, int[] ints) throws SQLException {
+		String sqlCmdLabel = suffix + "." + determineSqlCmdType(sql);
+		String normalizedSql = normalizeSql(sql);
+		Stopwatch s = sql != null ? SimonFactory.getStopwatch(sqlCmdLabel + "." + normalizedSql.hashCode()).start() : null;
+		try {
+			return stmt.execute(sql, ints);
+		} finally {
+			if (s != null) {
+				SimonFactory.getStopwatch(sqlCmdLabel).addTime(s.stop());
+				s.setNote(normalizedSql);
+			}
+		}
 	}
 
-	public boolean execute(String s, int[] ints) throws SQLException {
-		// Todo do monitoring
-		return stmt.execute(s, ints);
-	}
-
-	public boolean execute(String s, String[] strings) throws SQLException {
-		// Todo do monitoring
-		return stmt.execute(s, strings);
+	public boolean execute(String sql, String[] strings) throws SQLException {
+		String sqlCmdLabel = suffix + "." + determineSqlCmdType(sql);
+		String normalizedSql = normalizeSql(sql);
+		Stopwatch s = sql != null ? SimonFactory.getStopwatch(sqlCmdLabel + "." + normalizedSql.hashCode()).start() : null;
+		try {
+			return stmt.execute(sql, strings);
+		} finally {
+			if (s != null) {
+				SimonFactory.getStopwatch(sqlCmdLabel).addTime(s.stop());
+				s.setNote(normalizedSql);
+			}
+		}
 	}
 
 
