@@ -1,4 +1,4 @@
-package org.javasimon.examples.utils;
+package org.javasimon.utils;
 
 import org.javasimon.Simon;
 
@@ -7,7 +7,8 @@ import java.util.LinkedList;
 import java.text.DecimalFormat;
 
 /**
- * GoogleChartGenerator.
+ * GoogleChartGenerator is utility class producing URLs for Google Chart API. Charts (URLs) will
+ * probably need additional adjustment, but most of the work will be done by the tool.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 13, 2008
