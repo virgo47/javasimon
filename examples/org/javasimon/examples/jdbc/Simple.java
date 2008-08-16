@@ -16,9 +16,11 @@ import java.util.Random;
  */
 public class Simple {
 
-	private static final Random rand = new Random();
+	private final Random rand = new Random();
 
-	private static void setUp() throws SQLException {
+	public Simple() {
+	}
+	protected void setUp() throws SQLException {
 		Connection c = null;
 		try {
 			c = DriverManager.getConnection("jdbc:h2:mem:db1;DB_CLOSE_DELAY=-1");
@@ -32,10 +34,10 @@ public class Simple {
 		}
 	}
 
-	private static void insertRecord(Connection c) throws SQLException {
+	protected void doInsert(Connection c) throws SQLException {
 		PreparedStatement stmt = null;
 		try {
-			stmt = c.prepareStatement("insert into foo values (?, ?)");
+			stmt = c.prepareStatement("insert into foo values (?, ?)  ");
 			stmt.setInt(1, rand.nextInt(99999));
 			stmt.setString(2, "This is a text");
 			stmt.executeUpdate();
@@ -46,7 +48,7 @@ public class Simple {
 		}
 	}
 
-	private static void selectRecord(Connection c) throws SQLException {
+	protected int doSelect(Connection c) throws SQLException {
 		Statement stmt = null;
 		ResultSet rs = null;
 		try {
@@ -56,6 +58,7 @@ public class Simple {
 			while (rs.next()) {
 				count++;
 			}
+			return count;
 		} finally {
 			if (rs != null) {
 				rs.close();
@@ -70,21 +73,22 @@ public class Simple {
 		Class.forName("org.h2.Driver");
 		Class.forName("org.javasimon.jdbc.Driver");
 
-		setUp();
+		Simple s = new Simple();
+		s.setUp();
 
 		Connection conn = null;
 		try {
 			conn = DriverManager.getConnection("jdbc:simon:h2:mem:db1");
 
-			insertRecord(conn);
-
-			selectRecord(conn);
+			s.doInsert(conn);
+			s.doSelect(conn);
 		} finally {
 			if (conn != null) {
 				conn.close();
 			}
 		}
 
+		System.out.println("Simon monitor hierarchy:");
 		SimonUtils.printSimonTree(SimonFactory.getRootSimon());
 	}
 }
