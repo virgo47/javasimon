@@ -20,4 +20,14 @@ interface Factory {
 	String generateName(String suffix, boolean includeMethodName);
 
 	Collection<String> simonNames();
+
+	/**
+	 * Removes Simon from the factory. If Simon has some children it will be replaced
+	 * by UnknownSimon.
+	 *
+	 * @param name name of the Simon
+	 */
+	void destroySimon(String name);
+
+	void reset();
 }

@@ -21,8 +21,8 @@ public final class FactoryTest {
 
 	@BeforeMethod
 	public void resetAndEnable() {
-		SimonFactory.reset();
 		SimonFactory.enable();
+		SimonFactory.reset();
 	}
 
 	@Test
@@ -37,6 +37,12 @@ public final class FactoryTest {
 		SimonFactory.getCounter(parentName);
 		Assert.assertTrue(SimonFactory.getSimon(parentName) instanceof Counter);
 		Assert.assertEquals(SimonFactory.getSimon(parentName).getChildren().size(), 1);
+	}
+
+	@Test(expectedExceptions = SimonException.class)
+	public void testSimonCreationProblem() {
+		SimonFactory.getCounter(ORG_JAVASIMON_TEST_COUNTER);
+		SimonFactory.getStopwatch(ORG_JAVASIMON_TEST_COUNTER);
 	}
 
 	@Test
@@ -93,6 +99,20 @@ public final class FactoryTest {
 		Assert.assertTrue(SimonFactory.getSimon(parentName).isEnabled());
 		Assert.assertTrue(SimonFactory.getStopwatch(parentName).isEnabled());
 		Assert.assertTrue(SimonFactory.getCounter(ORG_JAVASIMON_TEST_COUNTER).isEnabled());
+	}
+
+	@Test
+	public void testDestroySimon() {
+		SimonFactory.getStopwatch(ORG_JAVASIMON_TEST_COUNTER);
+		SimonFactory.destroySimon(ORG_JAVASIMON_TEST_COUNTER);
+		Assert.assertNull(SimonFactory.getSimon(ORG_JAVASIMON_TEST_COUNTER));
+		SimonFactory.getCounter(ORG_JAVASIMON_TEST_COUNTER);
+
+		String counterChildName = ORG_JAVASIMON_TEST_COUNTER + ".child";
+		Stopwatch child = SimonFactory.getStopwatch(counterChildName);
+		SimonFactory.destroySimon(ORG_JAVASIMON_TEST_COUNTER);
+		Assert.assertTrue(SimonFactory.getSimon(ORG_JAVASIMON_TEST_COUNTER) instanceof UnknownSimon);
+		Assert.assertTrue(SimonFactory.getStopwatch(ORG_JAVASIMON_TEST_COUNTER).getChildren().contains(child));
 	}
 
 	@Test

@@ -26,7 +26,11 @@ public final class GoogleChartGenerator {
         REPLACEMENTS.add(new Replacement("&", "%26"));
     }
 
-    public static String barChart(DataCollector collector, String title, double divisor, String unit) {
+	private GoogleChartGenerator() {
+		throw new UnsupportedOperationException();
+	}
+
+	public static String barChart(DataCollector collector, String title, double divisor, String unit) {
 		final StringBuilder result = new StringBuilder(URL_START).append(TYPE_BAR);
 		result.append("&chtt=").append(encode(title));
 		final StringBuilder x0 = new StringBuilder("&chxl=0:");

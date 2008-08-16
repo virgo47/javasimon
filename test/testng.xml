@@ -1,0 +1,14 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="JavaSimon Test Suite" verbose="2" annotations="JDK">
+	<test name="JavaSimon Test">
+		<groups>
+			<run>
+				<exclude name="broken"/>
+			</run>
+		</groups>
+		<classes>
+			<class name="org.javasimon.FactoryTest"/>
+			<class name="org.javasimon.StopwatchTest"/>
+		</classes>
+	</test>
+</suite>

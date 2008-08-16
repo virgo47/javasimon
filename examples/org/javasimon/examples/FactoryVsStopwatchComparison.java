@@ -1,7 +1,7 @@
 package org.javasimon.examples;
 
 import org.javasimon.SimonFactory;
-import org.javasimon.SimonUtils;
+import org.javasimon.utils.SimonUtils;
 import org.javasimon.Stopwatch;
 
 /**

@@ -3,8 +3,6 @@ package org.javasimon;
 import java.util.*;
 import java.util.logging.Logger;
 import java.util.logging.Level;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.io.*;
 
 /**
@@ -21,10 +19,6 @@ public final class SimonFactory {
 	public static final String HIERARCHY_DELIMITER = ".";
 
 	public static final String ROOT_SIMON_NAME = "";
-
-	private static final Map<String, AbstractSimon> allSimons = new HashMap<String, AbstractSimon>();
-
-	private static UnknownSimon rootSimon;
 
 	private static Factory factory = EnabledFactory.INSTANCE;
 
@@ -103,6 +97,15 @@ public final class SimonFactory {
 	}
 
 	/**
+	 * Destroys Simon or replaces it with UnknownSimon if it's necessary to preserve the hierarchy.
+	 *
+	 * @param name name of the Simon
+	 */
+	public static void destroySimon(String name) {
+		factory.destroySimon(name);
+	}
+
+	/**
 	 * Returns existing SimonCounter or creates new if necessary.
 	 *
 	 * @param name name of the counter
@@ -134,77 +137,6 @@ public final class SimonFactory {
 		return factory.generateName(suffix, includeMethodName);
 	}
 
-	private static Simon getOrCreateSimon(String name, Class<? extends AbstractSimon> simonClass) {
-		Simon simon = allSimons.get(name);
-		if (simon == null) {
-			simon = newSimon(name, simonClass);
-		} else if (simon instanceof UnknownSimon) {
-			simon = replaceSimon((UnknownSimon) simon, simonClass);
-		} else {
-			if (!(simonClass.isInstance(simon))) {
-				throw new SimonException("Simon named '" + name + "' already exists and its type is '" + simon.getClass().getName() + "' while requested type is '" + simonClass.getName() + "'.");
-			}
-		}
-		return simon;
-	}
-
-	private static Simon replaceSimon(UnknownSimon simon, Class<? extends AbstractSimon> simonClass) {
-		AbstractSimon newSimon = instantiateSimon(simon.getName(), simonClass);
-		newSimon.enabled = simon.enabled;
-
-		// fixes parent link and parent's children list
-		((AbstractSimon) simon.getParent()).replaceChild(simon, newSimon);
-
-		// fixes children list and all children's parent link
-		for (Simon child : simon.getChildren()) {
-			newSimon.addChild((AbstractSimon) child);
-			((AbstractSimon) child).setParent(newSimon);
-		}
-
-		allSimons.put(simon.getName(), newSimon);
-		return newSimon;
-	}
-
-	private static Simon newSimon(String name, Class<? extends AbstractSimon> simonClass) {
-		AbstractSimon simon = instantiateSimon(name, simonClass);
-		if (name != null) {
-			addToHierarchy(simon, name);
-		}
-		return simon;
-	}
-
-	private static AbstractSimon instantiateSimon(String name, Class<? extends AbstractSimon> simonClass) {
-		AbstractSimon simon;
-		try {
-			Constructor<? extends AbstractSimon> constructor = simonClass.getConstructor(String.class);
-			simon = constructor.newInstance(name);
-		} catch (NoSuchMethodException e) {
-			throw new SimonException(e);
-		} catch (InvocationTargetException e) {
-			throw new SimonException(e);
-		} catch (IllegalAccessException e) {
-			throw new SimonException(e);
-		} catch (InstantiationException e) {
-			throw new SimonException(e);
-		}
-		return simon;
-	}
-
-	private static void addToHierarchy(AbstractSimon simon, String name) {
-		allSimons.put(name, simon);
-		int ix = name.lastIndexOf(HIERARCHY_DELIMITER);
-		AbstractSimon parent = rootSimon;
-		if (ix != -1) {
-			String parentName = name.substring(0, ix);
-			parent = allSimons.get(parentName);
-			if (parent == null) {
-				parent = new UnknownSimon(parentName);
-				addToHierarchy(parent, parentName);
-			}
-		}
-		parent.addChild(simon);
-	}
-
 	public static void enable() {
 		factory = EnabledFactory.INSTANCE;
 	}
@@ -226,72 +158,6 @@ public final class SimonFactory {
 	}
 
 	public static void reset() {
-		allSimons.clear();
-		rootSimon = new UnknownSimon(ROOT_SIMON_NAME);
-		allSimons.put(ROOT_SIMON_NAME, rootSimon);
-	}
-
-	private static class EnabledFactory implements Factory {
-		public static final Factory INSTANCE = new EnabledFactory();
-
-		public Simon getSimon(String name) {
-			return allSimons.get(name);
-		}
-
-		public synchronized Counter getCounter(String name) {
-			return (Counter) getOrCreateSimon(name, CounterImpl.class);
-		}
-
-		public synchronized Stopwatch getStopwatch(String name) {
-			return (Stopwatch) getOrCreateSimon(name, StopwatchImpl.class);
-		}
-
-		public String generateName(String suffix, boolean includeMethodName) {
-			StackTraceElement stackElement = Thread.currentThread().getStackTrace()[3];
-			StringBuilder nameBuilder = new StringBuilder(stackElement.getClassName());
-			if (includeMethodName) {
-				nameBuilder.append('.').append(stackElement.getMethodName());
-			}
-			if (suffix != null) {
-				nameBuilder.append(suffix);
-			}
-			return nameBuilder.toString();
-		}
-
-		public Simon getRootSimon() {
-			return rootSimon;
-		}
-
-		public Collection<String> simonNames() {
-			return allSimons.keySet();
-		}
-	}
-
-	private static class DisabledFactory implements Factory {
-		public static final Factory INSTANCE = new DisabledFactory();
-
-		public Simon getSimon(String name) {
-			return NullSimon.INSTANCE;
-		}
-
-		public Counter getCounter(String name) {
-			return NullSimon.INSTANCE;
-		}
-
-		public Stopwatch getStopwatch(String name) {
-			return NullSimon.INSTANCE;
-		}
-
-		public String generateName(String suffix, boolean includeMethodName) {
-			return null;
-		}
-
-		public Simon getRootSimon() {
-			return NullSimon.INSTANCE;
-		}
-
-		public Collection<String> simonNames() {
-			return Collections.emptySet();
-		}
+		factory.reset();
 	}
 }

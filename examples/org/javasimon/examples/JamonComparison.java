@@ -3,7 +3,7 @@ package org.javasimon.examples;
 import com.jamonapi.MonitorFactory;
 import com.jamonapi.Monitor;
 import org.javasimon.Stopwatch;
-import org.javasimon.SimonUtils;
+import org.javasimon.utils.SimonUtils;
 import org.javasimon.SimonFactory;
 
 /**

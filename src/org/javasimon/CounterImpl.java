@@ -1,7 +1,5 @@
 package org.javasimon;
 
-import java.util.concurrent.atomic.AtomicLong;
-
 /**
  * SimonCounter.
  *
@@ -9,79 +7,88 @@ import java.util.concurrent.atomic.AtomicLong;
  * @created Aug 4, 2008
  */
 final class CounterImpl extends AbstractSimon implements Counter {
-
 	/**
 	 * An internal counter.
 	 */
-	private final AtomicLong counter = new AtomicLong(0);
+	private long counter;
 
 	/**
 	 * A maximum tracker.
 	 */
-	private final AtomicLong max = new AtomicLong(0);
+	private long max = Long.MIN_VALUE;
 
 	/**
-	 * A minimum tracker.
+	 * A minimum tracker - only negative values.
 	 */
-	private final AtomicLong min = new AtomicLong(0);
+	private long min = Long.MAX_VALUE;
 
 	public CounterImpl(String name) {
 		super(name);
 	}
 
-	public Counter increment() {
-		long val = counter.incrementAndGet();
-		if (val > max.longValue()) {
-			max.set(val);
+	public synchronized Counter set(long val) {
+		counter = val;
+		if (counter > max) {
+			max = counter;
+		} else if (counter < min) {
+			min = counter;
 		}
 		return this;
 	}
 
-	public Counter decrement() {
-		final long val = counter.decrementAndGet();
-		if (val < min.longValue()) {
-			min.set(val);
+	public synchronized Counter increment() {
+		counter++;
+		if (counter > max) {
+			max = counter;
 		}
 		return this;
 	}
 
-	public Counter increment(long inc) {
-		final long val = counter.addAndGet(inc);
-		if (val > max.longValue()) {
-			max.set(val);
-		} else if (val < min.longValue()) {
-			min.set(val);
+	public synchronized Counter decrement() {
+		counter--;
+		if (counter < min) {
+			min = counter;
 		}
 		return this;
 	}
 
-	public Counter decrement(long dec) {
-		final long val = counter.addAndGet(-dec);
-		if (val < min.longValue()) {
-			min.set(val);
-		} else if (val > max.longValue()) {
-			max.set(val);
+	public synchronized Counter increment(long inc) {
+		counter += inc;
+		if (counter > max) {
+			max = counter;
+		} else if (counter < min) {
+			min = counter;
 		}
 		return this;
 	}
 
-	public Counter reset() {
-		counter.set(0);
-		max.set(0);
-		min.set(0);
+	public synchronized Counter decrement(long dec) {
+		counter -= dec;
+		if (counter > max) {
+			max = counter;
+		} else if (counter < min) {
+			min = counter;
+		}
+		return this;
+	}
+
+	public synchronized Counter reset() {
+		counter = 0;
+		max = Long.MIN_VALUE;
+		min = Long.MAX_VALUE;
 		return this;
 	}
 
 	public long getCounter() {
-		return counter.longValue();
+		return counter;
 	}
 
 	public long getMin() {
-		return min.longValue();
+		return min;
 	}
 
 	public long getMax() {
-		return max.longValue();
+		return max;
 	}
 
 	public String toString() {

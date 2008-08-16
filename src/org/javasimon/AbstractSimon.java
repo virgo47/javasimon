@@ -209,7 +209,9 @@ abstract class AbstractSimon implements Simon {
 	 */
 	void replaceChild(Simon simon, AbstractSimon newSimon) {
 		children.remove(simon);
-		children.add(newSimon);
-		newSimon.setParent(this);
+		if (newSimon != null) {
+			children.add(newSimon);
+			newSimon.setParent(this);
+		}
 	}
 }
