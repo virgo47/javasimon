@@ -37,6 +37,12 @@
 		<javac srcdir="examples" destdir="build/examples" debug="${javac.debug}" deprecation="${javac.deprecation}">
 			<classpath refid="classpath"/>
 		</javac>
+		<copy todir="build/examples">
+			<fileset dir="examples">
+				<include name="**/*.config"/>
+				<include name="**/*.properties"/>
+			</fileset>
+		</copy>
 	</target>
 
 	<target name="zip" description="Creates distribution ZIP file">
