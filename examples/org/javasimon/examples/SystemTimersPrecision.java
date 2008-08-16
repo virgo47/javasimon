@@ -40,7 +40,7 @@ import java.util.TreeMap;
  * @created Aug 13, 2008
  */
 public final class SystemTimersPrecision {
-	public static final long LOOP = 10000000;
+	private static final long LOOP = 10000000;
 
 	private SystemTimersPrecision() {
 		super();

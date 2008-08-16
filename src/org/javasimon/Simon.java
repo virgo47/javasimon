@@ -12,9 +12,9 @@ import java.util.List;
  */
 public interface Simon {
 	/**
-	 * Returns parent simon.
+	 * Returns parent Simon.
 	 *
-	 * @return parent simon
+	 * @return parent Simon
 	 */
 	Simon getParent();
 
@@ -41,9 +41,9 @@ public interface Simon {
 	SimonState getState();
 
 	/**
-	 * Sets the state of the Somon. You have to specify whether you want to propagate the change
+	 * Sets the state of the Simon. You have to specify whether you want to propagate the change
 	 * and overrule states of all sub-simons which effectively sets the same state to the whole
-	 * subtree. If you don't overrule, some simons (with their subtrees) will not be affected
+	 * subtree. If you don't overrule, some Simons (with their subtrees) will not be affected
 	 * by this change.
 	 *
 	 * @param state a new state.

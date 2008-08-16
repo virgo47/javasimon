@@ -13,13 +13,13 @@ import java.util.Collections;
 abstract class AbstractSimon implements Simon {
 	protected boolean enabled;
 
-	private String name;
+	private final String name;
 
 	private SimonState state = SimonState.INHERIT;
 
 	private Simon parent = null;
 
-	private List<Simon> children = new ArrayList<Simon>();
+	private final List<Simon> children = new ArrayList<Simon>();
 
 	private StatProcessor statProcessor = NullStatProcessor.INSTANCE;
 
@@ -34,9 +34,9 @@ abstract class AbstractSimon implements Simon {
 	}
 
 	/**
-	 * Returns parent simon.
+	 * Returns parent Simon.
 	 *
-	 * @return parent simon
+	 * @return parent Simon
 	 */
 	public final Simon getParent() {
 		return parent;
@@ -90,7 +90,7 @@ abstract class AbstractSimon implements Simon {
 		if (state == null) {
 			throw new IllegalArgumentException();
 		}
-		// don't set inherit to anonymous (null) and root simons!
+		// don't set inherit to anonymous (null) and root Simon!
 		if (!isAnonymousOrRootSimon() || !state.equals(SimonState.INHERIT)) {
 			this.state = state;
 			updateAndPropagateEffectiveState(shouldBeEffectivlyEnabled(), overrule);

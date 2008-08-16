@@ -1,6 +1,7 @@
 package org.javasimon.examples;
 
 import org.javasimon.SimonFactory;
+import org.javasimon.utils.SimonUtils;
 
 /**
  * SimonConfigTest.
@@ -11,6 +12,6 @@ import org.javasimon.SimonFactory;
 public final class SimonConfigTest {
 	public static void main(String[] args) {
 		System.setProperty(SimonFactory.PROPERTY_CONFIG_RESOURCE_NAME, "org/javasimon/examples/simon.config");
-		SimonFactory.getRootSimon();
+		SimonUtils.printSimonTree(SimonFactory.getRootSimon());
 	}
 }

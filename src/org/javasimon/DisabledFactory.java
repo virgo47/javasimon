@@ -30,6 +30,10 @@ class DisabledFactory implements Factory {
 		return NullSimon.INSTANCE;
 	}
 
+	public UnknownSimon getUnknown(String name) {
+		throw new UnsupportedOperationException("Disabled factory does not support creation of the UnknownSimon.");
+	}
+
 	public String generateName(String suffix, boolean includeMethodName) {
 		return null;
 	}

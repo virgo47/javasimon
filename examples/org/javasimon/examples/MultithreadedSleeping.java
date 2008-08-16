@@ -17,7 +17,7 @@ public final class MultithreadedSleeping extends Thread {
 
 	private static final String NAME = SimonFactory.generateName(null, false);
 
-	private static CountDownLatch latch = new CountDownLatch(THREADS);
+	private static final CountDownLatch latch = new CountDownLatch(THREADS);
 
 	public static void main(String[] args) throws InterruptedException {
 		for (int i = 0; i < THREADS; i++) {

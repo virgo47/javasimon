@@ -11,7 +11,7 @@ import org.testng.Assert;
  * @created Aug 11, 2008
  */
 public final class StopwatchTest {
-	public static final String STOPWATCH_NAME = "org.javasimon.test-stopwatch";
+	private static final String STOPWATCH_NAME = "org.javasimon.test-stopwatch";
 
 	@BeforeMethod
 	public void resetAndEnable() {

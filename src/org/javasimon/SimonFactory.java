@@ -31,6 +31,10 @@ public final class SimonFactory {
 		}
 	}
 
+	private SimonFactory() {
+		throw new UnsupportedOperationException();
+	}
+
 	private static void initFromConfig() throws IOException {
 		String fileName = System.getProperty(PROPERTY_CONFIG_FILE_NAME);
 		if (fileName != null) {
@@ -58,39 +62,45 @@ public final class SimonFactory {
 		for (String name : properties.stringPropertyNames()) {
 			String simonType = null;
 			StatProcessorType statProcessorType = StatProcessorType.NULL;
+			SimonState state = SimonState.INHERIT;
+
 			String value = properties.getProperty(name);
-			for (String keyword : value.split(" +")) {
+			for (String keyword : value.split("[, ]+")) {
+				keyword = keyword.toLowerCase();
 				if (keyword.equals("stopwatch")) {
 					simonType = keyword;
 				} else if (keyword.equals("counter")) {
 					simonType = keyword;
 				} else if (keyword.equals("basic")) {
 					statProcessorType = StatProcessorType.BASIC;
+				} else if (keyword.equals("enable")) {
+					state = SimonState.ENABLED;
+				} else if (keyword.equals("disable")) {
+					state = SimonState.DISABLED;
+				} else {
+					System.out.println("Unknown config value '" + keyword + "' for name '" + name + "'.");
 				}
 			}
-			if (simonType != null) {
-				Simon simon = null;
-				if (simonType.equals("stopwatch")) {
-					simon = getStopwatch(name);
-				} else if (simonType.equals("counter")) {
-					simon = getCounter(name);
-				}
-				if (simon != null) {
-					simon.setStatProcessor(statProcessorType.create());
-				}
+			Simon simon = null;
+			if (simonType == null) {
+				simon = getUnknown(name);
+			} else if (simonType.equals("stopwatch")) {
+				simon = getStopwatch(name);
+			} else if (simonType.equals("counter")) {
+				simon = getCounter(name);
+			}
+			if (simon != null) {
+				simon.setStatProcessor(statProcessorType.create());
+				simon.setState(state, false);
 			}
 		}
-	}
-
-	private SimonFactory() {
-		throw new UnsupportedOperationException();
 	}
 
 	/**
 	 * Returns Simon by its name if it exists.
 	 *
 	 * @param name name of the Simon
-	 * @return simon object
+	 * @return Simon object
 	 */
 	public static Simon getSimon(String name) {
 		return factory.getSimon(name);
@@ -123,6 +133,10 @@ public final class SimonFactory {
 	 */
 	public static Stopwatch getStopwatch(String name) {
 		return factory.getStopwatch(name);
+	}
+
+	private static Simon getUnknown(String name) {
+		return factory.getUnknown(name);
 	}
 
 	/**

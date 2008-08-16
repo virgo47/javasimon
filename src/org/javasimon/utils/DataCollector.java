@@ -11,7 +11,7 @@ import java.util.*;
  * @created Aug 13, 2008
  */
 public abstract class DataCollector {
-	private Map<Simon, List<Double>> data = new LinkedHashMap<Simon, List<Double>>();
+	private final Map<Simon, List<Double>> data = new LinkedHashMap<Simon, List<Double>>();
 	private int samples;
 
 	public DataCollector(Simon... simons) {
