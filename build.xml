@@ -32,7 +32,7 @@
 		</jar>
 	</target>
 
-	<target name="examples" description="Compiles the examples">
+	<target name="examples" depends="compile" description="Compiles the examples">
 		<mkdir dir="build/examples"/>
 		<javac srcdir="examples" destdir="build/examples" debug="${javac.debug}" deprecation="${javac.deprecation}">
 			<classpath refid="classpath"/>
