@@ -1,6 +1,6 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="JavaSimon Test Suite" verbose="2" annotations="JDK">
-	<test name="JavaSimon Test">
+<suite name="Java Simon Test Suite" verbose="2" annotations="JDK">
+	<test name="Java Simon Test">
 		<groups>
 			<run>
 				<exclude name="broken"/>

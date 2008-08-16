@@ -46,6 +46,10 @@ class EnabledFactory implements Factory {
 		return (Stopwatch) getOrCreateSimon(name, StopwatchImpl.class);
 	}
 
+	public UnknownSimon getUnknown(String name) {
+		return (UnknownSimon) getOrCreateSimon(name, UnknownSimon.class);
+	}
+
 	public String generateName(String suffix, boolean includeMethodName) {
 		StackTraceElement stackElement = Thread.currentThread().getStackTrace()[3];
 		StringBuilder nameBuilder = new StringBuilder(stackElement.getClassName());

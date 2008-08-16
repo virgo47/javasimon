@@ -4,7 +4,7 @@
 	<property name="javac.debug" value="true"/>
 	<property name="javac.deprecation" value="false"/>
 
-	<property name="lib.dir" value="../lib"/>
+	<property name="lib.dir" value="lib"/>
 
 	<!-- used for testng or examples, simon.jar requires nothing -->
 	<path id="classpath">

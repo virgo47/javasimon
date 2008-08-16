@@ -9,13 +9,15 @@ import java.util.Collection;
  * @created Aug 11, 2008
  */
 interface Factory {
+	Simon getRootSimon();
+
 	Simon getSimon(String name);
 
 	Counter getCounter(String name);
 
-	Simon getRootSimon();
-
 	Stopwatch getStopwatch(String name);
+
+	Simon getUnknown(String name);
 
 	String generateName(String suffix, boolean includeMethodName);
 

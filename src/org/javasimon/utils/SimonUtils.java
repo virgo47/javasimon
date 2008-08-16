@@ -4,7 +4,7 @@ import org.javasimon.Simon;
 import org.javasimon.SimonFactory;
 
 /**
- * SimonUtils.
+ * SimonUtils class holds static utility methods.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 6, 2008
@@ -18,6 +18,13 @@ public final class SimonUtils {
 		throw new UnsupportedOperationException();
 	}
 
+	/**
+	 * Returns nano-time in human readable form with unit. Number is always from 10 to 9999
+	 * except for seconds that are biggest unit used.
+	 *
+	 * @param time time in nanoseconds
+	 * @return human readable time string
+	 */
 	public static String presentNanoTime(long time) {
 		if (time == Long.MAX_VALUE) {
 			return "undef";

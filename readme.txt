@@ -1,3 +1,5 @@
+#summary readme.txt included in the download
+
 = Java Simon - Simple Monitors for Java =
 
 This software is distributed under the terms of the FSF Lesser Gnu Public License:
@@ -6,15 +8,15 @@ This software is distributed under the terms of the FSF Lesser Gnu Public Licens
 
 Check this readme online for updates: http://code.google.com/p/javasimon/wiki/Readme
 
-== BUILD ==
+== Build ==
 
   * Simon depends on JDK only (at this moment), you need JDK 1.5 or higher.
   * Use "ant" to build the Simon, find the JAR file under the "build" directory.
-  * Some examples requires other libraries (h2, JAMon, ...). If you checkout the project, you have to download them and put them to classpath by yourself. If you download our zip (when available), they are included.
+  * Some examples requires other libraries (h2, JAMon, ...). If you checkout the project, you have to download them and put them to classpath by yourself. If you download our ZIP, they are included.
 
-== USAGE ==
+== Usage ==
 
-There are two types of Simons available: Counter and Stopwatch. Counter tracks single long value, its maximum and minimum. Stopwatch measures time and tracks number of measurements (splits), total time, split minimum and maximum. If you thinkg it's not enough you can get more statistic information by adding StatProcessor implementation to your Simon.
+There are two types of Simons available: Counter and Stopwatch. Counter tracks single long value, its maximum and minimum. Stopwatch measures time and tracks number of measurements (splits), total time, split minimum and maximum. If you think it's not enough you can get more statistic information by adding StatProcessor implementation to your Simon.
 
 === Factory ===
 
@@ -48,7 +50,7 @@ System.out.println("Total time: " + SimonUtils.presentNanoTime(totalNanos));
 
 Or simply print the Simon itself, it has nice `toString` output.
 
-== RESOURCES ==
+== Resources ==
 
 Project is hosted on Google Code as "javasimon":
   * Homepage: http://code.google.com/p/javasimon/
@@ -59,6 +61,12 @@ Project is hosted on Google Code as "javasimon":
 Project tests use TestNG library:
   * http://testng.org/
 
-Project example uses these libraries (you don't need them to use JavaSimon):
+Project example uses these libraries (you don't need them to use Java Simon):
   * JAMon API: http://jamonapi.sourceforge.net/
   * H2 Database: http://www.h2database.com/
+
+== Java Simon name ==
+
+*Java Simon* is the official name of the project with _Simple Monitoring API_ as a half title. Codename of the project is *javasimon*. We use word Simon as a synonym for a "monitor" in javadoc or on our wiki - of course we use it only for monitors based on the API. We write Simon mostly with capital S, Java Simon with space and javasimon as a one word with all lowercase. Word javasimon is probably best to use in search engines.
+
+We'll make some logo too... after version 1 will be released. :-)

@@ -19,7 +19,7 @@ public final class DisabledEnabledSemiRealComparison {
 	private static final int ROUNDS = 10;
 
 	// Random strings for test method to concatenate
-	public static final String[] STRINGS = {"AB", "ZD", "ZK", "SE", "AM", "whatever"};
+	private static final String[] STRINGS = {"AB", "ZD", "ZK", "SE", "AM", "whatever"};
 
 	private static long disbledSimonFactory = 0;
 	private static long enabledSimonFactory = 0;
@@ -100,7 +100,6 @@ public final class DisabledEnabledSemiRealComparison {
 			}
 			builder.reverse();
 		}
-		builder.setLength(0);
 		Runtime.getRuntime().gc();
 		simon.stop();
 	}
@@ -114,7 +113,6 @@ public final class DisabledEnabledSemiRealComparison {
 			}
 			builder.reverse();
 		}
-		builder.setLength(0);
 		Runtime.getRuntime().gc();
 	}
 }
