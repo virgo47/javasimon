@@ -27,7 +27,10 @@
 
 	<!-- Packaging section -->
 	<target name="build" depends="compile" description="Package the archives">
+		<mkdir dir="build/META-INF/services"/>
+		<echo file="build/META-INF/services/java.sql.Driver">org.javasimon.jdbc.Driver</echo>
 		<jar jarfile="build/javasimon-${version}.jar" description="Simon JAR">
+			<metainf dir="build/META-INF"/>
 			<fileset dir="build/classes"/>
 		</jar>
 	</target>
