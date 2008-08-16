@@ -1,6 +1,6 @@
 package org.javasimon.examples.jdbc;
 
-import org.javasimon.SimonUtils;
+import org.javasimon.utils.SimonUtils;
 import org.javasimon.SimonFactory;
 
 import java.sql.*;

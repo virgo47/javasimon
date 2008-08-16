@@ -5,7 +5,11 @@ import org.javasimon.SimonFactory;
 
 /**
  * HelloWorld is the most basic example of Stopwatch usage. You can show this
- * even to managers - it's that easy. :-)
+ * even to managers - it's that easy. :-) Hello world line shows that stopwatch
+ * doesn't contain any results yet, these are added after stop method.
+ *
+ * You can experiment with this example, try to put start/stop into the loop and
+ * check total time, or whatever.
  *
  * @author <a href="mailto:richard.richter@siemens.sk">Richard "Virgo" Richter</a>
  * @version $Revision$ $Date$

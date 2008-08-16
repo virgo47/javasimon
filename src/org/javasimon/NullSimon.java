@@ -45,6 +45,10 @@ final class NullSimon implements Counter, Stopwatch {
 		return this;
 	}
 
+	public Counter set(long val) {
+		return this;
+	}
+
 	public Counter increment() {
 		return this;
 	}

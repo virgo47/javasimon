@@ -1,5 +1,7 @@
 package org.javasimon;
 
+import org.javasimon.utils.SimonUtils;
+
 /**
  * Simonatch.
  *

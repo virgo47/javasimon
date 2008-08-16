@@ -1,4 +1,7 @@
-package org.javasimon;
+package org.javasimon.utils;
+
+import org.javasimon.Simon;
+import org.javasimon.SimonFactory;
 
 /**
  * SimonUtils.

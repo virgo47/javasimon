@@ -1,5 +1,8 @@
 package org.javasimon.examples;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 /**
  * SystemTimersPrecision checks the granularity of both System timers. It counts how many times
  * returned values for ms/ns changes and prints the results. Loop is repeated 5 times. After that
@@ -13,6 +16,7 @@ package org.javasimon.examples;
  * <pre>
  * msChanges: 188 during 2938 ms
  * nsChanges: 10000000 during 2930945951 ns
+ * deltaCount = {15=70, 16=118}
  * ...
  * ns1 = 4849538236180
  * ns2 = 4849538236428
@@ -24,7 +28,7 @@ package org.javasimon.examples;
  * better precision with nanoTime instead of currentTimeMillis. However you may observe completely different
  * results on different platform. That's why you should always find out how these calls behave in your target
  * environment.
- *
+ * <p/>
  * Linux test shows roughly 1ms precision of 1ms timer, which is much better if you measure something that
  * lasts more than 1 ms (Intel Pentium 4@2.8 GHz, 2.5GB RAM, Ubuntu 8.04, kernel 2.6.24, JDK 1.6.0_02):
  * <pre>
@@ -44,6 +48,7 @@ public final class SystemTimersPrecision {
 
 	public static void main(String[] args) {
 		for (int round = 1; round <= 5; round++) {
+			Map<Long, Integer> deltaCount = new TreeMap<Long, Integer>();
 			System.out.println("\nRound: " + round);
 			long msChanges = 0;
 			long nsChanges = 0;
@@ -57,6 +62,12 @@ public final class SystemTimersPrecision {
 				long newMs = System.currentTimeMillis();
 				long newNs = System.nanoTime();
 				if (newMs != ms) {
+					long delta = newMs - ms;
+					Integer count = deltaCount.get(delta);
+					if (count == null) {
+						count = 0;
+					}
+					deltaCount.put(delta, ++count);
 					msChanges++;
 				}
 				if (newNs != ns) {
@@ -67,6 +78,7 @@ public final class SystemTimersPrecision {
 			}
 			System.out.println("msChanges: " + msChanges + " during " + (System.currentTimeMillis() - initMs) + " ms");
 			System.out.println("nsChanges: " + nsChanges + " during " + (System.nanoTime() - initNs) + " ns");
+			System.out.println("deltaCount = " + deltaCount);
 		}
 
 		for (int round = 1; round <= LOOP; round++) {

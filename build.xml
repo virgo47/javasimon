@@ -1,20 +1,24 @@
 <?xml version="1.0"?>
 <project name="Java Simon Library" default="dist" basedir=".">
-	<property name="version" value="0.1"/>
+	<property name="version" value="0.9"/>
 	<property name="javac.debug" value="true"/>
 	<property name="javac.deprecation" value="false"/>
 
+	<property name="lib.dir" value="../lib"/>
+
+	<!-- used for testng or examples, simon.jar requires nothing -->
 	<path id="classpath">
-		<!--<pathelement path="..."/>-->
+		<pathelement path="${lib.dir}/testng-5.7-jdk15.jar"/>
+		<pathelement path="${lib.dir}/jamon-2.7.jar"/>
+		<pathelement path="${lib.dir}/h2.jar"/>
+		<pathelement path="build/classes"/>
 	</path>
 
-	<target name="dist" depends="clean,build" description="Distribution - clean/build">
-	</target>
+	<target name="dist" depends="clean,build,examples,test,zip" description="Distribution - clean/build/zip"/>
 
 	<target name="compile" description="Compile the source code">
 		<mkdir dir="build/classes"/>
 		<javac srcdir="src" destdir="build/classes" debug="${javac.debug}" deprecation="${javac.deprecation}">
-			<classpath refid="classpath"/>
 		</javac>
 		<copy todir="build/classes">
 			<fileset dir="src" includes="**/*.properties"/>
@@ -28,7 +32,55 @@
 		</jar>
 	</target>
 
+	<target name="examples" description="Compiles the examples">
+		<mkdir dir="build/examples"/>
+		<javac srcdir="examples" destdir="build/examples" debug="${javac.debug}" deprecation="${javac.deprecation}">
+			<classpath refid="classpath"/>
+		</javac>
+	</target>
+
+	<target name="zip" description="Creates distribution ZIP file">
+		<zip file="javasimon-${version}.zip">
+			<zipfileset prefix="javasimon-${version}" dir="build">
+				<filename name="javasimon-${version}.jar"/>
+			</zipfileset>
+			<zipfileset prefix="javasimon-${version}/lib" dir="${lib.dir}">
+				<include name="testng-5.7-jdk15.jar"/>
+				<include name="jamon-2.7.jar"/>
+				<include name="h2.jar"/>
+			</zipfileset>
+			<zipfileset prefix="javasimon-${version}" dir=".">
+				<include name="src/**"/>
+				<include name="examples/**"/>
+				<include name="test/**"/>
+				<include name="build.xml"/>
+				<include name="readme.txt"/>
+				<include name="lgpl.txt"/>
+			</zipfileset>
+		</zip>
+	</target>
+
 	<target name="clean" description="Cleans up the build directory">
 		<delete failonerror="false" dir="build"/>
+		<delete failonerror="false" file="javasimon-${version}.zip"/>
+	</target>
+
+	<taskdef resource="testngtasks" classpath="${lib.dir}/testng-5.7-jdk15.jar"/>
+
+	<target name="test" depends="compile" description="Runs tests">
+		<mkdir dir="build/test"/>
+		<javac srcdir="test" destdir="build/test" debug="${javac.debug}" deprecation="${javac.deprecation}">
+			<classpath refid="classpath"/>
+		</javac>
+		<testng outputdir="${basedir}/build/testout" haltonfailure="true" verbose="2">
+			<classpath>
+				<pathelement path="${lib.dir}/testng-5.7-jdk15.jar"/>
+				<pathelement path="build/classes"/>
+				<pathelement path="build/test"/>
+			</classpath>
+			<xmlfileset dir="test">
+				<include name="testng.xml"/>
+			</xmlfileset>
+		</testng>
 	</target>
 </project>

@@ -22,4 +22,6 @@ public interface Counter extends Simon {
 	long getMax();
 
 	Counter reset();
+
+	Counter set(long val);
 }
