@@ -6,6 +6,8 @@ import org.javasimon.Counter;
 
 import java.sql.*;
 import java.sql.Connection;
+import java.util.List;
+import java.util.LinkedList;
 
 /**
  * Trieda Statement.
@@ -15,13 +17,19 @@ import java.sql.Connection;
  * @created 8.8.2008 0:25:33
  * @since 1.0
  */
-public final class Statement implements java.sql.Statement {
+public class Statement implements java.sql.Statement {
 
-	private Connection conn;
+	protected Connection conn;
 	private java.sql.Statement stmt;
-	private String suffix;
-	private Stopwatch life;
-	private Counter active;
+
+	protected final List<String> batchSql = new LinkedList<String>();
+
+	protected String suffix;
+	protected String sqlCmdLabel;
+	protected String normalizedSql;
+
+	protected Stopwatch life;
+	protected Counter active;
 
 	Statement(Connection conn, java.sql.Statement stmt, String suffix) {
 		this.conn = conn;
@@ -43,21 +51,7 @@ public final class Statement implements java.sql.Statement {
 		return conn;
 	}
 
-	public ResultSet executeQuery(String sql) throws SQLException {
-		String sqlCmdLabel = suffix + "." + determineSqlCmdType(sql);
-		String normalizedSql = normalizeSql(sql);
-		Stopwatch s = sql != null ? SimonFactory.getStopwatch(sqlCmdLabel + "." + normalizedSql.hashCode()).start() : null;
-		try {
-			return stmt.executeQuery(sql);
-		} finally {
-			if (s != null) {
-				SimonFactory.getStopwatch(sqlCmdLabel).addTime(s.stop());
-				s.setNote(normalizedSql);
-			}
-		}
-	}
-
-	private String determineSqlCmdType(String sql) {
+	protected String determineSqlCmdType(String sql) {
 		if (sql != null) {
 			String s = sql.trim();
 			int i = s.indexOf(' ');
@@ -67,131 +61,148 @@ public final class Statement implements java.sql.Statement {
 		}
 	}
 
-	private String normalizeSql(String sql) {
+	protected String normalizeSql(String sql) {
 		// Todo implement sql normalization
-		return sql;
+		return sql.toLowerCase().trim();
+	}
+
+	protected String normalizeSql(List<String> sqls) {
+		StringBuilder ns = new StringBuilder("batch(");
+		for (String s : sqls) {
+			ns.append('|').append(normalizeSql(s));
+		}
+		return ns.append(')').toString();
+	}
+
+	protected Stopwatch prepare(String sql) {
+		if (sql != null && !sql.isEmpty()) {
+			sqlCmdLabel = suffix + "." + determineSqlCmdType(sql);
+			normalizedSql = normalizeSql(sql);
+			return SimonFactory.getStopwatch(sqlCmdLabel + "." + normalizedSql.hashCode()).start();
+		} else {
+			return null;
+		}
+	}
+
+	protected Stopwatch prepare(List<String> sqls) {
+		if (!sqls.isEmpty() && sqls.size() == 1) {
+			return prepare(sqls.get(0));
+		} else if (!sqls.isEmpty()) {
+			sqlCmdLabel = suffix + ".batch";
+			normalizedSql = normalizeSql(sqls);
+			return SimonFactory.getStopwatch(sqlCmdLabel + "." + normalizedSql.hashCode()).start();
+		} else {
+			return null;
+		}
+	}
+
+	protected void finish(Stopwatch s) {
+		if (s != null) {
+			SimonFactory.getStopwatch(sqlCmdLabel).addTime(s.stop());
+			s.setNote(normalizedSql);
+		}
+	}
+
+	public ResultSet executeQuery(String sql) throws SQLException {
+		Stopwatch s = prepare(sql);
+		try {
+			return stmt.executeQuery(sql);
+		} finally {
+			finish(s);
+		}
 	}
 
 	public int executeUpdate(String sql) throws SQLException {
-		String sqlCmdLabel = suffix + "." + determineSqlCmdType(sql);
-		String normalizedSql = normalizeSql(sql);
-		Stopwatch s = sql != null ? SimonFactory.getStopwatch(sqlCmdLabel + "." + normalizedSql.hashCode()).start() : null;
+		Stopwatch s = prepare(sql);
 		try {
 			return stmt.executeUpdate(sql);
 		} finally {
-			if (s != null) {
-				SimonFactory.getStopwatch(sqlCmdLabel).addTime(s.stop());
-				s.setNote(normalizedSql);
-			}
+			finish(s);
 		}
-	}
-
-	public boolean execute(String sql) throws SQLException {
-		String sqlCmdLabel = suffix + "." + determineSqlCmdType(sql);
-		String normalizedSql = normalizeSql(sql);
-		Stopwatch s = sql != null ? SimonFactory.getStopwatch(sqlCmdLabel + "." + normalizedSql.hashCode()).start() : null;
-		try {
-			return stmt.execute(sql);
-		} finally {
-			if (s != null) {
-				SimonFactory.getStopwatch(sqlCmdLabel).addTime(s.stop());
-				s.setNote(normalizedSql);
-			}
-		}
-	}
-
-	public void addBatch(String s) throws SQLException {
-		// Todo do monitoring
-		stmt.addBatch(s);
-	}
-
-	public int[] executeBatch() throws SQLException {
-		// Todo do monitoring
-		return stmt.executeBatch();
 	}
 
 	public int executeUpdate(String sql, int i) throws SQLException {
-		String sqlCmdLabel = suffix + "." + determineSqlCmdType(sql);
-		String normalizedSql = normalizeSql(sql);
-		Stopwatch s = sql != null ? SimonFactory.getStopwatch(sqlCmdLabel + "." + normalizedSql.hashCode()).start() : null;
+		Stopwatch s = prepare(sql);
 		try {
 			return stmt.executeUpdate(sql, i);
 		} finally {
-			if (s != null) {
-				SimonFactory.getStopwatch(sqlCmdLabel).addTime(s.stop());
-				s.setNote(normalizedSql);
-			}
+			finish(s);
 		}
 	}
 
 	public int executeUpdate(String sql, int[] ints) throws SQLException {
-		String sqlCmdLabel = suffix + "." + determineSqlCmdType(sql);
-		String normalizedSql = normalizeSql(sql);
-		Stopwatch s = sql != null ? SimonFactory.getStopwatch(sqlCmdLabel + "." + normalizedSql.hashCode()).start() : null;
+		Stopwatch s = prepare(sql);
 		try {
 			return stmt.executeUpdate(sql, ints);
 		} finally {
-			if (s != null) {
-				SimonFactory.getStopwatch(sqlCmdLabel).addTime(s.stop());
-				s.setNote(normalizedSql);
-			}
+			finish(s);
 		}
 	}
 
 	public int executeUpdate(String sql, String[] strings) throws SQLException {
-		String sqlCmdLabel = suffix + "." + determineSqlCmdType(sql);
-		String normalizedSql = normalizeSql(sql);
-		Stopwatch s = sql != null ? SimonFactory.getStopwatch(sqlCmdLabel + "." + normalizedSql.hashCode()).start() : null;
+		Stopwatch s = prepare(sql);
 		try {
 			return stmt.executeUpdate(sql, strings);
 		} finally {
-			if (s != null) {
-				SimonFactory.getStopwatch(sqlCmdLabel).addTime(s.stop());
-				s.setNote(normalizedSql);
-			}
+			finish(s);
+		}
+	}
+
+	public boolean execute(String sql) throws SQLException {
+		Stopwatch s = prepare(sql);
+		try {
+			return stmt.execute(sql);
+		} finally {
+			finish(s);
 		}
 	}
 
 	public boolean execute(String sql, int i) throws SQLException {
-		String sqlCmdLabel = suffix + "." + determineSqlCmdType(sql);
-		String normalizedSql = normalizeSql(sql);
-		Stopwatch s = sql != null ? SimonFactory.getStopwatch(sqlCmdLabel + "." + normalizedSql.hashCode()).start() : null;
+		Stopwatch s = prepare(sql);
 		try {
 			return stmt.execute(sql, i);
 		} finally {
-			if (s != null) {
-				SimonFactory.getStopwatch(sqlCmdLabel).addTime(s.stop());
-				s.setNote(normalizedSql);
-			}
+			finish(s);
 		}
 	}
 
 	public boolean execute(String sql, int[] ints) throws SQLException {
-		String sqlCmdLabel = suffix + "." + determineSqlCmdType(sql);
-		String normalizedSql = normalizeSql(sql);
-		Stopwatch s = sql != null ? SimonFactory.getStopwatch(sqlCmdLabel + "." + normalizedSql.hashCode()).start() : null;
+		Stopwatch s = prepare(sql);
 		try {
 			return stmt.execute(sql, ints);
 		} finally {
-			if (s != null) {
-				SimonFactory.getStopwatch(sqlCmdLabel).addTime(s.stop());
-				s.setNote(normalizedSql);
-			}
+			finish(s);
 		}
 	}
 
 	public boolean execute(String sql, String[] strings) throws SQLException {
-		String sqlCmdLabel = suffix + "." + determineSqlCmdType(sql);
-		String normalizedSql = normalizeSql(sql);
-		Stopwatch s = sql != null ? SimonFactory.getStopwatch(sqlCmdLabel + "." + normalizedSql.hashCode()).start() : null;
+		Stopwatch s = prepare(sql);
 		try {
 			return stmt.execute(sql, strings);
 		} finally {
-			if (s != null) {
-				SimonFactory.getStopwatch(sqlCmdLabel).addTime(s.stop());
-				s.setNote(normalizedSql);
-			}
+			finish(s);
 		}
+	}
+
+	public void addBatch(String s) throws SQLException {
+		batchSql.add(s);
+		
+		stmt.addBatch(s);
+	}
+
+	public int[] executeBatch() throws SQLException {
+		Stopwatch s = prepare(batchSql);
+		try {
+			return stmt.executeBatch();
+		} finally {
+			finish(s);
+		}
+	}
+
+	public void clearBatch() throws SQLException {
+		batchSql.clear();
+
+		stmt.clearBatch();
 	}
 
 
@@ -275,10 +286,6 @@ public final class Statement implements java.sql.Statement {
 
 	public int getResultSetType() throws SQLException {
 		return stmt.getResultSetType();
-	}
-
-	public void clearBatch() throws SQLException {
-		stmt.clearBatch();
 	}
 
 	public boolean getMoreResults(int i) throws SQLException {

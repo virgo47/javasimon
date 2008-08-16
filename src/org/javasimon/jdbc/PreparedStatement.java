@@ -2,7 +2,6 @@ package org.javasimon.jdbc;
 
 import org.javasimon.Stopwatch;
 import org.javasimon.SimonFactory;
-import org.javasimon.Counter;
 
 import java.sql.*;
 import java.sql.Connection;
@@ -20,111 +19,60 @@ import java.net.URL;
  * @created 9.8.2008 15:42:52
  * @since 1.0
  */
-public class PreparedStatement implements java.sql.PreparedStatement {
+public class PreparedStatement extends Statement implements java.sql.PreparedStatement {
 
 	private java.sql.PreparedStatement stmt;
-	private String sql;
-	private Stopwatch life;
-	private Counter active;
 
-	public PreparedStatement(java.sql.PreparedStatement stmt, String sql, String suffix) {
+	protected String sql;
+
+	PreparedStatement(Connection conn, java.sql.PreparedStatement stmt, String sql, String suffix) {
+		super(conn, stmt, suffix);
+
 		this.stmt = stmt;
 		this.sql = sql;
-
-		life = SimonFactory.getStopwatch(suffix + ".stmt").start();
-		active = SimonFactory.getCounter(suffix + ".stmt.active").increment();
 	}
 
-	public void close() throws SQLException {
-		stmt.close();
-
-		life.stop();
-		active.decrement();
+	protected Stopwatch prepare() {
+		if (sql != null && !sql.isEmpty()) {
+			sqlCmdLabel = suffix + "." + determineSqlCmdType(sql);
+			normalizedSql = normalizeSql(sql);
+			return SimonFactory.getStopwatch(sqlCmdLabel + "." + normalizedSql.hashCode()).start();
+		} else {
+			return null;
+		}
 	}
 
 	public ResultSet executeQuery() throws SQLException {
-		// Todo do monitoring
-		return stmt.executeQuery();
+		Stopwatch s = prepare();
+		try {
+			return stmt.executeQuery();
+		} finally {
+			finish(s);
+		}
 	}
 
 	public int executeUpdate() throws SQLException {
-		// Todo do monitoring
-		return stmt.executeUpdate();
+		Stopwatch s = prepare();
+		try {
+			return stmt.executeUpdate();
+		} finally {
+			finish(s);
+		}
 	}
 
 	public boolean execute() throws SQLException {
-		// Todo do monitoring
-		return stmt.execute();
+		Stopwatch s = prepare();
+		try {
+			return stmt.execute();
+		} finally {
+			finish(s);
+		}
 	}
 
 	public void addBatch() throws SQLException {
-		// Todo do monitoring
+		batchSql.add(sql);
+
 		stmt.addBatch();
-	}
-
-	public ResultSet executeQuery(String s) throws SQLException {
-		// Todo do monitoring
-		return stmt.executeQuery(s);
-	}
-
-	public int executeUpdate(String s) throws SQLException {
-		// Todo do monitoring
-		return stmt.executeUpdate(s);
-	}
-
-	public boolean execute(String s) throws SQLException {
-		// Todo do monitoring
-		return stmt.execute(s);
-	}
-
-	public void addBatch(String s) throws SQLException {
-		// Todo do monitoring
-		stmt.addBatch(s);
-	}
-
-	public void clearBatch() throws SQLException {
-		// Todo do monitoring
-		stmt.clearBatch();
-	}
-
-	public int[] executeBatch() throws SQLException {
-		// Todo do monitoring
-		return stmt.executeBatch();
-	}
-
-	public Connection getConnection() throws SQLException {
-		// Todo do monitoring
-		return stmt.getConnection();
-	}
-
-	public int executeUpdate(String s, int i) throws SQLException {
-		// Todo do monitoring
-		return stmt.executeUpdate(s, i);
-	}
-
-	public int executeUpdate(String s, int[] ints) throws SQLException {
-		// Todo do monitoring
-		return stmt.executeUpdate(s, ints);
-	}
-
-	public int executeUpdate(String s, String[] strings) throws SQLException {
-		// Todo do monitoring
-		return stmt.executeUpdate(s, strings);
-	}
-
-	public boolean execute(String s, int i) throws SQLException {
-		// Todo do monitoring
-		return stmt.execute(s, i);
-	}
-
-	public boolean execute(String s, int[] ints) throws SQLException {
-		// Todo do monitoring
-		return stmt.execute(s, ints);
-	}
-
-	public boolean execute(String s, String[] strings) throws SQLException {
-		// Todo do monitoring
-		return stmt.execute(s, strings);
 	}
 
 
@@ -332,118 +280,5 @@ public class PreparedStatement implements java.sql.PreparedStatement {
 
 	public void setNClob(int i, Reader reader) throws SQLException {
 		stmt.setNClob(i, reader);
-	}
-
-	public int getMaxFieldSize() throws SQLException {
-		return stmt.getMaxFieldSize();
-	}
-
-	public void setMaxFieldSize(int i) throws SQLException {
-		stmt.setMaxFieldSize(i);
-	}
-
-	public int getMaxRows() throws SQLException {
-		return stmt.getMaxRows();
-	}
-
-	public void setMaxRows(int i) throws SQLException {
-		stmt.setMaxRows(i);
-	}
-
-	public void setEscapeProcessing(boolean b) throws SQLException {
-		stmt.setEscapeProcessing(b);
-	}
-
-	public int getQueryTimeout() throws SQLException {
-		return stmt.getQueryTimeout();
-	}
-
-	public void setQueryTimeout(int i) throws SQLException {
-		stmt.setQueryTimeout(i);
-	}
-
-	public void cancel() throws SQLException {
-		stmt.cancel();
-	}
-
-	public SQLWarning getWarnings() throws SQLException {
-		return stmt.getWarnings();
-	}
-
-	public void clearWarnings() throws SQLException {
-		stmt.clearWarnings();
-	}
-
-	public void setCursorName(String s) throws SQLException {
-		stmt.setCursorName(s);
-	}
-
-	public ResultSet getResultSet() throws SQLException {
-		return stmt.getResultSet();
-	}
-
-	public int getUpdateCount() throws SQLException {
-		return stmt.getUpdateCount();
-	}
-
-	public boolean getMoreResults() throws SQLException {
-		return stmt.getMoreResults();
-	}
-
-	public void setFetchDirection(int i) throws SQLException {
-		stmt.setFetchDirection(i);
-	}
-
-	public int getFetchDirection() throws SQLException {
-		return stmt.getFetchDirection();
-	}
-
-	public void setFetchSize(int i) throws SQLException {
-		stmt.setFetchSize(i);
-	}
-
-	public int getFetchSize() throws SQLException {
-		return stmt.getFetchSize();
-	}
-
-	public int getResultSetConcurrency() throws SQLException {
-		return stmt.getResultSetConcurrency();
-	}
-
-	public int getResultSetType() throws SQLException {
-		return stmt.getResultSetType();
-	}
-
-	public boolean getMoreResults(int i) throws SQLException {
-		return stmt.getMoreResults(i);
-	}
-
-	public ResultSet getGeneratedKeys() throws SQLException {
-		return stmt.getGeneratedKeys();
-	}
-
-	public int getResultSetHoldability() throws SQLException {
-		return stmt.getResultSetHoldability();
-	}
-
-	public boolean isClosed() throws SQLException {
-		return stmt.isClosed();
-	}
-
-	public void setPoolable(boolean b) throws SQLException {
-		stmt.setPoolable(b);
-	}
-
-	public boolean isPoolable() throws SQLException {
-		return stmt.isPoolable();
-	}
-
-	public <T> T unwrap(Class<T> tClass) throws SQLException {
-		// Todo to be implemented
-		return null;
-	}
-
-	public boolean isWrapperFor(Class<?> aClass) throws SQLException {
-		return aClass == stmt.getClass();
 	}
 }

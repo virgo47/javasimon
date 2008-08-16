@@ -72,42 +72,39 @@ public final class Connection implements java.sql.Connection {
 	}
 
 	public java.sql.PreparedStatement prepareStatement(String s) throws SQLException {
-		return new PreparedStatement(conn.prepareStatement(s), s, suffix);
+		return new PreparedStatement(this, conn.prepareStatement(s), s, suffix);
 	}
 
 	public java.sql.PreparedStatement prepareStatement(String s, int i) throws SQLException {
-		return new PreparedStatement(conn.prepareStatement(s, i), s, suffix);
+		return new PreparedStatement(this, conn.prepareStatement(s, i), s, suffix);
 	}
 
 	public java.sql.PreparedStatement prepareStatement(String s, int i, int i1) throws SQLException {
-		return new PreparedStatement(conn.prepareStatement(s, i, i1), s, suffix);
+		return new PreparedStatement(this, conn.prepareStatement(s, i, i1), s, suffix);
 	}
 
 	public java.sql.PreparedStatement prepareStatement(String s, int i, int i1, int i2) throws SQLException {
-		return new PreparedStatement(conn.prepareStatement(s, i, i1, i2), s, suffix);
+		return new PreparedStatement(this, conn.prepareStatement(s, i, i1, i2), s, suffix);
 	}
 
 	public java.sql.PreparedStatement prepareStatement(String s, int[] ints) throws SQLException {
-		return new PreparedStatement(conn.prepareStatement(s, ints), s, suffix);
+		return new PreparedStatement(this, conn.prepareStatement(s, ints), s, suffix);
 	}
 
 	public java.sql.PreparedStatement prepareStatement(String s, String[] strings) throws SQLException {
-		return new PreparedStatement(conn.prepareStatement(s, strings), s, suffix);
+		return new PreparedStatement(this, conn.prepareStatement(s, strings), s, suffix);
 	}
 
-	public CallableStatement prepareCall(String s) throws SQLException {
-		// Todo return simon impl
-		return conn.prepareCall(s);
+	public java.sql.CallableStatement prepareCall(String s) throws SQLException {
+		return new CallableStatement(conn, conn.prepareCall(s), s, suffix);
 	}
 
-	public CallableStatement prepareCall(String s, int i, int i1) throws SQLException {
-		// Todo return simon impl
-		return conn.prepareCall(s, i, i1);
+	public java.sql.CallableStatement prepareCall(String s, int i, int i1) throws SQLException {
+		return new CallableStatement(conn, conn.prepareCall(s, i, i1), s, suffix);
 	}
 
-	public CallableStatement prepareCall(String s, int i, int i1, int i2) throws SQLException {
-		// Todo return simon impl
-		return conn.prepareCall(s, i, i1, i2);
+	public java.sql.CallableStatement prepareCall(String s, int i, int i1, int i2) throws SQLException {
+		return new CallableStatement(conn, conn.prepareCall(s, i, i1, i2), s, suffix);
 	}
 
 
