@@ -9,6 +9,7 @@
 		<classes>
 			<class name="org.javasimon.FactoryTest"/>
 			<class name="org.javasimon.StopwatchTest"/>
+			<class name="org.javasimon.jdbc.SqlNormalizerTest"/>
 		</classes>
 	</test>
 </suite>
