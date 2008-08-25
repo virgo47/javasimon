@@ -18,11 +18,11 @@ import java.util.TreeMap;
  * nsChanges: 10000000 during 2930945951 ns
  * deltaCount = {15=70, 16=118}
  * ...
- * ns1 = 4849538236180
- * ns2 = 4849538236428
- * ns3 = 4849538236675
- * ns4 = 4849538236919
- * ns5 = 4849538237167
+ * ns1 = 12506467484797
+ * ns2 = 12506467485045 (diff: 248)
+ * ns2 = 12506467485289 (diff: 244)
+ * ns2 = 12506467485536 (diff: 247)
+ * ns2 = 12506467485784 (diff: 248)
  * </pre>
  * As you can see, ms timer is changed quite rarely while ns timer is changed on every call. This promises much
  * better precision with nanoTime instead of currentTimeMillis. However you may observe completely different
@@ -89,10 +89,10 @@ public final class SystemTimersPrecision {
 			long ns5 = System.nanoTime();
 			if (round % (LOOP / 5) == 0) {
 				System.out.println("\nns1 = " + ns1);
-				System.out.println("ns2 = " + ns2);
-				System.out.println("ns3 = " + ns3);
-				System.out.println("ns4 = " + ns4);
-				System.out.println("ns5 = " + ns5);
+				System.out.println("ns2 = " + ns2 + " (diff: " + (ns2 - ns1) + ")");
+				System.out.println("ns2 = " + ns3 + " (diff: " + (ns3 - ns2) + ")");
+				System.out.println("ns2 = " + ns4 + " (diff: " + (ns4 - ns3) + ")");
+				System.out.println("ns2 = " + ns5 + " (diff: " + (ns5 - ns4) + ")");
 			}
 		}
 	}

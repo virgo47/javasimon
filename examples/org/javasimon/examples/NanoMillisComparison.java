@@ -68,7 +68,8 @@ public final class NanoMillisComparison {
 		for (int i = 0; i < LOOP; i++) {
 			System.currentTimeMillis();
 		}
-		System.out.println("Millis: " + millis.stop());
+		millis.stop();
+		System.out.println("Millis: " + millis);
 	}
 
 	private static void msAssignTest() {
@@ -76,7 +77,8 @@ public final class NanoMillisComparison {
 		for (int i = 0; i < LOOP; i++) {
 			long ms = System.currentTimeMillis();
 		}
-		System.out.println("Assign ms: " + assignMs.stop());
+		assignMs.stop();
+		System.out.println("Assign ms: " + assignMs);
 	}
 
 	private static void nsAssignTest() {
@@ -84,7 +86,8 @@ public final class NanoMillisComparison {
 		for (int i = 0; i < LOOP; i++) {
 			long ns = System.nanoTime();
 		}
-		System.out.println("Assign ns: " + assignNs.stop());
+		assignNs.stop();
+		System.out.println("Assign ns: " + assignNs);
 	}
 
 	private static void simonUsage() {
@@ -94,6 +97,7 @@ public final class NanoMillisComparison {
 			simon.start();
 			simon.stop();
 		}
-		System.out.println("Threadsafe: " + stopwatch.stop());
+		stopwatch.stop();
+		System.out.println("Threadsafe: " + stopwatch);
 	}
 }

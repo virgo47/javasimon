@@ -4,7 +4,9 @@ import org.javasimon.Simon;
 
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Locale;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 
 /**
  * GoogleChartGenerator is utility class producing URLs for Google Chart API. Charts (URLs) will
@@ -16,7 +18,7 @@ import java.text.DecimalFormat;
 public final class GoogleChartGenerator {
 	private static final String URL_START = "http://chart.apis.google.com/chart?chs=600x300";
 	private static final String TYPE_BAR = "&cht=bvg&chbh=32,10,60&chco=4d89f9,c6d9fd&chxt=x,x,y";
-	private static final DecimalFormat nf = new DecimalFormat("0.00");
+	private static final DecimalFormat nf = new DecimalFormat("0.00", DecimalFormatSymbols.getInstance(Locale.US));
 
     private static final List<Replacement> REPLACEMENTS = new LinkedList<Replacement>();
 
