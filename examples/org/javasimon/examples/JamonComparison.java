@@ -20,11 +20,15 @@ public final class JamonComparison {
 	}
 
 	public static void main(String[] args) {
+		MonitorFactory.enable();
+
 		int round = 1;
 		while (true) {
 			System.out.println("\nRound: " + round++);
 			jamonTest();
+			jamonTest2();
 			simonTest();
+			simonTest2();
 		}
 	}
 
@@ -34,33 +38,68 @@ public final class JamonComparison {
 
 		long ns = System.nanoTime();
 		for (int i = 0; i < OUTER_LOOP; i++) {
-//			stay();
+			stay();
 			stopwatch.start();
-//			stay();
+			stay();
 			stopwatch.stop();
 		}
 		ns = System.nanoTime() - ns;
 
-		System.out.println("Simon Total: " + SimonUtils.presentNanoTime(stopwatch.getTotal()) +
+		printResults(ns, stopwatch, "Simon start/stop");
+	}
+
+	private static void simonTest2() {
+		SimonFactory.getStopwatch("org.javasimon.examples.stopwatch1").reset();
+
+		long ns = System.nanoTime();
+		for (int i = 0; i < OUTER_LOOP; i++) {
+			stay();
+			Stopwatch stopwatch = SimonFactory.getStopwatch("org.javasimon.examples.stopwatch1").start();
+			stay();
+			stopwatch.stop();
+		}
+		ns = System.nanoTime() - ns;
+
+		Stopwatch stopwatch = SimonFactory.getStopwatch("org.javasimon.examples.stopwatch1");
+		printResults(ns, stopwatch, "Simon get+start/stop");
+	}
+
+	private static void printResults(long ns, Stopwatch stopwatch, String title) {
+		System.out.println(title + ": " + SimonUtils.presentNanoTime(stopwatch.getTotal()) +
 			" max: " + SimonUtils.presentNanoTime(stopwatch.getMax()) + " min: " + SimonUtils.presentNanoTime(stopwatch.getMin()) +
 			" real: " + SimonUtils.presentNanoTime(ns));
 	}
 
 	private static void jamonTest() {
-		MonitorFactory.enable();
 		Monitor monitor = MonitorFactory.getTimeMonitor("bu");
 		monitor.reset();
 
 		long ns = System.nanoTime();
 		for (int i = 0; i < OUTER_LOOP; i++) {
-//			stay();
+			stay();
 			monitor.start();
-//			stay();
+			stay();
 			monitor.stop();
 		}
 		ns = System.nanoTime() - ns;
 
-		System.out.println("Jamon Total: " + monitor.getTotal() + " max: " + monitor.getMax() + " min: " + monitor.getMin() + " real: " + SimonUtils.presentNanoTime(ns));
+		System.out.println("Jamon start/stop: " + monitor.getTotal() + " max: " + monitor.getMax() + " min: " + monitor.getMin() + " real: " + SimonUtils.presentNanoTime(ns));
+	}
+
+	private static void jamonTest2() {
+		Monitor monitor = MonitorFactory.getTimeMonitor("bu");
+		monitor.reset();
+
+		long ns = System.nanoTime();
+		for (int i = 0; i < OUTER_LOOP; i++) {
+			stay();
+			monitor = MonitorFactory.start("bu");
+			stay();
+			monitor.stop();
+		}
+		ns = System.nanoTime() - ns;
+
+		System.out.println("Jamon get+start/stop: " + monitor.getTotal() + " max: " + monitor.getMax() + " min: " + monitor.getMin() + " real: " + SimonUtils.presentNanoTime(ns));
 	}
 
 	private static void stay() {

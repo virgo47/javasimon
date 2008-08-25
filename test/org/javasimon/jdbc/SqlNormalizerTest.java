@@ -18,6 +18,7 @@ public class SqlNormalizerTest {
 	@DataProvider(name = "dp1")
 	public Object[][] createTestData() {
 		return new Object[][] {
+			{null, null, null},
 			{"select * from trn, subtrn where amount>=45.8 and date!=to_date('5.6.2008', 'dd.mm.yyyy') and type='Mark''s'",
 				"select", "select * from trn, subtrn where amount >= ? and date != ? and type = ?"},
 			{"update trn set amount=50.6,type='bubu' where id=4",
@@ -28,8 +29,9 @@ public class SqlNormalizerTest {
 				"delete", "delete from trn where id in (select id from subtrn where trndesc not like ?)"},
 			{"delete from trn where date between to_date('6.6.2006','dd.mm.yyyy') and to_date('7.6.2006','dd.mm.yyyy') and id<=10000",
 				"delete", "delete from trn where date between ? and ? and id <= ?"},
-			{null, null, null},
-			{"  create table	foo(a1 varchar2(30) not null, a2   numeric(12,4))", "create", "create table	foo (a1 varchar2(30) not null, a2 numeric(12,4))"}
+			{"  create table	foo(a1 varchar2(30) not null, a2   numeric(12,4))", "create", "create table foo"},
+			{"insert into foo ('bufo', 4.47)", "insert", "insert into foo (?, ?)"},
+			{"insert into foo (a1) values ('bubu')", "insert", "insert into foo (a1) values (?)"},
 		};
 	}
 
