@@ -10,12 +10,13 @@ import java.util.List;
 import java.util.LinkedList;
 
 /**
- * Trieda Statement.
+ * Simon jdbc proxy statement implemntation class.
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
  * @created 8.8.2008 0:25:33
  * @since 1.0
+ * @see java.sql.Statement
  */
 public class Statement implements java.sql.Statement {
 
@@ -26,7 +27,7 @@ public class Statement implements java.sql.Statement {
 
 	protected String suffix;
 	protected String sqlCmdLabel;
-	protected String normalizedSql;
+	protected SqlNormalizer sqlNormalizer;
 
 	protected Stopwatch life;
 	protected Counter active;
@@ -51,46 +52,21 @@ public class Statement implements java.sql.Statement {
 		return conn;
 	}
 
-	protected String determineSqlCmdType(String sql) {
-		if (sql != null) {
-			String s = sql.trim();
-			int i = s.indexOf(' ');
-			return (i > -1 ? s.substring(0, i) : s).toLowerCase();
-		} else {
-			return null;
-		}
-	}
-
-	protected String normalizeSql(String sql) {
-		// Todo implement sql normalization
-		return sql.toLowerCase().trim();
-	}
-
-	protected String normalizeSql(List<String> sqls) {
-		StringBuilder ns = new StringBuilder("batch(");
-		for (String s : sqls) {
-			ns.append('|').append(normalizeSql(s));
-		}
-		return ns.append(')').toString();
-	}
-
 	protected Stopwatch prepare(String sql) {
 		if (sql != null && !sql.isEmpty()) {
-			sqlCmdLabel = suffix + "." + determineSqlCmdType(sql);
-			normalizedSql = normalizeSql(sql);
-			return SimonFactory.getStopwatch(sqlCmdLabel + "." + normalizedSql.hashCode()).start();
+			sqlNormalizer = new SqlNormalizer(sql);
+			sqlCmdLabel = suffix + "." + sqlNormalizer.getType();
+			return SimonFactory.getStopwatch(sqlCmdLabel + "." + sqlNormalizer.getNormalizedSql().hashCode()).start();
 		} else {
 			return null;
 		}
 	}
 
 	protected Stopwatch prepare(List<String> sqls) {
-		if (!sqls.isEmpty() && sqls.size() == 1) {
-			return prepare(sqls.get(0));
-		} else if (!sqls.isEmpty()) {
-			sqlCmdLabel = suffix + ".batch";
-			normalizedSql = normalizeSql(sqls);
-			return SimonFactory.getStopwatch(sqlCmdLabel + "." + normalizedSql.hashCode()).start();
+		if (!sqls.isEmpty()) {
+			sqlNormalizer = sqls.size() == 1 ? new SqlNormalizer(sqls.get(0)) : new SqlNormalizer(sqls);
+			sqlCmdLabel = suffix + "." + sqlNormalizer.getType();
+			return SimonFactory.getStopwatch(sqlCmdLabel + "." + sqlNormalizer.getNormalizedSql().hashCode()).start();
 		} else {
 			return null;
 		}
@@ -99,7 +75,7 @@ public class Statement implements java.sql.Statement {
 	protected void finish(Stopwatch s) {
 		if (s != null) {
 			SimonFactory.getStopwatch(sqlCmdLabel).addTime(s.stop());
-			s.setNote(normalizedSql);
+			s.setNote(sqlNormalizer.getNormalizedSql());
 		}
 	}
 

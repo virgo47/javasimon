@@ -10,9 +10,22 @@ import java.util.regex.Matcher;
 import java.io.IOException;
 
 /**
- * Trieda Driver.
+ * Simon JDBC Proxy Driver.
+ * <p>
+ * An application should not use this class directly. The application needs to
+ * load the drivers (minimum two), the real one (i.e. oracle) and a simon proxy
+ * driver. This can be done using Class.forName. To load the driver and open a
+ * database connection, use following code:
  *
- * @author <a href="mailto:radovan.sninsky@siemens.com">Radovan Sninsky</a>
+ * <pre>
+ * Class.forName(&quot;oracle.jdbc.driver.OracleDriver&quot;);  // loads real driver
+ * Class.forName(&quot;org.javasimon.jdbc.Driver&quot;);  // loads simon proxy driver
+ * Connection conn = DriverManager.getConnection(
+ *      &quot;jdbc:simon:oracle:thin:...&quot;, &quot;scott&quot;, &quot;tiger&quot;);
+ * </pre>
+ * </p>
+ * 
+ * @author Radovan Sninsky
  * @version $Revision$ $Date$
  * @created 6.8.2008 23:13:27
  * @since 1.0

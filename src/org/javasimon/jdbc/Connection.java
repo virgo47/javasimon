@@ -9,7 +9,16 @@ import java.util.Properties;
 import java.sql.*;
 
 /**
- * Trieda Conncetion.
+ * Class implements simon jdbc proxy connection. Main purpose of proxy is to intercept
+ * calls to original object and do something added value. Therefore, this proxy connection
+ * just wraps <i>real</i> connection and mostly all calls delegates to <i>real</i> connection.
+ * Added value is hierarchy of simons which monitors several aspects of connection.
+ * <p>
+ * From all statement-return-methods (<code>createStatement(*)</code>,
+ * <code>prepareStatement(*)</code>, <code>prepareCall(*)</code>) connection returns own
+ * implementation of statement classes. Those classes are also proxies and provides
+ * additional simons for monitoring features of JDBC driver.
+ * </p>
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
@@ -26,14 +35,21 @@ public final class Connection implements java.sql.Connection {
 	private Counter commits;
 	private Counter rollbacks;
 
-	public Connection(java.sql.Connection conn, String suffix) {
+	/**
+	 * Class constructor, initializes simons (lifespan, active, commits
+	 * and rollbacks) related to db connection.
+	 *
+	 * @param conn real db connection
+	 * @param suffix hierarchy suffix for connection simons
+	 */
+	Connection(java.sql.Connection conn, String suffix) {
 		this.conn = conn;
 		this.suffix = suffix;
 
-		life = SimonFactory.getStopwatch(suffix + ".conn").start();
 		active = SimonFactory.getCounter(suffix + ".conn.active").increment();
 		commits = SimonFactory.getCounter(suffix + ".conn.commits");
 		rollbacks = SimonFactory.getCounter(suffix + ".conn.rollbacks");
+		life = SimonFactory.getStopwatch(suffix + ".conn").start();
 	}
 
 	public void close() throws SQLException {
@@ -43,6 +59,10 @@ public final class Connection implements java.sql.Connection {
 		active.decrement();
 	}
 
+	/**
+	 *
+	 * @throws SQLException if something was wrong
+	 */
 	public void commit() throws SQLException {
 		conn.commit();
 

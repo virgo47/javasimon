@@ -12,12 +12,13 @@ import java.util.Calendar;
 import java.net.URL;
 
 /**
- * Trieda PreparedStatement.
+ * Simon jdbc proxy prepared statement implemntation class.
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
  * @created 9.8.2008 15:42:52
  * @since 1.0
+ * @see java.sql.PreparedStatement
  */
 public class PreparedStatement extends Statement implements java.sql.PreparedStatement {
 
@@ -34,9 +35,9 @@ public class PreparedStatement extends Statement implements java.sql.PreparedSta
 
 	protected Stopwatch prepare() {
 		if (sql != null && !sql.isEmpty()) {
-			sqlCmdLabel = suffix + "." + determineSqlCmdType(sql);
-			normalizedSql = normalizeSql(sql);
-			return SimonFactory.getStopwatch(sqlCmdLabel + "." + normalizedSql.hashCode()).start();
+			sqlNormalizer = new SqlNormalizer(sql);
+			sqlCmdLabel = suffix + "." + sqlNormalizer.getType();
+			return SimonFactory.getStopwatch(sqlCmdLabel + "." + sqlNormalizer.getNormalizedSql().hashCode()).start();
 		} else {
 			return null;
 		}
