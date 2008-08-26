@@ -4,6 +4,8 @@ import org.testng.annotations.Test;
 import org.testng.annotations.DataProvider;
 import org.testng.Assert;
 
+import java.util.Arrays;
+
 /**
  * Trieda SqlNormalizerTest.
  *
@@ -41,5 +43,13 @@ public class SqlNormalizerTest {
 
 		Assert.assertEquals(sn.getType(), type);
 		Assert.assertEquals(sn.getNormalizedSql(), normSql);
+	}
+
+	@Test
+	public void batchNormalizationTest() {
+		SqlNormalizer sn = new SqlNormalizer(Arrays.asList("update trn set amount=50.6,type='bubu' where id=4", "insert into foo ('bufo', 4.47)"));
+		Assert.assertEquals(sn.getType(), "batch");
+		Assert.assertEquals(sn.getSql(), "batch");
+		Assert.assertEquals(sn.getNormalizedSql(), "update trn set amount = ?, type = ? where id = ?; insert into foo (?, ?)");
 	}
 }
