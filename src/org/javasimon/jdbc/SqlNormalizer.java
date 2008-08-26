@@ -1,5 +1,7 @@
 package org.javasimon.jdbc;
 
+import java.util.List;
+
 /**
  * SqlNormalizer takes SQL statement and replaces parameters with question marks.
  *
@@ -14,6 +16,10 @@ public class SqlNormalizer {
 	public SqlNormalizer(String sql) {
 		this.sql = sql;
 		normalize();
+	}
+
+	public SqlNormalizer(List<String> batch) {
+		// Todo implementation
 	}
 
 	private void normalize() {
