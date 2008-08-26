@@ -14,7 +14,7 @@
 		<pathelement path="build/classes"/>
 	</path>
 
-	<target name="dist" depends="clean,build,examples,test,zip" description="Distribution - clean/build/zip"/>
+	<target name="dist" depends="clean,build,examples,test,docs,zip" description="Distribution - clean/build/zip"/>
 
 	<target name="compile" description="Compile the source code">
 		<mkdir dir="build/classes"/>
@@ -91,5 +91,21 @@
 				<include name="testng.xml"/>
 			</xmlfileset>
 		</testng>
+	</target>
+
+	<property name="doc.dir" value="build/api"/>
+
+	<target name="docs" description="Create Javadoc API documentation">
+		<mkdir dir="${doc.dir}"/>
+
+		<javadoc destdir="${doc.dir}" private="true" linksource="true"
+				 doctitle="Java Simon API" windowtitle="Java Simon API"
+				 header="&lt;b&gt;Java Simon&lt;/b&gt;&lt;font size='-1'&gt; 1.0&lt;/font&gt;"
+				 additionalparam="-tag created:t:Created:">
+
+			<sourcepath path="src"/>
+			<classpath refid="classpath"/>
+			<package name="org.javasimon.*"/>
+		</javadoc>
 	</target>
 </project>
