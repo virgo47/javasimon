@@ -7,7 +7,7 @@ import org.testng.Assert;
 import java.util.Arrays;
 
 /**
- * Trieda SqlNormalizerTest.
+ * Unit tests for SqlNormalizer class.
  *
  * @author Radovan Sninsky
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
@@ -23,6 +23,12 @@ public class SqlNormalizerTest {
 			{null, null, null},
 			{"select * from trn, subtrn where amount>=45.8 and date!=to_date('5.6.2008', 'dd.mm.yyyy') and type='Mark''s'",
 				"select", "select * from trn, subtrn where amount >= ? and date != ? and type = ?"},
+			{"select name as 'Customer Name', sum(item_price) as sum from foo where dept = ? group by name",
+				"select", "select name as 'Customer Name', sum(item_price) as sum from foo where dept = ? group by name"},
+			{"select name as employee, sum(dur)/8 hrs from foo where dept='sys' group by name order by name desc",
+				"select", "select name as employee, sum(dur)/8 hrs from foo where dept = ? group by name order by name desc"},
+			{"select sysdate(), sysdate from sys.dual",
+				"select", "select sysdate(), sysdate from sys.dual"},
 			{"update trn set amount=50.6,type='bubu' where id=4",
 				"update", "update trn set amount = ?, type = ? where id = ?"},
 			{"update 'trn' set amount=  50.6,type='' where id in (4,5,6) or date in (to_date('6.6.2006','dd.mm.yyyy'), to_date('7.6.2006','dd.mm.yyyy'))",
@@ -34,6 +40,9 @@ public class SqlNormalizerTest {
 			{"  create table	foo(a1 varchar2(30) not null, a2   numeric(12,4))", "create", "create table foo"},
 			{"insert into foo ('bufo', 4.47)", "insert", "insert into foo (?, ?)"},
 			{"insert into foo (a1) values ('bubu')", "insert", "insert into foo (a1) values (?)"},
+			{"{call foo_ins_proc(99999, 'This text is inserted from stored procedure')}", "call", "call foo_ins_proc(?, ?)"},
+			{"{?= call foo_ins_proc_with_ret(99999, 'Text', sysdate())}", "call", "call foo_ins_proc(?, ?)"},
+			{"begin foo_ins_proc_with_ret(99999, 'Text', sysdate()); end;", "call", "call foo_ins_proc(?, ?)"},
 		};
 	}
 
@@ -48,6 +57,7 @@ public class SqlNormalizerTest {
 	@Test
 	public void batchNormalizationTest() {
 		SqlNormalizer sn = new SqlNormalizer(Arrays.asList("update trn set amount=50.6,type='bubu' where id=4", "insert into foo ('bufo', 4.47)"));
+
 		Assert.assertEquals(sn.getType(), "batch");
 		Assert.assertEquals(sn.getSql(), "batch");
 		Assert.assertEquals(sn.getNormalizedSql(), "update trn set amount = ?, type = ? where id = ?; insert into foo (?, ?)");
