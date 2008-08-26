@@ -15,32 +15,45 @@ public class SqlNormalizer {
 
 	public SqlNormalizer(String sql) {
 		this.sql = sql;
-		normalize();
+		if (sql != null) {
+			normalizedSql = normalize(sql);
+			type = getType(normalizedSql);
+		}
 	}
 
 	public SqlNormalizer(List<String> batch) {
-		// Todo implementation
+		type = "batch";
+		sql = "batch";
+		StringBuilder sqlBuilder = new StringBuilder();
+		for (String statement : batch) {
+			if (sqlBuilder.length() > 0) {
+				sqlBuilder.append("; ");
+			}
+			sqlBuilder.append(normalize(statement));
+		}
+		this.normalizedSql = sqlBuilder.toString();
 	}
 
-	private void normalize() {
-		if (sql != null) {
-			normalizedSql = sql.toLowerCase()
-				.replaceAll("''", "?") // replace empty strings and '' inside other strings
-				.replaceAll(" *([=<>!,]+) *", "$1") // remove spaces around = and ,
-				.replaceAll("\\s+", " ") // normalize white spaces
-				.replaceAll("([(=<>!,]+)(?:(?:'[^']+')|(?:[0-9.]+))", "$1?") // replace arguments after =, ( and , with ?
-				.replaceAll("([(=<>!,]+)\\w+\\([^)]*\\)", "$1?") // replace whole functions with ?
-				.replaceAll("like '[^']+'", "like ?") // replace like arguments
-				.replaceAll("between \\S+ and \\S+", "between ? and ?") // replace between arguments
-				.replaceAll(" in\\(", " in (") // put space before ( in "in("
+	private String normalize(String sql) {
+		return sql.toLowerCase()
+			.replaceAll("''", "?") // replace empty strings and '' inside other strings
+			.replaceAll(" *([=<>!,]+) *", "$1") // remove spaces around = and ,
+			.replaceAll("\\s+", " ") // normalize white spaces
+			.replaceAll("([(=<>!,]+)(?:(?:'[^']+')|(?:[0-9.]+))", "$1?") // replace arguments after =, ( and , with ?
+			.replaceAll("([(=<>!,]+)\\w+\\([^)]*\\)", "$1?") // replace whole functions with ?
+			.replaceAll("like '[^']+'", "like ?") // replace like arguments
+			.replaceAll("between \\S+ and \\S+", "between ? and ?") // replace between arguments
+			.replaceAll(" in\\(", " in (") // put space before ( in "in("
 //					.replaceAll(" *\\(", "(") // remove spaces in front of (
-				.replaceAll("([=<>!]+)", " $1 ") // put spaces around =, >=, <=, !=...
-				.replaceAll(",", ", ") // put spaces after ,
-				.replaceAll(" in \\(\\?(?:, \\?)*\\)", " in (?)") // shrink more ? in "in" to one
-				.replaceAll("(create|alter|drop) (\\S+) ([^ (]+).*$", "$1 $2 $3") // shrink DDLs
-				.trim();
-			type = normalizedSql.replaceAll("\\W*(\\w+)\\W.*", "$1");
-		}
+			.replaceAll("([=<>!]+)", " $1 ") // put spaces around =, >=, <=, !=...
+			.replaceAll(",", ", ") // put spaces after ,
+			.replaceAll(" in \\(\\?(?:, \\?)*\\)", " in (?)") // shrink more ? in "in" to one
+			.replaceAll("(create|alter|drop) (\\S+) ([^ (]+).*$", "$1 $2 $3") // shrink DDLs
+			.trim();
+	}
+
+	private String getType(String sql) {
+		return sql.replaceAll("\\W*(\\w+)\\W.*", "$1");
 	}
 
 	public String getSql() {
