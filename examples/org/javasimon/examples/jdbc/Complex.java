@@ -11,8 +11,8 @@ import java.sql.*;
 /**
  * Trieda Complex.
  *
- * @author <a href="mailto:radovan.sninsky@siemens.com">Radovan Sninsky</a>
- * @version $ $
+ * @author Radovan Sninsky
+ * @version $Revision$ $Date$
  * @created 16.8.2008 21:10:39
  * @since 1.0
  */
@@ -32,6 +32,18 @@ public class Complex extends Simple {
 			if (stmt != null) {
 				// this is intentionally commented for monitoring purposes
 				//stmt.close();
+			}
+		}
+	}
+
+	private void doCall1(Connection c) throws SQLException {
+		CallableStatement stmt = null;
+		try {
+			stmt = c.prepareCall("{call foo_ins_proc("+rand.nextInt(99999)+", 'This text is inserted from stored procedure')}");
+			stmt.execute();
+		} finally {
+			if (stmt != null) {
+				stmt.close();
 			}
 		}
 	}
