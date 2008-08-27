@@ -24,7 +24,7 @@ public class SqlNormalizerTest {
 			{"select * from trn, subtrn where amount>=45.8 and date!=to_date('5.6.2008', 'dd.mm.yyyy') and type='Mark''s'",
 				"select", "select * from trn, subtrn where amount >= ? and date != ? and type = ?"},
 			{"select name as 'Customer Name', sum(item_price) as sum from foo where dept = ? group by name",
-				"select", "select name as 'Customer Name', sum(item_price) as sum from foo where dept = ? group by name"},
+				"select", "select name as 'customer name', sum(item_price) as sum from foo where dept = ? group by name"},
 			{"select name as employee, sum(dur)/8 hrs from foo where dept='sys' group by name order by name desc",
 				"select", "select name as employee, sum(dur)/8 hrs from foo where dept = ? group by name order by name desc"},
 			{"select sysdate(), sysdate from sys.dual",

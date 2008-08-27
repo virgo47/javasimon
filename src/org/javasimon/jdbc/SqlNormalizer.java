@@ -49,6 +49,7 @@ public class SqlNormalizer {
 			.replaceAll(",", ", ") // put spaces after ,
 			.replaceAll(" in \\(\\?(?:, \\?)*\\)", " in (?)") // shrink more ? in "in" to one
 			.replaceAll("(create|alter|drop) (\\S+) ([^ (]+).*$", "$1 $2 $3") // shrink DDLs
+			.replaceAll("^\\{|\\}$", "") // remove { and } at the start/end
 			.trim();
 	}
 
