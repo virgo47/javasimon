@@ -20,12 +20,12 @@ public final class GoogleChartGenerator {
 	private static final String TYPE_BAR = "&cht=bvg&chbh=32,10,60&chco=4d89f9,c6d9fd&chxt=x,x,y";
 	private static final DecimalFormat nf = new DecimalFormat("0.00", DecimalFormatSymbols.getInstance(Locale.US));
 
-    private static final List<Replacement> REPLACEMENTS = new LinkedList<Replacement>();
+    private static final List<Replacer> REPLACERS = new LinkedList<Replacer>();
 
     static {
-        REPLACEMENTS.add(new Replacement("\\+", "%2b"));
-        REPLACEMENTS.add(new Replacement(" ", "+"));
-        REPLACEMENTS.add(new Replacement("&", "%26"));
+        REPLACERS.add(new Replacer("\\+", "%2b"));
+        REPLACERS.add(new Replacer(" ", "+"));
+        REPLACERS.add(new Replacer("&", "%26"));
     }
 
 	private GoogleChartGenerator() {
@@ -70,29 +70,9 @@ public final class GoogleChartGenerator {
 	}
 
 	private static String encode(String s) {
-        for (final Replacement replacement : REPLACEMENTS) {
-            s = s.replaceAll(replacement.from(), replacement.to());
+        for (final Replacer replacer : REPLACERS) {
+            s = replacer.process(s);
         }
 		return s;
 	}
-
-    private static final class Replacement {
-
-        private final String from;
-
-        private final String to;
-
-        private Replacement(final String from, final String to) {
-            this.from = from;
-            this.to = to;
-        }
-
-        public String from() {
-            return from;
-        }
-
-        public String to() {
-            return to;
-        }
-    }
 }

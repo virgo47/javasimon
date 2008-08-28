@@ -7,7 +7,21 @@ import org.javasimon.utils.SimonUtils;
 import org.javasimon.SimonFactory;
 
 /**
- * JamonComparison.
+ * JamonComparison shows Jamon and Simon monitors next to each other. Wait a few rounds for JVM
+ * to warm up and then compare the performance of both. Notice though that you should (be already)
+ * decide(d) on the features/needs basis. ;-)
+ *
+ * Both APIs are run with pure start/stop calls (if you use one monitor a lot and you keep the
+ * reference) and then with get-monitor call followed by start/stop (as typical if you don't want
+ * to hold the reference to the monitor).
+ *
+ * You may want to adjust both loops - inner loop count also affects the relative difference in
+ * both APIs performance. You may want to comment out {@code stay()} calls. Notice also how precise
+ * both APIs are. Typically Simon stopwatch total time is pretty close to half of the overal loop
+ * time - which is correct. Jamon precision is strongly affected by usage of ms and if its results
+ * are correct it's rather statistical effect of many repetitions in the loop (or luck :-)).
+ *
+ * Wrap up: You can compare performances of both APIs on your HW + verify Simon's precision.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 7, 2008

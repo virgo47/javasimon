@@ -1,7 +1,7 @@
 package org.javasimon;
 
 /**
- * Simon.
+ * Simon stopwatch for time span measuring.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 4, 2008
