@@ -1,0 +1,182 @@
+<body>
+Simon JDBC Proxy Driver for monitoring JDBC drivers through Simon monitoring API.
+<p>
+	Main goal of monitoring JDBC driver through Simon JDBC Proxy Driver is to gain data about so-called monitored
+	entities of JDBC driver, which could provide reasonable information about their usage in monitored system.
+	<br>
+	Today are monitored following JDBC entities:
+</p>
+<ul>
+	<li>Connections</li>
+	<li>Statements - objects in JVM</li>
+	<li>SQL commands - commands like select, insert, update, etc, but also create, truncate and others, so than you can
+	know how many selects vs. inserts vs. updates are present in your system or how long took their execution</li>
+	<li>SQL command groups - command group means same command with different parameters, typically systems in general
+	has final set of different select or updates (unless it is SQL editor)</li>
+</ul>
+
+<p>
+	Each entity has several monitoring parameters:
+</p>
+
+<b>Connection:</b>
+<ul>
+	<li>
+		<i>active conns</i> - count of actual active opened connections
+	</li>
+	<li>
+		<i>max active conns</i> - maximum active opened connection at same time
+	</li>
+	<li>
+		<i>opened</i> - summary count of all opened connections (diference between this number and closed should equals
+		active in any time, if not this could idicate unclosed connections (<code>close()</code> was not invoked))
+	</li>
+	<li>
+		<i>closed</i> - summary count of all closed connections (diference between this number and opened should equals
+		active in any time)
+	</li>
+	<li>
+		<i>minimum lifespan</i> - minimum time of all connections life (time between <code>getConnection()</code> and
+		<code>close()</code>)
+	</li>
+	<li>
+		<i>average lifespan</i> - average time of all connection life
+	</li>
+	<li>
+		<i>maximum lifespan</i> - maximum time of all connection life
+	</li>
+	<li>
+		<i>commits</i> - summary count of all commits issued by <code>commit()</code> (this counter is incresed only by
+		invoking method <code>commit()</code>, therefore if autocommit is <code>true</code> counter is not representative)
+	</li>
+	<li>
+		<i>rollbacks</i> - summary count of all rollbacks issued by <code>rollback()</code> (this counter is incresed only by
+		invoking method <code>rollback()</code>, therefore if autocommit is <code>true</code> counter is not representative)
+	</li>
+</ul>
+
+<b>Statement:</b>
+<ul>
+	<li>
+		<i>active stmt</i> - count of actual active opened statements
+	</li>
+	<li>
+		<i>max active stmt</i> - maximum active opened statements at same time
+	</li>
+	<li>
+		<i>opened</i> - summary count of all opened statements (diference between this number and closed should equals
+		active in any time, if not this could idicate unclosed statements (<code>close()</code> was not invoked))
+	</li>
+	<li>
+		<i>closed</i> - summary count of all closed statements (diference between this number and opened should equals
+		active in any time)
+	</li>
+	<li>
+		<i>minimum lifespan</i> - minimum time of all statements life (time between <code>createStatement()</code>,
+		<code>prepareStatement()</code> or <code>prepareCall()</code> and <code>close()</code>)
+	</li>
+	<li>
+		<i>average lifespan</i> - average time of all statements life
+	</li>
+	<li>
+		<i>maximum lifespan</i> - maximum time of all statements life
+	</li>
+</ul>
+
+<b>SQL command (select, insert, delete, call, ...):</b>
+<ul>
+	<li>
+		<i>minimum execution</i> - minimum time of all desired sql command execution times (typically execution time of <code>executeQuery()</code>,
+		<code>executeUpdate()</code> or <code>execute()</code>)
+	</li>
+	<li>
+		<i>average execution</i> - average time of all desired sql command execution times
+	</li>
+	<li>
+		<i>maximum execution</i> - maximum time of all desired sql command execution times
+	</li>
+	<li>
+		<i>first</i> - time of first occurence of desired SQL command
+	</li>
+	<li>
+		<i>last</i> - time of last occurence of desired SQL command
+	</li>
+</ul>
+
+<b>SQL command group:</b>
+<ul>
+	<li>
+		<i>minimum execution</i> - minimum time of all desired sql command execution times (typically execution time of <code>executeQuery()</code>,
+		<code>executeUpdate()</code> or <code>execute()</code>)
+	</li>
+	<li>
+		<i>average execution</i> - average time of all desired sql command execution times
+	</li>
+	<li>
+		<i>maximum execution</i> - maximum time of all desired sql command execution times
+	</li>
+	<li>
+		<i>first</i> - time of first occurence of desired SQL command
+	</li>
+	<li>
+		<i>last</i> - time of last occurence of desired SQL command
+	</li>
+	<li>
+		<i>note</i> - concrete 'normalized' SQL command (SQL command without concrete values, just with question mark like prepared statements)
+	</li>
+</ul>
+
+<p>
+	From technical point of view, Simon JDBC Proxy Driver is based on simple idea of proxy driver, which
+	delegates invocations to real driver which is wrapped. This allow intercept inocation of real driver
+	and measure (or count) this invocation.
+	<br>
+	However, the goal is not to measure each invocation on every possible function of JDBC driver (there
+	are another techniques like profiling for that purpose), but just monitor those functions of driver
+	which somehow influence paramater values of monitored entities mentioned earlier.
+	<br>
+	Simon driver implements just few basic JDBC interfaces, like Connection and all Statments. Rest of
+	JDBC interfaces (from java.sql.* package) are not implemented by Simon driver. Therefore
+	result of some invocations are not Simon driver classes, but directly classes from real driver. For
+	example, as result of invoke method <code>Connection.createStatement()</code> is returned Simon driver
+	class <code>org.javasimon.jdbc.Statement</code>, however result of invoking method <code>Statement.executeQuery()</code>
+	is returned concrete implementation class of real driver, i.e. for H2 driver class <code>org.h2.jdbc.JdbcResultSet</code>.
+</p>
+
+<p>
+	For monitoring entities mentioned earlier are used simons of course. For measuring time parameters like
+	execution time is used Stopwatch simon and for counting like how many statements are open is used Counter simon.
+	<br>
+	Each simon is created in logical hierarchy (basic feature of simon) which is strictly defined inside the driver.
+	Therefor you can use static configuration of those simons by defining their state in config file (for more information
+	see <code>SimonConfigTest.java</code> example).
+	Hierarchy of simons in Simon JDBC proxy driver is following:
+	<pre>
+org.javasimon.jdbc
+              |
+              +-> .conn
+              |     +-> .active
+              |     +-> .commits
+              |     +-> .rollbacks
+              |
+              +-> .stmt
+              |     +-> .active
+              |
+              +-> .&lt;sql&gt;
+                    +-> .&lt;sql_group_hash&gt;
+	</pre>
+
+	For choosing simon's name is used prefix. If non is defined, default is <code>org.javasimon.jdbc</code>.
+	If default prexif value is not suficient or you need to differentiate between two different drivers (or its configuration)
+	you can define your own prefix as parameter <code>SIMON_PREFIX=&lt;prefix&gt;</code> within JDBC connection string.
+	For example, <code>jdbc:simon:....;SIMON_PREFIX=com.foo.bar</code>.
+	<br> 
+	For printing information from simons to standard output you can use:
+	<pre>
+SimonUtils.printSimonTree(SimonFactory.getRootSimon());
+	</pre>
+	
+	Also see examples:  <code>org.javasimon.jdbc.Simple.java</code> a <code>org.javasimon.jdbc.Complex.java</code>.
+</p>
+
+</body>
