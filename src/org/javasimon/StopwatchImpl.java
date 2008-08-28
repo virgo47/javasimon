@@ -3,7 +3,7 @@ package org.javasimon;
 import org.javasimon.utils.SimonUtils;
 
 /**
- * Simonatch.
+ * Stopwatch implementation.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 4, 2008
