@@ -29,4 +29,19 @@ public final class StopwatchTest {
 		Assert.assertEquals(stopwatch.getMax(), stopwatch.getTotal());
 		Assert.assertEquals(stopwatch.getMin(), stopwatch.getTotal());
 	}
+
+	@Test
+	public void usagesTest() throws Exception {
+		Stopwatch stopwatch = SimonFactory.getStopwatch(STOPWATCH_NAME);
+		stopwatch.reset();
+		Assert.assertEquals(stopwatch.getFirstUsage(), 0);
+		Assert.assertEquals(stopwatch.getLastUsage(), 0);
+		stopwatch.start();
+		Assert.assertEquals(stopwatch.getFirstUsage(), stopwatch.getLastUsage());
+		stopwatch.stop();
+		Assert.assertTrue(stopwatch.getFirstUsage() <= stopwatch.getLastUsage());
+		Thread.sleep(20);
+		stopwatch.addTime(0);
+		Assert.assertTrue(stopwatch.getFirstUsage() < stopwatch.getLastUsage());
+	}
 }

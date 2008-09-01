@@ -25,6 +25,10 @@ abstract class AbstractSimon implements Simon {
 
 	private String note;
 
+	private long firstUsage;
+
+	private long lastUsage;
+
 	AbstractSimon(String name) {
 		this.name = name;
 		if (name == null || name.equals(SimonFactory.ROOT_SIMON_NAME)) {
@@ -197,8 +201,43 @@ abstract class AbstractSimon implements Simon {
 		this.note = note;
 	}
 
+	/**
+	 * Returns ms timestamp of the first usage of this Simon. First and last usage
+	 * are updated when monitor performs the measuring (start/stop/count/etc). They
+	 * are not updated when you just get the value from the monitor.
+	 *
+	 * @return ms timestamp of the first usage
+	 */
+	public long getFirstUsage() {
+		return firstUsage;
+	}
+
+	/**
+	 * Returns ms timestamp of the last usage of this Simon. First and last usage
+	 * are updated when monitor performs the measuring (start/stop/count/etc). They
+	 * are not updated when you just get the value from the monitor.
+	 *
+	 * @return ms timestamp of the last usage
+	 */
+	public long getLastUsage() {
+		return lastUsage;
+	}
+
+	@Override
 	public String toString() {
 		return "[" + name + " " + state + "/opt=" + getStatProcessor().getType() + "]";
+	}
+
+	protected void recordUsages() {
+		lastUsage = System.currentTimeMillis();
+		if (firstUsage == 0) {
+			firstUsage = lastUsage;
+		}
+	}
+
+	protected void resetUsages() {
+		firstUsage = 0;
+		lastUsage = 0;
 	}
 
 	/**

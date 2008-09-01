@@ -96,4 +96,8 @@ public interface Simon {
 	 * @param note note for the Simon.
 	 */
 	void setNote(String note);
+
+	long getFirstUsage();
+
+	long getLastUsage();
 }

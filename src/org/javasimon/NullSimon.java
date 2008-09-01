@@ -93,6 +93,14 @@ final class NullSimon implements Counter, Stopwatch {
 		return 0;
 	}
 
+	public long getFirstUsage() {
+		return 0;
+	}
+
+	public long getLastUsage() {
+		return 0;
+	}
+
 	public StatProcessor getStatProcessor() {
 		return NullStatProcessor.INSTANCE;
 	}
@@ -117,6 +125,7 @@ final class NullSimon implements Counter, Stopwatch {
 	public void setNote(String note) {
 	}
 
+	@Override
 	public String toString() {
 		return "Null Simon";
 	}

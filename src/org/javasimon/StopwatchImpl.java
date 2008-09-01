@@ -26,6 +26,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	public synchronized Stopwatch addTime(long ns) {
 		if (enabled) {
 			addSplit(ns);
+			recordUsages();
 		}
 		return this;
 	}
@@ -36,11 +37,13 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		max = 0;
 		min = Long.MAX_VALUE;
 		start = new ThreadLocal<Long>();
+		resetUsages();
 		return this;
 	}
 
 	public Stopwatch start() {
 		if (enabled) {
+			recordUsages();
 			start.set(System.nanoTime());
 		}
 		return this;
@@ -52,6 +55,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 			if (end != null) {
 				return addSplit(System.nanoTime() - end);
 			}
+			recordUsages();
 		}
 		return 0;
 	}
