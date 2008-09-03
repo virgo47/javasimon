@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <project name="Java Simon Library" default="dist" basedir=".">
-	<property name="version" value="0.9"/>
+	<property name="version" value="1.0.alpha1"/>
 	<property name="javac.debug" value="true"/>
 	<property name="javac.deprecation" value="false"/>
 
@@ -53,6 +53,9 @@
 			<zipfileset prefix="javasimon-${version}" dir="build">
 				<filename name="javasimon-${version}.jar"/>
 			</zipfileset>
+			<zipfileset prefix="javasimon-${version}" dir="build">
+				<include name="docs/**"/>
+			</zipfileset>
 			<zipfileset prefix="javasimon-${version}/lib" dir="${lib.dir}">
 				<include name="testng-5.7-jdk15.jar"/>
 				<include name="jamon-2.7.jar"/>
@@ -93,12 +96,12 @@
 		</testng>
 	</target>
 
-	<property name="doc.dir" value="build/api"/>
+	<property name="doc.dir" value="build/docs/api"/>
 
 	<target name="docs" description="Create Javadoc API documentation">
 		<mkdir dir="${doc.dir}"/>
 
-		<javadoc destdir="${doc.dir}" private="true" linksource="true"
+		<javadoc destdir="${doc.dir}" protected="true" linksource="true"
 				 doctitle="Java Simon API" windowtitle="Java Simon API"
 				 header="&lt;b&gt;Java Simon&lt;/b&gt;&lt;font size='-1'&gt; 1.0&lt;/font&gt;"
 				 additionalparam="-tag created:t:Created:">
