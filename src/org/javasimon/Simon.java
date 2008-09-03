@@ -97,7 +97,21 @@ public interface Simon {
 	 */
 	void setNote(String note);
 
+	/**
+	 * Returns ms timestamp of the first usage of this Simon. First and last usage
+	 * are updated when monitor performs the measuring (start/stop/count/etc). They
+	 * are not updated when you just get the value from the monitor.
+	 *
+	 * @return ms timestamp of the first usage
+	 */
 	long getFirstUsage();
 
+	/**
+	 * Returns ms timestamp of the last usage of this Simon. First and last usage
+	 * are updated when monitor performs the measuring (start/stop/count/etc). They
+	 * are not updated when you just get the value from the monitor.
+	 *
+	 * @return ms timestamp of the last usage
+	 */
 	long getLastUsage();
 }
