@@ -3,7 +3,7 @@ package org.javasimon;
 import org.javasimon.utils.SimonUtils;
 
 /**
- * Stopwatch implementation.
+ * Stopwatch default implementation - it's thread-safe.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 4, 2008
@@ -26,7 +26,6 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	public synchronized Stopwatch addTime(long ns) {
 		if (enabled) {
 			addSplit(ns);
-			recordUsages();
 		}
 		return this;
 	}
@@ -36,7 +35,6 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		counter = 0;
 		max = 0;
 		min = Long.MAX_VALUE;
-		start = new ThreadLocal<Long>();
 		resetUsages();
 		return this;
 	}
@@ -55,12 +53,12 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 			if (end != null) {
 				return addSplit(System.nanoTime() - end);
 			}
-			recordUsages();
 		}
 		return 0;
 	}
 
 	private synchronized long addSplit(long split) {
+		recordUsages();
 		total += split;
 		counter++;
 		if (split > max) {
@@ -68,6 +66,9 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		}
 		if (split < min) {
 			min = split;
+		}
+		if (getStatProcessor() != null) {
+			getStatProcessor().process(split);
 		}
 		return split;
 	}
