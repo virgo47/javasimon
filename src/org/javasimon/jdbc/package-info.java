@@ -116,13 +116,14 @@
  * For choosing Simon's name is used prefix. If non is defined, default is {@code org.javasimon.jdbc}.
  * If default prexif value is not suficient or you need to differentiate between two different drivers
  * (or its configuration) you can define your own prefix as parameter {@code SIMON_PREFIX=&lt;prefix&gt;}
- * within JDBC connection string. For example, {@code jdbc:simon:....;SIMON_PREFIX=com.foo.bar}.
+ * within JDBC connection string. For example, {@code jdbc:simon:....;SIMON_PREFIX=com.foo.bar}. More
+ * about setuping Simon JDBC proxy driver see {@link org.javasimon.jdbc.Driver}.
  * <p>
  * For printing information from Simons to standard output you can use:
  * <pre>
  * SimonUtils.printSimonTree(SimonFactory.getRootSimon());
  * </pre>
  *
- * Also see examples classes {@code org.javasimon.jdbc.Simple.java} and {@code org.javasimon.jdbc.Complex.java}.
+ * Also see examples classes {@link org.javasimon.jdbc.Simple.java} and {@link org.javasimon.jdbc.Complex.java}.
  */
 package org.javasimon.jdbc;
