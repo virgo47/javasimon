@@ -3,8 +3,8 @@ package org.javasimon;
 import java.util.List;
 
 /**
- * DisabledSimon implements emtpy action methods. Management methods however are fully
- * functional.
+ * Null Simon implements empty action methods. Management methods on the other hand are fully
+ * functional. Null Simon is returned whenever is the whole {@link org.javasimon.SimonFactory} disabled.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 4, 2008
@@ -81,30 +81,37 @@ final class NullSimon implements Counter, Stopwatch {
 		return this;
 	}
 
+	@Override
 	public Stopwatch start() {
 		return this;
 	}
 
+	@Override
 	public long stop() {
 		return 0;
 	}
 
+	@Override
 	public long getTotal() {
 		return 0;
 	}
 
+	@Override
 	public long getFirstUsage() {
 		return 0;
 	}
 
+	@Override
 	public long getLastUsage() {
 		return 0;
 	}
 
+	@Override
 	public StatProcessor getStatProcessor() {
 		return NullStatProcessor.INSTANCE;
 	}
 
+	@Override
 	public void setStatProcessor(StatProcessor statProcessor) {
 	}
 
