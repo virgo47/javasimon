@@ -61,6 +61,20 @@ public interface Stopwatch extends Simon {
 	long getMin();
 
 	/**
+	 * Returns ms timestamp when the max value was measured.
+	 *
+	 * @return ms timestamp of the max value measurement
+	 */
+	long getMaxTimestamp();
+
+	/**
+	 * Returns ms timestamp when the min value was measured.
+	 *
+	 * @return ms timestamp of the min value measurement
+	 */
+	long getMinTimestamp();
+
+	/**
 	 * Resets the Simon - clears total time, min, max, usage stats, etc. Split times that
 	 * started before reset will be counted when appropriate stop is called, so no split
 	 * time is ignored by the stopwatch.

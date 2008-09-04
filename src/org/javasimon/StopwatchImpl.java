@@ -2,8 +2,11 @@ package org.javasimon;
 
 import org.javasimon.utils.SimonUtils;
 
+import java.util.Map;
+import java.util.LinkedHashMap;
+
 /**
- * Stopwatch default implementation - it's thread-safe.
+ * Stopwatch default implementation - it is thread-safe.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 4, 2008
@@ -17,12 +20,17 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 
 	private long max = 0;
 
+	private long maxTimestamp;
+
 	private long min = Long.MAX_VALUE;
+
+	private long minTimestamp;
 
 	public StopwatchImpl(String name) {
 		super(name);
 	}
 
+	@Override
 	public synchronized Stopwatch addTime(long ns) {
 		if (enabled) {
 			addSplit(ns);
@@ -30,6 +38,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		return this;
 	}
 
+	@Override
 	public synchronized Stopwatch reset() {
 		total = 0;
 		counter = 0;
@@ -39,6 +48,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		return this;
 	}
 
+	@Override
 	public Stopwatch start() {
 		if (enabled) {
 			recordUsages();
@@ -47,6 +57,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		return this;
 	}
 
+	@Override
 	public long stop() {
 		if (enabled) {
 			Long end = start.get();
@@ -63,9 +74,11 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		counter++;
 		if (split > max) {
 			max = split;
+			maxTimestamp = System.currentTimeMillis();
 		}
 		if (split < min) {
 			min = split;
+			minTimestamp = System.currentTimeMillis();
 		}
 		if (getStatProcessor() != null) {
 			getStatProcessor().process(split);
@@ -73,26 +86,58 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		return split;
 	}
 
+	@Override
 	public long getTotal() {
 		return total;
 	}
 
+	@Override
 	public long getCounter() {
 		return counter;
 	}
 
+	@Override
 	public long getMax() {
 		return max;
 	}
 
+	@Override
 	public long getMin() {
 		return min;
 	}
 
+	@Override
+	public long getMaxTimestamp() {
+		return maxTimestamp;
+	}
+
+	@Override
+	public long getMinTimestamp() {
+		return minTimestamp;
+	}
+
+	@Override
 	protected void enabledObserver() {
 		start = new ThreadLocal<Long>();
 	}
 
+	@Override
+	public synchronized Map<String, String> sample(boolean reset) {
+		Map<String, String> map = new LinkedHashMap<String, String>();
+		map.put("total", String.valueOf(total));
+		map.put("counter", String.valueOf(counter));
+		map.put("min", String.valueOf(min));
+		map.put("max", String.valueOf(max));
+		map.put("minTimestamp", String.valueOf(minTimestamp));
+		map.put("maxTimestamp", String.valueOf(maxTimestamp));
+		map.putAll(getStatProcessor().sample(reset));
+		if (reset) {
+			reset();
+		}
+		return map;
+	}
+
+	@Override
 	public String toString() {
 		return "Simon Stopwatch: " + super.toString() +
 			" total " + SimonUtils.presentNanoTime(total) +
