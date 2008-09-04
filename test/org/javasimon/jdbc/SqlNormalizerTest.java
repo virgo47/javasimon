@@ -52,8 +52,8 @@ public class SqlNormalizerTest {
 			{"insert into foo (a1) values ('bubu')", "insert", "insert into foo (a1) values (?)"},
 
 			{"{call foo_ins_proc(99999, 'This text is inserted from stored procedure')}", "call", "call foo_ins_proc(?, ?)"},
-//			{"{?= call foo_ins_proc_with_ret(99999, 'Text', sysdate())}", "call", "call foo_ins_proc(?, ?)"},
-//			{"begin foo_ins_proc_with_ret(99999, 'Text', sysdate()); end;", "call", "call foo_ins_proc(?, ?)"},
+			{"{?= call foo_ins_proc_with_ret(99999, 'Text', sysdate())}", "call", "call foo_ins_proc(?, ?, ?)"},
+			{"begin foo_ins_proc_with_ret(99999, 'Text', sysdate); end;", "call", "call foo_ins_proc(?, ?, ?)"},
 
 			// DDL
 			{"  create table	foo(a1 varchar2(30) not null, a2   numeric(12,4))", "create", "create table foo"},
