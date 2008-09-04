@@ -38,6 +38,8 @@ public class SqlNormalizer {
 			new Replacer("between \\S+ and \\S+", "between ? and ?"), // replace between arguments
 			new Replacer(" in\\(", " in ("), // put space before ( in "in("
 			new Replacer("^\\{|\\}$", ""), // remove { and } at the start/end
+			new Replacer("^\\s*begin", "call"), // replace begin with call
+			new Replacer(";?\\s*end;?$", ""), // remove final end
 		};
 		SECOND_REPLACERS = new Replacer[]{
 			new Replacer(",", ", "), // put spaces after ,

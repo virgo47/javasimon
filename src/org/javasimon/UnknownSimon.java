@@ -1,5 +1,8 @@
 package org.javasimon;
 
+import java.util.Map;
+import java.util.Collections;
+
 /**
  * UnknownSimon represents Simon node in the hierarchy without known type. It may be replaced
  * in the hierarchy for real Simon in the future.
@@ -14,6 +17,10 @@ public final class UnknownSimon extends AbstractSimon {
 
 	public Simon reset() {
 		return this;
+	}
+
+	public Map<String, String> sample(boolean reset) {
+		return Collections.emptyMap();
 	}
 
 	public String toString() {

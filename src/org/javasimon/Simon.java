@@ -1,6 +1,7 @@
 package org.javasimon;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Simon interface contains common functions related to Simon management - enable/disable and hierarchy.
@@ -114,4 +115,15 @@ public interface Simon {
 	 * @return ms timestamp of the last usage
 	 */
 	long getLastUsage();
+
+	/**
+	 * Samples Simon values and returns them as a map (propertyName -> value). Resets
+	 * the Simon if needed. Values may not all be strings, but string is used as
+	 * the best universal type to represent the value. Compound values must be split
+	 * into more values.
+	 *
+	 * @param reset if true, Simon is reset after sampling
+	 * @return sampled values in a map
+	 */
+	Map<String, String> sample(boolean reset);
 }

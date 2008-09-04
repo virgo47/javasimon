@@ -1,5 +1,8 @@
 package org.javasimon;
 
+import java.util.Map;
+import java.util.LinkedHashMap;
+
 /**
  * SimonCounter.
  *
@@ -77,6 +80,19 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		max = Long.MIN_VALUE;
 		min = Long.MAX_VALUE;
 		return this;
+	}
+
+	@Override
+	public Map<String, String> sample(boolean reset) {
+		Map<String, String> map = new LinkedHashMap<String, String>();
+		map.put("counter", String.valueOf(counter));
+		map.put("min", String.valueOf(min));
+		map.put("max", String.valueOf(max));
+		map.putAll(getStatProcessor().sample(reset));
+		if (reset) {
+			reset();
+		}
+		return map;
 	}
 
 	public long getCounter() {

@@ -24,8 +24,24 @@
  * {@link org.javasimon.SimonState#INHERIT} lets Simon to inherit its state from the parent (recursively).
  * <p>
  * Simons by default provide only basic information without any additional statistical meaning.
- * {@link org.javasimon.StatProcessor} of some type can be attached to the Simon to get additional statistic information
- * for measured values.
+ * {@link org.javasimon.StatProcessor} of some type can be attached to the Simon to get additional statistic
+ * information for measured values.
+ * <p>
+ * The whole SimonFactory can be enabled or disabled - this is importand difference from disabled Simons.
+ * Whenever SimonFactory is disabled ({@link org.javasimon.SimonFactory#disable()}) any method returning
+ * Simon returns {@link org.javasimon.NullSimon}. Null Simon is different from the disabled Simon because
+ * it does nothing and always returns zero/empty values if value is expected. Null Simon is always disabled
+ * and cannot be enabled. If the SimonFactory is enabled again ({@link org.javasimon.SimonFactory#enable()})
+ * it returns real Simons again. This leads to following recommendations:
+ * <ul>
+ * <li>In any normal situation always use {@link org.javasimon.SimonFactory#getStopwatch(String)} or
+ * {@link org.javasimon.SimonFactory#getCounter(String)} to get Simon of your choice. Result always
+ * reflects status of the SimonFactory.
+ * <li>If it is necessary to keep Simon reference be sure to obtain it while SimonFactory is enabled.
+ * <li>Rembember that real Simon is not disabled if the SimonFactory is disabled!
+ * </ul>
+ * Bottom line: <b>If you want to use Simon, get it from SimonFactory when needed and don not cache it.</b>
+ * (Unless you know what you're doing.)
  * <p>
  * TODO: Configuration
  */
