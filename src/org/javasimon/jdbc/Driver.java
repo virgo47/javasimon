@@ -8,6 +8,7 @@ import java.util.Properties;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Simon JDBC Proxy Driver.
@@ -18,7 +19,7 @@ import java.io.IOException;
  * <pre>
  * Connection conn = DriverManager.getConnection(&quot;jdbc:simon:oracle:thin:...&quot;, &quot;scott&quot;, &quot;tiger&quot;);
  * </pre>
-
+ * <p/>
  * Simon driver has following format of jdbc connection string:
  * <pre>
  * jdbc:simon:&lt;real driver conn string&gt;;&lt;param1&gt;=&lt;value1&gt;;...
@@ -39,7 +40,7 @@ import java.io.IOException;
  * <code>com.foo.select</code>, etc.
  * </li>
  * </ul>
-
+ * <p/>
  * <p>
  * By default, there is no need to load any driver explicitly, becouse (from Java 1.5)
  * drivers are loaded automaticly if they are in class path and jar have apropriate
@@ -53,7 +54,7 @@ import java.io.IOException;
  * MySQL.
  * 4. If not, driver tries to find real driver param within connection string and then registers it.
  * 5. If not, getting new connection fails.
- *
+ * <p/>
  * The safest way to get Simon proxy driver work is to load the drivers, the real one (i.e. oracle)
  * and a simon proxy driver explicitly. This can be done using Class.forName. To load the driver and open a
  * database connection, use following code:
@@ -68,8 +69,8 @@ import java.io.IOException;
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
  * @created 6.8.2008 23:13:27
- * @since 1.0
  * @see java.sql.DriverManager#getConnection(String)
+ * @since 1.0
  */
 public final class Driver implements java.sql.Driver {
 
@@ -94,7 +95,15 @@ public final class Driver implements java.sql.Driver {
 	 */
 	public Driver() {
 		try {
-			drivers.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("org/javasimon/jdbc/drivers.properties"));
+			InputStream stream = null;
+			try {
+				stream = Thread.currentThread().getContextClassLoader().getResourceAsStream("org/javasimon/jdbc/drivers.properties");
+				drivers.load(stream);
+			} finally {
+				if (stream != null) {
+					stream.close();
+				}
+			}
 		} catch (IOException e) {
 			// log somewhere
 		}
@@ -102,8 +111,8 @@ public final class Driver implements java.sql.Driver {
 
 	/**
 	 * Opens new Simon proxy driver connection associated with real connection to specified database.
-	 * 
-	 * @param url jdbc connection string (i.e. jdbc:simon:h2:file:test)
+	 *
+	 * @param url	jdbc connection string (i.e. jdbc:simon:h2:file:test)
 	 * @param info properties for connection
 	 * @return open connection to database or null if provided url is not accepted by this driver
 	 * @throws SQLException if there is no real driver registered/recognized or opening real connection fails
@@ -135,7 +144,7 @@ public final class Driver implements java.sql.Driver {
 
 		int i = url.indexOf(':', 5);
 		if (drv == null && i > -1) {
-			drv = registerDriver(drivers.getProperty(url.substring(5, i-1)));
+			drv = registerDriver(drivers.getProperty(url.substring(5, i - 1)));
 		}
 
 		if (drv == null) {
@@ -144,7 +153,7 @@ public final class Driver implements java.sql.Driver {
 			// ([\\w\\.]*) - trying to get a package name which can have any number of characters [a-zA-Z_0-9] and '.'. This value is what is needed
 			//  [\\W]? - 0 or 1 characters that aren't in a package name.
 
-			Pattern re = Pattern.compile(".*"+REAL_DRIVER+"[\\s=]*([\\w\\.]*)[\\W]?");
+			Pattern re = Pattern.compile(".*" + REAL_DRIVER + "[\\s=]*([\\w\\.]*)[\\W]?");
 			Matcher matcher = re.matcher(url);
 			if (matcher.lookingAt()) {
 				drv = registerDriver(matcher.group(1).trim());
@@ -159,7 +168,7 @@ public final class Driver implements java.sql.Driver {
 
 	private java.sql.Driver registerDriver(String driverName) throws SQLException {
 		try {
-			java.sql.Driver d = (java.sql.Driver)Class.forName(driverName).newInstance();
+			java.sql.Driver d = (java.sql.Driver) Class.forName(driverName).newInstance();
 			DriverManager.registerDriver(d);
 			return d;
 		} catch (Exception e) {

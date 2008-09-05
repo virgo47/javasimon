@@ -51,21 +51,28 @@ public final class SimonUtils {
 	}
 
 	public static void printSimonTree(Simon simon) {
-		printSimonTree(0, simon);
+		StringBuilder sb = new StringBuilder();
+		printSimonTree(0, simon, sb);
+		System.out.println(sb);
 	}
 
-	private static void printSimonTree(int level, Simon simon) {
-		printSimon(level, simon);
+	private static void printSimonTree(int level, Simon simon, StringBuilder sb) {
+		printSimon(level, simon, sb);
 		for (Simon child : simon.getChildren()) {
-			printSimonTree(level + 1, child);
+			printSimonTree(level + 1, child, sb);
 		}
 	}
 
-	private static void printSimon(int level, Simon simon) {
+	private static void printSimon(int level, Simon simon, StringBuilder sb) {
 		for (int i = 0; i < level; i++) {
-			System.out.print("  ");
+			sb.append("  ");
 		}
-		System.out.println(localName(simon.getName()) + "(" + (simon.isEnabled() ? '+' : '-') + "): " + simon);
+		sb.append(localName(simon.getName()))
+			.append('(')
+			.append(simon.isEnabled() ? '+' : '-')
+			.append("): ")
+			.append(simon.toString())
+			.append('\n');
 	}
 
 	private static String localName(String name) {
