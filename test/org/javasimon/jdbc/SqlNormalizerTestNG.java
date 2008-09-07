@@ -15,7 +15,7 @@ import java.util.Arrays;
  * @created 25.8.2008 10:51:52
  * @since 1.0
  */
-public class SqlNormalizerTest {
+public class SqlNormalizerTestNG {
 	@DataProvider(name = "dp1")
 	public Object[][] createTestData() {
 		return new Object[][] {
