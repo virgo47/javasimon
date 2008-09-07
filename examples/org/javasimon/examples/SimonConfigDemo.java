@@ -1,6 +1,7 @@
 package org.javasimon.examples;
 
 import org.javasimon.SimonFactory;
+import org.javasimon.SimonConfiguration;
 import org.javasimon.utils.SimonUtils;
 
 /**
@@ -9,9 +10,9 @@ import org.javasimon.utils.SimonUtils;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 12, 2008
  */
-public final class SimonConfigTest {
+public final class SimonConfigDemo {
 	public static void main(String[] args) {
-		System.setProperty(SimonFactory.PROPERTY_CONFIG_RESOURCE_NAME, "org/javasimon/examples/simon.config");
+		System.setProperty(SimonConfiguration.PROPERTY_CONFIG_RESOURCE_NAME, "org/javasimon/examples/simon.config");
 		SimonUtils.printSimonTree(SimonFactory.getRootSimon());
 	}
 }

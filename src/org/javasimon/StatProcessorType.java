@@ -11,6 +11,11 @@ public enum StatProcessorType {
 	NULL,
 	BASIC;
 
+	/**
+	 * Factory method produces instances of the stat processor of the specific type.
+	 *
+	 * @return new instance of the stat processor of the specific type
+	 */
 	public StatProcessor create() {
 		switch (this) {
 			case BASIC:

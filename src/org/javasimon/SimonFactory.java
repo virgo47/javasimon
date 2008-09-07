@@ -1,9 +1,6 @@
 package org.javasimon;
 
 import java.util.*;
-import java.util.logging.Logger;
-import java.util.logging.Level;
-import java.io.*;
 
 /**
  * SimonFactory.
@@ -12,10 +9,6 @@ import java.io.*;
  * @created Aug 4, 2008
  */
 public final class SimonFactory {
-	public static final String PROPERTY_CONFIG_FILE_NAME = "javasimon.config.file";
-
-	public static final String PROPERTY_CONFIG_RESOURCE_NAME = "javasimon.config.resource";
-
 	public static final String HIERARCHY_DELIMITER = ".";
 
 	public static final String ROOT_SIMON_NAME = "";
@@ -24,76 +17,11 @@ public final class SimonFactory {
 
 	static {
 		reset();
-		try {
-			initFromConfig();
-		} catch (IOException e) {
-			Logger.getLogger(SimonFactory.class.getName()).log(Level.SEVERE, "Simon config couldn't be processed correctly", e);
-		}
+		SimonConfiguration.init();
 	}
 
 	private SimonFactory() {
 		throw new UnsupportedOperationException();
-	}
-
-	private static void initFromConfig() throws IOException {
-		String fileName = System.getProperty(PROPERTY_CONFIG_FILE_NAME);
-		if (fileName != null) {
-			FileReader reader = new FileReader(fileName);
-			try {
-				initFromReader(reader);
-			} finally {
-				reader.close();
-			}
-		}
-		String resourceName = System.getProperty(PROPERTY_CONFIG_RESOURCE_NAME);
-		if (resourceName != null) {
-			InputStreamReader reader = new InputStreamReader(SimonFactory.class.getClassLoader().getResourceAsStream(resourceName));
-			try {
-				initFromReader(reader);
-			} finally {
-				reader.close();
-			}
-		}
-	}
-
-	private static void initFromReader(Reader reader) throws IOException {
-		Properties properties = new Properties();
-		properties.load(reader);
-		for (String name : properties.stringPropertyNames()) {
-			String simonType = null;
-			StatProcessorType statProcessorType = StatProcessorType.NULL;
-			SimonState state = SimonState.INHERIT;
-
-			String value = properties.getProperty(name);
-			for (String keyword : value.split("[, ]+")) {
-				keyword = keyword.toLowerCase();
-				if (keyword.equals("stopwatch")) {
-					simonType = keyword;
-				} else if (keyword.equals("counter")) {
-					simonType = keyword;
-				} else if (keyword.equals("basic")) {
-					statProcessorType = StatProcessorType.BASIC;
-				} else if (keyword.equals("enable")) {
-					state = SimonState.ENABLED;
-				} else if (keyword.equals("disable")) {
-					state = SimonState.DISABLED;
-				} else {
-					System.out.println("Unknown config value '" + keyword + "' for name '" + name + "'.");
-				}
-			}
-			Simon simon = null;
-			if (simonType == null) {
-				simon = getUnknown(name);
-			} else if (simonType.equals("stopwatch")) {
-				simon = getStopwatch(name);
-			} else if (simonType.equals("counter")) {
-				simon = getCounter(name);
-			}
-			if (simon != null) {
-				simon.setStatProcessor(statProcessorType.create());
-				simon.setState(state, false);
-			}
-		}
 	}
 
 	/**
@@ -116,9 +44,9 @@ public final class SimonFactory {
 	}
 
 	/**
-	 * Returns existing SimonCounter or creates new if necessary.
+	 * Returns existing Counter or creates new if necessary.
 	 *
-	 * @param name name of the counter
+	 * @param name name of the Counter
 	 * @return counter object
 	 */
 	public static Counter getCounter(String name) {
@@ -126,7 +54,7 @@ public final class SimonFactory {
 	}
 
 	/**
-	 * Returns existing stopwatch or creates new if necessary.
+	 * Returns existing Stopwatch or creates new if necessary.
 	 *
 	 * @param name name of the Stopwatch
 	 * @return stopwatch object
@@ -135,12 +63,18 @@ public final class SimonFactory {
 		return factory.getStopwatch(name);
 	}
 
-	private static Simon getUnknown(String name) {
+	/**
+	 * Returns existing UnknownSimon or creates new if necessary.
+	 *
+	 * @param name name of the Simon
+	 * @return stopwatch object
+	 */
+	static Simon getUnknown(String name) {
 		return factory.getUnknown(name);
 	}
 
 	/**
-	 * Autogenerates name for the Simon.
+	 * Autogenerates name for the Simon using the class name and (optionaly) the method name.
 	 *
 	 * @param suffix name suffix for eventual Simon discrimination
 	 * @param includeMethodName if true, method name will be included in the name thus effectively adding another level
@@ -167,10 +101,19 @@ public final class SimonFactory {
 		return factory.getRootSimon();
 	}
 
+	/**
+	 * Returns collection containing names of all existing Simons.
+	 *
+	 * @return collection of all Simon names
+	 */
 	public static Collection<String> simonNames() {
 		return factory.simonNames();
 	}
 
+	/**
+	 * Resets the Simon factory (ignored if factory is disabled). All Simons are lost,
+	 * but configuration is preserved.
+	 */
 	public static void reset() {
 		factory.reset();
 	}

@@ -10,7 +10,7 @@ import org.testng.Assert;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 8, 2008
  */
-public final class FactoryTest {
+public final class FactoryTestNG {
 	private static final int FRESH_FACTORY_SIMON_LIST_SIZE = 1;
 	private static final int SIMON_COUNT_AFTER_COUNTER_ADDED = 5;
 

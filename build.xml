@@ -84,6 +84,12 @@
 		<javac srcdir="test" destdir="build/test" debug="${javac.debug}" deprecation="${javac.deprecation}">
 			<classpath refid="classpath"/>
 		</javac>
+		<copy todir="build/test">
+			<fileset dir="examples">
+				<include name="**/*.config"/>
+				<include name="**/*.properties"/>
+			</fileset>
+		</copy>
 		<testng outputdir="${basedir}/build/testout" haltonfailure="true" verbose="2">
 			<classpath>
 				<pathelement path="${lib.dir}/testng-5.7-jdk15.jar"/>

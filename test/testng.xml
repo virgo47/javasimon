@@ -7,9 +7,10 @@
 			</run>
 		</groups>
 		<classes>
-			<class name="org.javasimon.FactoryTest"/>
-			<class name="org.javasimon.StopwatchTest"/>
-			<class name="org.javasimon.jdbc.SqlNormalizerTest"/>
+			<class name="org.javasimon.FactoryTestNG"/>
+			<class name="org.javasimon.StopwatchTestNG"/>
+			<class name="org.javasimon.jdbc.SqlNormalizerTestNG"/>
+			<class name="org.javasimon.utils.UtilsTestNG"/>
 		</classes>
 	</test>
 </suite>
