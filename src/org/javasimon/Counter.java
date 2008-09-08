@@ -17,9 +17,33 @@ public interface Counter extends Simon {
 
 	long getCounter();
 
+	/**
+	 * Returns minimal value of counter.
+	 *
+	 * @return maximal reached value
+	 */
 	long getMin();
 
+	/**
+	 * Returns ms timestamp when the min value was reached.
+	 *
+	 * @return ms timestamp of the min value decremented
+	 */
+	long getMinTimestamp();
+
+	/**
+	 * Returns maximal value of counter.
+	 *
+	 * @return maximal reached value
+	 */
 	long getMax();
+
+	/**
+	 * Returns ms timestamp when the max value was reached.
+	 *
+	 * @return ms timestamp of the max value incremented
+	 */
+	long getMaxTimestamp();
 
 	Counter reset();
 
