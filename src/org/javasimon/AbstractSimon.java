@@ -225,7 +225,7 @@ abstract class AbstractSimon implements Simon {
 
 	@Override
 	public String toString() {
-		return "[" + name + " " + state + "/opt=" + getStatProcessor().getType() + "]";
+		return "[" + name + " " + state + "/stats=" + getStatProcessor().getType() + "]";
 	}
 
 	protected void recordUsages() {
