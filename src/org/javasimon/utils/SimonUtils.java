@@ -3,7 +3,8 @@ package org.javasimon.utils;
 import org.javasimon.Simon;
 import org.javasimon.SimonFactory;
 
-import java.text.DecimalFormat;
+import java.text.*;
+import java.util.Locale;
 
 /**
  * SimonUtils class holds static utility methods.
@@ -13,9 +14,11 @@ import java.text.DecimalFormat;
  */
 public final class SimonUtils {
 	private static final int UNIT_PREFIX_FACTOR = 1000;
-	private static final DecimalFormat UNDER_TEN_FORMAT = new DecimalFormat("0.00");
-	private static final DecimalFormat UNDER_HUNDRED_FORMAT = new DecimalFormat("00.0");
-	private static final DecimalFormat DEFAULT_FORMAT = new DecimalFormat("000");
+
+	private static final DecimalFormatSymbols DECIMAL_FORMAT_SYMBOLS = new DecimalFormatSymbols(Locale.US);
+	private static final DecimalFormat UNDER_TEN_FORMAT = new DecimalFormat("0.00", DECIMAL_FORMAT_SYMBOLS);
+	private static final DecimalFormat UNDER_HUNDRED_FORMAT = new DecimalFormat("00.0", DECIMAL_FORMAT_SYMBOLS);
+	private static final DecimalFormat DEFAULT_FORMAT = new DecimalFormat("000", DECIMAL_FORMAT_SYMBOLS);
 
 	private SimonUtils() {
 		throw new UnsupportedOperationException();

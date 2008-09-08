@@ -79,6 +79,7 @@ public final class Driver implements java.sql.Driver {
 
 	private static final String DEFAULT_PREFIX = "org.javasimon.jdbc";
 	private static final String SIMON_JDBC = "jdbc:simon";
+	private static final Pattern REAL_DRIVER_PATTERN = Pattern.compile(REAL_DRIVER + "\\s*=\\s*([\\w\\.]+)");
 
 	private final Properties drivers = new Properties();
 
@@ -148,15 +149,9 @@ public final class Driver implements java.sql.Driver {
 		}
 
 		if (drv == null) {
-			// .*real_drv - any characters up to real_drv
-			//  [\\s=]* - any number of optional spaces surrounding the equal sign.
-			// ([\\w\\.]*) - trying to get a package name which can have any number of characters [a-zA-Z_0-9] and '.'. This value is what is needed
-			//  [\\W]? - 0 or 1 characters that aren't in a package name.
-
-			Pattern re = Pattern.compile(".*" + REAL_DRIVER + "[\\s=]*([\\w\\.]*)[\\W]?");
-			Matcher matcher = re.matcher(url);
-			if (matcher.lookingAt()) {
-				drv = registerDriver(matcher.group(1).trim());
+			Matcher matcher = REAL_DRIVER_PATTERN.matcher(url);
+			if (matcher.find()) {
+				drv = registerDriver(matcher.group(1));
 			}
 		}
 
