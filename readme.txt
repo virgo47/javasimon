@@ -18,11 +18,11 @@ Check this readme online for updates: http://code.google.com/p/javasimon/wiki/Re
 
 There are two types of Simons available: Counter and Stopwatch. Counter tracks single long value, its maximum and minimum. Stopwatch measures time and tracks number of measurements (splits), total time, split minimum and maximum. If you think it's not enough you can get more statistic information by adding StatProcessor implementation to your Simon.
 
-=== Factory ===
+=== Simon Manager ===
 
-You obtain Simons from factory:
+You obtain Simons from the SimonManager:
 {{{
-Stopwatch stopwatch = SimonFactory.getStopwatch("org.javasimon.examples.HelloWorld-stopwatch");
+Stopwatch stopwatch = SimonManager.getStopwatch("org.javasimon.examples.HelloWorld-stopwatch");
 }}}
 
 Here we obtained stopwatch Simon. If the Simon is accessed first time it is created. If you access existing Simon, type of the Simon must match - you can't create counter with the same name (unless you destroy the Simon first).

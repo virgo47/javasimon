@@ -1,7 +1,7 @@
 package org.javasimon.examples;
 
 import org.javasimon.Stopwatch;
-import org.javasimon.SimonFactory;
+import org.javasimon.SimonManager;
 import org.javasimon.SimonState;
 
 /**
@@ -22,11 +22,11 @@ public final class DisabledEnabledComparison {
 		int round = 1;
 		while (true) {
 			System.out.println("\nRound: " + round++);
-			SimonFactory.reset();
-			SimonFactory.enable();
+			SimonManager.reset();
+			SimonManager.enable();
 
-			stopwatch = SimonFactory.getStopwatch(null);
-			tested = SimonFactory.getStopwatch("org.javasimon.stopwatch");
+			stopwatch = SimonManager.getStopwatch(null);
+			tested = SimonManager.getStopwatch("org.javasimon.stopwatch");
 			stopwatch.start();
 			for (int i = 0; i < LOOP; i++) {
 				tested.start();
@@ -35,8 +35,8 @@ public final class DisabledEnabledComparison {
 			stopwatch.stop();
 			System.out.println("Enabled start/stop: " + stopwatch);
 
-			stopwatch = SimonFactory.getStopwatch(null);
-			tested = SimonFactory.getStopwatch("org.javasimon.stopwatch");
+			stopwatch = SimonManager.getStopwatch(null);
+			tested = SimonManager.getStopwatch("org.javasimon.stopwatch");
 			tested.setState(SimonState.DISABLED, false);
 			stopwatch.start();
 			for (int i = 0; i < LOOP; i++) {
@@ -46,27 +46,27 @@ public final class DisabledEnabledComparison {
 			stopwatch.stop();
 			System.out.println("Disabled start/stop: " + stopwatch);
 
-			stopwatch = SimonFactory.getStopwatch(null);
-			SimonFactory.getStopwatch("org.javasimon.stopwatch").setState(SimonState.ENABLED, false);
+			stopwatch = SimonManager.getStopwatch(null);
+			SimonManager.getStopwatch("org.javasimon.stopwatch").setState(SimonState.ENABLED, false);
 
 			stopwatch.start();
 			for (int i = 0; i < LOOP; i++) {
-				tested = SimonFactory.getStopwatch("org.javasimon.stopwatch").start();
+				tested = SimonManager.getStopwatch("org.javasimon.stopwatch").start();
 				tested.stop();
 			}
 			stopwatch.stop();
 			System.out.println("Enabled get/start/stop: " + stopwatch);
 
-			stopwatch = SimonFactory.getStopwatch(null);
-			SimonFactory.disable();
+			stopwatch = SimonManager.getStopwatch(null);
+			SimonManager.disable();
 
 			stopwatch.start();
 			for (int i = 0; i < LOOP; i++) {
-				tested = SimonFactory.getStopwatch("org.javasimon.stopwatch").start();
+				tested = SimonManager.getStopwatch("org.javasimon.stopwatch").start();
 				tested.stop();
 			}
 			stopwatch.stop();
-			System.out.println("Disabled factory get/start/stop: " + stopwatch);
+			System.out.println("Disabled manager get/start/stop: " + stopwatch);
 		}
 	}
 }

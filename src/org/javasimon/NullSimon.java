@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Collections;
 
 /**
- * Null Simon implements Simon returned by the disabled {@link org.javasimon.SimonFactory}. Null
+ * Null Simon implements Simon returned by the disabled {@link SimonManager}. Null
  * Simon does nothing, returns empty values or zeroes wherever return value is expected and has
  * minimal performance impact on the system.
  *

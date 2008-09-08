@@ -1,7 +1,7 @@
 package org.javasimon.examples.jdbc;
 
 import org.javasimon.utils.SimonUtils;
-import org.javasimon.SimonFactory;
+import org.javasimon.SimonManager;
 
 import java.sql.*;
 import java.util.Random;
@@ -89,6 +89,6 @@ public class Simple {
 		}
 
 		System.out.println("Simon monitor hierarchy:");
-		SimonUtils.printSimonTree(SimonFactory.getRootSimon());
+		SimonUtils.printSimonTree(SimonManager.getRootSimon());
 	}
 }

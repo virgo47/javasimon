@@ -12,7 +12,7 @@ public final class ConfigurationTestNG {
 	@Test
 	public void testConfig() {
 		System.setProperty(SimonConfiguration.PROPERTY_CONFIG_RESOURCE_NAME, "org/javasimon/test.config");
-		SimonFactory.reset();
+		SimonManager.reset();
 		SimonConfiguration.init();
 	}
 }

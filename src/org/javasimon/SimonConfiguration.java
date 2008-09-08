@@ -54,7 +54,7 @@ public final class SimonConfiguration {
 		}
 		String resourceName = System.getProperty(PROPERTY_CONFIG_RESOURCE_NAME);
 		if (resourceName != null) {
-			InputStreamReader reader = new InputStreamReader(SimonFactory.class.getClassLoader().getResourceAsStream(resourceName));
+			InputStreamReader reader = new InputStreamReader(SimonManager.class.getClassLoader().getResourceAsStream(resourceName));
 			try {
 				initFromReader(reader);
 			} finally {
@@ -90,11 +90,11 @@ public final class SimonConfiguration {
 			}
 			Simon simon = null;
 			if (simonType == null) {
-				simon = SimonFactory.getUnknown(name);
+				simon = SimonManager.getUnknown(name);
 			} else if (simonType.equals("stopwatch")) {
-				simon = SimonFactory.getStopwatch(name);
+				simon = SimonManager.getStopwatch(name);
 			} else if (simonType.equals("counter")) {
-				simon = SimonFactory.getCounter(name);
+				simon = SimonManager.getCounter(name);
 			}
 			if (simon != null) {
 				simon.setStatProcessor(statProcessorType.create());

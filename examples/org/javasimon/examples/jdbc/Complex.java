@@ -1,7 +1,7 @@
 package org.javasimon.examples.jdbc;
 
 import org.javasimon.utils.SimonUtils;
-import org.javasimon.SimonFactory;
+import org.javasimon.SimonManager;
 import org.javasimon.Stopwatch;
 import org.javasimon.Counter;
 
@@ -50,12 +50,12 @@ public class Complex extends Simple {
 
 	private void printMonitoringInfo() {
 		System.out.println("Simon monitor hierarchy:");
-		SimonUtils.printSimonTree(SimonFactory.getRootSimon());
+		SimonUtils.printSimonTree(SimonManager.getRootSimon());
 
-		Stopwatch s = SimonFactory.getStopwatch("org.javasimon.jdbc.conn");
-		Counter c = SimonFactory.getCounter("org.javasimon.jdbc.conn.active");
-		Counter cc = SimonFactory.getCounter("org.javasimon.jdbc.conn.commit");
-		Counter cr = SimonFactory.getCounter("org.javasimon.jdbc.conn.rollback");
+		Stopwatch s = SimonManager.getStopwatch("org.javasimon.jdbc.conn");
+		Counter c = SimonManager.getCounter("org.javasimon.jdbc.conn.active");
+		Counter cc = SimonManager.getCounter("org.javasimon.jdbc.conn.commit");
+		Counter cr = SimonManager.getCounter("org.javasimon.jdbc.conn.rollback");
 		System.out.println("\nConnection info:");
 		System.out.println("  active: "+c.getCounter());
 		System.out.println("  max active: "+c.getMax());
@@ -67,8 +67,8 @@ public class Complex extends Simple {
 		System.out.println("  commints: "+cc.getCounter());
 		System.out.println("  rollbacks: "+cr.getCounter());
 
-		s = SimonFactory.getStopwatch("org.javasimon.jdbc.stmt");
-		c = SimonFactory.getCounter("org.javasimon.jdbc.stmt.active");
+		s = SimonManager.getStopwatch("org.javasimon.jdbc.stmt");
+		c = SimonManager.getCounter("org.javasimon.jdbc.stmt.active");
 		System.out.println("\nStatement info:");
 		System.out.println("  active: "+c.getCounter());
 		System.out.println("  max active: "+c.getMax());

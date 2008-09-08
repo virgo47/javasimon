@@ -1,7 +1,7 @@
 package org.javasimon.utils;
 
 import org.javasimon.Simon;
-import org.javasimon.SimonFactory;
+import org.javasimon.SimonManager;
 
 import java.text.*;
 import java.util.Locale;
@@ -90,7 +90,7 @@ public final class SimonUtils {
 	}
 
 	private static String localName(String name) {
-		int ix = name.lastIndexOf(SimonFactory.HIERARCHY_DELIMITER);
+		int ix = name.lastIndexOf(SimonManager.HIERARCHY_DELIMITER);
 		if (ix == -1) {
 			return name;
 		}

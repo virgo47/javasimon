@@ -1,6 +1,6 @@
 package org.javasimon.examples;
 
-import org.javasimon.SimonFactory;
+import org.javasimon.SimonManager;
 import org.javasimon.Stopwatch;
 
 import java.util.concurrent.CountDownLatch;
@@ -15,7 +15,7 @@ public final class MultithreadedSleeping extends Thread {
 	private static final int THREADS = 100;
 	private static final int SLEEP = 1000;
 
-	private static final String NAME = SimonFactory.generateName(null, false);
+	private static final String NAME = SimonManager.generateName(null, false);
 
 	private static final CountDownLatch latch = new CountDownLatch(THREADS);
 
@@ -24,11 +24,11 @@ public final class MultithreadedSleeping extends Thread {
 			new MultithreadedSleeping().start();
 		}
 		latch.await();
-		System.out.println("Simon: " + SimonFactory.getStopwatch(NAME));
+		System.out.println("Simon: " + SimonManager.getStopwatch(NAME));
 	}
 
 	public void run() {
-		Stopwatch stopwatch = SimonFactory.getStopwatch(NAME);
+		Stopwatch stopwatch = SimonManager.getStopwatch(NAME);
 		stopwatch.start();
 		try {
 			sleep(SLEEP);

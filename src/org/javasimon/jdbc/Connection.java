@@ -1,6 +1,6 @@
 package org.javasimon.jdbc;
 
-import org.javasimon.SimonFactory;
+import org.javasimon.SimonManager;
 import org.javasimon.Stopwatch;
 import org.javasimon.Counter;
 
@@ -46,10 +46,10 @@ public final class Connection implements java.sql.Connection {
 		this.conn = conn;
 		this.suffix = suffix;
 
-		active = SimonFactory.getCounter(suffix + ".conn.active").increment();
-		commits = SimonFactory.getCounter(suffix + ".conn.commits");
-		rollbacks = SimonFactory.getCounter(suffix + ".conn.rollbacks");
-		life = SimonFactory.getStopwatch(suffix + ".conn").start();
+		active = SimonManager.getCounter(suffix + ".conn.active").increment();
+		commits = SimonManager.getCounter(suffix + ".conn.commits");
+		rollbacks = SimonManager.getCounter(suffix + ".conn.rollbacks");
+		life = SimonManager.getStopwatch(suffix + ".conn").start();
 	}
 
 	public void close() throws SQLException {
