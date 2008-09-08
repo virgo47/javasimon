@@ -20,10 +20,14 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	 */
 	private long max = Long.MIN_VALUE;
 
+	private long maxTimestamp;
+
 	/**
 	 * A minimum tracker - only negative values.
 	 */
 	private long min = Long.MAX_VALUE;
+
+	private long minTimestamp;
 
 	public CounterImpl(String name) {
 		super(name);
@@ -33,8 +37,10 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		counter = val;
 		if (counter > max) {
 			max = counter;
+			maxTimestamp = System.currentTimeMillis();
 		} else if (counter < min) {
 			min = counter;
+			minTimestamp = System.currentTimeMillis();
 		}
 		return this;
 	}
@@ -43,6 +49,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		counter++;
 		if (counter > max) {
 			max = counter;
+			maxTimestamp = System.currentTimeMillis();
 		}
 		return this;
 	}
@@ -51,6 +58,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		counter--;
 		if (counter < min) {
 			min = counter;
+			minTimestamp = System.currentTimeMillis();
 		}
 		return this;
 	}
@@ -59,8 +67,10 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		counter += inc;
 		if (counter > max) {
 			max = counter;
+			maxTimestamp = System.currentTimeMillis();
 		} else if (counter < min) {
 			min = counter;
+			minTimestamp = System.currentTimeMillis();
 		}
 		return this;
 	}
@@ -71,6 +81,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 			max = counter;
 		} else if (counter < min) {
 			min = counter;
+			minTimestamp = System.currentTimeMillis();
 		}
 		return this;
 	}
@@ -78,7 +89,9 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	public synchronized Counter reset() {
 		counter = 0;
 		max = Long.MIN_VALUE;
+		maxTimestamp = System.currentTimeMillis();
 		min = Long.MAX_VALUE;
+		minTimestamp = System.currentTimeMillis();
 		return this;
 	}
 
@@ -87,7 +100,9 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		Map<String, String> map = new LinkedHashMap<String, String>();
 		map.put("counter", String.valueOf(counter));
 		map.put("min", String.valueOf(min));
+		map.put("minTimestamp", String.valueOf(minTimestamp));
 		map.put("max", String.valueOf(max));
+		map.put("maxTimestamp", String.valueOf(maxTimestamp));
 		map.putAll(getStatProcessor().sample(reset));
 		if (reset) {
 			reset();
@@ -103,8 +118,16 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		return min;
 	}
 
+	public long getMinTimestamp() {
+		return minTimestamp;
+	}
+
 	public long getMax() {
 		return max;
+	}
+
+	public long getMaxTimestamp() {
+		return maxTimestamp;
 	}
 
 	public String toString() {
