@@ -1,7 +1,7 @@
 package org.javasimon.jdbc;
 
 import org.javasimon.Stopwatch;
-import org.javasimon.SimonFactory;
+import org.javasimon.SimonManager;
 
 import java.sql.*;
 import java.sql.Connection;
@@ -37,7 +37,7 @@ public class PreparedStatement extends Statement implements java.sql.PreparedSta
 		if (sql != null && !sql.isEmpty()) {
 			sqlNormalizer = new SqlNormalizer(sql);
 			sqlCmdLabel = suffix + "." + sqlNormalizer.getType();
-			return SimonFactory.getStopwatch(sqlCmdLabel + "." + sqlNormalizer.getNormalizedSql().hashCode()).start();
+			return SimonManager.getStopwatch(sqlCmdLabel + "." + sqlNormalizer.getNormalizedSql().hashCode()).start();
 		} else {
 			return null;
 		}

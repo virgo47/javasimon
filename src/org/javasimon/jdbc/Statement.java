@@ -1,6 +1,6 @@
 package org.javasimon.jdbc;
 
-import org.javasimon.SimonFactory;
+import org.javasimon.SimonManager;
 import org.javasimon.Stopwatch;
 import org.javasimon.Counter;
 
@@ -37,8 +37,8 @@ public class Statement implements java.sql.Statement {
 		this.stmt = stmt;
 		this.suffix = suffix;
 
-		active = SimonFactory.getCounter(suffix + ".stmt.active").increment();
-		life = SimonFactory.getStopwatch(suffix + ".stmt").start();
+		active = SimonManager.getCounter(suffix + ".stmt.active").increment();
+		life = SimonManager.getStopwatch(suffix + ".stmt").start();
 	}
 
 	public void close() throws SQLException {
@@ -56,7 +56,7 @@ public class Statement implements java.sql.Statement {
 		if (sql != null && !sql.isEmpty()) {
 			sqlNormalizer = new SqlNormalizer(sql);
 			sqlCmdLabel = suffix + "." + sqlNormalizer.getType();
-			return SimonFactory.getStopwatch(sqlCmdLabel + "." + sqlNormalizer.getNormalizedSql().hashCode()).start();
+			return SimonManager.getStopwatch(sqlCmdLabel + "." + sqlNormalizer.getNormalizedSql().hashCode()).start();
 		} else {
 			return null;
 		}
@@ -66,7 +66,7 @@ public class Statement implements java.sql.Statement {
 		if (!sqls.isEmpty()) {
 			sqlNormalizer = sqls.size() == 1 ? new SqlNormalizer(sqls.get(0)) : new SqlNormalizer(sqls);
 			sqlCmdLabel = suffix + "." + sqlNormalizer.getType();
-			return SimonFactory.getStopwatch(sqlCmdLabel + "." + sqlNormalizer.getNormalizedSql().hashCode()).start();
+			return SimonManager.getStopwatch(sqlCmdLabel + "." + sqlNormalizer.getNormalizedSql().hashCode()).start();
 		} else {
 			return null;
 		}
@@ -74,7 +74,7 @@ public class Statement implements java.sql.Statement {
 
 	protected void finish(Stopwatch s) {
 		if (s != null) {
-			SimonFactory.getStopwatch(sqlCmdLabel).addTime(s.stop());
+			SimonManager.getStopwatch(sqlCmdLabel).addTime(s.stop());
 			s.setNote(sqlNormalizer.getNormalizedSql());
 		}
 	}

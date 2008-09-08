@@ -1,6 +1,6 @@
 package org.javasimon.examples;
 
-import org.javasimon.SimonFactory;
+import org.javasimon.SimonManager;
 import org.javasimon.Stopwatch;
 import org.javasimon.StatProcessorType;
 
@@ -16,7 +16,7 @@ public final class SamplingExample {
 
 	public static void main(String[] args) {
 		// Setting richer stat processor
-		SimonFactory.getStopwatch("sampled-stopwatch").setStatProcessor(StatProcessorType.BASIC.create());
+		SimonManager.getStopwatch("sampled-stopwatch").setStatProcessor(StatProcessorType.BASIC.create());
 
 		// Starts the sampler
 		Sampler sampler = new Sampler();
@@ -33,7 +33,7 @@ public final class SamplingExample {
 	 * Method that lasts randomly from ~0 to ~2500 ms.
 	 */
 	private static void callStrangeMethod() {
-		Stopwatch stopwatch = SimonFactory.getStopwatch("sampled-stopwatch").start();
+		Stopwatch stopwatch = SimonManager.getStopwatch("sampled-stopwatch").start();
 		long random = (long) (Math.random() * 50);
 		try {
 			Thread.sleep(random * random);
@@ -49,7 +49,7 @@ public final class SamplingExample {
 	static class Sampler extends Thread {
 		public void run() {
 			while (true) {
-				Stopwatch stopwatch = SimonFactory.getStopwatch("sampled-stopwatch");
+				Stopwatch stopwatch = SimonManager.getStopwatch("sampled-stopwatch");
 				System.out.println("\nstopwatch = " + stopwatch);
 				System.out.println("Stopwatch sample: " + stopwatch.sample(RESET));
 				try {

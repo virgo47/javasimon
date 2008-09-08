@@ -55,6 +55,7 @@
 			</zipfileset>
 			<zipfileset prefix="javasimon-${version}" dir="build">
 				<include name="docs/**"/>
+				<exclude name="docs/api"/>
 			</zipfileset>
 			<zipfileset prefix="javasimon-${version}/lib" dir="${lib.dir}">
 				<include name="testng-5.7-jdk15.jar"/>

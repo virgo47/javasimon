@@ -1,6 +1,6 @@
 package org.javasimon.examples;
 
-import org.javasimon.SimonFactory;
+import org.javasimon.SimonManager;
 import org.javasimon.SimonState;
 import org.javasimon.utils.SimonUtils;
 import org.javasimon.Stopwatch;
@@ -12,7 +12,7 @@ import org.javasimon.Stopwatch;
  * @created Aug 5, 2008
  */
 public final class DisabledEnabledSemiRealComparison {
-	private static final String TEST1_SIMON_NAME = SimonFactory.generateName("-stopwatch", true);
+	private static final String TEST1_SIMON_NAME = SimonManager.generateName("-stopwatch", true);
 
 	private static final int OUTER_LOOP = 100;
 	private static final int INNER_LOOP = 100;
@@ -21,8 +21,9 @@ public final class DisabledEnabledSemiRealComparison {
 	// Random strings for test method to concatenate
 	private static final String[] STRINGS = {"AB", "ZD", "ZK", "SE", "AM", "whatever"};
 
-	private static long disbledSimonFactory = 0;
-	private static long enabledSimonFactory = 0;
+	// Total nanosecond times
+	private static long disbledSimonManager = 0;
+	private static long enabledSimonManager = 0;
 	private static long disbledTestSimon = 0;
 	private static long disbledTopSimon = 0;
 	private static long enabledTestSimon = 0;
@@ -36,21 +37,21 @@ public final class DisabledEnabledSemiRealComparison {
 		long simonCounter = 0;
 
 		for (int round = 1; round <= ROUNDS; round++) {
-			SimonFactory.reset();
+			SimonManager.reset();
 
-			SimonFactory.disable();
-			disbledSimonFactory += performMeasurement();
+			SimonManager.disable();
+			disbledSimonManager += performMeasurement();
 
-			SimonFactory.enable();
-			enabledSimonFactory += performMeasurement();
+			SimonManager.enable();
+			enabledSimonManager += performMeasurement();
 
-			SimonFactory.getSimon(TEST1_SIMON_NAME).setState(SimonState.DISABLED, false);
+			SimonManager.getSimon(TEST1_SIMON_NAME).setState(SimonState.DISABLED, false);
 			disbledTestSimon += performMeasurement();
 
-			SimonFactory.getRootSimon().setState(SimonState.DISABLED, true);
+			SimonManager.getRootSimon().setState(SimonState.DISABLED, true);
 			disbledTopSimon += performMeasurement();
 
-			SimonFactory.getSimon(TEST1_SIMON_NAME).setState(SimonState.ENABLED, false);
+			SimonManager.getSimon(TEST1_SIMON_NAME).setState(SimonState.ENABLED, false);
 			enabledTestSimon += performMeasurement();
 
 			// The same like measurement but without Simons
@@ -63,12 +64,12 @@ public final class DisabledEnabledSemiRealComparison {
 			}
 			pureTest += System.nanoTime() - ns;
 
-			simonMeasurement += SimonFactory.getStopwatch(TEST1_SIMON_NAME).getTotal();
-			simonCounter += SimonFactory.getStopwatch(TEST1_SIMON_NAME).getCounter();
+			simonMeasurement += SimonManager.getStopwatch(TEST1_SIMON_NAME).getTotal();
+			simonCounter += SimonManager.getStopwatch(TEST1_SIMON_NAME).getCounter();
 			System.out.println("Round " + round + " finished");
 		}
-		System.out.println("Disabled Simon Factory: " + SimonUtils.presentNanoTime(disbledSimonFactory));
-		System.out.println("Enabled Simon Factory: " + SimonUtils.presentNanoTime(enabledSimonFactory));
+		System.out.println("Disabled SimonManager: " + SimonUtils.presentNanoTime(disbledSimonManager));
+		System.out.println("Enabled SimonManager: " + SimonUtils.presentNanoTime(enabledSimonManager));
 		System.out.println("Disabled test Simon: " + SimonUtils.presentNanoTime(disbledTestSimon));
 		System.out.println("Disabled top Simon: " + SimonUtils.presentNanoTime(disbledTopSimon));
 		System.out.println("Explicitly enbaled test Simon: " + SimonUtils.presentNanoTime(enabledTestSimon));
@@ -90,7 +91,7 @@ public final class DisabledEnabledSemiRealComparison {
 	}
 
 	private static void testMethod() {
-		Stopwatch simon = SimonFactory.getStopwatch(TEST1_SIMON_NAME);
+		Stopwatch simon = SimonManager.getStopwatch(TEST1_SIMON_NAME);
 		simon.start();
 		StringBuilder builder = null;
 		for (int i = 0; i < INNER_LOOP; i++) {

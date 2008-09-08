@@ -4,7 +4,7 @@ import com.jamonapi.MonitorFactory;
 import com.jamonapi.Monitor;
 import org.javasimon.Stopwatch;
 import org.javasimon.utils.SimonUtils;
-import org.javasimon.SimonFactory;
+import org.javasimon.SimonManager;
 
 /**
  * JamonComparison shows Jamon and Simon monitors next to each other. Wait a few rounds for JVM
@@ -47,7 +47,7 @@ public final class JamonComparison {
 	}
 
 	private static void simonTest() {
-		Stopwatch stopwatch = SimonFactory.getStopwatch("bu");
+		Stopwatch stopwatch = SimonManager.getStopwatch("bu");
 		stopwatch.reset();
 
 		long ns = System.nanoTime();
@@ -63,18 +63,18 @@ public final class JamonComparison {
 	}
 
 	private static void simonTest2() {
-		SimonFactory.getStopwatch("org.javasimon.examples.stopwatch1").reset();
+		SimonManager.getStopwatch("org.javasimon.examples.stopwatch1").reset();
 
 		long ns = System.nanoTime();
 		for (int i = 0; i < OUTER_LOOP; i++) {
 			stay();
-			Stopwatch stopwatch = SimonFactory.getStopwatch("org.javasimon.examples.stopwatch1").start();
+			Stopwatch stopwatch = SimonManager.getStopwatch("org.javasimon.examples.stopwatch1").start();
 			stay();
 			stopwatch.stop();
 		}
 		ns = System.nanoTime() - ns;
 
-		Stopwatch stopwatch = SimonFactory.getStopwatch("org.javasimon.examples.stopwatch1");
+		Stopwatch stopwatch = SimonManager.getStopwatch("org.javasimon.examples.stopwatch1");
 		printResults(ns, stopwatch, "Simon get+start/stop");
 	}
 

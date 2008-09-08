@@ -5,11 +5,11 @@ import com.jamonapi.Monitor;
 
 import java.util.concurrent.CountDownLatch;
 
-import org.javasimon.SimonFactory;
+import org.javasimon.SimonManager;
 import org.javasimon.Stopwatch;
 
 /**
- * MultithreadedStress.
+ * MultithreadJamonComparison.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 6, 2008
@@ -18,7 +18,7 @@ public final class MultithreadJamonComparison {
 	private static final int THREADS = 1000;
 	private static final int LOOP = 1000;
 
-	private static final String NAME = SimonFactory.generateName(null, false);
+	private static final String NAME = SimonManager.generateName(null, false);
 
 	private static CountDownLatch latch;
 
@@ -26,17 +26,17 @@ public final class MultithreadJamonComparison {
 		int round = 1;
 		while (true) {
 			System.out.println("\nRound: " + round++);
-			Stopwatch simon = SimonFactory.getStopwatch(null).start();
+			Stopwatch simon = SimonManager.getStopwatch(null).start();
 			latch = new CountDownLatch(THREADS);
 			for (int i = 0; i < THREADS; i++) {
 				new SimonMultithreadedStress().start();
 			}
 			latch.await();
 			simon.stop();
-			System.out.println("Result: " + SimonFactory.getStopwatch(NAME));
+			System.out.println("Result: " + SimonManager.getStopwatch(NAME));
 			System.out.println("Test Simon: " + simon);
 
-			simon = SimonFactory.getStopwatch(null).start();
+			simon = SimonManager.getStopwatch(null).start();
 			latch = new CountDownLatch(THREADS);
 			for (int i = 0; i < THREADS; i++) {
 				new JamonMultithreadedStress().start();
@@ -50,7 +50,7 @@ public final class MultithreadJamonComparison {
 
 	private static class SimonMultithreadedStress extends Thread {
 		public void run() {
-			Stopwatch stopwatch = SimonFactory.getStopwatch(NAME);
+			Stopwatch stopwatch = SimonManager.getStopwatch(NAME);
 			for (int i = 0; i < LOOP; i++) {
 				stopwatch.start();
 				stopwatch.stop();

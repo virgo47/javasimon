@@ -7,13 +7,13 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 /**
- * EnabledFactory implements methods called from SimonFactory if the Simon API is enabled.
+ * EnabledManager implements methods called from SimonManager if the Simon API is enabled.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 16, 2008
  */
-class EnabledFactory implements Factory {
-	static final Factory INSTANCE = new EnabledFactory();
+class EnabledManager implements Manager {
+	static final Manager INSTANCE = new EnabledManager();
 
 	private final Map<String, AbstractSimon> allSimons = new HashMap<String, AbstractSimon>();
 
@@ -34,8 +34,8 @@ class EnabledFactory implements Factory {
 
 	public void reset() {
 		allSimons.clear();
-		rootSimon = new UnknownSimon(SimonFactory.ROOT_SIMON_NAME);
-		allSimons.put(SimonFactory.ROOT_SIMON_NAME, rootSimon);
+		rootSimon = new UnknownSimon(SimonManager.ROOT_SIMON_NAME);
+		allSimons.put(SimonManager.ROOT_SIMON_NAME, rootSimon);
 	}
 
 	public synchronized Counter getCounter(String name) {
@@ -128,7 +128,7 @@ class EnabledFactory implements Factory {
 
 	private void addToHierarchy(AbstractSimon simon, String name) {
 		allSimons.put(name, simon);
-		int ix = name.lastIndexOf(SimonFactory.HIERARCHY_DELIMITER);
+		int ix = name.lastIndexOf(SimonManager.HIERARCHY_DELIMITER);
 		AbstractSimon parent = rootSimon;
 		if (ix != -1) {
 			String parentName = name.substring(0, ix);

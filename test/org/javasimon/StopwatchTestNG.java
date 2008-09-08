@@ -15,13 +15,13 @@ public final class StopwatchTestNG {
 
 	@BeforeMethod
 	public void resetAndEnable() {
-		SimonFactory.reset();
-		SimonFactory.enable();
+		SimonManager.reset();
+		SimonManager.enable();
 	}
 
 	@Test
 	public void basicStopwatchTest() {
-		Stopwatch stopwatch = SimonFactory.getStopwatch(STOPWATCH_NAME).start();
+		Stopwatch stopwatch = SimonManager.getStopwatch(STOPWATCH_NAME).start();
 		long split = stopwatch.stop();
 		Assert.assertTrue(stopwatch.getTotal() >= 0);
 		Assert.assertEquals(stopwatch.getTotal(), split);
@@ -32,7 +32,7 @@ public final class StopwatchTestNG {
 
 	@Test
 	public void usagesTest() throws Exception {
-		Stopwatch stopwatch = SimonFactory.getStopwatch(STOPWATCH_NAME);
+		Stopwatch stopwatch = SimonManager.getStopwatch(STOPWATCH_NAME);
 		stopwatch.reset();
 		Assert.assertEquals(stopwatch.getFirstUsage(), 0);
 		Assert.assertEquals(stopwatch.getLastUsage(), 0);

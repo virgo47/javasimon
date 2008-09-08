@@ -31,7 +31,7 @@ abstract class AbstractSimon implements Simon {
 
 	AbstractSimon(String name) {
 		this.name = name;
-		if (name == null || name.equals(SimonFactory.ROOT_SIMON_NAME)) {
+		if (name == null || name.equals(SimonManager.ROOT_SIMON_NAME)) {
 			state = SimonState.ENABLED;
 			enabled = true;
 		}
@@ -56,7 +56,7 @@ abstract class AbstractSimon implements Simon {
 	}
 
 	/**
-	 * Sets the parent - used only by the factory/API.
+	 * Sets the parent - used only internally.
 	 *
 	 * @param parent assigned parent Simon
 	 */
@@ -65,7 +65,7 @@ abstract class AbstractSimon implements Simon {
 	}
 
 	/**
-	 * Adds new child - used only by the factory/API.
+	 * Adds new child - used only internally.
 	 *
 	 * @param simon added child Simon
 	 */
@@ -102,7 +102,7 @@ abstract class AbstractSimon implements Simon {
 	}
 
 	private boolean isAnonymousOrRootSimon() {
-		return (name == null || name.equals(SimonFactory.ROOT_SIMON_NAME));
+		return (name == null || name.equals(SimonManager.ROOT_SIMON_NAME));
 	}
 
 	private boolean shouldBeEffectivlyEnabled() {
@@ -241,7 +241,7 @@ abstract class AbstractSimon implements Simon {
 	}
 
 	/**
-	 * Replaces one of the children for a new one (unknown to concrete). Used only by the factory/API.
+	 * Replaces one of the children for a new one (unknown to concrete). Used only internally.
 	 *
 	 * @param simon original Simon (unknown)
 	 * @param newSimon new Simon

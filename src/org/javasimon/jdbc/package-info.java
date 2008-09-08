@@ -121,7 +121,7 @@
  * <p>
  * For printing information from Simons to standard output you can use:
  * <pre>
- * SimonUtils.printSimonTree(SimonFactory.getRootSimon());
+ * SimonUtils.printSimonTree(SimonManager.getRootSimon());
  * </pre>
  *
  * Also see examples classes {@link org.javasimon.jdbc.Simple.java} and {@link org.javasimon.jdbc.Complex.java}.

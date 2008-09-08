@@ -1,7 +1,7 @@
 package org.javasimon.examples;
 
 import org.javasimon.Stopwatch;
-import org.javasimon.SimonFactory;
+import org.javasimon.SimonManager;
 import org.javasimon.Simon;
 import org.javasimon.utils.*;
 
@@ -47,7 +47,7 @@ public final class NanoMillisComparison {
 	}
 
 	private static void nanoTest() {
-		nanos = SimonFactory.getStopwatch("nanos").reset().start();
+		nanos = SimonManager.getStopwatch("nanos").reset().start();
 		for (int i = 0; i < LOOP; i++) {
 			System.nanoTime();
 		}
@@ -56,7 +56,7 @@ public final class NanoMillisComparison {
 	}
 
 	private static void emptyTest() {
-		empty = SimonFactory.getStopwatch("empty").reset().start();
+		empty = SimonManager.getStopwatch("empty").reset().start();
 		for (int i = 0; i < LOOP; i++) {
 		}
 		empty.stop();
@@ -64,7 +64,7 @@ public final class NanoMillisComparison {
 	}
 
 	private static void millisTest() {
-		millis = SimonFactory.getStopwatch("millis").reset().start();
+		millis = SimonManager.getStopwatch("millis").reset().start();
 		for (int i = 0; i < LOOP; i++) {
 			System.currentTimeMillis();
 		}
@@ -73,7 +73,7 @@ public final class NanoMillisComparison {
 	}
 
 	private static void msAssignTest() {
-		assignMs = SimonFactory.getStopwatch("assign-ms").reset().start();
+		assignMs = SimonManager.getStopwatch("assign-ms").reset().start();
 		for (int i = 0; i < LOOP; i++) {
 			long ms = System.currentTimeMillis();
 		}
@@ -82,7 +82,7 @@ public final class NanoMillisComparison {
 	}
 
 	private static void nsAssignTest() {
-		assignNs = SimonFactory.getStopwatch("assign-ns").reset().start();
+		assignNs = SimonManager.getStopwatch("assign-ns").reset().start();
 		for (int i = 0; i < LOOP; i++) {
 			long ns = System.nanoTime();
 		}
@@ -91,8 +91,8 @@ public final class NanoMillisComparison {
 	}
 
 	private static void simonUsage() {
-		Stopwatch simon = SimonFactory.getStopwatch(null);
-		stopwatch = SimonFactory.getStopwatch("stopwatch").reset().start();
+		Stopwatch simon = SimonManager.getStopwatch(null);
+		stopwatch = SimonManager.getStopwatch("stopwatch").reset().start();
 		for (int i = 0; i < LOOP; i++) {
 			simon.start();
 			simon.stop();

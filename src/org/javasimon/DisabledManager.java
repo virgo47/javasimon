@@ -4,13 +4,13 @@ import java.util.Collection;
 import java.util.Collections;
 
 /**
- * DisabledFactory implements methods called from SimonFactory to do nothing or return NullSimon.
+ * DisabledManager implements methods called from SimonManager to do nothing or return NullSimon.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 16, 2008
  */
-class DisabledFactory implements Factory {
-	static final Factory INSTANCE = new DisabledFactory();
+class DisabledManager implements Manager {
+	static final Manager INSTANCE = new DisabledManager();
 
 	public Simon getSimon(String name) {
 		return NullSimon.INSTANCE;
@@ -31,7 +31,7 @@ class DisabledFactory implements Factory {
 	}
 
 	public UnknownSimon getUnknown(String name) {
-		throw new UnsupportedOperationException("Disabled factory does not support creation of the UnknownSimon.");
+		throw new UnsupportedOperationException("Disabled manager does not support creation of the UnknownSimon.");
 	}
 
 	public String generateName(String suffix, boolean includeMethodName) {
