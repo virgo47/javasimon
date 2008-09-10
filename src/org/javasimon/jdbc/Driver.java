@@ -136,7 +136,6 @@ public final class Driver implements java.sql.Driver {
 		if (prefix == null) {
 			prefix = DEFAULT_PREFIX;
 		}
-		// Todo obtain custom jdbc subpackage if exists
 
 		return new org.javasimon.jdbc.Connection(driver.connect(realUrl, info), prefix);
 	}
@@ -171,32 +170,46 @@ public final class Driver implements java.sql.Driver {
 		return drv;
 	}
 
-	private java.sql.Driver registerDriver(String driverName) throws SQLException {
+	/**
+	 * Registers real driver through {@link java.sql.DriverManager}. 
+	 *
+	 * @param name real driver class name
+	 * @return instance of registered real driver
+	 * @throws SQLException if registration fails
+	 */
+	private java.sql.Driver registerDriver(String name) throws SQLException {
 		try {
-			java.sql.Driver d = (java.sql.Driver) Class.forName(driverName).newInstance();
+			java.sql.Driver d = (java.sql.Driver) Class.forName(name).newInstance();
 			DriverManager.registerDriver(d);
 			return d;
+		} catch (SQLException e) {
+			throw e;
 		} catch (Exception e) {
 			return null;
 		}
 	}
 
+	/** {@inheritDoc} */
 	public boolean acceptsURL(String url) throws SQLException {
 		return url != null && url.toLowerCase().startsWith(SIMON_JDBC);
 	}
 
+	/** {@inheritDoc} */
 	public DriverPropertyInfo[] getPropertyInfo(String s, Properties properties) throws SQLException {
 		return new DriverPropertyInfo[0];
 	}
 
+	/** {@inheritDoc} */
 	public int getMajorVersion() {
 		return 1;
 	}
 
+	/** {@inheritDoc} */
 	public int getMinorVersion() {
 		return 0;
 	}
 
+	/** {@inheritDoc} */
 	public boolean jdbcCompliant() {
 		return true;
 	}
