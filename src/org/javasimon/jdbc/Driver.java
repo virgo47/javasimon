@@ -80,6 +80,7 @@ public final class Driver implements java.sql.Driver {
 	private static final String DEFAULT_PREFIX = "org.javasimon.jdbc";
 	private static final String SIMON_JDBC = "jdbc:simon";
 	private static final Pattern REAL_DRIVER_PATTERN = Pattern.compile(REAL_DRIVER + "\\s*=\\s*([\\w\\.]+)");
+	private static final Pattern PREFIX_PATTERN = Pattern.compile(PREFIX + "\\s*=\\s*([\\w\\.]+)");
 
 	private final Properties drivers = new Properties();
 
@@ -126,9 +127,18 @@ public final class Driver implements java.sql.Driver {
 
 		String realUrl = url.replaceFirst(SIMON_JDBC, "jdbc");
 		java.sql.Driver driver = getRealDriver(realUrl, info);
+
+		String prefix = null;
+		Matcher matcher = PREFIX_PATTERN.matcher(url);
+		if (matcher.find()) {
+			prefix = matcher.group(1);
+		}
+		if (prefix == null) {
+			prefix = DEFAULT_PREFIX;
+		}
 		// Todo obtain custom jdbc subpackage if exists
 
-		return new org.javasimon.jdbc.Connection(driver.connect(realUrl, info), DEFAULT_PREFIX);
+		return new org.javasimon.jdbc.Connection(driver.connect(realUrl, info), prefix);
 	}
 
 	private java.sql.Driver getRealDriver(String url, Properties info) throws SQLException {
