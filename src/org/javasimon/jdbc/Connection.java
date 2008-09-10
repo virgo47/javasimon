@@ -9,21 +9,31 @@ import java.util.Properties;
 import java.sql.*;
 
 /**
- * Class implements simon jdbc proxy connection. Main purpose of proxy is to intercept
- * calls to original object and do something added value. Therefore, this proxy connection
- * just wraps <i>real</i> connection and mostly all calls delegates to <i>real</i> connection.
- * Added value is hierarchy of simons which monitors several aspects of connection.
+ * Class implements simon jdbc proxy connection.
+ * <p>
+ * Every method of this connection is implemented as call of real connection method.
+ * Several methods have added work with simons (starting, stoping, etc.) for monitoring
+ * purposes.
+ * </p>
  * <p>
  * From all statement-return-methods (<code>createStatement(*)</code>,
  * <code>prepareStatement(*)</code>, <code>prepareCall(*)</code>) connection returns own
  * implementation of statement classes. Those classes are also proxies and provides
  * additional simons for monitoring features of JDBC driver.
  * </p>
+ * Monitoring connection ensure following simons:
+ * <ul>
+ * <li>lifespan (<code>org.javasimon.jdbc.conn</code>, stopwatch) - measure connection life and count</li>
+ * <li>active (<code>org.javasimon.jdbc.conn.active</code>, counter) - measure active (opened) connections</li>
+ * <li>commits (<code>org.javasimon.jdbc.conn.commits</code>, counter) - measure executed commits of all connections</li>
+ * <li>rollbacks (<code>org.javasimon.jdbc.conn.rollbacks</code>, counter) - measure executed rollbacks of all connections</li>
+ * </ul>
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
  * @created 6.8.2008 23:50:57
  * @since 1.0
+ * @see java.sql.Connection
  */
 public final class Connection implements java.sql.Connection {
 
@@ -40,18 +50,23 @@ public final class Connection implements java.sql.Connection {
 	 * and rollbacks) related to db connection.
 	 *
 	 * @param conn real db connection
-	 * @param suffix hierarchy suffix for connection simons
+	 * @param prefix hierarchy preffix for connection simons
 	 */
-	Connection(java.sql.Connection conn, String suffix) {
+	Connection(java.sql.Connection conn, String prefix) {
 		this.conn = conn;
-		this.suffix = suffix;
+		this.suffix = prefix;
 
-		active = SimonManager.getCounter(suffix + ".conn.active").increment();
-		commits = SimonManager.getCounter(suffix + ".conn.commits");
-		rollbacks = SimonManager.getCounter(suffix + ".conn.rollbacks");
-		life = SimonManager.getStopwatch(suffix + ".conn").start();
+		active = SimonManager.getCounter(prefix + ".conn.active").increment();
+		commits = SimonManager.getCounter(prefix + ".conn.commits");
+		rollbacks = SimonManager.getCounter(prefix + ".conn.rollbacks");
+		life = SimonManager.getStopwatch(prefix + ".conn").start();
 	}
 
+	/**
+	 * Closes real connection, stops lifespan simon and decrease active simon.
+	 *
+	 * @throws SQLException if real operation fails
+	 */
 	public void close() throws SQLException {
 		conn.close();
 
@@ -60,8 +75,9 @@ public final class Connection implements java.sql.Connection {
 	}
 
 	/**
+	 * Commits real connection and increase commits simon.
 	 *
-	 * @throws SQLException if something was wrong
+	 * @throws SQLException if real commit fails
 	 */
 	public void commit() throws SQLException {
 		conn.commit();
@@ -69,60 +85,144 @@ public final class Connection implements java.sql.Connection {
 		commits.increment();
 	}
 
+	/**
+	 * Rollback real connection and increase rollbacks simon.
+	 *
+	 * @throws SQLException if real operation fails
+	 */
 	public void rollback() throws SQLException {
 		conn.rollback();
 
 		rollbacks.increment();
 	}
 
+	/**
+	 * Rollback real connection and increase rollbacks simon.
+	 *
+	 * @throws SQLException if real operation fails
+	 */
 	public void rollback(Savepoint savepoint) throws SQLException {
 		conn.rollback(savepoint);
+
+		rollbacks.increment();
 	}
 
+	/**
+	 * Calls real createStatement and wraps returned statement by Simon's statement.
+	 *
+	 * @return Simon's statement with wraped real statement
+	 * @throws SQLException if real operation fails
+	 */
 	public java.sql.Statement createStatement() throws SQLException {
 		return new Statement(this, conn.createStatement(), suffix);
 	}
 
+	/**
+	 * Calls real createStatement and wraps returned statement by Simon's statement.
+	 *
+	 * @return Simon's statement with wraped real statement
+	 * @throws SQLException if real operation fails
+	 */
 	public java.sql.Statement createStatement(int i, int i1) throws SQLException {
 		return new Statement(this, conn.createStatement(i, i1), suffix);
 	}
 
+	/**
+	 * Calls real createStatement and wraps returned statement by Simon's statement.
+	 *
+	 * @return Simon's statement with wraped real statement
+	 * @throws SQLException if real operation fails
+	 */
 	public java.sql.Statement createStatement(int i, int i1, int i2) throws SQLException {
 		return new Statement(this, conn.createStatement(i, i1, i2), suffix);
 	}
 
+	/**
+	 * Calls real prepareStatement and wraps returned statement by Simon's statement.
+	 *
+	 * @return Simon's statement with wraped real statement
+	 * @throws SQLException if real operation fails
+	 */
 	public java.sql.PreparedStatement prepareStatement(String s) throws SQLException {
 		return new PreparedStatement(this, conn.prepareStatement(s), s, suffix);
 	}
 
+	/**
+	 * Calls real prepareStatement and wraps returned statement by Simon's statement.
+	 *
+	 * @return Simon's statement with wraped real statement
+	 * @throws SQLException if real operation fails
+	 */
 	public java.sql.PreparedStatement prepareStatement(String s, int i) throws SQLException {
 		return new PreparedStatement(this, conn.prepareStatement(s, i), s, suffix);
 	}
 
+	/**
+	 * Calls real prepareStatement and wraps returned statement by Simon's statement.
+	 *
+	 * @return Simon's statement with wraped real statement
+	 * @throws SQLException if real operation fails
+	 */
 	public java.sql.PreparedStatement prepareStatement(String s, int i, int i1) throws SQLException {
 		return new PreparedStatement(this, conn.prepareStatement(s, i, i1), s, suffix);
 	}
 
+	/**
+	 * Calls real prepareStatement and wraps returned statement by Simon's statement.
+	 *
+	 * @return Simon's statement with wraped real statement
+	 * @throws SQLException if real operation fails
+	 */
 	public java.sql.PreparedStatement prepareStatement(String s, int i, int i1, int i2) throws SQLException {
 		return new PreparedStatement(this, conn.prepareStatement(s, i, i1, i2), s, suffix);
 	}
 
+	/**
+	 * Calls real prepareStatement and wraps returned statement by Simon's statement.
+	 *
+	 * @return Simon's statement with wraped real statement
+	 * @throws SQLException if real operation fails
+	 */
 	public java.sql.PreparedStatement prepareStatement(String s, int[] ints) throws SQLException {
 		return new PreparedStatement(this, conn.prepareStatement(s, ints), s, suffix);
 	}
 
+	/**
+	 * Calls real prepareStatement and wraps returned statement by Simon's statement.
+	 *
+	 * @return Simon's statement with wraped real statement
+	 * @throws SQLException if real operation fails
+	 */
 	public java.sql.PreparedStatement prepareStatement(String s, String[] strings) throws SQLException {
 		return new PreparedStatement(this, conn.prepareStatement(s, strings), s, suffix);
 	}
 
+	/**
+	 * Calls real prepareCall and wraps returned statement by Simon's statement.
+	 *
+	 * @return Simon's statement with wraped real statement
+	 * @throws SQLException if real operation fails
+	 */
 	public java.sql.CallableStatement prepareCall(String s) throws SQLException {
 		return new CallableStatement(conn, conn.prepareCall(s), s, suffix);
 	}
 
+	/**
+	 * Calls real prepareCall and wraps returned statement by Simon's statement.
+	 *
+	 * @return Simon's statement with wraped real statement
+	 * @throws SQLException if real operation fails
+	 */
 	public java.sql.CallableStatement prepareCall(String s, int i, int i1) throws SQLException {
 		return new CallableStatement(conn, conn.prepareCall(s, i, i1), s, suffix);
 	}
 
+	/**
+	 * Calls real prepareCall and wraps returned statement by Simon's statement.
+	 *
+	 * @return Simon's statement with wraped real statement
+	 * @throws SQLException if real operation fails
+	 */
 	public java.sql.CallableStatement prepareCall(String s, int i, int i1, int i2) throws SQLException {
 		return new CallableStatement(conn, conn.prepareCall(s, i, i1, i2), s, suffix);
 	}
