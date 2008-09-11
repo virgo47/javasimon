@@ -22,12 +22,14 @@ interface Manager {
 	Counter getCounter(String name);
 
 	/**
-	 * Returns existing Stopwatch or creates new if necessary.
+	 * Returns existing Stopwatch or creates new if necessary. Stopwatch implementation
+	 * type can be specified.
 	 *
 	 * @param name name of the Stopwatch
+	 * @param impl implementation type
 	 * @return stopwatch object
 	 */
-	Stopwatch getStopwatch(String name);
+	Stopwatch getStopwatch(String name, Stopwatch.Type impl);
 
 	/**
 	 * Returns existing UnknownSimon or creates new if necessary.

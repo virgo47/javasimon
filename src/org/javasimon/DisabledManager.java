@@ -26,7 +26,7 @@ class DisabledManager implements Manager {
 		return NullSimon.INSTANCE;
 	}
 
-	public Stopwatch getStopwatch(String name) {
+	public Stopwatch getStopwatch(String name, Stopwatch.Type impl) {
 		return NullSimon.INSTANCE;
 	}
 
