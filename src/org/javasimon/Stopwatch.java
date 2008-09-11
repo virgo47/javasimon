@@ -82,4 +82,28 @@ public interface Stopwatch extends Simon {
 	 * @return returns this
 	 */
 	Stopwatch reset();
+
+	public enum Type {
+		/**
+		 * Thread-safe implementation where start and stop for one split must be used from
+		 * within the same thread.
+		 */
+		DEFAULT(StopwatchImpl.class),
+
+		/**
+		 * Simple implementation that cannot measure more splits in parallel. It is thread
+		 * safe, stop always adds the split measured from the last start.
+		 */
+		SIMPLE(StopwatchSimpleImpl.class);
+
+		private Class<? extends AbstractSimon> stopwatchClass;
+
+		Type(Class<? extends AbstractSimon> stopwatchClass) {
+			this.stopwatchClass = stopwatchClass;
+		}
+
+		Class<? extends AbstractSimon> getStopwatchClass() {
+			return stopwatchClass;
+		}
+	}
 }

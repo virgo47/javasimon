@@ -61,7 +61,19 @@ public final class SimonManager {
 	 * @return stopwatch object
 	 */
 	public static Stopwatch getStopwatch(String name) {
-		return manager.getStopwatch(name);
+		return manager.getStopwatch(name, Stopwatch.Type.DEFAULT);
+	}
+
+	/**
+	 * Returns existing Stopwatch or creates new if necessary. Stopwatch implementation
+	 * type can be specified.
+	 *
+	 * @param name name of the Stopwatch
+	 * @param impl implementation type
+	 * @return stopwatch object
+	 */
+	public static Stopwatch getStopwatch(String name, Stopwatch.Type impl) {
+		return manager.getStopwatch(name, impl);
 	}
 
 	/**

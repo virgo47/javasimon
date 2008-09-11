@@ -19,10 +19,12 @@ class EnabledManager implements Manager {
 
 	private UnknownSimon rootSimon;
 
+	@Override
 	public Simon getSimon(String name) {
 		return allSimons.get(name);
 	}
 
+	@Override
 	public void destroySimon(String name) {
 		AbstractSimon simon = allSimons.remove(name);
 		if (simon.getChildren().size() > 0) {
@@ -32,24 +34,29 @@ class EnabledManager implements Manager {
 		}
 	}
 
+	@Override
 	public void reset() {
 		allSimons.clear();
 		rootSimon = new UnknownSimon(SimonManager.ROOT_SIMON_NAME);
 		allSimons.put(SimonManager.ROOT_SIMON_NAME, rootSimon);
 	}
 
+	@Override
 	public synchronized Counter getCounter(String name) {
 		return (Counter) getOrCreateSimon(name, CounterImpl.class);
 	}
 
-	public synchronized Stopwatch getStopwatch(String name) {
-		return (Stopwatch) getOrCreateSimon(name, StopwatchImpl.class);
+	@Override
+	public synchronized Stopwatch getStopwatch(String name, Stopwatch.Type impl) {
+		return (Stopwatch) getOrCreateSimon(name, impl.getStopwatchClass());
 	}
 
+	@Override
 	public UnknownSimon getUnknown(String name) {
 		return (UnknownSimon) getOrCreateSimon(name, UnknownSimon.class);
 	}
 
+	@Override
 	public String generateName(String suffix, boolean includeMethodName) {
 		StackTraceElement stackElement = Thread.currentThread().getStackTrace()[3];
 		StringBuilder nameBuilder = new StringBuilder(stackElement.getClassName());
@@ -62,10 +69,12 @@ class EnabledManager implements Manager {
 		return nameBuilder.toString();
 	}
 
+	@Override
 	public Simon getRootSimon() {
 		return rootSimon;
 	}
 
+	@Override
 	public Collection<String> simonNames() {
 		return allSimons.keySet();
 	}
