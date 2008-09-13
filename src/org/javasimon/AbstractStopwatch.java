@@ -95,6 +95,12 @@ abstract class AbstractStopwatch extends AbstractSimon implements Stopwatch {
 	}
 
 	@Override
+	public void setStatProcessor(StatProcessor statProcessor) {
+		super.setStatProcessor(statProcessor);
+		statProcessor.setInterpreter(StatProcessor.TimeInterpreter.INSTANCE);
+	}
+
+	@Override
 	public synchronized Map<String, String> sample(boolean reset) {
 		Map<String, String> map = new LinkedHashMap<String, String>();
 		map.put("total", String.valueOf(total));
