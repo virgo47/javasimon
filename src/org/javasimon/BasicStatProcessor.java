@@ -4,12 +4,12 @@ import java.util.Map;
 import java.util.LinkedHashMap;
 
 /**
- * BasicStatProcessor provides following stats: sum, average.
+ * BasicStatProcessor provides following stats: sum, average, means, variances.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 12, 2008
  */
-class BasicStatProcessor implements StatProcessor {
+class BasicStatProcessor extends AbstractStatProcessor {
 	private double sum;
 	private double mean;
 	private double mean2;
@@ -24,7 +24,7 @@ class BasicStatProcessor implements StatProcessor {
 		sum += value;
 		count++;
 		double delta = value - mean;
-		mean += delta / count;
+		mean = sum / count;
 		mean2 += delta * (value - mean);
 	}
 
@@ -32,10 +32,12 @@ class BasicStatProcessor implements StatProcessor {
 		return sum;
 	}
 
+	@Override
 	public double getMean() {
 		return mean;
 	}
 
+	@Override
 	public double getVarianceN() {
 		if (count == 0) {
 			return 0;
@@ -43,6 +45,7 @@ class BasicStatProcessor implements StatProcessor {
 		return mean2 / count;
 	}
 
+	@Override
 	public double getVariance() {
 		if (count == 0) {
 			return 0;
@@ -54,16 +57,9 @@ class BasicStatProcessor implements StatProcessor {
 		return mean2 / countMinusOne;
 	}
 
+	@Override
 	public int getCount() {
 		return count;
-	}
-
-	@Override
-	public synchronized double getAverage() {
-		if (count == 0) {
-			return 0;
-		}
-		return sum / count;
 	}
 
 	@Override
@@ -83,10 +79,18 @@ class BasicStatProcessor implements StatProcessor {
 		map.put("spMean2", String.valueOf(mean2));
 		map.put("spVariance", String.valueOf(getVariance()));
 		map.put("spVarianceN", String.valueOf(getVarianceN()));
-		map.put("spAverage", String.valueOf(getAverage()));
 		if (reset) {
 			reset();
 		}
 		return map;
+	}
+
+	@Override
+	public String toString() {
+		return "Basic Stats: " +
+			"sum=" + interpret(sum) +
+			", count=" + count +
+			", mean=" + interpret(mean) +
+			", std.dev=" + interpret(Math.sqrt(getVarianceN()));
 	}
 }

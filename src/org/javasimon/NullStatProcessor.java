@@ -21,11 +21,6 @@ class NullStatProcessor implements StatProcessor {
 	}
 
 	@Override
-	public double getAverage() {
-		return 0;
-	}
-
-	@Override
 	public double getSum() {
 		return 0;
 	}
@@ -57,5 +52,14 @@ class NullStatProcessor implements StatProcessor {
 
 	@Override
 	public void reset() {
+	}
+
+	@Override
+	public void setInterpreter(ResultInterpreter interpreter) {
+	}
+
+	@Override
+	public String toString() {
+		return "Null Stats";
 	}
 }
