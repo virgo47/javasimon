@@ -78,23 +78,54 @@ public interface StatProcessor {
 	 */
 	void reset();
 
+	/**
+	 * Assings result interpreter for this stat processor to print results in {@code toString}.
+	 *
+	 * @param interpreter result interpeter
+	 */
 	void setInterpreter(StatProcessor.ResultInterpreter interpreter);
 
+	/**
+	 * Returns standard deviation for all measured values.
+	 *
+	 * @return standard deviation
+	 */
+	double getStandardDeviation();
+
+	/**
+	 * Interface that interprets the results and changes values to strings. This is
+	 * used in {@code toString} method of stat processor.
+	 */
 	interface ResultInterpreter {
 		String interpret(double value);
 	}
 
+	/**
+	 * Default result interpreter returns the value as a string without any changes.
+	 */
 	class DefaultInterpreter implements ResultInterpreter {
+		/**
+		 * Reusable instance of the default result interpreter.
+		 */
 		public static final ResultInterpreter INSTANCE = new DefaultInterpreter();
 
+		@Override
 		public String interpret(double value) {
 			return String.valueOf(value);
 		}
 	}
 
-	class TimeInterpreter implements ResultInterpreter {
-		public static final ResultInterpreter INSTANCE = new TimeInterpreter();
+	/**
+	 * Nano interpreter treats values as nanosecond times and returns it in a human
+	 * readable format using {@link org.javasimon.utils.SimonUtils#presentNanoTime(long)}.
+	 */
+	class NanoInterpreter implements ResultInterpreter {
+		/**
+		 * Reusable instance of the default result interpreter.
+		 */
+		public static final ResultInterpreter INSTANCE = new NanoInterpreter();
 
+		@Override
 		public String interpret(double value) {
 			return SimonUtils.presentNanoTime((long) value);
 		}

@@ -4,14 +4,22 @@ import java.util.Map;
 import java.util.Collections;
 
 /**
- * NullStatProcessor.
+ * Null stat processor ignores all measured values and provides no results. It is used
+ * by default if no other stat processor is requested.
 *
 * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
 * @created Aug 12, 2008
 */
 class NullStatProcessor implements StatProcessor {
+	/**
+	 * Singleton instance of this stat processor.
+	 */
 	public static final NullStatProcessor INSTANCE = new NullStatProcessor();
 
+	private NullStatProcessor() {
+	}
+
+	@Override
 	public StatProcessorType getType() {
 		return StatProcessorType.NULL;
 	}
@@ -37,6 +45,11 @@ class NullStatProcessor implements StatProcessor {
 
 	@Override
 	public double getVariance() {
+		return 0;
+	}
+
+	@Override
+	public double getStandardDeviation() {
 		return 0;
 	}
 

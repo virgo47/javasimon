@@ -58,6 +58,11 @@ class BasicStatProcessor extends AbstractStatProcessor {
 	}
 
 	@Override
+	public double getStandardDeviation() {
+		return Math.sqrt(getVarianceN());
+	}
+
+	@Override
 	public int getCount() {
 		return count;
 	}
@@ -76,9 +81,9 @@ class BasicStatProcessor extends AbstractStatProcessor {
 		map.put("spCount", String.valueOf(count));
 		map.put("spSum", String.valueOf(sum));
 		map.put("spMean", String.valueOf(mean));
-		map.put("spMean2", String.valueOf(mean2));
-		map.put("spVariance", String.valueOf(getVariance()));
-		map.put("spVarianceN", String.valueOf(getVarianceN()));
+		map.put("stdDev", String.valueOf(getStandardDeviation()));
+//		map.put("spVariance", String.valueOf(getVariance()));
+//		map.put("spVarianceN", String.valueOf(getVarianceN()));
 		if (reset) {
 			reset();
 		}
@@ -91,6 +96,6 @@ class BasicStatProcessor extends AbstractStatProcessor {
 			"sum=" + interpret(sum) +
 			", count=" + count +
 			", mean=" + interpret(mean) +
-			", std.dev=" + interpret(Math.sqrt(getVarianceN()));
+			", stdDev=" + interpret(getStandardDeviation());
 	}
 }

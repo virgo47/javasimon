@@ -97,7 +97,7 @@ abstract class AbstractStopwatch extends AbstractSimon implements Stopwatch {
 	@Override
 	public void setStatProcessor(StatProcessor statProcessor) {
 		super.setStatProcessor(statProcessor);
-		statProcessor.setInterpreter(StatProcessor.TimeInterpreter.INSTANCE);
+		statProcessor.setInterpreter(StatProcessor.NanoInterpreter.INSTANCE);
 	}
 
 	@Override
