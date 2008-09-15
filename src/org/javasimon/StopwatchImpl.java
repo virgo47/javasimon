@@ -10,14 +10,14 @@ package org.javasimon;
 final class StopwatchImpl extends AbstractStopwatch {
 	private ThreadLocal<Long> start = new ThreadLocal<Long>();
 
-	public StopwatchImpl(String name) {
+	StopwatchImpl(String name) {
 		super(name);
 	}
 
 	@Override
 	public Stopwatch start() {
 		if (enabled) {
-			recordUsages();
+			updateUsages();
 			start.set(System.nanoTime());
 		}
 		return this;

@@ -21,6 +21,11 @@ public final class ManagerVsStopwatchComparison {
 	private ManagerVsStopwatchComparison() {
 	}
 
+	/**
+	 * Entry point of the demo application.
+	 *
+	 * @param args command line arguments
+	 */
 	public static void main(String[] args) {
 		// warmup
 		Stopwatch tested = SimonManager.getStopwatch(NAME);

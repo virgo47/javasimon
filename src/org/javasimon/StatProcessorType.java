@@ -8,7 +8,13 @@ package org.javasimon;
  * @created Aug 12, 2008
  */
 public enum StatProcessorType {
+	/**
+	 * Null stat processor computes nothing and is incredibly fast. :-)
+	 */
 	NULL,
+	/**
+	 * Basic stat processor computes some basic statistics for measured values.
+	 */
 	BASIC;
 
 	/**

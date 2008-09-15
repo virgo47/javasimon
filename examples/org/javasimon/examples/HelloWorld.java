@@ -20,6 +20,11 @@ public final class HelloWorld {
 	private HelloWorld() {
 	}
 
+	/**
+	 * Entry point of the demo application.
+	 *
+	 * @param args command line arguments
+	 */
 	public static void main(String[] args) {
 		Stopwatch stopwatch = SimonManager.getStopwatch("org.javasimon.examples.HelloWorld-stopwatch");
 

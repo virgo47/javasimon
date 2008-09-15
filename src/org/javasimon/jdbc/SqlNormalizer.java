@@ -18,7 +18,7 @@ import java.util.List;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 17, 2008
  */
-public class SqlNormalizer {
+public final class SqlNormalizer {
 	private static final Replacer[] FIRST_REPLACERS;
 	private static final Replacer[] SECOND_REPLACERS;
 
@@ -140,9 +140,4 @@ public class SqlNormalizer {
 			",\n  type='" + type + '\'' +
 			'}';
 	}
-
-//	public static void main(String[] args) {
-//		System.out.println(
-//			new SqlNormalizer("select * from wherever where x=function1(function2('xxx'), function2(function3(3 + 5)))"));
-//	}
 }

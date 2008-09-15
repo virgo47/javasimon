@@ -15,6 +15,8 @@ import java.lang.reflect.InvocationTargetException;
 class EnabledManager implements Manager {
 	static final Manager INSTANCE = new EnabledManager();
 
+	private static final int CLIENT_CODE_STACK_INDEX = 3;
+
 	private final Map<String, AbstractSimon> allSimons = new HashMap<String, AbstractSimon>();
 
 	private UnknownSimon rootSimon;
@@ -58,7 +60,7 @@ class EnabledManager implements Manager {
 
 	@Override
 	public String generateName(String suffix, boolean includeMethodName) {
-		StackTraceElement stackElement = Thread.currentThread().getStackTrace()[3];
+		StackTraceElement stackElement = Thread.currentThread().getStackTrace()[CLIENT_CODE_STACK_INDEX];
 		StringBuilder nameBuilder = new StringBuilder(stackElement.getClassName());
 		if (includeMethodName) {
 			nameBuilder.append('.').append(stackElement.getMethodName());
@@ -121,7 +123,7 @@ class EnabledManager implements Manager {
 	private AbstractSimon instantiateSimon(String name, Class<? extends AbstractSimon> simonClass) {
 		AbstractSimon simon;
 		try {
-			Constructor<? extends AbstractSimon> constructor = simonClass.getConstructor(String.class);
+			Constructor<? extends AbstractSimon> constructor = simonClass.getDeclaredConstructor(String.class);
 			simon = constructor.newInstance(name);
 		} catch (NoSuchMethodException e) {
 			throw new SimonException(e);

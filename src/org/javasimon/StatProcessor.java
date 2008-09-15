@@ -3,6 +3,7 @@ package org.javasimon;
 import org.javasimon.utils.SimonUtils;
 
 import java.util.Map;
+import java.util.Collections;
 
 /**
  * StatProcessor processes observations - measured values - and provides additional statistical
@@ -73,9 +74,7 @@ public interface StatProcessor {
 	 */
 	int getCount();
 
-	/**
-	 * Resets the stat processor to the state like right after the creation.
-	 */
+	/** Resets the stat processor to the state like right after the creation. */
 	void reset();
 
 	/**
@@ -94,20 +93,26 @@ public interface StatProcessor {
 
 	/**
 	 * Interface that interprets the results and changes values to strings. This is
-	 * used in {@code toString} method of stat processor.
+	 * used in {@code toString} method of stat processor. Not all values are interpreted,
+	 * various square values does not represent the original value in the original unit
+	 * hence they are difficult to interpret. On the other hand, average and deviation are
+	 * typical values that are interpreted.
 	 */
 	interface ResultInterpreter {
+		/**
+		 * Interprets the double value to string. It is used in {@code toString} so it should
+		 * be human readable string.
+		 *
+		 * @param value double value
+		 * @return human readable string
+		 */
 		String interpret(double value);
 	}
 
-	/**
-	 * Default result interpreter returns the value as a string without any changes.
-	 */
+	/** Default result interpreter returns the value as a string without any changes. */
 	class DefaultInterpreter implements ResultInterpreter {
-		/**
-		 * Reusable instance of the default result interpreter.
-		 */
-		public static final ResultInterpreter INSTANCE = new DefaultInterpreter();
+		/** Reusable instance of the default result interpreter. */
+		static final ResultInterpreter INSTANCE = new DefaultInterpreter();
 
 		@Override
 		public String interpret(double value) {
@@ -120,14 +125,84 @@ public interface StatProcessor {
 	 * readable format using {@link org.javasimon.utils.SimonUtils#presentNanoTime(long)}.
 	 */
 	class NanoInterpreter implements ResultInterpreter {
-		/**
-		 * Reusable instance of the default result interpreter.
-		 */
-		public static final ResultInterpreter INSTANCE = new NanoInterpreter();
+		/** Reusable instance of the default result interpreter. */
+		static final ResultInterpreter INSTANCE = new NanoInterpreter();
 
 		@Override
 		public String interpret(double value) {
 			return SimonUtils.presentNanoTime((long) value);
 		}
+	}
+}
+
+/**
+ * Null stat processor ignores all measured values and provides no results. It is used
+ * by default if no other stat processor is requested.
+ *
+ * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
+ * @created Aug 12, 2008
+ */
+final class NullStatProcessor implements StatProcessor {
+	/** Singleton instance of this stat processor. */
+	static final NullStatProcessor INSTANCE = new NullStatProcessor();
+
+	private NullStatProcessor() {
+	}
+
+	@Override
+	public StatProcessorType getType() {
+		return StatProcessorType.NULL;
+	}
+
+	@Override
+	public void process(double value) {
+	}
+
+	@Override
+	public double getSum() {
+		return 0;
+	}
+
+	@Override
+	public double getMean() {
+		return 0;
+	}
+
+	@Override
+	public double getVarianceN() {
+		return 0;
+	}
+
+	@Override
+	public double getVariance() {
+		return 0;
+	}
+
+	@Override
+	public double getStandardDeviation() {
+		return 0;
+	}
+
+	@Override
+	public int getCount() {
+		return 0;
+	}
+
+	@Override
+	public Map<String, String> sample(boolean reset) {
+		return Collections.emptyMap();
+	}
+
+	@Override
+	public void reset() {
+	}
+
+	@Override
+	public void setInterpreter(ResultInterpreter interpreter) {
+	}
+
+	@Override
+	public String toString() {
+		return "Null Stats";
 	}
 }

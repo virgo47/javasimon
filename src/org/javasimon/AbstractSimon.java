@@ -17,7 +17,7 @@ abstract class AbstractSimon implements Simon {
 
 	private SimonState state = SimonState.INHERIT;
 
-	private Simon parent = null;
+	private Simon parent;
 
 	private final List<Simon> children = new ArrayList<Simon>();
 
@@ -153,6 +153,14 @@ abstract class AbstractSimon implements Simon {
 	}
 
 	/**
+	 * Resets usages and stat processor.
+	 */
+	void resetCommon() {
+		resetUsages();
+		getStatProcessor().reset();
+	}
+
+	/**
 	 * Returns state of the Simon that can be enabled, disabled or ihnerited.
 	 *
 	 * @return state of the Simon
@@ -228,13 +236,19 @@ abstract class AbstractSimon implements Simon {
 		return "[" + name + " " + state + "/stats=" + getStatProcessor().getType() + "]";
 	}
 
-	protected void recordUsages() {
+	/**
+	 * Updates usage statistics.
+	 */
+	protected void updateUsages() {
 		lastUsage = System.currentTimeMillis();
 		if (firstUsage == 0) {
 			firstUsage = lastUsage;
 		}
 	}
 
+	/**
+	 * Resets usage statistics.
+	 */
 	protected void resetUsages() {
 		firstUsage = 0;
 		lastUsage = 0;

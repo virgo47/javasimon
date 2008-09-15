@@ -33,6 +33,11 @@ public final class JamonComparison {
 	private JamonComparison() {
 	}
 
+	/**
+	 * Entry point of the demo application.
+	 *
+	 * @param args command line arguments
+	 */
 	public static void main(String[] args) {
 		MonitorFactory.enable();
 

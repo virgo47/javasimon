@@ -18,9 +18,7 @@ public class Simple {
 
 	private final Random rand = new Random();
 
-	public Simple() {
-	}
-	protected void setUp() throws SQLException {
+	protected final void setUp() throws SQLException {
 		Connection c = null;
 		try {
 			c = DriverManager.getConnection("jdbc:h2:mem:db1;DB_CLOSE_DELAY=-1");
@@ -34,7 +32,7 @@ public class Simple {
 		}
 	}
 
-	protected void doInsert(Connection c) throws SQLException {
+	protected final void doInsert(Connection c) throws SQLException {
 		PreparedStatement stmt = null;
 		try {
 			stmt = c.prepareStatement("insert into foo values (?, ?)  ");
@@ -48,7 +46,7 @@ public class Simple {
 		}
 	}
 
-	protected int doSelect(Connection c) throws SQLException {
+	protected final int doSelect(Connection c) throws SQLException {
 		Statement stmt = null;
 		ResultSet rs = null;
 		try {
@@ -69,6 +67,12 @@ public class Simple {
 		}
 	}
 
+	/**
+	 * Entry point of the demo application.
+	 *
+	 * @param args command line arguments
+	 * @throws Exception sometimes bad things can happen
+	 */
 	public static void main(String[] args) throws Exception {
 		Class.forName("org.h2.Driver");
 		Class.forName("org.javasimon.jdbc.Driver");
@@ -88,7 +92,6 @@ public class Simple {
 			}
 		}
 
-		System.out.println("Simon monitor hierarchy:");
-		SimonUtils.printSimonTree(SimonManager.getRootSimon());
+		System.out.println("Simon monitor hierarchy:\n" + SimonUtils.simonTreeString(SimonManager.getRootSimon()));
 	}
 }

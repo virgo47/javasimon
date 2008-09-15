@@ -60,7 +60,8 @@ public interface Simon {
 	boolean isEnabled();
 
 	/**
-	 * Resets the Simon - concrete values depends on the type and the implementation.
+	 * Resets the Simon, its usages and stat processor - concrete values depend
+	 * on the type and the implementation.
 	 *
 	 * @return returns this
 	 */

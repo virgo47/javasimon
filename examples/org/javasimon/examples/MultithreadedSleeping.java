@@ -13,8 +13,8 @@ import java.util.concurrent.CountDownLatch;
  * </pre>
  * This shows that whenever wait (IO, sleep) is measured you can get times
  * multiplied by the number of threads. Another thing you can notice is not
- * perfect precision of sleep because in theory it should not sleep less than
- * 1 second. Either sleep or nanoTime is not perfect.
+ * perfect precision of the sleep because in theory it should not sleep less than
+ * 1 second. Either the sleep or the nanoTime is not perfect.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 6, 2008
@@ -28,6 +28,15 @@ public final class MultithreadedSleeping extends Thread {
 
 	private static final CountDownLatch latch = new CountDownLatch(THREADS);
 
+	private MultithreadedSleeping() {
+	}
+
+	/**
+	 * Entry point of the demo application.
+	 *
+	 * @param args command line arguments
+	 * @throws InterruptedException when sleep is interrupted
+	 */
 	public static void main(String[] args) throws InterruptedException {
 		for (int i = 0; i < THREADS; i++) {
 			new MultithreadedSleeping().start();
@@ -37,6 +46,7 @@ public final class MultithreadedSleeping extends Thread {
 		System.out.println("Simon: " + SimonManager.getStopwatch(NAME));
 	}
 
+	@Override
 	public void run() {
 		Stopwatch stopwatch = SimonManager.getStopwatch(NAME);
 		stopwatch.start();
