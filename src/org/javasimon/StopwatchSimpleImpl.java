@@ -9,7 +9,7 @@ package org.javasimon;
 final class StopwatchSimpleImpl extends AbstractStopwatch {
 	private long start;
 
-	public StopwatchSimpleImpl(String name) {
+	StopwatchSimpleImpl(String name) {
 		super(name);
 	}
 

@@ -1,20 +1,51 @@
 package org.javasimon;
 
 /**
- * SimonCounter.
+ * Counter tracks the single integer value and watches its max/min values. It can be used
+ * for values starting with 0 - in that case min might not be important if counter does not
+ * go bellow 0. Counter can also start from any other arbitrary number that is set after the
+ * first change (increment, decrement, set) - this is more typical case for tracking also the
+ * min value.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 4, 2008
  */
 public interface Counter extends Simon {
+	/**
+	 * Increments the counter by one.
+	 *
+	 * @return this
+	 */
 	Counter increment();
 
+	/**
+	 * Decrements the counter by one.
+	 *
+	 * @return this
+	 */
 	Counter decrement();
 
+	/**
+	 * Increments the counter by the specified value.
+	 *
+	 * @param inc added value
+	 * @return this
+	 */
 	Counter increment(long inc);
 
-	Counter decrement(long inc);
+	/**
+	 * Increments the counter by the specified value.
+	 *
+	 * @param dec subtracted value
+	 * @return this
+	 */
+	Counter decrement(long dec);
 
+	/**
+	 * Returns the current value of the counter.
+	 *
+	 * @return counter value
+	 */
 	long getCounter();
 
 	/**
@@ -45,7 +76,14 @@ public interface Counter extends Simon {
 	 */
 	long getMaxTimestamp();
 
-	Counter reset();
-
+	/**
+	 * Sets the value of the counter to specified value.
+	 *
+	 * @param val new counter value
+	 * @return this
+	 */
 	Counter set(long val);
+
+	@Override
+	Counter reset();
 }

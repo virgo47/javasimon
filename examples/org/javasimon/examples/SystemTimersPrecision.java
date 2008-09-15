@@ -20,9 +20,13 @@ public final class SystemTimersPrecision {
 	private static final long LOOP = 10000000;
 
 	private SystemTimersPrecision() {
-		super();
 	}
 
+	/**
+	 * Entry point of the demo application.
+	 *
+	 * @param args command line arguments
+	 */
 	public static void main(String[] args) {
 		for (int round = 1; round <= 5; round++) {
 			Map<Long, Integer> deltaCount = new TreeMap<Long, Integer>();

@@ -18,21 +18,32 @@ import java.text.DecimalFormatSymbols;
 public final class GoogleChartGenerator {
 	private static final String URL_START = "http://chart.apis.google.com/chart?chs=600x300";
 	private static final String TYPE_BAR = "&cht=bvg&chbh=32,10,60&chco=4d89f9,c6d9fd&chxt=x,x,y";
-	private static final DecimalFormat nf = new DecimalFormat("0.00", DecimalFormatSymbols.getInstance(Locale.US));
+	private static final DecimalFormat NUMBER_FORMAT = new DecimalFormat("0.00", DecimalFormatSymbols.getInstance(Locale.US));
 
-    private static final List<Replacer> REPLACERS = new LinkedList<Replacer>();
+	private static final List<Replacer> REPLACERS = new LinkedList<Replacer>();
 
-    static {
-        REPLACERS.add(new Replacer("\\+", "%2b"));
-        REPLACERS.add(new Replacer(" ", "+"));
-        REPLACERS.add(new Replacer("&", "%26"));
-    }
+	private static final int TEN_BASE = 10;
+
+	static {
+		REPLACERS.add(new Replacer("\\+", "%2b"));
+		REPLACERS.add(new Replacer(" ", "+"));
+		REPLACERS.add(new Replacer("&", "%26"));
+	}
 
 	private GoogleChartGenerator() {
 		throw new UnsupportedOperationException();
 	}
 
-	public static String barChart(DataCollector collector, String title, double divisor, String unit) {
+	/**
+	 * Generates Google bar chart URL for last values of all collected Simons.
+	 *
+	 * @param collector data collector
+	 * @param title chart title
+	 * @param divisor value divisor. For example: if values are in ns and you want them in ms, set divisor to 1000000.
+	 * @param unit unit shown after values under every bar
+	 * @return URL generating the bar chart
+	 */
+	public static String barChart(AbstractDataCollector collector, String title, double divisor, String unit) {
 		final StringBuilder result = new StringBuilder(URL_START).append(TYPE_BAR);
 		result.append("&chtt=").append(encode(title));
 		final StringBuilder x0 = new StringBuilder("&chxl=0:");
@@ -49,14 +60,14 @@ public final class GoogleChartGenerator {
 			final List<Double> values = collector.valuesFor(simon);
 			double lastValue = values.get(values.size() - 1) / divisor;
 			x0.append('|').append(encode(simon.getName()));
-			String formattedValue = nf.format(lastValue);
+			String formattedValue = NUMBER_FORMAT.format(lastValue);
 			x1.append('|').append(formattedValue).append("+").append(unit);
 			if (lastValue > max) {
 				max = lastValue;
 			}
 			data.append(formattedValue);
 		}
-		double division = Math.pow(10, Math.floor(Math.log10(max)));
+		double division = Math.pow(TEN_BASE, Math.floor(Math.log10(max)));
 		StringBuilder x2 = new StringBuilder("|2:");
 		double x = 0;
 		for (; x < max + division; x += division) {
@@ -70,9 +81,9 @@ public final class GoogleChartGenerator {
 	}
 
 	private static String encode(String s) {
-        for (final Replacer replacer : REPLACERS) {
-            s = replacer.process(s);
-        }
+		for (final Replacer replacer : REPLACERS) {
+			s = replacer.process(s);
+		}
 		return s;
 	}
 }

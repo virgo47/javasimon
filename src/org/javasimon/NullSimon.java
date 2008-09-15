@@ -13,7 +13,7 @@ import java.util.Collections;
  * @created Aug 4, 2008
  */
 final class NullSimon implements Counter, Stopwatch {
-	public static final NullSimon INSTANCE = new NullSimon();
+	static final NullSimon INSTANCE = new NullSimon();
 
 	private NullSimon() {
 	}
@@ -76,7 +76,7 @@ final class NullSimon implements Counter, Stopwatch {
 	}
 
 	@Override
-	public Counter decrement(long inc) {
+	public Counter decrement(long dec) {
 		return this;
 	}
 

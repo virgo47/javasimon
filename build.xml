@@ -109,13 +109,14 @@
 		<mkdir dir="${doc.dir}"/>
 
 		<javadoc destdir="${doc.dir}" protected="true" linksource="true"
-				 doctitle="Java Simon API" windowtitle="Java Simon API"
-				 header="&lt;b&gt;Java Simon&lt;/b&gt;&lt;font size='-1'&gt; 1.0&lt;/font&gt;"
-				 additionalparam="-tag created:t:Created:">
+			doctitle="Java Simon API" windowtitle="Java Simon API"
+			header="&lt;b&gt;Java Simon&lt;/b&gt;&lt;font size='-1'&gt; 1.0&lt;/font&gt;"
+			overview="src/overview.html"
+			additionalparam="-tag created:t:Created:">
 
 			<sourcepath path="src"/>
 			<classpath refid="classpath"/>
-			<package name="org.javasimon.*"/>
+			<packageset dir="src"/>
 		</javadoc>
 	</target>
 </project>

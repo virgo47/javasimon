@@ -15,6 +15,7 @@ class BasicStatProcessor extends AbstractStatProcessor {
 	private double mean2;
 	private int count;
 
+	@Override
 	public StatProcessorType getType() {
 		return StatProcessorType.BASIC;
 	}
@@ -28,17 +29,18 @@ class BasicStatProcessor extends AbstractStatProcessor {
 		mean2 += delta * (value - mean);
 	}
 
-	public double getSum() {
+	@Override
+	public synchronized double getSum() {
 		return sum;
 	}
 
 	@Override
-	public double getMean() {
+	public synchronized double getMean() {
 		return mean;
 	}
 
 	@Override
-	public double getVarianceN() {
+	public synchronized double getVarianceN() {
 		if (count == 0) {
 			return 0;
 		}
@@ -46,7 +48,7 @@ class BasicStatProcessor extends AbstractStatProcessor {
 	}
 
 	@Override
-	public double getVariance() {
+	public synchronized double getVariance() {
 		if (count == 0) {
 			return 0;
 		}
@@ -58,12 +60,12 @@ class BasicStatProcessor extends AbstractStatProcessor {
 	}
 
 	@Override
-	public double getStandardDeviation() {
+	public synchronized double getStandardDeviation() {
 		return Math.sqrt(getVarianceN());
 	}
 
 	@Override
-	public int getCount() {
+	public synchronized int getCount() {
 		return count;
 	}
 
@@ -76,7 +78,7 @@ class BasicStatProcessor extends AbstractStatProcessor {
 	}
 
 	@Override
-	public Map<String, String> sample(boolean reset) {
+	public synchronized Map<String, String> sample(boolean reset) {
 		Map<String, String> map = new LinkedHashMap<String, String>();
 		map.put("spCount", String.valueOf(count));
 		map.put("spSum", String.valueOf(sum));

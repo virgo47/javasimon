@@ -44,4 +44,38 @@ public final class StopwatchTestNG {
 		stopwatch.addTime(0);
 		Assert.assertTrue(stopwatch.getFirstUsage() < stopwatch.getLastUsage());
 	}
+
+	@Test
+	public void resetTest() throws Exception {
+		Stopwatch stopwatch = SimonManager.getStopwatch(STOPWATCH_NAME);
+		stopwatch.setStatProcessor(StatProcessorType.BASIC.create());
+		stopwatch.reset();
+		long ts = System.currentTimeMillis();
+		stopwatch.addTime(100);
+		Assert.assertEquals(stopwatch.getTotal(), 100);
+		Assert.assertEquals(stopwatch.getMax(), 100);
+		Assert.assertEquals(stopwatch.getMin(), 100);
+		Assert.assertTrue(stopwatch.getMaxTimestamp() >= ts);
+		Assert.assertTrue(stopwatch.getMinTimestamp() >= ts);
+		Assert.assertTrue(stopwatch.getLastUsage() >= ts);
+		Assert.assertTrue(stopwatch.getFirstUsage() >= ts);
+		Assert.assertEquals(stopwatch.getCounter(), 1);
+		Assert.assertEquals(stopwatch.getStatProcessor().getCount(), 1);
+		Assert.assertEquals(stopwatch.getStatProcessor().getSum(), 100d);
+		Assert.assertEquals(stopwatch.getStatProcessor().getMean(), 100d);
+		Assert.assertEquals(stopwatch.getStatProcessor().getStandardDeviation(), 0d);
+		stopwatch.reset();
+		Assert.assertEquals(stopwatch.getTotal(), 0);
+		Assert.assertEquals(stopwatch.getMax(), 0);
+		Assert.assertEquals(stopwatch.getMin(), Long.MAX_VALUE);
+		Assert.assertEquals(stopwatch.getMaxTimestamp(), 0);
+		Assert.assertEquals(stopwatch.getMinTimestamp(), 0);
+		Assert.assertEquals(stopwatch.getLastUsage(), 0);
+		Assert.assertEquals(stopwatch.getFirstUsage(), 0);
+		Assert.assertEquals(stopwatch.getCounter(), 0);
+		Assert.assertEquals(stopwatch.getStatProcessor().getCount(), 0);
+		Assert.assertEquals(stopwatch.getStatProcessor().getSum(), 0d);
+		Assert.assertEquals(stopwatch.getStatProcessor().getMean(), 0d);
+		Assert.assertEquals(stopwatch.getStatProcessor().getStandardDeviation(), 0d);
+	}
 }

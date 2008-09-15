@@ -9,6 +9,7 @@ package org.javasimon;
 abstract class AbstractStatProcessor implements StatProcessor {
 	private ResultInterpreter resultInterpreter = DefaultInterpreter.INSTANCE;
 
+	@Override
 	public void setInterpreter(ResultInterpreter interpreter) {
 		resultInterpreter = interpreter;
 	}

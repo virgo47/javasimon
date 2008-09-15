@@ -83,6 +83,7 @@ public final class Driver implements java.sql.Driver {
 	private static final Pattern PREFIX_PATTERN = Pattern.compile(PREFIX + "\\s*=\\s*([\\w\\.]+)");
 
 	private final Properties drivers = new Properties();
+	private static final int JDBC_URL_FIXED_PREFIX_LEN = 5;
 
 	static {
 		try {
@@ -92,9 +93,7 @@ public final class Driver implements java.sql.Driver {
 		}
 	}
 
-	/**
-	 * Class constructor. It loads well known driver list from resource file drivers.properties.
-	 */
+	/** Class constructor. It loads well known driver list from resource file drivers.properties. */
 	public Driver() {
 		try {
 			InputStream stream = null;
@@ -114,7 +113,7 @@ public final class Driver implements java.sql.Driver {
 	/**
 	 * Opens new Simon proxy driver connection associated with real connection to specified database.
 	 *
-	 * @param url	jdbc connection string (i.e. jdbc:simon:h2:file:test)
+	 * @param url jdbc connection string (i.e. jdbc:simon:h2:file:test)
 	 * @param info properties for connection
 	 * @return open connection to database or null if provided url is not accepted by this driver
 	 * @throws SQLException if there is no real driver registered/recognized or opening real connection fails
@@ -152,9 +151,9 @@ public final class Driver implements java.sql.Driver {
 			drv = registerDriver(info.getProperty(REAL_DRIVER));
 		}
 
-		int i = url.indexOf(':', 5);
+		int i = url.indexOf(':', JDBC_URL_FIXED_PREFIX_LEN);
 		if (drv == null && i > -1) {
-			drv = registerDriver(drivers.getProperty(url.substring(5, i - 1)));
+			drv = registerDriver(drivers.getProperty(url.substring(JDBC_URL_FIXED_PREFIX_LEN, i - 1)));
 		}
 
 		if (drv == null) {
@@ -171,7 +170,7 @@ public final class Driver implements java.sql.Driver {
 	}
 
 	/**
-	 * Registers real driver through {@link java.sql.DriverManager}. 
+	 * Registers real driver through {@link java.sql.DriverManager}.
 	 *
 	 * @param name real driver class name
 	 * @return instance of registered real driver

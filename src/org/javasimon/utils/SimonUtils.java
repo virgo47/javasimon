@@ -16,8 +16,13 @@ public final class SimonUtils {
 	private static final int UNIT_PREFIX_FACTOR = 1000;
 
 	private static final DecimalFormatSymbols DECIMAL_FORMAT_SYMBOLS = new DecimalFormatSymbols(Locale.US);
+
+	private static final int TEN = 10;
 	private static final DecimalFormat UNDER_TEN_FORMAT = new DecimalFormat("0.00", DECIMAL_FORMAT_SYMBOLS);
+
+	private static final int HUNDRED = 100;
 	private static final DecimalFormat UNDER_HUNDRED_FORMAT = new DecimalFormat("00.0", DECIMAL_FORMAT_SYMBOLS);
+
 	private static final DecimalFormat DEFAULT_FORMAT = new DecimalFormat("000", DECIMAL_FORMAT_SYMBOLS);
 
 	private SimonUtils() {
@@ -55,19 +60,19 @@ public final class SimonUtils {
 	}
 
 	private static String formatTime(double time, String unit) {
-		if (time < 10) {
+		if (time < TEN) {
 			return UNDER_TEN_FORMAT.format(time) + unit;
 		}
-		if (time < 100) {
+		if (time < HUNDRED) {
 			return UNDER_HUNDRED_FORMAT.format(time) + unit;
 		}
 		return DEFAULT_FORMAT.format(time) + unit;
 	}
 
-	public static void printSimonTree(Simon simon) {
+	public static String simonTreeString(Simon simon) {
 		StringBuilder sb = new StringBuilder();
 		printSimonTree(0, simon, sb);
-		System.out.println(sb);
+		return sb.toString();
 	}
 
 	private static void printSimonTree(int level, Simon simon, StringBuilder sb) {

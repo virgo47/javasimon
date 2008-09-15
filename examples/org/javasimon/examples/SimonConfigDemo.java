@@ -11,8 +11,16 @@ import org.javasimon.utils.SimonUtils;
  * @created Aug 12, 2008
  */
 public final class SimonConfigDemo {
+	private SimonConfigDemo() {
+	}
+
+	/**
+	 * Entry point of the demo application.
+	 *
+	 * @param args command line arguments
+	 */
 	public static void main(String[] args) {
 		System.setProperty(SimonConfiguration.PROPERTY_CONFIG_RESOURCE_NAME, "org/javasimon/examples/simon.config");
-		SimonUtils.printSimonTree(SimonManager.getRootSimon());
+		System.out.println(SimonUtils.simonTreeString(SimonManager.getRootSimon()));
 	}
 }

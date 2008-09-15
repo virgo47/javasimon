@@ -21,7 +21,6 @@ import java.util.LinkedList;
 public class Statement implements java.sql.Statement {
 
 	protected Connection conn;
-	private java.sql.Statement stmt;
 
 	protected final List<String> batchSql = new LinkedList<String>();
 
@@ -32,6 +31,8 @@ public class Statement implements java.sql.Statement {
 	protected Stopwatch life;
 	protected Counter active;
 
+	private java.sql.Statement stmt;
+
 	Statement(Connection conn, java.sql.Statement stmt, String suffix) {
 		this.conn = conn;
 		this.stmt = stmt;
@@ -41,18 +42,18 @@ public class Statement implements java.sql.Statement {
 		life = SimonManager.getStopwatch(suffix + ".stmt").start();
 	}
 
-	public void close() throws SQLException {
+	public final void close() throws SQLException {
 		stmt.close();
 
 		life.stop();
 		active.decrement();
 	}
 
-	public Connection getConnection() throws SQLException {
+	public final Connection getConnection() throws SQLException {
 		return conn;
 	}
 
-	protected Stopwatch prepare(String sql) {
+	protected final Stopwatch prepare(String sql) {
 		if (sql != null && !sql.isEmpty()) {
 			sqlNormalizer = new SqlNormalizer(sql);
 			sqlCmdLabel = suffix + "." + sqlNormalizer.getType();
@@ -62,7 +63,7 @@ public class Statement implements java.sql.Statement {
 		}
 	}
 
-	protected Stopwatch prepare(List<String> sqls) {
+	protected final Stopwatch prepare(List<String> sqls) {
 		if (!sqls.isEmpty()) {
 			sqlNormalizer = sqls.size() == 1 ? new SqlNormalizer(sqls.get(0)) : new SqlNormalizer(sqls);
 			sqlCmdLabel = suffix + "." + sqlNormalizer.getType();
@@ -72,14 +73,14 @@ public class Statement implements java.sql.Statement {
 		}
 	}
 
-	protected void finish(Stopwatch s) {
+	protected final void finish(Stopwatch s) {
 		if (s != null) {
 			SimonManager.getStopwatch(sqlCmdLabel).addTime(s.stop());
 			s.setNote(sqlNormalizer.getNormalizedSql());
 		}
 	}
 
-	public ResultSet executeQuery(String sql) throws SQLException {
+	public final ResultSet executeQuery(String sql) throws SQLException {
 		Stopwatch s = prepare(sql);
 		try {
 			return stmt.executeQuery(sql);
@@ -88,7 +89,7 @@ public class Statement implements java.sql.Statement {
 		}
 	}
 
-	public int executeUpdate(String sql) throws SQLException {
+	public final int executeUpdate(String sql) throws SQLException {
 		Stopwatch s = prepare(sql);
 		try {
 			return stmt.executeUpdate(sql);
@@ -97,7 +98,7 @@ public class Statement implements java.sql.Statement {
 		}
 	}
 
-	public int executeUpdate(String sql, int i) throws SQLException {
+	public final int executeUpdate(String sql, int i) throws SQLException {
 		Stopwatch s = prepare(sql);
 		try {
 			return stmt.executeUpdate(sql, i);
@@ -106,7 +107,7 @@ public class Statement implements java.sql.Statement {
 		}
 	}
 
-	public int executeUpdate(String sql, int[] ints) throws SQLException {
+	public final int executeUpdate(String sql, int[] ints) throws SQLException {
 		Stopwatch s = prepare(sql);
 		try {
 			return stmt.executeUpdate(sql, ints);
@@ -115,7 +116,7 @@ public class Statement implements java.sql.Statement {
 		}
 	}
 
-	public int executeUpdate(String sql, String[] strings) throws SQLException {
+	public final int executeUpdate(String sql, String[] strings) throws SQLException {
 		Stopwatch s = prepare(sql);
 		try {
 			return stmt.executeUpdate(sql, strings);
@@ -124,7 +125,7 @@ public class Statement implements java.sql.Statement {
 		}
 	}
 
-	public boolean execute(String sql) throws SQLException {
+	public final boolean execute(String sql) throws SQLException {
 		Stopwatch s = prepare(sql);
 		try {
 			return stmt.execute(sql);
@@ -133,7 +134,7 @@ public class Statement implements java.sql.Statement {
 		}
 	}
 
-	public boolean execute(String sql, int i) throws SQLException {
+	public final boolean execute(String sql, int i) throws SQLException {
 		Stopwatch s = prepare(sql);
 		try {
 			return stmt.execute(sql, i);
@@ -142,7 +143,7 @@ public class Statement implements java.sql.Statement {
 		}
 	}
 
-	public boolean execute(String sql, int[] ints) throws SQLException {
+	public final boolean execute(String sql, int[] ints) throws SQLException {
 		Stopwatch s = prepare(sql);
 		try {
 			return stmt.execute(sql, ints);
@@ -151,7 +152,7 @@ public class Statement implements java.sql.Statement {
 		}
 	}
 
-	public boolean execute(String sql, String[] strings) throws SQLException {
+	public final boolean execute(String sql, String[] strings) throws SQLException {
 		Stopwatch s = prepare(sql);
 		try {
 			return stmt.execute(sql, strings);
@@ -160,13 +161,13 @@ public class Statement implements java.sql.Statement {
 		}
 	}
 
-	public void addBatch(String s) throws SQLException {
+	public final void addBatch(String s) throws SQLException {
 		batchSql.add(s);
 		
 		stmt.addBatch(s);
 	}
 
-	public int[] executeBatch() throws SQLException {
+	public final int[] executeBatch() throws SQLException {
 		Stopwatch s = prepare(batchSql);
 		try {
 			return stmt.executeBatch();
@@ -175,7 +176,7 @@ public class Statement implements java.sql.Statement {
 		}
 	}
 
-	public void clearBatch() throws SQLException {
+	public final void clearBatch() throws SQLException {
 		batchSql.clear();
 
 		stmt.clearBatch();
@@ -184,116 +185,116 @@ public class Statement implements java.sql.Statement {
 
 /////////////////// Not interesting methods for monitoring
 
-	public int getMaxFieldSize() throws SQLException {
+	public final int getMaxFieldSize() throws SQLException {
 		return stmt.getMaxFieldSize();
 	}
 
-	public void setMaxFieldSize(int i) throws SQLException {
+	public final void setMaxFieldSize(int i) throws SQLException {
 		stmt.setMaxFieldSize(i);
 	}
 
-	public int getMaxRows() throws SQLException {
+	public final int getMaxRows() throws SQLException {
 		return stmt.getMaxRows();
 	}
 
-	public void setMaxRows(int i) throws SQLException {
+	public final void setMaxRows(int i) throws SQLException {
 		stmt.setMaxRows(i);
 	}
 
-	public void setEscapeProcessing(boolean b) throws SQLException {
+	public final void setEscapeProcessing(boolean b) throws SQLException {
 		stmt.setEscapeProcessing(b);
 	}
 
-	public int getQueryTimeout() throws SQLException {
+	public final int getQueryTimeout() throws SQLException {
 		return stmt.getQueryTimeout();
 	}
 
-	public void setQueryTimeout(int i) throws SQLException {
+	public final void setQueryTimeout(int i) throws SQLException {
 		stmt.setQueryTimeout(i);
 	}
 
-	public void cancel() throws SQLException {
+	public final void cancel() throws SQLException {
 		stmt.cancel();
 	}
 
-	public SQLWarning getWarnings() throws SQLException {
+	public final SQLWarning getWarnings() throws SQLException {
 		return stmt.getWarnings();
 	}
 
-	public void clearWarnings() throws SQLException {
+	public final void clearWarnings() throws SQLException {
 		stmt.clearWarnings();
 	}
 
-	public void setCursorName(String s) throws SQLException {
+	public final void setCursorName(String s) throws SQLException {
 		stmt.setCursorName(s);
 	}
 
-	public ResultSet getResultSet() throws SQLException {
+	public final ResultSet getResultSet() throws SQLException {
 		return stmt.getResultSet();
 	}
 
-	public int getUpdateCount() throws SQLException {
+	public final int getUpdateCount() throws SQLException {
 		return stmt.getUpdateCount();
 	}
 
-	public boolean getMoreResults() throws SQLException {
+	public final boolean getMoreResults() throws SQLException {
 		return stmt.getMoreResults();
 	}
 
-	public void setFetchDirection(int i) throws SQLException {
+	public final void setFetchDirection(int i) throws SQLException {
 		stmt.setFetchDirection(i);
 	}
 
-	public int getFetchDirection() throws SQLException {
+	public final int getFetchDirection() throws SQLException {
 		return stmt.getFetchDirection();
 	}
 
-	public void setFetchSize(int i) throws SQLException {
+	public final void setFetchSize(int i) throws SQLException {
 		stmt.setFetchSize(i);
 	}
 
-	public int getFetchSize() throws SQLException {
+	public final int getFetchSize() throws SQLException {
 		return stmt.getFetchSize();
 	}
 
-	public int getResultSetConcurrency() throws SQLException {
+	public final int getResultSetConcurrency() throws SQLException {
 		return stmt.getResultSetConcurrency();
 	}
 
-	public int getResultSetType() throws SQLException {
+	public final int getResultSetType() throws SQLException {
 		return stmt.getResultSetType();
 	}
 
-	public boolean getMoreResults(int i) throws SQLException {
+	public final boolean getMoreResults(int i) throws SQLException {
 		return stmt.getMoreResults(i);
 	}
 
-	public ResultSet getGeneratedKeys() throws SQLException {
+	public final ResultSet getGeneratedKeys() throws SQLException {
 		return stmt.getGeneratedKeys();
 	}
 
-	public int getResultSetHoldability() throws SQLException {
+	public final int getResultSetHoldability() throws SQLException {
 		return stmt.getResultSetHoldability();
 	}
 
-	public boolean isClosed() throws SQLException {
+	public final boolean isClosed() throws SQLException {
 		return stmt.isClosed();
 	}
 
-	public void setPoolable(boolean b) throws SQLException {
+	public final void setPoolable(boolean b) throws SQLException {
 		stmt.setPoolable(b);
 	}
 
-	public boolean isPoolable() throws SQLException {
+	public final boolean isPoolable() throws SQLException {
 		return stmt.isPoolable();
 	}
 
-	public <T> T unwrap(Class<T> tClass) throws SQLException {
+	public final <T> T unwrap(Class<T> tClass) throws SQLException {
 		// Todo to be implemented
 		return null;
 	}
 
-	public boolean isWrapperFor(Class<?> aClass) throws SQLException {
+	public final boolean isWrapperFor(Class<?> aClass) throws SQLException {
 		return aClass == stmt.getClass();
 	}
 }

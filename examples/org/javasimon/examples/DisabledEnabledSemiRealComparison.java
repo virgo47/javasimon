@@ -32,6 +32,11 @@ public final class DisabledEnabledSemiRealComparison {
 	private DisabledEnabledSemiRealComparison() {
 	}
 
+	/**
+	 * Entry point of the demo application.
+	 *
+	 * @param args command line arguments
+	 */
 	public static void main(String[] args) {
 		long simonMeasurement = 0;
 		long simonCounter = 0;

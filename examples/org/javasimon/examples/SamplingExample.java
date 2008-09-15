@@ -14,6 +14,14 @@ import org.javasimon.StatProcessorType;
 public final class SamplingExample {
 	private static final boolean RESET = true;
 
+	private SamplingExample() {
+	}
+
+	/**
+	 * Entry point of the demo application.
+	 *
+	 * @param args command line arguments
+	 */
 	public static void main(String[] args) {
 		// Setting richer stat processor
 		SimonManager.getStopwatch("sampled-stopwatch").setStatProcessor(StatProcessorType.BASIC.create());

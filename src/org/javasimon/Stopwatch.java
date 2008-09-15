@@ -83,6 +83,14 @@ public interface Stopwatch extends Simon {
 	 */
 	Stopwatch reset();
 
+	/**
+	 * Stopwatch implementation type. Because stopwatch measures time (sums splits) and the
+	 * time measuring involves two methods (start/stop) there are various possibilities how
+	 * to do that in a thread safe environment. Default implementation is multithreaded,
+	 * can measure more splits in parallel, but start and stop must occur in the same
+	 * thread. Simple implementation is very simple, stop adds split time since last start.
+	 * Any previous start calls are ignored as are any stops without start.
+	 */
 	public enum Type {
 		/**
 		 * Thread-safe implementation where start and stop for one split must be used from

@@ -16,6 +16,11 @@ public final class DisabledEnabledComparison {
 	private DisabledEnabledComparison() {
 	}
 
+	/**
+	 * Entry point of the demo application.
+	 *
+	 * @param args command line arguments
+	 */
 	public static void main(String[] args) {
 		Stopwatch tested;
 		Stopwatch stopwatch;

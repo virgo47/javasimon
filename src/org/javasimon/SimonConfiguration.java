@@ -11,28 +11,38 @@ import java.util.Map;
 import java.util.LinkedHashMap;
 
 /**
- * SimonConfiguration.
+ * Stores Simon configuration - currently it only initializes Simons. API reset (manager reset)
+ * clears all config information. TODO: real configuration.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Sep 6, 2008
  */
 public final class SimonConfiguration {
+	/**
+	 * Property name for the Simon configuration file.
+	 */
 	public static final String PROPERTY_CONFIG_FILE_NAME = "javasimon.config.file";
 
+	/**
+	 * Property name for the Simon configuration resource.
+	 */
 	public static final String PROPERTY_CONFIG_RESOURCE_NAME = "javasimon.config.resource";
 
 	private static Map<String, SimonConfiguration> configs;
 
-	private String type = null;
-	private StatProcessorType statProcessorType = null;
-	private SimonState state = null;
+	private String type;
+	private StatProcessorType statProcessorType;
+	private SimonState state;
 
-	public SimonConfiguration(String type, StatProcessorType statProcessorType, SimonState state) {
+	private SimonConfiguration(String type, StatProcessorType statProcessorType, SimonState state) {
 		this.type = type;
 		this.statProcessorType = statProcessorType;
 		this.state = state;
 	}
 
+	/**
+	 * Initilizes the configuration facility.
+	 */
 	public static void init() {
 		try {
 			configs = new LinkedHashMap<String, SimonConfiguration>();

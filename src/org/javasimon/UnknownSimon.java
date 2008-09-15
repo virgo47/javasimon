@@ -11,18 +11,21 @@ import java.util.Collections;
  * @created Aug 4, 2008
  */
 public final class UnknownSimon extends AbstractSimon {
-	public UnknownSimon(String name) {
+	UnknownSimon(String name) {
 		super(name);
 	}
 
+	@Override
 	public Simon reset() {
 		return this;
 	}
 
+	@Override
 	public Map<String, String> sample(boolean reset) {
 		return Collections.emptyMap();
 	}
 
+	@Override
 	public String toString() {
 		return "Unknown Simon: " + super.toString();
 	}

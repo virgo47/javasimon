@@ -17,7 +17,7 @@ import java.io.Reader;
  * @created 16.8.2008 22:00:26
  * @since 1.0
  */
-public class CallableStatement extends PreparedStatement implements java.sql.CallableStatement {
+public final class CallableStatement extends PreparedStatement implements java.sql.CallableStatement {
 
 	private java.sql.CallableStatement stmt;
 

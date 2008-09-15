@@ -24,8 +24,13 @@ public final class NanoMillisComparison {
 	private NanoMillisComparison() {
 	}
 
+	/**
+	 * Entry point of the demo application.
+	 *
+	 * @param args command line arguments
+	 */
 	public static void main(String[] args) {
-		DataCollector collector = null;
+		AbstractDataCollector collector = null;
 		for (int round = 1; round <= 5; round++) {
 			System.out.println("\nRound: " + round);
 			emptyTest();
@@ -35,7 +40,7 @@ public final class NanoMillisComparison {
 			nsAssignTest();
 			simonUsage();
 			if (collector == null) {
-				 collector = new DataCollector(empty, millis, nanos, assignMs, assignNs, stopwatch) {
+				 collector = new AbstractDataCollector(empty, millis, nanos, assignMs, assignNs, stopwatch) {
 					 public double obtainValue(Simon simon) {
 						 return ((Stopwatch) simon).getTotal();
 					 }

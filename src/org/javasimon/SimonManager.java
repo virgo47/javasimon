@@ -10,8 +10,14 @@ import java.util.*;
  * @created Aug 4, 2008
  */
 public final class SimonManager {
+	/**
+	 * Hierarchy delimiter in Simon name.
+	 */
 	public static final String HIERARCHY_DELIMITER = ".";
 
+	/**
+	 * Name of the root Simon.
+	 */
 	public static final String ROOT_SIMON_NAME = "";
 
 	private static Manager manager = EnabledManager.INSTANCE;
@@ -98,18 +104,36 @@ public final class SimonManager {
 		return manager.generateName(suffix, includeMethodName);
 	}
 
+	/**
+	 * Enables the whole Java Simon API. Enabled manager provides real Simons.
+	 */
 	public static void enable() {
 		manager = EnabledManager.INSTANCE;
 	}
 
+	/**
+	 * Disables the whole Java Simon API. Disabled manager provides null Simons that actually do nothing.
+	 */
 	public static void disable() {
 		manager = DisabledManager.INSTANCE;
 	}
 
+	/**
+	 * Returns true if the Java Simon API is enabled.
+	 *
+	 * @return true if the API is enabled
+	 */
 	public static boolean isEnabled() {
 		return manager instanceof EnabledManager;
 	}
 
+	/**
+	 * Returns root Simon. Type of the Simon is unknown at the start but it can be replaced
+	 * by the real Simon later. Specific get method with root simon name constant can be used
+	 * in that case.
+	 *
+	 * @return root Simon
+	 */
 	public static Simon getRootSimon() {
 		return manager.getRootSimon();
 	}

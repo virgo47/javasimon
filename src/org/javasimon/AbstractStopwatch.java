@@ -12,11 +12,11 @@ import java.util.LinkedHashMap;
  * @created Sep 11, 2008
  */
 abstract class AbstractStopwatch extends AbstractSimon implements Stopwatch {
-	private long total = 0;
+	private long total;
 
-	private long counter = 0;
+	private long counter;
 
-	private long max = 0;
+	private long max;
 
 	private long maxTimestamp;
 
@@ -24,7 +24,7 @@ abstract class AbstractStopwatch extends AbstractSimon implements Stopwatch {
 
 	private long minTimestamp;
 
-	public AbstractStopwatch(String name) {
+	AbstractStopwatch(String name) {
 		super(name);
 	}
 
@@ -42,12 +42,14 @@ abstract class AbstractStopwatch extends AbstractSimon implements Stopwatch {
 		counter = 0;
 		max = 0;
 		min = Long.MAX_VALUE;
-		resetUsages();
+		maxTimestamp = 0;
+		minTimestamp = 0;
+		resetCommon();
 		return this;
 	}
 
 	synchronized long addSplit(long split) {
-		recordUsages();
+		updateUsages();
 		total += split;
 		counter++;
 		if (split > max) {
@@ -65,32 +67,32 @@ abstract class AbstractStopwatch extends AbstractSimon implements Stopwatch {
 	}
 
 	@Override
-	public long getTotal() {
+	public synchronized long getTotal() {
 		return total;
 	}
 
 	@Override
-	public long getCounter() {
+	public synchronized long getCounter() {
 		return counter;
 	}
 
 	@Override
-	public long getMax() {
+	public synchronized long getMax() {
 		return max;
 	}
 
 	@Override
-	public long getMin() {
+	public synchronized long getMin() {
 		return min;
 	}
 
 	@Override
-	public long getMaxTimestamp() {
+	public synchronized long getMaxTimestamp() {
 		return maxTimestamp;
 	}
 
 	@Override
-	public long getMinTimestamp() {
+	public synchronized long getMinTimestamp() {
 		return minTimestamp;
 	}
 
@@ -109,7 +111,7 @@ abstract class AbstractStopwatch extends AbstractSimon implements Stopwatch {
 		map.put("max", String.valueOf(max));
 		map.put("minTimestamp", String.valueOf(minTimestamp));
 		map.put("maxTimestamp", String.valueOf(maxTimestamp));
-		map.putAll(getStatProcessor().sample(reset));
+		map.putAll(getStatProcessor().sample(false)); // reset is done via Simon's reset method
 		if (reset) {
 			reset();
 		}
