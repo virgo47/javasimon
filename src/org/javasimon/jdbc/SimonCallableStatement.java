@@ -17,12 +17,12 @@ import java.io.Reader;
  * @created 16.8.2008 22:00:26
  * @since 1.0
  */
-public final class CallableStatement extends PreparedStatement implements java.sql.CallableStatement {
+public final class SimonCallableStatement extends SimonPreparedStatement implements java.sql.CallableStatement {
 
 	private java.sql.CallableStatement stmt;
 
-	CallableStatement(Connection conn, java.sql.CallableStatement stmt, String sql, String suffix) {
-		super(conn, stmt, sql, suffix);
+	SimonCallableStatement(Connection conn, java.sql.CallableStatement stmt, String sql, String prefix) {
+		super(conn, stmt, sql, prefix);
 
 		this.stmt = stmt;
 	}

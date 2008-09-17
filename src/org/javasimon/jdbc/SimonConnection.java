@@ -35,7 +35,7 @@ import java.sql.*;
  * @since 1.0
  * @see java.sql.Connection
  */
-public final class Connection implements java.sql.Connection {
+public final class SimonConnection implements java.sql.Connection {
 
 	private java.sql.Connection conn;
 	private String suffix;
@@ -52,7 +52,7 @@ public final class Connection implements java.sql.Connection {
 	 * @param conn real db connection
 	 * @param prefix hierarchy preffix for connection simons
 	 */
-	Connection(java.sql.Connection conn, String prefix) {
+	SimonConnection(java.sql.Connection conn, String prefix) {
 		this.conn = conn;
 		this.suffix = prefix;
 
@@ -114,7 +114,7 @@ public final class Connection implements java.sql.Connection {
 	 * @throws SQLException if real operation fails
 	 */
 	public java.sql.Statement createStatement() throws SQLException {
-		return new Statement(this, conn.createStatement(), suffix);
+		return new SimonStatement(this, conn.createStatement(), suffix);
 	}
 
 	/**
@@ -124,7 +124,7 @@ public final class Connection implements java.sql.Connection {
 	 * @throws SQLException if real operation fails
 	 */
 	public java.sql.Statement createStatement(int i, int i1) throws SQLException {
-		return new Statement(this, conn.createStatement(i, i1), suffix);
+		return new SimonStatement(this, conn.createStatement(i, i1), suffix);
 	}
 
 	/**
@@ -134,7 +134,7 @@ public final class Connection implements java.sql.Connection {
 	 * @throws SQLException if real operation fails
 	 */
 	public java.sql.Statement createStatement(int i, int i1, int i2) throws SQLException {
-		return new Statement(this, conn.createStatement(i, i1, i2), suffix);
+		return new SimonStatement(this, conn.createStatement(i, i1, i2), suffix);
 	}
 
 	/**
@@ -144,7 +144,7 @@ public final class Connection implements java.sql.Connection {
 	 * @throws SQLException if real operation fails
 	 */
 	public java.sql.PreparedStatement prepareStatement(String s) throws SQLException {
-		return new PreparedStatement(this, conn.prepareStatement(s), s, suffix);
+		return new SimonPreparedStatement(this, conn.prepareStatement(s), s, suffix);
 	}
 
 	/**
@@ -154,7 +154,7 @@ public final class Connection implements java.sql.Connection {
 	 * @throws SQLException if real operation fails
 	 */
 	public java.sql.PreparedStatement prepareStatement(String s, int i) throws SQLException {
-		return new PreparedStatement(this, conn.prepareStatement(s, i), s, suffix);
+		return new SimonPreparedStatement(this, conn.prepareStatement(s, i), s, suffix);
 	}
 
 	/**
@@ -164,7 +164,7 @@ public final class Connection implements java.sql.Connection {
 	 * @throws SQLException if real operation fails
 	 */
 	public java.sql.PreparedStatement prepareStatement(String s, int i, int i1) throws SQLException {
-		return new PreparedStatement(this, conn.prepareStatement(s, i, i1), s, suffix);
+		return new SimonPreparedStatement(this, conn.prepareStatement(s, i, i1), s, suffix);
 	}
 
 	/**
@@ -174,7 +174,7 @@ public final class Connection implements java.sql.Connection {
 	 * @throws SQLException if real operation fails
 	 */
 	public java.sql.PreparedStatement prepareStatement(String s, int i, int i1, int i2) throws SQLException {
-		return new PreparedStatement(this, conn.prepareStatement(s, i, i1, i2), s, suffix);
+		return new SimonPreparedStatement(this, conn.prepareStatement(s, i, i1, i2), s, suffix);
 	}
 
 	/**
@@ -184,7 +184,7 @@ public final class Connection implements java.sql.Connection {
 	 * @throws SQLException if real operation fails
 	 */
 	public java.sql.PreparedStatement prepareStatement(String s, int[] ints) throws SQLException {
-		return new PreparedStatement(this, conn.prepareStatement(s, ints), s, suffix);
+		return new SimonPreparedStatement(this, conn.prepareStatement(s, ints), s, suffix);
 	}
 
 	/**
@@ -194,7 +194,7 @@ public final class Connection implements java.sql.Connection {
 	 * @throws SQLException if real operation fails
 	 */
 	public java.sql.PreparedStatement prepareStatement(String s, String[] strings) throws SQLException {
-		return new PreparedStatement(this, conn.prepareStatement(s, strings), s, suffix);
+		return new SimonPreparedStatement(this, conn.prepareStatement(s, strings), s, suffix);
 	}
 
 	/**
@@ -204,7 +204,7 @@ public final class Connection implements java.sql.Connection {
 	 * @throws SQLException if real operation fails
 	 */
 	public java.sql.CallableStatement prepareCall(String s) throws SQLException {
-		return new CallableStatement(conn, conn.prepareCall(s), s, suffix);
+		return new SimonCallableStatement(conn, conn.prepareCall(s), s, suffix);
 	}
 
 	/**
@@ -214,7 +214,7 @@ public final class Connection implements java.sql.Connection {
 	 * @throws SQLException if real operation fails
 	 */
 	public java.sql.CallableStatement prepareCall(String s, int i, int i1) throws SQLException {
-		return new CallableStatement(conn, conn.prepareCall(s, i, i1), s, suffix);
+		return new SimonCallableStatement(conn, conn.prepareCall(s, i, i1), s, suffix);
 	}
 
 	/**
@@ -224,7 +224,7 @@ public final class Connection implements java.sql.Connection {
 	 * @throws SQLException if real operation fails
 	 */
 	public java.sql.CallableStatement prepareCall(String s, int i, int i1, int i2) throws SQLException {
-		return new CallableStatement(conn, conn.prepareCall(s, i, i1, i2), s, suffix);
+		return new SimonCallableStatement(conn, conn.prepareCall(s, i, i1, i2), s, suffix);
 	}
 
 
@@ -355,10 +355,10 @@ public final class Connection implements java.sql.Connection {
 	}
 
 	public <T> T unwrap(Class<T> tClass) throws SQLException {
-		return null;
+		throw new SQLException("not implemented");
 	}
 
 	public boolean isWrapperFor(Class<?> aClass) throws SQLException {
-		return aClass == conn.getClass();
+		throw new SQLException("not implemented");
 	}
 }

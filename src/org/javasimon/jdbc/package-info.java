@@ -117,7 +117,7 @@
  * If default prexif value is not suficient or you need to differentiate between two different drivers
  * (or its configuration) you can define your own prefix as parameter {@code SIMON_PREFIX=&lt;prefix&gt;}
  * within JDBC connection string. For example, {@code jdbc:simon:....;SIMON_PREFIX=com.foo.bar}. More
- * about setuping Simon JDBC proxy driver see {@link org.javasimon.jdbc.Driver}.
+ * about setuping Simon JDBC proxy driver see {@link SimonDriver}.
  * <p>
  * For printing information from Simons to standard output you can use:
  * <pre>

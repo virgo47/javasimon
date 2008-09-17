@@ -18,28 +18,27 @@ import java.util.LinkedList;
  * @since 1.0
  * @see java.sql.Statement
  */
-public class Statement implements java.sql.Statement {
+public class SimonStatement implements java.sql.Statement {
 
 	protected Connection conn;
+	private java.sql.Statement stmt;
 
 	protected final List<String> batchSql = new LinkedList<String>();
 
-	protected String suffix;
+	protected String prefix;
 	protected String sqlCmdLabel;
 	protected SqlNormalizer sqlNormalizer;
 
 	protected Stopwatch life;
 	protected Counter active;
 
-	private java.sql.Statement stmt;
-
-	Statement(Connection conn, java.sql.Statement stmt, String suffix) {
+	SimonStatement(Connection conn, java.sql.Statement stmt, String prefix) {
 		this.conn = conn;
 		this.stmt = stmt;
-		this.suffix = suffix;
+		this.prefix = prefix;
 
-		active = SimonManager.getCounter(suffix + ".stmt.active").increment();
-		life = SimonManager.getStopwatch(suffix + ".stmt").start();
+		active = SimonManager.getCounter(prefix + ".stmt.active").increment();
+		life = SimonManager.getStopwatch(prefix + ".stmt").start();
 	}
 
 	public final void close() throws SQLException {
@@ -56,7 +55,7 @@ public class Statement implements java.sql.Statement {
 	protected final Stopwatch prepare(String sql) {
 		if (sql != null && !sql.isEmpty()) {
 			sqlNormalizer = new SqlNormalizer(sql);
-			sqlCmdLabel = suffix + "." + sqlNormalizer.getType();
+			sqlCmdLabel = prefix + "." + sqlNormalizer.getType();
 			return SimonManager.getStopwatch(sqlCmdLabel + "." + sqlNormalizer.getNormalizedSql().hashCode()).start();
 		} else {
 			return null;
@@ -66,7 +65,7 @@ public class Statement implements java.sql.Statement {
 	protected final Stopwatch prepare(List<String> sqls) {
 		if (!sqls.isEmpty()) {
 			sqlNormalizer = sqls.size() == 1 ? new SqlNormalizer(sqls.get(0)) : new SqlNormalizer(sqls);
-			sqlCmdLabel = suffix + "." + sqlNormalizer.getType();
+			sqlCmdLabel = prefix + "." + sqlNormalizer.getType();
 			return SimonManager.getStopwatch(sqlCmdLabel + "." + sqlNormalizer.getNormalizedSql().hashCode()).start();
 		} else {
 			return null;
@@ -290,11 +289,10 @@ public class Statement implements java.sql.Statement {
 	}
 
 	public final <T> T unwrap(Class<T> tClass) throws SQLException {
-		// Todo to be implemented
-		return null;
+		throw new SQLException("not implemented");
 	}
 
 	public final boolean isWrapperFor(Class<?> aClass) throws SQLException {
-		return aClass == stmt.getClass();
+		throw new SQLException("not implemented");
 	}
 }
