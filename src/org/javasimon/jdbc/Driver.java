@@ -136,7 +136,7 @@ public final class Driver implements java.sql.Driver {
 			prefix = DEFAULT_PREFIX;
 		}
 
-		return new org.javasimon.jdbc.Connection(driver.connect(realUrl, info), prefix);
+		return new org.javasimon.jdbc.SimonConnection(driver.connect(realUrl, info), prefix);
 	}
 
 	private java.sql.Driver getRealDriver(String url, Properties info) throws SQLException {

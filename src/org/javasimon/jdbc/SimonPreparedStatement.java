@@ -17,16 +17,17 @@ import java.net.URL;
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
  * @created 9.8.2008 15:42:52
- * @see java.sql.PreparedStatement
  * @since 1.0
+ * @see java.sql.PreparedStatement
  */
-public class PreparedStatement extends Statement implements java.sql.PreparedStatement {
-	protected String sql;
+public class SimonPreparedStatement extends SimonStatement implements java.sql.PreparedStatement {
 
 	private java.sql.PreparedStatement stmt;
 
-	PreparedStatement(Connection conn, java.sql.PreparedStatement stmt, String sql, String suffix) {
-		super(conn, stmt, suffix);
+	protected String sql;
+
+	SimonPreparedStatement(Connection conn, java.sql.PreparedStatement stmt, String sql, String prefix) {
+		super(conn, stmt, prefix);
 
 		this.stmt = stmt;
 		this.sql = sql;
@@ -35,7 +36,7 @@ public class PreparedStatement extends Statement implements java.sql.PreparedSta
 	protected final Stopwatch prepare() {
 		if (sql != null && !sql.isEmpty()) {
 			sqlNormalizer = new SqlNormalizer(sql);
-			sqlCmdLabel = suffix + "." + sqlNormalizer.getType();
+			sqlCmdLabel = prefix + "." + sqlNormalizer.getType();
 			return SimonManager.getStopwatch(sqlCmdLabel + "." + sqlNormalizer.getNormalizedSql().hashCode()).start();
 		} else {
 			return null;
