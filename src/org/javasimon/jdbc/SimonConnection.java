@@ -52,7 +52,7 @@ public final class SimonConnection implements java.sql.Connection {
 	 * @param conn real db connection
 	 * @param prefix hierarchy preffix for connection simons
 	 */
-	SimonConnection(java.sql.Connection conn, String prefix) {
+	public SimonConnection(java.sql.Connection conn, String prefix) {
 		this.conn = conn;
 		this.suffix = prefix;
 

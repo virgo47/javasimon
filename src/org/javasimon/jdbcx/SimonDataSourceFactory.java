@@ -1,4 +1,6 @@
-package org.javasimon.jdbc;
+package org.javasimon.jdbcx;
+
+import org.javasimon.jdbcx.SimonDataSource;
 
 import javax.naming.spi.ObjectFactory;
 import javax.naming.Name;
@@ -16,13 +18,16 @@ import java.util.Hashtable;
  */
 public final class SimonDataSourceFactory implements ObjectFactory {
 
+	final static String ATT_REAL_DS = "realDataSource";
+	final static String ATT_PREFIX = "prefix";
+
 	public Object getObjectInstance(Object o, Name name, Context ctx, Hashtable<?, ?> env) throws Exception {
 		if (o instanceof Reference) {
 			Reference ref = (Reference) o;
 			if (ref.getClassName().equals(SimonDataSource.class.getName())) {
 				SimonDataSource ds = new SimonDataSource();
-				ds.setRealDataSource((String) ref.get("realDataSource").getContent());
-				ds.setPrefix((String) ref.get("prefix").getContent());
+				ds.setRealDataSource((String) ref.get(ATT_REAL_DS).getContent());
+				ds.setPrefix((String) ref.get(ATT_PREFIX).getContent());
 				return ds;
 			}
 		}
