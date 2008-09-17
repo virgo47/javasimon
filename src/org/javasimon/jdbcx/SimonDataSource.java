@@ -1,6 +1,9 @@
-package org.javasimon.jdbc;
+package org.javasimon.jdbcx;
+
+import org.javasimon.jdbc.SimonConnection;
 
 import javax.naming.*;
+import javax.sql.DataSource;
 import java.sql.*;
 import java.sql.Connection;
 import java.io.PrintWriter;
@@ -13,13 +16,15 @@ import java.io.PrintWriter;
  * @created 14.9.2008 16:30:36
  * @since 1.0
  */
-public final class SimonDataSource implements Referenceable, javax.sql.DataSource {
+public class SimonDataSource implements Referenceable, DataSource {
+
+	protected String realDataSource;
+	protected String prefix;
+
+	private DataSource realDS;
 
 	private transient PrintWriter logWriter;
 	private int loginTimeout;
-
-	private String realDataSource;
-	private String prefix;
 
 	public String getRealDataSource() {
 		return realDataSource;
@@ -39,36 +44,35 @@ public final class SimonDataSource implements Referenceable, javax.sql.DataSourc
 
 	public Reference getReference() throws NamingException {
 		Reference ref = new Reference(getClass().getName(), SimonDataSourceFactory.class.getName(), null);
-		ref.add(new StringRefAddr("realDataSource", realDataSource));
-		ref.add(new StringRefAddr("prefix", prefix));
+		ref.add(new StringRefAddr(SimonDataSourceFactory.ATT_REAL_DS, realDataSource));
+		ref.add(new StringRefAddr(SimonDataSourceFactory.ATT_PREFIX, prefix));
 		return ref;
 	}
 
-	public Connection getConnection() throws SQLException {
-		Context ctx = null;
-		try {
+	private DataSource getRealDS() throws NamingException {
+		if (realDS == null) {
+			Context ctx = null;
 			try {
 				ctx = new InitialContext();
-				SimonDataSource ds = (SimonDataSource) ctx.lookup(realDataSource);
-				return new SimonConnection(ds.getConnection(), prefix);
+				realDS = (DataSource) ctx.lookup(realDataSource);
 			} finally {
 				if (ctx != null) { ctx.close(); }
 			}
+		}
+		return realDS;
+	}
+
+	public Connection getConnection() throws SQLException {
+		try {
+			return new SimonConnection(getRealDS().getConnection(), prefix);
 		} catch (NamingException e) {
 			throw new SQLException(e);
 		}
 	}
 
 	public Connection getConnection(String user, String password) throws SQLException {
-		Context ctx = null;
 		try {
-			try {
-				ctx = new InitialContext();
-				SimonDataSource ds = (SimonDataSource) ctx.lookup(realDataSource);
-				return new SimonConnection(ds.getConnection(user, password), prefix);
-			} finally {
-				if (ctx != null) { ctx.close(); }
-			}
+			return new SimonConnection(getRealDS().getConnection(user, password), prefix);
 		} catch (NamingException e) {
 			throw new SQLException(e);
 		}
