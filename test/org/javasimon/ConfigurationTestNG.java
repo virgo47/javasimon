@@ -11,8 +11,8 @@ import org.testng.annotations.Test;
 public final class ConfigurationTestNG {
 	@Test
 	public void testConfig() {
-		System.setProperty(SimonConfiguration.PROPERTY_CONFIG_RESOURCE_NAME, "org/javasimon/test.config");
+		System.setProperty(SimonConfigManager.PROPERTY_CONFIG_RESOURCE_NAME, "org/javasimon/test.config");
 		SimonManager.reset();
-		SimonConfiguration.init();
+		SimonConfigManager.init();
 	}
 }

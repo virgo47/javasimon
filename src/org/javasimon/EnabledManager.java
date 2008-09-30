@@ -1,5 +1,7 @@
 package org.javasimon;
 
+import org.javasimon.utils.SimonUtils;
+
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Collection;
@@ -84,6 +86,9 @@ class EnabledManager implements Manager {
 	private Simon getOrCreateSimon(String name, Class<? extends AbstractSimon> simonClass) {
 		AbstractSimon simon = allSimons.get(name);
 		if (simon == null) {
+			if (!SimonUtils.checkName(name)) {
+				throw new SimonException("Simon name must match following pattern: '" + SimonUtils.NAME_PATTERN.pattern() + '\'');
+			}
 			simon = newSimon(name, simonClass);
 		} else if (simon instanceof UnknownSimon) {
 			simon = replaceSimon(simon, simonClass);
