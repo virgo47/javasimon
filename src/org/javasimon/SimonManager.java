@@ -24,7 +24,7 @@ public final class SimonManager {
 
 	static {
 		reset();
-		SimonConfiguration.init();
+		SimonConfigManager.init();
 	}
 
 	private SimonManager() {

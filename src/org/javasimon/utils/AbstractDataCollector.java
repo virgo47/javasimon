@@ -64,5 +64,11 @@ public abstract class AbstractDataCollector {
 		return Collections.unmodifiableList(data.get(simon));
 	}
 
+	/**
+	 * Returns the value for a Simon.
+	 *
+	 * @param simon Simon which the value is obtained from
+	 * @return value for that Simon
+	 */
 	public abstract double obtainValue(Simon simon);
 }

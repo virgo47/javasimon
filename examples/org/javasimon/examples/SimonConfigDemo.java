@@ -1,7 +1,7 @@
 package org.javasimon.examples;
 
 import org.javasimon.SimonManager;
-import org.javasimon.SimonConfiguration;
+import org.javasimon.SimonConfigManager;
 import org.javasimon.utils.SimonUtils;
 
 /**
@@ -20,7 +20,7 @@ public final class SimonConfigDemo {
 	 * @param args command line arguments
 	 */
 	public static void main(String[] args) {
-		System.setProperty(SimonConfiguration.PROPERTY_CONFIG_RESOURCE_NAME, "org/javasimon/examples/simon.config");
+		System.setProperty(SimonConfigManager.PROPERTY_CONFIG_RESOURCE_NAME, "org/javasimon/examples/simon.config");
 		System.out.println(SimonUtils.simonTreeString(SimonManager.getRootSimon()));
 	}
 }

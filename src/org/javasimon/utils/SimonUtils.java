@@ -5,6 +5,8 @@ import org.javasimon.SimonManager;
 
 import java.text.*;
 import java.util.Locale;
+import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 /**
  * SimonUtils class holds static utility methods.
@@ -13,6 +15,11 @@ import java.util.Locale;
  * @created Aug 6, 2008
  */
 public final class SimonUtils {
+	/**
+	 * Regex pattern for Simon names.
+	 */
+	public static final Pattern NAME_PATTERN = Pattern.compile("[-A-Za-z0-9.@$%()]+");
+
 	private static final int UNIT_PREFIX_FACTOR = 1000;
 
 	private static final DecimalFormatSymbols DECIMAL_FORMAT_SYMBOLS = new DecimalFormatSymbols(Locale.US);
@@ -69,6 +76,13 @@ public final class SimonUtils {
 		return DEFAULT_FORMAT.format(time) + unit;
 	}
 
+	/**
+	 * Returns multi-line string containing Simon tree starting with the specified Simon.
+	 * Root Simon can be used to obtain tree with all Simons.
+	 *
+	 * @param simon root Simon of the output tree
+	 * @return string containing the tree
+	 */
 	public static String simonTreeString(Simon simon) {
 		StringBuilder sb = new StringBuilder();
 		printSimonTree(0, simon, sb);
@@ -100,5 +114,24 @@ public final class SimonUtils {
 			return name;
 		}
 		return name.substring(ix + 1);
+	}
+
+	/**
+	 * Checks if the input string is correct Simon name.
+	 *
+	 * @param name checked string
+	 * @return true if the string is proper Simon name
+	 */
+	public static boolean checkName(String name) {
+		return NAME_PATTERN.matcher(name).matches();
+	}
+
+	/**
+	 * Reports the warning.
+	 *
+	 * @param warning warning message
+	 */
+	public static void warning(String warning) {
+		Logger.getLogger("org.javasimon").warning(warning);
 	}
 }
