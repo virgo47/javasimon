@@ -17,7 +17,7 @@ import java.lang.reflect.InvocationTargetException;
 class EnabledManager implements Manager {
 	static final Manager INSTANCE = new EnabledManager();
 
-	private static final int CLIENT_CODE_STACK_INDEX = 3;
+	private static final int CLIENT_CODE_STACK_INDEX = 4; // and 3 for JDK 6 :-)
 
 	private final Map<String, AbstractSimon> allSimons = new HashMap<String, AbstractSimon>();
 
