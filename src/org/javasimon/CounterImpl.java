@@ -27,7 +27,9 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		super(name);
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public synchronized Counter set(long val) {
 		counter = val;
 		if (counter > max) {
@@ -41,7 +43,9 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		return this;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public synchronized Counter increment() {
 		counter++;
 		if (counter > max) {
@@ -52,7 +56,9 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		return this;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public synchronized Counter decrement() {
 		counter--;
 		if (counter < min) {
@@ -63,17 +69,23 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		return this;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public synchronized Counter increment(long inc) {
 		return set(counter + inc);
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public synchronized Counter decrement(long dec) {
 		return set(counter - dec);
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public synchronized Counter reset() {
 		counter = 0;
 		max = Long.MIN_VALUE;
@@ -84,7 +96,9 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		return this;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public synchronized Map<String, String> sample(boolean reset) {
 		Map<String, String> map = new LinkedHashMap<String, String>();
 		map.put("counter", String.valueOf(counter));
@@ -99,27 +113,37 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		return map;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public synchronized long getCounter() {
 		return counter;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public synchronized long getMin() {
 		return min;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public synchronized long getMinTimestamp() {
 		return minTimestamp;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public synchronized long getMax() {
 		return max;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public synchronized long getMaxTimestamp() {
 		return maxTimestamp;
 	}

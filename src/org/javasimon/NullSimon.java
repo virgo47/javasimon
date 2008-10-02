@@ -18,129 +18,179 @@ final class NullSimon implements Counter, Stopwatch {
 	private NullSimon() {
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public Simon getParent() {
 		return null;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public final List<Simon> getChildren() {
 		return null;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getName() {
 		return null;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public SimonState getState() {
 		return null;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setState(SimonState state, boolean overrule) {
 		if (state == null) {
 			throw new IllegalArgumentException();
 		}
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean isEnabled() {
 		return false;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public NullSimon reset() {
 		return this;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public Counter set(long val) {
 		return this;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public Counter increment() {
 		return this;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public Counter decrement() {
 		return this;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public Counter increment(long inc) {
 		return this;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public Counter decrement(long dec) {
 		return this;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public long getCounter() {
 		return 0;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public long getMin() {
 		return 0;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public long getMax() {
 		return 0;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public long getMaxTimestamp() {
 		return 0;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public long getMinTimestamp() {
 		return 0;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public Stopwatch addTime(long ns) {
 		return this;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public Stopwatch start() {
 		return this;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public long stop() {
 		return 0;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public long getTotal() {
 		return 0;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public long getFirstUsage() {
 		return 0;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public long getLastUsage() {
 		return 0;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public StatProcessor getStatProcessor() {
 		return NullStatProcessor.INSTANCE;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setStatProcessor(StatProcessor statProcessor) {
 	}
 
@@ -149,7 +199,6 @@ final class NullSimon implements Counter, Stopwatch {
 	 *
 	 * @return note for the Simon.
 	 */
-	@Override
 	public String getNote() {
 		return null;
 	}
@@ -159,11 +208,9 @@ final class NullSimon implements Counter, Stopwatch {
 	 *
 	 * @param note note for the Simon.
 	 */
-	@Override
 	public void setNote(String note) {
 	}
 
-	@Override
 	public Map<String, String> sample(boolean reset) {
 		return Collections.emptyMap();
 	}

@@ -18,7 +18,7 @@ import java.text.DecimalFormatSymbols;
 public final class GoogleChartGenerator {
 	private static final String URL_START = "http://chart.apis.google.com/chart?chs=600x300";
 	private static final String TYPE_BAR = "&cht=bvg&chbh=32,10,60&chco=4d89f9,c6d9fd&chxt=x,x,y";
-	private static final DecimalFormat NUMBER_FORMAT = new DecimalFormat("0.00", DecimalFormatSymbols.getInstance(Locale.US));
+	private static final DecimalFormat NUMBER_FORMAT = new DecimalFormat("0.00", new DecimalFormatSymbols(Locale.US));
 
 	private static final List<Replacer> REPLACERS = new LinkedList<Replacer>();
 

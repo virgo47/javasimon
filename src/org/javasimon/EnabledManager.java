@@ -23,12 +23,16 @@ class EnabledManager implements Manager {
 
 	private UnknownSimon rootSimon;
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public Simon getSimon(String name) {
 		return allSimons.get(name);
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public void destroySimon(String name) {
 		AbstractSimon simon = allSimons.remove(name);
 		if (simon.getChildren().size() > 0) {
@@ -38,29 +42,39 @@ class EnabledManager implements Manager {
 		}
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public void reset() {
 		allSimons.clear();
 		rootSimon = new UnknownSimon(SimonManager.ROOT_SIMON_NAME);
 		allSimons.put(SimonManager.ROOT_SIMON_NAME, rootSimon);
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public synchronized Counter getCounter(String name) {
 		return (Counter) getOrCreateSimon(name, CounterImpl.class);
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public synchronized Stopwatch getStopwatch(String name, Stopwatch.Type impl) {
 		return (Stopwatch) getOrCreateSimon(name, impl.getStopwatchClass());
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public UnknownSimon getUnknown(String name) {
 		return (UnknownSimon) getOrCreateSimon(name, UnknownSimon.class);
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public String generateName(String suffix, boolean includeMethodName) {
 		StackTraceElement stackElement = Thread.currentThread().getStackTrace()[CLIENT_CODE_STACK_INDEX];
 		StringBuilder nameBuilder = new StringBuilder(stackElement.getClassName());
@@ -73,12 +87,16 @@ class EnabledManager implements Manager {
 		return nameBuilder.toString();
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public Simon getRootSimon() {
 		return rootSimon;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public Collection<String> simonNames() {
 		return allSimons.keySet();
 	}

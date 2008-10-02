@@ -28,7 +28,9 @@ abstract class AbstractStopwatch extends AbstractSimon implements Stopwatch {
 		super(name);
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public synchronized Stopwatch addTime(long ns) {
 		if (enabled) {
 			addSplit(ns);
@@ -36,7 +38,9 @@ abstract class AbstractStopwatch extends AbstractSimon implements Stopwatch {
 		return this;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public synchronized Stopwatch reset() {
 		total = 0;
 		counter = 0;
@@ -66,32 +70,44 @@ abstract class AbstractStopwatch extends AbstractSimon implements Stopwatch {
 		return split;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public synchronized long getTotal() {
 		return total;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public synchronized long getCounter() {
 		return counter;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public synchronized long getMax() {
 		return max;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public synchronized long getMin() {
 		return min;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public synchronized long getMaxTimestamp() {
 		return maxTimestamp;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public synchronized long getMinTimestamp() {
 		return minTimestamp;
 	}
@@ -102,7 +118,9 @@ abstract class AbstractStopwatch extends AbstractSimon implements Stopwatch {
 		statProcessor.setInterpreter(StatProcessor.NanoInterpreter.INSTANCE);
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public synchronized Map<String, String> sample(boolean reset) {
 		Map<String, String> map = new LinkedHashMap<String, String>();
 		map.put("total", String.valueOf(total));
@@ -125,6 +143,6 @@ abstract class AbstractStopwatch extends AbstractSimon implements Stopwatch {
 			", counter " + counter +
 			", max " + SimonUtils.presentNanoTime(max) +
 			", min " + SimonUtils.presentNanoTime(min) +
-			(getNote() != null && !getNote().isEmpty() ? ", note '" + getNote() + "'" : "");
+			(getNote() != null && getNote().length() != 0 ? ", note '" + getNote() + "'" : "");
 	}
 }

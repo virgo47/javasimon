@@ -114,7 +114,9 @@ public interface StatProcessor {
 		/** Reusable instance of the default result interpreter. */
 		static final ResultInterpreter INSTANCE = new DefaultInterpreter();
 
-		@Override
+		/**
+		 * {@inheritDoc}
+		 */
 		public String interpret(double value) {
 			return String.valueOf(value);
 		}
@@ -128,7 +130,9 @@ public interface StatProcessor {
 		/** Reusable instance of the default result interpreter. */
 		static final ResultInterpreter INSTANCE = new NanoInterpreter();
 
-		@Override
+		/**
+		 * {@inheritDoc}
+		 */
 		public String interpret(double value) {
 			return SimonUtils.presentNanoTime((long) value);
 		}
@@ -149,55 +153,77 @@ final class NullStatProcessor implements StatProcessor {
 	private NullStatProcessor() {
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public StatProcessorType getType() {
 		return StatProcessorType.NULL;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public void process(double value) {
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public double getSum() {
 		return 0;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public double getMean() {
 		return 0;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public double getVarianceN() {
 		return 0;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public double getVariance() {
 		return 0;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public double getStandardDeviation() {
 		return 0;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public int getCount() {
 		return 0;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public Map<String, String> sample(boolean reset) {
 		return Collections.emptyMap();
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public void reset() {
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setInterpreter(ResultInterpreter interpreter) {
 	}
 
