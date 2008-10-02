@@ -84,6 +84,8 @@ public interface Counter extends Simon {
 	 */
 	Counter set(long val);
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	Counter reset();
 }

@@ -13,7 +13,9 @@ final class StopwatchSimpleImpl extends AbstractStopwatch {
 		super(name);
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public Stopwatch start() {
 		if (enabled) {
 			start = System.nanoTime();
@@ -21,7 +23,9 @@ final class StopwatchSimpleImpl extends AbstractStopwatch {
 		return this;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public long stop() {
 		if (enabled) {
 			if (start != 0) {

@@ -15,12 +15,16 @@ public final class UnknownSimon extends AbstractSimon {
 		super(name);
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public Simon reset() {
 		return this;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public Map<String, String> sample(boolean reset) {
 		return Collections.emptyMap();
 	}

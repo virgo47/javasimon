@@ -14,7 +14,9 @@ final class StopwatchImpl extends AbstractStopwatch {
 		super(name);
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public Stopwatch start() {
 		if (enabled) {
 			updateUsages();
@@ -23,7 +25,9 @@ final class StopwatchImpl extends AbstractStopwatch {
 		return this;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public long stop() {
 		if (enabled) {
 			Long start = this.start.get();

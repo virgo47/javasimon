@@ -15,12 +15,16 @@ class BasicStatProcessor extends AbstractStatProcessor {
 	private double mean2;
 	private int count;
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public StatProcessorType getType() {
 		return StatProcessorType.BASIC;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public synchronized void process(double value) {
 		sum += value;
 		count++;
@@ -29,17 +33,23 @@ class BasicStatProcessor extends AbstractStatProcessor {
 		mean2 += delta * (value - mean);
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public synchronized double getSum() {
 		return sum;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public synchronized double getMean() {
 		return mean;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public synchronized double getVarianceN() {
 		if (count == 0) {
 			return 0;
@@ -47,7 +57,9 @@ class BasicStatProcessor extends AbstractStatProcessor {
 		return mean2 / count;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public synchronized double getVariance() {
 		if (count == 0) {
 			return 0;
@@ -59,17 +71,23 @@ class BasicStatProcessor extends AbstractStatProcessor {
 		return mean2 / countMinusOne;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public synchronized double getStandardDeviation() {
 		return Math.sqrt(getVarianceN());
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public synchronized int getCount() {
 		return count;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public synchronized void reset() {
 		sum = 0;
 		mean = 0;
@@ -77,7 +95,9 @@ class BasicStatProcessor extends AbstractStatProcessor {
 		count = 0;
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public synchronized Map<String, String> sample(boolean reset) {
 		Map<String, String> map = new LinkedHashMap<String, String>();
 		map.put("spCount", String.valueOf(count));
