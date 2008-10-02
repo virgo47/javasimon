@@ -17,11 +17,22 @@ import java.lang.reflect.InvocationTargetException;
 class EnabledManager implements Manager {
 	static final Manager INSTANCE = new EnabledManager();
 
-	private static final int CLIENT_CODE_STACK_INDEX = 4; // and 3 for JDK 6 :-)
+	private static final int clientCodeStackIndex;
 
 	private final Map<String, AbstractSimon> allSimons = new HashMap<String, AbstractSimon>();
 
 	private UnknownSimon rootSimon;
+
+	static {
+		int i = 1;
+		for (StackTraceElement ste : Thread.currentThread().getStackTrace()) {
+			i++;
+			if (ste.getClassName().equals(EnabledManager.class.getName())) {
+				break;
+			}
+		}
+		clientCodeStackIndex = i;
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -76,7 +87,7 @@ class EnabledManager implements Manager {
 	 * {@inheritDoc}
 	 */
 	public String generateName(String suffix, boolean includeMethodName) {
-		StackTraceElement stackElement = Thread.currentThread().getStackTrace()[CLIENT_CODE_STACK_INDEX];
+		StackTraceElement stackElement = Thread.currentThread().getStackTrace()[clientCodeStackIndex];
 		StringBuilder nameBuilder = new StringBuilder(stackElement.getClassName());
 		if (includeMethodName) {
 			nameBuilder.append('.').append(stackElement.getMethodName());
