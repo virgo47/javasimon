@@ -5,7 +5,6 @@ import org.javasimon.Stopwatch;
 import org.javasimon.Counter;
 
 import java.util.Map;
-import java.util.Properties;
 import java.sql.*;
 
 /**
@@ -310,6 +309,8 @@ public final class SimonConnection implements java.sql.Connection {
 		conn.releaseSavepoint(savepoint);
 	}
 
+//////// from JDK 6, JDBC 4
+/*
 	public Clob createClob() throws SQLException {
 		return conn.createClob();
 	}
@@ -361,4 +362,5 @@ public final class SimonConnection implements java.sql.Connection {
 	public boolean isWrapperFor(Class<?> aClass) throws SQLException {
 		throw new SQLException("not implemented");
 	}
+*/
 }
