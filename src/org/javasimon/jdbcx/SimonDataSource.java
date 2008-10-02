@@ -2,103 +2,60 @@ package org.javasimon.jdbcx;
 
 import org.javasimon.jdbc.SimonConnection;
 
-import javax.naming.*;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.sql.Connection;
-import java.io.PrintWriter;
+import java.lang.reflect.Method;
 
 /**
- * Trieda DataSource.
+ * Trieda SimonDataSource.
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
  * @created 14.9.2008 16:30:36
  * @since 1.0
  */
-public class SimonDataSource implements Referenceable, DataSource {
+public final class SimonDataSource extends SimonCommonDataSource implements DataSource {
 
-	protected String realDataSource;
-	protected String prefix;
+	private DataSource ds;
 
-	private DataSource realDS;
-
-	private transient PrintWriter logWriter;
-	private int loginTimeout;
-
-	public String getRealDataSource() {
-		return realDataSource;
-	}
-
-	public void setRealDataSource(String realDataSource) {
-		this.realDataSource = realDataSource;
-	}
-
-	public String getPrefix() {
-		return prefix;
-	}
-
-	public void setPrefix(String prefix) {
-		this.prefix = prefix;
-	}
-
-	public Reference getReference() throws NamingException {
-		Reference ref = new Reference(getClass().getName(), SimonDataSourceFactory.class.getName(), null);
-		ref.add(new StringRefAddr(SimonDataSourceFactory.ATT_REAL_DS, realDataSource));
-		ref.add(new StringRefAddr(SimonDataSourceFactory.ATT_PREFIX, prefix));
-		return ref;
-	}
-
-	private DataSource getRealDS() throws NamingException {
-		if (realDS == null) {
-			Context ctx = null;
+	private DataSource datasource() throws SQLException {
+		if (ds == null) {
+			Object o;
 			try {
-				ctx = new InitialContext();
-				realDS = (DataSource) ctx.lookup(realDataSource);
-			} finally {
-				if (ctx != null) { ctx.close(); }
+				o = Class.forName(realDataSourceClassName).newInstance();
+			} catch (Exception e) {
+				throw new SQLException(e.getMessage());
+			}
+			if (o instanceof DataSource) {
+				ds = (DataSource)o;
+				try {
+					for (Method m : ds.getClass().getMethods()) {
+						String methodName = m.getName();
+						if (methodName.equalsIgnoreCase("setUser")) {
+							m.invoke(ds, user);
+						} else if (methodName.equalsIgnoreCase("setPassword")) {
+							m.invoke(ds, password);
+						} else if (methodName.equalsIgnoreCase("setUrl")) {
+							m.invoke(ds, url);
+						}
+					}
+				} catch (Exception e) {
+					throw new SQLException(e.getMessage());
+				}
+				ds.setLoginTimeout(loginTimeout);
+			} else {
+				throw new SQLException("Class in realdatasourceclassname is not a DataSource");
 			}
 		}
-		return realDS;
+		return ds;
 	}
 
 	public Connection getConnection() throws SQLException {
-		try {
-			return new SimonConnection(getRealDS().getConnection(), prefix);
-		} catch (NamingException e) {
-			throw new SQLException(e);
-		}
+		return new SimonConnection(datasource().getConnection(), prefix);
 	}
 
 	public Connection getConnection(String user, String password) throws SQLException {
-		try {
-			return new SimonConnection(getRealDS().getConnection(user, password), prefix);
-		} catch (NamingException e) {
-			throw new SQLException(e);
-		}
-	}
-
-	public void setLogWriter(PrintWriter printWriter) throws SQLException {
-		this.logWriter = printWriter;
-	}
-
-	public PrintWriter getLogWriter() throws SQLException {
-		return logWriter;
-	}
-
-	public void setLoginTimeout(int i) throws SQLException {
-		this.loginTimeout = i;
-	}
-
-	public int getLoginTimeout() throws SQLException {
-		return loginTimeout;
-	}
-
-	public <T> T unwrap(Class<T> tClass) throws SQLException {
-		throw new SQLException("not implemented");
-	}
-
-	public boolean isWrapperFor(Class<?> aClass) throws SQLException {
-		throw new SQLException("not implemented");
+		return new SimonConnection(datasource().getConnection(user, password), prefix);
 	}
 }

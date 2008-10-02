@@ -34,7 +34,7 @@ public class SimonPreparedStatement extends SimonStatement implements java.sql.P
 	}
 
 	protected final Stopwatch prepare() {
-		if (sql != null && !sql.isEmpty()) {
+		if (sql != null && !sql.equals("")) {
 			sqlNormalizer = new SqlNormalizer(sql);
 			sqlCmdLabel = prefix + "." + sqlNormalizer.getType();
 			return SimonManager.getStopwatch(sqlCmdLabel + "." + sqlNormalizer.getNormalizedSql().hashCode()).start();
@@ -158,6 +158,10 @@ public class SimonPreparedStatement extends SimonStatement implements java.sql.P
 		stmt.setObject(i, o);
 	}
 
+	public final void setObject(int i, Object o, int i1, int i2) throws SQLException {
+		stmt.setObject(i, o, i1, i2);
+	}
+
 	public final void setCharacterStream(int i, Reader reader, int i1) throws SQLException {
 		stmt.setCharacterStream(i, reader, i1);
 	}
@@ -206,79 +210,78 @@ public class SimonPreparedStatement extends SimonStatement implements java.sql.P
 		return stmt.getParameterMetaData();
 	}
 
-	public final void setRowId(int i, RowId rowId) throws SQLException {
-		stmt.setRowId(i, rowId);
-	}
+//////// from JDK 6, JDBC 4
+	/*
+	 public final void setRowId(int i, RowId rowId) throws SQLException {
+		 stmt.setRowId(i, rowId);
+	 }
 
-	public final void setNString(int i, String s) throws SQLException {
-		stmt.setNString(i, s);
-	}
+	 public final void setNString(int i, String s) throws SQLException {
+		 stmt.setNString(i, s);
+	 }
 
-	public final void setNCharacterStream(int i, Reader reader, long l) throws SQLException {
-		stmt.setNCharacterStream(i, reader, l);
-	}
+	 public final void setNCharacterStream(int i, Reader reader, long l) throws SQLException {
+		 stmt.setNCharacterStream(i, reader, l);
+	 }
 
-	public final void setNClob(int i, NClob nClob) throws SQLException {
-		stmt.setNClob(i, nClob);
-	}
+	 public final void setNClob(int i, NClob nClob) throws SQLException {
+		 stmt.setNClob(i, nClob);
+	 }
 
-	public final void setClob(int i, Reader reader, long l) throws SQLException {
-		stmt.setClob(i, reader, l);
-	}
+	 public final void setClob(int i, Reader reader, long l) throws SQLException {
+		 stmt.setClob(i, reader, l);
+	 }
 
-	public final void setBlob(int i, InputStream inputStream, long l) throws SQLException {
-		stmt.setBlob(i, inputStream, l);
-	}
+	 public final void setBlob(int i, InputStream inputStream, long l) throws SQLException {
+		 stmt.setBlob(i, inputStream, l);
+	 }
 
-	public final void setNClob(int i, Reader reader, long l) throws SQLException {
-		stmt.setNClob(i, reader, l);
-	}
+	 public final void setNClob(int i, Reader reader, long l) throws SQLException {
+		 stmt.setNClob(i, reader, l);
+	 }
 
-	public final void setSQLXML(int i, SQLXML sqlxml) throws SQLException {
-		stmt.setSQLXML(i, sqlxml);
-	}
+	 public final void setSQLXML(int i, SQLXML sqlxml) throws SQLException {
+		 stmt.setSQLXML(i, sqlxml);
+	 }
 
-	public final void setObject(int i, Object o, int i1, int i2) throws SQLException {
-		stmt.setObject(i, o, i1, i2);
-	}
+	 public final void setAsciiStream(int i, InputStream inputStream, long l) throws SQLException {
+		 stmt.setAsciiStream(i, inputStream, l);
+	 }
 
-	public final void setAsciiStream(int i, InputStream inputStream, long l) throws SQLException {
-		stmt.setAsciiStream(i, inputStream, l);
-	}
+	 public final void setBinaryStream(int i, InputStream inputStream, long l) throws SQLException {
+		 stmt.setBinaryStream(i, inputStream);
+	 }
 
-	public final void setBinaryStream(int i, InputStream inputStream, long l) throws SQLException {
-		stmt.setBinaryStream(i, inputStream);
-	}
+	 public final void setCharacterStream(int i, Reader reader, long l) throws SQLException {
+		 stmt.setCharacterStream(i, reader, l);
+	 }
 
-	public final void setCharacterStream(int i, Reader reader, long l) throws SQLException {
-		stmt.setCharacterStream(i, reader, l);
-	}
+	 public final void setAsciiStream(int i, InputStream inputStream) throws SQLException {
+		 stmt.setAsciiStream(i, inputStream);
+	 }
 
-	public final void setAsciiStream(int i, InputStream inputStream) throws SQLException {
-		stmt.setAsciiStream(i, inputStream);
-	}
+	 public final void setBinaryStream(int i, InputStream inputStream) throws SQLException {
+		 stmt.setBinaryStream(i, inputStream);
+	 }
 
-	public final void setBinaryStream(int i, InputStream inputStream) throws SQLException {
-		stmt.setBinaryStream(i, inputStream);
-	}
+	 public final void setCharacterStream(int i, Reader reader) throws SQLException {
+		 stmt.setCharacterStream(i, reader);
+	 }
 
-	public final void setCharacterStream(int i, Reader reader) throws SQLException {
-		stmt.setCharacterStream(i, reader);
-	}
+	 public final void setNCharacterStream(int i, Reader reader) throws SQLException {
+		 stmt.setNCharacterStream(i, reader);
+	 }
 
-	public final void setNCharacterStream(int i, Reader reader) throws SQLException {
-		stmt.setNCharacterStream(i, reader);
-	}
+	 public final void setClob(int i, Reader reader) throws SQLException {
+		 stmt.setClob(i, reader);
+	 }
 
-	public final void setClob(int i, Reader reader) throws SQLException {
-		stmt.setClob(i, reader);
-	}
+	 public final void setBlob(int i, InputStream inputStream) throws SQLException {
+		 stmt.setBlob(i, inputStream);
+	 }
 
-	public final void setBlob(int i, InputStream inputStream) throws SQLException {
-		stmt.setBlob(i, inputStream);
-	}
-
-	public final void setNClob(int i, Reader reader) throws SQLException {
-		stmt.setNClob(i, reader);
-	}
+	 public final void setNClob(int i, Reader reader) throws SQLException {
+		 stmt.setNClob(i, reader);
+	 }
+ */
 }

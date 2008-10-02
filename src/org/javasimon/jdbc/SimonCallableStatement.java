@@ -343,6 +343,8 @@ public final class SimonCallableStatement extends SimonPreparedStatement impleme
 		return stmt.getURL(s);
 	}
 
+//////// from JDK 6, JDBC 4
+/*
 	public RowId getRowId(int i) throws SQLException {
 		return stmt.getRowId(i);
 	}
@@ -470,4 +472,5 @@ public final class SimonCallableStatement extends SimonPreparedStatement impleme
 	public void setNClob(String s, Reader reader) throws SQLException {
 		stmt.setNClob(s, reader);
 	}
+*/
 }

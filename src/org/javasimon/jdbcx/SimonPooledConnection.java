@@ -4,7 +4,6 @@ import org.javasimon.jdbc.SimonConnection;
 
 import javax.sql.PooledConnection;
 import javax.sql.ConnectionEventListener;
-import javax.sql.StatementEventListener;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -42,6 +41,7 @@ public class SimonPooledConnection implements PooledConnection {
 		pooledConn.removeConnectionEventListener(listener);
 	}
 
+/*
 	public void addStatementEventListener(StatementEventListener listener) {
 		pooledConn.addStatementEventListener(listener);
 	}
@@ -49,4 +49,5 @@ public class SimonPooledConnection implements PooledConnection {
 	public void removeStatementEventListener(StatementEventListener listener) {
 		pooledConn.removeStatementEventListener(listener);
 	}
+*/
 }

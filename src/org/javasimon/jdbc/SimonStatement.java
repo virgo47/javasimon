@@ -53,7 +53,7 @@ public class SimonStatement implements java.sql.Statement {
 	}
 
 	protected final Stopwatch prepare(String sql) {
-		if (sql != null && !sql.isEmpty()) {
+		if (sql != null && !sql.equals("")) {
 			sqlNormalizer = new SqlNormalizer(sql);
 			sqlCmdLabel = prefix + "." + sqlNormalizer.getType();
 			return SimonManager.getStopwatch(sqlCmdLabel + "." + sqlNormalizer.getNormalizedSql().hashCode()).start();
@@ -276,6 +276,8 @@ public class SimonStatement implements java.sql.Statement {
 		return stmt.getResultSetHoldability();
 	}
 
+//////// from JDK 6, JDBC 4
+/*
 	public final boolean isClosed() throws SQLException {
 		return stmt.isClosed();
 	}
@@ -295,4 +297,5 @@ public class SimonStatement implements java.sql.Statement {
 	public final boolean isWrapperFor(Class<?> aClass) throws SQLException {
 		throw new SQLException("not implemented");
 	}
+*/
 }
