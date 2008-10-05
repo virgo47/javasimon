@@ -3,8 +3,6 @@ package org.javasimon;
 import org.javasimon.utils.SimonUtils;
 
 import java.io.*;
-import java.util.logging.Logger;
-import java.util.logging.Level;
 import java.util.Map;
 import java.util.LinkedHashMap;
 
@@ -27,19 +25,14 @@ public final class SimonConfigManager {
 
 	private static Map<ConfigPattern, SimonConfiguration> configs;
 
+	private static boolean strictConfig;
+
 	/**
 	 * Initilizes the configuration facility.
+	 *
+	 * @throws java.io.IOException thrown if config file or config resource is not found
 	 */
-	public static void init() {
-		try {
-			configs = new LinkedHashMap<ConfigPattern, SimonConfiguration>();
-			initFromConfig();
-		} catch (IOException e) {
-			Logger.getLogger(SimonConfigManager.class.getName()).log(Level.SEVERE, "Simon config couldn't be processed correctly", e);
-		}
-	}
-
-	private static void initFromConfig() throws IOException {
+	public static void init() throws IOException {
 		String fileName = System.getProperty(PROPERTY_CONFIG_FILE_NAME);
 		if (fileName != null) {
 			BufferedReader reader = new BufferedReader(
@@ -62,7 +55,15 @@ public final class SimonConfigManager {
 		}
 	}
 
-	private static void initFromReader(BufferedReader reader) throws IOException {
+	/**
+	 * Reads config from provided buffered reader. Package level because of tests.
+	 *
+	 * @param reader reader containing configuration
+	 * @throws IOException thrown if problem occurs while reading from the reader
+	 */
+	static void initFromReader(BufferedReader reader) throws IOException {
+		strictConfig = false;
+		configs = new LinkedHashMap<ConfigPattern, SimonConfiguration>();
 		int lineNum = 0;
 		while (true) {
 			String line = reader.readLine();
@@ -70,43 +71,73 @@ public final class SimonConfigManager {
 				break;
 			}
 			lineNum++;
-			if (line.trim().length() == 0) {
+			line = line.trim();
+			if (line.length() == 0) {
 				continue;
 			}
-			line = line.trim().split("[#;]", 2)[0]; // ignore comments
-			String[] sa = line.split("[ =]+", 2);
-			if (sa.length != 2) {
-				System.out.println("Invalid format on line " + lineNum);
+			if (line.equalsIgnoreCase("strict")) {
+				strictConfig = true;
 				continue;
 			}
-			String name = sa[0];
-			String value = sa[1];
+			processConfigLine(lineNum, line);
+		}
+	}
 
-			String simonType = null;
-			StatProcessorType statProcessorType = null;
-			SimonState state = null;
+	private static void processConfigLine(int lineNum, String line) {
+		line = line.trim().split("[#;]", 2)[0]; // ignore comments
+		String[] sa = line.split("[ =]+", 2);
+		if (sa.length != 2) {
+			reportError("Invalid format on line " + lineNum);
+			return;
+		}
+		String name = sa[0];
+		String value = sa[1];
 
-			for (String keyword : value.split("[, ]+")) {
-				keyword = keyword.toLowerCase();
-				if (keyword.equals("stopwatch")) {
-					simonType = keyword;
-				} else if (keyword.equals("counter")) {
-					simonType = keyword;
-				} else if (keyword.equals("basicstats")) {
-					statProcessorType = StatProcessorType.BASIC;
-				} else if (keyword.equals("nullstats")) {
-					statProcessorType = StatProcessorType.NULL;
-				} else if (keyword.equals("enable")) {
-					state = SimonState.ENABLED;
-				} else if (keyword.equals("disable")) {
-					state = SimonState.DISABLED;
-				} else if (keyword.equals("inherit")) {
-					state = SimonState.INHERIT;
+		processSimonConfig(lineNum, name, value);
+	}
+
+	private static void reportError(String error) {
+		if (strictConfig) {
+			throw new SimonException("Config error: " + error);
+		}
+		System.out.println(error);
+	}
+
+	private static void processSimonConfig(int lineNum, String name, String value) {
+		String simonType = null;
+		StatProcessorType statProcessorType = null;
+		SimonState state = null;
+		boolean create = false;
+
+		for (String keyword : value.split("[, ]+")) {
+			keyword = keyword.toLowerCase();
+			if (keyword.equals("stopwatch")) {
+				simonType = keyword;
+			} else if (keyword.equals("counter")) {
+				simonType = keyword;
+			} else if (keyword.equals("basicstats")) {
+				statProcessorType = StatProcessorType.BASIC;
+			} else if (keyword.equals("nullstats")) {
+				statProcessorType = StatProcessorType.NULL;
+			} else if (keyword.equals("enabled")) {
+				state = SimonState.ENABLED;
+			} else if (keyword.equals("disabled")) {
+				state = SimonState.DISABLED;
+			} else if (keyword.equals("inherit")) {
+				state = SimonState.INHERIT;
+			} else if (keyword.equals("create")) {
+				if (SimonUtils.checkName(name)) {
+					create = true;
 				} else {
-					System.out.println("Unknown config value '" + keyword + "' for name '" + name + "' on line " + lineNum + ".");
+					reportError("Invalid name used with create option on line " + lineNum);
 				}
+			} else {
+				reportError("Unknown config value '" + keyword + "' for name '" + name + "' on line " + lineNum + ".");
 			}
-			configs.put(new ConfigPattern(name), new SimonConfiguration(simonType, statProcessorType, state));
+		}
+		configs.put(new ConfigPattern(name), new SimonConfiguration(simonType, statProcessorType, state));
+		if (create) {
+			// TODO
 		}
 	}
 
@@ -116,14 +147,33 @@ public final class SimonConfigManager {
 	 * @param name Simon name
 	 * @return configuration for that particular Simon
 	 */
-	public SimonConfiguration getConfig(String name) {
-		return null; // TODO
+	static SimonConfiguration getConfig(String name) {
+		String type = null;
+		StatProcessorType spType = null;
+		SimonState state = null;
+
+		for (ConfigPattern pattern : configs.keySet()) {
+			if (pattern.matches(name)) {
+				SimonConfiguration config = configs.get(pattern);
+				if (config.getState() != null) {
+					state = config.getState();
+				}
+				if (config.getType() != null) {
+					type = config.getType();
+				}
+				if (config.getStatProcessorType() != null) {
+					spType = config.getStatProcessorType();
+				}
+			}
+		}
+		return new SimonConfiguration(type, spType, state);
 	}
 
 	/**
 	 * Matches Simon name patterns from configuration.
 	 */
 	static class ConfigPattern {
+		private String pattern;
 		private String all;
 		private String start;
 		private String end;
@@ -136,6 +186,7 @@ public final class SimonConfigManager {
 		 * @throws org.javasimon.SimonException if pattern is not valid (runtime exception)
 		 */
 		ConfigPattern(String pattern) {
+			this.pattern = pattern;
 			if (!pattern.contains("*")) {
 				all = pattern;
 				if (!SimonUtils.checkName(all)) {
@@ -167,28 +218,48 @@ public final class SimonConfigManager {
 			if (!pattern.startsWith("*")) {
 				start = pattern.substring(0, ix);
 				if (!SimonUtils.checkName(start)) {
-					throw new SimonException("Invalid configuration pattern: " + pattern);
+					throw new SimonException("Invalid Simon configuration pattern: " + pattern);
 				}
 			}
 		}
 
 		/**
-		 * Checks if tested pattern matches this pattern.
+		 * Checks if Simon name matches this pattern.
 		 *
-		 * @param pattern tested pattern
+		 * @param name tested name
 		 * @return true if tested pattern matches this pattern
 		 */
-		public boolean matches(String pattern) {
+		public boolean matches(String name) {
 			if (all != null) {
-				return all.equals(pattern);
+				return all.equals(name);
 			}
 			if (middle != null) {
-				return pattern.contains(middle);
+				return name.contains(middle);
 			}
-			if (start != null && !pattern.startsWith(start)) {
+			if (start != null && !name.startsWith(start)) {
 				return false;
 			}
-			return end == null || pattern.endsWith(end);
+			return end == null || name.endsWith(end);
+		}
+
+		@Override
+		public boolean equals(Object o) {
+			if (this == o) return true;
+			if (o == null || getClass() != o.getClass()) return false;
+
+			ConfigPattern that = (ConfigPattern) o;
+
+			return !(pattern != null ? !pattern.equals(that.pattern) : that.pattern != null);
+		}
+
+		@Override
+		public int hashCode() {
+			return (pattern != null ? pattern.hashCode() : 0);
+		}
+
+		@Override
+		public String toString() {
+			return "ConfigPattern: " + pattern;
 		}
 	}
 }
