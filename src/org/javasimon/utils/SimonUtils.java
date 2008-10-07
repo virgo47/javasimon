@@ -12,7 +12,9 @@ import java.util.regex.Pattern;
  * SimonUtils class holds static utility methods.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
+ * @author Radovan Sninsky
  * @created Aug 6, 2008
+ * @since 1.0
  */
 public final class SimonUtils {
 	/**
@@ -108,7 +110,13 @@ public final class SimonUtils {
 			.append('\n');
 	}
 
-	private static String localName(String name) {
+	/**
+	 * Returns last part of simon hierarchycal name - local name.
+	 *
+	 * @param name full simon name
+	 * @return string containing local name
+	 */
+	public static String localName(String name) {
 		int ix = name.lastIndexOf(SimonManager.HIERARCHY_DELIMITER);
 		if (ix == -1) {
 			return name;
