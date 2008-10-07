@@ -36,7 +36,7 @@ public class SimonPreparedStatement extends SimonStatement implements java.sql.P
 	protected final Stopwatch prepare() {
 		if (sql != null && !sql.equals("")) {
 			sqlNormalizer = new SqlNormalizer(sql);
-			sqlCmdLabel = prefix + "." + sqlNormalizer.getType();
+			sqlCmdLabel = prefix + ".sql." + sqlNormalizer.getType();
 			return SimonManager.getStopwatch(sqlCmdLabel + "." + sqlNormalizer.getNormalizedSql().hashCode()).start();
 		} else {
 			return null;

@@ -55,7 +55,7 @@ public class SimonStatement implements java.sql.Statement {
 	protected final Stopwatch prepare(String sql) {
 		if (sql != null && !sql.equals("")) {
 			sqlNormalizer = new SqlNormalizer(sql);
-			sqlCmdLabel = prefix + "." + sqlNormalizer.getType();
+			sqlCmdLabel = prefix + ".sql." + sqlNormalizer.getType();
 			return SimonManager.getStopwatch(sqlCmdLabel + "." + sqlNormalizer.getNormalizedSql().hashCode()).start();
 		} else {
 			return null;
@@ -65,7 +65,7 @@ public class SimonStatement implements java.sql.Statement {
 	protected final Stopwatch prepare(List<String> sqls) {
 		if (!sqls.isEmpty()) {
 			sqlNormalizer = sqls.size() == 1 ? new SqlNormalizer(sqls.get(0)) : new SqlNormalizer(sqls);
-			sqlCmdLabel = prefix + "." + sqlNormalizer.getType();
+			sqlCmdLabel = prefix + ".sql." + sqlNormalizer.getType();
 			return SimonManager.getStopwatch(sqlCmdLabel + "." + sqlNormalizer.getNormalizedSql().hashCode()).start();
 		} else {
 			return null;
