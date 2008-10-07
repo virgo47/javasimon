@@ -109,8 +109,10 @@
  * +-> .stmt
  * |     +-> .active
  * |
- * +-> .&lt;sql&gt;
- * +-> .&lt;sql_group_hash&gt;
+ * +-> .sql
+ * |     +-> .&lt;sql&gt;
+ * |
+ * +-> .&lt;sql_group_hash&gt; (not implemented yet)
  * </pre>
  *
  * For choosing Simon's name is used prefix. If non is defined, default is {@code org.javasimon.jdbc}.
