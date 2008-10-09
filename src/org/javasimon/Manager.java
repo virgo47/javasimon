@@ -26,10 +26,9 @@ interface Manager {
 	 * type can be specified.
 	 *
 	 * @param name name of the Stopwatch
-	 * @param impl implementation type
 	 * @return stopwatch object
 	 */
-	Stopwatch getStopwatch(String name, Stopwatch.Type impl);
+	Stopwatch getStopwatch(String name);
 
 	/**
 	 * Returns existing UnknownSimon or creates new if necessary.

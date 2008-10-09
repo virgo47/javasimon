@@ -32,6 +32,22 @@ public interface Stopwatch extends Simon {
 	long stop();
 
 	/**
+	 * Starts this stopwatch with a key for a specific split.
+	 *
+	 * @param key split key
+	 * @return this stopwatch
+	 */
+	Stopwatch start(Object key);
+
+	/**
+	 * Stops key-specific split and adds its time (stop-start) to the total time of the stopwatch.
+	 *
+	 * @param key split key
+	 * @return split time in nanoseconds
+	 */
+	long stop(Object key);
+
+	/**
 	 * Returns total sum of all split times in nanoseconds.
 	 *
 	 * @return total time of the stopwatch in nanoseconds
@@ -84,34 +100,23 @@ public interface Stopwatch extends Simon {
 	Stopwatch reset();
 
 	/**
-	 * Stopwatch implementation type. Because stopwatch measures time (sums splits) and the
-	 * time measuring involves two methods (start/stop) there are various possibilities how
-	 * to do that in a thread safe environment. Default implementation is multithreaded,
-	 * can measure more splits in parallel, but start and stop must occur in the same
-	 * thread. Simple implementation is very simple, stop adds split time since last start.
-	 * Any previous start calls are ignored as are any stops without start.
+	 * Returns current number of measured splits (concurrently running).
+	 *
+	 * @return current number of active splits
 	 */
-	public enum Type {
-		/**
-		 * Thread-safe implementation where start and stop for one split must be used from
-		 * within the same thread.
-		 */
-		DEFAULT(StopwatchImpl.class),
+	long getActive();
 
-		/**
-		 * Simple implementation that cannot measure more splits in parallel. It is thread
-		 * safe, stop always adds the split measured from the last start.
-		 */
-		SIMPLE(StopwatchSimpleImpl.class);
+	/**
+	 * Returns peek value of active concurrent splits.
+	 *
+	 * @return maximum reached value of active splits
+	 */
+	long getMaxActive();
 
-		private Class<? extends AbstractSimon> stopwatchClass;
-
-		Type(Class<? extends AbstractSimon> stopwatchClass) {
-			this.stopwatchClass = stopwatchClass;
-		}
-
-		Class<? extends AbstractSimon> getStopwatchClass() {
-			return stopwatchClass;
-		}
-	}
+	/**
+	 * Retruns ms timestamp when the last peek of the active split count occured.
+	 *
+	 * @return ms timestamp of the last peek of the active split count
+	 */
+	long getMaxActiveTimestamp();
 }

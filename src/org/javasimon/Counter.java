@@ -88,4 +88,20 @@ public interface Counter extends Simon {
 	 * {@inheritDoc}
 	 */
 	Counter reset();
+
+	/**
+	 * Returns the sum of all incremented values. If incremented value was negative, sum
+	 * is lowered by this value.
+	 *
+	 * @return sum of all incremented values
+	 */
+	long getIncrementSum();
+
+	/**
+	 * Returns the sum of all decremented values (as a positive number). If decremented value was negative, sum
+	 * is raised by this value.
+	 *
+	 * @return sum of all decremented values
+	 */
+	long getDecrementSum();
 }
