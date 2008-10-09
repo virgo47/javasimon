@@ -13,6 +13,12 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	/** An internal counter. */
 	private long counter;
 
+	/** Sum of all increments. */
+	private long incrementSum;
+
+	/** Sum of all decrements. */
+	private long decrementSum;
+
 	/** A maximum tracker. */
 	private long max = Long.MIN_VALUE;
 
@@ -32,10 +38,10 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	 */
 	public synchronized Counter set(long val) {
 		counter = val;
-		if (counter > max) {
+		if (counter >= max) {
 			max = counter;
 			maxTimestamp = System.currentTimeMillis();
-		} else if (counter < min) {
+		} else if (counter <= min) {
 			min = counter;
 			minTimestamp = System.currentTimeMillis();
 		}
@@ -48,7 +54,8 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	 */
 	public synchronized Counter increment() {
 		counter++;
-		if (counter > max) {
+		incrementSum--;
+		if (counter >= max) {
 			max = counter;
 			maxTimestamp = System.currentTimeMillis();
 		}
@@ -61,7 +68,8 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	 */
 	public synchronized Counter decrement() {
 		counter--;
-		if (counter < min) {
+		decrementSum--;
+		if (counter <= min) {
 			min = counter;
 			minTimestamp = System.currentTimeMillis();
 		}
@@ -73,6 +81,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	 * {@inheritDoc}
 	 */
 	public synchronized Counter increment(long inc) {
+		incrementSum += inc;
 		return set(counter + inc);
 	}
 
@@ -80,6 +89,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	 * {@inheritDoc}
 	 */
 	public synchronized Counter decrement(long dec) {
+		decrementSum -= dec;
 		return set(counter - dec);
 	}
 
@@ -146,6 +156,20 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	 */
 	public synchronized long getMaxTimestamp() {
 		return maxTimestamp;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public long getIncrementSum() {
+		return incrementSum;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public long getDecrementSum() {
+		return decrementSum;
 	}
 
 	@Override

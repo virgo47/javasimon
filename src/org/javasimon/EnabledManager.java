@@ -72,8 +72,8 @@ class EnabledManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
-	public synchronized Stopwatch getStopwatch(String name, Stopwatch.Type impl) {
-		return (Stopwatch) getOrCreateSimon(name, impl.getStopwatchClass());
+	public synchronized Stopwatch getStopwatch(String name) {
+		return (Stopwatch) getOrCreateSimon(name, StopwatchImpl.class);
 	}
 
 	/**

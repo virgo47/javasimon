@@ -163,7 +163,56 @@ final class NullSimon implements Counter, Stopwatch {
 	/**
 	 * {@inheritDoc}
 	 */
+	public Stopwatch start(Object key) {
+		return this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public long stop(Object key) {
+		return 0;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public long getTotal() {
+		return 0;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public long getIncrementSum() {
+		return 0;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public long getDecrementSum() {
+		return 0;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public long getActive() {
+		return 0;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public long getMaxActive() {
+		return 0;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public long getMaxActiveTimestamp() {
 		return 0;
 	}
 
