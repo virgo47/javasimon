@@ -122,4 +122,9 @@ public final class ManagerTestNG {
 		SimonManager.disable();
 		Assert.assertNull(SimonManager.generateName("-stopwatch", true));
 	}
+
+	@Test(expectedExceptions = SimonException.class)
+	public void testCantCreateRoot() {
+		SimonManager.getUnknown(SimonManager.ROOT_SIMON_NAME);
+	}
 }

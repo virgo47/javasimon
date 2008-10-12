@@ -70,8 +70,8 @@ public final class StopwatchTestNG {
 		Assert.assertEquals(stopwatch.getMin(), Long.MAX_VALUE);
 		Assert.assertEquals(stopwatch.getMaxTimestamp(), 0);
 		Assert.assertEquals(stopwatch.getMinTimestamp(), 0);
-		Assert.assertEquals(stopwatch.getLastUsage(), 0);
-		Assert.assertEquals(stopwatch.getFirstUsage(), 0);
+		Assert.assertTrue(stopwatch.getLastUsage() >= ts); // usages are NOT reset!
+		Assert.assertTrue(stopwatch.getFirstUsage() >= ts);
 		Assert.assertEquals(stopwatch.getCounter(), 0);
 		Assert.assertEquals(stopwatch.getStatProcessor().getCount(), 0);
 		Assert.assertEquals(stopwatch.getStatProcessor().getSum(), 0d);
