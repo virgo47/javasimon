@@ -44,7 +44,7 @@ class EnabledManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void destroySimon(String name) {
+	public synchronized void destroySimon(String name) {
 		AbstractSimon simon = allSimons.remove(name);
 		if (simon.getChildren().size() > 0) {
 			replaceSimon(simon, UnknownSimon.class);
@@ -56,7 +56,7 @@ class EnabledManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void reset() {
+	public synchronized void reset() {
 		allSimons.clear();
 		rootSimon = new UnknownSimon(SimonManager.ROOT_SIMON_NAME);
 		allSimons.put(SimonManager.ROOT_SIMON_NAME, rootSimon);
@@ -79,7 +79,7 @@ class EnabledManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
-	public UnknownSimon getUnknown(String name) {
+	public synchronized UnknownSimon getUnknown(String name) {
 		return (UnknownSimon) getOrCreateSimon(name, UnknownSimon.class);
 	}
 
@@ -113,6 +113,9 @@ class EnabledManager implements Manager {
 	}
 
 	private Simon getOrCreateSimon(String name, Class<? extends AbstractSimon> simonClass) {
+		if (name.equals(SimonManager.ROOT_SIMON_NAME)) {
+			throw new SimonException("Root Simon can't be replaced or recreated!");
+		}
 		AbstractSimon simon = allSimons.get(name);
 		if (simon == null) {
 			if (!SimonUtils.checkName(name)) {

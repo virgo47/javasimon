@@ -34,6 +34,10 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 
 	private Map<Object, Long> splitMap = new HashMap<Object, Long>();
 
+	private long firstUsageNanos;
+
+	private long currentNanos;
+
 	StopwatchImpl(String name) {
 		super(name);
 	}
@@ -43,6 +47,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	 */
 	public synchronized Stopwatch addTime(long ns) {
 		if (enabled) {
+			updateUsages();
 			addSplit(ns);
 		}
 		return this;
@@ -58,7 +63,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 			}
 			updateUsages();
 			activeStart();
-			threadBasedSplitMap.set(System.nanoTime());
+			threadBasedSplitMap.set(currentNanos);
 		}
 		return this;
 	}
@@ -74,7 +79,8 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 			}
 			active--;
 			threadBasedSplitMap.remove();
-			return addSplit(System.nanoTime() - start);
+			updateUsages();
+			return addSplit(currentNanos - start);
 		}
 		return 0;
 	}
@@ -89,7 +95,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 			}
 			updateUsages();
 			activeStart();
-			splitMap.put(key, System.nanoTime());
+			splitMap.put(key, currentNanos);
 		}
 		return this;
 	}
@@ -104,16 +110,18 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 				throw new SimonException("Illegal stop - there is no split running for the specified key: " + key);
 			}
 			active--;
-			return addSplit(System.nanoTime() - start);
+			updateUsages();
+			return addSplit(currentNanos - start);
 		}
 		return 0;
 	}
 
+	// Uses last usage, hence it must be placed after usages update
 	private void activeStart() {
 		active++;
 		if (active >= maxActive) {
 			maxActive = active;
-			maxActiveTimestamp = System.currentTimeMillis();
+			maxActiveTimestamp = getLastUsage();
 		}
 	}
 
@@ -127,21 +135,23 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		min = Long.MAX_VALUE;
 		maxTimestamp = 0;
 		minTimestamp = 0;
-		resetCommon();
+		// active is not reset, because
+		maxActive = 0;
+		maxActiveTimestamp = 0;
+		getStatProcessor().reset();
 		return this;
 	}
 
 	private long addSplit(long split) {
-		updateUsages();
 		total += split;
 		counter++;
 		if (split > max) {
 			max = split;
-			maxTimestamp = System.currentTimeMillis();
+			maxTimestamp = getLastUsage();
 		}
 		if (split < min) {
 			min = split;
-			minTimestamp = System.currentTimeMillis();
+			minTimestamp = getLastUsage();
 		}
 		if (getStatProcessor() != null) {
 			getStatProcessor().process(split);
@@ -239,6 +249,18 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 			reset();
 		}
 		return map;
+	}
+
+	/**
+	 * Updates usage statistics.
+	 */
+	protected void updateUsages() {
+		currentNanos = System.nanoTime();
+		if (firstUsage == 0) {
+			firstUsage = System.currentTimeMillis();
+			firstUsageNanos = currentNanos;
+		}
+		lastUsage = firstUsage + (currentNanos - firstUsageNanos) / SimonUtils.NANOS_IN_MILLIS;
 	}
 
 	@Override

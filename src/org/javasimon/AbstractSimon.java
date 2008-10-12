@@ -25,9 +25,9 @@ abstract class AbstractSimon implements Simon {
 
 	private String note;
 
-	private long firstUsage;
+	protected long firstUsage;
 
-	private long lastUsage;
+	protected long lastUsage;
 
 	AbstractSimon(String name) {
 		this.name = name;
@@ -153,14 +153,6 @@ abstract class AbstractSimon implements Simon {
 	}
 
 	/**
-	 * Resets usages and stat processor.
-	 */
-	void resetCommon() {
-		resetUsages();
-		getStatProcessor().reset();
-	}
-
-	/**
 	 * Returns state of the Simon that can be enabled, disabled or ihnerited.
 	 *
 	 * @return state of the Simon
@@ -244,14 +236,6 @@ abstract class AbstractSimon implements Simon {
 		if (firstUsage == 0) {
 			firstUsage = lastUsage;
 		}
-	}
-
-	/**
-	 * Resets usage statistics.
-	 */
-	protected void resetUsages() {
-		firstUsage = 0;
-		lastUsage = 0;
 	}
 
 	/**

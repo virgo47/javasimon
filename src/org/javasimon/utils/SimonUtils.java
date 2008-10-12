@@ -18,6 +18,11 @@ import java.util.regex.Pattern;
  */
 public final class SimonUtils {
 	/**
+	 * Number of nanoseconds in one millisecond.
+	 */
+	public static final long NANOS_IN_MILLIS = 1000000;
+
+	/**
 	 * Regex pattern for Simon names.
 	 */
 	public static final Pattern NAME_PATTERN = Pattern.compile("[-A-Za-z0-9.@$%()]+");

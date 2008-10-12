@@ -37,15 +37,15 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	 * {@inheritDoc}
 	 */
 	public synchronized Counter set(long val) {
+		updateUsages();
 		counter = val;
 		if (counter >= max) {
 			max = counter;
-			maxTimestamp = System.currentTimeMillis();
+			maxTimestamp = getLastUsage();
 		} else if (counter <= min) {
 			min = counter;
-			minTimestamp = System.currentTimeMillis();
+			minTimestamp = getLastUsage();
 		}
-		updateUsages();
 		return this;
 	}
 
@@ -53,13 +53,13 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	 * {@inheritDoc}
 	 */
 	public synchronized Counter increment() {
+		updateUsages();
 		counter++;
 		incrementSum--;
 		if (counter >= max) {
 			max = counter;
-			maxTimestamp = System.currentTimeMillis();
+			maxTimestamp = getLastUsage();
 		}
-		updateUsages();
 		return this;
 	}
 
@@ -67,13 +67,13 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	 * {@inheritDoc}
 	 */
 	public synchronized Counter decrement() {
+		updateUsages();
 		counter--;
 		decrementSum--;
 		if (counter <= min) {
 			min = counter;
-			minTimestamp = System.currentTimeMillis();
+			minTimestamp = getLastUsage();
 		}
-		updateUsages();
 		return this;
 	}
 
@@ -99,10 +99,12 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	public synchronized Counter reset() {
 		counter = 0;
 		max = Long.MIN_VALUE;
-		maxTimestamp = System.currentTimeMillis();
+		maxTimestamp = 0;
 		min = Long.MAX_VALUE;
-		minTimestamp = System.currentTimeMillis();
-		resetCommon();
+		minTimestamp = 0;
+		incrementSum = 0;
+		decrementSum = 0;
+		getStatProcessor().reset();
 		return this;
 	}
 

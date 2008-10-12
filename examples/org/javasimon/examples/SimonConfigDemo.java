@@ -6,6 +6,7 @@ import org.javasimon.utils.SimonUtils;
 
 /**
  * SimonConfigTest.
+ * TODO: Ignore this example, it doesn't show anything now. 
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 12, 2008
