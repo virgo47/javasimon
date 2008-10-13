@@ -127,4 +127,9 @@ public final class ManagerTestNG {
 	public void testCantCreateRoot() {
 		SimonManager.getUnknown(SimonManager.ROOT_SIMON_NAME);
 	}
+
+	@Test(expectedExceptions = SimonException.class)
+	public void testCantDestroyRoot() {
+		SimonManager.destroySimon(SimonManager.ROOT_SIMON_NAME);
+	}
 }
