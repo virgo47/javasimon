@@ -12,7 +12,7 @@ import org.javasimon.StatProcessorType;
 /**
  * Compares Simon and Jamon performance in a heavy-multithreaded environment. Creates 1000 threads
  * and calls 1000 times start/stop for both APIs. You can check that hit count is the same for both
- * API, but Simon should be faster (even on Windows XP) and - thanks to ns - more precise.
+ * APIs, but Simon should be faster (even on Windows XP) and - thanks to ns - more precise.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 6, 2008
@@ -32,6 +32,7 @@ public final class MultithreadJamonComparison {
 	 * Entry point of the demo application.
 	 *
 	 * @param args command line arguments
+	 * @throws InterruptedException should not happen
 	 */
 	public static void main(String[] args) throws InterruptedException {
 		SimonManager.getStopwatch(NAME).setStatProcessor(StatProcessorType.BASIC.create());
