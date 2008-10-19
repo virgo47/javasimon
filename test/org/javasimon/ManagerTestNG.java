@@ -132,4 +132,16 @@ public final class ManagerTestNG {
 	public void testCantDestroyRoot() {
 		SimonManager.destroySimon(SimonManager.ROOT_SIMON_NAME);
 	}
+
+	@Test
+	public void testAnonymousSimon() {
+		Stopwatch stopwatch = SimonManager.getStopwatch(null);
+		stopwatch.start();
+		stopwatch.stop();
+	}
+
+	@Test(expectedExceptions = SimonException.class)
+	public void testInvalidName() {
+		Stopwatch stopwatch = SimonManager.getStopwatch("Inv@lid name!@#$%");
+	}
 }
