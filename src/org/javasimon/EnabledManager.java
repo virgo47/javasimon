@@ -115,13 +115,14 @@ class EnabledManager implements Manager {
 		return allSimons.keySet();
 	}
 
+	// name can be null in case of "anonymous" Simons
 	private Simon getOrCreateSimon(String name, Class<? extends AbstractSimon> simonClass) {
-		if (name.equals(SimonManager.ROOT_SIMON_NAME)) {
+		if (name != null && name.equals(SimonManager.ROOT_SIMON_NAME)) {
 			throw new SimonException("Root Simon cannot be replaced or recreated!");
 		}
 		AbstractSimon simon = allSimons.get(name);
 		if (simon == null) {
-			if (!SimonUtils.checkName(name)) {
+			if (name!= null && !SimonUtils.checkName(name)) {
 				throw new SimonException("Simon name must match following pattern: '" + SimonUtils.NAME_PATTERN.pattern() + '\'');
 			}
 			simon = newSimon(name, simonClass);
