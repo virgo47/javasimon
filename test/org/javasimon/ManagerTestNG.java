@@ -142,6 +142,6 @@ public final class ManagerTestNG {
 
 	@Test(expectedExceptions = SimonException.class)
 	public void testInvalidName() {
-		Stopwatch stopwatch = SimonManager.getStopwatch("Inv@lid name!@#$%");
+		SimonManager.getStopwatch("Inv@lid name!@#$%");
 	}
 }

@@ -1,8 +1,6 @@
 package org.javasimon;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 
 /**
  * AbstractSimon implements basic enable/disable and hierarchy functionality.
@@ -19,7 +17,7 @@ abstract class AbstractSimon implements Simon {
 
 	private Simon parent;
 
-	private final List<Simon> children = new ArrayList<Simon>();
+	private final Set<Simon> children = new TreeSet<Simon>(SimonNameComparator.INSTANCE);
 
 	private StatProcessor statProcessor = NullStatProcessor.INSTANCE;
 
@@ -51,8 +49,8 @@ abstract class AbstractSimon implements Simon {
 	 *
 	 * @return list of children
 	 */
-	public final List<Simon> getChildren() {
-		return Collections.unmodifiableList(children);
+	public final Collection<Simon> getChildren() {
+		return Collections.unmodifiableSet(children);
 	}
 
 	/**
@@ -249,6 +247,14 @@ abstract class AbstractSimon implements Simon {
 		if (newSimon != null) {
 			children.add(newSimon);
 			newSimon.setParent(this);
+		}
+	}
+
+	private static class SimonNameComparator implements Comparator<Simon> {
+		static final SimonNameComparator INSTANCE = new SimonNameComparator();
+
+		public int compare(Simon o1, Simon o2) {
+			return o1.getName().compareTo(o2.getName());
 		}
 	}
 }
