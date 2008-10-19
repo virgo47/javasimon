@@ -1,7 +1,7 @@
 package org.javasimon;
 
-import java.util.List;
 import java.util.Map;
+import java.util.Collection;
 
 /**
  * Simon interface contains common functions related to Simon management - enable/disable and hierarchy.
@@ -24,7 +24,7 @@ public interface Simon {
 	 *
 	 * @return list of children
 	 */
-	List<Simon> getChildren();
+	Collection<Simon> getChildren();
 
 	/**
 	 * Returns Simon name. Simon name is always fully qualified
