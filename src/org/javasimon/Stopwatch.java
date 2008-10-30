@@ -55,6 +55,13 @@ public interface Stopwatch extends Simon {
 	long getTotal();
 
 	/**
+	 * Returns value of the last added split - wheter it was added directly or with stop method.
+	 *
+	 * @return value of the last added split
+	 */
+	long getLast();
+
+	/**
 	 * Returns usage count of the stopwatch. Counter is increased by {@code addTime} and
 	 * {@code stop} - that means that it's updated every time the next time split is added.
 	 *

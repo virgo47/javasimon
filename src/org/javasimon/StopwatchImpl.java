@@ -30,6 +30,8 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 
 	private long minTimestamp;
 
+	private long last;
+
 	private ThreadLocal<Long> threadBasedSplitMap = new ThreadLocal<Long>();
 
 	private Map<Object, Long> splitMap = new HashMap<Object, Long>();
@@ -143,6 +145,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	}
 
 	private long addSplit(long split) {
+		last = split;
 		total += split;
 		counter++;
 		if (split > max) {
@@ -164,6 +167,13 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	 */
 	public synchronized long getTotal() {
 		return total;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public long getLast() {
+		return last;
 	}
 
 	/**

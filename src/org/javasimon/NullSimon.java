@@ -184,6 +184,13 @@ final class NullSimon implements Counter, Stopwatch {
 	/**
 	 * {@inheritDoc}
 	 */
+	public long getLast() {
+		return 0;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public long getIncrementSum() {
 		return 0;
 	}
