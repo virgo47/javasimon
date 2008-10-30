@@ -48,9 +48,9 @@ public interface Simon {
 	 * by this change.
 	 *
 	 * @param state a new state.
-	 * @param overrrule specifies whether this change is forced to the whole subtree.
+	 * @param overrule specifies whether this change is forced to the whole subtree.
 	 */
-	void setState(SimonState state, boolean overrrule);
+	void setState(SimonState state, boolean overrule);
 
 	/**
 	 * Returns true, if the Simon is enabled or if the enabled state is inherited.
