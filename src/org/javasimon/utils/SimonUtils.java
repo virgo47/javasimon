@@ -130,6 +130,18 @@ public final class SimonUtils {
 	}
 
 	/**
+	 * Resets the whole Simon subtree.
+	 *
+	 * @param simon subtree root
+	 */
+	public static void recursiveReset(Simon simon) {
+		simon.reset();
+		for (Simon child : simon.getChildren()) {
+			recursiveReset(child);
+		}
+	}
+
+	/**
 	 * Checks if the input string is correct Simon name.
 	 *
 	 * @param name checked string
