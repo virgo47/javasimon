@@ -15,7 +15,7 @@ public final class StopwatchTestNG {
 
 	@BeforeMethod
 	public void resetAndEnable() {
-		SimonManager.reset();
+		SimonManager.clear();
 		SimonManager.enable();
 	}
 
@@ -70,7 +70,7 @@ public final class StopwatchTestNG {
 		Assert.assertEquals(stopwatch.getMin(), Long.MAX_VALUE);
 		Assert.assertEquals(stopwatch.getMaxTimestamp(), 0);
 		Assert.assertEquals(stopwatch.getMinTimestamp(), 0);
-		Assert.assertTrue(stopwatch.getLastUsage() >= ts); // usages are NOT reset!
+		Assert.assertTrue(stopwatch.getLastUsage() >= ts); // usages are NOT clear!
 		Assert.assertTrue(stopwatch.getFirstUsage() >= ts);
 		Assert.assertEquals(stopwatch.getCounter(), 0);
 		Assert.assertEquals(stopwatch.getStatProcessor().getCount(), 0);

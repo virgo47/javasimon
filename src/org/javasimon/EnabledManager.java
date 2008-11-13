@@ -59,7 +59,7 @@ class EnabledManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
-	public synchronized void reset() {
+	public synchronized void clear() {
 		allSimons.clear();
 		rootSimon = new UnknownSimon(SimonManager.ROOT_SIMON_NAME);
 		allSimons.put(SimonManager.ROOT_SIMON_NAME, rootSimon);

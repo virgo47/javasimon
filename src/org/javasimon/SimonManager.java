@@ -26,7 +26,7 @@ public final class SimonManager {
 	private static Manager manager = EnabledManager.INSTANCE;
 
 	static {
-		reset();
+		clear();
 		try {
 			SimonConfigManager.init();
 		} catch (IOException e) {
@@ -146,7 +146,7 @@ public final class SimonManager {
 	 * Resets the SimonManager (ignored if manager is disabled). All Simons are lost,
 	 * but configuration is preserved.
 	 */
-	public static void reset() {
-		manager.reset();
+	public static void clear() {
+		manager.clear();
 	}
 }

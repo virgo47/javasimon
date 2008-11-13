@@ -65,12 +65,12 @@ public final class ManagerVsStopwatchComparison {
 		System.out.println("\nget+start/stop+basic stats: " + SimonUtils.presentNanoTime(stopwatch.stop()));
 		System.out.println("Stopwatch: " + tested);
 
-		SimonManager.reset();
-		tested = SimonManager.getStopwatch(name); // after reset you have to get it from SM again to recreate it
+		SimonManager.clear();
+		tested = SimonManager.getStopwatch(name); // after clear you have to get it from SM again to recreate it
 		tested.reset();
 		stopwatch.reset().start();
 		getStartStopTest(name);
-		System.out.println("\nget+start/stop after SM reset: " + SimonUtils.presentNanoTime(stopwatch.stop()));
+		System.out.println("\nget+start/stop after SM clear: " + SimonUtils.presentNanoTime(stopwatch.stop()));
 		System.out.println("Stopwatch: " + tested);
 	}
 
