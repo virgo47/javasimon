@@ -25,7 +25,7 @@ class DisabledManager implements Manager {
 	public void destroySimon(String name) {
 	}
 
-	public void reset() {
+	public void clear() {
 	}
 
 	/**

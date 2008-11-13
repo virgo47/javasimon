@@ -17,13 +17,13 @@ public final class ConfigurationTestNG {
 	@Test
 	public void testConfigResource() throws IOException {
 		System.setProperty(SimonConfigManager.PROPERTY_CONFIG_RESOURCE_NAME, "org/javasimon/test.config");
-		SimonManager.reset();
+		SimonManager.clear();
 		SimonConfigManager.init();
 	}
 
 	@Test
 	public void testConfig() throws IOException {
-		SimonManager.reset();
+		SimonManager.clear();
 		BufferedReader br = new BufferedReader(
 			new StringReader("strict\n" +
 				"org.javasimon.test.stopwatch=stopwatch\n" +

@@ -58,5 +58,5 @@ interface Manager {
 	 */
 	void destroySimon(String name);
 
-	void reset();
+	void clear();
 }

@@ -27,7 +27,7 @@ public final class DisabledEnabledComparison {
 		int round = 1;
 		while (true) {
 			System.out.println("\nRound: " + round++);
-			SimonManager.reset();
+			SimonManager.clear();
 			SimonManager.enable();
 
 			stopwatch = SimonManager.getStopwatch(null);

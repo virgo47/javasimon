@@ -22,7 +22,7 @@ public final class ManagerTestNG {
 	@BeforeMethod
 	public void resetAndEnable() {
 		SimonManager.enable();
-		SimonManager.reset();
+		SimonManager.clear();
 	}
 
 	@Test

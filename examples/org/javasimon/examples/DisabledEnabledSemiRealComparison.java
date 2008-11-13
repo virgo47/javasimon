@@ -42,7 +42,7 @@ public final class DisabledEnabledSemiRealComparison {
 		long simonCounter = 0;
 
 		for (int round = 1; round <= ROUNDS; round++) {
-			SimonManager.reset();
+			SimonManager.clear();
 
 			SimonManager.disable();
 			disbledSimonManager += performMeasurement();
