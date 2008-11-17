@@ -143,7 +143,7 @@ public final class SimonManager {
 	}
 
 	/**
-	 * Resets the SimonManager (ignored if manager is disabled). All Simons are lost,
+	 * Clears the SimonManager (ignored if manager is disabled). All Simons are lost,
 	 * but configuration is preserved.
 	 */
 	public static void clear() {

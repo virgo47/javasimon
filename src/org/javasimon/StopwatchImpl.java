@@ -232,13 +232,11 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		return maxActiveTimestamp;
 	}
 
+	@Override
 	protected void disabledObserver() {
 		active = 0;
-	}
-
-	@Override
-	protected void enabledObserver() {
 		threadBasedSplitMap = new ThreadLocal<Long>();
+		splitMap.clear();
 	}
 
 	@Override
