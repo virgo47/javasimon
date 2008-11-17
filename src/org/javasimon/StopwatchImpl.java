@@ -77,7 +77,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		if (enabled) {
 			Long start = threadBasedSplitMap.get();
 			if (start == null) {
-				throw new SimonException("Illegal stop - there is no split running in the current thread: " + Thread.currentThread().getId());
+				return 0;
 			}
 			active--;
 			threadBasedSplitMap.remove();
@@ -109,7 +109,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		if (enabled) {
 			Long start = splitMap.remove(key);
 			if (start == null) {
-				throw new SimonException("Illegal stop - there is no split running for the specified key: " + key);
+				return 0; 
 			}
 			active--;
 			updateUsages();
@@ -230,6 +230,10 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	 */
 	public long getMaxActiveTimestamp() {
 		return maxActiveTimestamp;
+	}
+
+	protected void disabledObserver() {
+		active = 0;
 	}
 
 	@Override
