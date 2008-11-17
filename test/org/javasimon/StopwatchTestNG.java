@@ -78,4 +78,22 @@ public final class StopwatchTestNG {
 		Assert.assertEquals(stopwatch.getStatProcessor().getMean(), 0d);
 		Assert.assertEquals(stopwatch.getStatProcessor().getStandardDeviation(), 0d);
 	}
+
+	@Test
+	public void disableEnableInsideSplit() throws Exception {
+		Stopwatch stopwatch = SimonManager.getStopwatch(STOPWATCH_NAME).start();
+		Assert.assertEquals(stopwatch.getActive(), 1);
+		stopwatch.setState(SimonState.DISABLED, false);
+		Assert.assertEquals(stopwatch.getActive(), 0);
+		stopwatch.stop();
+		Assert.assertEquals(stopwatch.getActive(), 0);
+		stopwatch.start();
+		Assert.assertEquals(stopwatch.getActive(), 0);
+		stopwatch.setState(SimonState.ENABLED, false);
+		Assert.assertEquals(stopwatch.getActive(), 0);
+		stopwatch.stop();
+		Assert.assertEquals(stopwatch.getActive(), 0);
+		Assert.assertEquals(stopwatch.getTotal(), 0);
+		Assert.assertEquals(stopwatch.getCounter(), 0);
+	}
 }
