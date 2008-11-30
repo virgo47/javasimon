@@ -27,7 +27,7 @@ public final class Complex extends Simple {
 			stmt.executeUpdate(" insert   into foo values (" + rand.nextInt(99999) + ", 'This is an another text')  ");
 		} finally {
 			if (stmt != null) {
-				// this is intentionally commented for monitoring purposes
+				// this close is intentionally commented for monitoring purposes
 				//stmt.close();
 			}
 		}

@@ -58,7 +58,7 @@ public final class SimonConnection implements java.sql.Connection {
 		active = SimonManager.getCounter(prefix + ".conn.active").increment();
 		commits = SimonManager.getCounter(prefix + ".conn.commits");
 		rollbacks = SimonManager.getCounter(prefix + ".conn.rollbacks");
-		life = SimonManager.getStopwatch(prefix + ".conn").start();
+		life = SimonManager.getStopwatch(prefix + ".conn").start(this);
 	}
 
 	/**
@@ -69,7 +69,7 @@ public final class SimonConnection implements java.sql.Connection {
 	public void close() throws SQLException {
 		conn.close();
 
-		life.stop();
+		life.stop(this);
 		active.decrement();
 	}
 

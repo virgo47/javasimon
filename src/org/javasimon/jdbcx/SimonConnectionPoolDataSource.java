@@ -19,6 +19,9 @@ public final class SimonConnectionPoolDataSource extends SimonCommonDataSource i
 
 	private ConnectionPoolDataSource datasource() throws SQLException{
 		if (ds == null) {
+			if (realDataSourceClassName == null || realDataSourceClassName.length() == 0) {
+				throw new SQLException("Property realdatasourceclassname is not set");
+			}
 			Object o;
 			try {
 				o = Class.forName(realDataSourceClassName).newInstance();
