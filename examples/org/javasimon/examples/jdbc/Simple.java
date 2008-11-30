@@ -7,7 +7,12 @@ import java.sql.*;
 import java.util.Random;
 
 /**
- * Trieda Simple.
+ * A very simple example of Simon JDBC Proxy Driver usage.
+ * <p>
+ * The example exploits embeded H2 Database Engine. First, a in-memory database <i>db1</i> is created.
+ * Then, "simon" connection to same <i>db1</i> is created and two sql commands (insert and
+ * select) are executed. Finally, hierarchy of simons is printed.
+ * </p>
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
@@ -18,6 +23,11 @@ public class Simple {
 
 	private final Random rand = new Random();
 
+	/**
+	 * Creates in-memory database <i>db1</i> and table <i>foo</i> through original H2 driver.
+	 *
+	 * @throws SQLException if something goes wrong
+	 */
 	protected final void setUp() throws SQLException {
 		Connection c = null;
 		try {
@@ -32,6 +42,12 @@ public class Simple {
 		}
 	}
 
+	/**
+	 * Executes prepared insert into table <i>foo</i>.
+	 *
+	 * @param c connection to db
+	 * @throws SQLException if something goes wrong
+	 */
 	protected final void doInsert(Connection c) throws SQLException {
 		PreparedStatement stmt = null;
 		try {
@@ -46,6 +62,13 @@ public class Simple {
 		}
 	}
 
+	/**
+	 * Executes select all records from table <i>foo</i>.
+	 *
+	 * @param c connection to db
+	 * @return record count
+	 * @throws SQLException if something goes wrong
+	 */
 	protected final int doSelect(Connection c) throws SQLException {
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -68,7 +91,7 @@ public class Simple {
 	}
 
 	/**
-	 * Entry point of the demo application.
+	 * Entry point of the example application.
 	 *
 	 * @param args command line arguments
 	 * @throws Exception sometimes bad things can happen

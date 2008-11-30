@@ -38,13 +38,13 @@ public class SimonStatement implements java.sql.Statement {
 		this.prefix = prefix;
 
 		active = SimonManager.getCounter(prefix + ".stmt.active").increment();
-		life = SimonManager.getStopwatch(prefix + ".stmt").start();
+		life = SimonManager.getStopwatch(prefix + ".stmt").start(this);
 	}
 
 	public final void close() throws SQLException {
 		stmt.close();
 
-		life.stop();
+		life.stop(this);
 		active.decrement();
 	}
 
