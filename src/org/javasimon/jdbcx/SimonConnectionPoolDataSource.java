@@ -6,7 +6,10 @@ import java.sql.SQLException;
 import java.lang.reflect.Method;
 
 /**
- * Trieda SimonConnectionPoolDataSource.
+ * Wrapper class for real ConnectionPoolDataSource implementation, produces pooled
+ * {@link javax.sql.PooledConnection} object.
+ * <p>
+ * See the {@link org.javasimon.jdbcx.SimonDataSource} for more information.
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$ 

@@ -6,7 +6,10 @@ import java.sql.SQLException;
 import java.lang.reflect.Method;
 
 /**
- * Trieda SimonXADataSource.
+ * Wrapper class for real XADataSource implementation, produces xa
+ * {@link javax.sql.XAConnection} object.
+ * <p>
+ * See the {@link org.javasimon.jdbcx.SimonDataSource} for more information.
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$

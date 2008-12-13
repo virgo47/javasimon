@@ -4,7 +4,10 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 
 /**
- * Trieda SimonCommonDataSource.
+ * SimonCommonDataSource is parent for all three datasource implementation classes.
+ * <p>
+ * It contains getters and setters for basic properties which all three datasource types
+ * needs to impelement.
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
@@ -48,26 +51,51 @@ public abstract class SimonCommonDataSource {
 		this.logWriter = out;
 	}
 
+	/**
+	 * Returns jdbc connection url.
+	 *
+	 * @return jdbc connection url
+	 */
 	public String getUrl() {
 		return url;
 	}
 
+	/**
+	 * Setter for url property.  
+	 * @param url jdbc connection url
+	 */
 	public void setUrl(String url) {
 		this.url = url;
 	}
 
+	/**
+	 * Returns database user to autenticate connection.
+	 * @return database user
+	 */
 	public String getUser() {
 		return user;
 	}
 
+	/**
+	 * Setter for user property.
+	 * @param user database user
+	 */
 	public void setUser(String user) {
 		this.user = user;
 	}
 
+	/**
+	 * Returns database password to autenticate connection.
+	 * @return database password
+	 */
 	public String getPassword() {
 		return password;
 	}
 
+	/**
+	 * Setter for password property.
+	 * @param password database password 
+	 */
 	public void setPassword(String password) {
 		this.password = password;
 	}
@@ -104,18 +132,34 @@ public abstract class SimonCommonDataSource {
 		return loginTimeout;
 	}
 
+	/**
+	 * Returns real datasource class name.
+	 * @return real datasource class name
+	 */
 	public String getRealDataSourceClassName() {
 		return realDataSourceClassName;
 	}
 
+	/**
+	 * Setter for realDataSourceClassName property.
+	 * @param className class name of real datasource
+	 */
 	public void setRealDataSourceClassName(String className) {
 		this.realDataSourceClassName = className;
 	}
 
+	/**
+	 * Returns simon prefix for constructing names of simons.
+	 * @return simon prefix
+	 */
 	public String getPrefix() {
 		return prefix;
 	}
 
+	/**
+	 * Setter for prefix property.
+	 * @param prefix simon prefix
+	 */
 	public void setPrefix(String prefix) {
 		this.prefix = prefix;
 	}
