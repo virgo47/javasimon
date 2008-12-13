@@ -1,7 +1,7 @@
 package org.javasimon;
 
 /**
- * Stores configuration for particular Simon or the set of Simons.
+ * Stores configuration for the particular Simon or the set of Simons.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Sep 30, 2008

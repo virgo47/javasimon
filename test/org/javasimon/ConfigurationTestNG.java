@@ -9,6 +9,7 @@ import java.io.StringReader;
 
 /**
  * ConfigurationTestNG.
+ * TODO: Not used/active yet. Configuration is not working yet.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Sep 7, 2008

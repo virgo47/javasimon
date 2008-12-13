@@ -110,14 +110,17 @@
 
 		<javadoc destdir="${doc.dir}" protected="true" linksource="true"
 			doctitle="Java Simon API" windowtitle="Java Simon API"
-			header="&lt;b&gt;Java Simon&lt;/b&gt;&lt;font size='-1'&gt; 1.0&lt;/font&gt;"
+			header="&lt;table&gt;&lt;tr&gt;&lt;td style='valign: middle;'&gt;&lt;span style='font-weight: bold; margin-right: 16px;'&gt;Java Simon ${version}&lt;/span&gt;&lt;/td&gt;&lt;td&gt;&lt;div class='logo'/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;"
 			overview="src/overview.html"
-			stylesheetfile="src/stylesheet.css"
+			stylesheetfile="docs/api/stylesheet.css"
 			additionalparam="-tag created:t:Created:">
 
 			<sourcepath path="src"/>
 			<classpath refid="classpath"/>
 			<packageset dir="src"/>
 		</javadoc>
+		<copy todir="${doc.dir}/resources" overwrite="true">
+			<fileset dir="docs/api/resources"/>
+		</copy>
 	</target>
 </project>

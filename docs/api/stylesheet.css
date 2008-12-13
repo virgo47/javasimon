@@ -11,9 +11,10 @@ h1 {
 }
 
 /* Table colors */
-.TableHeadingColor     { background: #cdeb8b } /* Dark mauve */
-.TableSubHeadingColor  { background: #EEEEFF } /* Light mauve */
-.TableRowColor         { background: #FFFFFF } /* White */
+.TableHeadingColor     { background: #8899ff }
+.TableSubHeadingColor  { background: #ddddff }
+.TableRowColor         { background: #ffffff }
+.TableRowColor:hover   { background: #ffeeee }
 
 /* Font used in left-hand frame lists */
 .FrameTitleFont   { font-size: 100%; font-family: Helvetica, Arial, sans-serif }
@@ -21,16 +22,23 @@ h1 {
 .FrameItemFont    { font-size:  90%; font-family: Helvetica, Arial, sans-serif }
 
 /* Navigation bar fonts and colors */
-.NavBarCell1    { background-color:#EEEEFF;} /* Light mauve */
-.NavBarCell1Rev
-{
-	background-color: #cdeb8b;
+.NavBarCell1 {
+	background-color:#ffccbb;
+	font-family: Arial, Helvetica, sans-serif; color:#000000;
 }
-.NavBarFont1    { font-family: Arial, Helvetica, sans-serif; color:#000000;}
-.NavBarFont1Rev { font-family: Arial, Helvetica, sans-serif; color:#FFFFFF;}
 
-.NavBarCell2    { font-family: Arial, Helvetica, sans-serif; background-color:#FFFFFF;}
-.NavBarCell3    { font-family: Arial, Helvetica, sans-serif; background-color:#FFFFFF;}
+.NavBarCell1Rev {
+	background-color: #ff4444;
+	font-family: Arial, Helvetica, sans-serif; color:#FFFFFF;
+}
+
+.NavBarCell2 {
+	font-family: Arial, Helvetica, sans-serif; background-color:#FFFFFF;
+}
+
+.NavBarCell3 {
+	font-family: Arial, Helvetica, sans-serif; background-color:#FFFFFF;
+}
 
 body, dd, dl, dt, td, table, th, tr, li, ol, ul, p, br, a, input, form, textarea, select {
 	font-family: verdana,arial,helvetica,sans-serif;
@@ -48,7 +56,7 @@ body, dd, dl, dt, td, table, th, tr, li, ol, ul, p, br, a, input, form, textarea
 
 a {
 	text-decoration: none;
-	color: #336699;
+	color: #3366dd;
 }
 
 a:hover {
@@ -71,4 +79,12 @@ pre {
 	border-width: 1px;
 	border-color: #CCCCCC;
 	background-color: #F4F4F4;
+}
+
+div.logo {
+	margin: 0;
+	padding: 0;
+	width: 120px;
+	height: 36px;
+	background-image: url("resources/simonlogo120.png");
 }

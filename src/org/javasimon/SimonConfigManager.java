@@ -7,7 +7,8 @@ import java.util.Map;
 import java.util.LinkedHashMap;
 
 /**
- * Stores Simon API configuration.
+ * Stores configuration of the Simon API.
+ * TODO: Not active yet!
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Sep 6, 2008

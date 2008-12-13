@@ -1,9 +1,6 @@
 package org.javasimon;
 
 import java.util.*;
-import java.util.logging.Logger;
-import java.util.logging.Level;
-import java.io.IOException;
 
 /**
  * SimonManager is the central-point of the API. Manager provides access to all available Simons
@@ -27,11 +24,12 @@ public final class SimonManager {
 
 	static {
 		clear();
-		try {
-			SimonConfigManager.init();
-		} catch (IOException e) {
-			Logger.getLogger(SimonConfigManager.class.getName()).log(Level.SEVERE, "Simon config couldn't be processed correctly", e);
-		}
+//		try {
+			// TODO: Not used/active yet. Configuration is not working yet.
+//			SimonConfigManager.init();
+//		} catch (IOException e) {
+//			Logger.getLogger(SimonConfigManager.class.getName()).log(Level.SEVERE, "Simon config couldn't be processed correctly", e);
+//		}
 	}
 
 	private SimonManager() {

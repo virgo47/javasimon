@@ -7,6 +7,11 @@ package org.javasimon;
  * first change (increment, decrement, set) - this is more typical case for tracking also the
  * min value.
  *
+ * Usage example:
+ * <pre>
+ * 
+ * </pre>
+ *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 4, 2008
  */

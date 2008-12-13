@@ -1,9 +1,20 @@
 package org.javasimon;
 
 /**
- * Simon stopwatch for time span measuring. You can use {@code start}/{@code stop} or
- * {@code addTime} to add split times to the stopwatch. Both ways effectively updates
- * usage times, increase counter by one and updates total time of the stopwatch.
+ * Simon stopwatch is for time span measuring. Methods {@code start} and {@code stop}
+ * demarcate measured interval, alternatively method {@code addTime} can be used to add
+ * split time to the stopwatch. Both ways effectively updates usage times, increase usage
+ * counter by one and updates total time of the stopwatch. Multiple time-splits can be
+ * measured in parallel but it is important to use proper way how to do that.
+ *
+ * Simple usage example:
+ * <pre>
+ * Stopwatch stopwatch = SimonManager.getStopwatch("org.javasimon.examples.stopwatch1");
+ * stopwatch.start();
+ * // here goes measured part
+ * stopwatch.stop();
+ * System.out.println("Result: " + stopwatch);
+ * </pre>
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 4, 2008
