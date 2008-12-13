@@ -8,46 +8,31 @@ import java.sql.Connection;
 import java.lang.reflect.Method;
 
 /**
- * Trieda SimonDataSource.
+ * Wrapper class for real DataSource implementation, produces standard {@link Connection}
+ * object.
+ * <p>
+ * To use SimonDataSource, <b>MUST</b> properties are:
+ * <ul>
+ * <li><code>realDataSourceClassName</code> - full qualified classname of real Datasource
+ * implementation</li>
+ * <li><code>url</code> - jdbc connection url (no special simon added tags are needed)</li>
+ * <li><code>user</code> - db user name</li>
+ * <li><code>password</code> - db user name</li>
+ * </ul>
+ * <b>MAY</b> properties are:
+ * <ul>
+ * <li><code>perfix</code> - simon prefix (default: <code>org.javasimon.jdbcx</code></li>
+ * </ul>
+ * <p>
+ * As mentioned in package description all <code>getConnection</code> methods
+ * just invokes real {@link javax.sql.DataSource} object methods and wraps obtained
+ * {@link java.sql.Connection} with {@link org.javasimon.jdbc.SimonConnection} object.
+ * <p>
+ * Real {@link javax.sql.DataSource} is obtained in method {@link #datasource()}. It tries
+ * to instantiate real datasource object by property <code>realDataSourceClassName</code>
+ * (setters and getters for properties are in {@link SimonCommonDataSource}) and then sets
+ * basic properties (<code>url</code>, <code>user</code>, <code>password</code>).
  *
- * <p>A factory for connections to the physical data source that this
- * <code>DataSource</code> object represents.  An alternative to the
- * <code>DriverManager</code> facility, a <code>DataSource</code> object
- * is the preferred means of getting a connection. An object that implements
- * the <code>DataSource</code> interface will typically be
- * registered with a naming service based on the
- * Java<sup><font size=-2>TM</font></sup> Naming and Directory (JNDI) API.
- * <P>
- * The <code>DataSource</code> interface is implemented by a driver vendor.
- * There are three types of implementations:
- * <OL>
- *   <LI>Basic implementation -- produces a standard <code>Connection</code>
- *       object
- *   <LI>Connection pooling implementation -- produces a <code>Connection</code>
- *       object that will automatically participate in connection pooling.  This
- *       implementation works with a middle-tier connection pooling manager.
- *   <LI>Distributed transaction implementation -- produces a
- *       <code>Connection</code> object that may be used for distributed
- *       transactions and almost always participates in connection pooling.
- *       This implementation works with a middle-tier
- *       transaction manager and almost always with a connection
- *       pooling manager.
- * </OL>
- * <P>
- * A <code>DataSource</code> object has properties that can be modified
- * when necessary.  For example, if the data source is moved to a different
- * server, the property for the server can be changed.  The benefit is that
- * because the data source's properties can be changed, any code accessing
- * that data source does not need to be changed.
- * <P>
- * A driver that is accessed via a <code>DataSource</code> object does not
- * register itself with the <code>DriverManager</code>.  Rather, a
- * <code>DataSource</code> object is retrieved though a lookup operation
- * and then used to create a <code>Connection</code> object.  With a basic
- * implementation, the connection obtained through a <code>DataSource</code>
- * object is identical to a connection obtained through the
- * <code>DriverManager</code> facility.
- * 
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
  * @created 14.9.2008 16:30:36

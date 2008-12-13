@@ -229,82 +229,102 @@ public final class SimonConnection implements java.sql.Connection {
 
 /////////////////// Not interesting methods for monitoring
 
+	/** {@inheritDoc} */
 	public String nativeSQL(String s) throws SQLException {
 		return conn.nativeSQL(s);
 	}
 
+	/** {@inheritDoc} */
 	public void setAutoCommit(boolean b) throws SQLException {
 		conn.setAutoCommit(b);
 	}
 
+	/** {@inheritDoc} */
 	public boolean getAutoCommit() throws SQLException {
 		return conn.getAutoCommit();
 	}
 
+	/** {@inheritDoc} */
 	public boolean isClosed() throws SQLException {
 		return conn.isClosed();
 	}
 
+	/** {@inheritDoc} */
 	public DatabaseMetaData getMetaData() throws SQLException {
 		return conn.getMetaData();
 	}
 
+	/** {@inheritDoc} */
 	public void setReadOnly(boolean b) throws SQLException {
 		conn.setReadOnly(b);
 	}
 
+	/** {@inheritDoc} */
 	public boolean isReadOnly() throws SQLException {
 		return conn.isReadOnly();
 	}
 
+	/** {@inheritDoc} */
 	public void setCatalog(String s) throws SQLException {
 		conn.setCatalog(s);
 	}
 
+	/** {@inheritDoc} */
 	public String getCatalog() throws SQLException {
 		return conn.getCatalog();
 	}
 
+	/** {@inheritDoc} */
 	public void setTransactionIsolation(int i) throws SQLException {
 		conn.setTransactionIsolation(i);
 	}
 
+	/** {@inheritDoc} */
 	public int getTransactionIsolation() throws SQLException {
 		return conn.getTransactionIsolation();
 	}
 
+	/** {@inheritDoc} */
 	public SQLWarning getWarnings() throws SQLException {
 		return conn.getWarnings();
 	}
 
+	/** {@inheritDoc} */
 	public void clearWarnings() throws SQLException {
 		conn.clearWarnings();
 	}
 
+	/** {@inheritDoc} */
 	public Map<String, Class<?>> getTypeMap() throws SQLException {
 		return conn.getTypeMap();
 	}
 
+	/** {@inheritDoc} */
 	public void setTypeMap(Map<String, Class<?>> stringClassMap) throws SQLException {
 		conn.setTypeMap(stringClassMap);
 	}
 
+	/** {@inheritDoc} */
 	public void setHoldability(int i) throws SQLException {
 		conn.setHoldability(i);
 	}
 
+	/** {@inheritDoc} */
 	public int getHoldability() throws SQLException {
 		return conn.getHoldability();
 	}
 
+	/** {@inheritDoc} */
 	public Savepoint setSavepoint() throws SQLException {
 		return conn.setSavepoint();
 	}
 
+	/** {@inheritDoc} */
 	public Savepoint setSavepoint(String s) throws SQLException {
 		return conn.setSavepoint(s);
 	}
 
+	/** {@inheritDoc} */
 	public void releaseSavepoint(Savepoint savepoint) throws SQLException {
 		conn.releaseSavepoint(savepoint);
 	}
