@@ -180,8 +180,8 @@ abstract class AbstractSimon implements Simon {
 	}
 
 	/**
-	 * Returns note for the Simon. Note allows you to add additional information in human
-	 * readable form to the Simon.
+	 * Returns note for the Simon. Note enables Simon with an additional information in human
+	 * readable form.
 	 *
 	 * @return note for the Simon.
 	 */
@@ -190,8 +190,8 @@ abstract class AbstractSimon implements Simon {
 	}
 
 	/**
-	 * Sets note for the Simon. Note allows you to add additional information in human
-	 * readable form to the Simon.
+	 * Sets note for the Simon. Note enables Simon with an additional information in human
+	 * readable form.
 	 *
 	 * @param note note for the Simon.
 	 */
@@ -202,7 +202,7 @@ abstract class AbstractSimon implements Simon {
 	/**
 	 * Returns ms timestamp of the first usage of this Simon. First and last usage
 	 * are updated when monitor performs the measuring (start/stop/count/etc). They
-	 * are not updated when you just get the value from the monitor.
+	 * are not updated when values are obtained from the monitor.
 	 *
 	 * @return ms timestamp of the first usage
 	 */
@@ -213,7 +213,7 @@ abstract class AbstractSimon implements Simon {
 	/**
 	 * Returns ms timestamp of the last usage of this Simon. First and last usage
 	 * are updated when monitor performs the measuring (start/stop/count/etc). They
-	 * are not updated when you just get the value from the monitor.
+	 * are not updated when values are obtained from the monitor.
 	 *
 	 * @return ms timestamp of the last usage
 	 */

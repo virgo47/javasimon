@@ -34,9 +34,9 @@
  * and cannot be enabled. If the SimonManager is enabled again ({@link org.javasimon.SimonManager#enable()})
  * it returns real Simons again. This leads to following recommendations:
  * <ul>
- * <li>In any normal situation always use {@link org.javasimon.SimonManager#getStopwatch(String)} or
- * {@link org.javasimon.SimonManager#getCounter(String)} to get Simon of your choice. Result always
- * reflects status of the SimonManager.
+ * <li>It is recommended always to use {@link org.javasimon.SimonManager#getStopwatch(String)} or
+ * {@link org.javasimon.SimonManager#getCounter(String)} to get the Simon because this always
+ * reflects the status of the SimonManager.
  * <li>If it is necessary to keep Simon reference be sure to obtain it while SimonManager is enabled.
  * <li>Rembember that real Simon is not disabled if the SimonManager is disabled!
  * </ul>

@@ -17,13 +17,11 @@ import java.io.InputStream;
  * should use {@link java.sql.DriverManager} only. For example:
  * </p>
  * <pre>
- * Connection conn = DriverManager.getConnection(&quot;jdbc:simon:oracle:thin:...&quot;, &quot;scott&quot;, &quot;tiger&quot;);
- * </pre>
+ * Connection conn = DriverManager.getConnection(&quot;jdbc:simon:oracle:thin:...&quot;, &quot;scott&quot;, &quot;tiger&quot;);</pre>
  * <p/>
  * Simon driver has following format of jdbc connection string:
  * <pre>
- * jdbc:simon:&lt;real driver conn string&gt;;&lt;param1&gt;=&lt;value1&gt;;...
- * </pre>
+ * jdbc:simon:&lt;real driver conn string&gt;;&lt;param1&gt;=&lt;value1&gt;;...</pre>
  * Simon driver recognizes two parameters:
  * <ul>
  * <li>
@@ -63,8 +61,7 @@ import java.io.InputStream;
  * Class.forName(&quot;oracle.jdbc.driver.OracleDriver&quot;);  // loads real driver
  * Class.forName(&quot;org.javasimon.jdbc.Driver&quot;);  // loads simon proxy driver
  * Connection conn = DriverManager.getConnection(
- *      &quot;jdbc:simon:oracle:thin:...&quot;, &quot;scott&quot;, &quot;tiger&quot;);
- * </pre>
+ *      &quot;jdbc:simon:oracle:thin:...&quot;, &quot;scott&quot;, &quot;tiger&quot;);</pre>
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$

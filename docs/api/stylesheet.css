@@ -88,3 +88,13 @@ div.logo {
 	height: 36px;
 	background-image: url("resources/simonlogo120.png");
 }
+
+code {
+	font-weight: bold;
+	color: #442211;
+}
+
+a code {
+	font-weight: bold;
+	color: #3366dd;
+}

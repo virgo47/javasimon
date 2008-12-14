@@ -39,7 +39,8 @@ public final class GoogleChartGenerator {
 	 *
 	 * @param collector data collector
 	 * @param title chart title
-	 * @param divisor value divisor. For example: if values are in ns and you want them in ms, set divisor to 1000000.
+	 * @param divisor value divisor. For example: if values are in ns and ms are required,
+	 * divisor should be set to 1000000.
 	 * @param unit unit shown after values under every bar
 	 * @return URL generating the bar chart
 	 */

@@ -42,9 +42,9 @@ public interface Simon {
 	SimonState getState();
 
 	/**
-	 * Sets the state of the Simon. You have to specify whether you want to propagate the change
+	 * Sets the state of the Simon. It must be specified whether to propagate the change
 	 * and overrule states of all sub-simons which effectively sets the same state to the whole
-	 * subtree. If you don't overrule, some Simons (with their subtrees) will not be affected
+	 * subtree. If subtree is not overruled, some Simons (with their subtrees) may not be affected
 	 * by this change.
 	 *
 	 * @param state a new state.
@@ -84,16 +84,16 @@ public interface Simon {
 	void setStatProcessor(StatProcessor statProcessor);
 
 	/**
-	 * Returns note for the Simon. Note allows you to add additional information in human
-	 * readable form to the Simon.
+	 * Returns note for the Simon. Note enables Simon with an additional information in human
+	 * readable form.
 	 *
 	 * @return note for the Simon.
 	 */
 	String getNote();
 
 	/**
-	 * Sets note for the Simon. Note allows you to add additional information in human
-	 * readable form to the Simon.
+	 * Sets note for the Simon. Note enables Simon with an additional information in human
+	 * readable form.
 	 *
 	 * @param note note for the Simon.
 	 */
@@ -102,7 +102,7 @@ public interface Simon {
 	/**
 	 * Returns ms timestamp of the first usage of this Simon. First and last usage
 	 * are updated when monitor performs the measuring (start/stop/count/etc). They
-	 * are not updated when you just get the value from the monitor.
+	 * are not updated when values are obtained from the monitor.
 	 *
 	 * @return ms timestamp of the first usage
 	 */
@@ -111,7 +111,7 @@ public interface Simon {
 	/**
 	 * Returns ms timestamp of the last usage of this Simon. First and last usage
 	 * are updated when monitor performs the measuring (start/stop/count/etc). They
-	 * are not updated when you just get the value from the monitor.
+	 * are not updated when values are obtained from the monitor.
 	 *
 	 * @return ms timestamp of the last usage
 	 */

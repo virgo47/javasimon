@@ -112,8 +112,7 @@
  * +-> .sql
  * |     +-> .&lt;sql&gt;
  * |
- * +-> .&lt;sql_group_hash&gt; (not implemented yet)
- * </pre>
+ * +-> .&lt;sql_group_hash&gt; (not implemented yet)</pre>
  *
  * For choosing Simon's name is used prefix. If non is defined, default is {@code org.javasimon.jdbc}.
  * If default prexif value is not suficient or you need to differentiate between two different drivers
@@ -123,8 +122,7 @@
  * <p>
  * For printing information from Simons to standard output you can use:
  * <pre>
- * SimonUtils.printSimonTree(SimonManager.getRootSimon());
- * </pre>
+ * SimonUtils.printSimonTree(SimonManager.getRootSimon());</pre>
  *
  * Also see examples classes {@link org.javasimon.jdbc.Simple} and {@link org.javasimon.jdbc.Complex}.
  */
