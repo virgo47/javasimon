@@ -5,8 +5,9 @@ import org.javasimon.utils.SimonUtils;
 import java.util.*;
 
 /**
- * Stopwatch default implementation - it is thread-safe, more split times can be
- * measured in parallel - but start and stop must be called within the same thread.
+ * Class implements {@link org.javasimon.Stopwatch} interface - see there for how to use Stopwatch.
+ *
+ * @see org.javasimon.Stopwatch
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 4, 2008

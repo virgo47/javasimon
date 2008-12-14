@@ -10,7 +10,7 @@ import java.util.Collections;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 4, 2008
  */
-public final class UnknownSimon extends AbstractSimon {
+final class UnknownSimon extends AbstractSimon {
 	UnknownSimon(String name) {
 		super(name);
 	}

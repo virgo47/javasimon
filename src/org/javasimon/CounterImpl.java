@@ -1,10 +1,14 @@
 package org.javasimon;
 
+import org.javasimon.utils.SimonUtils;
+
 import java.util.Map;
 import java.util.LinkedHashMap;
 
 /**
- * SimonCounter.
+ * Class implements {@link org.javasimon.Counter} interface - see there for how to use Counter.
+ *
+ * @see org.javasimon.Counter
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 4, 2008
@@ -42,7 +46,8 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		if (counter >= max) {
 			max = counter;
 			maxTimestamp = getLastUsage();
-		} else if (counter <= min) {
+		}
+		if (counter <= min) {
 			min = counter;
 			minTimestamp = getLastUsage();
 		}
@@ -178,7 +183,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	public String toString() {
 		return "Simon Counter: " + super.toString() +
 			" counter=" + counter +
-			", max=" + max +
-			", min=" + min;
+			", max=" + SimonUtils.presentMinMax(max) +
+			", min=" + SimonUtils.presentMinMax(min);
 	}
 }

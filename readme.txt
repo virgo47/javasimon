@@ -10,17 +10,17 @@ Check this readme online for updates: http://code.google.com/p/javasimon/wiki/Re
 
 == Build ==
 
-  * Simon depends on JDK only (at this moment), you need JDK 1.5 or higher.
-  * Use "ant" to build the Simon, find the JAR file under the "build" directory.
+  * Compiled Simon JAR depends on JDK only (at this moment), you need JDK 1.5 or higher.
+  * Use "ant" to build the Simon, find the JAR file under the "build" directory. For build you need JDK 1.5, NOT JDK 1.6.
   * Some examples requires other libraries (h2, JAMon, ...). If you checkout the project, you have to download them and put them to classpath by yourself. If you download our ZIP, they are included.
 
 == Usage ==
 
-There are two types of Simons available: Counter and Stopwatch. Counter tracks single long value, its maximum and minimum. Stopwatch measures time and tracks number of measurements (splits), total time, split minimum and maximum. If you think it's not enough you can get more statistic information by adding StatProcessor implementation to your Simon.
+There are two types of Simons available: `Counter` and `Stopwatch`. Counter tracks single long value, its maximum and minimum. Stopwatch measures time and tracks number of measurements (splits), total time, split minimum and maximum. If you think it's not enough you can get more statistic information by adding `StatProcessor` implementation to your Simon.
 
 === Simon Manager ===
 
-You obtain Simons from the SimonManager:
+You obtain Simons from the `SimonManager`:
 {{{
 Stopwatch stopwatch = SimonManager.getStopwatch("org.javasimon.examples.HelloWorld-stopwatch");
 }}}
@@ -68,5 +68,3 @@ Project example uses these libraries (you don't need them to use Java Simon):
 == Java Simon name ==
 
 *Java Simon* is the official name of the project with _Simple Monitoring API_ as a half title. Codename of the project is *javasimon*. We use word Simon as a synonym for a "monitor" in javadoc or on our wiki - of course we use it only for monitors based on the API. We write Simon mostly with capital S, Java Simon with space and javasimon as a one word with all lowercase. Word javasimon is probably best to use in search engines.
-
-We'll make some logo too... after version 1 will be released. :-)

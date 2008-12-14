@@ -9,8 +9,7 @@ import java.util.concurrent.CountDownLatch;
  * MultithreadSleeping shows that total stopwatch time can be easily much bigger
  * than total run-time of the application. Typical output of this program is:
  * <pre>
- * Simon: Simon Stopwatch: [org.javasimon.examples.MultithreadedSleeping INHERIT/stats=NULL] total 100.0 s, counter 100, max 1.00 s, min 999 ms
- * </pre>
+ * Simon: Simon Stopwatch: [org.javasimon.examples.MultithreadedSleeping INHERIT/stats=NULL] total 100.0 s, counter 100, max 1.00 s, min 999 ms</pre>
  * This shows that whenever wait (IO, sleep) is measured you can get times
  * multiplied by the number of threads. Another thing you can notice is not
  * perfect precision of the sleep because in theory it should not sleep less than
