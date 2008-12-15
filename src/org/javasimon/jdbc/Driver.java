@@ -19,7 +19,7 @@ import java.io.InputStream;
  * <pre>
  * Connection conn = DriverManager.getConnection(&quot;jdbc:simon:oracle:thin:...&quot;, &quot;scott&quot;, &quot;tiger&quot;);</pre>
  * <p/>
- * Simon driver has following format of jdbc connection string:
+ * Simon driver has following format of JDBC connection string:
  * <pre>
  * jdbc:simon:&lt;real driver conn string&gt;;&lt;param1&gt;=&lt;value1&gt;;...</pre>
  * Simon driver recognizes two parameters:
@@ -28,38 +28,38 @@ import java.io.InputStream;
  * <code>SIMON_REAL_DRV</code> - if you don't want or can't register real driver for any
  * reason, you can use this parameter and Simon proxy driver will do the registration
  * for you. You don't need to specify real driver parameter for some well known databases.
- * Simon proxy driver recognize database by first key word after jdbc and register.
+ * Simon proxy driver recognize database by first key word after JDBC and register.
  * </li>
  * <li>
  * <code>SIMON_PREFIX</code> - setting this parameter you can choose different prefix
- * for all monitors for this instance of driver. For examlple, setting
- * <code>SIMON_PREXIF=com.foo</code> will ensure that all inferior simons will be based on
- * this hierarchy prexif, <code>com.foo.conn</code>, <code>com.foo.stmt</code>,
+ * for all monitors for this instance of driver. For example, setting
+ * <code>SIMON_PREFIX=com.foo</code> will ensure that all proxy related Simons are located
+ * under the subtree specified by the prefix, e.g. <code>com.foo.conn</code>, <code>com.foo.stmt</code>,
  * <code>com.foo.select</code>, etc.
  * </li>
  * </ul>
  * <p/>
- * <p>
- * By default, there is no need to load any driver explicitly, becouse (from Java 1.5)
- * drivers are loaded automaticly if they are in class path and jar have apropriate
- * meta information (see {@link java.sql.DriverManager}.<br>
+ * By default, there is no need to load any driver explicitly, because drivers are loaded automatically
+ * (since JDK 1.5) if they are in class path and jar have appropriate
+ * meta information (see {@link java.sql.DriverManager}.
+ * <p/>
  * If this is not a case for any reason, you need to register Simon proxy driver at least.
- * For real driver Simon proxy driver contains following procedure for find and register it:<br>
- * 1. Simon proxy driver tries if there is registered driver for driver key word. <br>
- * 2. If not, driver tries if there is real driver parameter in info properties and then registers it.<br>
- * 3. If not, driver tries to find driver by key word within internal list of well known drivers and
+ * For real driver Simon proxy driver contains following procedure for find and register it:
+ * <ol>
+ * <li>Simon proxy driver tries if there is registered driver for driver key word.
+ * <li>If not, driver tries if there is real driver parameter in info properties and then registers it.
+ * <li>If not, driver tries to find driver by key word within internal list of well known drivers and
  * then registers it. For now, list contains default drivers for Oracle, PostgreSQL, Enterprise DB, H2,
  * MySQL.
- * 4. If not, driver tries to find real driver param within connection string and then registers it.
- * 5. If not, getting new connection fails.
- * <p/>
+ * <li>If not, driver tries to find real driver param within connection string and then registers it.
+ * <li>If not, getting new connection fails.
+ * </ol>
  * The safest way to get Simon proxy driver work is to load the drivers, the real one (i.e. oracle)
- * and a simon proxy driver explicitly. This can be done using Class.forName. To load the driver and open a
+ * and a Simon proxy driver explicitly. This can be done using Class.forName. To load the driver and open a
  * database connection, use following code:
- * </p>
  * <pre>
  * Class.forName(&quot;oracle.jdbc.driver.OracleDriver&quot;);  // loads real driver
- * Class.forName(&quot;org.javasimon.jdbc.Driver&quot;);  // loads simon proxy driver
+ * Class.forName(&quot;org.javasimon.jdbc.Driver&quot;);  // loads Simon proxy driver
  * Connection conn = DriverManager.getConnection(
  *      &quot;jdbc:simon:oracle:thin:...&quot;, &quot;scott&quot;, &quot;tiger&quot;);</pre>
  *

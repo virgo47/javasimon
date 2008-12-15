@@ -3,7 +3,7 @@ package org.javasimon.utils;
 import java.util.regex.Pattern;
 
 /**
- * Replacer stores from regex as pattern and process method than returns string with
+ * Replacer stores {@code from} regex as pattern and process method than returns string with
  * all {@code from} replaced with {@code to}. Using the replacer should be faster
  * because the regex is compiled only once.
  *

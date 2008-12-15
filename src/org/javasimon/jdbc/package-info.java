@@ -115,7 +115,7 @@
  * +-> .&lt;sql_group_hash&gt; (not implemented yet)</pre>
  *
  * For choosing Simon's name is used prefix. If non is defined, default is {@code org.javasimon.jdbc}.
- * If default prexif value is not suficient or you need to differentiate between two different drivers
+ * If default prefix value is not suficient or you need to differentiate between two different drivers
  * (or its configuration) you can define your own prefix as parameter {@code SIMON_PREFIX=&lt;prefix&gt;}
  * within JDBC connection string. For example, {@code jdbc:simon:....;SIMON_PREFIX=com.foo.bar}. More
  * about setuping Simon JDBC proxy driver see {@link org.javasimon.jdbc.Driver}.
