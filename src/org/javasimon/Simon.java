@@ -6,7 +6,7 @@ import java.util.Collection;
 /**
  * Simon interface contains common functions related to Simon management - enable/disable and hierarchy.
  * It does not contain any real action method - these are in specific interfaces that describes
- * purpose of the particular type of monitors.
+ * purpose of the particular type of monitor.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 4, 2008
