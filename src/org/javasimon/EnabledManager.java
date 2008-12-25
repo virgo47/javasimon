@@ -24,6 +24,7 @@ class EnabledManager implements Manager {
 	private UnknownSimon rootSimon;
 
 	static {
+		// Finds out the index of "this code" in the returned stack trace - funny but it differs in JDK 1.5 and 1.6
 		int i = 1;
 		for (StackTraceElement ste : Thread.currentThread().getStackTrace()) {
 			i++;
@@ -68,21 +69,21 @@ class EnabledManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
-	public synchronized Counter getCounter(String name) {
+	public Counter getCounter(String name) {
 		return (Counter) getOrCreateSimon(name, CounterImpl.class);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public synchronized Stopwatch getStopwatch(String name) {
+	public Stopwatch getStopwatch(String name) {
 		return (Stopwatch) getOrCreateSimon(name, StopwatchImpl.class);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public synchronized UnknownSimon getUnknown(String name) {
+	public UnknownSimon getUnknown(String name) {
 		return (UnknownSimon) getOrCreateSimon(name, UnknownSimon.class);
 	}
 
@@ -116,7 +117,7 @@ class EnabledManager implements Manager {
 	}
 
 	// name can be null in case of "anonymous" Simons
-	private Simon getOrCreateSimon(String name, Class<? extends AbstractSimon> simonClass) {
+	private synchronized Simon getOrCreateSimon(String name, Class<? extends AbstractSimon> simonClass) {
 		AbstractSimon simon = null;
 		if (name != null) {
 			if (name.equals(SimonManager.ROOT_SIMON_NAME)) {

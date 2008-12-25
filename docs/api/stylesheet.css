@@ -56,11 +56,11 @@ body, dd, dl, dt, td, table, th, tr, li, ol, ul, p, br, a, input, form, textarea
 
 a {
 	text-decoration: none;
-	color: #3366dd;
+	color: #1122aa;
 }
 
 a:hover {
-	color: #336699;
+	color: #112244;
 	border-bottom-width: 1px;
 	border-bottom-style: dotted;
 	border-bottom-color: -moz-use-text-color;
@@ -96,5 +96,5 @@ code {
 
 a code {
 	font-weight: bold;
-	color: #3366dd;
+	color: #1122aa;
 }
