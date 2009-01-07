@@ -1,7 +1,5 @@
 package org.javasimon;
 
-import java.util.Map;
-import java.util.Collections;
 import java.util.Collection;
 
 /**
@@ -149,29 +147,8 @@ final class NullSimon implements Counter, Stopwatch {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Stopwatch start() {
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public long stop() {
-		return 0;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public Stopwatch start(Object key) {
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public long stop(Object key) {
-		return 0;
+	public Split start() {
+		return new Split(null, 0);
 	}
 
 	/**
@@ -267,8 +244,18 @@ final class NullSimon implements Counter, Stopwatch {
 	public void setNote(String note) {
 	}
 
-	public Map<String, String> sample(boolean reset) {
-		return Collections.emptyMap();
+	/**
+	 * {@inheritDoc}
+	 */
+	public Sample sample() {
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public Sample sampleAndReset() {
+		return null;
 	}
 
 	@Override

@@ -2,15 +2,12 @@ package org.javasimon;
 
 import org.javasimon.utils.SimonUtils;
 
-import java.util.*;
-
 /**
  * Class implements {@link org.javasimon.Stopwatch} interface - see there for how to use Stopwatch.
  *
- * @see org.javasimon.Stopwatch
- *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 4, 2008
+ * @see org.javasimon.Stopwatch
  */
 final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	private long total;
@@ -32,10 +29,6 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	private long minTimestamp;
 
 	private long last;
-
-	private ThreadLocal<Long> threadBasedSplitMap = new ThreadLocal<Long>();
-
-	private Map<Object, Long> splitMap = new HashMap<Object, Long>();
 
 	private long firstUsageNanos;
 
@@ -59,64 +52,28 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	/**
 	 * {@inheritDoc}
 	 */
-	public synchronized Stopwatch start() {
+	public synchronized Split start() {
 		if (enabled) {
-			if (threadBasedSplitMap.get() != null) {
-				throw new SimonException("Illegal start - there is another split running in the current thread: " + Thread.currentThread().getId());
-			}
 			updateUsages();
 			activeStart();
-			threadBasedSplitMap.set(currentNanos);
+			return new Split(this, currentNanos);
 		}
-		return this;
+		return new Split(null, 0);
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Protected method doing the stop work based on provided start nano-time.
+	 *
+	 * @param start start nano-time of the split
+	 * @return split time in ns
 	 */
-	public synchronized long stop() {
-		if (enabled) {
-			Long start = threadBasedSplitMap.get();
-			if (start == null) {
-				return 0;
-			}
-			active--;
-			threadBasedSplitMap.remove();
-			updateUsages();
-			return addSplit(currentNanos - start);
+	synchronized long stop(long start) {
+		if (start == 0) {
+			return 0;
 		}
-		return 0;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public synchronized Stopwatch start(Object key) {
-		if (enabled) {
-			if (splitMap.containsKey(key)) {
-				throw new SimonException("Illegal start - there is another split running for the specified key: " + key);
-			}
-			updateUsages();
-			activeStart();
-			splitMap.put(key, currentNanos);
-		}
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public synchronized long stop(Object key) {
-		if (enabled) {
-			Long start = splitMap.remove(key);
-			if (start == null) {
-				return 0; 
-			}
-			active--;
-			updateUsages();
-			return addSplit(currentNanos - start);
-		}
-		return 0;
+		active--;
+		updateUsages();
+		return addSplit(currentNanos - start);
 	}
 
 	// Uses last usage, hence it must be placed after usages update
@@ -234,13 +191,6 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	}
 
 	@Override
-	protected void disabledObserver() {
-		active = 0;
-		threadBasedSplitMap = new ThreadLocal<Long>();
-		splitMap.clear();
-	}
-
-	@Override
 	public void setStatProcessor(StatProcessor statProcessor) {
 		super.setStatProcessor(statProcessor);
 		statProcessor.setInterpreter(StatProcessor.NanoInterpreter.INSTANCE);
@@ -249,19 +199,18 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	/**
 	 * {@inheritDoc}
 	 */
-	public synchronized Map<String, String> sample(boolean reset) {
-		Map<String, String> map = new LinkedHashMap<String, String>();
-		map.put("total", String.valueOf(total));
-		map.put("counter", String.valueOf(counter));
-		map.put("min", String.valueOf(min));
-		map.put("max", String.valueOf(max));
-		map.put("minTimestamp", String.valueOf(minTimestamp));
-		map.put("maxTimestamp", String.valueOf(maxTimestamp));
-		map.putAll(getStatProcessor().sample(false)); // reset is done via Simon's reset method
-		if (reset) {
-			reset();
-		}
-		return map;
+	public synchronized StopwatchSample sampleAndReset() {
+		StopwatchSample sample = sample();
+		reset();
+		return sample;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public synchronized StopwatchSample sample() {
+		return new StopwatchSample(total, counter, min, max, minTimestamp, maxTimestamp,
+			active, maxActive, maxActiveTimestamp, getStatProcessor());
 	}
 
 	/**
@@ -277,7 +226,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	}
 
 	@Override
-	public String toString() {
+	public synchronized String toString() {
 		return "Simon Stopwatch: " + super.toString() +
 			" total " + SimonUtils.presentNanoTime(total) +
 			", counter " + counter +

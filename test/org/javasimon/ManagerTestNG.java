@@ -136,8 +136,7 @@ public final class ManagerTestNG {
 	@Test
 	public void testAnonymousSimon() {
 		Stopwatch stopwatch = SimonManager.getStopwatch(null);
-		stopwatch.start();
-		stopwatch.stop();
+		stopwatch.start().stop();
 	}
 
 	@Test(expectedExceptions = SimonException.class)

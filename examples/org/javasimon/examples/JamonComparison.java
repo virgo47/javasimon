@@ -5,6 +5,7 @@ import com.jamonapi.Monitor;
 import org.javasimon.Stopwatch;
 import org.javasimon.utils.SimonUtils;
 import org.javasimon.SimonManager;
+import org.javasimon.Split;
 
 /**
  * JamonComparison shows Jamon and Simon monitors next to each other. Wait a few rounds for JVM
@@ -58,9 +59,9 @@ public final class JamonComparison {
 		long ns = System.nanoTime();
 		for (int i = 0; i < OUTER_LOOP; i++) {
 			stay();
-			stopwatch.start();
+			Split split = stopwatch.start();
 			stay();
-			stopwatch.stop();
+			split.stop();
 		}
 		ns = System.nanoTime() - ns;
 
@@ -73,9 +74,9 @@ public final class JamonComparison {
 		long ns = System.nanoTime();
 		for (int i = 0; i < OUTER_LOOP; i++) {
 			stay();
-			Stopwatch stopwatch = SimonManager.getStopwatch("org.javasimon.examples.stopwatch1").start();
+			Split split = SimonManager.getStopwatch("org.javasimon.examples.stopwatch1").start();
 			stay();
-			stopwatch.stop();
+			split.stop();
 		}
 		ns = System.nanoTime() - ns;
 

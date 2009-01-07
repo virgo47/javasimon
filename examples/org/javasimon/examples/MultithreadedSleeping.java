@@ -2,6 +2,7 @@ package org.javasimon.examples;
 
 import org.javasimon.SimonManager;
 import org.javasimon.Stopwatch;
+import org.javasimon.Split;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -47,14 +48,13 @@ public final class MultithreadedSleeping extends Thread {
 
 	@Override
 	public void run() {
-		Stopwatch stopwatch = SimonManager.getStopwatch(NAME);
-		stopwatch.start();
+		Split split = SimonManager.getStopwatch(NAME).start();
 		try {
 			sleep(SLEEP);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		stopwatch.stop();
+		split.stop();
 		// signal to latch that the thread is finished
 		latch.countDown();
 	}

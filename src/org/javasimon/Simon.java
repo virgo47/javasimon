@@ -1,6 +1,5 @@
 package org.javasimon;
 
-import java.util.Map;
 import java.util.Collection;
 
 /**
@@ -118,13 +117,17 @@ public interface Simon {
 	long getLastUsage();
 
 	/**
-	 * Samples Simon values and returns them as a map (propertyName -> value). Resets
-	 * the Simon if needed. Values may not all be strings, but string is used as
-	 * the best universal type to represent the value. Compound values must be split
-	 * into more values.
+	 * Samples Simon values and returns them in a Java Bean derived from Sample interface.
 	 *
-	 * @param reset if true, Simon is reset after sampling
-	 * @return sampled values in a map
+	 * @return sample containing all Simon values
 	 */
-	Map<String, String> sample(boolean reset);
+	Sample sample();
+
+	/**
+	 * Samples Simon values and returns them in a Java Bean derived from Sample interface
+	 * and resets the Simon. Operation is synchronized to assure atomicity.
+	 *
+	 * @return sample containing all Simon values
+	 */
+	Sample sampleAndReset();
 }

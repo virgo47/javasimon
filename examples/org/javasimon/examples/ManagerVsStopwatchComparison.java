@@ -4,6 +4,7 @@ import org.javasimon.SimonManager;
 import org.javasimon.utils.SimonUtils;
 import org.javasimon.Stopwatch;
 import org.javasimon.StatProcessorType;
+import org.javasimon.Split;
 
 /**
  * Compares time to obtain the Simon from the Manager with start/stop method calls.
@@ -42,35 +43,36 @@ public final class ManagerVsStopwatchComparison {
 		getStartStopTest(name);
 		System.out.println("Warm-up complete");
 
-		Stopwatch stopwatch = SimonManager.getStopwatch(null).start();
+		Stopwatch stopwatch = SimonManager.getStopwatch(null);
+		Split split = stopwatch.start();
 		getStopwatchTest(name);
-		System.out.println("\ngetStopwatch: " + SimonUtils.presentNanoTime(stopwatch.stop()));
+		System.out.println("\ngetStopwatch: " + SimonUtils.presentNanoTime(split.stop()));
 
 		tested.reset();
-		stopwatch.reset().start();
+		split = stopwatch.reset().start();
 		startStopTest(tested);
-		System.out.println("\nstart/stop: " + SimonUtils.presentNanoTime(stopwatch.stop()));
+		System.out.println("\nstart/stop: " + SimonUtils.presentNanoTime(split.stop()));
 		System.out.println("Stopwatch: " + tested);
 
 		tested.reset();
-		stopwatch.reset().start();
+		split = stopwatch.reset().start();
 		getStartStopTest(name);
-		System.out.println("\nget+start/stop: " + SimonUtils.presentNanoTime(stopwatch.stop()));
+		System.out.println("\nget+start/stop: " + SimonUtils.presentNanoTime(split.stop()));
 		System.out.println("Stopwatch: " + tested);
 
 		tested.reset();
 		tested.setStatProcessor(StatProcessorType.BASIC.create());
-		stopwatch.reset().start();
+		split = stopwatch.reset().start();
 		getStartStopTest(name);
-		System.out.println("\nget+start/stop+basic stats: " + SimonUtils.presentNanoTime(stopwatch.stop()));
+		System.out.println("\nget+start/stop+basic stats: " + SimonUtils.presentNanoTime(split.stop()));
 		System.out.println("Stopwatch: " + tested);
 
 		SimonManager.clear();
 		tested = SimonManager.getStopwatch(name); // after clear you have to get it from SM again to recreate it
 		tested.reset();
-		stopwatch.reset().start();
+		split = stopwatch.reset().start();
 		getStartStopTest(name);
-		System.out.println("\nget+start/stop after SM clear: " + SimonUtils.presentNanoTime(stopwatch.stop()));
+		System.out.println("\nget+start/stop after SM clear: " + SimonUtils.presentNanoTime(split.stop()));
 		System.out.println("Stopwatch: " + tested);
 	}
 
@@ -82,15 +84,13 @@ public final class ManagerVsStopwatchComparison {
 
 	private static void startStopTest(Stopwatch stopwatch) {
 		for (int i = 0; i < LOOP; i++) {
-			stopwatch.start();
-			stopwatch.stop();
+			stopwatch.start().stop();
 		}
 	}
 
 	private static void getStartStopTest(String name) {
 		for (int i = 0; i < LOOP; i++) {
-			Stopwatch stopwatch = SimonManager.getStopwatch(name).start();
-			stopwatch.stop();
+			SimonManager.getStopwatch(name).start().stop();
 		}
 	}
 }

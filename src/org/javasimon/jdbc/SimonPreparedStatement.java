@@ -2,6 +2,7 @@ package org.javasimon.jdbc;
 
 import org.javasimon.Stopwatch;
 import org.javasimon.SimonManager;
+import org.javasimon.Split;
 
 import java.sql.*;
 import java.sql.Connection;
@@ -47,11 +48,11 @@ public class SimonPreparedStatement extends SimonStatement implements java.sql.P
 	 *
 	 * @return simon stopwatch object or null if sql is null or empty
 	 */
-	protected final Stopwatch prepare() {
+	protected final Split prepare() {
 		if (sql != null && !sql.equals("")) {
 			sqlNormalizer = new SqlNormalizer(sql);
 			sqlCmdLabel = prefix + ".sql." + sqlNormalizer.getType();
-			return SimonManager.getStopwatch(sqlCmdLabel + "." + sqlNormalizer.getNormalizedSql().hashCode()).start();
+			return startSplit();
 		} else {
 			return null;
 		}
@@ -64,7 +65,7 @@ public class SimonPreparedStatement extends SimonStatement implements java.sql.P
 	 * @throws SQLException if real calls fails
 	 */
 	public final ResultSet executeQuery() throws SQLException {
-		Stopwatch s = prepare();
+		Split s = prepare();
 		try {
 			return stmt.executeQuery();
 		} finally {
@@ -79,7 +80,7 @@ public class SimonPreparedStatement extends SimonStatement implements java.sql.P
 	 * @throws SQLException if real calls fails
 	 */
 	public final int executeUpdate() throws SQLException {
-		Stopwatch s = prepare();
+		Split s = prepare();
 		try {
 			return stmt.executeUpdate();
 		} finally {
@@ -95,7 +96,7 @@ public class SimonPreparedStatement extends SimonStatement implements java.sql.P
 	 * @throws SQLException if real calls fails
 	 */
 	public final boolean execute() throws SQLException {
-		Stopwatch s = prepare();
+		Split s = prepare();
 		try {
 			return stmt.execute();
 		} finally {
