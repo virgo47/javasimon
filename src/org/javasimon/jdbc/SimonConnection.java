@@ -1,8 +1,8 @@
 package org.javasimon.jdbc;
 
 import org.javasimon.SimonManager;
-import org.javasimon.Stopwatch;
 import org.javasimon.Counter;
+import org.javasimon.Split;
 
 import java.util.Map;
 import java.sql.*;
@@ -39,7 +39,7 @@ public final class SimonConnection implements java.sql.Connection {
 	private java.sql.Connection conn;
 	private String suffix;
 
-	private Stopwatch life;
+	private Split life;
 	private Counter active;
 	private Counter commits;
 	private Counter rollbacks;
@@ -58,7 +58,7 @@ public final class SimonConnection implements java.sql.Connection {
 		active = SimonManager.getCounter(prefix + ".conn.active").increment();
 		commits = SimonManager.getCounter(prefix + ".conn.commits");
 		rollbacks = SimonManager.getCounter(prefix + ".conn.rollbacks");
-		life = SimonManager.getStopwatch(prefix + ".conn").start(this);
+		life = SimonManager.getStopwatch(prefix + ".conn").start();
 	}
 
 	/**
@@ -69,7 +69,7 @@ public final class SimonConnection implements java.sql.Connection {
 	public void close() throws SQLException {
 		conn.close();
 
-		life.stop(this);
+		life.stop();
 		active.decrement();
 	}
 

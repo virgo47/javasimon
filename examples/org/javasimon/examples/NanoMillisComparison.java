@@ -3,6 +3,7 @@ package org.javasimon.examples;
 import org.javasimon.Stopwatch;
 import org.javasimon.SimonManager;
 import org.javasimon.Simon;
+import org.javasimon.Split;
 import org.javasimon.utils.*;
 
 /**
@@ -52,57 +53,62 @@ public final class NanoMillisComparison {
 	}
 
 	private static void nanoTest() {
-		nanos = SimonManager.getStopwatch("nanos").reset().start();
+		nanos = SimonManager.getStopwatch("nanos").reset();
+		Split split = nanos.start();
 		for (int i = 0; i < LOOP; i++) {
 			System.nanoTime();
 		}
-		nanos.stop();
+		split.stop();
 		System.out.println("Nanos: " + nanos);
 	}
 
 	private static void emptyTest() {
-		empty = SimonManager.getStopwatch("empty").reset().start();
+		empty = SimonManager.getStopwatch("empty").reset();
+		Split split = empty.start();
 		for (int i = 0; i < LOOP; i++) {
 		}
-		empty.stop();
+		split.stop();
 		System.out.println("Empty: " + empty);
 	}
 
 	private static void millisTest() {
-		millis = SimonManager.getStopwatch("millis").reset().start();
+		millis = SimonManager.getStopwatch("millis").reset();
+		Split split = millis.start();
 		for (int i = 0; i < LOOP; i++) {
 			System.currentTimeMillis();
 		}
-		millis.stop();
+		split.stop();
 		System.out.println("Millis: " + millis);
 	}
 
 	private static void msAssignTest() {
-		assignMs = SimonManager.getStopwatch("assign-ms").reset().start();
+		assignMs = SimonManager.getStopwatch("assign-ms").reset();
+		Split split = assignMs.start();
 		for (int i = 0; i < LOOP; i++) {
 			long ms = System.currentTimeMillis();
 		}
-		assignMs.stop();
+		split.stop();
 		System.out.println("Assign ms: " + assignMs);
 	}
 
 	private static void nsAssignTest() {
-		assignNs = SimonManager.getStopwatch("assign-ns").reset().start();
+		assignNs = SimonManager.getStopwatch("assign-ns").reset();
+		Split split = assignNs.start();
 		for (int i = 0; i < LOOP; i++) {
 			long ns = System.nanoTime();
 		}
-		assignNs.stop();
+		split.stop();
 		System.out.println("Assign ns: " + assignNs);
 	}
 
 	private static void simonUsage() {
 		Stopwatch simon = SimonManager.getStopwatch(null);
-		stopwatch = SimonManager.getStopwatch("stopwatch").reset().start();
+		stopwatch = SimonManager.getStopwatch("stopwatch").reset();
+		Split split = stopwatch.start();
 		for (int i = 0; i < LOOP; i++) {
-			simon.start();
-			simon.stop();
+			simon.start().stop();
 		}
-		stopwatch.stop();
+		split.stop();
 		System.out.println("Threadsafe: " + stopwatch);
 	}
 }

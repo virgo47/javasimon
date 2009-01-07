@@ -3,6 +3,7 @@ package org.javasimon.examples;
 import org.javasimon.Stopwatch;
 import org.javasimon.SimonManager;
 import org.javasimon.SimonState;
+import org.javasimon.Split;
 
 /**
  * DisabledEnabledComparison.
@@ -32,45 +33,41 @@ public final class DisabledEnabledComparison {
 
 			stopwatch = SimonManager.getStopwatch(null);
 			tested = SimonManager.getStopwatch("org.javasimon.stopwatch");
-			stopwatch.start();
+			Split split = stopwatch.start();
 			for (int i = 0; i < LOOP; i++) {
-				tested.start();
-				tested.stop();
+				tested.start().stop();
 			}
-			stopwatch.stop();
+			split.stop();
 			System.out.println("Enabled start/stop: " + stopwatch);
 
 			stopwatch = SimonManager.getStopwatch(null);
 			tested = SimonManager.getStopwatch("org.javasimon.stopwatch");
 			tested.setState(SimonState.DISABLED, false);
-			stopwatch.start();
+			split = stopwatch.start();
 			for (int i = 0; i < LOOP; i++) {
-				tested.start();
-				tested.stop();
+				tested.start().stop();
 			}
-			stopwatch.stop();
+			split.stop();
 			System.out.println("Disabled start/stop: " + stopwatch);
 
 			stopwatch = SimonManager.getStopwatch(null);
 			SimonManager.getStopwatch("org.javasimon.stopwatch").setState(SimonState.ENABLED, false);
 
-			stopwatch.start();
+			split = stopwatch.start();
 			for (int i = 0; i < LOOP; i++) {
-				tested = SimonManager.getStopwatch("org.javasimon.stopwatch").start();
-				tested.stop();
+				SimonManager.getStopwatch("org.javasimon.stopwatch").start().stop();
 			}
-			stopwatch.stop();
+			split.stop();
 			System.out.println("Enabled get/start/stop: " + stopwatch);
 
 			stopwatch = SimonManager.getStopwatch(null);
 			SimonManager.disable();
 
-			stopwatch.start();
+			split = stopwatch.start();
 			for (int i = 0; i < LOOP; i++) {
-				tested = SimonManager.getStopwatch("org.javasimon.stopwatch").start();
-				tested.stop();
+				SimonManager.getStopwatch("org.javasimon.stopwatch").start().stop();
 			}
-			stopwatch.stop();
+			split.stop();
 			System.out.println("Disabled manager get/start/stop: " + stopwatch);
 		}
 	}

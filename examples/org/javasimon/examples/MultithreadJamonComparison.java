@@ -8,6 +8,7 @@ import java.util.concurrent.CountDownLatch;
 import org.javasimon.SimonManager;
 import org.javasimon.Stopwatch;
 import org.javasimon.StatProcessorType;
+import org.javasimon.Split;
 
 /**
  * Compares Simon and Jamon performance in a heavy-multithreaded environment. Creates 1000 threads
@@ -39,25 +40,26 @@ public final class MultithreadJamonComparison {
 		int round = 1;
 		while (true) {
 			System.out.println("\nRound: " + round++);
-			Stopwatch simon = SimonManager.getStopwatch(null).start();
+			Stopwatch stopwatch = SimonManager.getStopwatch(null);
+			Split split = stopwatch.start();
 			latch = new CountDownLatch(THREADS);
 			for (int i = 0; i < THREADS; i++) {
 				new SimonMultithreadedStress().start();
 			}
 			latch.await();
-			simon.stop();
+			split.stop();
 			System.out.println("Result: " + SimonManager.getStopwatch(NAME));
-			System.out.println("Test Simon: " + simon);
+			System.out.println("Test Simon: " + stopwatch);
 
-			simon = SimonManager.getStopwatch(null).start();
+			split = SimonManager.getStopwatch(null).start();
 			latch = new CountDownLatch(THREADS);
 			for (int i = 0; i < THREADS; i++) {
 				new JamonMultithreadedStress().start();
 			}
 			latch.await();
-			simon.stop();
+			split.stop();
 			System.out.println("Result: " + MonitorFactory.getTimeMonitor("jamon-stopwatch"));
-			System.out.println("Test Jamon: " + simon);
+			System.out.println("Test Jamon: " + stopwatch);
 		}
 	}
 
@@ -65,8 +67,7 @@ public final class MultithreadJamonComparison {
 		public void run() {
 			Stopwatch stopwatch = SimonManager.getStopwatch(NAME);
 			for (int i = 0; i < LOOP; i++) {
-				stopwatch.start();
-				stopwatch.stop();
+				stopwatch.start().stop();
 			}
 			latch.countDown();
 		}

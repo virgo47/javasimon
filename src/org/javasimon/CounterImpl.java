@@ -2,9 +2,6 @@ package org.javasimon;
 
 import org.javasimon.utils.SimonUtils;
 
-import java.util.Map;
-import java.util.LinkedHashMap;
-
 /**
  * Class implements {@link org.javasimon.Counter} interface - see there for how to use Counter.
  *
@@ -116,18 +113,17 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	/**
 	 * {@inheritDoc}
 	 */
-	public synchronized Map<String, String> sample(boolean reset) {
-		Map<String, String> map = new LinkedHashMap<String, String>();
-		map.put("counter", String.valueOf(counter));
-		map.put("min", String.valueOf(min));
-		map.put("minTimestamp", String.valueOf(minTimestamp));
-		map.put("max", String.valueOf(max));
-		map.put("maxTimestamp", String.valueOf(maxTimestamp));
-		map.putAll(getStatProcessor().sample(false)); // reset is done via Simon's reset method
-		if (reset) {
-			reset();
-		}
-		return map;
+	public synchronized Sample sampleAndReset() {
+		CounterSample sample = sample();
+		reset();
+		return sample;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public synchronized CounterSample sample() {
+		return new CounterSample(counter, min, max, minTimestamp, maxTimestamp, incrementSum, decrementSum, getStatProcessor());
 	}
 
 	/**

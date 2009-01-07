@@ -3,7 +3,7 @@ package org.javasimon.examples;
 import org.javasimon.SimonManager;
 import org.javasimon.SimonState;
 import org.javasimon.utils.SimonUtils;
-import org.javasimon.Stopwatch;
+import org.javasimon.Split;
 
 /**
  * DisabledEnabledComparison.
@@ -96,9 +96,8 @@ public final class DisabledEnabledSemiRealComparison {
 	}
 
 	private static void testMethod() {
-		Stopwatch simon = SimonManager.getStopwatch(TEST1_SIMON_NAME);
-		simon.start();
-		StringBuilder builder = null;
+		Split split = SimonManager.getStopwatch(TEST1_SIMON_NAME).start();
+		StringBuilder builder;
 		for (int i = 0; i < INNER_LOOP; i++) {
 			builder = new StringBuilder();
 			for (String s : STRINGS) {
@@ -107,11 +106,11 @@ public final class DisabledEnabledSemiRealComparison {
 			builder.reverse();
 		}
 		Runtime.getRuntime().gc();
-		simon.stop();
+		split.stop();
 	}
 
 	private static void testMethodWithoutSimons() {
-		StringBuilder builder = null;
+		StringBuilder builder;
 		for (int i = 0; i < INNER_LOOP; i++) {
 			builder = new StringBuilder();
 			for (String s : STRINGS) {

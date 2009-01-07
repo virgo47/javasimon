@@ -25,8 +25,15 @@ final class UnknownSimon extends AbstractSimon {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Map<String, String> sample(boolean reset) {
-		return Collections.emptyMap();
+	public Sample sample() {
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public Sample sampleAndReset() {
+		return null;
 	}
 
 	@Override

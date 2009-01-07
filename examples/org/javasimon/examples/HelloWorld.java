@@ -2,6 +2,7 @@ package org.javasimon.examples;
 
 import org.javasimon.Stopwatch;
 import org.javasimon.SimonManager;
+import org.javasimon.Split;
 
 /**
  * HelloWorld is the most basic example of Stopwatch usage. You can show this
@@ -28,9 +29,9 @@ public final class HelloWorld {
 	public static void main(String[] args) {
 		Stopwatch stopwatch = SimonManager.getStopwatch("org.javasimon.examples.HelloWorld-stopwatch");
 
-		stopwatch.start();
+		Split split = stopwatch.start();
 		System.out.println("Hello world, " + stopwatch);
-		stopwatch.stop();
+		split.stop();
 
 		System.out.println("Result: " + stopwatch);
 	}

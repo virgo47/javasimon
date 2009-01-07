@@ -1,6 +1,7 @@
 package org.javasimon;
 
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * AbstractSimon implements basic enable/disable and hierarchy functionality.
@@ -17,7 +18,7 @@ abstract class AbstractSimon implements Simon {
 
 	private Simon parent;
 
-	private final Set<Simon> children = new TreeSet<Simon>(SimonNameComparator.INSTANCE);
+	private final List<Simon> children = new CopyOnWriteArrayList<Simon>();
 
 	private StatProcessor statProcessor = NullStatProcessor.INSTANCE;
 
@@ -50,7 +51,7 @@ abstract class AbstractSimon implements Simon {
 	 * @return list of children
 	 */
 	public final Collection<Simon> getChildren() {
-		return Collections.unmodifiableSet(children);
+		return children;
 	}
 
 	/**
@@ -111,13 +112,6 @@ abstract class AbstractSimon implements Simon {
 	}
 
 	private void updateAndPropagateEffectiveState(boolean enabled, boolean overrule) {
-		if (this.enabled != enabled) {
-			if (enabled) {
-				enabledObserver();
-			} else {
-				disabledObserver();
-			}
-		}
 		this.enabled = enabled;
 		for (Simon child : children) {
 			if (overrule) {
@@ -127,18 +121,6 @@ abstract class AbstractSimon implements Simon {
 				((AbstractSimon) child).updateAndPropagateEffectiveState(enabled, overrule);
 			}
 		}
-	}
-
-	/**
-	 * Called if the effective state of the Simon is changed to disabled.
-	 */
-	protected void disabledObserver() {
-	}
-
-	/**
-	 * Called if the effective state of the Simon is changed to enabled.
-	 */
-	protected void enabledObserver() {
 	}
 
 	/**
@@ -247,14 +229,6 @@ abstract class AbstractSimon implements Simon {
 		if (newSimon != null) {
 			children.add(newSimon);
 			newSimon.setParent(this);
-		}
-	}
-
-	private static class SimonNameComparator implements Comparator<Simon> {
-		static final SimonNameComparator INSTANCE = new SimonNameComparator();
-
-		public int compare(Simon o1, Simon o2) {
-			return o1.getName().compareTo(o2.getName());
 		}
 	}
 }

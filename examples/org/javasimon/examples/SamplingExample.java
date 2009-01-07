@@ -3,6 +3,7 @@ package org.javasimon.examples;
 import org.javasimon.SimonManager;
 import org.javasimon.Stopwatch;
 import org.javasimon.StatProcessorType;
+import org.javasimon.Split;
 
 /**
  * SamplingExample uses one stopwatch to measure one method (random duration) and this stopwatch is sampled
@@ -12,8 +13,6 @@ import org.javasimon.StatProcessorType;
  * @created Sep 4, 2008
  */
 public final class SamplingExample {
-	private static final boolean RESET = true;
-
 	private SamplingExample() {
 	}
 
@@ -41,14 +40,14 @@ public final class SamplingExample {
 	 * Method that lasts randomly from ~0 to ~2500 ms.
 	 */
 	private static void callStrangeMethod() {
-		Stopwatch stopwatch = SimonManager.getStopwatch("sampled-stopwatch").start();
+		Split split = SimonManager.getStopwatch("sampled-stopwatch").start();
 		long random = (long) (Math.random() * 50);
 		try {
 			Thread.sleep(random * random);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		stopwatch.stop();
+		split.stop();
 	}
 
 	/**
@@ -59,7 +58,7 @@ public final class SamplingExample {
 			while (true) {
 				Stopwatch stopwatch = SimonManager.getStopwatch("sampled-stopwatch");
 				System.out.println("\nstopwatch = " + stopwatch);
-				System.out.println("Stopwatch sample: " + stopwatch.sample(RESET));
+				System.out.println("Stopwatch sample: " + stopwatch.sample());
 				try {
 					Thread.sleep(10000);
 				} catch (InterruptedException e) {
