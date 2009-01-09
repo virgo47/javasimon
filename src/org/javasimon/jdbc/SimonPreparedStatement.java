@@ -1,11 +1,8 @@
 package org.javasimon.jdbc;
 
-import org.javasimon.Stopwatch;
-import org.javasimon.SimonManager;
 import org.javasimon.Split;
 
 import java.sql.*;
-import java.sql.Connection;
 import java.math.BigDecimal;
 import java.io.InputStream;
 import java.io.Reader;
@@ -18,8 +15,8 @@ import java.net.URL;
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
  * @created 9.8.2008 15:42:52
- * @since 1.0
  * @see java.sql.PreparedStatement
+ * @since 1.0
  */
 public class SimonPreparedStatement extends SimonStatement implements java.sql.PreparedStatement {
 
@@ -92,7 +89,7 @@ public class SimonPreparedStatement extends SimonStatement implements java.sql.P
 	 * Measure and execute prepared SQL operation.
 	 *
 	 * @return <code>true</code> if the first result is a <code>ResultSet</code> object;
-	 * <code>false</code> if it is an update count or there are no results
+	 *         <code>false</code> if it is an update count or there are no results
 	 * @throws SQLException if real calls fails
 	 */
 	public final boolean execute() throws SQLException {
@@ -117,167 +114,233 @@ public class SimonPreparedStatement extends SimonStatement implements java.sql.P
 
 /////////////////// Not interesting methods for monitoring
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public final void setNull(int i, int i1) throws SQLException {
 		stmt.setNull(i, i1);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public final void setBoolean(int i, boolean b) throws SQLException {
 		stmt.setBoolean(i, b);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public final void setByte(int i, byte b) throws SQLException {
 		stmt.setByte(i, b);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public final void setShort(int i, short i1) throws SQLException {
 		stmt.setShort(i, i1);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public final void setInt(int i, int i1) throws SQLException {
 		stmt.setInt(i, i1);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public final void setLong(int i, long l) throws SQLException {
 		stmt.setLong(i, l);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public final void setFloat(int i, float v) throws SQLException {
 		stmt.setFloat(i, v);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public final void setDouble(int i, double v) throws SQLException {
 		stmt.setDouble(i, v);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public final void setBigDecimal(int i, BigDecimal bigDecimal) throws SQLException {
 		stmt.setBigDecimal(i, bigDecimal);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public final void setString(int i, String s) throws SQLException {
 		stmt.setString(i, s);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public final void setBytes(int i, byte[] bytes) throws SQLException {
 		stmt.setBytes(i, bytes);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public final void setDate(int i, Date date) throws SQLException {
 		stmt.setDate(i, date);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public final void setTime(int i, Time time) throws SQLException {
 		stmt.setTime(i, time);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public final void setTimestamp(int i, Timestamp timestamp) throws SQLException {
 		stmt.setTimestamp(i, timestamp);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public final void setAsciiStream(int i, InputStream inputStream, int i1) throws SQLException {
 		stmt.setAsciiStream(i, inputStream, i1);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public final void setUnicodeStream(int i, InputStream inputStream, int i1) throws SQLException {
 		stmt.setUnicodeStream(i, inputStream, i1);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public final void setBinaryStream(int i, InputStream inputStream, int i1) throws SQLException {
 		stmt.setBinaryStream(i, inputStream, i1);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public final void clearParameters() throws SQLException {
 		stmt.clearParameters();
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public final void setObject(int i, Object o, int i1) throws SQLException {
 		stmt.setObject(i, o, i1);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public final void setObject(int i, Object o) throws SQLException {
 		stmt.setObject(i, o);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public final void setObject(int i, Object o, int i1, int i2) throws SQLException {
 		stmt.setObject(i, o, i1, i2);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public final void setCharacterStream(int i, Reader reader, int i1) throws SQLException {
 		stmt.setCharacterStream(i, reader, i1);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public final void setRef(int i, Ref ref) throws SQLException {
 		stmt.setRef(i, ref);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public final void setBlob(int i, Blob blob) throws SQLException {
 		stmt.setBlob(i, blob);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public final void setClob(int i, Clob clob) throws SQLException {
 		stmt.setClob(i, clob);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public final void setArray(int i, Array array) throws SQLException {
 		stmt.setArray(i, array);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public final ResultSetMetaData getMetaData() throws SQLException {
 		return stmt.getMetaData();
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public final void setDate(int i, Date date, Calendar calendar) throws SQLException {
 		stmt.setDate(i, date, calendar);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public final void setTime(int i, Time time, Calendar calendar) throws SQLException {
 		stmt.setTime(i, time, calendar);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public final void setTimestamp(int i, Timestamp timestamp, Calendar calendar) throws SQLException {
 		stmt.setTimestamp(i, timestamp, calendar);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public final void setNull(int i, int i1, String s) throws SQLException {
 		stmt.setNull(i, i1, s);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public final void setURL(int i, URL url) throws SQLException {
 		stmt.setURL(i, url);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public final ParameterMetaData getParameterMetaData() throws SQLException {
 		return stmt.getParameterMetaData();
 	}

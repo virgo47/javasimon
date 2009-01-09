@@ -96,7 +96,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		maxTimestamp = 0;
 		minTimestamp = 0;
 		// active is not reset, because
-		maxActive = 0;
+		maxActive = active;
 		maxActiveTimestamp = 0;
 		getStatProcessor().reset();
 		return this;
