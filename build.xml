@@ -6,9 +6,11 @@
 
 	<property name="lib.dir" value="lib"/>
 
+	<property name="testng.jar" value="testng-5.8-jdk15.jar"/>
+
 	<!-- used for testng or examples, simon.jar requires nothing -->
 	<path id="classpath">
-		<pathelement path="${lib.dir}/testng-5.7-jdk15.jar"/>
+		<pathelement path="${lib.dir}/${testng.jar}"/>
 		<pathelement path="${lib.dir}/jamon-2.7.jar"/>
 		<pathelement path="${lib.dir}/h2.jar"/>
 		<pathelement path="build/classes"/>
@@ -58,7 +60,7 @@
 				<exclude name="docs/api"/>
 			</zipfileset>
 			<zipfileset prefix="javasimon-${version}/lib" dir="${lib.dir}">
-				<include name="testng-5.7-jdk15.jar"/>
+				<include name="${testng.jar}"/>
 				<include name="jamon-2.7.jar"/>
 				<include name="h2.jar"/>
 			</zipfileset>
@@ -78,7 +80,7 @@
 		<delete failonerror="false" file="javasimon-${version}.zip"/>
 	</target>
 
-	<taskdef resource="testngtasks" classpath="${lib.dir}/testng-5.7-jdk15.jar"/>
+	<taskdef resource="testngtasks" classpath="${lib.dir}/${testng.jar}"/>
 
 	<target name="test" depends="compile" description="Runs tests">
 		<mkdir dir="build/test"/>
@@ -93,7 +95,7 @@
 		</copy>
 		<testng outputdir="${basedir}/build/testout" haltonfailure="true" verbose="2">
 			<classpath>
-				<pathelement path="${lib.dir}/testng-5.7-jdk15.jar"/>
+				<pathelement path="${lib.dir}/${testng.jar}"/>
 				<pathelement path="build/classes"/>
 				<pathelement path="build/test"/>
 			</classpath>
