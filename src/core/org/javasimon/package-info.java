@@ -1,5 +1,8 @@
 /**
- * Java Simon is monitoring API for long-term application performance tracking. This core package
+ * Core package, contains {@link org.javasimon.Simon} implementations, with
+ * the {@link org.javasimon.SimonManager} as the center point of the API;
+ * <p>
+ * Java Simon is monitoring API focusing on long-term application performance tracking. This core package
  * contains all basic interfaces ({@link org.javasimon.Simon}, {@link org.javasimon.Counter},
  * {@link org.javasimon.Stopwatch} and {@link org.javasimon.StatProcessor})
  * with their implementations along with {@link org.javasimon.SimonManager} that takes care of all Simons and
