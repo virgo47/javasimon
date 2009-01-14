@@ -6,7 +6,7 @@ package org.javasimon;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Jan 7, 2009
  */
-class AbstractSample implements Sample {
+abstract class AbstractSample implements Sample {
 	private final int count;
 	private final double mean;
 	private final double standardDeviation;

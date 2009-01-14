@@ -9,9 +9,7 @@ import java.util.Collections;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 16, 2008
  */
-class DisabledManager implements Manager {
-	static final Manager INSTANCE = new DisabledManager();
-
+public class DisabledManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
@@ -25,6 +23,9 @@ class DisabledManager implements Manager {
 	public void destroySimon(String name) {
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void clear() {
 	}
 

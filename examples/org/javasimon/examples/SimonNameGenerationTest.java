@@ -14,7 +14,7 @@ import org.javasimon.Split;
 public final class SimonNameGenerationTest {
 	private static final int LOOP = 100000;
 
-	private static final String NAME = SimonManager.generateName("-stopwatch", false);
+	private static final String NAME = SimonUtils.generateName("-stopwatch", false);
 
 	private SimonNameGenerationTest() {
 	}
@@ -53,7 +53,7 @@ public final class SimonNameGenerationTest {
 
 	private static void getStartStopGenerateWithSuffixTest() {
 		for (int i = 0; i < LOOP; i++) {
-			SimonManager.getStopwatch(SimonManager.generateName("-stopwatch", false)).start().stop();
+			SimonManager.getStopwatch(SimonUtils.generateName("-stopwatch", false)).start().stop();
 		}
 	}
 }

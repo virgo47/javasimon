@@ -3,6 +3,7 @@ package org.javasimon;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeMethod;
 import org.testng.Assert;
+import org.javasimon.utils.SimonUtils;
 
 /**
  * Tests SimonManager behavior.
@@ -60,7 +61,7 @@ public final class ManagerTestNG {
 		Assert.assertFalse(SimonManager.getCounter(ORG_JAVASIMON_TEST_COUNTER).getParent().isEnabled());
 
 		SimonManager.getCounter(ORG_JAVASIMON_TEST_COUNTER).setState(SimonState.DISABLED, false);
-		Assert.assertEquals(SimonManager.getRootSimon().getName(), SimonManager.ROOT_SIMON_NAME);
+		Assert.assertEquals(SimonManager.getRootSimon().getName(), Manager.ROOT_SIMON_NAME);
 
 		SimonManager.disable();
 		Assert.assertNull(SimonManager.getSimon(ORG_JAVASIMON_TEST_COUNTER).getParent());
@@ -117,20 +118,17 @@ public final class ManagerTestNG {
 
 	@Test
 	public void testGeneratedNames() {
-		Assert.assertEquals(SimonManager.generateName("-stopwatch", true), getClass().getName() + ".testGeneratedNames-stopwatch");
-
-		SimonManager.disable();
-		Assert.assertNull(SimonManager.generateName("-stopwatch", true));
+		Assert.assertEquals(SimonUtils.generateName("-stopwatch", true), getClass().getName() + ".testGeneratedNames-stopwatch");
 	}
 
 	@Test(expectedExceptions = SimonException.class)
 	public void testCantCreateRoot() {
-		SimonManager.getUnknown(SimonManager.ROOT_SIMON_NAME);
+		SimonManager.getUnknown(Manager.ROOT_SIMON_NAME);
 	}
 
 	@Test(expectedExceptions = SimonException.class)
 	public void testCantDestroyRoot() {
-		SimonManager.destroySimon(SimonManager.ROOT_SIMON_NAME);
+		SimonManager.destroySimon(Manager.ROOT_SIMON_NAME);
 	}
 
 	@Test
