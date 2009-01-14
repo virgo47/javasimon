@@ -4,14 +4,18 @@ Monitors (called Simons) have to be incorporated directly into the code and API 
 management features for these monitors. Java Simon consists of several packages:
 <ul>
 	<li>{@link org.javasimon} is the core package, contains {@link org.javasimon.Simon} implementations, with
-		the {@link org.javasimon.SimonManager} as the center point of the API;</li>
+		the {@link org.javasimon.SimonManager} as the center point of the API;
+	</li>
 	<li>{@link org.javasimon.jdbc} implements JDBC proxy driver that enables JDBC performance monitoring;</li>
 	<li>{@link org.javasimon.jdbcx} implements DataSource that enables JDBC monitoring inside Java EE compliant application servers.;</li>
 	<li>{@link org.javasimon.utils} various supporting utils.</li>
+	<li>{@link org.javasimon.spring} contains Spring classes to automatically monitor classes with the
+		{@link org.javasimon.spring.Monitored} annotation.
+	</li>
 </ul>
 Java Simon is not tool for the profiling in the first place - it is rather the library that helps to
 implement performance monitoring (and other metrics) directly in the application as an integral part
 of it. Measured metrics can be sampled and stored persistently for later processing, trend analyzing,
 problem tracking, etc. It helps to give an additional perspective (history) to the application. Read
-the reference documentation for more on this topic. 
+the reference documentation for more on this topic.
 </body>

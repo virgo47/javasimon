@@ -13,35 +13,57 @@
 		<pathelement path="${lib.dir}/${testng.jar}"/>
 		<pathelement path="${lib.dir}/jamon-2.7.jar"/>
 		<pathelement path="${lib.dir}/h2.jar"/>
-		<pathelement path="build/classes"/>
+		<pathelement path="${lib.dir}/spring-core.jar"/>
+		<pathelement path="${lib.dir}/spring-aop.jar"/>
+		<pathelement path="${lib.dir}/aopalliance.jar"/>
+		<pathelement path="${lib.dir}/commons-logging-1.1.1.jar"/>
+		<pathelement path="build/core"/>
+		<pathelement path="build/jdbc3"/>
+		<pathelement path="build/spring"/>
+		<pathelement path="build/test"/>
 	</path>
 
 	<target name="dist" depends="clean,build,examples,test,docs,zip" description="Distribution - clean/build/zip"/>
 
 	<target name="compile" description="Compile the source code">
-		<mkdir dir="build/classes"/>
-		<javac srcdir="src" destdir="build/classes" debug="${javac.debug}" deprecation="${javac.deprecation}">
-		</javac>
-		<copy todir="build/classes">
-			<fileset dir="src" includes="**/*.properties"/>
-		</copy>
+		<compile-module module="core"/>
+		<compile-module module="jdbc3"/>
+		<compile-module module="spring"/>
 	</target>
+
+	<macrodef name="compile-module">
+		<attribute name="module"/>
+		<sequential>
+			<mkdir dir="build/@{module}"/>
+			<javac srcdir="src/@{module}" destdir="build/@{module}" debug="${javac.debug}" deprecation="${javac.deprecation}" classpathref="classpath"/>
+			<copy todir="build/@{module}">
+				<fileset dir="src/@{module}" includes="**/*.properties"/>
+				<fileset dir="src/@{module}" includes="**/*.xml"/>
+			</copy>
+		</sequential>
+	</macrodef>
 
 	<!-- Packaging section -->
 	<target name="build" depends="compile" description="Package the archives">
-		<mkdir dir="build/META-INF/services"/>
-		<echo file="build/META-INF/services/java.sql.Driver">org.javasimon.jdbc.Driver</echo>
-		<jar jarfile="build/javasimon-${version}.jar" description="Simon JAR">
-			<metainf dir="build/META-INF"/>
-			<fileset dir="build/classes"/>
-		</jar>
+		<mkdir dir="build/jdbc/META-INF/services"/>
+		<echo file="build/jdbc/META-INF/services/java.sql.Driver">org.javasimon.jdbc.Driver</echo>
+		<jar-module module="core"/>
+		<jar-module module="jdbc"/>
+		<jar-module module="spring"/>
 	</target>
+
+	<macrodef name="jar-module">
+		<attribute name="module"/>
+		<sequential>
+			<jar jarfile="build/javasimon-@{module}-${version}.jar" description="Java Simon @{module} ${version}">
+				<fileset dir="build/@{module}"/>
+			</jar>
+		</sequential>
+	</macrodef>
 
 	<target name="examples" depends="compile" description="Compiles the examples">
 		<mkdir dir="build/examples"/>
-		<javac srcdir="examples" destdir="build/examples" debug="${javac.debug}" deprecation="${javac.deprecation}">
-			<classpath refid="classpath"/>
-		</javac>
+		<javac srcdir="examples" destdir="build/examples" debug="${javac.debug}" deprecation="${javac.deprecation}" classpathref="classpath"/>
 		<copy todir="build/examples">
 			<fileset dir="examples">
 				<include name="**/*.config"/>
@@ -53,9 +75,6 @@
 	<target name="zip" description="Creates distribution ZIP file">
 		<zip file="javasimon-${version}.zip">
 			<zipfileset prefix="javasimon-${version}" dir="build">
-				<filename name="javasimon-${version}.jar"/>
-			</zipfileset>
-			<zipfileset prefix="javasimon-${version}" dir="build">
 				<include name="docs/**"/>
 				<exclude name="docs/api"/>
 			</zipfileset>
@@ -63,6 +82,13 @@
 				<include name="${testng.jar}"/>
 				<include name="jamon-2.7.jar"/>
 				<include name="h2.jar"/>
+				<include name="spring-core.jar"/>
+				<include name="spring-aop.jar"/>
+				<include name="aopalliance.jar"/>
+				<include name="commons-logging-1.1.1.jar"/>
+			</zipfileset>
+			<zipfileset prefix="javasimon-${version}/lib" dir="build">
+				<include name="*.jar"/>
 			</zipfileset>
 			<zipfileset prefix="javasimon-${version}" dir=".">
 				<include name="src/**"/>
@@ -76,29 +102,17 @@
 	</target>
 
 	<target name="clean" description="Cleans up the build directory">
-		<delete failonerror="false" dir="build"/>
 		<delete failonerror="false" file="javasimon-${version}.zip"/>
+		<delete failonerror="false" dir="build"/>
+		<delete failonerror="false" dir="test-output"/>
 	</target>
 
 	<taskdef resource="testngtasks" classpath="${lib.dir}/${testng.jar}"/>
 
 	<target name="test" depends="compile" description="Runs tests">
 		<mkdir dir="build/test"/>
-		<javac srcdir="test" destdir="build/test" debug="${javac.debug}" deprecation="${javac.deprecation}">
-			<classpath refid="classpath"/>
-		</javac>
-		<copy todir="build/test">
-			<fileset dir="examples">
-				<include name="**/*.config"/>
-				<include name="**/*.properties"/>
-			</fileset>
-		</copy>
-		<testng outputdir="${basedir}/build/testout" haltonfailure="true" verbose="2">
-			<classpath>
-				<pathelement path="${lib.dir}/${testng.jar}"/>
-				<pathelement path="build/classes"/>
-				<pathelement path="build/test"/>
-			</classpath>
+		<javac srcdir="test" destdir="build/test" debug="${javac.debug}" deprecation="${javac.deprecation}" classpathref="classpath"/>
+		<testng outputdir="${basedir}/build/testout" haltonfailure="true" verbose="2" classpathref="classpath">
 			<xmlfileset dir="test">
 				<include name="testng.xml"/>
 			</xmlfileset>
@@ -115,11 +129,12 @@
 			header="&lt;table&gt;&lt;tr&gt;&lt;td style='valign: middle;'&gt;&lt;span style='font-weight: bold; margin-right: 16px;'&gt;Java Simon ${version}&lt;/span&gt;&lt;/td&gt;&lt;td&gt;&lt;div class='logo'/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;"
 			overview="src/overview.html"
 			stylesheetfile="docs/api/stylesheet.css"
-			additionalparam="-tag created:t:Created:">
+			additionalparam="-tag created:t:Created:"
+			classpathref="classpath">
 
-			<sourcepath path="src"/>
-			<classpath refid="classpath"/>
-			<packageset dir="src"/>
+			<sourcepath path="src/core"/>
+			<sourcepath path="src/jdbc3"/>
+			<sourcepath path="src/spring"/>
 		</javadoc>
 		<copy todir="${doc.dir}/resources" overwrite="true">
 			<fileset dir="docs/api/resources"/>
