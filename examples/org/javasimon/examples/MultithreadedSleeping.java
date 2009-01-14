@@ -1,8 +1,8 @@
 package org.javasimon.examples;
 
 import org.javasimon.SimonManager;
-import org.javasimon.Stopwatch;
 import org.javasimon.Split;
+import org.javasimon.utils.SimonUtils;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -24,7 +24,7 @@ public final class MultithreadedSleeping extends Thread {
 	private static final int SLEEP = 1000;
 
 	// name of the Simon will be the same like the name of this class
-	private static final String NAME = SimonManager.generateName(null, false);
+	private static final String NAME = SimonUtils.generateName(null, false);
 
 	private static final CountDownLatch latch = new CountDownLatch(THREADS);
 

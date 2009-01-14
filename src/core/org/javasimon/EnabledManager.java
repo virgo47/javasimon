@@ -14,25 +14,14 @@ import java.lang.reflect.InvocationTargetException;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 16, 2008
  */
-class EnabledManager implements Manager {
-	static final Manager INSTANCE = new EnabledManager();
-
-	private static final int clientCodeStackIndex;
-
+public class EnabledManager implements Manager {
 	private final Map<String, AbstractSimon> allSimons = new HashMap<String, AbstractSimon>();
 
 	private UnknownSimon rootSimon;
 
-	static {
-		// Finds out the index of "this code" in the returned stack trace - funny but it differs in JDK 1.5 and 1.6
-		int i = 1;
-		for (StackTraceElement ste : Thread.currentThread().getStackTrace()) {
-			i++;
-			if (ste.getClassName().equals(EnabledManager.class.getName())) {
-				break;
-			}
-		}
-		clientCodeStackIndex = i;
+	public EnabledManager() {
+		rootSimon = new UnknownSimon(ROOT_SIMON_NAME);
+		allSimons.put(ROOT_SIMON_NAME, rootSimon);
 	}
 
 	/**
@@ -46,7 +35,7 @@ class EnabledManager implements Manager {
 	 * {@inheritDoc}
 	 */
 	public synchronized void destroySimon(String name) {
-		if (name.equals(SimonManager.ROOT_SIMON_NAME)) {
+		if (name.equals(ROOT_SIMON_NAME)) {
 			throw new SimonException("Root Simon cannot be destroyed!");
 		}
 		AbstractSimon simon = allSimons.remove(name);
@@ -62,8 +51,8 @@ class EnabledManager implements Manager {
 	 */
 	public synchronized void clear() {
 		allSimons.clear();
-		rootSimon = new UnknownSimon(SimonManager.ROOT_SIMON_NAME);
-		allSimons.put(SimonManager.ROOT_SIMON_NAME, rootSimon);
+		rootSimon = new UnknownSimon(ROOT_SIMON_NAME);
+		allSimons.put(ROOT_SIMON_NAME, rootSimon);
 	}
 
 	/**
@@ -90,21 +79,6 @@ class EnabledManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
-	public String generateName(String suffix, boolean includeMethodName) {
-		StackTraceElement stackElement = Thread.currentThread().getStackTrace()[clientCodeStackIndex];
-		StringBuilder nameBuilder = new StringBuilder(stackElement.getClassName());
-		if (includeMethodName) {
-			nameBuilder.append('.').append(stackElement.getMethodName());
-		}
-		if (suffix != null) {
-			nameBuilder.append(suffix);
-		}
-		return nameBuilder.toString();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
 	public Simon getRootSimon() {
 		return rootSimon;
 	}
@@ -120,7 +94,7 @@ class EnabledManager implements Manager {
 	private synchronized Simon getOrCreateSimon(String name, Class<? extends AbstractSimon> simonClass) {
 		AbstractSimon simon = null;
 		if (name != null) {
-			if (name.equals(SimonManager.ROOT_SIMON_NAME)) {
+			if (name.equals(ROOT_SIMON_NAME)) {
 				throw new SimonException("Root Simon cannot be replaced or recreated!");
 			}
 			simon = allSimons.get(name);
@@ -184,7 +158,7 @@ class EnabledManager implements Manager {
 
 	private void addToHierarchy(AbstractSimon simon, String name) {
 		allSimons.put(name, simon);
-		int ix = name.lastIndexOf(SimonManager.HIERARCHY_DELIMITER);
+		int ix = name.lastIndexOf(HIERARCHY_DELIMITER);
 		AbstractSimon parent = rootSimon;
 		if (ix != -1) {
 			String parentName = name.substring(0, ix);

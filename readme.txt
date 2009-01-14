@@ -31,9 +31,9 @@ Here we obtained stopwatch Simon. If the Simon is accessed first time it is crea
 
 Using stopwatch is simple:
 {{{
-stopwatch.start(); // returns this, so you can call it right after getStopwatch()
+Split split = stopwatch.start();
 // here goes measured code
-long time = stopwatch.stop(); // returns the time
+long time = split.stop(); // returns the time
 }}}
 
 After few runs of your measured code you can get additional information from stopwatch:
@@ -64,6 +64,11 @@ Project tests use TestNG library:
 Project example uses these libraries (you don't need them to use Java Simon):
   * JAMon API: http://jamonapi.sourceforge.net/
   * H2 Database: http://www.h2database.com/
+
+Spring integration support requires following libraries:
+  * AOP Alliance JAR: http://sourceforge.net/projects/aopalliance
+  * Spring core+aop JARs: http://www.springsource.org/
+  * Commons Logging: http://commons.apache.org/logging/
 
 == Java Simon name ==
 

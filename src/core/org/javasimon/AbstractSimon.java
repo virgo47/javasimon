@@ -30,7 +30,7 @@ abstract class AbstractSimon implements Simon {
 
 	AbstractSimon(String name) {
 		this.name = name;
-		if (name == null || name.equals(SimonManager.ROOT_SIMON_NAME)) {
+		if (name == null || name.equals(Manager.ROOT_SIMON_NAME)) {
 			state = SimonState.ENABLED;
 			enabled = true;
 		}
@@ -101,7 +101,7 @@ abstract class AbstractSimon implements Simon {
 	}
 
 	private boolean isAnonymousOrRootSimon() {
-		return (name == null || name.equals(SimonManager.ROOT_SIMON_NAME));
+		return (name == null || name.equals(Manager.ROOT_SIMON_NAME));
 	}
 
 	private boolean shouldBeEffectivlyEnabled() {

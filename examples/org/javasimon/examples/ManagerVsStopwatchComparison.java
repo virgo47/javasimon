@@ -20,7 +20,7 @@ import org.javasimon.Split;
 public final class ManagerVsStopwatchComparison {
 	private static final int LOOP = 10000000;
 
-	private static final String NAME = SimonManager.generateName("-stopwatch", false);
+	private static final String NAME = SimonUtils.generateName("-stopwatch", false);
 
 	private ManagerVsStopwatchComparison() {
 	}

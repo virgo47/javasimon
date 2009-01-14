@@ -9,6 +9,7 @@ import org.javasimon.SimonManager;
 import org.javasimon.Stopwatch;
 import org.javasimon.StatProcessorType;
 import org.javasimon.Split;
+import org.javasimon.utils.SimonUtils;
 
 /**
  * Compares Simon and Jamon performance in a heavy-multithreaded environment. Creates 1000 threads
@@ -22,7 +23,7 @@ public final class MultithreadJamonComparison {
 	private static final int THREADS = 1000;
 	private static final int LOOP = 1000;
 
-	private static final String NAME = SimonManager.generateName(null, false);
+	private static final String NAME = SimonUtils.generateName(null, false);
 
 	private static CountDownLatch latch;
 
