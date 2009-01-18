@@ -17,9 +17,9 @@ import java.io.Reader;
  * @created 16.8.2008 22:00:26
  * @since 1.0
  */
-public final class SimonCallableStatement extends SimonPreparedStatement implements java.sql.CallableStatement {
+public final class SimonCallableStatement extends SimonPreparedStatement implements CallableStatement {
 
-	private java.sql.CallableStatement stmt;
+	private CallableStatement stmt;
 
 	/**
 	 * Class constructor, initializes simons (lifespan, active) related to statement.
@@ -29,7 +29,7 @@ public final class SimonCallableStatement extends SimonPreparedStatement impleme
 	 * @param sql sql command
 	 * @param prefix hierarchy preffix for statement simons
 	 */
-	SimonCallableStatement(Connection conn, java.sql.CallableStatement stmt, String sql, String prefix) {
+	SimonCallableStatement(Connection conn, CallableStatement stmt, String sql, String prefix) {
 		super(conn, stmt, sql, prefix);
 
 		this.stmt = stmt;

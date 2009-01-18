@@ -12,6 +12,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
 abstract class AbstractSimon implements Simon {
 	protected boolean enabled;
 
+	protected long firstUsage;
+
+	protected long lastUsage;
+
 	private final String name;
 
 	private SimonState state = SimonState.INHERIT;
@@ -23,10 +27,6 @@ abstract class AbstractSimon implements Simon {
 	private StatProcessor statProcessor = NullStatProcessor.INSTANCE;
 
 	private String note;
-
-	protected long firstUsage;
-
-	protected long lastUsage;
 
 	AbstractSimon(String name) {
 		this.name = name;

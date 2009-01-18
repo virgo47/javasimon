@@ -19,10 +19,12 @@ import java.net.URL;
  * @since 1.0
  */
 public class SimonPreparedStatement extends SimonStatement implements java.sql.PreparedStatement {
+	/**
+	 * SQL string.
+	 */
+	protected String sql;
 
 	private java.sql.PreparedStatement stmt;
-
-	protected String sql;
 
 	/**
 	 * Class constructor, initializes simons (lifespan, active) related to statement.

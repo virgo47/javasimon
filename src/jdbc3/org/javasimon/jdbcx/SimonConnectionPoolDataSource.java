@@ -16,7 +16,7 @@ import java.lang.reflect.Method;
  * @created 17.9.2008 21:55:01
  * @since 1.0
  */
-public final class SimonConnectionPoolDataSource extends SimonCommonDataSource implements ConnectionPoolDataSource {
+public final class SimonConnectionPoolDataSource extends AbstractSimonDataSource implements ConnectionPoolDataSource {
 
 	private ConnectionPoolDataSource ds;
 

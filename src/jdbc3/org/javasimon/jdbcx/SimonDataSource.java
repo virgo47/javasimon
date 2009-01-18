@@ -30,7 +30,7 @@ import java.lang.reflect.Method;
  * <p>
  * Real {@link javax.sql.DataSource} is obtained in method {@link #datasource()}. It tries
  * to instantiate real datasource object by property <code>realDataSourceClassName</code>
- * (setters and getters for properties are in {@link SimonCommonDataSource}) and then sets
+ * (setters and getters for properties are in {@link AbstractSimonDataSource}) and then sets
  * basic properties (<code>url</code>, <code>user</code>, <code>password</code>).
  *
  * @author Radovan Sninsky
@@ -38,7 +38,7 @@ import java.lang.reflect.Method;
  * @created 14.9.2008 16:30:36
  * @since 1.0
  */
-public final class SimonDataSource extends SimonCommonDataSource implements DataSource {
+public final class SimonDataSource extends AbstractSimonDataSource implements DataSource {
 
 	private DataSource ds;
 

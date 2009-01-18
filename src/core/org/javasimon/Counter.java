@@ -123,7 +123,7 @@ public interface Counter extends Simon {
 
 	/**
 	 * Returns the sum of all decremented values (as a positive number). If decremented value was negative, sum
-	 * is raised by this value.
+	 * is lowered by this value.
 	 *
 	 * @return sum of all decremented values
 	 */

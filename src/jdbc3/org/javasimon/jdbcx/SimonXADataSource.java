@@ -16,7 +16,7 @@ import java.lang.reflect.Method;
  * @created 17.9.2008 22:27:53
  * @since 1.0
  */
-public final class SimonXADataSource extends SimonCommonDataSource implements XADataSource {
+public final class SimonXADataSource extends AbstractSimonDataSource implements XADataSource {
 
 	private XADataSource ds;
 

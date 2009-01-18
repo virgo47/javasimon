@@ -9,7 +9,7 @@ import java.util.Collections;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 16, 2008
  */
-public class DisabledManager implements Manager {
+public final class DisabledManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
@@ -48,13 +48,6 @@ public class DisabledManager implements Manager {
 	 */
 	public UnknownSimon getUnknown(String name) {
 		throw new UnsupportedOperationException("Disabled manager does not support creation of the UnknownSimon.");
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public String generateName(String suffix, boolean includeMethodName) {
-		return null;
 	}
 
 	/**

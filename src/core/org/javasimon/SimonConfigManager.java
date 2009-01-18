@@ -179,6 +179,8 @@ public final class SimonConfigManager {
 		private String start;
 		private String end;
 		private String middle;
+		private static final String WILDCARD_STAR = "*";
+		private static final String INVALID_PATTERN = "Invalid configuration pattern: ";
 
 		/**
 		 * Creates Simon name pattern used to match config file entries.
@@ -188,38 +190,38 @@ public final class SimonConfigManager {
 		 */
 		ConfigPattern(String pattern) {
 			this.pattern = pattern;
-			if (!pattern.contains("*")) {
+			if (!pattern.contains(WILDCARD_STAR)) {
 				all = pattern;
 				if (!SimonUtils.checkName(all)) {
-					throw new SimonException("Invalid configuration pattern: " + pattern);
+					throw new SimonException(INVALID_PATTERN + pattern);
 				}
 				return;
 			}
-			if (pattern.equals("*")) {
+			if (pattern.equals(WILDCARD_STAR)) {
 				middle = ""; // everything contains this
 				return;
 			}
-			if (pattern.startsWith("*") && pattern.endsWith("*")) {
+			if (pattern.startsWith(WILDCARD_STAR) && pattern.endsWith(WILDCARD_STAR)) {
 				middle = pattern.substring(1, pattern.length() - 2);
 				if (!SimonUtils.checkName(middle)) {
-					throw new SimonException("Invalid configuration pattern: " + pattern);
+					throw new SimonException(INVALID_PATTERN + pattern);
 				}
 				return;
 			}
 			int ix = pattern.lastIndexOf('*');
 			if (ix != pattern.indexOf('*')) {
-				throw new SimonException("Invalid configuration pattern: " + pattern);
+				throw new SimonException(INVALID_PATTERN + pattern);
 			}
-			if (!pattern.endsWith("*")) {
+			if (!pattern.endsWith(WILDCARD_STAR)) {
 				end = pattern.substring(ix + 1);
 				if (!SimonUtils.checkName(end)) {
-					throw new SimonException("Invalid configuration pattern: " + pattern);
+					throw new SimonException(INVALID_PATTERN + pattern);
 				}
 			}
-			if (!pattern.startsWith("*")) {
+			if (!pattern.startsWith(WILDCARD_STAR)) {
 				start = pattern.substring(0, ix);
 				if (!SimonUtils.checkName(start)) {
-					throw new SimonException("Invalid Simon configuration pattern: " + pattern);
+					throw new SimonException(INVALID_PATTERN + pattern);
 				}
 			}
 		}
@@ -245,8 +247,12 @@ public final class SimonConfigManager {
 
 		@Override
 		public boolean equals(Object o) {
-			if (this == o) return true;
-			if (o == null || getClass() != o.getClass()) return false;
+			if (this == o) {
+				return true;
+			}
+			if (o == null || getClass() != o.getClass()) {
+				return false;
+			}
 
 			ConfigPattern that = (ConfigPattern) o;
 

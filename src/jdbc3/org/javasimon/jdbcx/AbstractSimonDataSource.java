@@ -14,7 +14,7 @@ import java.sql.SQLException;
  * @created 29.9.2008 22:39:06
  * @since 1.0
  */
-public abstract class SimonCommonDataSource {
+public abstract class AbstractSimonDataSource {
 
 	protected transient PrintWriter logWriter;
 
@@ -34,7 +34,7 @@ public abstract class SimonCommonDataSource {
 	 * @see javax.sql.DataSource#getLogWriter() 
 	 * @see #setLogWriter(java.io.PrintWriter)
 	 */
-	public PrintWriter getLogWriter() throws SQLException {
+	public final PrintWriter getLogWriter() throws SQLException {
 		return logWriter;
 	}
 
@@ -47,7 +47,7 @@ public abstract class SimonCommonDataSource {
 	 * @see javax.sql.DataSource#setLogWriter(java.io.PrintWriter)
 	 * @see #getLogWriter
 	 */
-	public void setLogWriter(PrintWriter out) throws SQLException {
+	public final void setLogWriter(PrintWriter out) throws SQLException {
 		this.logWriter = out;
 	}
 
@@ -56,7 +56,7 @@ public abstract class SimonCommonDataSource {
 	 *
 	 * @return jdbc connection url
 	 */
-	public String getUrl() {
+	public final String getUrl() {
 		return url;
 	}
 
@@ -64,7 +64,7 @@ public abstract class SimonCommonDataSource {
 	 * Setter for url property.  
 	 * @param url jdbc connection url
 	 */
-	public void setUrl(String url) {
+	public final void setUrl(String url) {
 		this.url = url;
 	}
 
@@ -72,7 +72,7 @@ public abstract class SimonCommonDataSource {
 	 * Returns database user to autenticate connection.
 	 * @return database user
 	 */
-	public String getUser() {
+	public final String getUser() {
 		return user;
 	}
 
@@ -80,7 +80,7 @@ public abstract class SimonCommonDataSource {
 	 * Setter for user property.
 	 * @param user database user
 	 */
-	public void setUser(String user) {
+	public final void setUser(String user) {
 		this.user = user;
 	}
 
@@ -88,7 +88,7 @@ public abstract class SimonCommonDataSource {
 	 * Returns database password to autenticate connection.
 	 * @return database password
 	 */
-	public String getPassword() {
+	public final String getPassword() {
 		return password;
 	}
 
@@ -96,7 +96,7 @@ public abstract class SimonCommonDataSource {
 	 * Setter for password property.
 	 * @param password database password 
 	 */
-	public void setPassword(String password) {
+	public final void setPassword(String password) {
 		this.password = password;
 	}
 
@@ -112,7 +112,7 @@ public abstract class SimonCommonDataSource {
 	 * @exception SQLException if a database access error occurs.
 	 * @see #getLoginTimeout
 	 */
-	public void setLoginTimeout(int seconds) throws SQLException {
+	public final void setLoginTimeout(int seconds) throws SQLException {
 		this.loginTimeout = seconds;
 	}
 
@@ -128,7 +128,7 @@ public abstract class SimonCommonDataSource {
 	 * @exception SQLException if a database access error occurs.
 	 * @see #setLoginTimeout
 	 */
-	public int getLoginTimeout() throws SQLException {
+	public final int getLoginTimeout() throws SQLException {
 		return loginTimeout;
 	}
 
@@ -136,7 +136,7 @@ public abstract class SimonCommonDataSource {
 	 * Returns real datasource class name.
 	 * @return real datasource class name
 	 */
-	public String getRealDataSourceClassName() {
+	public final String getRealDataSourceClassName() {
 		return realDataSourceClassName;
 	}
 
@@ -144,7 +144,7 @@ public abstract class SimonCommonDataSource {
 	 * Setter for realDataSourceClassName property.
 	 * @param className class name of real datasource
 	 */
-	public void setRealDataSourceClassName(String className) {
+	public final void setRealDataSourceClassName(String className) {
 		this.realDataSourceClassName = className;
 	}
 
@@ -152,7 +152,7 @@ public abstract class SimonCommonDataSource {
 	 * Returns simon prefix for constructing names of simons.
 	 * @return simon prefix
 	 */
-	public String getPrefix() {
+	public final String getPrefix() {
 		return prefix;
 	}
 
@@ -160,7 +160,7 @@ public abstract class SimonCommonDataSource {
 	 * Setter for prefix property.
 	 * @param prefix simon prefix
 	 */
-	public void setPrefix(String prefix) {
+	public final void setPrefix(String prefix) {
 		this.prefix = prefix;
 	}
 }
