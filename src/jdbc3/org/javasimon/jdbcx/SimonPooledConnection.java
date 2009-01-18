@@ -38,22 +38,22 @@ public class SimonPooledConnection implements PooledConnection {
 	}
 
 	/** {@inheritDoc} */
-	public Connection getConnection() throws SQLException {
+	public final Connection getConnection() throws SQLException {
 		return new SimonConnection(pooledConn.getConnection(), prefix);
 	}
 
 	/** {@inheritDoc} */
-	public void close() throws SQLException {
+	public final void close() throws SQLException {
 		pooledConn.close();
 	}
 
 	/** {@inheritDoc} */
-	public void addConnectionEventListener(ConnectionEventListener listener) {
+	public final void addConnectionEventListener(ConnectionEventListener listener) {
 		pooledConn.addConnectionEventListener(listener);
 	}
 
 	/** {@inheritDoc} */
-	public void removeConnectionEventListener(ConnectionEventListener listener) {
+	public final void removeConnectionEventListener(ConnectionEventListener listener) {
 		pooledConn.removeConnectionEventListener(listener);
 	}
 

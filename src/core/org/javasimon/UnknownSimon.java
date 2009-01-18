@@ -1,8 +1,5 @@
 package org.javasimon;
 
-import java.util.Map;
-import java.util.Collections;
-
 /**
  * UnknownSimon represents Simon node in the hierarchy without known type. It may be replaced
  * in the hierarchy for real Simon in the future.

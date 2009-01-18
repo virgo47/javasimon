@@ -17,27 +17,47 @@ import java.util.LinkedList;
  * @see java.sql.Statement
  * @since 1.0
  */
-public class SimonStatement implements java.sql.Statement {
-
-	protected Connection conn;
-	private java.sql.Statement stmt;
-
+public class SimonStatement implements Statement {
+	/**
+	 * List of batched SQL statements.
+	 */
 	protected final List<String> batchSql = new LinkedList<String>();
 
+	/**
+	 * SQL connection.
+	 */
+	protected Connection conn;
+
+	/**
+	 * Hierarchy preffix for JDBC Simons.
+	 */
 	protected String prefix;
+
+	/**
+	 * SQL statement label containing part up to the SQL command type.
+	 */
 	protected String sqlCmdLabel;
+
+	/**
+	 * SQL normalizer helper object.
+	 */
 	protected SqlNormalizer sqlNormalizer;
 
+	/**
+	 * Stopwatch split measuring the lifespan of the statement until it is closed.
+	 */
 	protected Split split;
+
+	private Statement stmt;
 
 	/**
 	 * Class constructor, initializes simons (lifespan, active) related to statement.
 	 *
 	 * @param conn database connection (simon impl.)
 	 * @param stmt real statement
-	 * @param prefix hierarchy preffix for statement simons
+	 * @param prefix hierarchy preffix for JDBC Simons
 	 */
-	SimonStatement(Connection conn, java.sql.Statement stmt, String prefix) {
+	SimonStatement(Connection conn, Statement stmt, String prefix) {
 		this.conn = conn;
 		this.stmt = stmt;
 		this.prefix = prefix;

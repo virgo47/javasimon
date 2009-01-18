@@ -70,8 +70,14 @@ import java.io.InputStream;
  * @since 1.0
  */
 public final class Driver implements java.sql.Driver {
-
+	/**
+	 * Name for the property holding the real driver class value.
+	 */
 	public static final String REAL_DRIVER = "simon_real_drv";
+
+	/**
+	 * Name for the property holding the hierarchy prefix given to JDBC Simons.
+	 */
 	public static final String PREFIX = "simon_prefix";
 
 	private static final String DEFAULT_PREFIX = "org.javasimon.jdbc";
@@ -79,8 +85,9 @@ public final class Driver implements java.sql.Driver {
 	private static final Pattern REAL_DRIVER_PATTERN = Pattern.compile(REAL_DRIVER + "\\s*=\\s*([\\w\\.]+)");
 	private static final Pattern PREFIX_PATTERN = Pattern.compile(PREFIX + "\\s*=\\s*([\\w\\.]+)");
 
-	private final Properties drivers = new Properties();
 	private static final int JDBC_URL_FIXED_PREFIX_LEN = 5;
+
+	private final Properties drivers = new Properties();
 
 	static {
 		try {
@@ -90,7 +97,9 @@ public final class Driver implements java.sql.Driver {
 		}
 	}
 
-	/** Class constructor. It loads well known driver list from resource file drivers.properties. */
+	/**
+	 * Class constructor. It loads well known driver list from resource file drivers.properties.
+	 */
 	public Driver() {
 		try {
 			InputStream stream = null;
@@ -185,27 +194,37 @@ public final class Driver implements java.sql.Driver {
 		}
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean acceptsURL(String url) throws SQLException {
 		return url != null && url.toLowerCase().startsWith(SIMON_JDBC);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public DriverPropertyInfo[] getPropertyInfo(String s, Properties properties) throws SQLException {
 		return new DriverPropertyInfo[0];
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public int getMajorVersion() {
 		return 1;
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public int getMinorVersion() {
 		return 0;
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean jdbcCompliant() {
 		return true;
 	}

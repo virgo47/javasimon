@@ -9,6 +9,9 @@ import org.springframework.aop.support.AopUtils;
  * @author Erik van Oosten
  */
 abstract class MonitoredHelper {
+	private MonitoredHelper() {
+	}
+
 	/**
 	 * Determine monitor name for a method invocation.
 	 *
@@ -38,8 +41,5 @@ abstract class MonitoredHelper {
 		} else {
 			return methodAnnotation.name();
 		}
-	}
-
-	private MonitoredHelper() {
 	}
 }

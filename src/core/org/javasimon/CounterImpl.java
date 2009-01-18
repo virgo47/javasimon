@@ -123,7 +123,15 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	 * {@inheritDoc}
 	 */
 	public synchronized CounterSample sample() {
-		return new CounterSample(counter, min, max, minTimestamp, maxTimestamp, incrementSum, decrementSum, getStatProcessor());
+		CounterSample sample = new CounterSample();
+		sample.setCounter(counter);
+		sample.setMin(min);
+		sample.setMax(max);
+		sample.setMinTimestamp(minTimestamp);
+		sample.setMaxTimestamp(incrementSum);
+		sample.setDecrementSum(decrementSum);
+		sample.setFromStatProcessor(getStatProcessor());
+		return sample;
 	}
 
 	/**
