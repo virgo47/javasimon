@@ -23,7 +23,6 @@ import java.sql.*;
  * Monitoring connection ensure following simons:
  * <ul>
  * <li>lifespan (<code>org.javasimon.jdbc.conn</code>, stopwatch) - measure connection life and count</li>
- * <li>active (<code>org.javasimon.jdbc.conn.active</code>, counter) - measure active (opened) connections</li>
  * <li>commits (<code>org.javasimon.jdbc.conn.commits</code>, counter) - measure executed commits of all connections</li>
  * <li>rollbacks (<code>org.javasimon.jdbc.conn.rollbacks</code>, counter) - measure executed rollbacks of all connections</li>
  * </ul>
@@ -40,7 +39,6 @@ public final class SimonConnection implements Connection {
 	private String suffix;
 
 	private Split life;
-	private Counter active;
 	private Counter commits;
 	private Counter rollbacks;
 
@@ -55,7 +53,6 @@ public final class SimonConnection implements Connection {
 		this.conn = conn;
 		this.suffix = prefix;
 
-		active = SimonManager.getCounter(prefix + ".conn.active").increment();
 		commits = SimonManager.getCounter(prefix + ".conn.commits");
 		rollbacks = SimonManager.getCounter(prefix + ".conn.rollbacks");
 		life = SimonManager.getStopwatch(prefix + ".conn").start();
@@ -70,7 +67,6 @@ public final class SimonConnection implements Connection {
 		conn.close();
 
 		life.stop();
-		active.decrement();
 	}
 
 	/**

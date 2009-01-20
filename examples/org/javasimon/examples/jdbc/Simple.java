@@ -2,6 +2,7 @@ package org.javasimon.examples.jdbc;
 
 import org.javasimon.utils.SimonUtils;
 import org.javasimon.SimonManager;
+import org.javasimon.Split;
 
 import java.sql.*;
 import java.util.Random;
@@ -28,7 +29,7 @@ public class Simple {
 	 *
 	 * @throws SQLException if something goes wrong
 	 */
-	protected final void setUp() throws SQLException {
+	protected void setUp() throws SQLException {
 		Connection c = null;
 		try {
 			c = DriverManager.getConnection("jdbc:h2:mem:db1;DB_CLOSE_DELAY=-1");
@@ -97,6 +98,7 @@ public class Simple {
 	 * @throws Exception sometimes bad things can happen
 	 */
 	public static void main(String[] args) throws Exception {
+		Split main = SimonManager.getStopwatch("org.javasimon.examples.jdbc.main").start();
 		Class.forName("org.h2.Driver");
 		Class.forName("org.javasimon.jdbc.Driver");
 
@@ -107,13 +109,16 @@ public class Simple {
 		try {
 			conn = DriverManager.getConnection("jdbc:simon:h2:mem:db1");
 
+			Split ops = SimonManager.getStopwatch("org.javasimon.examples.jdbc.sql").start();
 			s.doInsert(conn);
 			s.doSelect(conn);
+			ops.stop();
 		} finally {
 			if (conn != null) {
 				conn.close();
 			}
 		}
+		main.stop();
 
 		System.out.println("Simon monitor hierarchy:\n" + SimonUtils.simonTreeString(SimonManager.getRootSimon()));
 	}

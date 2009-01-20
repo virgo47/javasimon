@@ -2,8 +2,7 @@ package org.javasimon.examples.jdbc;
 
 import org.javasimon.utils.SimonUtils;
 import org.javasimon.SimonManager;
-import org.javasimon.Stopwatch;
-import org.javasimon.Counter;
+import org.javasimon.Simon;
 
 import java.util.Random;
 import java.sql.*;
@@ -19,6 +18,26 @@ import java.sql.*;
 public final class Complex extends Simple {
 
 	private Random rand = new Random();
+
+	/**
+	 * Creates in-memory database <i>db1</i> and table <i>foo</i> through original H2 driver.
+	 *
+	 * @throws SQLException if something goes wrong
+	 */
+	protected final void setUp() throws SQLException {
+		Connection c = null;
+		try {
+			c = DriverManager.getConnection("jdbc:h2:mem:db1;DB_CLOSE_DELAY=-1");
+			Statement stmt = c.createStatement();
+			stmt.execute("create table foo (id number(6), dsc varchar2(256))");
+			stmt.execute("create alias foo_proc for \"org.javasimon.examples.jdbc.h2.StoredProcedures.fooProc\"");
+			stmt.close();
+		} finally {
+			if (c != null) {
+				c.close();
+			}
+		}
+	}
 
 	private void doInsertSimple(Connection c) throws SQLException {
 		Statement stmt = null;
@@ -36,7 +55,7 @@ public final class Complex extends Simple {
 	private void doCal1(Connection c) throws SQLException {
 		CallableStatement stmt = null;
 		try {
-			stmt = c.prepareCall("{call foo_ins_proc(" + rand.nextInt(99999) + ", 'This text is inserted from stored procedure')}");
+			stmt = c.prepareCall("{call foo_proc(" + rand.nextInt(99999) + ", 'This text is inserted from stored procedure')}");
 			stmt.execute();
 		} finally {
 			if (stmt != null) {
@@ -48,31 +67,9 @@ public final class Complex extends Simple {
 	private void printMonitoringInfo() {
 		System.out.println("Simon monitor hierarchy:\n" + SimonUtils.simonTreeString(SimonManager.getRootSimon()));
 
-		Stopwatch s = SimonManager.getStopwatch("org.javasimon.jdbc.conn");
-		Counter c = SimonManager.getCounter("org.javasimon.jdbc.conn.active");
-		Counter cc = SimonManager.getCounter("org.javasimon.jdbc.conn.commit");
-		Counter cr = SimonManager.getCounter("org.javasimon.jdbc.conn.rollback");
-		System.out.println("\nConnection info:");
-		System.out.println("  active: " + c.getCounter());
-		System.out.println("  max active: " + c.getMax());
-		System.out.println("  opened: " + s.getCounter());
-		System.out.println("  closed: " + (s.getCounter() - c.getCounter()));
-		System.out.println("  min: " + SimonUtils.presentNanoTime(s.getMin()));
-		System.out.println("  max: " + SimonUtils.presentNanoTime(s.getMax()));
-		System.out.println("  avg: n/a");
-		System.out.println("  commints: " + cc.getCounter());
-		System.out.println("  rollbacks: " + cr.getCounter());
-
-		s = SimonManager.getStopwatch("org.javasimon.jdbc.stmt");
-		c = SimonManager.getCounter("org.javasimon.jdbc.stmt.active");
-		System.out.println("\nStatement info:");
-		System.out.println("  active: " + c.getCounter());
-		System.out.println("  max active: " + c.getMax());
-		System.out.println("  opened: " + s.getCounter());
-		System.out.println("  closed: " + (s.getCounter() - c.getCounter()));
-		System.out.println("  min: " + SimonUtils.presentNanoTime(s.getMin()));
-		System.out.println("  max: " + SimonUtils.presentNanoTime(s.getMax()));
-		System.out.println("  avg: n/a");
+		Simon jdbcSimon = SimonManager.getSimon("org.javasimon.jdbc");
+		System.out.println(SimonUtils.printJdbcConnectionInfo(jdbcSimon));
+		System.out.println(SimonUtils.printJdbcStatementInfo(jdbcSimon));
 	}
 
 	/**
@@ -85,24 +82,27 @@ public final class Complex extends Simple {
 		Class.forName("org.h2.Driver");
 		Class.forName("org.javasimon.jdbc.Driver");
 
-		Complex s = new Complex();
-		s.setUp();
+		Complex complex = new Complex();
+		complex.setUp();
 
 		Connection conn = null;
 		try {
 			conn = DriverManager.getConnection("jdbc:simon:h2:mem:db1");
 			conn.setAutoCommit(false);
 
-			s.doInsert(conn);
-			s.doInsertSimple(conn);
+			complex.doInsert(conn);
+			complex.doInsertSimple(conn);
 			conn.commit();
 
-			s.doSelect(conn);
+			complex.doCal1(conn);
+			conn.commit();
+
+			complex.doSelect(conn);
 		} finally {
 			if (conn != null) {
 				conn.close();
 			}
 		}
-		s.printMonitoringInfo();
+		complex.printMonitoringInfo();
 	}
 }
