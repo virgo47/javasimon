@@ -102,7 +102,6 @@
  * org.javasimon.jdbc
  * |
  * +-> .conn
- * |     +-> .active
  * |     +-> .commits
  * |     +-> .rollbacks
  * |
@@ -110,9 +109,8 @@
  * |     +-> .active
  * |
  * +-> .sql
- * |     +-> .&lt;sql&gt;
- * |
- * +-> .&lt;sql_group_hash&gt; (not implemented yet)</pre>
+ * |     +-> .&lt;sql type (select, insert, ...)&gt;
+ * |           +-> .&lt;sql hash&gt;</pre>
  *
  * For choosing Simon's name is used prefix. If non is defined, default is {@code org.javasimon.jdbc}.
  * If default prefix value is not suficient or you need to differentiate between two different drivers

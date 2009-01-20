@@ -1,10 +1,10 @@
 package org.javasimon.utils;
 
-import org.javasimon.Simon;
-import org.javasimon.Manager;
+import org.javasimon.*;
 
 import java.text.*;
 import java.util.Locale;
+import java.util.Date;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
@@ -245,5 +245,49 @@ public final class SimonUtils {
 			nameBuilder.append(suffix);
 		}
 		return nameBuilder.toString();
+	}
+
+	public static String printJdbcConnectionInfo(Simon jdbcSimon) {
+		if (SimonManager.getSimon(jdbcSimon.getName()+".conn") != null) {
+			StopwatchSample sws = (StopwatchSample) SimonManager.getStopwatch(jdbcSimon.getName()+".conn").sample();
+			Counter cc = SimonManager.getCounter(jdbcSimon.getName()+".conn.commits");
+			Counter cr = SimonManager.getCounter(jdbcSimon.getName()+".conn.rollbacks");
+			StringBuilder sb = new StringBuilder(512).append("Connection info:").append('\n')
+				.append("  act: ").append(sws.getActive()).append('\n')
+				.append("  max act: ").append(sws.getMaxActive()).append('\n')
+				.append("  max act ts: ").append(new Date(sws.getMaxActiveTimestamp())).append('\n')
+				.append("  opn: ").append(sws.getCounter()).append('\n')
+				.append("  cls: ").append(sws.getCounter()-sws.getActive()).append('\n')
+				.append("  min: ").append(presentNanoTime(sws.getMin()))
+				.append(", avg: ").append(presentNanoTime(sws.getTotal()/sws.getCounter()))
+				.append(", max: ").append(presentNanoTime(sws.getMax())).append('\n')
+				.append("  max ts: ").append(new Date(sws.getMaxTimestamp())).append('\n')
+				.append("  comm: ").append(cc != null ? ((CounterSample)cc.sample()).getCounter() : 0).append('\n')
+				.append("  roll: ").append(cr != null ? ((CounterSample)cr.sample()).getCounter() : 0)
+				.append('\n');
+
+			return sb.toString();
+		}
+		return null;
+	}
+
+	public static String printJdbcStatementInfo(Simon jdbcSimon) {
+		if (SimonManager.getSimon(jdbcSimon.getName()+".stmt") != null) {
+			StopwatchSample sws = (StopwatchSample)SimonManager.getStopwatch(jdbcSimon.getName()+".stmt").sample();
+			StringBuilder sb = new StringBuilder(512).append("Statement info:").append('\n')
+				.append("  act: ").append(sws.getActive()).append('\n')
+				.append("  max act: ").append(sws.getMaxActive()).append('\n')
+				.append("  max act ts: ").append(new Date(sws.getMaxActiveTimestamp())).append('\n')
+				.append("  opn: ").append(sws.getCounter()).append('\n')
+				.append("  cls: ").append(sws.getCounter()-sws.getActive()).append('\n')
+				.append("  min: ").append(presentNanoTime(sws.getMin()))
+				.append(", avg: ").append(presentNanoTime(sws.getTotal()/sws.getCounter()))
+				.append(", max: ").append(presentNanoTime(sws.getMax())).append('\n')
+				.append("  max ts: ").append(new Date(sws.getMaxTimestamp()))
+				.append('\n');
+
+			return sb.toString();
+		}
+		return null;
 	}
 }
