@@ -18,12 +18,13 @@ public final class EnabledManager implements Manager {
 	private final Map<String, AbstractSimon> allSimons = new HashMap<String, AbstractSimon>();
 
 	private UnknownSimon rootSimon;
+	private Callback callback = new EmptyCallback();
 
 	/**
 	 * Creates new enabled manager.
 	 */
 	public EnabledManager() {
-		rootSimon = new UnknownSimon(ROOT_SIMON_NAME);
+		rootSimon = new UnknownSimon(ROOT_SIMON_NAME, this);
 		allSimons.put(ROOT_SIMON_NAME, rootSimon);
 	}
 
@@ -54,7 +55,7 @@ public final class EnabledManager implements Manager {
 	 */
 	public synchronized void clear() {
 		allSimons.clear();
-		rootSimon = new UnknownSimon(ROOT_SIMON_NAME);
+		rootSimon = new UnknownSimon(ROOT_SIMON_NAME, this);
 		allSimons.put(ROOT_SIMON_NAME, rootSimon);
 	}
 
@@ -145,8 +146,8 @@ public final class EnabledManager implements Manager {
 	private AbstractSimon instantiateSimon(String name, Class<? extends AbstractSimon> simonClass) {
 		AbstractSimon simon;
 		try {
-			Constructor<? extends AbstractSimon> constructor = simonClass.getDeclaredConstructor(String.class);
-			simon = constructor.newInstance(name);
+			Constructor<? extends AbstractSimon> constructor = simonClass.getDeclaredConstructor(String.class, Manager.class);
+			simon = constructor.newInstance(name, this);
 		} catch (NoSuchMethodException e) {
 			throw new SimonException(e);
 		} catch (InvocationTargetException e) {
@@ -167,10 +168,24 @@ public final class EnabledManager implements Manager {
 			String parentName = name.substring(0, ix);
 			parent = allSimons.get(parentName);
 			if (parent == null) {
-				parent = new UnknownSimon(parentName);
+				parent = new UnknownSimon(parentName, this);
 				addToHierarchy(parent, parentName);
 			}
 		}
 		parent.addChild(simon);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void installCallback(Callback callback) {
+		this.callback = callback;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public Callback callback() {
+		return callback;
 	}
 }

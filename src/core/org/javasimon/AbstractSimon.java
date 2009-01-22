@@ -28,8 +28,11 @@ abstract class AbstractSimon implements Simon {
 
 	private String note;
 
-	AbstractSimon(String name) {
+	protected Manager manager;
+
+	AbstractSimon(String name, Manager manager) {
 		this.name = name;
+		this.manager = manager;
 		if (name == null || name.equals(Manager.ROOT_SIMON_NAME)) {
 			state = SimonState.ENABLED;
 			enabled = true;

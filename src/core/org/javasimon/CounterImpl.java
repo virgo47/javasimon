@@ -30,8 +30,8 @@ final class CounterImpl extends AbstractSimon implements Counter {
 
 	private long minTimestamp;
 
-	CounterImpl(String name) {
-		super(name);
+	CounterImpl(String name, Manager manager) {
+		super(name, manager);
 	}
 
 	/**
