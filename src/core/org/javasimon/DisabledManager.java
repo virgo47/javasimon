@@ -32,6 +32,19 @@ public final class DisabledManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
+	public void installCallback(Callback callback) {
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public Callback callback() {
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public Counter getCounter(String name) {
 		return NullSimon.INSTANCE;
 	}

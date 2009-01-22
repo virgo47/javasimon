@@ -16,7 +16,7 @@ public final class SimonManager {
 
 	static {
 //		try {
-			// TODO: Not used/active yet. Configuration is not working yet.
+		// TODO: Not used/active yet. Configuration is not working yet.
 //			SimonConfigManager.init();
 //		} catch (IOException e) {
 //			Logger.getLogger(SimonConfigManager.class.getName()).log(Level.SEVERE, "Simon config couldn't be processed correctly", e);
@@ -125,5 +125,24 @@ public final class SimonManager {
 	 */
 	public static void clear() {
 		manager.clear();
+	}
+
+	/**
+	 * Sets up the Simon callback that allows extending the Java Simon API functionality.
+	 * Predefined callback does nothing.
+	 *
+	 * @param callback new Java Simon API callback
+	 */
+	public static void installCallback(Callback callback) {
+		manager.installCallback(callback);
+	}
+
+	/**
+	 * Accesses Simon callback.
+	 *
+	 * @return Simon callback
+	 */
+	public static Callback callback() {
+		return manager.callback();
 	}
 }

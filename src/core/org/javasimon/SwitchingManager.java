@@ -71,6 +71,19 @@ public final class SwitchingManager implements Manager {
 		manager.clear();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	public void installCallback(Callback callback) {
+		manager.installCallback(callback);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public Callback callback() {
+		return null;
+	}
 
 	/**
 	 * Enables the Simon Manager. Enabled manager provides real Simons.

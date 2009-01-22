@@ -12,6 +12,7 @@ import org.javasimon.utils.SimonUtils;
 public final class Split {
 	private StopwatchImpl stopwatch;
 	private long start;
+	private long total;
 
 	Split(StopwatchImpl stopwatch, long start) {
 		this.stopwatch = stopwatch;
@@ -28,23 +29,29 @@ public final class Split {
 	}
 
 	/**
-	 * Stops the time split.
+	 * Stops the time split and returns split time. Returns 0 if the Split is stopped already.
 	 *
 	 * @return split time in ns
 	 */
 	public long stop() {
-		if (stopwatch != null) {
-			return stopwatch.stop(start);
+		if (stopwatch != null && start != 0) {
+			total = stopwatch.stop(this, start);
+			start = 0;
+			return total;
 		}
 		return 0;
 	}
 
 	/**
-	 * Returns the current running nano-time from the start to the method call.
+	 * Returns the current running nano-time from the start to the method call or the total split time
+	 * if the Split has been stopped already.
 	 *
 	 * @return current running nano-time of the split
 	 */
 	public long runningFor() {
+		if (total != 0) {
+			return total;
+		}
 		if (stopwatch != null) {
 			return System.nanoTime() - start;
 		}

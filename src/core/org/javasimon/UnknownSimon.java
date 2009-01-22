@@ -8,8 +8,8 @@ package org.javasimon;
  * @created Aug 4, 2008
  */
 final class UnknownSimon extends AbstractSimon {
-	UnknownSimon(String name) {
-		super(name);
+	UnknownSimon(String name, Manager manager) {
+		super(name, manager);
 	}
 
 	/**

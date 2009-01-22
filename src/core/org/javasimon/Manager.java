@@ -79,4 +79,19 @@ public interface Manager {
 	 * Clears the whole manager and starts again with a single newly created Root Simon.
 	 */
 	void clear();
+
+	/**
+	 * Sets up the Simon callback that allows extending the Java Simon API functionality.
+	 * Predefined callback does nothing.
+	 *
+	 * @param callback new Java Simon API callback
+	 */
+	void installCallback(Callback callback);
+
+	/**
+	 * Accesses Simon callback.
+	 *
+	 * @return Simon callback
+	 */
+	Callback callback();
 }
