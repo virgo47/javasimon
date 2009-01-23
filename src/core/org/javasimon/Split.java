@@ -60,6 +60,6 @@ public final class Split {
 
 	@Override
 	public String toString() {
-		return " Running split for Stopwatch '" + stopwatch.getName() + "': " + SimonUtils.presentNanoTime(runningFor());
+		return "Running split for Stopwatch '" + stopwatch.getName() + "': " + SimonUtils.presentNanoTime(runningFor());
 	}
 }
