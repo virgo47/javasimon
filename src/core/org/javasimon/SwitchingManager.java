@@ -46,13 +46,6 @@ public final class SwitchingManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Simon getUnknown(String name) {
-		return manager.getUnknown(name);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
 	public Collection<String> simonNames() {
 		return manager.simonNames();
 	}
@@ -82,7 +75,14 @@ public final class SwitchingManager implements Manager {
 	 * {@inheritDoc}
 	 */
 	public Callback callback() {
-		return null;
+		return manager.callback();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public ManagerConfiguration configuration() {
+		return manager.configuration();
 	}
 
 	/**

@@ -45,6 +45,13 @@ public final class DisabledManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
+	public ManagerConfiguration configuration() {
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public Counter getCounter(String name) {
 		return NullSimon.INSTANCE;
 	}
@@ -54,13 +61,6 @@ public final class DisabledManager implements Manager {
 	 */
 	public Stopwatch getStopwatch(String name) {
 		return NullSimon.INSTANCE;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public UnknownSimon getUnknown(String name) {
-		throw new UnsupportedOperationException("Disabled manager does not support creation of the UnknownSimon.");
 	}
 
 	/**

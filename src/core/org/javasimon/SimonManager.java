@@ -1,26 +1,49 @@
 package org.javasimon;
 
 import java.util.*;
+import java.io.*;
 
 /**
  * SimonManager is the central-point of the API. Manager provides access to all available Simons
- * and is also responsible for creating them when necessary. However - if you need to separate
- * your Simon hierarchies across different Java EE applications you should create your own Manager
- * in the application itself.
+ * and is also responsible for creating them when necessary. It is possible to create separate
+ * Manager, but it cannot be accessed via this convenient utility-like class. This option may be
+ * usefull in Java EE environmant when it's required to separate Simon trees accross different
+ * applications.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 4, 2008
  */
 public final class SimonManager {
+	/**
+	 * Property name for the Simon configuration file.
+	 */
+	public static final String PROPERTY_CONFIG_FILE_NAME = "javasimon.config.file";
+
+	/**
+	 * Property name for the Simon configuration resource.
+	 */
+	public static final String PROPERTY_CONFIG_RESOURCE_NAME = "javasimon.config.resource";
+
 	private static SwitchingManager manager = new SwitchingManager();
 
+	/**
+	 * Initilizes the configuration facility.
+	 *
+	 * @throws java.io.IOException thrown if config file or config resource is not found
+	 */
 	static {
-//		try {
-		// TODO: Not used/active yet. Configuration is not working yet.
-//			SimonConfigManager.init();
-//		} catch (IOException e) {
-//			Logger.getLogger(SimonConfigManager.class.getName()).log(Level.SEVERE, "Simon config couldn't be processed correctly", e);
-//		}
+		try {
+			String fileName = System.getProperty(PROPERTY_CONFIG_FILE_NAME);
+			if (fileName != null) {
+				manager.configuration().readConfig(new FileReader(fileName));
+			}
+			String resourceName = System.getProperty(PROPERTY_CONFIG_RESOURCE_NAME);
+			if (resourceName != null) {
+				manager.configuration().readConfig(new InputStreamReader(SimonManager.class.getClassLoader().getResourceAsStream(resourceName)));
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private SimonManager() {
@@ -64,16 +87,6 @@ public final class SimonManager {
 	 */
 	public static Stopwatch getStopwatch(String name) {
 		return manager.getStopwatch(name);
-	}
-
-	/**
-	 * Returns existing UnknownSimon or creates new if necessary.
-	 *
-	 * @param name name of the Simon
-	 * @return stopwatch object
-	 */
-	static Simon getUnknown(String name) {
-		return manager.getUnknown(name);
 	}
 
 	/**
@@ -144,5 +157,14 @@ public final class SimonManager {
 	 */
 	public static Callback callback() {
 		return manager.callback();
+	}
+
+	/**
+	 * Accesses configuration of this manager.
+	 *
+	 * @return configuration of this manager
+	 */
+	public static ManagerConfiguration configuration() {
+		return manager.configuration();
 	}
 }

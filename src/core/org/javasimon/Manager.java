@@ -53,14 +53,6 @@ public interface Manager {
 	Stopwatch getStopwatch(String name);
 
 	/**
-	 * Returns existing UnknownSimon or creates new if necessary.
-	 *
-	 * @param name name of the Simon
-	 * @return stopwatch object
-	 */
-	Simon getUnknown(String name);
-
-	/**
 	 * Returns collection containing names of all existing Simons.
 	 *
 	 * @return collection of all Simon names
@@ -94,4 +86,11 @@ public interface Manager {
 	 * @return Simon callback
 	 */
 	Callback callback();
+
+	/**
+	 * Accesses configuration of this manager.
+	 *
+	 * @return configuration of this manager
+	 */
+	ManagerConfiguration configuration();
 }
