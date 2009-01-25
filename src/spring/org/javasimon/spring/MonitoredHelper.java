@@ -8,8 +8,9 @@ import org.springframework.aop.support.AopUtils;
  *
  * @author Erik van Oosten
  */
-abstract class MonitoredHelper {
+final class MonitoredHelper {
 	private MonitoredHelper() {
+		throw new UnsupportedOperationException();
 	}
 
 	/**

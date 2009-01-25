@@ -18,7 +18,8 @@ public final class EnabledManager implements Manager {
 	private final Map<String, AbstractSimon> allSimons = new HashMap<String, AbstractSimon>();
 
 	private UnknownSimon rootSimon;
-	private Callback callback = new EmptyCallback();
+	private Callback callback = new CallbackSkeleton();
+	private ManagerConfiguration configuration = new ManagerConfiguration();
 
 	/**
 	 * Creates new enabled manager.
@@ -71,13 +72,6 @@ public final class EnabledManager implements Manager {
 	 */
 	public Stopwatch getStopwatch(String name) {
 		return (Stopwatch) getOrCreateSimon(name, StopwatchImpl.class);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public UnknownSimon getUnknown(String name) {
-		return (UnknownSimon) getOrCreateSimon(name, UnknownSimon.class);
 	}
 
 	/**
@@ -187,5 +181,12 @@ public final class EnabledManager implements Manager {
 	 */
 	public Callback callback() {
 		return callback;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public ManagerConfiguration configuration() {
+		return configuration;
 	}
 }

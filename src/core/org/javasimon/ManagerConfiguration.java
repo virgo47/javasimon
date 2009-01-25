@@ -7,54 +7,18 @@ import java.util.Map;
 import java.util.LinkedHashMap;
 
 /**
- * Stores configuration of the Simon API.
+ * 
  * TODO: Not active yet!
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Sep 6, 2008
  */
-public final class SimonConfigManager {
-	/**
-	 * Property name for the Simon configuration file.
-	 */
-	public static final String PROPERTY_CONFIG_FILE_NAME = "javasimon.config.file";
+public final class ManagerConfiguration {
+	private static final String WILDCARD_STAR = "*";
 
-	/**
-	 * Property name for the Simon configuration resource.
-	 */
-	public static final String PROPERTY_CONFIG_RESOURCE_NAME = "javasimon.config.resource";
+	private Map<ConfigPattern, SimonConfiguration> configs;
 
-	private static Map<ConfigPattern, SimonConfiguration> configs;
-
-	private static boolean strictConfig;
-
-	/**
-	 * Initilizes the configuration facility.
-	 *
-	 * @throws java.io.IOException thrown if config file or config resource is not found
-	 */
-	public static void init() throws IOException {
-		String fileName = System.getProperty(PROPERTY_CONFIG_FILE_NAME);
-		if (fileName != null) {
-			BufferedReader reader = new BufferedReader(
-				new FileReader(fileName));
-			try {
-				initFromReader(reader);
-			} finally {
-				reader.close();
-			}
-		}
-		String resourceName = System.getProperty(PROPERTY_CONFIG_RESOURCE_NAME);
-		if (resourceName != null) {
-			BufferedReader reader = new BufferedReader(
-				new InputStreamReader(SimonManager.class.getClassLoader().getResourceAsStream(resourceName)));
-			try {
-				initFromReader(reader);
-			} finally {
-				reader.close();
-			}
-		}
-	}
+	private boolean strictConfig;
 
 	/**
 	 * Reads config from provided buffered reader. Package level because of tests.
@@ -62,29 +26,34 @@ public final class SimonConfigManager {
 	 * @param reader reader containing configuration
 	 * @throws IOException thrown if problem occurs while reading from the reader
 	 */
-	static void initFromReader(BufferedReader reader) throws IOException {
-		strictConfig = false;
-		configs = new LinkedHashMap<ConfigPattern, SimonConfiguration>();
-		int lineNum = 0;
-		while (true) {
-			String line = reader.readLine();
-			if (line == null) {
-				break;
+	void readConfig(Reader reader) throws IOException {
+		BufferedReader bufferedReader = new BufferedReader(reader);
+		try {
+			strictConfig = false;
+			configs = new LinkedHashMap<ConfigPattern, SimonConfiguration>();
+			int lineNum = 0;
+			while (true) {
+				String line = bufferedReader.readLine();
+				if (line == null) {
+					break;
+				}
+				lineNum++;
+				line = line.trim();
+				if (line.length() == 0) {
+					continue;
+				}
+				if (line.equalsIgnoreCase("strict")) {
+					strictConfig = true;
+					continue;
+				}
+				processConfigLine(lineNum, line);
 			}
-			lineNum++;
-			line = line.trim();
-			if (line.length() == 0) {
-				continue;
-			}
-			if (line.equalsIgnoreCase("strict")) {
-				strictConfig = true;
-				continue;
-			}
-			processConfigLine(lineNum, line);
+		} finally {
+			bufferedReader.close();
 		}
 	}
 
-	private static void processConfigLine(int lineNum, String line) {
+	private void processConfigLine(int lineNum, String line) {
 		line = line.trim().split("[#;]", 2)[0]; // ignore comments
 		String[] sa = line.split("[ =]+", 2);
 		if (sa.length != 2) {
@@ -97,14 +66,14 @@ public final class SimonConfigManager {
 		processSimonConfig(lineNum, name, value);
 	}
 
-	private static void reportError(String error) {
+	private void reportError(String error) {
 		if (strictConfig) {
 			throw new SimonException("Config error: " + error);
 		}
 		System.out.println(error);
 	}
 
-	private static void processSimonConfig(int lineNum, String name, String value) {
+	private void processSimonConfig(int lineNum, String name, String value) {
 		String simonType = null;
 		StatProcessorType statProcessorType = null;
 		SimonState state = null;
@@ -148,7 +117,7 @@ public final class SimonConfigManager {
 	 * @param name Simon name
 	 * @return configuration for that particular Simon
 	 */
-	static SimonConfiguration getConfig(String name) {
+	SimonConfiguration getConfig(String name) {
 		String type = null;
 		StatProcessorType spType = null;
 		SimonState state = null;
@@ -173,13 +142,12 @@ public final class SimonConfigManager {
 	/**
 	 * Matches Simon name patterns from configuration.
 	 */
-	static class ConfigPattern {
+	class ConfigPattern {
 		private String pattern;
 		private String all;
 		private String start;
 		private String end;
 		private String middle;
-		private static final String WILDCARD_STAR = "*";
 		private static final String INVALID_PATTERN = "Invalid configuration pattern: ";
 
 		/**

@@ -12,8 +12,14 @@ import org.javasimon.Split;
  *
  * @author Erik van Oosten
  */
-public class MonitoringInterceptor implements MethodInterceptor, Serializable {
-
+public final class MonitoringInterceptor implements MethodInterceptor, Serializable {
+	/**
+	 * Performs method invocation and wraps it with Stopwatch.
+	 *
+	 * @param invocation method invocation
+	 * @return return object from the method
+	 * @throws Throwable anything thrown by the method 
+	 */
 	public Object invoke(MethodInvocation invocation) throws Throwable {
 		String monitorName = MonitoredHelper.getMonitorName(invocation);
 

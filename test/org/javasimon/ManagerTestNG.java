@@ -123,7 +123,7 @@ public final class ManagerTestNG {
 
 	@Test(expectedExceptions = SimonException.class)
 	public void testCantCreateRoot() {
-		SimonManager.getUnknown(Manager.ROOT_SIMON_NAME);
+		SimonManager.getStopwatch(Manager.ROOT_SIMON_NAME);
 	}
 
 	@Test(expectedExceptions = SimonException.class)

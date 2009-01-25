@@ -4,7 +4,6 @@ import org.testng.annotations.Test;
 import org.testng.Assert;
 
 import java.io.IOException;
-import java.io.BufferedReader;
 import java.io.StringReader;
 
 /**
@@ -17,28 +16,23 @@ import java.io.StringReader;
 public final class ConfigurationTestNG {
 	@Test
 	public void testConfigResource() throws IOException {
-		System.setProperty(SimonConfigManager.PROPERTY_CONFIG_RESOURCE_NAME, "org/javasimon/test.config");
-		SimonManager.clear();
-		SimonConfigManager.init();
+		System.setProperty(SimonManager.PROPERTY_CONFIG_RESOURCE_NAME, "org/javasimon/test.config");
 	}
 
 	@Test
 	public void testConfig() throws IOException {
 		SimonManager.clear();
-		BufferedReader br = new BufferedReader(
-			new StringReader("strict\n" +
-				"org.javasimon.test.stopwatch=stopwatch\n" +
-				"org.javasimon.*=basicstats\n" +
-				"*.debug=disabled\n" +
-				"*no-stats*=nullstats\n" +
-				"")
-		);
-		SimonConfigManager.initFromReader(br);
-		Assert.assertNull(SimonConfigManager.getConfig("org.javasimon.bubu").getState());
-		Assert.assertTrue(SimonConfigManager.getConfig("org.javasimon.test.stopwatch").getType().equals("stopwatch"));
-		Assert.assertTrue(SimonConfigManager.getConfig("org.javasimon.test.stopwatch").getStatProcessorType().equals(StatProcessorType.BASIC));
-		Assert.assertTrue(SimonConfigManager.getConfig("org.javasimon.test.debug").getStatProcessorType().equals(StatProcessorType.BASIC));
-		Assert.assertTrue(SimonConfigManager.getConfig("org.javasimon.test.debug").getState().equals(SimonState.DISABLED));
-		Assert.assertTrue(SimonConfigManager.getConfig("org.javasimon.test.debug.no-stats").getStatProcessorType().equals(StatProcessorType.NULL));
+		SimonManager.configuration().readConfig(new StringReader("strict\n" +
+			"org.javasimon.test.stopwatch=stopwatch\n" +
+			"org.javasimon.*=basicstats\n" +
+			"*.debug=disabled\n" +
+			"*no-stats*=nullstats\n" +
+			""));
+		Assert.assertNull(SimonManager.configuration().getConfig("org.javasimon.bubu").getState());
+		Assert.assertTrue(SimonManager.configuration().getConfig("org.javasimon.test.stopwatch").getType().equals("stopwatch"));
+		Assert.assertTrue(SimonManager.configuration().getConfig("org.javasimon.test.stopwatch").getStatProcessorType().equals(StatProcessorType.BASIC));
+		Assert.assertTrue(SimonManager.configuration().getConfig("org.javasimon.test.debug").getStatProcessorType().equals(StatProcessorType.BASIC));
+		Assert.assertTrue(SimonManager.configuration().getConfig("org.javasimon.test.debug").getState().equals(SimonState.DISABLED));
+		Assert.assertTrue(SimonManager.configuration().getConfig("org.javasimon.test.debug.no-stats").getStatProcessorType().equals(StatProcessorType.NULL));
 	}
 }

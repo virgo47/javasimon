@@ -11,7 +11,7 @@ import java.lang.reflect.Method;
  *
  * @author Erik van Oosten
  */
-public class MonitoredMeasuringPointcut implements Pointcut {
+public final class MonitoredMeasuringPointcut implements Pointcut {
 	/**
 	 * @return a class filter that lets all class through.
 	 */
