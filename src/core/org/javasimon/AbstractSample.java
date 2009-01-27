@@ -12,7 +12,7 @@ package org.javasimon;
  * @created Jan 7, 2009
  * @see org.javasimon.StatProcessor
  */
-abstract class AbstractSample implements Sample {
+public abstract class AbstractSample implements Sample {
 	private int count;
 	private double mean;
 	private double standardDeviation;
@@ -111,5 +111,24 @@ abstract class AbstractSample implements Sample {
 
 	public final void setVarianceN(double varianceN) {
 		this.varianceN = varianceN;
+	}
+
+	/**
+	 * Returns readable representation of object.
+	 *
+	 * @return string with readable representation of object
+	 */
+	@Override
+	public String toString() {
+		final StringBuilder sb = new StringBuilder();
+		sb.append("AbstractSample");
+		sb.append("{count=").append(count);
+		sb.append(", mean=").append(mean);
+		sb.append(", standardDeviation=").append(standardDeviation);
+		sb.append(", sum=").append(sum);
+		sb.append(", variance=").append(variance);
+		sb.append(", varianceN=").append(varianceN);
+		sb.append('}');
+		return sb.toString();
 	}
 }

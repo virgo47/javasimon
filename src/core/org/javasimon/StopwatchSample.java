@@ -8,7 +8,7 @@ package org.javasimon;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Jan 7, 2009
  */
-public final class StopwatchSample extends AbstractSample {
+public class StopwatchSample extends AbstractSample {
 	private long total;
 	private long counter;
 	private long min;
@@ -180,5 +180,33 @@ public final class StopwatchSample extends AbstractSample {
 	 */
 	public void setMaxActiveTimestamp(long maxActiveTimestamp) {
 		this.maxActiveTimestamp = maxActiveTimestamp;
+	}
+
+	/**
+	 * Returns readable representation of object.
+	 *
+	 * @return string with readable representation of object 
+	 */
+	@Override
+	public String toString() {
+		final StringBuilder sb = new StringBuilder();
+		sb.append("StopwatchSample");
+		sb.append("{total=").append(total);
+		sb.append(", counter=").append(counter);
+		sb.append(", min=").append(min);
+		sb.append(", max=").append(max);
+		sb.append(", minTimestamp=").append(minTimestamp);
+		sb.append(", maxTimestamp=").append(maxTimestamp);
+		sb.append(", active=").append(active);
+		sb.append(", maxActive=").append(maxActive);
+		sb.append(", maxActiveTimestamp=").append(maxActiveTimestamp);
+		sb.append(" [count=").append(getCount());
+		sb.append(", mean=").append(getMean());
+		sb.append(", standardDeviation=").append(getStandardDeviation());
+		sb.append(", sum=").append(getSum());
+		sb.append(", variance=").append(getVariance());
+		sb.append(", varianceN=").append(getVarianceN());
+		sb.append("]}");
+		return sb.toString();
 	}
 }
