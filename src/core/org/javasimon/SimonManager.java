@@ -27,12 +27,20 @@ public final class SimonManager {
 	private static SwitchingManager manager = new SwitchingManager();
 
 	/**
-	 * Initilizes the configuration facility.
-	 *
-	 * @throws java.io.IOException thrown if config file or config resource is not found
+	 * Calls {@link #init()}.
 	 */
 	static {
+		init();
+	}
+
+	/**
+	 * Initilizes the configuration facility for the default Simon Manager. Fetches exception
+	 * if configuration resource or file is not found. This method does NOT clear the manager
+	 * itself, only the configuration is reloaded.
+	 */
+	public static void init() {
 		try {
+			manager.configuration().clear();
 			String fileName = System.getProperty(PROPERTY_CONFIG_FILE_NAME);
 			if (fileName != null) {
 				manager.configuration().readConfig(new FileReader(fileName));
@@ -41,8 +49,8 @@ public final class SimonManager {
 			if (resourceName != null) {
 				manager.configuration().readConfig(new InputStreamReader(SimonManager.class.getClassLoader().getResourceAsStream(resourceName)));
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			manager.callback().warning("SimonManager initialization error", e);
 		}
 	}
 

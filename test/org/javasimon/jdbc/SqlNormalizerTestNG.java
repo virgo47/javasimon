@@ -59,27 +59,8 @@ public final class SqlNormalizerTestNG {
 		};
 	}
 
-	/*
-	 * Test data not yet working with SqlNormalizer. Fetched to "broken" test.
-	 */
-	@DataProvider(name = "dp2")
-	public Object[][] createTestDataToSolve() {
-		return new Object[][] {
-			{"{?= call foo_ins_proc_with_ret(99999, 'Text', sysdate())}", "call", "call foo_ins_proc_with_ret(?, ?, ?)"},
-			{"begin foo_ins_proc_with_ret(99999, 'Text', sysdate); end;", "call", "call foo_ins_proc_with_ret(?, ?, ?)"},
-		};
-	}
-
 	@Test(dataProvider = "dp1")
 	public void sqlNormalizerTest(String sql, String type, String normSql) {
-		SqlNormalizer sn = new SqlNormalizer(sql);
-
-		Assert.assertEquals(sn.getType(), type);
-		Assert.assertEquals(sn.getNormalizedSql(), normSql);
-	}
-
-	@Test(dataProvider = "dp2", groups = "broken")
-	public void sqlNormalizerTestToSolve(String sql, String type, String normSql) {
 		SqlNormalizer sn = new SqlNormalizer(sql);
 
 		Assert.assertEquals(sn.getType(), type);

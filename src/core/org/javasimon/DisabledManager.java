@@ -50,6 +50,23 @@ public final class DisabledManager implements Manager {
 	}
 
 	/**
+	 * Disabled manager doesn't support this operation and always returns null.
+	 *
+	 * @return null
+	 */
+	public SimonException getNextException() {
+		return null;
+	}
+
+	/**
+	 * Disabled manager does nothing on this method.
+	 *
+	 * @param e ignored
+	 */
+	public void fetchException(SimonException e) {
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public Counter getCounter(String name) {

@@ -7,8 +7,9 @@ import java.util.Map;
 import java.util.LinkedHashMap;
 
 /**
- * 
- * TODO: Not active yet!
+ * Holds configuration for one Simon Manager. Configuration is read from the stream
+ * and it is merged with any existing configuration read before. Method {@link #clear()}
+ * must be used in order to reset this configuration object.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Sep 6, 2008
@@ -18,7 +19,16 @@ public final class ManagerConfiguration {
 
 	private Map<ConfigPattern, SimonConfiguration> configs;
 
-	private boolean strictConfig;
+	private final Manager manager;
+
+	ManagerConfiguration(Manager manager) {
+		this.manager = manager;
+		clear();
+	}
+
+	void clear() {
+		configs = new LinkedHashMap<ConfigPattern, SimonConfiguration>();
+	}
 
 	/**
 	 * Reads config from provided buffered reader. Package level because of tests.
@@ -29,8 +39,6 @@ public final class ManagerConfiguration {
 	void readConfig(Reader reader) throws IOException {
 		BufferedReader bufferedReader = new BufferedReader(reader);
 		try {
-			strictConfig = false;
-			configs = new LinkedHashMap<ConfigPattern, SimonConfiguration>();
 			int lineNum = 0;
 			while (true) {
 				String line = bufferedReader.readLine();
@@ -40,10 +48,6 @@ public final class ManagerConfiguration {
 				lineNum++;
 				line = line.trim();
 				if (line.length() == 0) {
-					continue;
-				}
-				if (line.equalsIgnoreCase("strict")) {
-					strictConfig = true;
 					continue;
 				}
 				processConfigLine(lineNum, line);
@@ -67,9 +71,7 @@ public final class ManagerConfiguration {
 	}
 
 	private void reportError(String error) {
-		if (strictConfig) {
-			throw new SimonException("Config error: " + error);
-		}
+		manager.callback().warning("Config error: " + error, null);
 		System.out.println(error);
 	}
 
