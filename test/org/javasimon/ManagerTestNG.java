@@ -5,6 +5,9 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.Assert;
 import org.javasimon.utils.SimonUtils;
 
+import java.util.Queue;
+import java.util.LinkedList;
+
 /**
  * Tests SimonManager behavior.
  *
@@ -140,5 +143,20 @@ public final class ManagerTestNG {
 	@Test(expectedExceptions = SimonException.class)
 	public void testInvalidName() {
 		SimonManager.getStopwatch("Inv@lid name!@#$%");
+	}
+
+	@Test
+	public void failedInitialization() {
+		final Queue<String> messages = new LinkedList<String>();
+		SimonManager.installCallback(new CallbackSkeleton() {
+			public void warning(String warning, Exception cause) {
+				messages.add(warning);
+			}
+		});
+
+		System.setProperty(SimonManager.PROPERTY_CONFIG_RESOURCE_NAME, "whateverNonexistent");
+		SimonManager.init();
+		Assert.assertEquals(messages.poll(), "SimonManager initialization error");
+		System.getProperties().remove(SimonManager.PROPERTY_CONFIG_RESOURCE_NAME);
 	}
 }

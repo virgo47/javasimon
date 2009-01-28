@@ -2,9 +2,7 @@ package org.javasimon;
 
 import org.javasimon.utils.SimonUtils;
 
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Collection;
+import java.util.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
@@ -18,15 +16,18 @@ public final class EnabledManager implements Manager {
 	private final Map<String, AbstractSimon> allSimons = new HashMap<String, AbstractSimon>();
 
 	private UnknownSimon rootSimon;
+
 	private Callback callback = new CallbackSkeleton();
-	private ManagerConfiguration configuration = new ManagerConfiguration();
+
+	private ManagerConfiguration configuration;
 
 	/**
-	 * Creates new enabled manager.
+	 * Crea;tes new enabled manager.
 	 */
 	public EnabledManager() {
 		rootSimon = new UnknownSimon(ROOT_SIMON_NAME, this);
 		allSimons.put(ROOT_SIMON_NAME, rootSimon);
+		configuration = new ManagerConfiguration(this);
 	}
 
 	/**
