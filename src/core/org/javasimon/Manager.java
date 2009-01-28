@@ -93,4 +93,23 @@ public interface Manager {
 	 * @return configuration of this manager
 	 */
 	ManagerConfiguration configuration();
+
+	/**
+	 * Enables the Simon Manager. Enabled manager provides real Simons.
+	 * Only {@link org.javasimon.SwitchingManager} supports this operation.
+	 */
+	void enable();
+
+	/**
+	 * Disables the Simon Manager. Disabled manager provides null Simons that actually do nothing.
+	 * Only {@link org.javasimon.SwitchingManager} supports this operation.
+	 */
+	void disable();
+
+	/**
+	 * Returns true if the Java Simon API is enabled.
+	 *
+	 * @return true if the API is enabled
+	 */
+	boolean isEnabled();
 }

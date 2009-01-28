@@ -16,14 +16,14 @@ public interface SimonMXBean {
 	/**
 	 * Enables the Simon Manager.
 	 *
-	 * @see org.javasimon.SimonManager#enable()
+	 * @see org.javasimon.Manager#enable()
 	 */
 	void enable();
 
 	/**
 	 * Disables the Simon Manager.
 	 *
-	 * @see org.javasimon.SimonManager#disable() 
+	 * @see org.javasimon.Manager#disable()
 	 */
 	void disable();
 
@@ -31,7 +31,7 @@ public interface SimonMXBean {
 	 * Returns true if the Simon Manager is enabled.
 	 *
 	 * @return true if the Simon Manager is enabled
-	 * @see org.javasimon.SimonManager#isEnabled() 
+	 * @see org.javasimon.Manager#isEnabled()
 	 */
 	boolean isEnabled();
 
@@ -39,7 +39,7 @@ public interface SimonMXBean {
 	 * Returns array containing names of all existing Simons.
 	 *
 	 * @return array of all Simon names
-	 * @see org.javasimon.SimonManager#simonNames() 
+	 * @see org.javasimon.Manager#simonNames()
 	 */
 	String[] getSimonNames();
 
@@ -58,10 +58,10 @@ public interface SimonMXBean {
 	SimonInfo[] getSimonInfos();
 
 	/**
-	 * Clears the SimonManager (ignored if manager is disabled). All Simons are lost,
-	 * but configuration is preserved.
+	 * Clears the Manager (ignored if manager is disabled). All Simons are lost,
+	 * but the configuration is preserved.
 	 *
-	 * @see org.javasimon.SimonManager#clear()  
+	 * @see org.javasimon.Manager#clear()
 	 */
 	void clear();
 

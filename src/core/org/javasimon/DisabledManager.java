@@ -50,23 +50,6 @@ public final class DisabledManager implements Manager {
 	}
 
 	/**
-	 * Disabled manager doesn't support this operation and always returns null.
-	 *
-	 * @return null
-	 */
-	public SimonException getNextException() {
-		return null;
-	}
-
-	/**
-	 * Disabled manager does nothing on this method.
-	 *
-	 * @param e ignored
-	 */
-	public void fetchException(SimonException e) {
-	}
-
-	/**
 	 * {@inheritDoc}
 	 */
 	public Counter getCounter(String name) {
@@ -92,5 +75,28 @@ public final class DisabledManager implements Manager {
 	 */
 	public Collection<String> simonNames() {
 		return Collections.emptySet();
+	}
+
+	/**
+	 * Throws UnsupportedOperationException.
+	 */
+	public void enable() {
+		throw new UnsupportedOperationException("Only SwitchingManager supports this operation.");
+	}
+
+	/**
+	 * Throws UnsupportedOperationException.
+	 */
+	public void disable() {
+		throw new UnsupportedOperationException("Only SwitchingManager supports this operation.");
+	}
+
+	/**
+	 * Returns false.
+	 *
+	 * @return false
+	 */
+	public boolean isEnabled() {
+		return false;
 	}
 }
