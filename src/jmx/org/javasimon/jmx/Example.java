@@ -35,7 +35,7 @@ public class Example {
 			if (mbs.isRegistered(name)) {
 				mbs.unregisterMBean(name);
 			}
-			SimonMXBeanImpl simon = new SimonMXBeanImpl();
+			SimonMXBeanImpl simon = new SimonMXBeanImpl(SimonManager.manager());
 			mbs.registerMBean(simon, name);
 			System.out.println("SimonMXBean registerd under name: "+name);
 			return simon;

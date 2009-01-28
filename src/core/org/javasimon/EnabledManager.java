@@ -190,4 +190,27 @@ public final class EnabledManager implements Manager {
 	public ManagerConfiguration configuration() {
 		return configuration;
 	}
+
+	/**
+	 * Throws UnsupportedOperationException.
+	 */
+	public void enable() {
+		throw new UnsupportedOperationException("Only SwitchingManager supports this operation.");
+	}
+
+	/**
+	 * Throws UnsupportedOperationException.
+	 */
+	public void disable() {
+		throw new UnsupportedOperationException("Only SwitchingManager supports this operation.");
+	}
+
+	/**
+	 * Returns true.
+	 *
+	 * @return true
+	 */
+	public boolean isEnabled() {
+		return true;
+	}
 }

@@ -175,4 +175,13 @@ public final class SimonManager {
 	public static ManagerConfiguration configuration() {
 		return manager.configuration();
 	}
+
+	/**
+	 * Accesses default Simon Manager which is the switching manager.
+	 *
+	 * @return default Simon Manager
+	 */
+	public static Manager manager() {
+		return manager;
+	}
 }
