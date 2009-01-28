@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <project name="Java Simon Library" default="dist" basedir=".">
-	<property name="version" value="2.0-alpha1"/>
+	<property file="build.properties"/>
+
+	<property name="version" value="2.0-alpha2"/>
 	<property name="javac.debug" value="true"/>
 	<property name="javac.deprecation" value="false"/>
 
@@ -29,13 +31,17 @@
 		<compile-module module="core"/>
 		<compile-module module="jdbc3"/>
 		<compile-module module="spring"/>
+		<compile-module module="jmx" jdk="${jdk6.home}"/>
 	</target>
 
 	<macrodef name="compile-module">
 		<attribute name="module"/>
+		<attribute name="jdk" default="${jdk5.home}"/>
 		<sequential>
 			<mkdir dir="build/@{module}"/>
-			<javac srcdir="src/@{module}" destdir="build/@{module}" debug="${javac.debug}" deprecation="${javac.deprecation}" classpathref="classpath"/>
+			<javac srcdir="src/@{module}" destdir="build/@{module}" debug="${javac.debug}"
+				deprecation="${javac.deprecation}" classpathref="classpath"
+				fork="true" executable="@{jdk}/bin/javac"/>
 			<copy todir="build/@{module}">
 				<fileset dir="src/@{module}" includes="**/*.properties"/>
 				<fileset dir="src/@{module}" includes="**/*.xml"/>
@@ -49,6 +55,7 @@
 		<echo file="build/jdbc/META-INF/services/java.sql.Driver">org.javasimon.jdbc.Driver</echo>
 		<jar-module module="core"/>
 		<jar-module module="jdbc"/>
+		<jar-module module="jmx"/>
 		<jar-module module="spring"/>
 	</target>
 
@@ -63,7 +70,8 @@
 
 	<target name="examples" depends="compile" description="Compiles the examples">
 		<mkdir dir="build/examples"/>
-		<javac srcdir="examples" destdir="build/examples" debug="${javac.debug}" deprecation="${javac.deprecation}" classpathref="classpath"/>
+		<javac srcdir="examples" destdir="build/examples" debug="${javac.debug}" deprecation="${javac.deprecation}"
+			classpathref="classpath"/>
 		<copy todir="build/examples">
 			<fileset dir="examples">
 				<include name="**/*.config"/>
@@ -102,7 +110,7 @@
 	</target>
 
 	<target name="clean" description="Cleans up the build directory">
-		<delete failonerror="false" file="javasimon-${version}.zip"/>
+		<delete failonerror="false" dir="${basedir}" includes="javasimon-*.zip"/>
 		<delete failonerror="false" dir="build"/>
 		<delete failonerror="false" dir="test-output"/>
 	</target>
@@ -111,7 +119,8 @@
 
 	<target name="test" depends="compile" description="Runs tests">
 		<mkdir dir="build/test"/>
-		<javac srcdir="test" destdir="build/test" debug="${javac.debug}" deprecation="${javac.deprecation}" classpathref="classpath"/>
+		<javac srcdir="test" destdir="build/test" debug="${javac.debug}" deprecation="${javac.deprecation}"
+			classpathref="classpath"/>
 		<testng outputdir="${basedir}/build/testout" haltonfailure="true" verbose="2" classpathref="classpath">
 			<xmlfileset dir="test">
 				<include name="testng.xml"/>
@@ -134,6 +143,7 @@
 
 			<sourcepath path="src/core"/>
 			<sourcepath path="src/jdbc3"/>
+			<sourcepath path="src/jmx"/>
 			<sourcepath path="src/spring"/>
 		</javadoc>
 		<copy todir="${doc.dir}/resources" overwrite="true">
