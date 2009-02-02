@@ -3,15 +3,41 @@ package org.javasimon.jmx;
 import java.beans.ConstructorProperties;
 
 /**
- * Trieda CounterSample.
+ * Value object for retrieving data from Counter simon. Basically, it's
+ * {@link org.javasimon.CounterSample} with added JMX capabilities to be return as object via
+ * MBean method.
+ * <p>
+ * Example:
+ * <pre>
+ * SimonMXBean simon = JMX.newMXBeanProxy(..., new ObjectName("domain:type=Simon"), SimonMXBean.class);
+ * CounterSample = simon.getCounterSample("simon.counter");
+ * </pre>
  *
- * @author <a href="mailto:radovan.sninsky@siemens.com">Radovan Sninsky</a>
+ * @author Radovan Sninsky
  * @version $ Revision $ $ Date $
  * @created 23.1.2009 12:37:40
  * @since 2
  */
 public final class CounterSample extends org.javasimon.CounterSample {
 
+	/**
+	 * JMX constructor. Constructor used by JMX client code to initialize all properties of object
+	 * from composite data object. 
+	 *
+	 * @param count count value (provided optionally)
+	 * @param mean mean value (provided optionally)
+	 * @param stdDev standard deviation (provided optionally)
+	 * @param sum sum value (provided optionally)
+	 * @param var variance (provided optionally)
+	 * @param varN variance N (provided optionally)
+	 * @param counter actual counter value
+	 * @param min minimal counter value
+	 * @param max maximal counter value
+	 * @param minTimestamp time when counter reached minimal value
+	 * @param maxTimestamp time when counter reached maximal value
+	 * @param incSum sum of all increments
+	 * @param decSum sum of all decrements
+	 */
 	@ConstructorProperties({"count", "mean", "standardDeviation", "sum", "variance", "varianceN", "counter", "min", "max", "minTimestamp",
 		"maxTimestamp", "incrementSum", "decrementSum"})
 	public CounterSample(int count, double mean, double stdDev, double sum, double var, double varN,
@@ -32,7 +58,13 @@ public final class CounterSample extends org.javasimon.CounterSample {
 		setDecrementSum(decSum);
 	}
 
-	public CounterSample(org.javasimon.CounterSample s) {
+	/**
+	 * Internall, framework constructor for Simon MBean implementation to initialize all properties
+	 * by sample obtained from simon.
+	 *
+	 * @param s sample object obtained from Counter simon
+	 */
+	CounterSample(org.javasimon.CounterSample s) {
 		setCount(s.getCount());
 		setMean(s.getMean());
 		setStandardDeviation(s.getStandardDeviation());

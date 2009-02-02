@@ -133,7 +133,7 @@
 	<target name="docs" description="Create Javadoc API documentation">
 		<mkdir dir="${doc.dir}"/>
 
-		<javadoc destdir="${doc.dir}" protected="true" linksource="true"
+		<javadoc destdir="${doc.dir}" protected="true" linksource="true" executable="${jdk6.home}/bin/javadoc"
 			doctitle="Java Simon API" windowtitle="Java Simon API"
 			header="&lt;table&gt;&lt;tr&gt;&lt;td style='valign: middle;'&gt;&lt;span style='font-weight: bold; margin-right: 16px;'&gt;Java Simon ${version}&lt;/span&gt;&lt;/td&gt;&lt;td&gt;&lt;div class='logo'/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;"
 			overview="src/overview.html"

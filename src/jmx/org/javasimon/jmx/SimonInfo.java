@@ -7,7 +7,7 @@ import java.beans.ConstructorProperties;
  * This value object make possible to retrieve list of all instantiated simons together with
  * their types, so no multiple roundtrips are needed.
  *
- * @author <a href="mailto:radovan.sninsky@siemens.com">Radovan Sninsky</a>
+ * @author Radovan Sninsky
  * @version $ Revision $ $ Date $
  * @created 26.1.2009 16:05:29
  * @since 2
