@@ -3,15 +3,43 @@ package org.javasimon.jmx;
 import java.beans.ConstructorProperties;
 
 /**
- * Trieda StopwatchSample.
+ * Value object for retrieving data from Stopwatch simon. Basically, it's
+ * {@link org.javasimon.StopwatchSample} with added JMX capabilities to be return as object via
+ * MBean method.
+ * <p>
+ * Example:
+ * <pre>
+ * SimonMXBean simon = JMX.newMXBeanProxy(..., new ObjectName("domain:type=Simon"), SimonMXBean.class);
+ * StopwatchSample = simon.getStopwatchSample("simon.stopwatch");
+ * </pre>
  *
- * @author <a href="mailto:radovan.sninsky@siemens.com">Radovan Sninsky</a>
+ * @author Radovan Sninsky
  * @version $ Revision $ $ Date $
  * @created 26.1.2009 10:21:36
  * @since 2
  */
 public final class StopwatchSample extends org.javasimon.StopwatchSample {
 
+	/**
+	 * JMX constructor. Constructor used by JMX client code to initialize all properties of object
+	 * from composite data object.
+	 *
+	 * @param count count value (provided optionally)
+	 * @param mean mean value (provided optionally)
+	 * @param stdDev standard deviation (provided optionally)
+	 * @param sum sum value (provided optionally)
+	 * @param var variance (provided optionally)
+	 * @param varN variance N (provided optionally)
+	 * @param total sum of all measured times
+	 * @param counter count of measures
+	 * @param min minimal measured time
+	 * @param max maximal measured time
+	 * @param minTimestamp time when minimal time was measured
+	 * @param maxTimestamp time when maximal time was measured
+	 * @param active count of actual running measures
+	 * @param maxActive maximum paralel measures
+	 * @param maxActiveTimestamp time when maximum paralel measures happend 
+	 */
 	@ConstructorProperties({"count", "mean", "standardDeviation", "sum", "variance", "varianceN",
 			"total", "counter", "min", "max", "minTimestamp", "maxTimestamp", "active", "maxActive", "maxActiveTimestamp"})
 	public StopwatchSample(int count, double mean, double stdDev, double sum, double var, double varN,
@@ -34,7 +62,13 @@ public final class StopwatchSample extends org.javasimon.StopwatchSample {
 		setMaxActiveTimestamp(maxActiveTimestamp);
 	}
 
-	public StopwatchSample(org.javasimon.StopwatchSample s) {
+	/**
+	 * Internall, framework constructor for Simon MBean implementation to initialize all properties
+	 * by sample obtained from simon.
+	 *
+	 * @param s sample object obtained from Stopwatch simon
+	 */
+	StopwatchSample(org.javasimon.StopwatchSample s) {
 		setCount(s.getCount());
 		setMean(s.getMean());
 		setStandardDeviation(s.getStandardDeviation());
