@@ -19,6 +19,8 @@
 		<pathelement path="${lib.dir}/spring-aop.jar"/>
 		<pathelement path="${lib.dir}/aopalliance.jar"/>
 		<pathelement path="${lib.dir}/commons-logging-1.1.1.jar"/>
+		<pathelement path="${lib.dir}/stax-api-1.0.1.jar"/>
+		<!--<pathelement path="${lib.dir}/woodstox-core-lgpl-4.0.1.jar"/>-->
 		<pathelement path="build/core"/>
 		<pathelement path="build/jdbc3"/>
 		<pathelement path="build/spring"/>
