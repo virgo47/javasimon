@@ -1,0 +1,17 @@
+<simon-configuration>
+	<callback>
+		<callback class="org.javasimon.utils.FilterCallback">
+			<set property="filter" value="org.javasimon.test.good.*"/>
+			<set property="stopFilter" value="*"/>
+
+			<callback class="org.javasimon.utils.LoggingCallback">
+				<set property="logger" value="org.javasimon.test"/>
+				<set property="level" value="FINE"/>
+				<set property="warningLevel" value="FINE"/>
+			</callback>
+		</callback>
+		<callback class="org.javasimon.utils.DebugCallback"/>
+	</callback>
+
+	<simon pattern="org.javasimon.test.good.*" stats="BASIC"/>
+</simon-configuration>

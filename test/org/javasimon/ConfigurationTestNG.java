@@ -5,8 +5,6 @@ import org.testng.Assert;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.Queue;
-import java.util.LinkedList;
 
 /**
  * ConfigurationTestNG tests the configuration facility.
@@ -17,27 +15,26 @@ import java.util.LinkedList;
 public final class ConfigurationTestNG {
 	@Test
 	public void testConfigResource() throws IOException {
-		System.setProperty(SimonManager.PROPERTY_CONFIG_RESOURCE_NAME, "org/javasimon/test.config");
+		SimonManager.init();
+		// nothing is done without the property set - but if this was not here the configuration
+		// would get read twice... in normal cases there is no need to call init explicitely
+
+		System.setProperty(SimonManager.PROPERTY_CONFIG_RESOURCE_NAME, "org/javasimon/test-config.xml");
+		SimonManager.init(); // this really reads the config resource
+		Callback callback = SimonManager.manager().callback();
+		Assert.assertEquals(callback.getClass(), CompositeCallback.class);
+		Assert.assertEquals(callback.callbacks().size(), 2);
 	}
 
 	@Test
 	public void testConfig() throws IOException {
-		final Queue<String> messages = new LinkedList<String>();
-
 		Manager manager = new EnabledManager();
-		manager.installCallback(new CallbackSkeleton() {
-			public void warning(String warning, Exception cause) {
-				messages.add(warning);
-			}
-		});
-		manager.configuration().readConfig(new StringReader("ugly line!\n" +
-			"org.javasimon.test.stopwatch=stopwatch\n" +
-			"org.javasimon.*=basicstats\n" +
-			"*.debug=disabled\n" +
-			"*no-stats*=nullstats\n" +
-			""));
-		Assert.assertEquals(messages.poll(), "Config error: Unknown config value 'line!' for name 'ugly' on line 1.");
-		Assert.assertNull(messages.poll());
+		manager.configuration().readConfig(new StringReader("<simon-configuration>\n" +
+			"  <simon pattern='org.javasimon.test.stopwatch' type='stopwatch'/>\n" +
+			"  <simon pattern='org.javasimon.*' stats='basic'/>\n" +
+			"  <simon pattern='*.debug' state='disabled'/>\n" +
+			"  <simon pattern='*no-stats*' stats='null'/>\n" +
+			"</simon-configuration>"));
 		Assert.assertNull(manager.configuration().getConfig("org.javasimon.bubu").getState());
 		Assert.assertTrue(manager.configuration().getConfig("org.javasimon.test.stopwatch").getType().equals("stopwatch"));
 		Assert.assertTrue(manager.configuration().getConfig("org.javasimon.test.stopwatch").getStatProcessorType().equals(StatProcessorType.BASIC));

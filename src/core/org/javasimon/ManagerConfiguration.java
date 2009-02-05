@@ -2,9 +2,14 @@ package org.javasimon;
 
 import org.javasimon.utils.SimonUtils;
 
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 import java.io.*;
 import java.util.Map;
 import java.util.LinkedHashMap;
+import java.lang.reflect.Method;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * Holds configuration for one Simon Manager. Configuration is read from the stream
@@ -37,80 +42,78 @@ public final class ManagerConfiguration {
 	 * @throws IOException thrown if problem occurs while reading from the reader
 	 */
 	void readConfig(Reader reader) throws IOException {
-		BufferedReader bufferedReader = new BufferedReader(reader);
 		try {
-			int lineNum = 0;
-			while (true) {
-				String line = bufferedReader.readLine();
-				if (line == null) {
-					break;
+			XMLStreamReader xr = XMLInputFactory.newInstance().createXMLStreamReader(reader);
+			try {
+				while (!xr.isStartElement()) {
+					xr.next();
 				}
-				lineNum++;
-				line = line.trim();
-				if (line.length() == 0) {
-					continue;
+				processStartElement(xr, "simon-configuration");
+				if (isStartTag(xr, "callback")) {
+					manager.installCallback(processCallback(xr));
 				}
-				processConfigLine(lineNum, line);
+				while (isStartTag(xr, "simon")) {
+					processSimon(xr);
+				}
+				assertEndTag(xr, "simon-configuration");
+			} finally {
+				xr.close();
 			}
-		} finally {
-			bufferedReader.close();
+		} catch (XMLStreamException e) {
+			manager.callback().warning(null, e);
 		}
 	}
 
-	private void processConfigLine(int lineNum, String line) {
-		line = line.trim().split("[#;]", 2)[0]; // ignore comments
-		String[] sa = line.split("[ =]+", 2);
-		if (sa.length != 2) {
-			reportError("Invalid format on line " + lineNum);
-			return;
+	private Callback processCallback(XMLStreamReader xr) throws XMLStreamException {
+		Map<String, String> attrs = processStartElement(xr, "callback");
+		String klass = attrs.get("class");
+		if (klass == null) {
+			klass = CompositeCallback.class.getName();
 		}
-		String name = sa[0];
-		String value = sa[1];
+		System.out.println("klass = " + klass);
+		Callback callback;
+		try {
+			callback = (Callback) Class.forName(klass).newInstance();
+		} catch (InstantiationException e) {
+			throw new SimonException(e);
+		} catch (IllegalAccessException e) {
+			throw new SimonException(e);
+		} catch (ClassNotFoundException e) {
+			throw new SimonException(e);
+		} catch (ClassCastException e) {
+			throw new SimonException(e);
+		}
 
-		processSimonConfig(lineNum, name, value);
+		while (isStartTag(xr, "set")) {
+			processSet(xr, callback);
+		}
+		while (isStartTag(xr, "callback")) {
+			callback.addCallback(processCallback(xr));
+		}
+		processEndElement(xr, "callback");
+		return callback;
 	}
 
-	private void reportError(String error) {
-		manager.callback().warning("Config error: " + error, null);
-		System.out.println(error);
+	private void processSet(XMLStreamReader xr, Callback callback) throws XMLStreamException {
+		Map<String, String> attrs = processStartElement(xr, "set", "property", "value");
+		processEndElement(xr, "set");
 	}
 
-	private void processSimonConfig(int lineNum, String name, String value) {
-		String simonType = null;
-		StatProcessorType statProcessorType = null;
-		SimonState state = null;
-		boolean create = false;
+	private void processSimon(XMLStreamReader xr) throws XMLStreamException {
+		Map<String, String> attrs = processStartElement(xr, "simon", "pattern");
+		String pattern = attrs.get("pattern");
+		String simonType = attrs.get("type");
+		StatProcessorType statProcessorType = attrs.get("stats") != null ? StatProcessorType.valueOf(attrs.get("stats").toUpperCase()) : null;
+		SimonState state = attrs.get("state") != null ? SimonState.valueOf(attrs.get("state").toUpperCase()) : null;
+		configs.put(new ConfigPattern(pattern), new SimonConfiguration(simonType, statProcessorType, state));
 
-		for (String keyword : value.split("[, ]+")) {
-			keyword = keyword.toLowerCase();
-			if (keyword.equals("stopwatch")) {
-				simonType = keyword;
-			} else if (keyword.equals("counter")) {
-				simonType = keyword;
-			} else if (keyword.equals("basicstats")) {
-				statProcessorType = StatProcessorType.BASIC;
-			} else if (keyword.equals("nullstats")) {
-				statProcessorType = StatProcessorType.NULL;
-			} else if (keyword.equals("enabled")) {
-				state = SimonState.ENABLED;
-			} else if (keyword.equals("disabled")) {
-				state = SimonState.DISABLED;
-			} else if (keyword.equals("inherit")) {
-				state = SimonState.INHERIT;
-			} else if (keyword.equals("create")) {
-				if (SimonUtils.checkName(name)) {
-					create = true;
-				} else {
-					reportError("Invalid name used with create option on line " + lineNum);
-				}
-			} else {
-				reportError("Unknown config value '" + keyword + "' for name '" + name + "' on line " + lineNum + ".");
-			}
-		}
-		configs.put(new ConfigPattern(name), new SimonConfiguration(simonType, statProcessorType, state));
-		if (create) {
-			// TODO
-		}
+//		boolean create = attrs.get("create") != null && Boolean.valueOf(attrs.get("create"));
+//		if (SimonUtils.checkName(name)) {
+//			create = true;
+//		} else {
+//			reportError("Invalid name used with create option on line " + lineNum);
+//		}
+		processEndElement(xr, "simon");
 	}
 
 	/**
@@ -238,5 +241,91 @@ public final class ManagerConfiguration {
 		public String toString() {
 			return "ConfigPattern: " + pattern;
 		}
+	}
+
+	/**
+	 * Sets the callback property.
+	 *
+	 * @param callback callback object
+	 * @param property name of the property
+	 * @param value value of the property
+	 */
+	// TODO ...
+	private void setProperty(Callback callback, String property, String value) {
+		try {
+			Method setter = callback.getClass().getMethod(setterName(property), String.class);
+			setter.invoke(callback, value);
+		} catch (NoSuchMethodException e) {
+			throw new SimonException(e);
+		} catch (IllegalAccessException e) {
+			throw new SimonException(e);
+		} catch (InvocationTargetException e) {
+			throw new SimonException(e);
+		}
+	}
+
+	private String setterName(String name) {
+		return "set" + name.substring(0, 1).toUpperCase() + name.substring(1);
+	}
+
+	// XML Utils
+
+	private Map<String, String> processStartElement(XMLStreamReader reader, String elementName, String... requiredAttributes) throws XMLStreamException {
+		Map<String, String> attrs = processStartElementPrivate(reader, elementName, requiredAttributes);
+		reader.nextTag();
+		return attrs;
+	}
+
+	private Map<String, String> processStartElementPrivate(XMLStreamReader reader, String elementName, String... requiredAttributes) throws XMLStreamException {
+		assertStartTag(reader, elementName);
+		Map<String, String> attrs = readAttributes(reader);
+		for (String attr : requiredAttributes) {
+			if (!attrs.containsKey(attr)) {
+				throw new XMLStreamException("Attribute '" + attr + "' MUST be present (element: " + elementName + "). " + readerPosition(reader));
+			}
+		}
+		return attrs;
+	}
+
+	private void assertStartTag(XMLStreamReader reader, String name) throws XMLStreamException {
+		if (!reader.isStartElement()) {
+			throw new XMLStreamException("Assert start tag - wrong event type " + reader.getEventType() + " (expected name: " + name + ") " + readerPosition(reader));
+		}
+		assertName(reader, "start tag", name);
+	}
+
+	private Map<String, String> readAttributes(XMLStreamReader reader) {
+		Map<String, String> attributes = new LinkedHashMap<String, String>();
+		int attrCount = reader.getAttributeCount();
+		for (int i = 0; i < attrCount; i++) {
+			attributes.put(reader.getAttributeName(i).toString(), reader.getAttributeValue(i));
+		}
+		return attributes;
+	}
+
+	private void assertName(XMLStreamReader reader, String operation, String name) throws XMLStreamException {
+		if (!reader.getLocalName().equals(name)) {
+			throw new XMLStreamException("Assert " + operation + " - wrong element name " + reader.getName().toString() + " (expected name: " + name + ") " + readerPosition(reader));
+		}
+	}
+
+	private String readerPosition(XMLStreamReader reader) {
+		return "[line: " + reader.getLocation().getLineNumber() + ", column: " + reader.getLocation().getColumnNumber() + "]";
+	}
+
+	private void assertEndTag(XMLStreamReader reader, String name) throws XMLStreamException {
+		if (!reader.isEndElement()) {
+			throw new XMLStreamException("Assert end tag - wrong event type " + reader.getEventType() + " (expected name: " + name + ") " + readerPosition(reader));
+		}
+		assertName(reader, "end tag", name);
+	}
+
+	private boolean isStartTag(XMLStreamReader reader, String name) {
+		return reader.isStartElement() && reader.getLocalName().equals(name);
+	}
+
+	private void processEndElement(XMLStreamReader reader, String name) throws XMLStreamException {
+		assertEndTag(reader, name);
+		reader.nextTag();
 	}
 }
