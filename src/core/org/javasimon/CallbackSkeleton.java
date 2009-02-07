@@ -50,6 +50,8 @@ public class CallbackSkeleton implements Callback {
 	}
 
 	/**
+	 * Warning and stack trace are print out to the standard output.
+	 *
 	 * {@inheritDoc}
 	 */
 	public void warning(String warning, Exception cause) {

@@ -13,7 +13,6 @@
 	<!-- used for testng or examples, simon.jar requires nothing -->
 	<path id="classpath">
 		<pathelement path="${lib.dir}/${testng.jar}"/>
-		<pathelement path="${lib.dir}/jamon-2.7.jar"/>
 		<pathelement path="${lib.dir}/h2.jar"/>
 		<pathelement path="${lib.dir}/spring-core.jar"/>
 		<pathelement path="${lib.dir}/spring-aop.jar"/>
@@ -73,13 +72,7 @@
 	<target name="examples" depends="compile" description="Compiles the examples">
 		<mkdir dir="build/examples"/>
 		<javac srcdir="examples" destdir="build/examples" debug="${javac.debug}" deprecation="${javac.deprecation}"
-			classpathref="classpath"/>
-		<copy todir="build/examples">
-			<fileset dir="examples">
-				<include name="**/*.config"/>
-				<include name="**/*.properties"/>
-			</fileset>
-		</copy>
+			classpathref="classpath" excludes="other/**"/>
 	</target>
 
 	<target name="zip" description="Creates distribution ZIP file">
@@ -90,7 +83,6 @@
 			</zipfileset>
 			<zipfileset prefix="javasimon-${version}/lib" dir="${lib.dir}">
 				<include name="${testng.jar}"/>
-				<include name="jamon-2.7.jar"/>
 				<include name="h2.jar"/>
 				<include name="spring-core.jar"/>
 				<include name="spring-aop.jar"/>
@@ -123,6 +115,9 @@
 		<mkdir dir="build/test"/>
 		<javac srcdir="test" destdir="build/test" debug="${javac.debug}" deprecation="${javac.deprecation}"
 			classpathref="classpath"/>
+		<copy todir="build/test">
+			<fileset dir="test" includes="**/*.xml"/>
+		</copy>
 		<testng outputdir="${basedir}/build/testout" haltonfailure="true" verbose="2" classpathref="classpath">
 			<xmlfileset dir="test">
 				<include name="testng.xml"/>

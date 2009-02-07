@@ -1,4 +1,4 @@
-package org.javasimon.examples;
+package other;
 
 import com.jamonapi.MonitorFactory;
 import com.jamonapi.Monitor;

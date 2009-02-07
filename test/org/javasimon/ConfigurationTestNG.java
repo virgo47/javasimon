@@ -15,9 +15,10 @@ import java.io.StringReader;
 public final class ConfigurationTestNG {
 	@Test
 	public void testConfigResource() throws IOException {
-		SimonManager.init();
-		// nothing is done without the property set - but if this was not here the configuration
-		// would get read twice... in normal cases there is no need to call init explicitely
+		SimonManager.isEnabled();
+		// Calling init causes configuration to be read twice because the init is called from
+		// static initialization anyway. This just makes the static initialization do
+		// empty initialization, because no configuration property is set.
 
 		System.setProperty(SimonManager.PROPERTY_CONFIG_RESOURCE_NAME, "org/javasimon/test-config.xml");
 		SimonManager.init(); // this really reads the config resource
