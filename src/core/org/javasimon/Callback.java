@@ -56,4 +56,8 @@ public interface Callback {
 	 * @param cause exception causing this warning
 	 */
 	void warning(String warning, Exception cause);
+
+	enum Event {
+		ALL, START, STOP, WARNING
+	}
 }

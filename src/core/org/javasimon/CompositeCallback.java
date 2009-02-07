@@ -7,13 +7,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * Composite callbacks holds child-callbacks and delegates any operations to all of them.
  * It implements {@link #callbacks()}, {@link #addCallback(Callback)} and {@link #removeCallback(Callback)}.
- * It is possible to extend the class but overriding methods should call super method if they suppose to
- * preserve the composite behavior.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Jan 22, 2009
  */
-public class CompositeCallback implements Callback {
+public final class CompositeCallback implements Callback {
 	private List<Callback> callbacks = new CopyOnWriteArrayList<Callback>();
 
 	/**

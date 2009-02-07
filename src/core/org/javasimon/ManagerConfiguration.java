@@ -1,7 +1,5 @@
 package org.javasimon;
 
-import org.javasimon.utils.SimonUtils;
-
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
@@ -20,9 +18,7 @@ import java.lang.reflect.InvocationTargetException;
  * @created Sep 6, 2008
  */
 public final class ManagerConfiguration {
-	private static final String WILDCARD_STAR = "*";
-
-	private Map<ConfigPattern, SimonConfiguration> configs;
+	private Map<SimonPattern, SimonConfiguration> configs;
 
 	private final Manager manager;
 
@@ -32,7 +28,7 @@ public final class ManagerConfiguration {
 	}
 
 	void clear() {
-		configs = new LinkedHashMap<ConfigPattern, SimonConfiguration>();
+		configs = new LinkedHashMap<SimonPattern, SimonConfiguration>();
 	}
 
 	/**
@@ -52,6 +48,9 @@ public final class ManagerConfiguration {
 				if (isStartTag(xr, "callback")) {
 					manager.installCallback(processCallback(xr));
 				}
+				if (isStartTag(xr, "filter-callback")) {
+					manager.installCallback(processFilterCallback(xr));
+				}
 				while (isStartTag(xr, "simon")) {
 					processSimon(xr);
 				}
@@ -70,7 +69,6 @@ public final class ManagerConfiguration {
 		if (klass == null) {
 			klass = CompositeCallback.class.getName();
 		}
-		System.out.println("klass = " + klass);
 		Callback callback;
 		try {
 			callback = (Callback) Class.forName(klass).newInstance();
@@ -84,14 +82,56 @@ public final class ManagerConfiguration {
 			throw new SimonException(e);
 		}
 
+		processSetAndCallbacks(xr, callback);
+		processEndElement(xr, "callback");
+		return callback;
+	}
+
+	private Callback processFilterCallback(XMLStreamReader xr) throws XMLStreamException {
+		Map<String, String> attrs = processStartElement(xr, "filter-callback");
+		String klass = attrs.get("class");
+		if (klass == null) {
+			klass = CompositeFilterCallback.class.getName();
+		}
+		FilterCallback callback;
+		try {
+			callback = (FilterCallback) Class.forName(klass).newInstance();
+		} catch (InstantiationException e) {
+			throw new SimonException(e);
+		} catch (IllegalAccessException e) {
+			throw new SimonException(e);
+		} catch (ClassNotFoundException e) {
+			throw new SimonException(e);
+		} catch (ClassCastException e) {
+			throw new SimonException(e);
+		}
+
+		while (isStartTag(xr, "rule")) {
+			processRule(xr, callback);
+		}
+		processSetAndCallbacks(xr, callback);
+		processEndElement(xr, "filter-callback");
+		return callback;
+	}
+
+	private void processSetAndCallbacks(XMLStreamReader xr, Callback callback) throws XMLStreamException {
 		while (isStartTag(xr, "set")) {
 			processSet(xr, callback);
 		}
-		while (isStartTag(xr, "callback")) {
-			callback.addCallback(processCallback(xr));
+		while (true) {
+			if (isStartTag(xr, "callback")) {
+				callback.addCallback(processCallback(xr));
+			} else if (isStartTag(xr, "filter-callback")) {
+				callback.addCallback(processFilterCallback(xr));
+			} else {
+				break;
+			}
 		}
-		processEndElement(xr, "callback");
-		return callback;
+	}
+
+	private void processRule(XMLStreamReader xr, FilterCallback callback) throws XMLStreamException {
+		Map<String, String> attrs = processStartElement(xr, "rule");
+		processEndElement(xr, "rule");
 	}
 
 	private void processSet(XMLStreamReader xr, Callback callback) throws XMLStreamException {
@@ -105,7 +145,7 @@ public final class ManagerConfiguration {
 		String simonType = attrs.get("type");
 		StatProcessorType statProcessorType = attrs.get("stats") != null ? StatProcessorType.valueOf(attrs.get("stats").toUpperCase()) : null;
 		SimonState state = attrs.get("state") != null ? SimonState.valueOf(attrs.get("state").toUpperCase()) : null;
-		configs.put(new ConfigPattern(pattern), new SimonConfiguration(simonType, statProcessorType, state));
+		configs.put(new SimonPattern(pattern), new SimonConfiguration(simonType, statProcessorType, state));
 
 //		boolean create = attrs.get("create") != null && Boolean.valueOf(attrs.get("create"));
 //		if (SimonUtils.checkName(name)) {
@@ -127,7 +167,7 @@ public final class ManagerConfiguration {
 		StatProcessorType spType = null;
 		SimonState state = null;
 
-		for (ConfigPattern pattern : configs.keySet()) {
+		for (SimonPattern pattern : configs.keySet()) {
 			if (pattern.matches(name)) {
 				SimonConfiguration config = configs.get(pattern);
 				if (config.getState() != null) {
@@ -142,105 +182,6 @@ public final class ManagerConfiguration {
 			}
 		}
 		return new SimonConfiguration(type, spType, state);
-	}
-
-	/**
-	 * Matches Simon name patterns from configuration.
-	 */
-	class ConfigPattern {
-		private String pattern;
-		private String all;
-		private String start;
-		private String end;
-		private String middle;
-		private static final String INVALID_PATTERN = "Invalid configuration pattern: ";
-
-		/**
-		 * Creates Simon name pattern used to match config file entries.
-		 *
-		 * @param pattern Simon name pattern
-		 * @throws org.javasimon.SimonException if pattern is not valid (runtime exception)
-		 */
-		ConfigPattern(String pattern) {
-			this.pattern = pattern;
-			if (!pattern.contains(WILDCARD_STAR)) {
-				all = pattern;
-				if (!SimonUtils.checkName(all)) {
-					throw new SimonException(INVALID_PATTERN + pattern);
-				}
-				return;
-			}
-			if (pattern.equals(WILDCARD_STAR)) {
-				middle = ""; // everything contains this
-				return;
-			}
-			if (pattern.startsWith(WILDCARD_STAR) && pattern.endsWith(WILDCARD_STAR)) {
-				middle = pattern.substring(1, pattern.length() - 2);
-				if (!SimonUtils.checkName(middle)) {
-					throw new SimonException(INVALID_PATTERN + pattern);
-				}
-				return;
-			}
-			int ix = pattern.lastIndexOf('*');
-			if (ix != pattern.indexOf('*')) {
-				throw new SimonException(INVALID_PATTERN + pattern);
-			}
-			if (!pattern.endsWith(WILDCARD_STAR)) {
-				end = pattern.substring(ix + 1);
-				if (!SimonUtils.checkName(end)) {
-					throw new SimonException(INVALID_PATTERN + pattern);
-				}
-			}
-			if (!pattern.startsWith(WILDCARD_STAR)) {
-				start = pattern.substring(0, ix);
-				if (!SimonUtils.checkName(start)) {
-					throw new SimonException(INVALID_PATTERN + pattern);
-				}
-			}
-		}
-
-		/**
-		 * Checks if Simon name matches this pattern.
-		 *
-		 * @param name tested name
-		 * @return true if tested pattern matches this pattern
-		 */
-		public boolean matches(String name) {
-			if (all != null) {
-				return all.equals(name);
-			}
-			if (middle != null) {
-				return name.contains(middle);
-			}
-			if (start != null && !name.startsWith(start)) {
-				return false;
-			}
-			return end == null || name.endsWith(end);
-		}
-
-		@Override
-		public boolean equals(Object o) {
-			if (this == o) {
-				return true;
-			}
-			if (o == null || getClass() != o.getClass()) {
-				return false;
-			}
-
-			ConfigPattern that = (ConfigPattern) o;
-
-			return !(pattern != null ? !pattern.equals(that.pattern) : that.pattern != null);
-		}
-
-		@Override
-		public int hashCode() {
-			return (pattern != null ? pattern.hashCode() : 0);
-		}
-
-		@Override
-		public String toString() {
-			return "ConfigPattern: " + pattern;
-		}
 	}
 
 	/**
