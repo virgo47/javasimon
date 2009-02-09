@@ -1,4 +1,4 @@
-package org.javasimon.examples;
+package other;
 
 import java.util.Map;
 import java.util.TreeMap;
