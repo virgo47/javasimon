@@ -10,6 +10,10 @@
 
 	<property name="testng.jar" value="testng-5.8-jdk15.jar"/>
 
+	<echo message="JDK5: ${jdk5.home}"/>
+	<echo message="JDK6: ${jdk6.home}"/>
+	<echo message="libs: ${lib.dir}"/>
+
 	<!-- used for testng or examples, simon.jar requires nothing -->
 	<path id="classpath">
 		<pathelement path="${lib.dir}/${testng.jar}"/>
@@ -19,7 +23,6 @@
 		<pathelement path="${lib.dir}/aopalliance.jar"/>
 		<pathelement path="${lib.dir}/commons-logging-1.1.1.jar"/>
 		<pathelement path="${lib.dir}/stax-api-1.0.1.jar"/>
-		<!--<pathelement path="${lib.dir}/woodstox-core-lgpl-4.0.1.jar"/>-->
 		<pathelement path="build/core"/>
 		<pathelement path="build/jdbc3"/>
 		<pathelement path="build/spring"/>
@@ -75,6 +78,10 @@
 			classpathref="classpath" excludes="other/**"/>
 	</target>
 
+	<target name="clean-examples" depends="compile" description="Compiles the examples">
+		<delete failonerror="false" dir="build/examples"/>
+	</target>
+
 	<target name="zip" description="Creates distribution ZIP file">
 		<zip file="javasimon-${version}.zip">
 			<zipfileset prefix="javasimon-${version}" dir="build">
@@ -88,6 +95,8 @@
 				<include name="spring-aop.jar"/>
 				<include name="aopalliance.jar"/>
 				<include name="commons-logging-1.1.1.jar"/>
+				<include name="stax-api-1.0.1.jar"/>
+				<include name="sjsxp.jar"/>
 			</zipfileset>
 			<zipfileset prefix="javasimon-${version}/lib" dir="build">
 				<include name="*.jar"/>
@@ -97,6 +106,7 @@
 				<include name="examples/**"/>
 				<include name="test/**"/>
 				<include name="build.xml"/>
+				<include name="build.properties"/>
 				<include name="readme.txt"/>
 				<include name="lgpl.txt"/>
 			</zipfileset>
@@ -118,7 +128,8 @@
 		<copy todir="build/test">
 			<fileset dir="test" includes="**/*.xml"/>
 		</copy>
-		<testng outputdir="${basedir}/build/testout" haltonfailure="true" verbose="2" classpathref="classpath">
+		<testng outputdir="${basedir}/build/testout" haltonfailure="true" verbose="2" classpathref="classpath"
+			jvm="${jdk6.home}/bin/java" >
 			<xmlfileset dir="test">
 				<include name="testng.xml"/>
 			</xmlfileset>
