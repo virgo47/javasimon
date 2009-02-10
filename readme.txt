@@ -10,13 +10,20 @@ Check this readme online for updates: http://code.google.com/p/javasimon/wiki/Re
 
 == Build ==
 
-  * Compiled Simon JAR depends on JDK only (at this moment), you need JDK 1.5 or higher.
-  * Use "ant" to build the Simon, find the JAR file under the "build" directory. For build you need JDK 1.5, NOT JDK 1.6.
+  * Compiled Simon jars depend on:
+    * JDK 1.5 or higher;
+    * StAX API (`stax-api-1.0.1.jar` and `sjsxp.jar`) - this is NOT needed with JDK 1.6 and higher;
+    * Java Simon JMX jar needs JDK 1.6 or higher (and is also compiled with JDK 1.6);
+    * Java Simon Spring jar depends on `aopalliance.jar`, `commons-logging-1.1.1.jar`, `spring-aop.jar` and `spring-core.jar` - it is expected that these dependencies will be at least partially satisfied in a typical Spring environment.
+  * Use "ant" to build the Simon:
+    * You need both JDK 1.5 and JDK 1.6 to build Java Simon properly, set paths to both JDKs in the `build.properties` (like `JAVA_HOME` variable);
+    * newly built jars are placed into `build` directory;
+    * new ZIP archive is placed into the main project directory.
   * Some examples requires other libraries (h2, JAMon, ...). If you checkout the project, you have to download them and put them to classpath by yourself. If you download our ZIP, they are included.
 
 == Usage ==
 
-There are two types of Simons available: `Counter` and `Stopwatch`. Counter tracks single long value, its maximum and minimum. Stopwatch measures time and tracks number of measurements (splits), total time, split minimum and maximum. If you think it's not enough you can get more statistic information by adding `StatProcessor` implementation to your Simon.
+There are two types of Simons available: `Counter` and `Stopwatch`. Counter tracks single long value, its maximum and minimum. Stopwatch measures time and tracks number of measurements (splits), total time, split minimum and maximum, etc. If you think it's not enough you can get more statistic information by adding `StatProcessor` to your Simon.
 
 === Simon Manager ===
 
@@ -31,9 +38,9 @@ Here we obtained stopwatch Simon. If the Simon is accessed first time it is crea
 
 Using stopwatch is simple:
 {{{
-Split split = stopwatch.start();
-// here goes measured code
-long time = split.stop(); // returns the time
+Split split = stopwatch.start(); // returns split object
+// here goes the measured code
+long time = split.stop(); // returns the split time in ns
 }}}
 
 After few runs of your measured code you can get additional information from stopwatch:
@@ -53,22 +60,28 @@ Or simply print the Simon itself, it has nice `toString` output.
 == Resources ==
 
 Project is hosted on Google Code as "javasimon":
-  * Homepage: http://code.google.com/p/javasimon/
+  * Homepage: http://www.javasimon.org
+  * Project page: http://code.google.com/p/javasimon/
   * Download: http://code.google.com/p/javasimon/downloads/list
+  * Javadoc API: http://javasimon.googlecode.com/svn/javadoc/api-2.0/index.html
   * Source browser: http://code.google.com/p/javasimon/source/browse/
   * Issue tracker: http://code.google.com/p/javasimon/issues/list
 
-Project tests use TestNG library:
-  * http://testng.org/
-
-Project example uses these libraries (you don't need them to use Java Simon):
-  * JAMon API: http://jamonapi.sourceforge.net/
-  * H2 Database: http://www.h2database.com/
-
-Spring integration support requires following libraries:
-  * AOP Alliance JAR: http://sourceforge.net/projects/aopalliance
-  * Spring core+aop JARs: http://www.springsource.org/
-  * Commons Logging: http://commons.apache.org/logging/
+Project uses following libraries:
+  * TestNG: http://testng.org/ (test)
+    * `testng-5.8-jdk15.jar`
+  * Sun's StAX implementation: https://sjsxp.dev.java.net/ (not needed with JDK 1.6!)
+    * `stax-api-1.0.1.jar`
+    * `sjsxp.jar`
+  * Spring (core/aop): http://www.springsource.org/ (Spring integration)
+    * `spring-core.jar`
+    * `spring-aop.jar`
+  * AOP alliance: http://aopalliance.sourceforge.net/ (Spring integration)
+    * `aopalliance.jar`
+  * Commons logging: http://commons.apache.org/logging/ (Spring integration)
+    * `commons-logging-1.1.1.jar`
+  * H2 Database: http://www.h2database.com/ (examples)
+    * `h2.jar`
 
 == Java Simon name ==
 

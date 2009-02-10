@@ -1,6 +1,6 @@
 package org.javasimon;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Callback processes various events of the Java Simon API. Callbacks can be
@@ -18,7 +18,7 @@ public interface Callback {
 	 *
 	 * @return children list
 	 */
-	Collection<Callback> callbacks();
+	List<Callback> callbacks();
 
 	/**
 	 * Adds another callback as a child to this callback. Implemented in {@link org.javasimon.CompositeCallback}.

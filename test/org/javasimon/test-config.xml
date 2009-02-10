@@ -12,5 +12,6 @@
 		<callback class="org.javasimon.utils.DebugCallback"/>
 	</callback>
 
-	<simon pattern="org.javasimon.test.good.*" stats="BASIC"/>
+	<simon pattern="org.javasimon.test.good.*" stats="basic"/>
+	<simon pattern="org.javasimon.test.*" state="disabled"/>
 </simon-configuration>

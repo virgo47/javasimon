@@ -135,7 +135,6 @@ public final class EnabledManager implements Manager {
 		if (name != null) {
 			addToHierarchy(simon, name);
 			SimonConfiguration config = configuration.getConfig(name);
-			// TODO - what to do with the type?
 			if (config.getState() != null) {
 				simon.setState(config.getState(), false);
 			}

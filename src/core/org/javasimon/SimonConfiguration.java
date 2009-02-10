@@ -7,30 +7,18 @@ package org.javasimon;
  * @created Sep 30, 2008
  */
 public final class SimonConfiguration {
-	private String type;
 	private StatProcessorType statProcessorType;
 	private SimonState state;
 
 	/**
 	 * Creates SimonConfiguration item.
 	 *
-	 * @param type Simon type
 	 * @param statProcessorType stat processor type
 	 * @param state prefered state - SimonManager sets ihnerit if null is specified here
 	 */
-	SimonConfiguration(String type, StatProcessorType statProcessorType, SimonState state) {
-		this.type = type;
+	SimonConfiguration(StatProcessorType statProcessorType, SimonState state) {
 		this.statProcessorType = statProcessorType;
 		this.state = state;
-	}
-
-	/**
-	 * Returns Simon type for this configuration item.
-	 *
-	 * @return configured Simon type or null if nothing was specified
-	 */
-	public String getType() {
-		return type;
 	}
 
 	/**
@@ -54,7 +42,6 @@ public final class SimonConfiguration {
 	@Override
 	public String toString() {
 		return "SimonConfiguration {\n" +
-			"  type=" + type + "\n" +
 			"  statProcessorType=" + statProcessorType + "\n" +
 			"  state=" + state + "\n}";
 	}
