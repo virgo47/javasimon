@@ -2,6 +2,8 @@ package org.javasimon;
 
 import org.testng.annotations.Test;
 import org.testng.Assert;
+import org.javasimon.utils.DebugCallback;
+import org.javasimon.utils.LoggingCallback;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -25,19 +27,23 @@ public final class ConfigurationTestNG {
 		Callback callback = SimonManager.manager().callback();
 		Assert.assertEquals(callback.getClass(), CompositeCallback.class);
 		Assert.assertEquals(callback.callbacks().size(), 2);
+		Assert.assertEquals(callback.callbacks().get(0).getClass(), CompositeFilterCallback.class);
+		Assert.assertEquals(callback.callbacks().get(1).getClass(), DebugCallback.class);
+		Assert.assertEquals(callback.callbacks().get(0).callbacks().get(0).getClass(), LoggingCallback.class);
+		Assert.assertTrue(SimonManager.getStopwatch("whatever").isEnabled());
+		Assert.assertFalse(SimonManager.getStopwatch("org.javasimon.test.whatever").isEnabled());
 	}
 
 	@Test
 	public void testConfig() throws IOException {
 		Manager manager = new EnabledManager();
 		manager.configuration().readConfig(new StringReader("<simon-configuration>\n" +
-			"  <simon pattern='org.javasimon.test.stopwatch' type='stopwatch'/>\n" +
+			"  <simon pattern='org.javasimon.test.stopwatch'/>\n" +
 			"  <simon pattern='org.javasimon.*' stats='basic'/>\n" +
 			"  <simon pattern='*.debug' state='disabled'/>\n" +
 			"  <simon pattern='*no-stats*' stats='null'/>\n" +
 			"</simon-configuration>"));
 		Assert.assertNull(manager.configuration().getConfig("org.javasimon.bubu").getState());
-		Assert.assertTrue(manager.configuration().getConfig("org.javasimon.test.stopwatch").getType().equals("stopwatch"));
 		Assert.assertTrue(manager.configuration().getConfig("org.javasimon.test.stopwatch").getStatProcessorType().equals(StatProcessorType.BASIC));
 		Assert.assertTrue(manager.configuration().getConfig("org.javasimon.test.debug").getStatProcessorType().equals(StatProcessorType.BASIC));
 		Assert.assertTrue(manager.configuration().getConfig("org.javasimon.test.debug").getState().equals(SimonState.DISABLED));

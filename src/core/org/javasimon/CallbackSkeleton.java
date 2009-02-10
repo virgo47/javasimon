@@ -1,7 +1,7 @@
 package org.javasimon;
 
-import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * EmptyCallback implements Callback interface so that it does nothing.
@@ -15,7 +15,7 @@ public class CallbackSkeleton implements Callback {
 	 *
 	 * @return empty list
 	 */
-	public Collection<Callback> callbacks() {
+	public List<Callback> callbacks() {
 		return Collections.emptyList();
 	}
 

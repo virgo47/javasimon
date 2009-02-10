@@ -1,6 +1,5 @@
 package org.javasimon;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -19,7 +18,7 @@ public final class CompositeCallback implements Callback {
 	 *
 	 * @return children list
 	 */
-	public Collection<Callback> callbacks() {
+	public List<Callback> callbacks() {
 		return callbacks;
 	}
 

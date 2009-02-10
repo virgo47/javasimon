@@ -142,10 +142,9 @@ public final class ManagerConfiguration {
 	private void processSimon(XMLStreamReader xr) throws XMLStreamException {
 		Map<String, String> attrs = processStartElement(xr, "simon", "pattern");
 		String pattern = attrs.get("pattern");
-		String simonType = attrs.get("type");
 		StatProcessorType statProcessorType = attrs.get("stats") != null ? StatProcessorType.valueOf(attrs.get("stats").toUpperCase()) : null;
 		SimonState state = attrs.get("state") != null ? SimonState.valueOf(attrs.get("state").toUpperCase()) : null;
-		configs.put(new SimonPattern(pattern), new SimonConfiguration(simonType, statProcessorType, state));
+		configs.put(new SimonPattern(pattern), new SimonConfiguration(statProcessorType, state));
 
 //		boolean create = attrs.get("create") != null && Boolean.valueOf(attrs.get("create"));
 //		if (SimonUtils.checkName(name)) {
@@ -163,7 +162,6 @@ public final class ManagerConfiguration {
 	 * @return configuration for that particular Simon
 	 */
 	SimonConfiguration getConfig(String name) {
-		String type = null;
 		StatProcessorType spType = null;
 		SimonState state = null;
 
@@ -173,15 +171,12 @@ public final class ManagerConfiguration {
 				if (config.getState() != null) {
 					state = config.getState();
 				}
-				if (config.getType() != null) {
-					type = config.getType();
-				}
 				if (config.getStatProcessorType() != null) {
 					spType = config.getStatProcessorType();
 				}
 			}
 		}
-		return new SimonConfiguration(type, spType, state);
+		return new SimonConfiguration(spType, state);
 	}
 
 	/**

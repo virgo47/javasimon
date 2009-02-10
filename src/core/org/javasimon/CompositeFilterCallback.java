@@ -1,7 +1,6 @@
 package org.javasimon;
 
 import java.util.List;
-import java.util.Collection;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -35,7 +34,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Collection<Callback> callbacks() {
+	public List<Callback> callbacks() {
 		return callback.callbacks();
 	}
 
