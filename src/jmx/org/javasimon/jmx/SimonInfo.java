@@ -14,11 +14,10 @@ for (SimonInfo si : simon.getSimonInfos()) {
 	if (si.getType().equals(SimonInfo.STOPWATCH)) {
 		System.out.println("  " + si.getName());
 	}
-}
- * </pre>
+}</pre>
  *
  * @author Radovan Sninsky
- * @version $ Revision: $ $ Date: $
+ * @version $Revision$ $Date$
  * @created 26.1.2009 16:05:29
  * @since 2
  * @see SimonMXBean#getSimonInfos
