@@ -5,7 +5,7 @@ import java.beans.ConstructorProperties;
 /**
  * Value object for retrieving data from Counter simon. Basically, it's
  * {@link org.javasimon.CounterSample} with added JMX capabilities to be return as object via
- * MBean method.
+ * MXBean method.
  * <p>
  * Example:
  * <pre>
@@ -14,7 +14,7 @@ import java.beans.ConstructorProperties;
  * </pre>
  *
  * @author Radovan Sninsky
- * @version $ Revision $ $ Date $
+ * @version $Revision$ $Date$
  * @created 23.1.2009 12:37:40
  * @since 2
  */
