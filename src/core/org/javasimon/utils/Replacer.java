@@ -5,7 +5,10 @@ import java.util.regex.Pattern;
 /**
  * Replacer stores {@code from} regex as pattern and process method than returns string with
  * all {@code from} replaced with {@code to}. Using the replacer should be faster
- * because the regex is compiled only once.
+ * because the regex is compiled only once. Object allows to specify replace operation
+ * that should be re-applied while the replacement cause any change - use
+ * {@link #Replacer(String, String, boolean)} with last parameter {@code repeatUntilUnchanged}
+ * set to true.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 28, 2008
@@ -13,7 +16,7 @@ import java.util.regex.Pattern;
 public final class Replacer {
 	private final Pattern from;
 	private final String to;
-	private final boolean untilUnchanged;
+	private final boolean repeatUntilUnchanged;
 
 	/**
 	 * Creates the replacer with from->to regex specification.
@@ -24,7 +27,7 @@ public final class Replacer {
 	public Replacer(final String from, final String to) {
 		this.from = Pattern.compile(from);
 		this.to = to;
-		this.untilUnchanged = false;
+		this.repeatUntilUnchanged = false;
 	}
 
 	/**
@@ -33,12 +36,12 @@ public final class Replacer {
 	 *
 	 * @param from replaced regex
 	 * @param to replacement string
-	 * @param untilUnchanged if true, replacement is applied while there is a change to perform
+	 * @param repeatUntilUnchanged if true, replacement is re-applied while it changes the result
 	 */
-	public Replacer(final String from, final String to, final boolean untilUnchanged) {
+	public Replacer(final String from, final String to, final boolean repeatUntilUnchanged) {
 		this.from = Pattern.compile(from);
 		this.to = to;
-		this.untilUnchanged = untilUnchanged;
+		this.repeatUntilUnchanged = repeatUntilUnchanged;
 	}
 
 	/**
@@ -48,7 +51,7 @@ public final class Replacer {
 	 * @return replaced string
 	 */
 	public String process(String in) {
-		if (untilUnchanged) {
+		if (repeatUntilUnchanged) {
 			String retVal = in;
 			String old = "";
 			while (!old.equals(retVal)) {
@@ -65,7 +68,7 @@ public final class Replacer {
 		return "Replacer{" +
 			"from='" + from.pattern() + '\'' +
 			", to='" + to + '\'' +
-			", untilUnchanged=" + untilUnchanged +
+			", untilUnchanged=" + repeatUntilUnchanged +
 			'}';
 	}
 }
