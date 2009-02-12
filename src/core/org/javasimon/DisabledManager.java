@@ -1,6 +1,6 @@
 package org.javasimon;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Collections;
 
 /**
@@ -73,8 +73,8 @@ public final class DisabledManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Collection<String> simonNames() {
-		return Collections.emptySet();
+	public List<String> simonNames() {
+		return Collections.emptyList();
 	}
 
 	/**

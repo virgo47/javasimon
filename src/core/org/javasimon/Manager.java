@@ -1,6 +1,6 @@
 package org.javasimon;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Manager functions.
@@ -57,7 +57,7 @@ public interface Manager {
 	 *
 	 * @return collection of all Simon names
 	 */
-	Collection<String> simonNames();
+	List<String> simonNames();
 
 	/**
 	 * Removes Simon from the Manager. If Simon has some children it will be replaced

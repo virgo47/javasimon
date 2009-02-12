@@ -27,7 +27,7 @@ public interface FilterCallback extends Callback {
 	 * @param ruleText specific rule for a particular event(s)
 	 * @param pattern Simon pattern
 	 */
-	void addRule(Rule.Type type, Event[] events, String ruleText, String pattern);
+	void addRule(Rule.Type type, String ruleText, String pattern, Event... events);
 
 	class Rule {
 		enum Type {

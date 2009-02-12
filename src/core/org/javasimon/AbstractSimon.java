@@ -53,7 +53,7 @@ abstract class AbstractSimon implements Simon {
 	 *
 	 * @return list of children
 	 */
-	public final Collection<Simon> getChildren() {
+	public final List<Simon> getChildren() {
 		return children;
 	}
 
