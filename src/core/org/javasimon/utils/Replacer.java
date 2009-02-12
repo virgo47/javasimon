@@ -3,12 +3,14 @@ package org.javasimon.utils;
 import java.util.regex.Pattern;
 
 /**
- * Replacer stores {@code from} regex as pattern and process method than returns string with
- * all {@code from} replaced with {@code to}. Using the replacer should be faster
- * because the regex is compiled only once. Object allows to specify replace operation
- * that should be re-applied while the replacement cause any change - use
- * {@link #Replacer(String, String, boolean)} with last parameter {@code repeatUntilUnchanged}
- * set to true.
+ * Replacer stores {@code from} regex as pattern and its {@link #process} method than returns
+ * string with all {@code from} replaced with {@code to}. Using the replacer should be faster
+ * because the regex is compiled only once. {@link java.util.regex.Pattern#matcher(CharSequence)}
+ * and {@link java.util.regex.Matcher#replaceAll(String)} is used internally, hence {@code to}
+ * parameter is not a plain string and can reference matched group from the {@code from} String.
+ * Object allows to specify replace operation that should be re-applied while the replacement
+ * causes any change - use {@link #Replacer(String, String, boolean)} with last parameter
+ * {@code repeatUntilUnchanged} set to {@code true}.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 28, 2008
@@ -25,14 +27,15 @@ public final class Replacer {
 	 * @param to replacement string
 	 */
 	public Replacer(final String from, final String to) {
-		this.from = Pattern.compile(from);
-		this.to = to;
-		this.repeatUntilUnchanged = false;
+		this(from, to, false);
 	}
 
 	/**
 	 * Creates the replacer with from->to regex specification. UntilUnchanged set to true
 	 * enforces repetitive replacer application until there is no other change to perform.
+	 * Attention should be paid to provide from/to combination that converges to the final
+	 * result otherwise the process method may trigger infinite loop and/or excessive
+	 * memory consumption.
 	 *
 	 * @param from replaced regex
 	 * @param to replacement string
@@ -50,7 +53,7 @@ public final class Replacer {
 	 * @param in input string
 	 * @return replaced string
 	 */
-	public String process(String in) {
+	public String process(final String in) {
 		if (repeatUntilUnchanged) {
 			String retVal = in;
 			String old = "";
