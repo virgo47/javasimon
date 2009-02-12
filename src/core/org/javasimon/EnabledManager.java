@@ -22,7 +22,7 @@ public final class EnabledManager implements Manager {
 	private ManagerConfiguration configuration;
 
 	/**
-	 * Crea;tes new enabled manager.
+	 * Creates new enabled manager.
 	 */
 	public EnabledManager() {
 		rootSimon = new UnknownSimon(ROOT_SIMON_NAME, this);
