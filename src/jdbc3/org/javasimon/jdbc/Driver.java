@@ -17,11 +17,11 @@ import java.io.InputStream;
  * should use {@link java.sql.DriverManager} only. For example:
  * </p>
  * <pre>
- * Connection conn = DriverManager.getConnection(&quot;jdbc:simon:oracle:thin:...&quot;, &quot;scott&quot;, &quot;tiger&quot;);</pre>
+ * Connection conn = DriverManager.getConnection("jdbc:simon:oracle:thin:...", "scott", "tiger");</pre>
  * <p/>
  * Simon driver has following format of JDBC connection string:
- * <pre>
- * jdbc:simon:&lt;real driver conn string&gt;;&lt;param1&gt;=&lt;value1&gt;;...</pre>
+ * <pre>{@literal
+ * jdbc:simon:<real driver conn string>;<param1>=<value1>;...}</pre>
  * Simon driver recognizes two parameters:
  * <ul>
  * <li>
@@ -58,10 +58,10 @@ import java.io.InputStream;
  * and a Simon proxy driver explicitly. This can be done using Class.forName. To load the driver and open a
  * database connection, use following code:
  * <pre>
- * Class.forName(&quot;oracle.jdbc.driver.OracleDriver&quot;);  // loads real driver
- * Class.forName(&quot;org.javasimon.jdbc.Driver&quot;);  // loads Simon proxy driver
+ * Class.forName("oracle.jdbc.driver.OracleDriver");  // loads real driver
+ * Class.forName("org.javasimon.jdbc.Driver");  // loads Simon proxy driver
  * Connection conn = DriverManager.getConnection(
- *      &quot;jdbc:simon:oracle:thin:...&quot;, &quot;scott&quot;, &quot;tiger&quot;);</pre>
+ *      "jdbc:simon:oracle:thin:...", "scott", "tiger");</pre>
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$

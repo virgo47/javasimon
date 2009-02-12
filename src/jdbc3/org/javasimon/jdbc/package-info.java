@@ -98,7 +98,7 @@
  * in the config file (for more information see {@code SimonConfigTest.java} example).
  * <p>
  * Hierarchy of Simons in Simon JDBC proxy driver is following:
- * <pre>
+ * <pre>{@literal
  * org.javasimon.jdbc
  * |
  * +-> .conn
@@ -109,12 +109,12 @@
  * |     +-> .active
  * |
  * +-> .sql
- * |     +-> .&lt;sql type (select, insert, ...)&gt;
- * |           +-> .&lt;sql hash&gt;</pre>
+ * |     +-> .<sql type (select, insert, ...)>
+ * |           +-> .<sql hash>}</pre>
  *
  * For choosing Simon's name is used prefix. If non is defined, default is {@code org.javasimon.jdbc}.
  * If default prefix value is not suficient or you need to differentiate between two different drivers
- * (or its configuration) you can define your own prefix as parameter {@code SIMON_PREFIX=&lt;prefix&gt;}
+ * (or its configuration) you can define your own prefix as parameter {@code SIMON_PREFIX=<prefix>}
  * within JDBC connection string. For example, {@code jdbc:simon:....;SIMON_PREFIX=com.foo.bar}. More
  * about setuping Simon JDBC proxy driver see {@link org.javasimon.jdbc.Driver}.
  * <p>
