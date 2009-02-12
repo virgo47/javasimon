@@ -1,6 +1,6 @@
 package org.javasimon;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * SwitchingManager.
@@ -46,7 +46,7 @@ public final class SwitchingManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Collection<String> simonNames() {
+	public List<String> simonNames() {
 		return manager.simonNames();
 	}
 

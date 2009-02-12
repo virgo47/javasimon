@@ -85,8 +85,8 @@ public final class EnabledManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Collection<String> simonNames() {
-		return allSimons.keySet();
+	public List<String> simonNames() {
+		return new ArrayList<String>(allSimons.keySet());
 	}
 
 	// name can be null in case of "anonymous" Simons

@@ -1,11 +1,13 @@
 package org.javasimon;
 
 import java.util.List;
+import java.util.Map;
+import java.util.EnumMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * This callback combines Composite and Filter behavior. Filter can be configured
- * via {@link #addRule(org.javasimon.FilterCallback.Rule.Type, org.javasimon.Callback.Event[], String, String)}
+ * via {@link #addRule(org.javasimon.FilterCallback.Rule.Type, String, String, org.javasimon.Callback.Event[])}
  * method and if the rule is satisfied the event is propagated to all
  * children callbacks added via {@link #addCallback(Callback)}.
  * Filter without any rules does not propagate events. Any number of global
@@ -29,7 +31,14 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public final class CompositeFilterCallback implements FilterCallback {
 	private CompositeCallback callback = new CompositeCallback();
 
-	private List<Rule> rules = new CopyOnWriteArrayList<Rule>();
+	private Map<Event, List<Rule>> rules;
+
+	public CompositeFilterCallback() {
+		rules = new EnumMap<Event, List<Rule>>(Event.class);
+		for (Event event : Event.values()) {
+			rules.put(event, new CopyOnWriteArrayList<Rule>());
+		}
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -56,7 +65,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	 * {@inheritDoc}
 	 */
 	public void stopwatchStart(Split split) {
-		if (rulesAppliesTo(split.getStopwatch())) {
+		if (rulesAppliesTo(split.getStopwatch(), Event.ALL, Event.START)) {
 			callback.stopwatchStart(split);
 		}
 	}
@@ -65,7 +74,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	 * {@inheritDoc}
 	 */
 	public void stopwatchStop(Split split) {
-		if (rulesAppliesTo(split.getStopwatch())) {
+		if (rulesAppliesTo(split.getStopwatch(), Event.ALL, Event.STOP)) {
 			callback.stopwatchStop(split);
 		}
 	}
@@ -74,32 +83,35 @@ public final class CompositeFilterCallback implements FilterCallback {
 	 * {@inheritDoc}
 	 */
 	public void warning(String warning, Exception cause) {
-		callback.warning(warning, cause);
+		if (rulesAppliesTo(null, Event.ALL, Event.WARNING)) {
+			callback.warning(warning, cause);
+		}
 	}
 
-	public void addRule(Rule.Type type, Event[] events, String ruleText, String pattern) {
+	/**
+	 * {@inheritDoc}
+	 */
+	public void addRule(Rule.Type type, String ruleText, String pattern, Event... events) {
 		Rule rule = new Rule(type, ruleText, new SimonPattern(pattern));
-		if (events == null) {
-			rules.add(rule);
-			return;
-		}
 		for (Event event : events) {
-			// TODO
+			rules.get(event).add(rule);
 		}
 	}
 
-	private boolean rulesAppliesTo(Simon simon) {
-		for (Rule rule : rules) {
-			boolean result = true;
-			if (rule.getPattern() != null && !rule.getPattern().matches(simon.getName())) {
-				result = false;
-			}
+	private boolean rulesAppliesTo(Simon simon, Event... events) {
+		for (Event event : events) {
+			for (Rule rule : rules.get(event)) {
+				boolean result = true;
+				if (simon != null && rule.getPattern() != null && !rule.getPattern().matches(simon.getName())) {
+					result = false;
+				}
 
-			if (result && rule.getType().equals(Rule.Type.MUST_NOT)) {
-				return false;
-			}
-			if (result && rule.getType().equals(Rule.Type.SUFFICE)) {
-				return true;
+				if (result && rule.getType().equals(Rule.Type.MUST_NOT)) {
+					return false;
+				}
+				if (result && rule.getType().equals(Rule.Type.SUFFICE)) {
+					return true;
+				}
 			}
 		}
 		return false;

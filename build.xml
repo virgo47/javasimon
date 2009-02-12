@@ -25,6 +25,7 @@
 		<pathelement path="${lib.dir}/stax-api-1.0.1.jar"/>
 		<pathelement path="build/core"/>
 		<pathelement path="build/jdbc3"/>
+		<pathelement path="build/jmx"/>
 		<pathelement path="build/spring"/>
 		<pathelement path="build/test"/>
 	</path>
@@ -74,7 +75,8 @@
 
 	<target name="examples" depends="compile" description="Compiles the examples">
 		<mkdir dir="build/examples"/>
-		<javac srcdir="examples" destdir="build/examples" debug="${javac.debug}" deprecation="${javac.deprecation}"
+		<javac srcdir="examples" destdir="build/examples" debug="${javac.debug}"
+			deprecation="${javac.deprecation}" fork="true" executable="${jdk6.home}/bin/javac"
 			classpathref="classpath" excludes="other/**"/>
 	</target>
 

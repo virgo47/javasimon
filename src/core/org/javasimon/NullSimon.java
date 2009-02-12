@@ -1,6 +1,6 @@
 package org.javasimon;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Null Simon implements Simon returned by the disabled {@link SimonManager}. Null
@@ -26,7 +26,7 @@ final class NullSimon implements Counter, Stopwatch {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final Collection<Simon> getChildren() {
+	public final List<Simon> getChildren() {
 		return null;
 	}
 
