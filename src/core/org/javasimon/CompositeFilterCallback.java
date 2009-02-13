@@ -96,6 +96,9 @@ public final class CompositeFilterCallback implements FilterCallback {
 		for (Event event : events) {
 			rules.get(event).add(rule);
 		}
+		if (events.length == 0) {
+			rules.get(Event.ALL).add(rule);
+		}
 	}
 
 	private boolean rulesAppliesTo(Simon simon, Event... events) {
@@ -114,6 +117,6 @@ public final class CompositeFilterCallback implements FilterCallback {
 				}
 			}
 		}
-		return false;
+		return true;
 	}
 }

@@ -23,14 +23,14 @@ public interface FilterCallback extends Callback {
 	 * Adds the rule to the filter.
 	 *
 	 * @param type rule type (must, suffice, must-not)
-	 * @param events event list (empty applies to all)
 	 * @param ruleText specific rule for a particular event(s)
 	 * @param pattern Simon pattern
+	 * @param events event list (empty applies to all, can be omitted)
 	 */
 	void addRule(Rule.Type type, String ruleText, String pattern, Event... events);
 
 	class Rule {
-		enum Type {
+		public enum Type {
 			MUST, SUFFICE, MUST_NOT
 		}
 
