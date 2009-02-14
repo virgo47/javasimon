@@ -65,7 +65,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	 * {@inheritDoc}
 	 */
 	public void stopwatchStart(Split split) {
-		if (rulesAppliesTo(split.getStopwatch(), Event.ALL, Event.START)) {
+		if (rulesAppliesTo(split.getStopwatch(), split, Event.ALL, Event.START)) {
 			callback.stopwatchStart(split);
 		}
 	}
@@ -74,7 +74,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	 * {@inheritDoc}
 	 */
 	public void stopwatchStop(Split split) {
-		if (rulesAppliesTo(split.getStopwatch(), Event.ALL, Event.STOP)) {
+		if (rulesAppliesTo(split.getStopwatch(), split, Event.ALL, Event.STOP)) {
 			callback.stopwatchStop(split);
 		}
 	}
@@ -83,7 +83,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	 * {@inheritDoc}
 	 */
 	public void warning(String warning, Exception cause) {
-		if (rulesAppliesTo(null, Event.ALL, Event.WARNING)) {
+		if (rulesAppliesTo(null, null, Event.ALL, Event.WARNING)) {
 			callback.warning(warning, cause);
 		}
 	}
@@ -92,7 +92,11 @@ public final class CompositeFilterCallback implements FilterCallback {
 	 * {@inheritDoc}
 	 */
 	public void addRule(Rule.Type type, String ruleText, String pattern, Event... events) {
-		Rule rule = new Rule(type, ruleText, new SimonPattern(pattern));
+		SimonPattern simonPattern = null;
+		if (pattern != null) {
+			simonPattern = new SimonPattern(pattern);
+		}
+		Rule rule = new Rule(type, ruleText, simonPattern);
 		for (Event event : events) {
 			rules.get(event).add(rule);
 		}
@@ -101,14 +105,20 @@ public final class CompositeFilterCallback implements FilterCallback {
 		}
 	}
 
-	private boolean rulesAppliesTo(Simon simon, Event... events) {
+	private boolean rulesAppliesTo(Simon simon, Split split, Event... events) {
 		for (Event event : events) {
 			for (Rule rule : rules.get(event)) {
 				boolean result = true;
 				if (simon != null && rule.getPattern() != null && !rule.getPattern().matches(simon.getName())) {
 					result = false;
 				}
+				if (result && !rule.checkCondition(simon, split)) {
+					result = false;
+				}
 
+				if (!result && rule.getType().equals(Rule.Type.MUST)) {
+					return false;
+				}
 				if (result && rule.getType().equals(Rule.Type.MUST_NOT)) {
 					return false;
 				}

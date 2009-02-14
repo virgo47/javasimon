@@ -23,6 +23,7 @@
 		<pathelement path="${lib.dir}/aopalliance.jar"/>
 		<pathelement path="${lib.dir}/commons-logging-1.1.1.jar"/>
 		<pathelement path="${lib.dir}/stax-api-1.0.1.jar"/>
+		<pathelement path="${lib.dir}/eval-0.4.jar"/>
 		<pathelement path="build/core"/>
 		<pathelement path="build/jdbc3"/>
 		<pathelement path="build/jmx"/>
@@ -99,6 +100,7 @@
 				<include name="commons-logging-1.1.1.jar"/>
 				<include name="stax-api-1.0.1.jar"/>
 				<include name="sjsxp.jar"/>
+				<include name="eval-0.4.jar"/>
 			</zipfileset>
 			<zipfileset prefix="javasimon-${version}/lib" dir="build">
 				<include name="*.jar"/>

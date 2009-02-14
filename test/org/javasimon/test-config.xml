@@ -2,7 +2,13 @@
 	<callback>
 		<filter-callback>
 			<rule type="must" pattern="org.javasimon.test.good.*"/>
-			<rule event="stop" condition="last gt 5000 || last lt 10000"/>
+			<rule event="stop">
+				<condition>
+					<![CDATA[
+						split > 5000 || split < 10000
+					]]>
+				</condition>
+			</rule>
 
 			<callback class="org.javasimon.utils.LoggingCallback">
 				<set property="logger" value="org.javasimon.test"/>
