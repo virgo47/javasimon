@@ -130,8 +130,31 @@ public final class ManagerConfiguration {
 	}
 
 	private void processRule(XMLStreamReader xr, FilterCallback callback) throws XMLStreamException {
+		String pattern = null;
+		FilterCallback.Rule.Type type = FilterCallback.Rule.Type.MUST;
+		String condition = null;
+		Callback.Event[] events = new Callback.Event[0];
+
 		Map<String, String> attrs = processStartElement(xr, "rule");
+		if (attrs.get("condition") != null) {
+			condition = attrs.get("condition");
+		}
+		if (attrs.get("type") != null) {
+			type = FilterCallback.Rule.Type.valueOf(attrs.get("type").toUpperCase());
+		}
+		if (attrs.get("pattern") != null) {
+			pattern = attrs.get("pattern");
+		}
+		if (attrs.get("events") != null) {
+			String[] sa = attrs.get("events").trim().split(" *, *");
+		}
+		if (isStartTag(xr, "condition")) {
+			xr.next();
+			condition = getText(xr);
+			processEndElement(xr, "condition");
+		}
 		processEndElement(xr, "rule");
+		callback.addRule(type, condition, pattern, events);
 	}
 
 	private void processSet(XMLStreamReader xr, Callback callback) throws XMLStreamException {
@@ -263,5 +286,14 @@ public final class ManagerConfiguration {
 	private void processEndElement(XMLStreamReader reader, String name) throws XMLStreamException {
 		assertEndTag(reader, name);
 		reader.nextTag();
+	}
+
+	private String getText(XMLStreamReader reader) throws XMLStreamException {
+		StringBuilder sb = new StringBuilder();
+		while (reader.isCharacters()) {
+			sb.append(reader.getText());
+			reader.next();
+		}
+		return sb.toString().trim();
 	}
 }

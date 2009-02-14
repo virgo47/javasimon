@@ -66,6 +66,9 @@ class SimonPattern {
 	 * @return true if tested pattern matches this pattern
 	 */
 	public boolean matches(String name) {
+		if (name == null) {
+			return pattern.equals("");
+		}
 		if (all != null) {
 			return all.equals(name);
 		}
