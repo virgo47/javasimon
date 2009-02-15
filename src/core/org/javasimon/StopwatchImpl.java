@@ -52,14 +52,12 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Split start() {
+	public synchronized Split start() {
 		if (enabled) {
 			Split split;
-			synchronized (this) {
-				updateUsages();
-				activeStart();
-				split = new Split(this, currentNanos);
-			}
+			updateUsages();
+			activeStart();
+			split = new Split(this, currentNanos);
 			manager.callback().stopwatchStart(split);
 			return split;
 		}
@@ -73,12 +71,13 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	 * @param start start nano-time of the split @return split time in ns
 	 * @return duration of the split in nanoseconds
 	 */
-	long stop(Split split, long start) {
-		manager.callback().stopwatchStop(split);
-		synchronized (this) {
+	synchronized long stop(Split split, long start) {
+		try {
 			active--;
 			updateUsages();
 			return addSplit(currentNanos - start);
+		} finally {
+			manager.callback().stopwatchStop(split);
 		}
 	}
 

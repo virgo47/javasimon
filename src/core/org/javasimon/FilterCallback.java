@@ -43,7 +43,7 @@ public interface FilterCallback extends Callback {
 		public static final String VAR_SPLIT = "split";
 		public static final String VAR_ACTIVE = "active";
 		public static final String VAR_MAX_ACTIVE = "maxactive";
-		public static final String VAR_COUNT = "count";
+		public static final String VAR_COUNTER = "counter";
 		public static final String VAR_MAX = "max";
 		public static final String VAR_MIN = "min";
 		public static final String VAR_TOTAL = "total";
@@ -90,7 +90,7 @@ public interface FilterCallback extends Callback {
 				vars.put(VAR_SPLIT, BigDecimal.valueOf(split.runningFor()));
 			}
 			vars.put(VAR_ACTIVE, BigDecimal.valueOf(stopwatch.getActive()));
-			vars.put(VAR_COUNT, BigDecimal.valueOf(stopwatch.getCounter()));
+			vars.put(VAR_COUNTER, BigDecimal.valueOf(stopwatch.getCounter()));
 			vars.put(VAR_MAX, BigDecimal.valueOf(stopwatch.getMax()));
 			vars.put(VAR_MIN, BigDecimal.valueOf(stopwatch.getMin()));
 			vars.put(VAR_MAX_ACTIVE, BigDecimal.valueOf(stopwatch.getMaxActive()));
