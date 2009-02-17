@@ -1,12 +1,15 @@
 package org.javasimon.jdbc;
 
+import org.javasimon.CompositeFilterCallback;
+import org.javasimon.SimonManager;
+import org.javasimon.FilterCallback;
+
 import java.sql.SQLException;
 import java.sql.DriverPropertyInfo;
 import java.sql.DriverManager;
 import java.sql.Connection;
 import java.util.Properties;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
+import java.util.StringTokenizer;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -34,6 +37,13 @@ import java.io.InputStream;
  * <code>SIMON_PREFIX</code> - setting this parameter you can choose different prefix
  * for all monitors for this instance of driver. For example, setting
  * <code>SIMON_PREFIX=com.foo</code> will ensure that all proxy related Simons are located
+ * under the subtree specified by the prefix, e.g. <code>com.foo.conn</code>, <code>com.foo.stmt</code>,
+ * <code>com.foo.select</code>, etc.
+ * </li>
+ * <li>
+ * <code>SIMON_LOGFILE</code> - setting this parameter you can choose different prefix
+ * for all monitors for this instance of driver. For example, setting
+ * <code>SIMON_LOGFILE=c:\a.log</code> will ensure that all proxy related Simons are located
  * under the subtree specified by the prefix, e.g. <code>com.foo.conn</code>, <code>com.foo.stmt</code>,
  * <code>com.foo.select</code>, etc.
  * </li>
@@ -80,20 +90,84 @@ public final class Driver implements java.sql.Driver {
 	 */
 	public static final String PREFIX = "simon_prefix";
 
-	private static final String DEFAULT_PREFIX = "org.javasimon.jdbc";
-	private static final String SIMON_JDBC = "jdbc:simon";
-	private static final Pattern REAL_DRIVER_PATTERN = Pattern.compile(REAL_DRIVER + "\\s*=\\s*([\\w\\.]+)");
-	private static final Pattern PREFIX_PATTERN = Pattern.compile(PREFIX + "\\s*=\\s*([\\w\\.]+)");
-
-	private static final int JDBC_URL_FIXED_PREFIX_LEN = 5;
-
-	private final Properties drivers = new Properties();
+	/**
+	 * todo javadoc
+	 */
+	public static final String LOGFILE = "simon_logfile";
 
 	static {
 		try {
 			DriverManager.registerDriver(new Driver());
 		} catch (SQLException e) {
 			// don't know what to do yet, maybe throw RuntimeException ???
+		}
+	}
+
+	private final Properties drivers = new Properties();
+
+	/**
+	 * Trieda Url.
+	 *
+	 * @author Radovan Sninsky
+	 * @version $Revision$ $Date$
+	 * @created 14.2.2009 18:18:48
+	 * @since 2
+	 */
+	class Url {
+
+		private static final String SIMON_JDBC = "jdbc:simon";
+
+		private static final String DEFAULT_PREFIX = "org.javasimon.jdbc";
+
+		private static final int JDBC_URL_FIXED_PREFIX_LEN = 5;
+
+		private String realUrl;
+		private String driverId;
+		private String realDriver;
+		private String prefix;
+		private String logfile;
+
+		public Url(String url) {
+			int i = url.indexOf(':', JDBC_URL_FIXED_PREFIX_LEN);
+			if (i > -1) {
+				driverId = url.substring(JDBC_URL_FIXED_PREFIX_LEN, i - 1);
+			}
+
+			StringTokenizer st = new StringTokenizer(url, ";=");
+			while (st.hasMoreTokens()) {
+				String token = st.nextToken().trim();
+				if (token.startsWith("jdbc")) {
+					realUrl = token.replaceFirst(SIMON_JDBC, "jdbc");
+				} else if (token.equalsIgnoreCase(REAL_DRIVER)) {
+					realDriver = st.hasMoreTokens() ? st.nextToken().trim() : null;
+				} else if (token.equalsIgnoreCase(PREFIX)) {
+					prefix = st.hasMoreTokens() ? st.nextToken().trim() : null;
+				} else if (token.equalsIgnoreCase(LOGFILE)) {
+					logfile = st.hasMoreTokens() ? st.nextToken().trim() : null;
+				} else {
+					realUrl += ";" + token + (st.hasMoreTokens() ? st.nextToken().trim() : "");
+				}
+			}
+		}
+
+		public String getRealUrl() {
+			return realUrl;
+		}
+
+		public String getDriverId() {
+			return driverId;
+		}
+
+		public String getRealDriver() {
+			return realDriver;
+		}
+
+		public String getPrefix() {
+			return prefix == null ? DEFAULT_PREFIX : prefix;
+		}
+
+		public String getLogfile() {
+			return logfile;
 		}
 	}
 
@@ -119,36 +193,35 @@ public final class Driver implements java.sql.Driver {
 	/**
 	 * Opens new Simon proxy driver connection associated with real connection to specified database.
 	 *
-	 * @param url jdbc connection string (i.e. jdbc:simon:h2:file:test)
+	 * @param simonUrl jdbc connection string (i.e. jdbc:simon:h2:file:test)
 	 * @param info properties for connection
 	 * @return open connection to database or null if provided url is not accepted by this driver
 	 * @throws SQLException if there is no real driver registered/recognized or opening real connection fails
 	 * @see org.javasimon.jdbc.Driver
 	 */
-	public Connection connect(String url, Properties info) throws SQLException {
-		if (!acceptsURL(url)) {
+	public Connection connect(String simonUrl, Properties info) throws SQLException {
+		if (!acceptsURL(simonUrl)) {
 			return null;
 		}
 
-		String realUrl = url.replaceFirst(SIMON_JDBC, "jdbc");
-		java.sql.Driver driver = getRealDriver(realUrl, info);
+		Url url = new Url(simonUrl);
+		java.sql.Driver driver = getRealDriver(url, info);
 
-		String prefix = null;
-		Matcher matcher = PREFIX_PATTERN.matcher(url);
-		if (matcher.find()) {
-			prefix = matcher.group(1);
-		}
-		if (prefix == null) {
-			prefix = DEFAULT_PREFIX;
+		if (url.getLogfile() != null) {
+			CompositeFilterCallback filter = new CompositeFilterCallback();
+			filter.addRule(FilterCallback.Rule.Type.MUST, null, url.getPrefix()+".*");
+			filter.addCallback(new JdbcLogCallback(url.getLogfile()));
+
+			SimonManager.installCallback(filter);
 		}
 
-		return new org.javasimon.jdbc.SimonConnection(driver.connect(realUrl, info), prefix);
+		return new org.javasimon.jdbc.SimonConnection(driver.connect(url.getRealUrl(), info), url.getPrefix());
 	}
 
-	private java.sql.Driver getRealDriver(String url, Properties info) throws SQLException {
+	private java.sql.Driver getRealDriver(Url url, Properties info) throws SQLException {
 		java.sql.Driver drv = null;
 		try {
-			drv = DriverManager.getDriver(url);
+			drv = DriverManager.getDriver(url.getRealUrl());
 		} catch (SQLException e) {
 			// nothing, not an error
 		}
@@ -157,15 +230,13 @@ public final class Driver implements java.sql.Driver {
 			drv = registerDriver(info.getProperty(REAL_DRIVER));
 		}
 
-		int i = url.indexOf(':', JDBC_URL_FIXED_PREFIX_LEN);
-		if (drv == null && i > -1) {
-			drv = registerDriver(drivers.getProperty(url.substring(JDBC_URL_FIXED_PREFIX_LEN, i - 1)));
+		if (drv == null && url.getDriverId() != null) {
+			drv = registerDriver(drivers.getProperty(url.getDriverId()));
 		}
 
 		if (drv == null) {
-			Matcher matcher = REAL_DRIVER_PATTERN.matcher(url);
-			if (matcher.find()) {
-				drv = registerDriver(matcher.group(1));
+			if (url.getRealDriver() != null) {
+				drv = registerDriver(url.getRealDriver());
 			}
 		}
 
@@ -198,7 +269,7 @@ public final class Driver implements java.sql.Driver {
 	 * {@inheritDoc}
 	 */
 	public boolean acceptsURL(String url) throws SQLException {
-		return url != null && url.toLowerCase().startsWith(SIMON_JDBC);
+		return url != null && url.toLowerCase().startsWith(Url.SIMON_JDBC);
 	}
 
 	/**
