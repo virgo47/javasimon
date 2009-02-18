@@ -6,6 +6,8 @@ import javax.xml.stream.XMLStreamReader;
 import java.io.*;
 import java.util.Map;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.ArrayList;
 import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
 
@@ -133,7 +135,7 @@ public final class ManagerConfiguration {
 		String pattern = null;
 		FilterCallback.Rule.Type type = FilterCallback.Rule.Type.MUST;
 		String condition = null;
-		Callback.Event[] events = new Callback.Event[0];
+		List<Callback.Event> events = new ArrayList<Callback.Event>();
 
 		Map<String, String> attrs = processStartElement(xr, "rule");
 		if (attrs.get("condition") != null) {
@@ -147,6 +149,9 @@ public final class ManagerConfiguration {
 		}
 		if (attrs.get("events") != null) {
 			String[] sa = attrs.get("events").trim().split(" *, *");
+			for (String eventName : sa) {
+				events.add(Callback.Event.valueOf(eventName.toUpperCase()));
+			}
 		}
 		if (isStartTag(xr, "condition")) {
 			xr.next();
@@ -154,12 +159,37 @@ public final class ManagerConfiguration {
 			processEndElement(xr, "condition");
 		}
 		processEndElement(xr, "rule");
-		callback.addRule(type, condition, pattern, events);
+		callback.addRule(type, condition, pattern, events.toArray(new Callback.Event[events.size()]));
 	}
 
 	private void processSet(XMLStreamReader xr, Callback callback) throws XMLStreamException {
 		Map<String, String> attrs = processStartElement(xr, "set", "property", "value");
+		setProperty(callback, attrs.get("property"), attrs.get("value"));
 		processEndElement(xr, "set");
+	}
+
+	/**
+	 * Sets the callback property.
+	 *
+	 * @param callback callback object
+	 * @param property name of the property
+	 * @param value value of the property
+	 */
+	private void setProperty(Callback callback, String property, String value) {
+		try {
+			Method setter = callback.getClass().getMethod(setterName(property), String.class);
+			setter.invoke(callback, value);
+		} catch (NoSuchMethodException e) {
+			throw new SimonException(e);
+		} catch (IllegalAccessException e) {
+			throw new SimonException(e);
+		} catch (InvocationTargetException e) {
+			throw new SimonException(e);
+		}
+	}
+
+	private String setterName(String name) {
+		return "set" + name.substring(0, 1).toUpperCase() + name.substring(1);
 	}
 
 	private void processSimon(XMLStreamReader xr) throws XMLStreamException {
@@ -168,13 +198,6 @@ public final class ManagerConfiguration {
 		StatProcessorType statProcessorType = attrs.get("stats") != null ? StatProcessorType.valueOf(attrs.get("stats").toUpperCase()) : null;
 		SimonState state = attrs.get("state") != null ? SimonState.valueOf(attrs.get("state").toUpperCase()) : null;
 		configs.put(new SimonPattern(pattern), new SimonConfiguration(statProcessorType, state));
-
-//		boolean create = attrs.get("create") != null && Boolean.valueOf(attrs.get("create"));
-//		if (SimonUtils.checkName(name)) {
-//			create = true;
-//		} else {
-//			reportError("Invalid name used with create option on line " + lineNum);
-//		}
 		processEndElement(xr, "simon");
 	}
 
@@ -200,31 +223,6 @@ public final class ManagerConfiguration {
 			}
 		}
 		return new SimonConfiguration(spType, state);
-	}
-
-	/**
-	 * Sets the callback property.
-	 *
-	 * @param callback callback object
-	 * @param property name of the property
-	 * @param value value of the property
-	 */
-	// TODO ...
-	private void setProperty(Callback callback, String property, String value) {
-		try {
-			Method setter = callback.getClass().getMethod(setterName(property), String.class);
-			setter.invoke(callback, value);
-		} catch (NoSuchMethodException e) {
-			throw new SimonException(e);
-		} catch (IllegalAccessException e) {
-			throw new SimonException(e);
-		} catch (InvocationTargetException e) {
-			throw new SimonException(e);
-		}
-	}
-
-	private String setterName(String name) {
-		return "set" + name.substring(0, 1).toUpperCase() + name.substring(1);
 	}
 
 	// XML Utils

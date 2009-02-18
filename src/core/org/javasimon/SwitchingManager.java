@@ -9,7 +9,7 @@ import java.util.List;
  * @created Jan 14, 2009
  */
 public final class SwitchingManager implements Manager {
-	private EnabledManager enabled = new EnabledManager();
+	private Manager enabled = new EnabledManager();
 
 	private Manager disabled = new DisabledManager();
 

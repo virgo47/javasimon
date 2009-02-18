@@ -7,6 +7,7 @@ import org.javasimon.utils.LoggingCallback;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.logging.Level;
 
 /**
  * ConfigurationTestNG tests the configuration facility.
@@ -29,7 +30,10 @@ public final class ConfigurationTestNG {
 		Assert.assertEquals(callback.callbacks().size(), 2);
 		Assert.assertEquals(callback.callbacks().get(0).getClass(), CompositeFilterCallback.class);
 		Assert.assertEquals(callback.callbacks().get(1).getClass(), DebugCallback.class);
-		Assert.assertEquals(callback.callbacks().get(0).callbacks().get(0).getClass(), LoggingCallback.class);
+		Callback loggingCallback = callback.callbacks().get(0).callbacks().get(0);
+		Assert.assertEquals(loggingCallback.getClass(), LoggingCallback.class);
+		Assert.assertEquals(((LoggingCallback) loggingCallback).getLevel(), Level.INFO);
+		Assert.assertEquals(((LoggingCallback) loggingCallback).getLogger().getName(), "org.javasimon.test");
 		Assert.assertTrue(SimonManager.getStopwatch("whatever").isEnabled());
 		Assert.assertFalse(SimonManager.getStopwatch("org.javasimon.test.whatever").isEnabled());
 	}
@@ -54,7 +58,6 @@ public final class ConfigurationTestNG {
 	public void testConditions() {
 		Split split = new EnabledManager().getStopwatch(null).start();
 		split.stop();
-		System.out.println("split.runningFor() = " + split.runningFor());
 		Assert.assertTrue(new FilterCallback.Rule(null, "split > 5", null).checkCondition(split.getStopwatch(), split));
 		Assert.assertFalse(new FilterCallback.Rule(null, "split < 5", null).checkCondition(split.getStopwatch(), split));
 		Assert.assertFalse(new FilterCallback.Rule(null, "split < 5 || split > 1000000000000", null).checkCondition(split.getStopwatch(), split));

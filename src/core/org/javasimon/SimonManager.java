@@ -24,7 +24,7 @@ public final class SimonManager {
 	 */
 	public static final String PROPERTY_CONFIG_RESOURCE_NAME = "javasimon.config.resource";
 
-	private static SwitchingManager manager = new SwitchingManager();
+	private static Manager manager = new SwitchingManager();
 
 	/**
 	 * Calls {@link #init()}.
