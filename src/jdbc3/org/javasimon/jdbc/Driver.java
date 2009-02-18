@@ -41,11 +41,7 @@ import java.io.InputStream;
  * <code>com.foo.select</code>, etc.
  * </li>
  * <li>
- * <code>SIMON_LOGFILE</code> - setting this parameter you can choose different prefix
- * for all monitors for this instance of driver. For example, setting
- * <code>SIMON_LOGFILE=c:\a.log</code> will ensure that all proxy related Simons are located
- * under the subtree specified by the prefix, e.g. <code>com.foo.conn</code>, <code>com.foo.stmt</code>,
- * <code>com.foo.select</code>, etc.
+ * <code>SIMON_LOGFILE</code> - ... todo javadoc
  * </li>
  * </ul>
  * <p/>
@@ -93,7 +89,22 @@ public final class Driver implements java.sql.Driver {
 	/**
 	 * todo javadoc
 	 */
-	public static final String LOGFILE = "simon_logfile";
+	private static final String LOGFILE = "simon_logfile";
+
+	/**
+	 * todo javadoc
+	 */
+	private static final String LOGGER = "simon_logger";
+
+	/**
+	 * todo javadoc
+	 */
+	private static final String CONSOLE = "simon_console";
+
+	/**
+	 * todo javadoc
+	 */
+	private static final String FORMAT = "simon_format";
 
 	static {
 		try {
@@ -106,7 +117,7 @@ public final class Driver implements java.sql.Driver {
 	private final Properties drivers = new Properties();
 
 	/**
-	 * Trieda Url.
+	 * Trieda Url. todo javadoc
 	 *
 	 * @author Radovan Sninsky
 	 * @version $Revision$ $Date$
@@ -126,6 +137,9 @@ public final class Driver implements java.sql.Driver {
 		private String realDriver;
 		private String prefix;
 		private String logfile;
+		private String logger;
+		private String console;
+		private String format;
 
 		public Url(String url) {
 			int i = url.indexOf(':', JDBC_URL_FIXED_PREFIX_LEN);
@@ -144,6 +158,12 @@ public final class Driver implements java.sql.Driver {
 					prefix = st.hasMoreTokens() ? st.nextToken().trim() : null;
 				} else if (token.equalsIgnoreCase(LOGFILE)) {
 					logfile = st.hasMoreTokens() ? st.nextToken().trim() : null;
+				} else if (token.equalsIgnoreCase(LOGGER)) {
+					logger = st.hasMoreTokens() ? st.nextToken().trim() : null;
+				} else if (token.equalsIgnoreCase(CONSOLE)) {
+					console = st.hasMoreTokens() ? st.nextToken().trim() : null;
+				} else if (token.equalsIgnoreCase(FORMAT)) {
+					format = st.hasMoreTokens() ? st.nextToken().trim() : null;
 				} else {
 					realUrl += ";" + token + (st.hasMoreTokens() ? st.nextToken().trim() : "");
 				}
@@ -169,6 +189,24 @@ public final class Driver implements java.sql.Driver {
 		public String getLogfile() {
 			return logfile;
 		}
+
+		public String getLogger() {
+			return logger;
+		}
+
+		public boolean getConsole() {
+			return console != null && (
+				console.equalsIgnoreCase("yes") ||
+				console.equalsIgnoreCase("y") ||
+				console.equalsIgnoreCase("true") ||
+				console.equalsIgnoreCase("t") ||
+				console.equalsIgnoreCase("1")
+			);
+		}
+
+		public String getFormat() {
+			return format;
+		}
 	}
 
 	/**
@@ -192,6 +230,7 @@ public final class Driver implements java.sql.Driver {
 
 	/**
 	 * Opens new Simon proxy driver connection associated with real connection to specified database.
+	 * todo javadoc about jdbc driver activity logging
 	 *
 	 * @param simonUrl jdbc connection string (i.e. jdbc:simon:h2:file:test)
 	 * @param info properties for connection
@@ -207,10 +246,26 @@ public final class Driver implements java.sql.Driver {
 		Url url = new Url(simonUrl);
 		java.sql.Driver driver = getRealDriver(url, info);
 
-		if (url.getLogfile() != null) {
+		// if one of three possible way of setting logging is setted, than
+		// configure simon jdbc driver logging through jdbc logging callback
+		if (url.getLogfile() != null || url.getLogger() != null || url.getConsole()) {
 			CompositeFilterCallback filter = new CompositeFilterCallback();
 			filter.addRule(FilterCallback.Rule.Type.MUST, null, url.getPrefix()+".*");
-			filter.addCallback(new JdbcLogCallback(url.getLogfile()));
+
+			JdbcLogCallback jlc = new JdbcLogCallback();
+			if (url.getLogfile() != null) {
+				jlc.setLogFilename(url.getLogfile());
+			}
+			if (url.getLogger() != null) {
+				jlc.setLoggerName(url.getLogger());
+			}
+			if (url.getConsole()) {
+				jlc.setLogToConsole(url.getConsole());
+			}
+			if (url.getFormat() != null) {
+				jlc.setLogFormat(url.getFormat());
+			}
+			filter.addCallback(jlc);
 
 			SimonManager.installCallback(filter);
 		}
@@ -218,6 +273,13 @@ public final class Driver implements java.sql.Driver {
 		return new org.javasimon.jdbc.SimonConnection(driver.connect(url.getRealUrl(), info), url.getPrefix());
 	}
 
+	/**
+	 * todo javadoc
+	 * @param url
+	 * @param info
+	 * @return
+	 * @throws SQLException
+	 */
 	private java.sql.Driver getRealDriver(Url url, Properties info) throws SQLException {
 		java.sql.Driver drv = null;
 		try {
