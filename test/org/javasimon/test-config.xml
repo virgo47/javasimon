@@ -12,7 +12,7 @@
 
 			<callback class="org.javasimon.utils.LoggingCallback">
 				<set property="logger" value="org.javasimon.test"/>
-				<set property="level" value="FINE"/>
+				<set property="level" value="INFO"/>
 			</callback>
 		</filter-callback>
 		<callback class="org.javasimon.utils.DebugCallback"/>

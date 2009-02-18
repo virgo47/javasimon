@@ -36,11 +36,19 @@ public final class LoggingCallback extends CallbackSkeleton {
 		this.logger = logger;
 	}
 
+	public void setLogger(String logger) {
+		this.logger = Logger.getLogger(logger);
+	}
+
 	public Level getLevel() {
 		return level;
 	}
 
 	public void setLevel(Level level) {
 		this.level = level;
+	}
+
+	public void setLevel(String level) {
+		this.level = Level.parse(level);
 	}
 }

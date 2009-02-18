@@ -1,14 +1,13 @@
 /**
  * Core package, contains {@link org.javasimon.Simon} implementations, with
- * the {@link org.javasimon.SimonManager} as the center point of the API;
+ * the {@link org.javasimon.SimonManager} as the center point of the API.
  * <p>
- * Java Simon is monitoring API focusing on long-term application performance tracking. This core package
- * contains all basic interfaces ({@link org.javasimon.Simon}, {@link org.javasimon.Counter},
- * {@link org.javasimon.Stopwatch} and {@link org.javasimon.StatProcessor})
- * with their implementations along with {@link org.javasimon.SimonManager} that takes care of all Simons and
- * their creation.
+ * Core package contains all basic interfaces ({@link org.javasimon.Simon}, {@link org.javasimon.Counter},
+ * {@link org.javasimon.Stopwatch}, {@link org.javasimon.StatProcessor} and {@link org.javasimon.Manager})
+ * with their implementations along with {@link org.javasimon.SimonManager} that provides convenient access
+ * to the default Simon Manger.
  * <p>
- * There are two basic types of Simons now:
+ * There are two basic types of Simons provided:
  * <ul>
  * <li>Stopwatch that measures time and sums the time splits -
  * this is obtained by {@link org.javasimon.SimonManager#getStopwatch(String)};

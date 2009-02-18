@@ -98,7 +98,9 @@ public final class CompositeFilterCallback implements FilterCallback {
 		}
 		Rule rule = new Rule(type, ruleText, simonPattern);
 		for (Event event : events) {
-			rules.get(event).add(rule);
+			if (event != null) {
+				rules.get(event).add(rule);
+			}
 		}
 		if (events.length == 0) {
 			rules.get(Event.ALL).add(rule);
