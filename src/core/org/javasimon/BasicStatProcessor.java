@@ -1,8 +1,5 @@
 package org.javasimon;
 
-import java.util.Map;
-import java.util.LinkedHashMap;
-
 /**
  * BasicStatProcessor provides following stats: sum, average, means, variances.
  *
@@ -93,23 +90,6 @@ class BasicStatProcessor extends AbstractStatProcessor {
 		mean = 0;
 		mean2 = 0;
 		count = 0;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public synchronized Map<String, String> sample(boolean reset) {
-		Map<String, String> map = new LinkedHashMap<String, String>();
-		map.put("spCount", String.valueOf(count));
-		map.put("spSum", String.valueOf(sum));
-		map.put("spMean", String.valueOf(mean));
-		map.put("stdDev", String.valueOf(getStandardDeviation()));
-//		map.put("spVariance", String.valueOf(getVariance()));
-//		map.put("spVarianceN", String.valueOf(getVarianceN()));
-		if (reset) {
-			reset();
-		}
-		return map;
 	}
 
 	@Override

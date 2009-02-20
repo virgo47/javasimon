@@ -1,8 +1,5 @@
 package org.javasimon;
 
-import java.util.Map;
-import java.util.Collections;
-
 /**
  * Null stat processor ignores all measured values and provides no results. It is used
  * by default if no other stat processor is requested.
@@ -70,13 +67,6 @@ final class NullStatProcessor implements StatProcessor {
 	 */
 	public int getCount() {
 		return 0;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public Map<String, String> sample(boolean reset) {
-		return Collections.emptyMap();
 	}
 
 	/**

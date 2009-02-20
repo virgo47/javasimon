@@ -137,6 +137,8 @@ public final class ManagerTestNG {
 	@Test
 	public void testAnonymousSimon() {
 		Stopwatch stopwatch = SimonManager.getStopwatch(null);
+		Assert.assertTrue(stopwatch.isEnabled());
+		Assert.assertEquals(stopwatch.getState(), SimonState.ENABLED);
 		stopwatch.start().stop();
 		Assert.assertNotNull(((AbstractSimon) stopwatch).manager);
 
