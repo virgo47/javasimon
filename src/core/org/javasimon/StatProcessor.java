@@ -2,9 +2,6 @@ package org.javasimon;
 
 import org.javasimon.utils.SimonUtils;
 
-import java.util.Map;
-import java.util.Collections;
-
 /**
  * StatProcessor processes observations - measured values - and provides additional statistical
  * information for them. StatProcessor interface provides various methods but not all of them
@@ -28,16 +25,6 @@ public interface StatProcessor {
 	 * @param value obseravation value (one measured value)
 	 */
 	void process(double value);
-
-	/**
-	 * Samples stat processor values and returns them as a map (propertyName -> value). Resets
-	 * the stat processor if needed. Values may not all be strings, but string is used as
-	 * the best universal type to represent the value. Compound values must be split into more values.
-	 *
-	 * @param reset if true, stat processor is reset after sampling
-	 * @return sampled values in a map
-	 */
-	Map<String, String> sample(boolean reset);
 
 	/**
 	 * Returns sum of all measured values.

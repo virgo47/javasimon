@@ -12,6 +12,15 @@ import java.util.List;
  */
 public interface Simon {
 	/**
+	 * Returns Simon name. Simon name is always fully qualified
+	 * and determines also position of the Simon in the monitor hierarchy.
+	 * Simon name can be {@code null} for anonymous Simons.
+	 *
+	 * @return name of the Simon
+	 */
+	String getName();
+
+	/**
 	 * Returns parent Simon.
 	 *
 	 * @return parent Simon
@@ -24,15 +33,6 @@ public interface Simon {
 	 * @return list of children
 	 */
 	List<Simon> getChildren();
-
-	/**
-	 * Returns Simon name. Simon name is always fully qualified
-	 * and determines also position of the Simon in the monitor hierarchy.
-	 * Simon name can be {@code null} for anonymous Simons.
-	 *
-	 * @return name of the Simon
-	 */
-	String getName();
 
 	/**
 	 * Returns state of the Simon that can be enabled, disabled or ihnerited.
