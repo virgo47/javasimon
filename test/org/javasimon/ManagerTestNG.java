@@ -138,6 +138,19 @@ public final class ManagerTestNG {
 	public void testAnonymousSimon() {
 		Stopwatch stopwatch = SimonManager.getStopwatch(null);
 		stopwatch.start().stop();
+		Assert.assertNotNull(((AbstractSimon) stopwatch).manager);
+
+		final Queue<String> messages = new LinkedList<String>();
+		SimonManager.installCallback(new CallbackSkeleton() {
+			public void stopwatchStart(Split split) {
+				messages.add("start");
+			}
+			public void stopwatchStop(Split split) {
+				messages.add("stop");
+			}
+		});
+		stopwatch.start().stop();
+		Assert.assertEquals(messages.size(), 2);
 	}
 
 	@Test(expectedExceptions = SimonException.class)

@@ -28,6 +28,7 @@ public interface Simon {
 	/**
 	 * Returns Simon name. Simon name is always fully qualified
 	 * and determines also position of the Simon in the monitor hierarchy.
+	 * Simon name can be {@code null} for anonymous Simons.
 	 *
 	 * @return name of the Simon
 	 */
