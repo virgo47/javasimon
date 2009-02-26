@@ -80,9 +80,9 @@ public class StandaloneExample {
 		s.stop();
 
 		// ... and few usage of counter simon.
-		counter.increment(52);
-		counter.decrement(12);
-		counter.increment(18);
+		counter.increase(52);
+		counter.decrease(12);
+		counter.increase(18);
 
 		// Than, we register provided SimonMXBean.
 		// SimonMXBean is part of javasimon, but register method is client responsibility

@@ -43,6 +43,24 @@ public final class CompositeCallback implements Callback {
 	/**
 	 * {@inheritDoc}
 	 */
+	public void reset(Simon simon) {
+		for (Callback c : callbacks) {
+			c.reset(simon);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void stopwatchAdd(Stopwatch stopwatch, long ns) {
+		for (Callback c : callbacks) {
+			c.stopwatchAdd(stopwatch, ns);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public void stopwatchStart(Split split) {
 		for (Callback c : callbacks) {
 			c.stopwatchStart(split);
@@ -55,6 +73,33 @@ public final class CompositeCallback implements Callback {
 	public void stopwatchStop(Split split) {
 		for (Callback c : callbacks) {
 			c.stopwatchStop(split);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void counterDecrease(Counter counter, long dec) {
+		for (Callback c : callbacks) {
+			c.counterDecrease(counter, dec);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void counterIncrease(Counter counter, long inc) {
+		for (Callback c : callbacks) {
+			c.counterIncrease(counter, inc);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void counterSet(Counter counter, long val) {
+		for (Callback c : callbacks) {
+			c.counterSet(counter, val);
 		}
 	}
 

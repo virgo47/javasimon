@@ -142,7 +142,7 @@ public final class ManagerConfiguration {
 			condition = attrs.get("condition");
 		}
 		if (attrs.get("type") != null) {
-			type = FilterCallback.Rule.Type.valueOf(attrs.get("type").toUpperCase());
+			type = FilterCallback.Rule.Type.valueOf(toEnum(attrs.get("type")));
 		}
 		if (attrs.get("pattern") != null) {
 			pattern = attrs.get("pattern");
@@ -150,7 +150,7 @@ public final class ManagerConfiguration {
 		if (attrs.get("events") != null) {
 			String[] sa = attrs.get("events").trim().split(" *, *");
 			for (String eventName : sa) {
-				events.add(Callback.Event.valueOf(eventName.toUpperCase()));
+				events.add(Callback.Event.valueOf(toEnum(eventName)));
 			}
 		}
 		if (isStartTag(xr, "condition")) {
@@ -195,8 +195,8 @@ public final class ManagerConfiguration {
 	private void processSimon(XMLStreamReader xr) throws XMLStreamException {
 		Map<String, String> attrs = processStartElement(xr, "simon", "pattern");
 		String pattern = attrs.get("pattern");
-		StatProcessorType statProcessorType = attrs.get("stats") != null ? StatProcessorType.valueOf(attrs.get("stats").toUpperCase()) : null;
-		SimonState state = attrs.get("state") != null ? SimonState.valueOf(attrs.get("state").toUpperCase()) : null;
+		StatProcessorType statProcessorType = attrs.get("stats") != null ? StatProcessorType.valueOf(toEnum(attrs.get("stats"))) : null;
+		SimonState state = attrs.get("state") != null ? SimonState.valueOf(toEnum(attrs.get("state"))) : null;
 		configs.put(new SimonPattern(pattern), new SimonConfiguration(statProcessorType, state));
 		processEndElement(xr, "simon");
 	}
@@ -223,6 +223,10 @@ public final class ManagerConfiguration {
 			}
 		}
 		return new SimonConfiguration(spType, state);
+	}
+
+	private String toEnum(String enumVal) {
+		return enumVal.trim().toUpperCase().replace('-', '_');
 	}
 
 	// XML Utils

@@ -25,10 +25,10 @@ package org.javasimon;
  * counter = Simon Counter: [com.my.counter INHERIT/stats=NULL] counter=47, max=47, min=47</pre>
  *
  * <h3>Usage</h3>
- * Typical Counter usage is based on {@link #increment()} and {@link #decrement()} methods when
+ * Typical Counter usage is based on {@link #increase()} and {@link #decrease()} methods when
  * it is possible to track the monitored value - this can be used for example to count users logged
  * in. If the value changes by more than 1 than it is possible to use methods with arguments -
- * {@link #increment(long)} and {@link #decrement(long)}. Finally method {@link #set(long)} is
+ * {@link #increase(long)} and {@link #decrease(long)}. Finally method {@link #set(long)} is
  * always available to set the counter to the particular value when needed.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
@@ -40,14 +40,14 @@ public interface Counter extends Simon {
 	 *
 	 * @return this
 	 */
-	Counter increment();
+	Counter increase();
 
 	/**
 	 * Decrements the counter by one.
 	 *
 	 * @return this
 	 */
-	Counter decrement();
+	Counter decrease();
 
 	/**
 	 * Increments the counter by the specified value.
@@ -55,7 +55,7 @@ public interface Counter extends Simon {
 	 * @param inc added value
 	 * @return this
 	 */
-	Counter increment(long inc);
+	Counter increase(long inc);
 
 	/**
 	 * Increments the counter by the specified value.
@@ -63,7 +63,7 @@ public interface Counter extends Simon {
 	 * @param dec subtracted value
 	 * @return this
 	 */
-	Counter decrement(long dec);
+	Counter decrease(long dec);
 
 	/**
 	 * Returns the current value of the counter.

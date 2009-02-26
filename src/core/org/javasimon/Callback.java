@@ -57,7 +57,54 @@ public interface Callback {
 	 */
 	void warning(String warning, Exception cause);
 
+	/**
+	 * Simon reset event.
+	 *
+	 * @param simon reset Simon
+	 */
+	void reset(Simon simon);
+
+	/**
+	 * Stopwatch add time event.
+	 *
+	 * @param stopwatch modified Stopwatch
+	 * @param ns added split time in ns
+	 */
+	void stopwatchAdd(Stopwatch stopwatch, long ns);
+
+	/**
+	 * Counter decrease event.
+	 *
+	 * @param counter modified Counter
+	 * @param dec decrement amount
+	 */
+	void counterDecrease(Counter counter, long dec);
+
+	/**
+	 * Counter increase event.
+	 *
+	 * @param counter modified Counter
+	 * @param inc increment amount
+	 */
+	void counterIncrease(Counter counter, long inc);
+
+	/**
+	 * Counter set event.
+	 *
+	 * @param counter modified Counter
+	 * @param val new value
+	 */
+	void counterSet(Counter counter, long val);
+
 	enum Event {
-		ALL, START, STOP, WARNING
+		ALL,
+		RESET,
+		STOPWATCH_START,
+		STOPWATCH_STOP,
+		STOPWATCH_ADD,
+		COUNTER_INCREASE,
+		COUNTER_DECREASE,
+		COUNTER_SET,
+		WARNING
 	}
 }

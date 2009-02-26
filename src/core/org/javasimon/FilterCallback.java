@@ -47,6 +47,7 @@ public interface FilterCallback extends Callback {
 		public static final String VAR_MAX = "max";
 		public static final String VAR_MIN = "min";
 		public static final String VAR_TOTAL = "total";
+		public static final String VAR_VALUE = "value";
 
 		private Type type;
 		private String condition;
@@ -74,21 +75,32 @@ public interface FilterCallback extends Callback {
 			return pattern;
 		}
 
-		boolean checkCondition(Simon simon, Split split) {
+		boolean checkCondition(Simon simon, Object... params) {
 			if (condition == null) {
 				return true;
 			}
 			if (simon instanceof Stopwatch) {
-				return checkStopwtach((Stopwatch) simon, split);
+				return checkStopwtach((Stopwatch) simon, params);
+			}
+			if (simon instanceof Counter) {
+				return checkCounter((Counter) simon, params);
 			}
 			return true;
 		}
 
-		private boolean checkStopwtach(Stopwatch stopwatch, Split split) {
+		// TODO
+		private boolean checkCounter(Counter counter, Object... params) {
 			Map<String, BigDecimal> vars = new HashMap<String, BigDecimal>();
-			if (split != null) {
-				vars.put(VAR_SPLIT, BigDecimal.valueOf(split.runningFor()));
-			}
+			processParams(vars, params);
+			vars.put(VAR_COUNTER, BigDecimal.valueOf(counter.getCounter()));
+			vars.put(VAR_MAX, BigDecimal.valueOf(counter.getMax()));
+			vars.put(VAR_MIN, BigDecimal.valueOf(counter.getMin()));
+			return eval(vars);
+		}
+
+		private boolean checkStopwtach(Stopwatch stopwatch, Object... params) {
+			Map<String, BigDecimal> vars = new HashMap<String, BigDecimal>();
+			processParams(vars, params);
 			vars.put(VAR_ACTIVE, BigDecimal.valueOf(stopwatch.getActive()));
 			vars.put(VAR_COUNTER, BigDecimal.valueOf(stopwatch.getCounter()));
 			vars.put(VAR_MAX, BigDecimal.valueOf(stopwatch.getMax()));
@@ -96,6 +108,16 @@ public interface FilterCallback extends Callback {
 			vars.put(VAR_MAX_ACTIVE, BigDecimal.valueOf(stopwatch.getMaxActive()));
 			vars.put(VAR_TOTAL, BigDecimal.valueOf(stopwatch.getTotal()));
 			return eval(vars);
+		}
+
+		private void processParams(Map<String, BigDecimal> vars, Object... params) {
+			for (Object param : params) {
+				if (param instanceof Split) {
+					vars.put(VAR_SPLIT, BigDecimal.valueOf(((Split) param).runningFor()));
+				} else if (param instanceof Long) {
+					vars.put(VAR_VALUE, BigDecimal.valueOf((Long) param));
+				}
+			}
 		}
 
 		private boolean eval(Map<String, BigDecimal> vars) {

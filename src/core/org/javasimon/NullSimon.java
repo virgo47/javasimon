@@ -77,28 +77,28 @@ final class NullSimon implements Counter, Stopwatch {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Counter increment() {
+	public Counter increase() {
 		return this;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public Counter decrement() {
+	public Counter decrease() {
 		return this;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public Counter increment(long inc) {
+	public Counter increase(long inc) {
 		return this;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public Counter decrement(long dec) {
+	public Counter decrease(long dec) {
 		return this;
 	}
 

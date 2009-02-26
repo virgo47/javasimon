@@ -40,6 +40,12 @@ public class CallbackSkeleton implements Callback {
 	/**
 	 * {@inheritDoc}
 	 */
+	public void stopwatchAdd(Stopwatch stopwatch, long ns) {
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public void stopwatchStart(Split split) {
 	}
 
@@ -47,6 +53,30 @@ public class CallbackSkeleton implements Callback {
 	 * {@inheritDoc}
 	 */
 	public void stopwatchStop(Split split) {
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void reset(Simon simon) {
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void counterDecrease(Counter counter, long dec) {
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void counterIncrease(Counter counter, long inc) {
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void counterSet(Counter counter, long val) {
 	}
 
 	/**

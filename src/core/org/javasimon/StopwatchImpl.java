@@ -45,6 +45,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		if (enabled) {
 			updateUsages();
 			addSplit(ns);
+			manager.callback().stopwatchAdd(this, ns);
 		}
 		return this;
 	}
@@ -104,6 +105,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		maxActive = active;
 		maxActiveTimestamp = 0;
 		getStatProcessor().reset();
+		manager.callback().reset(this);
 		return this;
 	}
 

@@ -65,7 +65,7 @@ public abstract class SimonFormatter extends Formatter {
 	protected abstract String formatRecord(LogRecord record, LogParams params);
 
 	protected boolean isStart(LogParams p) {
-		return p.getEvent() == Callback.Event.START;
+		return p.getEvent() == Callback.Event.STOPWATCH_START;
 	}
 
 	protected String note(LogParams p) {
