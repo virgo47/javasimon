@@ -38,6 +38,14 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	 * {@inheritDoc}
 	 */
 	public synchronized Counter set(long val) {
+		try {
+			return privateSet(val);
+		} finally {
+			manager.callback().counterSet(this, val);
+		}
+	}
+
+	private Counter privateSet(long val) {
 		updateUsages();
 		counter = val;
 		if (counter >= max) {
@@ -54,45 +62,61 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	/**
 	 * {@inheritDoc}
 	 */
-	public synchronized Counter increment() {
-		updateUsages();
-		counter++;
-		incrementSum--;
-		if (counter >= max) {
-			max = counter;
-			maxTimestamp = getLastUsage();
+	public synchronized Counter increase() {
+		try {
+			updateUsages();
+			counter++;
+			incrementSum--;
+			if (counter >= max) {
+				max = counter;
+				maxTimestamp = getLastUsage();
+			}
+			return this;
+		} finally {
+			manager.callback().counterIncrease(this, 1);
 		}
-		return this;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public synchronized Counter decrement() {
-		updateUsages();
-		counter--;
-		decrementSum--;
-		if (counter <= min) {
-			min = counter;
-			minTimestamp = getLastUsage();
+	public synchronized Counter decrease() {
+		try {
+			updateUsages();
+			counter--;
+			decrementSum--;
+			if (counter <= min) {
+				min = counter;
+				minTimestamp = getLastUsage();
+			}
+			return this;
+		} finally {
+			manager.callback().counterDecrease(this, 1);
 		}
-		return this;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public synchronized Counter increment(long inc) {
-		incrementSum += inc;
-		return set(counter + inc);
+	public synchronized Counter increase(long inc) {
+		try {
+			incrementSum += inc;
+			return set(counter + inc);
+		} finally {
+			manager.callback().counterIncrease(this, inc);
+		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public synchronized Counter decrement(long dec) {
-		decrementSum -= dec;
-		return set(counter - dec);
+	public synchronized Counter decrease(long dec) {
+		try {
+			decrementSum -= dec;
+			return set(counter - dec);
+		} finally {
+			manager.callback().counterDecrease(this, dec);
+		}
 	}
 
 	/**
@@ -107,6 +131,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		incrementSum = 0;
 		decrementSum = 0;
 		getStatProcessor().reset();
+		manager.callback().reset(this);
 		return this;
 	}
 

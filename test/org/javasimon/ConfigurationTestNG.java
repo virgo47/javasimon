@@ -68,7 +68,7 @@ public final class ConfigurationTestNG {
 	public void testStopwatchRules() {
 		EnabledManager manager = new EnabledManager();
 		CompositeFilterCallback filter = new CompositeFilterCallback();
-		filter.addRule(FilterCallback.Rule.Type.MUST, "active == 2", "*.sw1", Callback.Event.START);
+		filter.addRule(FilterCallback.Rule.Type.MUST, "active == 2", "*.sw1", Callback.Event.STOPWATCH_START);
 		class MyCallback extends CallbackSkeleton {
 			private boolean triggered;
 

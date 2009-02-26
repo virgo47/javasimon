@@ -77,7 +77,7 @@ public final class SimonConnection implements Connection {
 	public void commit() throws SQLException {
 		conn.commit();
 
-		commits.increment();
+		commits.increase();
 	}
 
 	/**
@@ -88,7 +88,7 @@ public final class SimonConnection implements Connection {
 	public void rollback() throws SQLException {
 		conn.rollback();
 
-		rollbacks.increment();
+		rollbacks.increase();
 	}
 
 	/**
@@ -100,7 +100,7 @@ public final class SimonConnection implements Connection {
 	public void rollback(Savepoint savepoint) throws SQLException {
 		conn.rollback(savepoint);
 
-		rollbacks.increment();
+		rollbacks.increase();
 	}
 
 	/**

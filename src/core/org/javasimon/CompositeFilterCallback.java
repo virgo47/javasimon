@@ -64,8 +64,26 @@ public final class CompositeFilterCallback implements FilterCallback {
 	/**
 	 * {@inheritDoc}
 	 */
+	public void reset(Simon simon) {
+		if (rulesAppliesTo(simon, Event.RESET)) {
+			callback.reset(simon);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void stopwatchAdd(Stopwatch stopwatch, long ns) {
+		if (rulesAppliesTo(stopwatch, Event.STOPWATCH_ADD, ns)) {
+			callback.stopwatchAdd(stopwatch, ns);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public void stopwatchStart(Split split) {
-		if (rulesAppliesTo(split.getStopwatch(), split, Event.ALL, Event.START)) {
+		if (rulesAppliesTo(split.getStopwatch(), Event.STOPWATCH_START, split)) {
 			callback.stopwatchStart(split);
 		}
 	}
@@ -74,7 +92,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	 * {@inheritDoc}
 	 */
 	public void stopwatchStop(Split split) {
-		if (rulesAppliesTo(split.getStopwatch(), split, Event.ALL, Event.STOP)) {
+		if (rulesAppliesTo(split.getStopwatch(), Event.STOPWATCH_STOP, split)) {
 			callback.stopwatchStop(split);
 		}
 	}
@@ -82,8 +100,35 @@ public final class CompositeFilterCallback implements FilterCallback {
 	/**
 	 * {@inheritDoc}
 	 */
+	public void counterDecrease(Counter counter, long dec) {
+		if (rulesAppliesTo(counter, Event.COUNTER_DECREASE, dec)) {
+			callback.counterDecrease(counter, dec);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void counterIncrease(Counter counter, long inc) {
+		if (rulesAppliesTo(counter, Event.COUNTER_INCREASE, inc)) {
+			callback.counterDecrease(counter, inc);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void counterSet(Counter counter, long val) {
+		if (rulesAppliesTo(counter, Event.COUNTER_SET, val)) {
+			callback.counterDecrease(counter, val);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public void warning(String warning, Exception cause) {
-		if (rulesAppliesTo(null, null, Event.ALL, Event.WARNING)) {
+		if (rulesAppliesTo(null, Event.WARNING, cause)) {
 			callback.warning(warning, cause);
 		}
 	}
@@ -107,14 +152,14 @@ public final class CompositeFilterCallback implements FilterCallback {
 		}
 	}
 
-	private boolean rulesAppliesTo(Simon simon, Split split, Event... events) {
-		for (Event event : events) {
+	private boolean rulesAppliesTo(Simon simon, Event checkedEvent, Object... params) {
+		for (Event event : new Event[]{checkedEvent, Event.ALL}) {
 			for (Rule rule : rules.get(event)) {
 				boolean result = true;
 				if (simon != null && rule.getPattern() != null && !rule.getPattern().matches(simon.getName())) {
 					result = false;
 				}
-				if (result && !rule.checkCondition(simon, split)) {
+				if (result && !rule.checkCondition(simon, params)) {
 					result = false;
 				}
 
