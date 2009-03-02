@@ -149,16 +149,6 @@ public final class SimonManager {
 	}
 
 	/**
-	 * Sets up the Simon callback that allows extending the Java Simon API functionality.
-	 * Predefined callback does nothing.
-	 *
-	 * @param callback new Java Simon API callback
-	 */
-	public static void installCallback(Callback callback) {
-		manager.installCallback(callback);
-	}
-
-	/**
 	 * Accesses Simon callback.
 	 *
 	 * @return Simon callback

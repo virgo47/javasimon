@@ -267,7 +267,7 @@ public final class Driver implements java.sql.Driver {
 			}
 			filter.addCallback(jlc);
 
-			SimonManager.installCallback(filter);
+			SimonManager.callback().addCallback(filter);
 		}
 
 		return new org.javasimon.jdbc.SimonConnection(driver.connect(url.getRealUrl(), info), url.getPrefix());

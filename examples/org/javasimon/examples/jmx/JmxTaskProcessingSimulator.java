@@ -67,7 +67,7 @@ public final class JmxTaskProcessingSimulator {
 	public static void main(String[] args) throws Exception {
 		LoggingCallback loggingCallback = new LoggingCallback();
 		loggingCallback.setLevel(Level.INFO);
-		SimonManager.installCallback(loggingCallback);
+		SimonManager.callback().addCallback(loggingCallback);
 		Random random = new Random();
 
 		register();

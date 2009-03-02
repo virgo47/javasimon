@@ -47,14 +47,16 @@ public final class ManagerConfiguration {
 					xr.next();
 				}
 				processStartElement(xr, "simon-configuration");
-				if (isStartTag(xr, "callback")) {
-					manager.installCallback(processCallback(xr));
-				}
-				if (isStartTag(xr, "filter-callback")) {
-					manager.installCallback(processFilterCallback(xr));
-				}
-				while (isStartTag(xr, "simon")) {
-					processSimon(xr);
+				while (true) {
+					if (isStartTag(xr, "callback")) {
+						manager.callback().addCallback(processCallback(xr));
+					} else if (isStartTag(xr, "filter-callback")) {
+						manager.callback().addCallback(processFilterCallback(xr));
+					} else if (isStartTag(xr, "simon")) {
+						processSimon(xr);
+					} else {
+						break;
+					}
 				}
 				assertEndTag(xr, "simon-configuration");
 			} finally {

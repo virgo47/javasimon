@@ -25,7 +25,7 @@ public final class CallbackFilteringExample {
 				System.out.println("Stopped " + split.getStopwatch().getName() + " (" + split.runningFor() + " ns)");
 			}
 		};
-		manager.installCallback(stdoutCallback);
+		manager.callback().addCallback(stdoutCallback);
 		// prints start/stop for both stopwatches
 		sw1.start().stop();
 		sw2.start().stop();
@@ -39,7 +39,7 @@ public final class CallbackFilteringExample {
 		filter.addCallback(stdoutCallback);
 
 		// filter callback is installed to the manager (with printing callback behind)
-		manager.installCallback(filter);
+		manager.callback().addCallback(filter);
 
 		// start/stop is printed only for sw1 because sw2 matches other.* pattern that is excluded (MUST_NOT)
 		sw1.start().stop();

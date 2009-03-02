@@ -15,7 +15,7 @@ import org.javasimon.utils.SimonUtils;
  */
 public final class CallbackExample {
 	public static void main(String[] args) {
-		SimonManager.installCallback(new CallbackSkeleton() {
+		SimonManager.callback().addCallback(new CallbackSkeleton() {
 			public void stopwatchStart(Split split) {
 				System.out.println("Stopwatch " + split.getStopwatch().getName()
 					+ " has just been started.");

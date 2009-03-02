@@ -143,7 +143,8 @@ public final class ManagerTestNG {
 		Assert.assertNotNull(((AbstractSimon) stopwatch).manager);
 
 		final Queue<String> messages = new LinkedList<String>();
-		SimonManager.installCallback(new CallbackSkeleton() {
+		SimonUtils.removeAllCallbacks(SimonManager.manager());
+		SimonManager.callback().addCallback(new CallbackSkeleton() {
 			public void stopwatchStart(Split split) {
 				messages.add("start");
 			}
@@ -163,7 +164,8 @@ public final class ManagerTestNG {
 	@Test
 	public void failedInitialization() {
 		final Queue<String> messages = new LinkedList<String>();
-		SimonManager.installCallback(new CallbackSkeleton() {
+		SimonUtils.removeAllCallbacks(SimonManager.manager());
+		SimonManager.callback().addCallback(new CallbackSkeleton() {
 			public void warning(String warning, Exception cause) {
 				messages.add(warning);
 			}

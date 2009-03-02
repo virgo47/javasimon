@@ -38,7 +38,7 @@ import java.io.IOException;
  filter.addRule(FilterCallback.Rule.Type.MUST, null, "org.javasimon.jdbc.*");
  filter.addCallback(new JdbcLogCallback());
 
- SimonManager.installCallback(filter);
+ SimonManager.callback().addCallback(filter);
  * </pre>
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
