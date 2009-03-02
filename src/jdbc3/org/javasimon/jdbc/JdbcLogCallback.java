@@ -120,7 +120,7 @@ final class JdbcLogCallback extends CallbackSkeleton {
 		this.logFormat = logFormat;
 	}
 
-	private void initialize() {
+	public void initialize() {
 		logger = Logger.getLogger(loggerName != null && loggerName.length() > 0 ? loggerName : "simon_jdbc_logger");
 
 		if (logFilename != null && logFilename.length() > 0) {
@@ -147,6 +147,10 @@ final class JdbcLogCallback extends CallbackSkeleton {
 		}
 		
 		initialized = true;
+	}
+
+	public void deactivate() {
+		// TODO ... alebo to zmaz ;-)
 	}
 
 	private SimonFormatter formatter() {

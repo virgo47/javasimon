@@ -40,6 +40,18 @@ public class CallbackSkeleton implements Callback {
 	/**
 	 * {@inheritDoc}
 	 */
+	public void initialize() {
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void deactivate() {
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public void stopwatchAdd(Stopwatch stopwatch, long ns) {
 	}
 

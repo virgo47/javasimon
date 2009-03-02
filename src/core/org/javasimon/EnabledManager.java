@@ -28,6 +28,7 @@ public final class EnabledManager implements Manager {
 		rootSimon = new UnknownSimon(ROOT_SIMON_NAME, this);
 		allSimons.put(ROOT_SIMON_NAME, rootSimon);
 		configuration = new ManagerConfiguration(this);
+		callback.initialize();
 	}
 
 	/**
