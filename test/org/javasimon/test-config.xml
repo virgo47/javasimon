@@ -1,22 +1,20 @@
 <simon-configuration>
-	<callback>
-		<filter-callback>
-			<rule type="must" pattern="org.javasimon.test.good.*"/>
-			<rule event="stop">
-				<condition>
-					<![CDATA[
+	<filter-callback>
+		<rule type="must" pattern="org.javasimon.test.good.*"/>
+		<rule event="stop">
+			<condition>
+				<![CDATA[
 						split > 5000 || split < 10000
 					]]>
-				</condition>
-			</rule>
+			</condition>
+		</rule>
 
-			<callback class="org.javasimon.utils.LoggingCallback">
-				<set property="logger" value="org.javasimon.test"/>
-				<set property="level" value="INFO"/>
-			</callback>
-		</filter-callback>
-		<callback class="org.javasimon.utils.DebugCallback"/>
-	</callback>
+		<callback class="org.javasimon.utils.LoggingCallback">
+			<set property="logger" value="org.javasimon.test"/>
+			<set property="level" value="INFO"/>
+		</callback>
+	</filter-callback>
+	<callback class="org.javasimon.utils.DebugCallback"/>
 
 	<simon pattern="org.javasimon.test.good.*" stats="basic"/>
 	<simon pattern="org.javasimon.test.*" state="disabled"/>

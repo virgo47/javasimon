@@ -17,7 +17,7 @@ public final class EnabledManager implements Manager {
 
 	private UnknownSimon rootSimon;
 
-	private Callback callback = new CallbackSkeleton();
+	private Callback callback = new CompositeCallback();
 
 	private ManagerConfiguration configuration;
 
@@ -175,13 +175,6 @@ public final class EnabledManager implements Manager {
 			}
 		}
 		parent.addChild(simon);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void installCallback(Callback callback) {
-		this.callback = callback;
 	}
 
 	/**

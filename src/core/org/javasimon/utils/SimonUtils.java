@@ -59,7 +59,7 @@ public final class SimonUtils {
 	/**
 	 * Regex pattern for Simon names.
 	 */
-	public static final Pattern NAME_PATTERN = Pattern.compile("[-A-Za-z0-9.@$%()]+");
+	public static final Pattern NAME_PATTERN = Pattern.compile("[-A-Za-z0-9.,@$%()]+");
 
 	private static final int UNIT_PREFIX_FACTOR = 1000;
 
@@ -289,5 +289,12 @@ public final class SimonUtils {
 			return sb.toString();
 		}
 		return null;
+	}
+
+	public static void removeAllCallbacks(Manager manager) {
+		Callback rootCallback = manager.callback();
+		for (Callback callback : rootCallback.callbacks()) {
+			rootCallback.removeCallback(callback);
+		}
 	}
 }

@@ -67,13 +67,6 @@ public final class SwitchingManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void installCallback(Callback callback) {
-		manager.installCallback(callback);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
 	public Callback callback() {
 		return manager.callback();
 	}

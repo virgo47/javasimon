@@ -73,15 +73,9 @@ public interface Manager {
 	void clear();
 
 	/**
-	 * Sets up the Simon callback that allows extending the Java Simon API functionality.
-	 * Predefined callback does nothing.
-	 *
-	 * @param callback new Java Simon API callback
-	 */
-	void installCallback(Callback callback);
-
-	/**
-	 * Accesses Simon callback.
+	 * Accesses default composite callback of this manager. Callback can't be removed or replaced,
+	 * only other callbacks can be added or removed. To remove all callbacks use
+	 * {@link org.javasimon.utils.SimonUtils#removeAllCallbacks(Manager)}. 
 	 *
 	 * @return Simon callback
 	 */

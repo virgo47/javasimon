@@ -84,7 +84,7 @@ public final class ConfigurationTestNG {
 		}
 		MyCallback callback = new MyCallback();
 		filter.addCallback(callback);
-		manager.installCallback(filter);
+		manager.callback().addCallback(filter);
 
 		Stopwatch sw1 = manager.getStopwatch("whatever.sw1");
 		Stopwatch sw2 = manager.getStopwatch("whatever.sw2");
@@ -112,5 +112,6 @@ public final class ConfigurationTestNG {
 		split1.stop();
 		split2.stop();
 		Assert.assertFalse(callback.isTriggered());
+		manager.callback().removeCallback(filter);
 	}
 }
