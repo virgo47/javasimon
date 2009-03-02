@@ -64,6 +64,20 @@ public final class CompositeFilterCallback implements FilterCallback {
 	/**
 	 * {@inheritDoc}
 	 */
+	public void initialize() {
+		callback.initialize();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void deactivate() {
+		callback.deactivate();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public void reset(Simon simon) {
 		if (rulesAppliesTo(simon, Event.RESET)) {
 			callback.reset(simon);

@@ -13,6 +13,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public final class CompositeCallback implements Callback {
 	private List<Callback> callbacks = new CopyOnWriteArrayList<Callback>();
 
+	private boolean initialized; // should also indicate whether this callback is joined to manager
+
 	/**
 	 * Returns the list of all child-callbacks.
 	 *
@@ -28,6 +30,9 @@ public final class CompositeCallback implements Callback {
 	 * @param callback added callback
 	 */
 	public void addCallback(Callback callback) {
+		if (initialized) {
+			callback.initialize();
+		}
 		callbacks.add(callback);
 	}
 
@@ -38,6 +43,37 @@ public final class CompositeCallback implements Callback {
 	 */
 	public void removeCallback(Callback callback) {
 		callbacks.remove(callback);
+		if (initialized) {
+			callback.deactivate();
+		}
+	}
+
+	/**
+	 * Calls initialize on all children.
+	 */
+	public void initialize() {
+		initialized = true;
+		for (Callback c : callbacks) {
+			try {
+				c.initialize();
+			} catch (Exception e) {
+				warning("Initialization error", e);
+			}
+		}
+	}
+
+	/**
+	 * Calls deactivate on all children.
+	 */
+	public void deactivate() {
+		initialized = false;
+		for (Callback c : callbacks) {
+			try {
+				c.deactivate();
+			} catch (Exception e) {
+				warning("Deactivation error", e);
+			}
+		}
 	}
 
 	/**

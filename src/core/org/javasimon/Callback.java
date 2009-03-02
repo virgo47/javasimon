@@ -35,6 +35,16 @@ public interface Callback {
 	void removeCallback(Callback callback);
 
 	/**
+	 * Lifecycle method called when the callback is added to 
+	 */
+	void initialize();
+
+	/**
+	 *
+	 */
+	void deactivate();
+
+	/**
 	 * Stopwatch start event.
 	 *
 	 * @param split started Split
