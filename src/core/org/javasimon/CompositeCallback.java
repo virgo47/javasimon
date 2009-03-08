@@ -142,6 +142,43 @@ public final class CompositeCallback implements Callback {
 	/**
 	 * {@inheritDoc}
 	 */
+	public void simonCreated(Simon simon) {
+		for (Callback c : callbacks) {
+			c.simonCreated(simon);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void simonDestroyed(Simon simon) {
+		for (Callback c : callbacks) {
+			c.simonDestroyed(simon);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void clear() {
+		for (Callback c : callbacks) {
+			c.clear();
+		}
+	}
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void message(String message) {
+		for (Callback c : callbacks) {
+			c.message(message);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public void warning(String warning, Exception cause) {
 		for (Callback c : callbacks) {
 			c.warning(warning, cause);

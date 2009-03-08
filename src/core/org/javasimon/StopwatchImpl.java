@@ -101,9 +101,10 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		min = Long.MAX_VALUE;
 		maxTimestamp = 0;
 		minTimestamp = 0;
-		// active is not reset, because
+		// active is not reset, because active Splits do not know about this reset
 		maxActive = active;
 		maxActiveTimestamp = 0;
+		sampleAndReset();
 		getStatProcessor().reset();
 		manager.callback().reset(this);
 		return this;

@@ -59,6 +59,14 @@ public interface Callback {
 	void stopwatchStop(Split split);
 
 	/**
+	 * Message event is used to propagate arbitrary messages from the manager, or it can
+	 * be used by the other Callback methods internally.
+	 *
+	 * @param message message text
+	 */
+	void message(String message);
+
+	/**
 	 * Warning event containing warning and/or cause. Either cause or warning (or both) should be provided
 	 * otherwise the method does nothing.
 	 *
@@ -106,6 +114,25 @@ public interface Callback {
 	 */
 	void counterSet(Counter counter, long val);
 
+	/**
+	 * Simon created event is called when Simon is successfully created by the Manager.
+	 *
+	 * @param simon created Simon
+	 */
+	void simonCreated(Simon simon);
+
+	/**
+	 * Simon destroyed event is called when Simon is successfully destroyed by the Manager.
+	 *
+	 * @param simon destroyed Simon
+	 */
+	void simonDestroyed(Simon simon);
+
+	/**
+	 * Event called when the manager is cleared.
+	 */
+	void clear();
+
 	enum Event {
 		ALL,
 		RESET,
@@ -115,6 +142,10 @@ public interface Callback {
 		COUNTER_INCREASE,
 		COUNTER_DECREASE,
 		COUNTER_SET,
+		CREATED,
+		DESTROYED,
+		CLEAR,
+		MESSAGE,
 		WARNING
 	}
 }

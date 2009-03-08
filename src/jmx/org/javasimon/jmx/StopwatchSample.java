@@ -77,6 +77,7 @@ public final class StopwatchSample extends org.javasimon.StopwatchSample {
 		setVarianceN(s.getVarianceN());
 
 		setCounter(s.getCounter());
+		setTotal(s.getTotal());
 		setMin(s.getMin());
 		setMax(s.getMax());
 		setMinTimestamp(s.getMinTimestamp());

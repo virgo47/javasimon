@@ -66,7 +66,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		try {
 			updateUsages();
 			counter++;
-			incrementSum--;
+			incrementSum++;
 			if (counter >= max) {
 				max = counter;
 				maxTimestamp = getLastUsage();
@@ -84,7 +84,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		try {
 			updateUsages();
 			counter--;
-			decrementSum--;
+			decrementSum++;
 			if (counter <= min) {
 				min = counter;
 				minTimestamp = getLastUsage();
@@ -130,6 +130,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		minTimestamp = 0;
 		incrementSum = 0;
 		decrementSum = 0;
+		saveResetTimestamp();
 		getStatProcessor().reset();
 		manager.callback().reset(this);
 		return this;
@@ -138,7 +139,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	/**
 	 * {@inheritDoc}
 	 */
-	public synchronized Sample sampleAndReset() {
+	public synchronized CounterSample sampleAndReset() {
 		CounterSample sample = sample();
 		reset();
 		return sample;
@@ -153,7 +154,8 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		sample.setMin(min);
 		sample.setMax(max);
 		sample.setMinTimestamp(minTimestamp);
-		sample.setMaxTimestamp(incrementSum);
+		sample.setMaxTimestamp(maxTimestamp);
+		sample.setIncrementSum(incrementSum);
 		sample.setDecrementSum(decrementSum);
 		sample.setFromStatProcessor(getStatProcessor());
 		return sample;

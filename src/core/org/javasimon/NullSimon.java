@@ -70,6 +70,13 @@ final class NullSimon implements Counter, Stopwatch {
 	/**
 	 * {@inheritDoc}
 	 */
+	public long getLastReset() {
+		return 0;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public Counter set(long val) {
 		return this;
 	}

@@ -1,45 +1,46 @@
-package org.javasimon;
+package org.javasimon.jmx;
+
+import org.javasimon.StatProcessor;
+import org.javasimon.Sample;
 
 import java.util.List;
 
 /**
- * Simon interface contains common functions related to Simon management - enable/disable and hierarchy.
- * It does not contain any real action method - these are in specific interfaces that describes
- * purpose of the particular type of monitor.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Aug 4, 2008
+ * @created Mar 6, 2009
  */
-public interface Simon {
+public interface SimonSuperMXBean {
 	/**
-	 * Returns Simon name. Simon name is always fully qualified
-	 * and determines also position of the Simon in the monitor hierarchy.
-	 * Simon name can be {@code null} for anonymous Simons.
+	 * Returns Simon name. While Simon names can be {@code null} for anonymous
+	 * Simons, such Simons are never registered hence this method never returns
+	 * {@code null}.
 	 *
 	 * @return name of the Simon
 	 */
 	String getName();
 
 	/**
-	 * Returns parent Simon.
+	 * Returns name of the parent Simon.
 	 *
-	 * @return parent Simon
+	 * @return name of the parent Simon
 	 */
-	Simon getParent();
+	String getParentName();
 
 	/**
-	 * Returns list of children - direct sub-simons.
+	 * Returns list of children names.
 	 *
-	 * @return list of children
+	 * @return list of children names
 	 */
-	List<Simon> getChildren();
+	List<String> getChildrenNames();
 
 	/**
-	 * Returns state of the Simon that can be enabled, disabled or ihnerited.
+	 * Returns state of the Simon that can be ENABLED, DISABLED or INHERITED. State is returned
+	 * as a String that matches values of the {@link org.javasimon.SimonState} enumeration.
 	 *
-	 * @return state of the Simon
+	 * @return state of the Simon as a String
 	 */
-	SimonState getState();
+	String getState();
 
 	/**
 	 * Sets the state of the Simon. It must be specified whether to propagate the change
@@ -47,10 +48,10 @@ public interface Simon {
 	 * subtree. If subtree is not overruled, some Simons (with their subtrees) may not be affected
 	 * by this change.
 	 *
-	 * @param state a new state.
+	 * @param state a new state as a valid String for {@link org.javasimon.SimonState#valueOf(String)}
 	 * @param overrule specifies whether this change is forced to the whole subtree.
 	 */
-	void setState(SimonState state, boolean overrule);
+	void setState(String state, boolean overrule);
 
 	/**
 	 * Returns true, if the Simon is enabled or if the enabled state is inherited.
@@ -62,36 +63,8 @@ public interface Simon {
 	/**
 	 * Resets the Simon, its usages and stat processor - concrete values depend
 	 * on the type and the implementation.
-	 *
-	 * @return returns this
 	 */
-	Simon reset();
-
-	/**
-	 * Returns ms timestamp of the last recent usage of the {@link #reset()} method on the Simon.
-	 * Returns 0 if {@code reset} was not called yet. This timestamp is usefull for rate measuring
-	 * when reset is called on a regular basis - likely via {@link #sampleAndReset()}. While
-	 * client code could store the timestamp too it is not necessary with this method.
-	 *
-	 * @return ms timestamp of the last reset or 0 if reset was not called yet
-	 */
-	long getLastReset();
-
-	/**
-	 * Returns statistics processor assigned to the Simon. StatProcessor extends Simon
-	 * with providing more statistic information about measured data (observations).
-	 *
-	 * @return statistics processor
-	 */
-	StatProcessor getStatProcessor();
-
-	/**
-	 * Sets statistics processor assigned to the Simon. StatProcessor extends Simon
-	 * with providing more statistic information about measured data (observations).
-	 *
-	 * @param statProcessor statistics processor
-	 */
-	void setStatProcessor(StatProcessor statProcessor);
+	void reset();
 
 	/**
 	 * Returns note for the Simon. Note enables Simon with an additional information in human
@@ -141,4 +114,11 @@ public interface Simon {
 	 * @return sample containing all Simon values
 	 */
 	Sample sampleAndReset();
+
+	/**
+	 * Returns Simon type used as a property in the {@link javax.management.ObjectName}.
+	 *
+	 * @return Simon type
+	 */
+	String getType();
 }

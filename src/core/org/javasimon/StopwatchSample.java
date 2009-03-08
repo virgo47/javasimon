@@ -8,7 +8,7 @@ package org.javasimon;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Jan 7, 2009
  */
-public class StopwatchSample extends AbstractSample {
+public class StopwatchSample extends Sample {
 	private long total;
 	private long counter;
 	private long min;

@@ -13,7 +13,7 @@ import java.util.Random;
 import java.util.logging.Level;
 
 /**
- * Simulates task processing system where task processing mean time should be smaller than the
+ * Simulates task processing system where task processing means time should be smaller than the
  * interval between two tasks are started. Active count should be higher than 1 in many occasions.
  * Run the application with following command (from Java Simon root):
  * <pre>
