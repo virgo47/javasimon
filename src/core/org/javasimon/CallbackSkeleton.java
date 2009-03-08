@@ -92,12 +92,39 @@ public class CallbackSkeleton implements Callback {
 	}
 
 	/**
-	 * Warning and stack trace are print out to the standard output.
+	 * {@inheritDoc}
+	 */
+	public void simonCreated(Simon simon) {
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void simonDestroyed(Simon simon) {
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void clear() {
+	}
+
+	/**
+	 * Prints the message to the standard output.
+	 *
+	 * @param message message text
+	 */
+	public void message(String message) {
+		System.out.println("Simon message: " + message);
+	}
+
+	/**
+	 * Warning and stack trace are print out to the error output.
 	 *
 	 * {@inheritDoc}
 	 */
 	public void warning(String warning, Exception cause) {
-		System.out.println("Simon warning: " + warning);
+		System.err.println("Simon warning: " + warning);
 		if (cause != null) {
 			cause.printStackTrace();
 		}

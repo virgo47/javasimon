@@ -6,7 +6,7 @@ package org.javasimon;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Jan 7, 2009
  */
-public class CounterSample extends AbstractSample {
+public class CounterSample extends Sample {
 	private long counter;
 	private long min;
 	private long max;

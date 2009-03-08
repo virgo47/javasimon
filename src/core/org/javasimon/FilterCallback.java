@@ -88,7 +88,6 @@ public interface FilterCallback extends Callback {
 			return true;
 		}
 
-		// TODO
 		private boolean checkCounter(Counter counter, Object... params) {
 			Map<String, BigDecimal> vars = new HashMap<String, BigDecimal>();
 			processParams(vars, params);

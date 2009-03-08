@@ -1,21 +1,34 @@
 <body>
 Java Simon API provides support for implementing an internal application performance monitoring.
 Monitors (called Simons) have to be incorporated directly into the code and API provides additional
-management features for these monitors. Java Simon consists of several packages:
-<ul>
-	<li>{@link org.javasimon} is the core package, contains {@link org.javasimon.Simon} implementations, with
-		the {@link org.javasimon.SimonManager} as the center point of the API;
-	</li>
-	<li>{@link org.javasimon.jdbc} implements JDBC proxy driver that enables JDBC performance monitoring;</li>
-	<li>{@link org.javasimon.jdbcx} implements DataSource that enables JDBC monitoring inside Java EE compliant application servers.;</li>
-	<li>{@link org.javasimon.utils} various supporting utils.</li>
-	<li>{@link org.javasimon.spring} contains Spring classes to automatically monitor classes with the
-		{@link org.javasimon.spring.Monitored} annotation.
-	</li>
-</ul>
-Java Simon is not tool for the profiling in the first place - it is rather the library that helps to
-implement performance monitoring (and other metrics) directly in the application as an integral part
+management features for these monitors.
+<p/>
+Java Simon is not a tool for profiling in the first place - it is rather the library that helps to
+implement performance (and other metrics) monitoring directly in the application as the integral part
 of it. Measured metrics can be sampled and stored persistently for later processing, trend analyzing,
-problem tracking, etc. It helps to give an additional perspective (history) to the application. Read
-the reference documentation for more on this topic.
+problem tracking, etc. It helps to give an additional perspective (history) to the application.
+
+<h2>Using Stopwatch</h2>
+
+{@link org.javasimon.Stopwatch} is probably the most often used monitor. Simple use case looks like this:
+<pre>
+    Stopwatch stopwatch = SimonManager.getStopwatch("stopwatch-name");
+    Split split = stopwatch.start();
+    //... measured code
+    split.stop();
+</pre>
+
+Monitors are always obtained from the {@link org.javasimon.Manager} - in this case so called
+"default manager" is used via convenient utility class {@link org.javasimon.SimonManager}.
+Every time the same name of the monitor is requested the same monitor is returned.
+
+If there is no need for explicit {@code stopwatch} reference first two lines can be shortened to:
+<pre>
+    Split split = SimonManager.getStopwatch("stopwatch-name").start();
+</pre>
+
+Instead of stopping the stopwatch directly, there is the {@link org.javasimon.Split} object
+that represents the measured time-span. Client code has to keep this reference in order to
+stop the measuring, but it also allows for multiple splits measured in parallel without binding
+them to specific threads.
 </body>

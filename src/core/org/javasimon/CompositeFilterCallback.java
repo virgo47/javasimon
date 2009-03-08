@@ -141,6 +141,42 @@ public final class CompositeFilterCallback implements FilterCallback {
 	/**
 	 * {@inheritDoc}
 	 */
+	public void simonCreated(Simon simon) {
+		if (rulesAppliesTo(simon, Event.CREATED)) {
+			callback.simonCreated(simon);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void simonDestroyed(Simon simon) {
+		if (rulesAppliesTo(simon, Event.DESTROYED)) {
+			callback.simonDestroyed(simon);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void clear() {
+		if (rulesAppliesTo(null, Event.CLEAR)) {
+			callback.clear();
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void message(String message) {
+		if (rulesAppliesTo(null, Event.MESSAGE, message)) {
+			callback.message(message);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public void warning(String warning, Exception cause) {
 		if (rulesAppliesTo(null, Event.WARNING, cause)) {
 			callback.warning(warning, cause);

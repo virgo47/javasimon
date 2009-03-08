@@ -44,7 +44,8 @@ public interface SimonMXBean {
 	String[] getSimonNames();
 
 	/**
-	 * Returns type of simon, either COUNTER or STOPWATCH.
+	 * Returns type of Simon, either COUNTER or STOPWATCH.
+	 *
 	 * @param name name of simon
 	 * @return string COUNTER if Counter simon or STOPWATCH if Stopwatch simon
 	 */
@@ -66,41 +67,50 @@ public interface SimonMXBean {
 	void clear();
 
 	/**
-	 * Enables particular simon only.
+	 * Enables particular Simon only.
 	 *
-	 * @param name simon hierarchical name
+	 * @param name name of the Simon
 	 * @see org.javasimon.Simon#setState(org.javasimon.SimonState, boolean)
 	 */
 	void enableSimon(String name);
 
 	/**
-	 * Disables particular simon only.
-	 * @param name simon hierarchical name
-	 * @see org.javasimon.Simon#setState(org.javasimon.SimonState, boolean) 
+	 * Disables particular Simon only.
+	 *
+	 * @param name name of the Simon
+	 * @see org.javasimon.Simon#setState(org.javasimon.SimonState, boolean)
 	 */
 	void disableSimon(String name);
 
 	/**
-	 * Retrieves so called sample (data objects) from Counter simon.
+	 * Lets the Simon to inherit its enable/disable state from its parent.
 	 *
-	 * @param name name of simon
-	 * @return sample object or null if simon with entered name doesn't exist
+	 * @param name name of the Simon
+	 */
+	void inheritState(String name);
+
+	/**
+	 * Retrieves sample data object for a particular Counter.
+	 *
+	 * @param name name of the Simon
+	 * @return sample object or null if Simon with entered name doesn't exist
 	 * @see org.javasimon.CounterSample
 	 */
 	CounterSample getCounterSample(String name);
 
 	/**
-	 * Retrieves so called sample (data objects) from Stopwatch simon.
+	 * Retrieves sample data object for a particular Stopwatch.
 	 *
-	 * @param name name of simon
-	 * @return sample object or null if simon with entered name doesn't exist
+	 * @param name name of the Simon
+	 * @return sample object or null if Simon with entered name doesn't exist
 	 * @see org.javasimon.StopwatchSample
 	 */
 	StopwatchSample getStopwatchSample(String name);
 
 	/**
 	 * Prints multi-line string containing Simon tree starting with the specified Simon to standard output.
-	 * @see org.javasimon.utils.SimonUtils#simonTreeString(org.javasimon.Simon) 
+	 *
+	 * @see org.javasimon.utils.SimonUtils#simonTreeString(org.javasimon.Simon)
 	 */
 	void printSimonTree();
 }

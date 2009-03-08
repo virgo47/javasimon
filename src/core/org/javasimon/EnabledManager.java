@@ -51,6 +51,7 @@ public final class EnabledManager implements Manager {
 		} else {
 			((AbstractSimon) simon.getParent()).replaceChild(simon, null);
 		}
+		callback.simonDestroyed(simon);
 	}
 
 	/**
@@ -60,6 +61,7 @@ public final class EnabledManager implements Manager {
 		allSimons.clear();
 		rootSimon = new UnknownSimon(ROOT_SIMON_NAME, this);
 		allSimons.put(ROOT_SIMON_NAME, rootSimon);
+		callback.clear();
 	}
 
 	/**
@@ -104,8 +106,10 @@ public final class EnabledManager implements Manager {
 				throw new SimonException("Simon name must match following pattern: '" + SimonUtils.NAME_PATTERN.pattern() + '\'');
 			}
 			simon = newSimon(name, simonClass);
+			callback.simonCreated(simon);
 		} else if (simon instanceof UnknownSimon) {
 			simon = replaceSimon(simon, simonClass);
+			callback.simonCreated(simon);
 		} else {
 			if (!(simonClass.isInstance(simon))) {
 				throw new SimonException("Simon named '" + name + "' already exists and its type is '" + simon.getClass().getName() + "' while requested type is '" + simonClass.getName() + "'.");

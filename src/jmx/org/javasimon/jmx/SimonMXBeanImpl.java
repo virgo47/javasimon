@@ -100,6 +100,13 @@ public class SimonMXBeanImpl implements SimonMXBean {
 	/**
 	 * {@inheritDoc}
 	 */
+	public void inheritState(String name) {
+		manager.getSimon(name).setState(SimonState.INHERIT, false);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public CounterSample getCounterSample(String name) {
 		Simon s = manager.getSimon(name);
 		if (s != null && s instanceof Counter) {

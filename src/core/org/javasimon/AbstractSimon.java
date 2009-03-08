@@ -5,11 +5,14 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * AbstractSimon implements basic enable/disable and hierarchy functionality.
+ * All Simon implementations extend this class.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 4, 2008
  */
 abstract class AbstractSimon implements Simon {
+	protected Manager manager;
+
 	protected boolean enabled;
 
 	protected long firstUsage;
@@ -28,7 +31,7 @@ abstract class AbstractSimon implements Simon {
 
 	private String note;
 
-	protected Manager manager;
+	private long resetTimestamp;
 
 	AbstractSimon(String name, Manager manager) {
 		this.name = name;
@@ -40,36 +43,28 @@ abstract class AbstractSimon implements Simon {
 	}
 
 	/**
-	 * Returns parent Simon.
-	 *
-	 * @return parent Simon
+	 * {@inheritDoc}
 	 */
 	public final Simon getParent() {
 		return parent;
 	}
 
 	/**
-	 * Returns list of children - direct sub-simons.
-	 *
-	 * @return list of children
+	 * {@inheritDoc}
 	 */
 	public final List<Simon> getChildren() {
 		return children;
 	}
 
 	/**
-	 * Sets the parent - used only internally.
-	 *
-	 * @param parent assigned parent Simon
+	 * {@inheritDoc}
 	 */
 	final void setParent(Simon parent) {
 		this.parent = parent;
 	}
 
 	/**
-	 * Adds new child - used only internally.
-	 *
-	 * @param simon added child Simon
+	 * {@inheritDoc}
 	 */
 	final void addChild(AbstractSimon simon) {
 		children.add(simon);
@@ -78,10 +73,7 @@ abstract class AbstractSimon implements Simon {
 	}
 
 	/**
-	 * Returns Simon name. Simon name is always fully qualified
-	 * and determines also position of the Simon in the monitor hierarchy.
-	 *
-	 * @return name of the Simon
+	 * {@inheritDoc}
 	 */
 	public final String getName() {
 		return name;
@@ -127,80 +119,67 @@ abstract class AbstractSimon implements Simon {
 	}
 
 	/**
-	 * Returns true, if the Simon is enabled or if the enabled state is inherited.
-	 *
-	 * @return true, if the Simon is effectively enabled
+	 * {@inheritDoc}
 	 */
 	public boolean isEnabled() {
 		return enabled;
 	}
 
+	protected void saveResetTimestamp() {
+		resetTimestamp = System.currentTimeMillis();
+	}
+
 	/**
-	 * Returns state of the Simon that can be enabled, disabled or ihnerited.
-	 *
-	 * @return state of the Simon
+	 * {@inheritDoc}
+	 */
+	public long getLastReset() {
+		return resetTimestamp;
+	}
+
+	/**
+	 * {@inheritDoc}
 	 */
 	public final SimonState getState() {
 		return state;
 	}
 
 	/**
-	 * Returns statistics processor assigned to the Simon. StatProcessor extends Simon
-	 * with providing more statistic information about measured data (observations).
-	 *
-	 * @return statistics processor
+	 * {@inheritDoc}
 	 */
 	public StatProcessor getStatProcessor() {
 		return statProcessor;
 	}
 
 	/**
-	 * Sets statistics processor assigned to the Simon. StatProcessor extends Simon
-	 * with providing more statistic information about measured data (observations).
-	 *
-	 * @param statProcessor statistics processor
+	 * {@inheritDoc}
 	 */
 	public void setStatProcessor(StatProcessor statProcessor) {
 		this.statProcessor = statProcessor;
 	}
 
 	/**
-	 * Returns note for the Simon. Note enables Simon with an additional information in human
-	 * readable form.
-	 *
-	 * @return note for the Simon.
+	 * {@inheritDoc}
 	 */
 	public String getNote() {
 		return note;
 	}
 
 	/**
-	 * Sets note for the Simon. Note enables Simon with an additional information in human
-	 * readable form.
-	 *
-	 * @param note note for the Simon.
+	 * {@inheritDoc}
 	 */
 	public void setNote(String note) {
 		this.note = note;
 	}
 
 	/**
-	 * Returns ms timestamp of the first usage of this Simon. First and last usage
-	 * are updated when monitor performs the measuring (start/stop/count/etc). They
-	 * are not updated when values are obtained from the monitor.
-	 *
-	 * @return ms timestamp of the first usage
+	 * {@inheritDoc}
 	 */
 	public long getFirstUsage() {
 		return firstUsage;
 	}
 
 	/**
-	 * Returns ms timestamp of the last usage of this Simon. First and last usage
-	 * are updated when monitor performs the measuring (start/stop/count/etc). They
-	 * are not updated when values are obtained from the monitor.
-	 *
-	 * @return ms timestamp of the last usage
+	 * {@inheritDoc}
 	 */
 	public long getLastUsage() {
 		return lastUsage;

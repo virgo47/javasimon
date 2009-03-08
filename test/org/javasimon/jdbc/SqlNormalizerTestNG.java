@@ -38,7 +38,7 @@ public final class SqlNormalizerTestNG {
 			{"update 'trn' set amount=  50.6,type='' where id in (4,5,6) or date in (to_date('6.6.2006','dd.mm.yyyy'), to_date('7.6.2006','dd.mm.yyyy'))",
 				"update", "update 'trn' set amount = ?, type = ? where id in (?) or date in (?)"},
 			{"update nonsense set amount=null where substring(date,3,17) like '%'.to_date('7.6.2006','dd.mm.yyyy')",
-				"update", "update nonsense set amount = null where substring(date, ?, ?) like ?.to_date(?, ?)"}, // TODO maybe not the best now... this passes
+				"update", "update nonsense set amount = null where substring(date, ?, ?) like ?.to_date(?, ?)"},
 
 			{"   delete from trn where id in   (select    id from subtrn where trndesc not like '%SX')",
 				"delete", "delete from trn where id in (select id from subtrn where trndesc not like ?)"},
