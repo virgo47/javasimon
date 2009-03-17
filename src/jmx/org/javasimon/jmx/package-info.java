@@ -1,11 +1,13 @@
 /**
- * Package contains jmx cabalities for javasimon core functionality. It means
- * firstly management of java simons during runtime and secondly, very requested,
+ * Package contains jmx cabalities for javasimon library. Pacakge contains two management beans:
+ * general management bean for Simons and JDBC management bean.
+ * <p>
+ * <b>Simon mbean</b> ({@link org.javasimon.jmx.SimonMXBean}) implements jmx support for core functionality,
+ * it means firstly management of java simons during runtime and secondly, very requested,
  * way how to get gathered data by simons out of application (jvm) for aditional processing.
  * <p>
- * Both features are implemented by single MBean ({@link org.javasimon.jmx.SimonMXBean}). From
- * management point of view it provides similar functionality like {@link org.javasimon.Manager},
- * but is accessible remotely. Management features are:
+ * From management point of view it provides similar functionality like {@link org.javasimon.Manager},
+ * but this functionality is accessible remotely. Management features are:
  * <ul>
  * <li>enable/disable whole manager, what practically means turn on/off all simons</li>
  * <li>enable/disable particular simon without touching linked hierarchy</li>
@@ -27,7 +29,13 @@
  * sample has all needed access methods of its simon. Parameter for retrieving methods is simon hierarchical
  * name. To know all existing simons and its type, use {@link org.javasimon.jmx.SimonMXBean#getSimonInfos()}.
  * <p>
- * MBeans needs to be registered first. Bellow are two sniplets, one for registring Simon MBean:
+ * <b>JDBC mbean</b> ({@link org.javasimon.jmx.JdbcMXBean}) provides jmx support for monitoring and logging capabilities
+ * of Simon JDBC Driver which covers standard JDBC driver, you can find more details in package {@link org.javasimon.jdbc}.
+ * This comprises features like enable and disable monitoring (gathering statistics data) by hierarchy of javasimons,
+ * starting and stoping logging events from JDBC driver, configuring logging settings and also retrieve
+ * gathered data from javasimons through special designed interface.
+ * <p>
+ * Both MBeans needs to be registered first. Bellow are two sniplets, one for registring Simon MBean:
  * <pre>
 MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
 try {

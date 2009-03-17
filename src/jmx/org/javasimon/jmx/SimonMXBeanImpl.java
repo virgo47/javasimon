@@ -11,7 +11,7 @@ import java.util.Collection;
  * Most methods are implemented by calling the {@link Manager}.
  *
  * @author Radovan Sninsky
- * @version $Revision: 275 $ $Date: 2008-12-07 12:07:45 +0100 (Ne, 07 dec 2008) $
+ * @version $Revision$ $Date$
  * @created 15.7.2008 23:19:50
  * @since 2
  * @see Manager
@@ -19,8 +19,14 @@ import java.util.Collection;
  * @see SimonUtils
  */
 public class SimonMXBeanImpl implements SimonMXBean {
+
 	private Manager manager;
 
+	/**
+	 * MXBean constructor.
+	 *
+	 * @param manager instance of {@link Manager}, typically {@code SimonManager.manager()}.
+	 */
 	public SimonMXBeanImpl(Manager manager) {
 		this.manager = manager;
 	}
