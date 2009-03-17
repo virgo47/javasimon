@@ -3,32 +3,34 @@ package org.javasimon.jmx;
 import org.javasimon.StopwatchSample;
 
 /**
- * Simon MXBean interface for general management tasks. This is central point for
- * management tasks over all Simon infrastructure plus some usefull util functions.
+ * Interface of Simon management bean (MXBean).
+ * <p>
+ * It provides general management tasks over all Simon infrastructure (means hierarchy
+ * of simons) plus some usefull util functions.
  *
  * @author Radovan Sninsky
- * @version $Revision: 269 $ $Date: 2008-10-31 11:02:02 +0100 (Pi, 31 okt 2008) $
+ * @version $Revision$ $Date$
  * @created 15.7.2008 22:43:49
  * @since 2
  */
 public interface SimonMXBean {
 
 	/**
-	 * Enables the Simon Manager.
+	 * Enables the Simon Manager, enable monitoring application by simons.
 	 *
 	 * @see org.javasimon.Manager#enable()
 	 */
 	void enable();
 
 	/**
-	 * Disables the Simon Manager.
+	 * Disables the Simon Manager, disable monitoring application by simons.
 	 *
 	 * @see org.javasimon.Manager#disable()
 	 */
 	void disable();
 
 	/**
-	 * Returns true if the Simon Manager is enabled.
+	 * Returns true if the Simon Manager is enabled, if monitoring is enabled.
 	 *
 	 * @return true if the Simon Manager is enabled
 	 * @see org.javasimon.Manager#isEnabled()
@@ -36,7 +38,7 @@ public interface SimonMXBean {
 	boolean isEnabled();
 
 	/**
-	 * Returns array containing names of all existing Simons.
+	 * Returns array containing full hierarchical names of all existing Simons.
 	 *
 	 * @return array of all Simon names
 	 * @see org.javasimon.Manager#simonNames()
@@ -44,10 +46,11 @@ public interface SimonMXBean {
 	String[] getSimonNames();
 
 	/**
-	 * Returns type of Simon, either COUNTER or STOPWATCH.
+	 * Returns type of simon, either COUNTER, STOPWATCH or UNKNOWN.
 	 *
 	 * @param name name of simon
-	 * @return string COUNTER if Counter simon or STOPWATCH if Stopwatch simon
+	 * @return string COUNTER if Counter simon, STOPWATCH if Stopwatch simon
+	 * or UKNOWN if there is no simon just undefined hierarchy node
 	 */
 	String getType(String name);
 
