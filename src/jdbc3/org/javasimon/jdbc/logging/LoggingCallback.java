@@ -1,7 +1,6 @@
-package org.javasimon.jdbc;
+package org.javasimon.jdbc.logging;
 
-import org.javasimon.Split;
-import org.javasimon.CallbackSkeleton;
+import org.javasimon.*;
 import org.javasimon.utils.SimonUtils;
 
 import java.util.Date;
@@ -45,7 +44,7 @@ import java.io.IOException;
  * @created 30.1.2009 15:26:00
  * @since 2
  */
-final class JdbcLogCallback extends CallbackSkeleton {
+public final class LoggingCallback extends CallbackSkeleton {
 
 	private final class HumanFormatter extends SimonFormatter {
 
@@ -55,7 +54,7 @@ final class JdbcLogCallback extends CallbackSkeleton {
 		private final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss.SSS");
 		private final String lineSeparator = System.getProperty("line.separator");
 
-		protected String formatRecord(LogRecord record, LogParams params) {
+		protected String formatRecord(LogRecord record, CallbackLogParams params) {
 			dat.setTime(record.getMillis());
 			StringBuilder sb = new StringBuilder();
 			sb.append(dateTimeFormat.format(dat)).append(' ');
@@ -73,11 +72,11 @@ final class JdbcLogCallback extends CallbackSkeleton {
 
 	private final class CsvFormatter extends SimonFormatter {
 
-		private static final String ID = "human";
+		private static final String ID = "csv";
 
 		private final String lineSeparator = System.getProperty("line.separator");
 
-		protected String formatRecord(LogRecord record, LogParams params) {
+		protected String formatRecord(LogRecord record, CallbackLogParams params) {
 			StringBuilder sb = new StringBuilder();
 			sb.append(record.getMillis()).append('|');
 			sb.append(record.getThreadID()).append('|');
@@ -92,6 +91,7 @@ final class JdbcLogCallback extends CallbackSkeleton {
 		}
 	}
 
+	private String prefix;
 	private String logFilename;
 	private String loggerName;
 	private boolean logToConsole;
@@ -99,9 +99,18 @@ final class JdbcLogCallback extends CallbackSkeleton {
 
 	private Logger logger;
 
-	private boolean initialized = false;
+	/**
+	 *
+	 */
+	public LoggingCallback() {
+	}
 
-	public JdbcLogCallback() {
+	public String getPrefix() {
+		return prefix;
+	}
+
+	public void setPrefix(String prefix) {
+		this.prefix = prefix;
 	}
 
 	public void setLogFilename(String logFilename) {
@@ -145,12 +154,6 @@ final class JdbcLogCallback extends CallbackSkeleton {
 			}
 			logger.addHandler(ch);
 		}
-		
-		initialized = true;
-	}
-
-	public void deactivate() {
-		// TODO ... alebo to zmaz ;-)
 	}
 
 	private SimonFormatter formatter() {
@@ -174,23 +177,19 @@ final class JdbcLogCallback extends CallbackSkeleton {
 	}
 
 	public void stopwatchStart(Split split) {
-		if (!initialized) {
-			initialize();
-		}
-
 		String fullName = split.getStopwatch().getName();
-		String localName = SimonUtils.localName(fullName);
-		if (localName.equals("conn") || localName.equals("stmt")) {
-			logger.log(Level.INFO, null, new Object[] {fullName, "start", null, split.getStopwatch().getNote()});
+		if (fullName != null && fullName.startsWith(prefix)) {
+			String localName = SimonUtils.localName(fullName);
+			if (localName.equals("conn") || localName.equals("stmt")) {
+				logger.log(Level.INFO, null, new CallbackLogParams(fullName, Event.STOPWATCH_START, 0, split.getStopwatch().getNote()));
+			}
 		}
 	}
 
 	public void stopwatchStop(Split split) {
-		if (!initialized) {
-			initialize();
-		}
-
 		String fullName = split.getStopwatch().getName();
-		logger.log(Level.INFO, null, new Object[] {fullName, "stop", split.runningFor(), split.getStopwatch().getNote()});
+		if (fullName != null && fullName.startsWith(prefix)) {
+			logger.log(Level.INFO, null, new CallbackLogParams(fullName, Event.STOPWATCH_STOP, split.runningFor(), split.getStopwatch().getNote()));
+		}
 	}
 }

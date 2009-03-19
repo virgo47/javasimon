@@ -1,5 +1,5 @@
 /**
- * Package contains jmx cabalities for javasimon library. Pacakge contains two management beans:
+ * JMX cabalities for core simons and jdbc proxy driver. Pacakge contains two management beans:
  * general management bean for Simons and JDBC management bean.
  * <p>
  * <b>Simon mbean</b> ({@link org.javasimon.jmx.SimonMXBean}) implements jmx support for core functionality,

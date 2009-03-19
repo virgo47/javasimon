@@ -1,8 +1,8 @@
 package org.javasimon.jdbc;
 
-import org.javasimon.CompositeFilterCallback;
 import org.javasimon.SimonManager;
-import org.javasimon.FilterCallback;
+import org.javasimon.Callback;
+import org.javasimon.jdbc.logging.LoggingCallback;
 
 import java.sql.SQLException;
 import java.sql.DriverPropertyInfo;
@@ -28,26 +28,44 @@ import java.io.InputStream;
  * Simon driver recognizes two parameters:
  * <ul>
  * <li>
- * <code>SIMON_REAL_DRV</code> - if you don't want or can't register real driver for any
+ * {@code SIMON_REAL_DRV} - if you don't want or can't register real driver for any
  * reason, you can use this parameter and Simon proxy driver will do the registration
  * for you. You don't need to specify real driver parameter for some well known databases.
  * Simon proxy driver recognize database by first key word after JDBC and register.
  * </li>
  * <li>
- * <code>SIMON_PREFIX</code> - setting this parameter you can choose different prefix
- * for all monitors for this instance of driver. For example, setting
- * <code>SIMON_PREFIX=com.foo</code> will ensure that all proxy related Simons are located
- * under the subtree specified by the prefix, e.g. <code>com.foo.conn</code>, <code>com.foo.stmt</code>,
- * <code>com.foo.select</code>, etc.
+ * {@code SIMON_PREFIX} - setting this parameter you can choose different prefix
+ * for all monitors for one instance of driver. For example, setting
+ * {@code SIMON_PREFIX=com.foo} will ensure that all proxy related Simons are located
+ * under the subtree specified by the prefix, e.g. {@code com.foo.conn}, <code>com.foo.stmt</code>,
+ * <code>com.foo.select</code>, etc. If no prefix is set, default {@code org.javasimon.jdbc} prefix
+ * is used.
  * </li>
  * <li>
- * <code>SIMON_LOGFILE</code> - ... todo javadoc
+ * {@code SIMON_LOGFILE} - setting this parameter you can enable logging events (JDBC activity)
+ * to specified file, for example {@code ...;simon_logfile=c:\jdbc.log} or
+ * {@code ...;simon_logfile=/tmp/jdbc.log}.
+ * </li>
+ * <li>
+ * {@code SIMON_LOGGER} - setting this you can enable logging events (JDBC activity) to specified JDK14
+ * logger (@{link java.util.logging.Logger}), for example {@code ...;simon_logger=my.package.logger}.
+ * </li>
+ * <li>
+ * {@code SIMON_CONSOLE} - setting this you can enable logging events (JDBC activity) to console, which is
+ * ({@code System.err}) using standard {@link java.util.logging.ConsoleHandler}, for example
+ * {@code ...;simon_console=y} or {@code ...;simon_console=true}.
+ * </li>
+ * <li>
+ * {@code SIMON_FORMAT} - by this parameter you can set format of log. There are two build-in formats:
+ * {@code human} and {@code csv}. Custom format is also possible by specifing clasname. Custom formatter
+ * must by derived from {@link org.javasimon.jdbc.logging.SimonFormatter}. For example
+ * {@code ...;simon_format=csv} or {@code ...;simon_format=my.package.MyFormmater}  
  * </li>
  * </ul>
  * <p/>
  * By default, there is no need to load any driver explicitly, because drivers are loaded automatically
  * (since JDK 1.5) if they are in class path and jar have appropriate
- * meta information (see {@link java.sql.DriverManager}.
+ * meta information (see {@link java.sql.DriverManager}).
  * <p/>
  * If this is not a case for any reason, you need to register Simon proxy driver at least.
  * For real driver Simon proxy driver contains following procedure for find and register it:
@@ -82,27 +100,36 @@ public final class Driver implements java.sql.Driver {
 	public static final String REAL_DRIVER = "simon_real_drv";
 
 	/**
-	 * Name for the property holding the hierarchy prefix given to JDBC Simons.
+	 * Default hierarchy prefix for Simon JDBC driver. All simons created by Simon JDBC
+	 * driver without explicitly specified prefix are started with default prefix.
+	 */
+	public static final String DEFAULT_PREFIX = "org.javasimon.jdbc";
+
+	/**
+	 * Name for the driver property holding the hierarchy prefix given to JDBC Simons.
 	 */
 	public static final String PREFIX = "simon_prefix";
 
 	/**
-	 * todo javadoc
+	 * Name for the driver property enabling JDBC logging to specified file.
 	 */
 	private static final String LOGFILE = "simon_logfile";
 
 	/**
-	 * todo javadoc
+	 * Name for the driver property enabling JDBC logging to specified JDK14 logger (@{link java.util.logging.Logger}).
 	 */
 	private static final String LOGGER = "simon_logger";
 
 	/**
-	 * todo javadoc
+	 * Name for the driver property enabling JDBC logging to console ({@code System.err})
+	 * using {@link java.util.logging.ConsoleHandler}.
 	 */
 	private static final String CONSOLE = "simon_console";
 
 	/**
-	 * todo javadoc
+	 * Name for the driver property setting format for logs. There are two build-in formats: {@code human} and
+	 * {@code csv}. Custom format is also possible by specifing clasname, must by derived from
+	 * {@link org.javasimon.jdbc.logging.SimonFormatter}.
 	 */
 	private static final String FORMAT = "simon_format";
 
@@ -117,7 +144,8 @@ public final class Driver implements java.sql.Driver {
 	private final Properties drivers = new Properties();
 
 	/**
-	 * Trieda Url. todo javadoc
+	 * Class Url represents Simon JDBC url. It parses given url and than provides getters for
+	 * driver's propreties if provided or default values.
 	 *
 	 * @author Radovan Sninsky
 	 * @version $Revision$ $Date$
@@ -127,8 +155,6 @@ public final class Driver implements java.sql.Driver {
 	class Url {
 
 		private static final String SIMON_JDBC = "jdbc:simon";
-
-		private static final String DEFAULT_PREFIX = "org.javasimon.jdbc";
 
 		private static final int JDBC_URL_FIXED_PREFIX_LEN = 5;
 
@@ -141,7 +167,12 @@ public final class Driver implements java.sql.Driver {
 		private String console;
 		private String format;
 
-		public Url(String url) {
+		/**
+		 * Class constructor, parses given url and recognizes driver's properties.
+		 *
+		 * @param url given jdbc url
+		 */
+		Url(String url) {
 			int i = url.indexOf(':', JDBC_URL_FIXED_PREFIX_LEN);
 			if (i > -1) {
 				driverId = url.substring(JDBC_URL_FIXED_PREFIX_LEN, i - 1);
@@ -170,30 +201,66 @@ public final class Driver implements java.sql.Driver {
 			}
 		}
 
+		/**
+		 * Returns orignal jdbc url without any simon stuff.
+		 *
+		 * @return original jdbc url
+		 */
 		public String getRealUrl() {
 			return realUrl;
 		}
 
+		/**
+		 * Returns driver identifier (eg. oracle, postgres, mysql, h2, etc.).
+		 *
+		 * @return driver identifier
+		 */
 		public String getDriverId() {
 			return driverId;
 		}
 
+		/**
+		 * Return real driver fully classname.
+		 *
+		 * @return driver classname
+		 */
 		public String getRealDriver() {
 			return realDriver;
 		}
 
+		/**
+		 * Returns prefix for hierarchy of jdbc related simons.
+		 *
+		 * @return prefix for jdbc simons
+		 */
 		public String getPrefix() {
 			return prefix == null ? DEFAULT_PREFIX : prefix;
 		}
 
+		/**
+		 * Returns filename to log events from jdbc simons if provided.
+		 *
+		 * @return filename
+		 */
 		public String getLogfile() {
 			return logfile;
 		}
 
+		/**
+		 * Returns logger name if provided.
+		 *
+		 * @return logger name
+		 */
 		public String getLogger() {
 			return logger;
 		}
 
+		/**
+		 * Returns {@code true} if driver's parameter {@code simon_console} is set to yes,
+		 * otherwise {@code false}.
+		 *
+		 * @return {@code true} log to console is enabled, otherwise {@code false}
+		 */
 		public boolean getConsole() {
 			return console != null && (
 				console.equalsIgnoreCase("yes") ||
@@ -204,6 +271,11 @@ public final class Driver implements java.sql.Driver {
 			);
 		}
 
+		/**
+		 * Returns log format (build-in or custom) if specified.
+		 *
+		 * @return log format
+		 */
 		public String getFormat() {
 			return format;
 		}
@@ -230,7 +302,6 @@ public final class Driver implements java.sql.Driver {
 
 	/**
 	 * Opens new Simon proxy driver connection associated with real connection to specified database.
-	 * todo javadoc about jdbc driver activity logging
 	 *
 	 * @param simonUrl jdbc connection string (i.e. jdbc:simon:h2:file:test)
 	 * @param info properties for connection
@@ -246,39 +317,59 @@ public final class Driver implements java.sql.Driver {
 		Url url = new Url(simonUrl);
 		java.sql.Driver driver = getRealDriver(url, info);
 
-		// if one of three possible way of setting logging is setted, than
+		// if one of three possible way of setting logging is set, than
 		// configure simon jdbc driver logging through jdbc logging callback
 		if (url.getLogfile() != null || url.getLogger() != null || url.getConsole()) {
-			CompositeFilterCallback filter = new CompositeFilterCallback();
-			filter.addRule(FilterCallback.Rule.Type.MUST, null, url.getPrefix()+".*");
-
-			JdbcLogCallback jlc = new JdbcLogCallback();
-			if (url.getLogfile() != null) {
-				jlc.setLogFilename(url.getLogfile());
+			// check if LoggingCallback is already registerd
+			LoggingCallback loggingCallback = null;
+			for (Callback c : SimonManager.callback().callbacks()) {
+				if (c instanceof LoggingCallback) {
+					loggingCallback = (LoggingCallback)c;
+					break;
+				}
 			}
-			if (url.getLogger() != null) {
-				jlc.setLoggerName(url.getLogger());
+			// if callback is already registered do not register callback again
+			if (loggingCallback == null) {
+				registerLoggingCallback(url);
 			}
-			if (url.getConsole()) {
-				jlc.setLogToConsole(url.getConsole());
-			}
-			if (url.getFormat() != null) {
-				jlc.setLogFormat(url.getFormat());
-			}
-			filter.addCallback(jlc);
-
-			SimonManager.callback().addCallback(filter);
 		}
 
 		return new org.javasimon.jdbc.SimonConnection(driver.connect(url.getRealUrl(), info), url.getPrefix());
 	}
 
 	/**
-	 * todo javadoc
-	 * @param url
-	 * @param info
-	 * @return
-	 * @throws SQLException
+	 * Registers jdbc logging callback to simon manager.
+	 *
+	 * @param url instance of {@link org.javasimon.jdbc.Driver.Url}
+	 * @see org.javasimon.SimonManager#callback()
+	 * @see org.javasimon.Callback#addCallback(org.javasimon.Callback)
+	 */
+	private void registerLoggingCallback(Url url) {
+		LoggingCallback loggingCallback = new LoggingCallback();
+		loggingCallback.setPrefix(url.getPrefix());
+		if (url.getLogfile() != null) {
+			loggingCallback.setLogFilename(url.getLogfile());
+		}
+		if (url.getLogger() != null) {
+			loggingCallback.setLoggerName(url.getLogger());
+		}
+		if (url.getConsole()) {
+			loggingCallback.setLogToConsole(url.getConsole());
+		}
+		if (url.getFormat() != null) {
+			loggingCallback.setLogFormat(url.getFormat());
+		}
+		SimonManager.callback().addCallback(loggingCallback);
+	}
+
+	/**
+	 * Tries to determine driver class, instantiate it and register if already not registered.
+	 * For more detail look at {@link org.javasimon.jdbc.Driver} class javadoc.
+	 * 
+	 * @param url instance of url object that represents url
+	 * @param info parameters from {@link #connect(String, java.util.Properties)} method
+	 * @return instance of real driver
+	 * @throws SQLException if real driver can't be determined or is not registerd
 	 */
 	private java.sql.Driver getRealDriver(Url url, Properties info) throws SQLException {
 		java.sql.Driver drv = null;
