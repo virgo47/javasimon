@@ -162,6 +162,12 @@ public final class ManagerTestNG {
 	}
 
 	@Test
+	public void simonTreeOnDisabledManager() {
+		SimonManager.disable();
+		Assert.assertNull(SimonUtils.simonTreeString(SimonManager.getRootSimon()));
+	}
+
+	@Test
 	public void failedInitialization() {
 		final Queue<String> messages = new LinkedList<String>();
 		SimonUtils.removeAllCallbacks(SimonManager.manager());

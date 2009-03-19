@@ -149,12 +149,18 @@ public final class SimonUtils {
 
 	/**
 	 * Returns multi-line string containing Simon tree starting with the specified Simon.
-	 * Root Simon can be used to obtain tree with all Simons.
+	 * Root Simon can be used to obtain tree with all Simons. Returns {@code null} for
+	 * input value of null or for NullSimon or any Simon with name equal to null (anonymous
+	 * Simons) - this is also the case when the Manager is disabled and tree for its root
+	 * Simon is requested.
 	 *
 	 * @param simon root Simon of the output tree
-	 * @return string containing the tree
+	 * @return string containing the tree or null if the Simon is null Simon
 	 */
 	public static String simonTreeString(Simon simon) {
+		if (simon == null || simon.getName() == null) {
+			return null;
+		}
 		StringBuilder sb = new StringBuilder();
 		printSimonTree(0, simon, sb);
 		return sb.toString();
