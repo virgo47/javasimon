@@ -63,7 +63,7 @@
  * <li><i>last</i> - time of last occurence of desired SQL command.
  * </ul>
  *
- * <b>SQL command group:</b>
+ * <b>SQL:</b>
  * <ul>
  * <li><i>minimum execution</i> - minimum time of all desired sql command execution times (typically
  * execution time of {@code executeQuery}, {@code executeUpdate} or {@code execute});

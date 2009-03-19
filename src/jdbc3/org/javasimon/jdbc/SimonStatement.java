@@ -151,11 +151,12 @@ public class SimonStatement implements Statement {
 	 * @param sql sql command
 	 * @return database rows and columns
 	 * @throws SQLException if real calls fails
+	 * @see org.javasimon.jdbc.SimonResultSet
 	 */
 	public final ResultSet executeQuery(String sql) throws SQLException {
 		Split s = prepare(sql);
 		try {
-			return stmt.executeQuery(sql);
+			return new SimonResultSet(stmt.executeQuery(sql), this, prefix, s.getStopwatch().getName());
 		} finally {
 			finish(s);
 		}

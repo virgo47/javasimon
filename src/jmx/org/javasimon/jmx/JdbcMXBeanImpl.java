@@ -75,7 +75,7 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 	 * {@inheritDoc}
 	 */
 	public boolean isMonitoringEnabled(String p) {
-		return manager.getSimon(p) != null && manager.getSimon(p).getState() == SimonState.ENABLED;
+		return manager.getSimon(p) != null && manager.getSimon(p).isEnabled();
 	}
 
 	/**
