@@ -228,6 +228,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		sample.setMaxActive(maxActive);
 		sample.setMaxActiveTimestamp(maxActiveTimestamp);
 		sample.setFromStatProcessor(getStatProcessor());
+		sample.setNote(getNote());
 		return sample;
 	}
 
