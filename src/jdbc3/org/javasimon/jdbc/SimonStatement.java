@@ -323,7 +323,7 @@ public class SimonStatement implements Statement {
 	 *         command in the batch.
 	 * @throws SQLException if real calls fails
 	 */
-	public final int[] executeBatch() throws SQLException {
+	public int[] executeBatch() throws SQLException {
 		Split s = prepare(batchSql);
 		try {
 			return stmt.executeBatch();
@@ -337,7 +337,7 @@ public class SimonStatement implements Statement {
 	 *
 	 * @throws SQLException if real calls fails
 	 */
-	public final void clearBatch() throws SQLException {
+	public void clearBatch() throws SQLException {
 		batchSql.clear();
 
 		stmt.clearBatch();

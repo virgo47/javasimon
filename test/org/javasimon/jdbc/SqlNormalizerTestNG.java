@@ -74,5 +74,19 @@ public final class SqlNormalizerTestNG {
 		Assert.assertEquals(sn.getType(), "batch");
 		Assert.assertEquals(sn.getSql(), "batch");
 		Assert.assertEquals(sn.getNormalizedSql(), "update trn set amount = ?, type = ? where id = ?; insert into foo (?, ?)");
+
+		sn = new SqlNormalizer(Arrays.asList(
+			"insert into fuu values (?, ?, ?, ?, ?)",
+			"insert into fuu values (?, ?, ?, ?, ?)",
+			"insert into fuu values (?, ?, ?, ?, ?)",
+			"insert into fuu values (?, ?, ?, ?, ?)",
+			"delete from fuu where id =?",
+			"delete from fuu where id =?",
+			"insert into fuu2 values (?, 'aaa')"
+		));
+
+		Assert.assertEquals(sn.getType(), "batch");
+		Assert.assertEquals(sn.getSql(), "batch");
+		Assert.assertEquals(sn.getNormalizedSql(), "4x insert into fuu values (?, ?, ?, ?, ?); 2x delete from fuu where id = ?; insert into fuu2 values (?, ?)");
 	}
 }
