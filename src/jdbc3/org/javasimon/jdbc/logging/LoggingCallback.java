@@ -86,7 +86,7 @@ public final class LoggingCallback extends CallbackSkeleton {
 				.append(isStart(params) ? "|>" : "|<").append('|');
 			sb.append(params.getFullName()).append('|');
 			sb.append(params.getSplit()).append('|');
-			sb.append(note(params)).append(lineSeparator);
+			sb.append(params.getNote()).append(lineSeparator);
 			return sb.toString();
 		}
 	}
@@ -135,7 +135,7 @@ public final class LoggingCallback extends CallbackSkeleton {
 		if (logFilename != null && logFilename.length() > 0) {
 			logger.setUseParentHandlers(false);
 			try {
-				FileHandler fh = new FileHandler(logFilename);
+				FileHandler fh = new FileHandler(logFilename, true);
 				SimonFormatter f = formatter();
 				if (f != null) {
 					fh.setFormatter(f);

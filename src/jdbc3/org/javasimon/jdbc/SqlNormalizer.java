@@ -71,13 +71,22 @@ public final class SqlNormalizer {
 	public SqlNormalizer(List<String> batch) {
 		sql = "batch";
 		StringBuilder sqlBuilder = new StringBuilder();
+		String lastStmt = null;
+		int stmtCounter = 0;
 		for (String statement : batch) {
-			if (sqlBuilder.length() > 0) {
-				sqlBuilder.append("; ");
-			}
 			normalize(statement);
-			sqlBuilder.append(normalizedSql);
+			if (lastStmt == null) {
+				lastStmt = normalizedSql;
+			}
+			if (!lastStmt.equalsIgnoreCase(normalizedSql)) {
+				sqlBuilder.append(stmtCounter == 1 ? "" : stmtCounter + "x ").append(lastStmt).append("; ");
+				lastStmt = normalizedSql;
+				stmtCounter = 1;
+			} else {
+				stmtCounter++;
+			}
 		}
+		sqlBuilder.append(stmtCounter == 1 ? "" : stmtCounter + "x ").append(lastStmt);
 		type = "batch";
 		this.normalizedSql = sqlBuilder.toString();
 	}

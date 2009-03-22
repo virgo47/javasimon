@@ -1,6 +1,7 @@
 package org.javasimon.jmx;
 
 import org.javasimon.*;
+import org.javasimon.utils.SimonUtils;
 import org.javasimon.jdbc.logging.LoggingCallback;
 
 import java.util.Date;
@@ -17,45 +18,49 @@ import java.util.Date;
  */
 public class JdbcMXBeanImpl implements JdbcMXBean {
 
-	private static final String DP = "org.javasimon.jdbc"; 
-
 	private Manager manager;
+	private String prefix;
 
 	/**
-	 * MXBean constructor.
+	 * MXBean constructor with prefix initialization to default ({@code org.javasimon.jdbc}).
 	 *
 	 * @param manager instance of {@link Manager}, typically {@code SimonManager.manager()}.
 	 */
 	public JdbcMXBeanImpl(Manager manager) {
 		this.manager = manager;
+		this.prefix = "org.javasimon.jdbc";
+	}
+
+	/**
+	 * MXBean constructor with custom prefix initialization.
+	 *
+	 * @param manager instance of {@link Manager}, typically {@code SimonManager.manager()}.
+	 * @param prefix custom prefix
+	 */
+	public JdbcMXBeanImpl(Manager manager, String prefix) {
+		this.manager = manager;
+		this.prefix = prefix;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public String getPrefix() {
+		return prefix;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void setPrefix(String value) {
+		prefix = value;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public void enableMonitoring() {
-		enableMonitoring(DP);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void disableMonitoring() {
-		disableMonitoring(DP);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean isMonitoringEnabled() {
-		return isMonitoringEnabled(DP);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void enableMonitoring(String p) {
-		Simon s = manager.getSimon(p);
+		Simon s = manager.getSimon(prefix);
 		if (s != null) {
 			s.setState(SimonState.ENABLED, true);
 		}
@@ -64,8 +69,8 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void disableMonitoring(String p) {
-		Simon s = manager.getSimon(DP);
+	public void disableMonitoring() {
+		Simon s = manager.getSimon(prefix);
 		if (s != null) {
 			s.setState(SimonState.DISABLED, true);
 		}
@@ -74,22 +79,15 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean isMonitoringEnabled(String p) {
-		return manager.getSimon(p) != null && manager.getSimon(p).isEnabled();
+	public boolean isMonitoringEnabled() {
+		return manager.getSimon(prefix) != null && manager.getSimon(prefix).isEnabled();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public void logToFile(String filename, String format) {
-		logToFile(filename, format, DP);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void logToFile(String filename, String format, String prefix) {
-		stopLogging(prefix);
+		stopLogging();
 
 		// install new jdbc log callback
 		LoggingCallback jlc =  new LoggingCallback();
@@ -103,14 +101,7 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 	 * {@inheritDoc}
 	 */
 	public void logToLogger(String logger, String format) {
-		logToLogger(logger, format, DP);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void logToLogger(String logger, String format, String prefix) {
-		stopLogging(prefix);
+		stopLogging();
 
 		// install new jdbc log callback
 		LoggingCallback jlc =  new LoggingCallback();
@@ -124,14 +115,7 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 	 * {@inheritDoc}
 	 */
 	public void logToConsole(String format) {
-		logToConsole(format, DP);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void logToConsole(String format, String prefix) {
-		stopLogging(prefix);
+		stopLogging();
 
 		// install new jdbc log callback
 		LoggingCallback jlc =  new LoggingCallback();
@@ -145,13 +129,6 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 	 * {@inheritDoc}
 	 */
 	public void stopLogging() {
-		stopLogging(DP);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void stopLogging(String prefix) {
 		// remove ALL jdbc log callback if exists for default prefix
 		for (Callback c : manager.callback().callbacks()) {
 			if (c instanceof LoggingCallback && ((LoggingCallback)c).getPrefix().equalsIgnoreCase(prefix)) {
@@ -163,8 +140,8 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 	/**
 	 * {@inheritDoc}
 	 */
-	public JdbcObjectInfo getConnInfo() {
-		Stopwatch s = manager.getStopwatch("sk.bgs.controlling.jdbc.conn");
+	public JdbcObjectInfo connectionsStat() {
+		Stopwatch s = manager.getStopwatch(prefix+".conn");
 
 		if (s != null) {
 			return new JdbcObjectInfo(
@@ -184,8 +161,8 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 	/**
 	 * {@inheritDoc}
 	 */
-	public JdbcObjectInfo getStmtInfo() {
-		Stopwatch s = manager.getStopwatch("sk.bgs.controlling.jdbc.stmt");
+	public JdbcObjectInfo statementsStat() {
+		Stopwatch s = manager.getStopwatch(prefix+".stmt");
 
 		if (s != null) {
 			return new JdbcObjectInfo(
@@ -205,7 +182,7 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 	/**
 	 * {@inheritDoc}
 	 */
-	public JdbcObjectInfo getRsetInfo() {
+	public JdbcObjectInfo resultsetsStat() {
 		return null;
 	}
 
@@ -213,9 +190,14 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 	 * {@inheritDoc}
 	 */
 	public String[] getSqlCommands() {
-		Simon s = manager.getSimon("sk.bgs.controlling.jdbc.sql");
+		Simon s = manager.getSimon(prefix+".sql");
 		if (s != null) {
-			return new String[s.getChildren().size()];
+			String[] names = new String[s.getChildren().size()];
+			int i=0;
+			for (Simon sn : s.getChildren()) {
+				names[i++] = SimonUtils.localName(sn.getName());
+			}
+			return names;
 		} else {
 			return new String[0];
 		}
@@ -224,10 +206,10 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 	/**
 	 * {@inheritDoc}
 	 */
-	public StopwatchSample getSqlCommandInfo(String cmdId) {
-		if (manager.getSimon("sk.bgs.controlling.jdbc.sql."+cmdId) != null) {
+	public StopwatchSample getSqlCommandStat(String cmdId) {
+		if (manager.getSimon(prefix+".sql."+cmdId) != null) {
 			return new StopwatchSample(
-				(org.javasimon.StopwatchSample)manager.getStopwatch("sk.bgs.controlling.jdbc.sql."+cmdId).sample());
+				(org.javasimon.StopwatchSample)manager.getStopwatch(prefix+".sql."+cmdId).sample());
 		}
 		return null;
 	}
@@ -236,9 +218,14 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 	 * {@inheritDoc}
 	 */
 	public String[] getSqls(String cmdId) {
-		Simon s = manager.getSimon("sk.bgs.controlling.jdbc.sql."+cmdId);
+		Simon s = manager.getSimon(prefix+".sql."+cmdId);
 		if (s != null) {
-			return new String[s.getChildren().size()];
+			String[] names = new String[s.getChildren().size()];
+			int i=0;
+			for (Simon sn : s.getChildren()) {
+				names[i++] = SimonUtils.localName(sn.getName());
+			}
+			return names;
 		} else {
 			return new String[0];
 		}
@@ -247,10 +234,14 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 	/**
 	 * {@inheritDoc}
 	 */
-	public StopwatchSample getSqlInfo(String sqlId) {
-		if (manager.getSimon("sk.bgs.controlling.jdbc.sql."+sqlId) != null) {
-			return new StopwatchSample(
-				(org.javasimon.StopwatchSample)manager.getStopwatch("sk.bgs.controlling.jdbc.sql."+sqlId).sample());
+	public StopwatchSample getSqlStat(String sqlId) {
+		if (manager != null) {
+			for (String s : manager.simonNames()) {
+				if (SimonUtils.localName(s).equals(sqlId)) {
+					return new StopwatchSample(
+						(org.javasimon.StopwatchSample)manager.getStopwatch(s).sample());
+				}
+			}
 		}
 		return null;
 	}
