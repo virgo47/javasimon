@@ -17,6 +17,7 @@ package org.javasimon;
  * @see org.javasimon.StatProcessor
  */
 public abstract class Sample {
+	private String note;
 	private int count;
 	private double mean;
 	private double standardDeviation;
@@ -37,6 +38,24 @@ public abstract class Sample {
 		sum = statProcessor.getSum();
 		variance = statProcessor.getVariance();
 		varianceN = statProcessor.getVarianceN();
+	}
+
+	/**
+	 * Note from the sampled Simon.
+	 *
+	 * @return Simon's note
+	 */
+	public String getNote() {
+		return note;
+	}
+
+	/**
+	 * Sets the note for the sample, typically note from the sampled Simon.
+	 *
+	 * @param note Simon's note
+	 */
+	public void setNote(String note) {
+		this.note = note;
 	}
 
 	/**

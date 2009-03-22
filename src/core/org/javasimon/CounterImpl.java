@@ -158,6 +158,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		sample.setIncrementSum(incrementSum);
 		sample.setDecrementSum(decrementSum);
 		sample.setFromStatProcessor(getStatProcessor());
+		sample.setNote(getNote());
 		return sample;
 	}
 
