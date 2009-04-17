@@ -165,7 +165,7 @@ public final class ManagerConfiguration {
 	}
 
 	private void processSet(XMLStreamReader xr, Callback callback) throws XMLStreamException {
-		Map<String, String> attrs = processStartElement(xr, "set", "property", "value");
+		Map<String, String> attrs = processStartElement(xr, "set", "property");
 		setProperty(callback, attrs.get("property"), attrs.get("value"));
 		processEndElement(xr, "set");
 	}
@@ -179,8 +179,12 @@ public final class ManagerConfiguration {
 	 */
 	private void setProperty(Callback callback, String property, String value) {
 		try {
-			Method setter = callback.getClass().getMethod(setterName(property), String.class);
-			setter.invoke(callback, value);
+			if (value != null) {
+				Method setter = callback.getClass().getMethod(setterName(property), String.class);
+				setter.invoke(callback, value);
+			} else {
+				callback.getClass().getMethod(setterName(property)).invoke(callback);
+			}
 		} catch (NoSuchMethodException e) {
 			throw new SimonException(e);
 		} catch (IllegalAccessException e) {

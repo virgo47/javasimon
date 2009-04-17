@@ -1,0 +1,9 @@
+<simon-configuration>
+	<callback class="org.javasimon.jdbc.logging.LoggingCallback">
+		<set property="prefix" value="org.javasimon.testapp.jdbc"/>
+		<set property="loggerName" value="myapp.testdb"/>
+		<set property="logFilename" value="myapp.log"/>
+ 		<set property="logToConsole"/>
+		<set property="logFormat" value="csv"/>
+	</callback>
+</simon-configuration>

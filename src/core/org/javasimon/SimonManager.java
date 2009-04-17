@@ -39,6 +39,8 @@ public final class SimonManager {
 	 * itself, only the configuration is reloaded.
 	 */
 	public static void init() {
+		CallbackSkeleton tempraryCallback = new CallbackSkeleton();
+		manager.callback().addCallback(tempraryCallback);
 		try {
 			manager.configuration().clear();
 			String fileName = System.getProperty(PROPERTY_CONFIG_FILE_NAME);
@@ -52,6 +54,7 @@ public final class SimonManager {
 		} catch (Exception e) {
 			manager.callback().warning("SimonManager initialization error", e);
 		}
+		manager.callback().removeCallback(tempraryCallback);
 	}
 
 	private SimonManager() {
