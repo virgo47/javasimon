@@ -18,13 +18,14 @@ public class StopwatchSample extends Sample {
 	private long active;
 	private long maxActive;
 	private long maxActiveTimestamp;
+	private long last;
 
 	/**
 	 * Returns the total sum of all split times in nanoseconds.
 	 *
 	 * @return total time of the stopwatch in nanoseconds
 	 */
-	public long getTotal() {
+	public final long getTotal() {
 		return total;
 	}
 
@@ -33,7 +34,7 @@ public class StopwatchSample extends Sample {
 	 *
 	 * @param total total time of the stopwatch in nanoseconds
 	 */
-	public void setTotal(long total) {
+	public final void setTotal(long total) {
 		this.total = total;
 	}
 
@@ -43,7 +44,7 @@ public class StopwatchSample extends Sample {
 	 *
 	 * @return count of time splits
 	 */
-	public long getCounter() {
+	public final long getCounter() {
 		return counter;
 	}
 
@@ -52,7 +53,7 @@ public class StopwatchSample extends Sample {
 	 *
 	 * @param counter count of time splits
 	 */
-	public void setCounter(long counter) {
+	public final void setCounter(long counter) {
 		this.counter = counter;
 	}
 
@@ -61,7 +62,7 @@ public class StopwatchSample extends Sample {
 	 *
 	 * @return minimal time split in nanoseconds
 	 */
-	public long getMin() {
+	public final long getMin() {
 		return min;
 	}
 
@@ -70,7 +71,7 @@ public class StopwatchSample extends Sample {
 	 *
 	 * @param min minimal time split in nanoseconds
 	 */
-	public void setMin(long min) {
+	public final void setMin(long min) {
 		this.min = min;
 	}
 
@@ -79,7 +80,7 @@ public class StopwatchSample extends Sample {
 	 *
 	 * @return maximal time split in nanoseconds
 	 */
-	public long getMax() {
+	public final long getMax() {
 		return max;
 	}
 
@@ -88,7 +89,7 @@ public class StopwatchSample extends Sample {
 	 *
 	 * @param max maximal time split in nanoseconds
 	 */
-	public void setMax(long max) {
+	public final void setMax(long max) {
 		this.max = max;
 	}
 
@@ -97,7 +98,7 @@ public class StopwatchSample extends Sample {
 	 *
 	 * @return ms timestamp of the min value measurement
 	 */
-	public long getMinTimestamp() {
+	public final long getMinTimestamp() {
 		return minTimestamp;
 	}
 
@@ -106,7 +107,7 @@ public class StopwatchSample extends Sample {
 	 *
 	 * @param minTimestamp ms timestamp of the min value measurement
 	 */
-	public void setMinTimestamp(long minTimestamp) {
+	public final void setMinTimestamp(long minTimestamp) {
 		this.minTimestamp = minTimestamp;
 	}
 
@@ -115,7 +116,7 @@ public class StopwatchSample extends Sample {
 	 *
 	 * @return ms timestamp of the max value measurement
 	 */
-	public long getMaxTimestamp() {
+	public final long getMaxTimestamp() {
 		return maxTimestamp;
 	}
 
@@ -124,7 +125,7 @@ public class StopwatchSample extends Sample {
 	 *
 	 * @param maxTimestamp ms timestamp of the max value measurement
 	 */
-	public void setMaxTimestamp(long maxTimestamp) {
+	public final void setMaxTimestamp(long maxTimestamp) {
 		this.maxTimestamp = maxTimestamp;
 	}
 
@@ -133,7 +134,7 @@ public class StopwatchSample extends Sample {
 	 *
 	 * @return current number of active splits
 	 */
-	public long getActive() {
+	public final long getActive() {
 		return active;
 	}
 
@@ -142,7 +143,7 @@ public class StopwatchSample extends Sample {
 	 *
 	 * @param active current number of active splits
 	 */
-	public void setActive(long active) {
+	public final void setActive(long active) {
 		this.active = active;
 	}
 
@@ -151,7 +152,7 @@ public class StopwatchSample extends Sample {
 	 *
 	 * @return maximum reached value of active splits
 	 */
-	public long getMaxActive() {
+	public final long getMaxActive() {
 		return maxActive;
 	}
 
@@ -160,7 +161,7 @@ public class StopwatchSample extends Sample {
 	 *
 	 * @param maxActive maximum reached value of active splits
 	 */
-	public void setMaxActive(long maxActive) {
+	public final void setMaxActive(long maxActive) {
 		this.maxActive = maxActive;
 	}
 
@@ -169,7 +170,7 @@ public class StopwatchSample extends Sample {
 	 *
 	 * @return ms timestamp of the last peek of the active split count
 	 */
-	public long getMaxActiveTimestamp() {
+	public final long getMaxActiveTimestamp() {
 		return maxActiveTimestamp;
 	}
 
@@ -178,8 +179,26 @@ public class StopwatchSample extends Sample {
 	 *
 	 * @param maxActiveTimestamp ms timestamp of the last peek of the active split count
 	 */
-	public void setMaxActiveTimestamp(long maxActiveTimestamp) {
+	public final void setMaxActiveTimestamp(long maxActiveTimestamp) {
 		this.maxActiveTimestamp = maxActiveTimestamp;
+	}
+
+	/**
+	 * Returns the value of the last measured split in ns.
+	 *
+	 * @return last measured split in ns
+	 */
+	public long getLast() {
+		return last;
+	}
+
+	/**
+	 * Sets the value of the last measured split in ns.
+	 *
+	 * @param last last measured split in ns
+	 */
+	public void setLast(long last) {
+		this.last = last;
 	}
 
 	/**
@@ -200,6 +219,7 @@ public class StopwatchSample extends Sample {
 		sb.append(", active=").append(active);
 		sb.append(", maxActive=").append(maxActive);
 		sb.append(", maxActiveTimestamp=").append(maxActiveTimestamp);
+		sb.append(", last=").append(last);
 		sb.append(" [count=").append(getCount());
 		sb.append(", mean=").append(getMean());
 		sb.append(", standardDeviation=").append(getStandardDeviation());

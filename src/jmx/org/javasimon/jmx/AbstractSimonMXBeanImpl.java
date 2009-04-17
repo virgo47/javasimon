@@ -1,6 +1,5 @@
 package org.javasimon.jmx;
 
-import org.javasimon.Sample;
 import org.javasimon.Simon;
 import org.javasimon.SimonState;
 
@@ -13,19 +12,19 @@ import java.util.ArrayList;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Mar 6, 2009
  */
-public abstract class SimonSuperMXBeanImpl implements SimonSuperMXBean {
-	public String getName() {
+public abstract class AbstractSimonMXBeanImpl implements SimonSuperMXBean {
+	public final String getName() {
 		return simon().getName();
 	}
 
-	public String getParentName() {
+	public final String getParentName() {
 		if (simon().getParent() != null) {
 			return simon().getParent().getName();
 		}
 		return null;
 	}
 
-	public List<String> getChildrenNames() {
+	public final List<String> getChildrenNames() {
 		List<String> names = new ArrayList<String>();
 		for (Simon child : simon().getChildren()) {
 			names.add(child.getName());
@@ -33,44 +32,36 @@ public abstract class SimonSuperMXBeanImpl implements SimonSuperMXBean {
 		return names;
 	}
 
-	public String getState() {
+	public final String getState() {
 		return simon().getState().name();
 	}
 
-	public void setState(String state, boolean overrule) {
+	public final void setState(String state, boolean overrule) {
 		simon().setState(SimonState.valueOf(state), overrule);
 	}
 
-	public boolean isEnabled() {
+	public final boolean isEnabled() {
 		return simon().isEnabled();
 	}
 
-	public void reset() {
+	public final void reset() {
 		simon().reset();
 	}
 
-	public String getNote() {
+	public final String getNote() {
 		return simon().getNote();
 	}
 
-	public void setNote(String note) {
+	public final void setNote(String note) {
 		simon().setNote(note);
 	}
 
-	public long getFirstUsage() {
+	public final long getFirstUsage() {
 		return simon().getFirstUsage();
 	}
 
-	public long getLastUsage() {
+	public final long getLastUsage() {
 		return simon().getLastUsage();
-	}
-
-	public Sample sample() {
-		return simon().sample();
-	}
-
-	public Sample sampleAndReset() {
-		return simon().sampleAndReset();
 	}
 
 	protected abstract Simon simon();
