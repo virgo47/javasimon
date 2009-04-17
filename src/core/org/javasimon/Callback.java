@@ -133,6 +133,12 @@ public interface Callback {
 	 */
 	void clear();
 
+	/**
+	 * Enumeration of all supported callback actions. {@link #ALL} is meta-action usable in
+	 * configurations meaning that the configuration entry applies to all actions (any action).
+	 * In callback configuration action names in lowercase and with _ replaced for - can be
+	 * used (e.g. "counter-increase" instead for {@link #COUNTER_INCREASE}.
+	 */
 	enum Event {
 		ALL,
 		RESET,

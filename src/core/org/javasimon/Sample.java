@@ -45,7 +45,7 @@ public abstract class Sample {
 	 *
 	 * @return Simon's note
 	 */
-	public String getNote() {
+	public final String getNote() {
 		return note;
 	}
 
@@ -54,7 +54,7 @@ public abstract class Sample {
 	 *
 	 * @param note Simon's note
 	 */
-	public void setNote(String note) {
+	public final void setNote(String note) {
 		this.note = note;
 	}
 

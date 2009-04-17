@@ -39,11 +39,13 @@ public final class StopwatchSample extends org.javasimon.StopwatchSample {
 	 * @param active count of actual running measures
 	 * @param maxActive maximum paralel measures
 	 * @param maxActiveTimestamp time when maximum paralel measures happend 
+	 * @param last last split value in ns
 	 */
 	@ConstructorProperties({"count", "mean", "standardDeviation", "sum", "variance", "varianceN",
-			"total", "counter", "min", "max", "minTimestamp", "maxTimestamp", "active", "maxActive", "maxActiveTimestamp"})
+			"total", "counter", "min", "max", "minTimestamp", "maxTimestamp", "active", "maxActive", "maxActiveTimestamp", "last"})
 	public StopwatchSample(int count, double mean, double stdDev, double sum, double var, double varN,
-		long total, long counter, long min, long max, long minTimestamp, long maxTimestamp, long active, long maxActive, long maxActiveTimestamp) {
+		long total, long counter, long min, long max, long minTimestamp, long maxTimestamp, long active,
+		long maxActive, long maxActiveTimestamp, long last) {
 		setCount(count);
 		setMean(mean);
 		setStandardDeviation(stdDev);
@@ -60,6 +62,7 @@ public final class StopwatchSample extends org.javasimon.StopwatchSample {
 		setActive(active);
 		setMaxActive(maxActive);
 		setMaxActiveTimestamp(maxActiveTimestamp);
+		setLast(last);
 	}
 
 	/**
@@ -85,5 +88,6 @@ public final class StopwatchSample extends org.javasimon.StopwatchSample {
 		setActive(s.getActive());
 		setMaxActive(s.getMaxActive());
 		setMaxActiveTimestamp(s.getMaxActiveTimestamp());
+		setLast(s.getLast());
 	}
 }

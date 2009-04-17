@@ -9,17 +9,17 @@ import org.javasimon.Simon;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Mar 6, 2009
  */
-public class StopwatchMXBeanImpl extends SimonSuperMXBeanImpl implements StopwatchMXBean {
+public class StopwatchMXBeanImpl extends AbstractSimonMXBeanImpl implements StopwatchMXBean {
 	private Stopwatch stopwatch;
 
 	public StopwatchMXBeanImpl(Stopwatch stopwatch) {
 		this.stopwatch = stopwatch;
 	}
 
-	public void addTime(long ns) {
+	public final void addTime(long ns) {
 	}
 
-	public long getLast() {
+	public final long getLast() {
 		return stopwatch.getLast();
 	}
 
@@ -37,7 +37,7 @@ public class StopwatchMXBeanImpl extends SimonSuperMXBeanImpl implements Stopwat
 		return stopwatch;
 	}
 
-	public String getType() {
+	public final String getType() {
 		return "Stopwatch";
 	}
 }

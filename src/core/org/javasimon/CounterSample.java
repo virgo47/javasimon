@@ -20,7 +20,7 @@ public class CounterSample extends Sample {
 	 *
 	 * @return counter value
 	 */
-	public long getCounter() {
+	public final long getCounter() {
 		return counter;
 	}
 
@@ -29,7 +29,7 @@ public class CounterSample extends Sample {
 	 *
 	 * @param counter value of the counter
 	 */
-	public void setCounter(long counter) {
+	public final void setCounter(long counter) {
 		this.counter = counter;
 	}
 
@@ -38,7 +38,7 @@ public class CounterSample extends Sample {
 	 *
 	 * @return maximal reached value
 	 */
-	public long getMin() {
+	public final long getMin() {
 		return min;
 	}
 
@@ -47,7 +47,7 @@ public class CounterSample extends Sample {
 	 *
 	 * @param min the minimal value of the counter.
 	 */
-	public void setMin(long min) {
+	public final void setMin(long min) {
 		this.min = min;
 	}
 
@@ -56,7 +56,7 @@ public class CounterSample extends Sample {
 	 *
 	 * @return maximal reached value
 	 */
-	public long getMax() {
+	public final long getMax() {
 		return max;
 	}
 
@@ -65,7 +65,7 @@ public class CounterSample extends Sample {
 	 *
 	 * @param max the maximal value of the counter.
 	 */
-	public void setMax(long max) {
+	public final void setMax(long max) {
 		this.max = max;
 	}
 
@@ -74,7 +74,7 @@ public class CounterSample extends Sample {
 	 *
 	 * @return ms timestamp of the min value decremented
 	 */
-	public long getMinTimestamp() {
+	public final long getMinTimestamp() {
 		return minTimestamp;
 	}
 
@@ -83,7 +83,7 @@ public class CounterSample extends Sample {
 	 *
 	 * @param minTimestamp ms timestamp when the min value was reached
 	 */
-	public void setMinTimestamp(long minTimestamp) {
+	public final void setMinTimestamp(long minTimestamp) {
 		this.minTimestamp = minTimestamp;
 	}
 
@@ -92,7 +92,7 @@ public class CounterSample extends Sample {
 	 *
 	 * @return ms timestamp of the max value incremented
 	 */
-	public long getMaxTimestamp() {
+	public final long getMaxTimestamp() {
 		return maxTimestamp;
 	}
 
@@ -101,7 +101,7 @@ public class CounterSample extends Sample {
 	 *
 	 * @param maxTimestamp ms timestamp when the max value was reached
 	 */
-	public void setMaxTimestamp(long maxTimestamp) {
+	public final void setMaxTimestamp(long maxTimestamp) {
 		this.maxTimestamp = maxTimestamp;
 	}
 
@@ -111,7 +111,7 @@ public class CounterSample extends Sample {
 	 *
 	 * @return sum of all incremented values
 	 */
-	public long getIncrementSum() {
+	public final long getIncrementSum() {
 		return incrementSum;
 	}
 
@@ -120,7 +120,7 @@ public class CounterSample extends Sample {
 	 *
 	 * @param incrementSum sum of all incremented values
 	 */
-	public void setIncrementSum(long incrementSum) {
+	public final void setIncrementSum(long incrementSum) {
 		this.incrementSum = incrementSum;
 	}
 
@@ -130,7 +130,7 @@ public class CounterSample extends Sample {
 	 *
 	 * @return sum of all decremented values
 	 */
-	public long getDecrementSum() {
+	public final long getDecrementSum() {
 		return decrementSum;
 	}
 
@@ -139,7 +139,7 @@ public class CounterSample extends Sample {
 	 *
 	 * @param decrementSum sum of all decremented values
 	 */
-	public void setDecrementSum(long decrementSum) {
+	public final void setDecrementSum(long decrementSum) {
 		this.decrementSum = decrementSum;
 	}
 
