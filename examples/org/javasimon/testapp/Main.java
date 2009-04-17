@@ -17,7 +17,14 @@ import java.sql.DriverManager;
 import java.sql.Connection;
 
 /**
- * Class Main.
+ * Main class of the test application (DB+JMX).
+ * Run it from main javasimon directory (where {@code examples} directory is). Compilation:
+ * <pre>javac -cp lib/h2.jar:build/core:build/jdbc3:build/jmx examples/org/javasimon/testapp/*.java examples/org/javasimon/testapp/*\/*.java</pre>
+ * Run it with command:
+ * <pre>java -cp ../lib/h2.jar:build/core:build/jdbc3:ild/jmx:examples org.javasimon.testapp.Main</pre>
+ *
+ * To initialize JDBC logging callback following switch has to be added as the JVM option:
+ * {@code java -cp -Djavasimon.config.file=examples/testapp-config.xml}
  *
  * @author Radovan Sninsky
  * @version $Revision$ $ Date: $
@@ -42,7 +49,7 @@ public class Main {
 	}
 
 	private void setupDatabase() throws Exception {
-		RunScript.execute("jdbc:h2:file:testappdb", "sa", "sa", "testapp.db.sql", null, false);
+		RunScript.execute("jdbc:h2:file:testappdb", "sa", "sa", "examples/testapp.db.sql", null, false);
 
 		Class.forName("org.javasimon.jdbc.Driver");
 		connection = DriverManager.getConnection("jdbc:simon:h2:file:testappdb;simon_prefix=org.javasimon.testapp.jdbc", "sa", "sa");
