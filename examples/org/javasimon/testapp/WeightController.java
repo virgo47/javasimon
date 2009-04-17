@@ -9,7 +9,7 @@ import java.util.*;
  * Class WeightController.
  *
  * @author Radovan Sninsky
- * @version $Revision$ $ Date: $
+ * @version $Revision$ $Date$
  * @created 19.3.2009 13:18:29
  * @since 2.0
  */

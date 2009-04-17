@@ -22,7 +22,7 @@ package org.javasimon.jmx;
  * javadoc.
  *
  * @author Radovan Sninsky
- * @version $Revision: $ $Date: $
+ * @version $Revision$ $Date$
  * @created 3.10.2008 15:46:36
  * @since 2
  * @see org.javasimon.jmx.JdbcMXBeanImpl

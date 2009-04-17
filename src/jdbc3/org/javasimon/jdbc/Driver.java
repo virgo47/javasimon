@@ -354,7 +354,7 @@ public final class Driver implements java.sql.Driver {
 			loggingCallback.setLoggerName(url.getLogger());
 		}
 		if (url.getConsole()) {
-			loggingCallback.setLogToConsole(url.getConsole());
+			loggingCallback.setLogToConsole();
 		}
 		if (url.getFormat() != null) {
 			loggingCallback.setLogFormat(url.getFormat());

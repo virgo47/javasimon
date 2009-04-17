@@ -9,7 +9,7 @@ import java.beans.ConstructorProperties;
  * through jmx.
  *
  * @author Radovan Sninsky
- * @version $Revision: $ $Date: $
+ * @version $Revision$ $Date$
  * @created 9.1.2009 15:08:50
  * @since 2
  */

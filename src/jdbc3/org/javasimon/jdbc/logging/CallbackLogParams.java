@@ -8,7 +8,7 @@ import org.javasimon.utils.SimonUtils;
  * are interesting for logging.
  *
  * @author Radovan Sninsky
- * @version $Revision: $ $Date: $
+ * @version $Revision$ $Date$
  * @created 3.3.2009 23:28:48
  * @since 2.0
  * @see org.javasimon.jdbc.logging.SimonFormatter
@@ -37,22 +37,42 @@ final class CallbackLogParams {
 		this.note = note;
 	}
 
+	/**
+	 * Getter for simon fully qualified name.
+	 * @return simon fullname
+	 */
 	public String getFullName() {
 		return fullName;
 	}
 
+	/**
+	 * Getter for simon local name, just name after last dot.
+	 * @return simon local name
+	 */
 	public String getLocalName() {
 		return localName;
 	}
 
+	/**
+	 * Getter for stopwatch event (start, stop, etc.), see {@link org.javasimon.Callback.Event}.
+	 * @return stopwatch event
+	 */
 	public Callback.Event getEvent() {
 		return event;
 	}
 
+	/**
+	 * Getter for stopwatch split.
+	 * @return stopwatch split
+	 */
 	public long getSplit() {
 		return split;
 	}
 
+	/**
+	 * Getter for simon note.
+	 * @return simon note
+	 */
 	public String getNote() {
 		return note;
 	}
