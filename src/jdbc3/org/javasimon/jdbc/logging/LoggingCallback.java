@@ -9,36 +9,24 @@ import java.text.SimpleDateFormat;
 import java.io.IOException;
 
 /**
- * Trieda LoggingCallback.
- * Logging structure:
+ * LoggingCallback implements jdbc logging logic.
+ * <p>
+ * LoggingCallback extends from empty Callback implementation ({@link org.javasimon.CallbackSkeleton}) and
+ * implements two events: stopwatch start and stopwatch stop. By implementing start end stop event focusing
+ * on jdbc callback produces those jdbc events:
  * <ul>
- * <li>timestamp</li>
- * <li>exec/life time</li>
- * <li>conn id</li>
- * <li>stmt id</li>
- * <li>action code</li>
- * <li>text (values)</li>
- * <li>javasimon</li>
+ * <li>connection open</li>
+ * <li>connection close</li>
+ * <li>statement open</li>
+ * <li>statement close</li>
+ * <li>sql execution</li>
+ * <li>resultset open</li>
+ * <li>resultset close</li>
  * </ul>
  *
- * Actions:
- * <ul>
- * <li>conn - open</li>
- * <li>conn - close</li>
- * <li>stmt - open</li>
- * <li>stmt - close</li>
- * <li>sql - exec</li>
- * <li>resultset - open</li>
- * <li>resultset - close</li>
- * </ul>
+ * Class also contains two build-in formmaters: {@link org.javasimon.jdbc.logging.LoggingCallback.HumanFormatter}
+ * and {@link org.javasimon.jdbc.logging.LoggingCallback.CsvFormatter}.
  *
- * <pre>
- CompositeFilterCallback filter = new CompositeFilterCallback();
- filter.addRule(FilterCallback.Rule.Type.MUST, null, "org.javasimon.jdbc.*");
- filter.addCallback(new JdbcLogCallback());
-
- SimonManager.callback().addCallback(filter);
- * </pre>
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
  * @created 30.1.2009 15:26:00
@@ -46,6 +34,9 @@ import java.io.IOException;
  */
 public final class LoggingCallback extends CallbackSkeleton {
 
+	/**
+	 * HumanFormatter formats log messages to human readable form.
+	 */
 	private final class HumanFormatter extends SimonFormatter {
 
 		private static final String ID = "human";
@@ -70,6 +61,9 @@ public final class LoggingCallback extends CallbackSkeleton {
 		}
 	}
 
+	/**
+	 * CsvFormatter formats log messages to comma separated value form.
+	 */
 	private final class CsvFormatter extends SimonFormatter {
 
 		private static final String ID = "csv";
@@ -100,35 +94,68 @@ public final class LoggingCallback extends CallbackSkeleton {
 	private Logger logger;
 
 	/**
-	 *
+	 * Default class constructor.
 	 */
 	public LoggingCallback() {
 	}
 
+	/**
+	 * Return jdbc prefix that identifies jdbc driver that has enabled logging.
+	 *
+	 * @return jdbc prefix
+	 * @see org.javasimon.jdbc.Driver
+	 */
 	public String getPrefix() {
 		return prefix;
 	}
 
+	/**
+	 * Sets jdbc prefix that identifies jdbc driver that has enabled logging.
+	 *
+	 * @param prefix new prexif value
+	 */
 	public void setPrefix(String prefix) {
 		this.prefix = prefix;
 	}
 
+	/**
+	 * Sets filename where log messages will be written.
+	 *
+	 * @param logFilename filename value
+	 */
 	public void setLogFilename(String logFilename) {
 		this.logFilename = logFilename;
 	}
 
+	/**
+	 * Sets logger name that will be used for log jdbc events.
+	 *
+	 * @param loggerName new logger name value
+	 */
 	public void setLoggerName(String loggerName) {
 		this.loggerName = loggerName;
 	}
 
-	public void setLogToConsole(boolean logToConsole) {
-		this.logToConsole = logToConsole;
+	/**
+	 * Sets logging to console.
+	 */
+	public void setLogToConsole() {
+		this.logToConsole = true;
 	}
 
+	/**
+	 * Sets log formatter for formating log messages. Formatter could be identified
+	 * by identifier, if build-in formatter (HUMAN, CSV) or classname.
+	 *
+	 * @param logFormat new formatter value
+	 */
 	public void setLogFormat(String logFormat) {
 		this.logFormat = logFormat;
 	}
 
+	/**
+	 * Based on parameters (could be set through setters) initialize logger, handler and formatter.
+	 */
 	public void initialize() {
 		logger = Logger.getLogger(loggerName != null && loggerName.length() > 0 ? loggerName : "simon_jdbc_logger");
 
@@ -156,6 +183,12 @@ public final class LoggingCallback extends CallbackSkeleton {
 		}
 	}
 
+	/**
+	 * Determine and returns formatter. If no formatter is set or initialization of formatter instance
+	 * failed {@link org.javasimon.jdbc.logging.LoggingCallback.HumanFormatter} is returned.
+	 * 
+	 * @return choosed formatter or {@link HumanFormatter}
+	 */
 	private SimonFormatter formatter() {
 		if (logFormat != null) {
 			if (logFormat.equalsIgnoreCase(HumanFormatter.ID)) {
@@ -169,13 +202,20 @@ public final class LoggingCallback extends CallbackSkeleton {
 						return (SimonFormatter)o;
 					}
 				} catch (Exception e) {
-					return null;
+					return new HumanFormatter();
 				}
 			}
 		}
-		return null;
+		return new HumanFormatter();
 	}
 
+	/**
+	 * Custom start event handler for jdbc logging.
+	 * Checks if stopwatch simon is one of jdbc stopwatch and if it is connection or statement
+	 * stopwatch, if yes, logs event.
+	 *
+	 * @param split split from stopwatch from start moment
+	 */
 	public void stopwatchStart(Split split) {
 		String fullName = split.getStopwatch().getName();
 		if (fullName != null && fullName.startsWith(prefix)) {
@@ -186,6 +226,12 @@ public final class LoggingCallback extends CallbackSkeleton {
 		}
 	}
 
+	/**
+	 * Custom stop event handler for jdbc logging.
+	 * Checks if stopwatch simon is one of jdbc stopwatch, if yes, logs event.
+	 *
+	 * @param split split from stopwatch from stop moment
+	 */
 	public void stopwatchStop(Split split) {
 		String fullName = split.getStopwatch().getName();
 		if (fullName != null && fullName.startsWith(prefix)) {

@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * Class InsertBatchAction.
  *
  * @author Radovan Sninsky
- * @version $Revision$ $ Date: $
+ * @version $Revision$ $Date$
  * @created 20.3.2009 11:21:48
  * @since 2.0
  */

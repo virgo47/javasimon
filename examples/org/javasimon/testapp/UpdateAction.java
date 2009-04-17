@@ -12,7 +12,7 @@ import java.sql.Connection;
  * Class UpdateAction.
  *
  * @author Radovan Sninsky
- * @version $Revision$ $ Date: $
+ * @version $Revision$ $Date$
  * @created 22.3.2009 0:40:46
  * @since 2.0
  */

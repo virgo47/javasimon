@@ -120,7 +120,7 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 		// install new jdbc log callback
 		LoggingCallback jlc =  new LoggingCallback();
 		jlc.setPrefix(prefix);
-		jlc.setLogToConsole(true);
+		jlc.setLogToConsole();
 		jlc.setLogFormat(format);
 		manager.callback().addCallback(jlc);
 	}

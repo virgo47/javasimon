@@ -2,10 +2,14 @@
  * Logging feature of Simon JDBC Proxy driver.
  * <p>
  * This logging feature is based on Callback feature of Javasimon core library, see {@link org.javasimon.Callback}.
- * I short, Callback feature allow intercept event from simon (like start, stop, etc.) and perform custom action,
+ * In short, Callback feature allow intercept event from simon (like start, stop, etc.) and perform custom action,
  * in this case log message with details into file or to console.
  * <p>
- * Java standard logging feature ({@link java.util.logging) is used for logging from Simon JDBC Proxy driver. There
+ * By default, start and stop event from all jdbc stopwatch simons are logged. Jdbc stopwatches are determined by
+ * provided jdbc prefix. This means that logged events are connections starts and stops, statements starts and stops
+ * and sql executions.
+ * <p>
+ * Java standard logging feature ({@link java.util.logging}) is used for logging from Simon JDBC Proxy driver. There
  * are three targets where to log and also three ways how to setup logging.
  * Where to log:
  * <ul>
@@ -18,7 +22,7 @@
  * {@link java.util.logging.Logger}
  * </li>
  * <li>
- * <b>to file<b> - filename is provided, log messages are routed through standard {@link java.util.logging.FileHandler}
+ * <b>to file</b> - filename is provided, log messages are routed through standard {@link java.util.logging.FileHandler}
  * </li>
  * </ul>
  * Log messages are by default formated to human readable form by build in human formatter (identificator: HUMAN).
