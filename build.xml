@@ -45,12 +45,12 @@
 		<attribute name="jdk" default="${jdk5.home}"/>
 		<sequential>
 			<mkdir dir="build/@{module}"/>
-			<javac srcdir="src/@{module}" destdir="build/@{module}" debug="${javac.debug}"
+			<javac srcdir="@{module}/src" destdir="build/@{module}" debug="${javac.debug}"
 				deprecation="${javac.deprecation}" classpathref="classpath"
 				fork="true" executable="@{jdk}/bin/javac"/>
 			<copy todir="build/@{module}">
-				<fileset dir="src/@{module}" includes="**/*.properties"/>
-				<fileset dir="src/@{module}" includes="**/*.xml"/>
+				<fileset dir="@{module}/src" includes="**/*.properties"/>
+				<fileset dir="@{module}/src" includes="**/*.xml"/>
 			</copy>
 		</sequential>
 	</macrodef>
@@ -153,10 +153,10 @@
 			additionalparam="-tag created:t:Created:"
 			classpathref="classpath">
 
-			<sourcepath path="src/core"/>
-			<sourcepath path="src/jdbc3"/>
-			<sourcepath path="src/jmx"/>
-			<sourcepath path="src/spring"/>
+			<sourcepath path="core/src"/>
+			<sourcepath path="jdbc3/src"/>
+			<sourcepath path="jmx/src"/>
+			<sourcepath path="spring/src"/>
 		</javadoc>
 		<copy todir="${doc.dir}/resources" overwrite="true">
 			<fileset dir="docs/api/resources"/>
