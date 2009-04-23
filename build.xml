@@ -2,7 +2,7 @@
 <project name="Java Simon Library" default="dist" basedir=".">
 	<property file="build.properties"/>
 
-	<property name="version" value="2.0-beta1"/>
+	<property name="version" value="2.0-beta2"/>
 	<property name="javac.debug" value="true"/>
 	<property name="javac.deprecation" value="false"/>
 
@@ -45,12 +45,12 @@
 		<attribute name="jdk" default="${jdk5.home}"/>
 		<sequential>
 			<mkdir dir="build/@{module}"/>
-			<javac srcdir="@{module}/src" destdir="build/@{module}" debug="${javac.debug}"
+			<javac srcdir="@{module}/src/main/java" destdir="build/@{module}" debug="${javac.debug}"
 				deprecation="${javac.deprecation}" classpathref="classpath"
 				fork="true" executable="@{jdk}/bin/javac"/>
 			<copy todir="build/@{module}">
-				<fileset dir="@{module}/src" includes="**/*.properties"/>
-				<fileset dir="@{module}/src" includes="**/*.xml"/>
+				<fileset dir="@{module}/src/main/java" includes="**/*.properties"/>
+				<fileset dir="@{module}/src/main/java" includes="**/*.xml"/>
 			</copy>
 		</sequential>
 	</macrodef>
@@ -76,7 +76,7 @@
 
 	<target name="examples" depends="compile" description="Compiles the examples">
 		<mkdir dir="build/examples"/>
-		<javac srcdir="examples" destdir="build/examples" debug="${javac.debug}"
+		<javac srcdir="examples/src/main/java" destdir="build/examples" debug="${javac.debug}"
 			deprecation="${javac.deprecation}" fork="true" executable="${jdk6.home}/bin/javac"
 			classpathref="classpath" excludes="other/**"/>
 	</target>
@@ -106,11 +106,28 @@
 				<include name="*.jar"/>
 			</zipfileset>
 			<zipfileset prefix="javasimon-${version}" dir=".">
-				<include name="src/**"/>
+				<include name="core/**"/>
+				<include name="jdbc3/**"/>
+				<include name="jmx/**"/>
+				<include name="spring/**"/>
 				<include name="examples/**"/>
-				<include name="test/**"/>
 				<include name="build.xml"/>
+				<include name="pom.xml"/>
+				<include name="overview.html"/>
 				<include name="build.properties"/>
+				<include name="readme.txt"/>
+				<include name="lgpl.txt"/>
+			</zipfileset>
+		</zip>
+		<zip file="javasimon-maven-src-${version}.zip">
+			<zipfileset prefix="javasimon-${version}" dir=".">
+				<include name="core/**"/>
+				<include name="jdbc3/**"/>
+				<include name="jmx/**"/>
+				<include name="spring/**"/>
+				<include name="examples/**"/>
+				<include name="pom.xml"/>
+				<include name="overview.html"/>
 				<include name="readme.txt"/>
 				<include name="lgpl.txt"/>
 			</zipfileset>
@@ -127,15 +144,17 @@
 
 	<target name="test" depends="compile" description="Runs tests">
 		<mkdir dir="build/test"/>
-		<javac srcdir="test" destdir="build/test" debug="${javac.debug}" deprecation="${javac.deprecation}"
-			classpathref="classpath"/>
+		<javac srcdir="core/src/test/java" destdir="build/test" debug="${javac.debug}" deprecation="${javac.deprecation}" classpathref="classpath"/>
+		<javac srcdir="jdbc3/src/test/java" destdir="build/test" debug="${javac.debug}" deprecation="${javac.deprecation}" classpathref="classpath"/>
 		<copy todir="build/test">
-			<fileset dir="test" includes="**/*.xml"/>
+			<fileset dir="core/src/test/java" includes="**/*.xml"/>
+			<fileset dir="jdbc3/src/test/java" includes="**/*.xml"/>
 		</copy>
 		<testng outputdir="${basedir}/build/testout" haltonfailure="true" verbose="2" classpathref="classpath"
 			jvm="${jdk6.home}/bin/java" >
-			<xmlfileset dir="test">
-				<include name="testng.xml"/>
+			<xmlfileset dir="build/test">
+				<include name="testng-core.xml"/>
+				<include name="testng-jdbc3.xml"/>
 			</xmlfileset>
 		</testng>
 	</target>
@@ -148,15 +167,15 @@
 		<javadoc destdir="${doc.dir}" protected="true" linksource="true" executable="${jdk6.home}/bin/javadoc"
 			doctitle="Java Simon API" windowtitle="Java Simon API"
 			header="&lt;table&gt;&lt;tr&gt;&lt;td style='valign: middle;'&gt;&lt;span style='font-weight: bold; margin-right: 16px;'&gt;Java Simon ${version}&lt;/span&gt;&lt;/td&gt;&lt;td&gt;&lt;div class='logo'/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;"
-			overview="src/overview.html"
+			overview="overview.html"
 			stylesheetfile="docs/api/stylesheet.css"
 			additionalparam="-tag created:t:Created:"
 			classpathref="classpath">
 
-			<sourcepath path="core/src"/>
-			<sourcepath path="jdbc3/src"/>
-			<sourcepath path="jmx/src"/>
-			<sourcepath path="spring/src"/>
+			<sourcepath path="core/src/main/java"/>
+			<sourcepath path="jdbc3/src/main/java"/>
+			<sourcepath path="jmx/src/main/java"/>
+			<sourcepath path="spring/src/main/java"/>
 		</javadoc>
 		<copy todir="${doc.dir}/resources" overwrite="true">
 			<fileset dir="docs/api/resources"/>

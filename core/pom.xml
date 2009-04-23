@@ -20,6 +20,11 @@
 			<artifactId>stax-api</artifactId>
 			<version>1.0.1</version>
 		</dependency>
+		<dependency>
+			<groupId>net.java.dev.eval</groupId>
+			<artifactId>eval</artifactId>
+			<version>0.4</version>
+		</dependency>
 	</dependencies>
 
 </project>
