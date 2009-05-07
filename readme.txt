@@ -70,7 +70,7 @@ Project is hosted on Google Code as "javasimon":
 Project uses following libraries:
   * TestNG: http://testng.org/ (test)
     * `testng-5.8-jdk15.jar`
-  * Sun's StAX implementation: https://sjsxp.dev.java.net/ (not needed with JDK 1.6!)
+  * Sun's StAX implementation: https://sjsxp.dev.java.net/ (not needed with JDK 1.6, but required for rebuild)
     * `stax-api-1.0.1.jar`
     * `sjsxp.jar`
   * Spring (core/aop): http://www.springsource.org/ (Spring integration)
