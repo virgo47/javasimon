@@ -20,6 +20,11 @@
 			<artifactId>javasimon-core</artifactId>
 			<version>${javasimon.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.javasimon</groupId>
+			<artifactId>javasimon-jdbc3</artifactId>
+			<version>${javasimon.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>
