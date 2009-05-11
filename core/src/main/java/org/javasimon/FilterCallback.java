@@ -35,18 +35,70 @@ public interface FilterCallback extends Callback {
 	 */
 	void addRule(Rule.Type type, String condition, String pattern, Event... events);
 
+	/**
+	 * Represents filtering rule.
+	 */
 	class Rule {
+		/**
+		 * Enumeration of rule types that determines the evaluation of mutliple rules in a chain.
+		 */
 		public enum Type {
-			MUST, SUFFICE, MUST_NOT
+			/**
+			 * Rule must pass and next rule is consulted.
+			 */
+			MUST,
+
+			/**
+			 * If the rule passes the whole filter passes and no other rule is consulted. If the rule
+			 * doesn't pass next rule is consulted.
+			 */
+			SUFFICE,
+
+			/**
+			 * Rule must not pass. If the rule passes the whole filter doesn't pass. If it fails next
+			 * rule is checked.
+			 */
+			MUST_NOT
 		}
 
+		/**
+		 * Name of the rule variable for last split time in ns.
+		 */
 		public static final String VAR_SPLIT = "split";
+
+		/**
+		 * Name of the rule variable for number of concurrently active splits of a particular Simon.
+		 */
 		public static final String VAR_ACTIVE = "active";
+
+		/**
+		 * Name of the rule variable for maximal number of concurrently active splits.
+		 */
 		public static final String VAR_MAX_ACTIVE = "maxactive";
+
+		/**
+		 * Name of the rule variable for current value of the counter.
+		 */
 		public static final String VAR_COUNTER = "counter";
+
+		/**
+		 * Name of the rule variable for maximal value of the Simon (stopwatch in ns, counter without unit).
+		 */
 		public static final String VAR_MAX = "max";
+
+		/**
+		 * Name of the rule variable for minimal value of the Simon (stopwatch in ns, counter without unit).
+		 */
 		public static final String VAR_MIN = "min";
+
+		/**
+		 * Name of the rule variable for total split time.
+		 */
 		public static final String VAR_TOTAL = "total";
+
+		/**
+		 * Name of the rule variable for increment or decrement value.
+		 */
 		public static final String VAR_VALUE = "value";
 
 		private Type type;
@@ -54,6 +106,15 @@ public interface FilterCallback extends Callback {
 		private Expression expression;
 		private SimonPattern pattern;
 
+		/**
+		 * Creates the rule with a specified type, condition and pattern. Rule can have a condition
+		 * and/or a pattern. Pattern is not relevant for some callback operations (for example "warning").
+		 * Both condition and pattern are optional and can be null.
+		 *
+		 * @param type rule type determining the role of the rule in the chain of the filter
+		 * @param condition additional conditional expression that must be true
+		 * @param pattern Simon pattern that must match
+		 */
 		Rule(Type type, String condition, SimonPattern pattern) {
 			this.type = type;
 			this.condition = condition;
@@ -63,14 +124,29 @@ public interface FilterCallback extends Callback {
 			this.pattern = pattern;
 		}
 
+		/**
+		 * Returns the type of this rule.
+		 *
+		 * @return type of this rule
+		 */
 		public Type getType() {
 			return type;
 		}
 
+		/**
+		 * Returns the additional condition of this rule. Values from the affected Simon can be checked and compared.
+		 *
+		 * @return additional condition of this rule
+		 */
 		public String getCondition() {
 			return condition;
 		}
 
+		/**
+		 * Retruns the Simon pattern of this rule.
+		 *
+		 * @return Simon pattern of this rule
+		 */
 		public SimonPattern getPattern() {
 			return pattern;
 		}

@@ -24,6 +24,11 @@ public final class ManagerConfiguration {
 
 	private final Manager manager;
 
+	/**
+	 * Creates manager configuration for a specified manager.
+	 *
+	 * @param manager manager on whos behalf this configuration is created
+	 */
 	ManagerConfiguration(Manager manager) {
 		this.manager = manager;
 		clear();
