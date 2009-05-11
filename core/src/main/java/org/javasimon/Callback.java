@@ -8,6 +8,10 @@ import java.util.List;
  * Partial callbacks can be easily implemented extending the {@link org.javasimon.CallbackSkeleton}
  * class that already implements all methods as empty. Callbacks can be configured
  * via Manager configuration facility.
+ * <p/>
+ * Callback can have a lifecycle supported with methods {@link #initialize()} and {@link #deactivate()}.
+ * Callback is initialized when it is attached to the manager (anywhere in the callback tree) and
+ * deinitialized when the callback is removed from the callback tree.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Jan 22, 2009
@@ -35,7 +39,7 @@ public interface Callback {
 	void removeCallback(Callback callback);
 
 	/**
-	 * Lifecycle method called when the callback is added to 
+	 * Lifecycle method called when the callback is added to a manager.
 	 */
 	void initialize();
 
@@ -140,18 +144,69 @@ public interface Callback {
 	 * used (e.g. "counter-increase" instead for {@link #COUNTER_INCREASE}.
 	 */
 	enum Event {
+		/**
+		 * Meta-action designating all actions (or any action in rules).
+		 */
 		ALL,
+
+		/**
+		 * Reset of the Simon.
+		 */
 		RESET,
+
+		/**
+		 * Start of the stopwatch.
+		 */
 		STOPWATCH_START,
+
+		/**
+		 * Stop of the stopwatch.
+		 */
 		STOPWATCH_STOP,
+
+		/**
+		 * Adding value to the stopwatch.
+		 */
 		STOPWATCH_ADD,
+
+		/**
+		 * Counter increased.
+		 */
 		COUNTER_INCREASE,
+
+		/**
+		 * Counter decreased.
+		 */
 		COUNTER_DECREASE,
+
+		/**
+		 * Counter set to arbitrary value.
+		 */
 		COUNTER_SET,
+
+		/**
+		 * Creation of a Simon.
+		 */
 		CREATED,
+
+		/**
+		 * Removing of a Simon.
+		 */
 		DESTROYED,
+
+		/**
+		 * Clearing of the manager.
+		 */
 		CLEAR,
+
+		/**
+		 * Event producing arbitrary message.
+		 */
 		MESSAGE,
+
+		/**
+		 * Warning related to the manager.
+		 */
 		WARNING
 	}
 }
