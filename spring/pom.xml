@@ -32,4 +32,19 @@
 		</dependency>
 	</dependencies>
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.0.2</version>
+				<configuration>
+					<verbose>true</verbose>
+					<fork>true</fork>
+					<executable>${jdk5.home}/bin/javac</executable>
+				</configuration>
+				<inherited>true</inherited>
+			</plugin>
+		</plugins>
+	</build>
 </project>
