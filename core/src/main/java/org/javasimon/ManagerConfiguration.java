@@ -15,6 +15,20 @@ import java.lang.reflect.InvocationTargetException;
  * Holds configuration for one Simon Manager. Configuration is read from the stream
  * and it is merged with any existing configuration read before. Method {@link #clear()}
  * must be used in order to reset this configuration object.
+ * <p/>
+ * Every {@link org.javasimon.Manager} holds its own configuration and programmer has
+ * to take care of the initialization of the configuration. Default {@link org.javasimon.SimonManager}
+ * is privileged and can be configured via file or resource when Java property {@code javasimon.config.file}
+ * (constant {@link org.javasimon.SimonManager#PROPERTY_CONFIG_FILE_NAME})
+ * or {@code javasimon.config.resource} (constant
+ * {@link org.javasimon.SimonManager#PROPERTY_CONFIG_RESOURCE_NAME}) is used.
+ * <p/>
+ * <b>Structure of the configuration XML:</b>
+ * <pre>
+ * &lt;simon-configuration>
+ * ... TODO
+ * &lt;/simon-configuration>
+ * </pre>
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Sep 6, 2008
@@ -140,7 +154,7 @@ public final class ManagerConfiguration {
 
 	private void processRule(XMLStreamReader xr, FilterCallback callback) throws XMLStreamException {
 		String pattern = null;
-		FilterCallback.Rule.Type type = FilterCallback.Rule.Type.MUST;
+		FilterCallback.Rule.Type type = FilterCallback.Rule.Type.SUFFICE;
 		String condition = null;
 		List<Callback.Event> events = new ArrayList<Callback.Event>();
 

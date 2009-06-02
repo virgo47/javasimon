@@ -3,7 +3,15 @@ package org.javasimon;
 import org.javasimon.utils.SimonUtils;
 
 /**
- * Matches Simon name patterns from configuration.
+ * Matches Simon name patterns from configuration. Patterns can contain wildcard (*) that
+ * can be placed in following fashions:
+ * <li>{@code *something} - matches if tested name ends with {@code something}
+ * <li>{@code something*} - matches if tested name starts with {@code something}
+ * <li>{@code *something*} - matches if tested name contains {@code something} anywhere
+ * <li>{@code something*else} - matches if tested name starts with {@code something} and ends with {@code else}
+ *
+ * Without wildcard exact match is required. Every wildcarded pattern always matches with the same string
+ * without wildcards (in other words - wildcards matches with nothing as well).
  */
 class SimonPattern {
 	private static final String WILDCARD_STAR = "*";
