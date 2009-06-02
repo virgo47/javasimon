@@ -4,23 +4,29 @@ import java.util.*;
 import java.io.*;
 
 /**
- * SimonManager is the central-point of the API. Manager provides access to all available Simons
- * and is also responsible for creating them when necessary. It is possible to create separate
- * Manager, but it cannot be accessed via this convenient utility-like class. This option may be
- * usefull in Java EE environmant when it's required to separate Simon trees accross different
- * applications.
+ * SimonManager is static utility class providing so called "default {@link org.javasimon.Manager}.
+ * It is possible to create separate Manager, but it cannot be accessed via this convenient
+ * utility-like class. This option may be usefull in Java EE environmant when it's required to
+ * separate Simon trees accross different applications. For majority of Java SE applications this
+ * class is recommended.
+ *
+ * SimonManager also provides configuration initialization via properties. To initialize configuration
+ * with the configuration file following option can be added to JVM executable:
+ * <pre>-Djavasimon.config.file=some-path/simon.config.xml</pre>
+ * To configure the SimonManager via resource that can be found on classpath:
+ * <pre>-Djavasimon.config.resource=org/javasimon/example/wannabe-config.xml</pre>
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 4, 2008
  */
 public final class SimonManager {
 	/**
-	 * Property name for the Simon configuration file.
+	 * Property name for the Simon configuration file is "javasimon.config.file".
 	 */
 	public static final String PROPERTY_CONFIG_FILE_NAME = "javasimon.config.file";
 
 	/**
-	 * Property name for the Simon configuration resource.
+	 * Property name for the Simon configuration resource is "javasimon.config.resource".
 	 */
 	public static final String PROPERTY_CONFIG_RESOURCE_NAME = "javasimon.config.resource";
 

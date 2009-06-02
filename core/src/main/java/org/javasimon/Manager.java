@@ -3,7 +3,9 @@ package org.javasimon;
 import java.util.List;
 
 /**
- * Manager functions.
+ * Manager provides access to Simons and manages them in a tree structure. Any number of Managers
+ * can be created. There is also one special Manager (called "default manager") that is accessible
+ * via convenient static utility class SimonManager.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 11, 2008

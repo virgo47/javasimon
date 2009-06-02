@@ -6,4 +6,12 @@
  		<set property="logToConsole"/>
 		<set property="logFormat" value="csv"/>
 	</callback>
+	<filter-callback>
+		<rule pattern="org.javasimon.testapp.jdbc.*"/>
+		<rule pattern="org.javasimon.testapp.action"/> <!-- must be added otherwise auto-ordering doesn't work -->
+
+		<callback class="org.javasimon.testapp.SplitCumulatorCallback">
+			<set property="controller" value="org.javasimon.testapp.action"/>
+		</callback>
+	</filter-callback>
 </simon-configuration>
