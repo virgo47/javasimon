@@ -16,13 +16,15 @@ import java.lang.management.ManagementFactory;
  * @created Mar 6, 2009
  */
 public class JmxRegisterCallback extends CallbackSkeleton {
-	MBeanServer mBeanServer;
-	Set<String> registeredNames = new HashSet<String>();
+	private MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
+	private Set<String> registeredNames = new HashSet<String>();
 
-	public JmxRegisterCallback() {
-		this.mBeanServer = ManagementFactory.getPlatformMBeanServer();
-	}
-
+	/**
+	 * After Simon is created respective MX bean is registered for it according to
+	 * its type.
+	 *
+	 * @param simon created Simon
+	 */
 	@Override
 	public void simonCreated(Simon simon) {
 		if (simon.getName() == null) {
@@ -37,11 +39,19 @@ public class JmxRegisterCallback extends CallbackSkeleton {
 		}
 	}
 
+	/**
+	 * When the Simon is destroyed, its MX bean is unregistered.
+	 *
+	 * @param simon destroyed Simon
+	 */
 	@Override
 	public void simonDestroyed(Simon simon) {
 		unregister(simon.getName());
 	}
 
+	/**
+	 * When the manager is cleared, all MX beans for its Simons are unregistered.
+	 */
 	@Override
 	public void clear() {
 		for (String name : registeredNames) {

@@ -54,6 +54,9 @@ public final class SamplingExample {
 	 * Prints sampled values from the stopwatch (and its stat processor) every 10 seconds + resets the Simon.
 	 */
 	static class Sampler extends Thread {
+		/**
+		 * Method implementing the code of the thread.
+		 */
 		public void run() {
 			while (true) {
 				Stopwatch stopwatch = SimonManager.getStopwatch("sampled-stopwatch");

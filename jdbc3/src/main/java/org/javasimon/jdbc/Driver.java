@@ -59,7 +59,7 @@ import java.io.InputStream;
  * {@code SIMON_FORMAT} - by this parameter you can set format of log. There are two build-in formats:
  * {@code human} and {@code csv}. Custom format is also possible by specifing clasname. Custom formatter
  * must by derived from {@link org.javasimon.jdbc.logging.SimonFormatter}. For example
- * {@code ...;simon_format=csv} or {@code ...;simon_format=my.package.MyFormmater}  
+ * {@code ...;simon_format=csv} or {@code ...;simon_format=my.package.MyFormmater}
  * </li>
  * </ul>
  * <p/>
@@ -264,10 +264,10 @@ public final class Driver implements java.sql.Driver {
 		public boolean getConsole() {
 			return console != null && (
 				console.equalsIgnoreCase("yes") ||
-				console.equalsIgnoreCase("y") ||
-				console.equalsIgnoreCase("true") ||
-				console.equalsIgnoreCase("t") ||
-				console.equalsIgnoreCase("1")
+					console.equalsIgnoreCase("y") ||
+					console.equalsIgnoreCase("true") ||
+					console.equalsIgnoreCase("t") ||
+					console.equalsIgnoreCase("1")
 			);
 		}
 
@@ -324,7 +324,7 @@ public final class Driver implements java.sql.Driver {
 			LoggingCallback loggingCallback = null;
 			for (Callback c : SimonManager.callback().callbacks()) {
 				if (c instanceof LoggingCallback) {
-					loggingCallback = (LoggingCallback)c;
+					loggingCallback = (LoggingCallback) c;
 					break;
 				}
 			}
@@ -365,7 +365,7 @@ public final class Driver implements java.sql.Driver {
 	/**
 	 * Tries to determine driver class, instantiate it and register if already not registered.
 	 * For more detail look at {@link org.javasimon.jdbc.Driver} class javadoc.
-	 * 
+	 *
 	 * @param url instance of url object that represents url
 	 * @param info parameters from {@link #connect(String, java.util.Properties)} method
 	 * @return instance of real driver

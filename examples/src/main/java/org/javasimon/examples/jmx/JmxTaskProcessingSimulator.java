@@ -27,11 +27,30 @@ import java.util.logging.Level;
  * @created Feb 15, 2009
  */
 public final class JmxTaskProcessingSimulator {
+	/**
+	 * Minimal time of the sleep before new task in ms.
+	 */
 	public static final int NEW_TASK_MIN = 1000;
+
+	/**
+	 * Optional time spread between tasks in ms (new task can start between {@link #NEW_TASK_MIN}
+	 * and {@code NEW_TASK_MIN&nbsp;+&nbsp;NEW_TASK_SPREAD} ms after previous one).
+	 */
 	public static final int NEW_TASK_SPREAD = 14000;
+
+	/**
+	 * Minimal duration of the task in ms.
+	 */
 	public static final int TASK_MIN = 500;
+
+	/**
+	 * Optional spread added to the minimal duration in ms.
+	 */
 	public static final int TASK_SPREAD = 11500;
 
+	/**
+	 * Name of the task stopwatch.
+	 */
 	public static final String TASK_STOPWATCH = "org.javasimon.examples.jmx.tasksw";
 
 	private static SimonMXBeanImpl register() {
@@ -64,6 +83,11 @@ public final class JmxTaskProcessingSimulator {
 		}
 	}
 
+	/**
+	 * Entry point to the JMX task processing simulator.
+	 *
+	 * @param args unused
+	 */
 	public static void main(String[] args) throws Exception {
 		LoggingCallback loggingCallback = new LoggingCallback();
 		loggingCallback.setLevel(Level.INFO);

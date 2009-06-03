@@ -151,6 +151,13 @@ public interface FilterCallback extends Callback {
 			return pattern;
 		}
 
+		/**
+		 * Checks the Simon and optional parameters against the condition specified for a rule.
+		 *
+		 * @param simon related Simon
+		 * @param params optional parameters, e.g. value that is added to a Counter
+		 * @return true if no condition is specified or the condition is satisfied, otherwise false
+		 */
 		boolean checkCondition(Simon simon, Object... params) {
 			if (condition == null) {
 				return true;

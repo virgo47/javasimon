@@ -11,6 +11,11 @@ import org.javasimon.jmx.JmxRegisterCallback;
  * @created Mar 6, 2009
  */
 public final class JmxCallbackExample {
+	/**
+	 * Entry point to the JMX Callback Example.
+	 *
+	 * @param args unused
+	 */
 	public static void main(String[] args) throws Exception {
 		SimonManager.callback().addCallback(new JmxRegisterCallback());
 

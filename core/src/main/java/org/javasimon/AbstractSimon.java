@@ -11,12 +11,24 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @created Aug 4, 2008
  */
 abstract class AbstractSimon implements Simon {
+	/**
+	 * Owning manager of this Simon.
+	 */
 	protected Manager manager;
 
+	/**
+	 * Simon's effective state.
+	 */
 	protected boolean enabled;
 
+	/**
+	 * Timestamp of the first usage.
+	 */
 	protected long firstUsage;
 
+	/**
+	 * Timestamp of the last usage.
+	 */
 	protected long lastUsage;
 
 	private final String name;
@@ -33,6 +45,12 @@ abstract class AbstractSimon implements Simon {
 
 	private long resetTimestamp;
 
+	/**
+	 * Constructor of the abstract Simon is used internally by subclasses.
+	 *
+	 * @param name Simon's name
+	 * @param manager owning Manager
+	 */
 	AbstractSimon(String name, Manager manager) {
 		this.name = name;
 		this.manager = manager;
@@ -125,6 +143,9 @@ abstract class AbstractSimon implements Simon {
 		return enabled;
 	}
 
+	/**
+	 * Saves the timestamp when the Simon was reset.
+	 */
 	protected void saveResetTimestamp() {
 		resetTimestamp = System.currentTimeMillis();
 	}
@@ -185,6 +206,11 @@ abstract class AbstractSimon implements Simon {
 		return lastUsage;
 	}
 
+	/**
+	 * Returns name, state and stats of the Simon as a human readable string.
+	 *
+	 * @return name, state and stats of the Simon
+	 */
 	@Override
 	public String toString() {
 		return "[" + name + " " + state + "/stats=" + getStatProcessor().getType() + "]";

@@ -30,6 +30,12 @@ final class CounterImpl extends AbstractSimon implements Counter {
 
 	private long minTimestamp;
 
+	/**
+	 * Construts Counter Simon with a specified name and for the specified manager.
+	 *
+	 * @param name Simon's name
+	 * @param manager owning manager
+	 */
 	CounterImpl(String name, Manager manager) {
 		super(name, manager);
 	}
@@ -211,11 +217,18 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		return decrementSum;
 	}
 
+	/**
+	 * Returns Simon basic information, counter, max value and min value as a human readable string.
+	 *
+	 * @return basic information, counter, max and min values
+	 * @see AbstractSimon#toString()
+	 */
 	@Override
 	public String toString() {
 		return "Simon Counter: " + super.toString() +
 			" counter=" + counter +
 			", max=" + SimonUtils.presentMinMax(max) +
-			", min=" + SimonUtils.presentMinMax(min);
+			", min=" + SimonUtils.presentMinMax(min) +
+			(getNote() != null && getNote().length() != 0 ? ", note '" + getNote() + "'" : "");
 	}
 }

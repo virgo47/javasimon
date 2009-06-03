@@ -8,7 +8,9 @@ package org.javasimon;
  * @created Aug 12, 2008
  */
 final class NullStatProcessor implements StatProcessor {
-	/** Singleton instance of this stat processor. */
+	/**
+	 * Singleton instance of this stat processor.
+	 */
 	static final NullStatProcessor INSTANCE = new NullStatProcessor();
 
 	private NullStatProcessor() {
@@ -81,6 +83,11 @@ final class NullStatProcessor implements StatProcessor {
 	public void setInterpreter(ResultInterpreter interpreter) {
 	}
 
+	/**
+	 * Returns string {@code Null Stats}.
+	 *
+	 * @return string {@code Null Stats}
+	 */
 	@Override
 	public String toString() {
 		return "Null Stats";

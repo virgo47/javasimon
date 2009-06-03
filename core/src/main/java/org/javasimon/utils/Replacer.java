@@ -66,6 +66,11 @@ public final class Replacer {
 		return from.matcher(in).replaceAll(to);
 	}
 
+	/**
+	 * Returns from, to and untilUnchanged fields as a human readable string.
+	 *
+	 * @return internal details of the replacer as a string
+	 */
 	@Override
 	public String toString() {
 		return "Replacer{" +
