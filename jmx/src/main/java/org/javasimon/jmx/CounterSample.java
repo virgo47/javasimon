@@ -30,6 +30,7 @@ public final class CounterSample extends org.javasimon.CounterSample {
 	 * @param sum sum value (provided optionally)
 	 * @param var variance (provided optionally)
 	 * @param varN variance N (provided optionally)
+	 * @param note note (provided optionally)
 	 * @param counter actual counter value
 	 * @param min minimal counter value
 	 * @param max maximal counter value
@@ -38,9 +39,9 @@ public final class CounterSample extends org.javasimon.CounterSample {
 	 * @param incSum sum of all increments
 	 * @param decSum sum of all decrements
 	 */
-	@ConstructorProperties({"count", "mean", "standardDeviation", "sum", "variance", "varianceN", "counter", "min", "max", "minTimestamp",
+	@ConstructorProperties({"count", "mean", "standardDeviation", "sum", "variance", "varianceN", "note", "counter", "min", "max", "minTimestamp",
 		"maxTimestamp", "incrementSum", "decrementSum"})
-	public CounterSample(int count, double mean, double stdDev, double sum, double var, double varN,
+	public CounterSample(int count, double mean, double stdDev, double sum, double var, double varN, String note,
 		long counter, long min, long max, long minTimestamp, long maxTimestamp, long incSum, long decSum) {
 		setCount(count);
 		setMean(mean);
@@ -48,6 +49,7 @@ public final class CounterSample extends org.javasimon.CounterSample {
 		setSum(sum);
 		setVariance(var);
 		setVarianceN(varN);
+		setNote(note);
 
 		setCounter(counter);
 		setMin(min);
@@ -71,6 +73,7 @@ public final class CounterSample extends org.javasimon.CounterSample {
 		setSum(s.getSum());
 		setVariance(s.getVariance());
 		setVarianceN(s.getVarianceN());
+		setNote(s.getNote());
 
 		setCounter(s.getCounter());
 		setMin(s.getMin());

@@ -31,6 +31,7 @@ public final class StopwatchSample extends org.javasimon.StopwatchSample {
 	 * @param var variance (provided optionally)
 	 * @param varN variance N (provided optionally)
 	 * @param total sum of all measured times
+	 * @param note note (provided optionally)
 	 * @param counter count of measures
 	 * @param min minimal measured time
 	 * @param max maximal measured time
@@ -38,20 +39,21 @@ public final class StopwatchSample extends org.javasimon.StopwatchSample {
 	 * @param maxTimestamp time when maximal time was measured
 	 * @param active count of actual running measures
 	 * @param maxActive maximum paralel measures
-	 * @param maxActiveTimestamp time when maximum paralel measures happend 
-	 * @param last last split value in ns
+	 * @param maxActiveTimestamp time when maximum paralel measures happend
+	 * @param last last split value in ns 
 	 */
-	@ConstructorProperties({"count", "mean", "standardDeviation", "sum", "variance", "varianceN",
+	@ConstructorProperties({"count", "mean", "standardDeviation", "sum", "variance", "varianceN", "note",
 			"total", "counter", "min", "max", "minTimestamp", "maxTimestamp", "active", "maxActive", "maxActiveTimestamp", "last"})
-	public StopwatchSample(int count, double mean, double stdDev, double sum, double var, double varN,
-		long total, long counter, long min, long max, long minTimestamp, long maxTimestamp, long active,
-		long maxActive, long maxActiveTimestamp, long last) {
+	public StopwatchSample(int count, double mean, double stdDev, double sum, double var, double varN, String note,
+		long total, long counter, long min, long max, long minTimestamp, long maxTimestamp, long active, long maxActive,
+		long maxActiveTimestamp, long last) {
 		setCount(count);
 		setMean(mean);
 		setStandardDeviation(stdDev);
 		setSum(sum);
 		setVariance(var);
 		setVarianceN(varN);
+		setNote(note);
 
 		setTotal(total);
 		setCounter(counter);
@@ -78,6 +80,7 @@ public final class StopwatchSample extends org.javasimon.StopwatchSample {
 		setSum(s.getSum());
 		setVariance(s.getVariance());
 		setVarianceN(s.getVarianceN());
+		setNote(s.getNote());
 
 		setCounter(s.getCounter());
 		setTotal(s.getTotal());
