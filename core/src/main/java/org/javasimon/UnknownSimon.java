@@ -8,6 +8,12 @@ package org.javasimon;
  * @created Aug 4, 2008
  */
 final class UnknownSimon extends AbstractSimon {
+	/**
+	 * Construts unknown Simon with a specified name and for the specified manager.
+	 *
+	 * @param name Simon's name
+	 * @param manager owning manager
+	 */
 	UnknownSimon(String name, Manager manager) {
 		super(name, manager);
 	}
@@ -33,6 +39,12 @@ final class UnknownSimon extends AbstractSimon {
 		return null;
 	}
 
+	/**
+	 * Returns the label {@code Unknown Simon} and basic information for the Simon as a human readable string.
+	 *
+	 * @return basic information about unknown Simon
+	 * @see AbstractSimon#toString()
+	 */
 	@Override
 	public String toString() {
 		return "Unknown Simon: " + super.toString();

@@ -21,7 +21,13 @@ import java.io.IOException;
  * @since 1.0
  */
 public class MonitoringClient {
-
+	/**
+	 * Entry point to this monitoring client.
+	 *
+	 * @param args host:port part of the JMX connector server
+	 * @throws java.io.IOException thrown in case of some I/O exception
+	 * @throws javax.management.MalformedObjectNameException thrown when the name of the JMX object is incorrect
+	 */
 	public static void main(String[] args) throws IOException, MalformedObjectNameException {
 		final JMXServiceURL url = new JMXServiceURL("service:jmx:rmi:///jndi/rmi://" + args[0] + "/jmxrmi");
 

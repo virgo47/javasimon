@@ -39,6 +39,11 @@ public final class SimonConfiguration {
 		return state;
 	}
 
+	/**
+	 * Returns configuration information about Simon (stat processor type and state) as a human readable string.
+	 *
+	 * @return configuration information about Simon as string
+	 */
 	@Override
 	public String toString() {
 		return "SimonConfiguration {\n" +

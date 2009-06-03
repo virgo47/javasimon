@@ -253,23 +253,31 @@ public final class SimonUtils {
 		return nameBuilder.toString();
 	}
 
+	/**
+	 * Returns summary information about monitored JDBC connections as a human readable string -
+	 * main JDBC Simon has to be provided.
+	 *
+	 * @param jdbcSimon top JDBC Simon (typically prefix of the JDBC proxy driver)
+	 * @return information/stats about JDBC connections
+	 * @see org.javasimon.jdbc.Driver#DEFAULT_PREFIX
+	 */
 	public static String printJdbcConnectionInfo(Simon jdbcSimon) {
-		if (SimonManager.getSimon(jdbcSimon.getName()+".conn") != null) {
-			StopwatchSample sws = (StopwatchSample) SimonManager.getStopwatch(jdbcSimon.getName()+".conn").sample();
-			Counter cc = SimonManager.getCounter(jdbcSimon.getName()+".conn.commits");
-			Counter cr = SimonManager.getCounter(jdbcSimon.getName()+".conn.rollbacks");
+		if (SimonManager.getSimon(jdbcSimon.getName() + ".conn") != null) {
+			StopwatchSample sws = (StopwatchSample) SimonManager.getStopwatch(jdbcSimon.getName() + ".conn").sample();
+			Counter cc = SimonManager.getCounter(jdbcSimon.getName() + ".conn.commits");
+			Counter cr = SimonManager.getCounter(jdbcSimon.getName() + ".conn.rollbacks");
 			StringBuilder sb = new StringBuilder(512).append("Connection info:").append('\n')
 				.append("  act: ").append(sws.getActive()).append('\n')
 				.append("  max act: ").append(sws.getMaxActive()).append('\n')
 				.append("  max act ts: ").append(new Date(sws.getMaxActiveTimestamp())).append('\n')
 				.append("  opn: ").append(sws.getCounter()).append('\n')
-				.append("  cls: ").append(sws.getCounter()-sws.getActive()).append('\n')
+				.append("  cls: ").append(sws.getCounter() - sws.getActive()).append('\n')
 				.append("  min: ").append(presentNanoTime(sws.getMin()))
-				.append(", avg: ").append(presentNanoTime(sws.getTotal()/sws.getCounter()))
+				.append(", avg: ").append(presentNanoTime(sws.getTotal() / sws.getCounter()))
 				.append(", max: ").append(presentNanoTime(sws.getMax())).append('\n')
 				.append("  max ts: ").append(new Date(sws.getMaxTimestamp())).append('\n')
-				.append("  comm: ").append(cc != null ? ((CounterSample)cc.sample()).getCounter() : 0).append('\n')
-				.append("  roll: ").append(cr != null ? ((CounterSample)cr.sample()).getCounter() : 0)
+				.append("  comm: ").append(cc != null ? ((CounterSample) cc.sample()).getCounter() : 0).append('\n')
+				.append("  roll: ").append(cr != null ? ((CounterSample) cr.sample()).getCounter() : 0)
 				.append('\n');
 
 			return sb.toString();
@@ -277,17 +285,25 @@ public final class SimonUtils {
 		return null;
 	}
 
+	/**
+	 * Returns summary information about monitored JDBC statements as a human readable string -
+	 * main JDBC Simon has to be provided.
+	 *
+	 * @param jdbcSimon top JDBC Simon (typically prefix of the JDBC proxy driver)
+	 * @return information/stats about JDBC statements
+	 * @see org.javasimon.jdbc.Driver#DEFAULT_PREFIX
+	 */
 	public static String printJdbcStatementInfo(Simon jdbcSimon) {
-		if (SimonManager.getSimon(jdbcSimon.getName()+".stmt") != null) {
-			StopwatchSample sws = (StopwatchSample)SimonManager.getStopwatch(jdbcSimon.getName()+".stmt").sample();
+		if (SimonManager.getSimon(jdbcSimon.getName() + ".stmt") != null) {
+			StopwatchSample sws = (StopwatchSample) SimonManager.getStopwatch(jdbcSimon.getName() + ".stmt").sample();
 			StringBuilder sb = new StringBuilder(512).append("Statement info:").append('\n')
 				.append("  act: ").append(sws.getActive()).append('\n')
 				.append("  max act: ").append(sws.getMaxActive()).append('\n')
 				.append("  max act ts: ").append(new Date(sws.getMaxActiveTimestamp())).append('\n')
 				.append("  opn: ").append(sws.getCounter()).append('\n')
-				.append("  cls: ").append(sws.getCounter()-sws.getActive()).append('\n')
+				.append("  cls: ").append(sws.getCounter() - sws.getActive()).append('\n')
 				.append("  min: ").append(presentNanoTime(sws.getMin()))
-				.append(", avg: ").append(presentNanoTime(sws.getTotal()/sws.getCounter()))
+				.append(", avg: ").append(presentNanoTime(sws.getTotal() / sws.getCounter()))
 				.append(", max: ").append(presentNanoTime(sws.getMax())).append('\n')
 				.append("  max ts: ").append(new Date(sws.getMaxTimestamp()))
 				.append('\n');
@@ -297,6 +313,11 @@ public final class SimonUtils {
 		return null;
 	}
 
+	/**
+	 * Removes all callbacks from the specfied Manager.
+	 *
+	 * @param manager specified Simon Manager
+	 */
 	public static void removeAllCallbacks(Manager manager) {
 		Callback rootCallback = manager.callback();
 		for (Callback callback : rootCallback.callbacks()) {

@@ -34,6 +34,12 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 
 	private long currentNanos;
 
+	/**
+	 * Construts Stopwatch Simon with a specified name and for the specified manager.
+	 *
+	 * @param name Simon's name
+	 * @param manager owning manager
+	 */
 	StopwatchImpl(String name, Manager manager) {
 		super(name, manager);
 	}
@@ -198,6 +204,9 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		return maxActiveTimestamp;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void setStatProcessor(StatProcessor statProcessor) {
 		super.setStatProcessor(statProcessor);
@@ -245,6 +254,12 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		lastUsage = firstUsage + (currentNanos - firstUsageNanos) / SimonUtils.NANOS_IN_MILLIS;
 	}
 
+	/**
+	 * Returns Simon basic information, total time, counter, max value and min value as a human readable string.
+	 *
+	 * @return basic information, total time, counter, max and min values
+	 * @see AbstractSimon#toString()
+	 */
 	@Override
 	public synchronized String toString() {
 		return "Simon Stopwatch: " + super.toString() +

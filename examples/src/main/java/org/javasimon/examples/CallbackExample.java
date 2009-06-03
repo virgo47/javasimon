@@ -14,6 +14,11 @@ import org.javasimon.utils.SimonUtils;
  * @created Jan 22, 2009
  */
 public final class CallbackExample {
+	/**
+	 * Entry point to the Callback Example.
+	 *
+	 * @param args unused
+	 */
 	public static void main(String[] args) {
 		SimonManager.callback().addCallback(new CallbackSkeleton() {
 			public void stopwatchStart(Split split) {

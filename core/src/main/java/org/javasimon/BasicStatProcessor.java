@@ -92,6 +92,11 @@ class BasicStatProcessor extends AbstractStatProcessor {
 		count = 0;
 	}
 
+	/**
+	 * Returns sum, count, mean and standard deviation as a human readable string.
+	 *
+	 * @return sum, count, mean and standard deviation as a string
+	 */
 	@Override
 	public String toString() {
 		return "Basic Stats: " +

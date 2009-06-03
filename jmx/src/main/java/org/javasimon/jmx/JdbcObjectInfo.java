@@ -113,7 +113,7 @@ public class JdbcObjectInfo {
 	}
 
 	/**
-	 * Getter for sum of all lifetimes of object (conn, stmt, rset)
+	 * Getter for sum of all lifetimes of object (conn, stmt, rset).
 	 *
 	 * @return sum of all lifetimes of object (conn, stmt, rset)
 	 */

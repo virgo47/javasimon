@@ -67,7 +67,7 @@ public final class Complex extends Simple {
 	private void printMonitoringInfo() {
 		System.out.println("Simon monitor hierarchy:\n" + SimonUtils.simonTreeString(SimonManager.getRootSimon()));
 
-		Simon jdbcSimon = SimonManager.getSimon("org.javasimon.jdbc");
+		Simon jdbcSimon = SimonManager.getSimon(org.javasimon.jdbc.Driver.DEFAULT_PREFIX);
 		System.out.println(SimonUtils.printJdbcConnectionInfo(jdbcSimon));
 		System.out.println(SimonUtils.printJdbcStatementInfo(jdbcSimon));
 	}

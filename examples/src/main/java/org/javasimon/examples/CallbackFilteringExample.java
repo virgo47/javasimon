@@ -9,6 +9,11 @@ import org.javasimon.*;
  * @created Feb 12, 2009
  */
 public final class CallbackFilteringExample {
+	/**
+	 * Entry point to the Callback Filtering Example.
+	 *
+	 * @param args unused
+	 */
 	public static void main(String[] args) {
 		// manager with two stopwatches is created
 		Manager manager = new EnabledManager();

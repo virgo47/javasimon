@@ -11,6 +11,10 @@ import java.util.List;
  * @created Aug 4, 2008
  */
 final class NullSimon implements Counter, Stopwatch {
+	/**
+	 * Internal singleton value of the null Simon. Null Simon is never used in client code, only its
+	 * behavior manifestates to the client.
+	 */
 	static final NullSimon INSTANCE = new NullSimon();
 
 	private NullSimon() {
@@ -265,6 +269,11 @@ final class NullSimon implements Counter, Stopwatch {
 		return null;
 	}
 
+	/**
+	 * Returns string {@code Null Simon}.
+	 *
+	 * @return string {@code Null Simon}
+	 */
 	@Override
 	public String toString() {
 		return "Null Simon";

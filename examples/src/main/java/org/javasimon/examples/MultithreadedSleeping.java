@@ -46,6 +46,9 @@ public final class MultithreadedSleeping extends Thread {
 		System.out.println("Simon: " + SimonManager.getStopwatch(NAME));
 	}
 
+	/**
+	 * Run method implementing the code performed by the thread.
+	 */
 	@Override
 	public void run() {
 		Split split = SimonManager.getStopwatch(NAME).start();

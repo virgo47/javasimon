@@ -16,6 +16,12 @@ abstract class AbstractStatProcessor implements StatProcessor {
 		resultInterpreter = interpreter;
 	}
 
+	/**
+	 * Returns String for a double value (interpreted value) according to specified result interpreter.
+	 *
+	 * @param value double value of a particular stat
+	 * @return String representation according to chosen result interpreter
+	 */
 	protected String interpret(double value) {
 		return resultInterpreter.interpret(value);
 	}

@@ -33,6 +33,9 @@ public final class CompositeFilterCallback implements FilterCallback {
 
 	private Map<Event, List<Rule>> rules;
 
+	/**
+	 * Constructs composite filter callback.
+	 */
 	public CompositeFilterCallback() {
 		rules = new EnumMap<Event, List<Rule>>(Event.class);
 		for (Event event : Event.values()) {

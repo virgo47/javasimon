@@ -48,6 +48,9 @@ public final class ManagerConfiguration {
 		clear();
 	}
 
+	/**
+	 * Clears any previously loaded configuration.
+	 */
 	void clear() {
 		configs = new LinkedHashMap<SimonPattern, SimonConfiguration>();
 	}
