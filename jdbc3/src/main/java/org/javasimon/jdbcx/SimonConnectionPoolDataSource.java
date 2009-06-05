@@ -55,10 +55,16 @@ public final class SimonConnectionPoolDataSource extends AbstractSimonDataSource
 		return ds;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public PooledConnection getPooledConnection() throws SQLException {
 		return new SimonPooledConnection(datasource().getPooledConnection(), prefix);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public PooledConnection getPooledConnection(String user, String password) throws SQLException {
 		return new SimonPooledConnection(datasource().getPooledConnection(user, password), prefix);
 	}

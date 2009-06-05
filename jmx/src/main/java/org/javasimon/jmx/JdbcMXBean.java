@@ -47,7 +47,7 @@ public interface JdbcMXBean {
 	String getPrefix();
 
 	/**
-	 * Sets custom prefix of jdbc simon hierarchy, see more {@link org.javasimon.jmx.JdbcMXBean}
+	 * Sets custom prefix of jdbc simon hierarchy, see more {@link org.javasimon.jmx.JdbcMXBean}.
 	 *
 	 * @param value new prefix
 	 */

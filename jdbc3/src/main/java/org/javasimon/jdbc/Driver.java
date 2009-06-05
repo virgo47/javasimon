@@ -24,7 +24,7 @@ import java.io.InputStream;
  * <p/>
  * Simon driver has following format of JDBC connection string:
  * <pre>{@literal
- * jdbc:simon:<real driver conn string>;<param1>=<value1>;...}</pre>
+ * jdbc:simon:&lt;real driver conn string>;&lt;param1>=&lt;value1>;...}</pre>
  * Simon driver recognizes two parameters:
  * <ul>
  * <li>
@@ -152,7 +152,7 @@ public final class Driver implements java.sql.Driver {
 	 * @created 14.2.2009 18:18:48
 	 * @since 2
 	 */
-	class Url {
+	static class Url {
 
 		private static final String SIMON_JDBC = "jdbc:simon";
 

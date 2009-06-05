@@ -1,6 +1,5 @@
 package org.javasimon.jmx;
 
-import org.javasimon.StatProcessor;
 import org.javasimon.Sample;
 
 import java.util.List;

@@ -1,7 +1,7 @@
 package org.javasimon.testapp.test;
 
 /**
- * Interface Action.
+ * Common interface for various database-based actions.
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
@@ -9,6 +9,10 @@ package org.javasimon.testapp.test;
  * @since 2.0
  */
 public interface Action {
-
+	/**
+	 * Performs the action.
+	 *
+	 * @param runno sequence number of the run
+	 */
 	void perform(int runno);
 }

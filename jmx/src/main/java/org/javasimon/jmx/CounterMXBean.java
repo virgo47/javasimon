@@ -37,7 +37,15 @@ public interface CounterMXBean extends SimonSuperMXBean {
 	 */
 	void set(long val);
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	CounterSample sample();
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	CounterSample sampleAndReset();
 }

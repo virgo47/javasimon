@@ -17,6 +17,10 @@ public abstract class AbstractSimonMXBeanImpl implements SimonSuperMXBean {
 		return simon().getName();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public final String getParentName() {
 		if (simon().getParent() != null) {
 			return simon().getParent().getName();
@@ -24,6 +28,10 @@ public abstract class AbstractSimonMXBeanImpl implements SimonSuperMXBean {
 		return null;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public final List<String> getChildrenNames() {
 		List<String> names = new ArrayList<String>();
 		for (Simon child : simon().getChildren()) {
@@ -32,37 +40,74 @@ public abstract class AbstractSimonMXBeanImpl implements SimonSuperMXBean {
 		return names;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public final String getState() {
 		return simon().getState().name();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public final void setState(String state, boolean overrule) {
 		simon().setState(SimonState.valueOf(state), overrule);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public final boolean isEnabled() {
 		return simon().isEnabled();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public final void reset() {
 		simon().reset();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public final String getNote() {
 		return simon().getNote();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public final void setNote(String note) {
 		simon().setNote(note);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public final long getFirstUsage() {
 		return simon().getFirstUsage();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public final long getLastUsage() {
 		return simon().getLastUsage();
 	}
 
+	/**
+	 * Returns the wrapped Simon.
+	 *
+	 * @return wrapped Simon
+	 */
 	protected abstract Simon simon();
 }

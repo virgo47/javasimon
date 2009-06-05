@@ -21,11 +21,10 @@ import java.util.logging.LogRecord;
  * @see LoggingCallback#formatter()
  */
 public abstract class SimonFormatter extends Formatter {
-
 	/**
 	 * {@inheritDoc}
 	 */
-	public synchronized String format(LogRecord record) {
+	public final synchronized String format(LogRecord record) {
 		return formatRecord(record, (CallbackLogParams)record.getParameters()[0]);
 	}
 

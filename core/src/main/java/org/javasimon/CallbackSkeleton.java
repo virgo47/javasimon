@@ -4,7 +4,11 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * EmptyCallback implements Callback interface so that it does nothing.
+ * EmptyCallback implements Callback interface so that it does nothing. Message prints
+ * to stdout and warning prints to stderr. Methods for composite callbacks are final and
+ * throws unsupported operation, {@link #callbacks()} returns empty list. Should be used
+ * only for implementing simple callbacks, most useful when few methods need to be
+ * implemented.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Jan 22, 2009
@@ -15,7 +19,7 @@ public class CallbackSkeleton implements Callback {
 	 *
 	 * @return empty list
 	 */
-	public List<Callback> callbacks() {
+	public final List<Callback> callbacks() {
 		return Collections.emptyList();
 	}
 
@@ -24,7 +28,7 @@ public class CallbackSkeleton implements Callback {
 	 *
 	 * @param callback ignored
 	 */
-	public void addCallback(Callback callback) {
+	public final void addCallback(Callback callback) {
 		throw new UnsupportedOperationException("Only CompositeCallback implements this method.");
 	}
 
@@ -33,7 +37,7 @@ public class CallbackSkeleton implements Callback {
 	 *
 	 * @param callback ignored
 	 */
-	public void removeCallback(Callback callback) {
+	public final void removeCallback(Callback callback) {
 		throw new UnsupportedOperationException("Only CompositeCallback implements this method.");
 	}
 

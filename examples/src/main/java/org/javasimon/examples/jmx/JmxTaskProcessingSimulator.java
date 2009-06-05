@@ -87,6 +87,7 @@ public final class JmxTaskProcessingSimulator {
 	 * Entry point to the JMX task processing simulator.
 	 *
 	 * @param args unused
+	 * @throws Exception whatever may happen in this crazy world
 	 */
 	public static void main(String[] args) throws Exception {
 		LoggingCallback loggingCallback = new LoggingCallback();
