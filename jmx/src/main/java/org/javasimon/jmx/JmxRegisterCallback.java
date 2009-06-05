@@ -10,12 +10,12 @@ import java.util.Set;
 import java.lang.management.ManagementFactory;
 
 /**
- * JmxRegisterCallback.
+ * Callback that registers MXBeans for Simons after their creation.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Mar 6, 2009
  */
-public class JmxRegisterCallback extends CallbackSkeleton {
+public final class JmxRegisterCallback extends CallbackSkeleton {
 	private MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
 	private Set<String> registeredNames = new HashSet<String>();
 

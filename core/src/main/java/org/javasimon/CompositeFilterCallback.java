@@ -208,25 +208,30 @@ public final class CompositeFilterCallback implements FilterCallback {
 	private boolean rulesAppliesTo(Simon simon, Event checkedEvent, Object... params) {
 		for (Event event : new Event[]{checkedEvent, Event.ALL}) {
 			for (Rule rule : rules.get(event)) {
-				boolean result = true;
-				if (simon != null && rule.getPattern() != null && !rule.getPattern().matches(simon.getName())) {
-					result = false;
-				}
-				if (result && !rule.checkCondition(simon, params)) {
-					result = false;
-				}
+				boolean result = patternAndConditionCheck(simon, rule, params);
 
-				if (!result && rule.getType().equals(Rule.Type.MUST)) {
+				if (!result && rule.getType().equals(Rule.Type.MUST)) { // fast fail on MUST condition
 					return false;
 				}
-				if (result && rule.getType().equals(Rule.Type.MUST_NOT)) {
+				if (result && rule.getType().equals(Rule.Type.MUST_NOT)) { // fast fail on MUST NOT condition
 					return false;
 				}
-				if (result && rule.getType().equals(Rule.Type.SUFFICE)) {
+				if (result && rule.getType().equals(Rule.Type.SUFFICE)) { // fast success on SUFFICE condition
 					return true;
 				}
 			}
 		}
 		return true;
+	}
+
+	private boolean patternAndConditionCheck(Simon simon, Rule rule, Object... params) {
+		boolean result = true;
+		if (simon != null && rule.getPattern() != null && !rule.getPattern().matches(simon.getName())) {
+			result = false;
+		}
+		if (result && !rule.checkCondition(simon, params)) {
+			result = false;
+		}
+		return result;
 	}
 }

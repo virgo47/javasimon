@@ -4,8 +4,6 @@ import org.javasimon.*;
 import org.javasimon.utils.SimonUtils;
 import org.javasimon.jdbc.logging.LoggingCallback;
 
-import java.util.Date;
-
 /**
  * Jdbc MXBean implementation. See {@link org.javasimon.jmx.JdbcMXBean} for interface
  * documentation.
@@ -147,7 +145,7 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 			return new JdbcObjectInfo(
 				s.getActive(),
 				s.getMaxActive(),
-				new Date(s.getMaxActiveTimestamp()),
+				s.getMaxActiveTimestamp(),
 				s.getCounter(),
 				s.getCounter() - s.getActive(),
 				s.getMin(),
@@ -168,7 +166,7 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 			return new JdbcObjectInfo(
 				s.getActive(),
 				s.getMaxActive(),
-				new Date(s.getMaxActiveTimestamp()),
+				s.getMaxActiveTimestamp(),
 				s.getCounter(),
 				s.getCounter() - s.getActive(),
 				s.getMin(),

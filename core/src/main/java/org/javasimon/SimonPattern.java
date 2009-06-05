@@ -9,18 +9,38 @@ import org.javasimon.utils.SimonUtils;
  * <li>{@code something*} - matches if tested name starts with {@code something}
  * <li>{@code *something*} - matches if tested name contains {@code something} anywhere
  * <li>{@code something*else} - matches if tested name starts with {@code something} and ends with {@code else}
- *
+ * <p/>
  * Without wildcard exact match is required. Every wildcarded pattern always matches with the same string
  * without wildcards (in other words - wildcards matches with nothing as well).
  */
 class SimonPattern {
 	private static final String WILDCARD_STAR = "*";
 
+	/**
+	 * Original pattern from the configuration.
+	 */
 	private String pattern;
+
+	/**
+	 * Used if complete match is expected.
+	 */
 	private String all;
+
+	/**
+	 * Used if head should match.
+	 */
 	private String start;
+
+	/**
+	 * Used if tail should match.
+	 */
 	private String end;
+
+	/**
+	 * Used if anything inside (or everything) should match.
+	 */
 	private String middle;
+
 	private static final String INVALID_PATTERN = "Invalid configuration pattern: ";
 
 	/**
@@ -32,6 +52,7 @@ class SimonPattern {
 	SimonPattern(String pattern) {
 		this.pattern = pattern;
 		if (!pattern.contains(WILDCARD_STAR)) {
+			// no wildcard, we're going for complete match (all)
 			all = pattern;
 			if (!SimonUtils.checkName(all)) {
 				throw new SimonException(INVALID_PATTERN + pattern);

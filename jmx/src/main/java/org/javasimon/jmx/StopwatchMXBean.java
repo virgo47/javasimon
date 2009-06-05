@@ -21,7 +21,15 @@ public interface StopwatchMXBean extends SimonSuperMXBean {
 	 */
 	long getLast();
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	StopwatchSample sample();
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	StopwatchSample sampleAndReset();
 }

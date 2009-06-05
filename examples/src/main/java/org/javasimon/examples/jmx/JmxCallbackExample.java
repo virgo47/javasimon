@@ -15,6 +15,7 @@ public final class JmxCallbackExample {
 	 * Entry point to the JMX Callback Example.
 	 *
 	 * @param args unused
+	 * @throws Exception whatever may happen in this crazy world
 	 */
 	public static void main(String[] args) throws Exception {
 		SimonManager.callback().addCallback(new JmxRegisterCallback());

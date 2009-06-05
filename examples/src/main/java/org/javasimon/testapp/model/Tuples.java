@@ -22,6 +22,7 @@ public class Tuples implements Iterable<Tuple> {
 	private int prime;
 	private int generator;
 
+
 	public Tuples(int count) {
 		this.count = count;
 

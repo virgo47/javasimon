@@ -34,35 +34,35 @@ public class SimonMXBeanImpl implements SimonMXBean {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void enable() {
+	public final void enable() {
 		manager.enable();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void disable() {
+	public final void disable() {
 		manager.disable();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean isEnabled() {
+	public final boolean isEnabled() {
 		return manager.isEnabled();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public String[] getSimonNames() {
+	public final String[] getSimonNames() {
 		return manager.simonNames().toArray(new String[manager.simonNames().size()]);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public String getType(String name) {
+	public final String getType(String name) {
 		Simon s = manager.getSimon(name);
 		return s != null ? s instanceof Stopwatch ? SimonInfo.STOPWATCH : SimonInfo.COUNTER : null;
 	}
@@ -70,7 +70,7 @@ public class SimonMXBeanImpl implements SimonMXBean {
 	/**
 	 * {@inheritDoc}
 	 */
-	public SimonInfo[] getSimonInfos() {
+	public final SimonInfo[] getSimonInfos() {
 		Collection<String> sn = manager.simonNames();
 		SimonInfo[] si = new SimonInfo[sn.size()];
 		int i=0;
@@ -85,35 +85,35 @@ public class SimonMXBeanImpl implements SimonMXBean {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void clear() {
+	public final void clear() {
 		manager.clear();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void enableSimon(String name) {
+	public final void enableSimon(String name) {
 		manager.getSimon(name).setState(SimonState.ENABLED, false);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void disableSimon(String name) {
+	public final void disableSimon(String name) {
 		manager.getSimon(name).setState(SimonState.DISABLED, false);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void inheritState(String name) {
+	public final void inheritState(String name) {
 		manager.getSimon(name).setState(SimonState.INHERIT, false);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public CounterSample getCounterSample(String name) {
+	public final CounterSample getCounterSample(String name) {
 		Simon s = manager.getSimon(name);
 		if (s != null && s instanceof Counter) {
 			return new CounterSample((org.javasimon.CounterSample)s.sample());
@@ -124,7 +124,7 @@ public class SimonMXBeanImpl implements SimonMXBean {
 	/**
 	 * {@inheritDoc}
 	 */
-	public StopwatchSample getStopwatchSample(String name) {
+	public final StopwatchSample getStopwatchSample(String name) {
 		Simon s = manager.getSimon(name);
 		if (s != null && s instanceof Stopwatch) {
 			return new StopwatchSample((org.javasimon.StopwatchSample)s.sample());
@@ -135,7 +135,7 @@ public class SimonMXBeanImpl implements SimonMXBean {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void printSimonTree() {
+	public final void printSimonTree() {
 		System.out.println(SimonUtils.simonTreeString(manager.getRootSimon()));
 	}
 }

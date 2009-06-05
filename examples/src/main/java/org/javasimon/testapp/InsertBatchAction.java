@@ -21,19 +21,29 @@ import java.util.ArrayList;
  * @since 2.0
  */
 public class InsertBatchAction implements Action {
-
 	private static final int COUNT = 28;
 
 	private Connection conn;
 
+	/**
+	 * Insert batch action constructor.
+	 *
+	 * @param conn SQL connection
+	 */
 	public InsertBatchAction(Connection conn) {
 		this.conn = conn;
 	}
 
+
+	/**
+	 * Inserts batch.
+	 *
+	 * @param runno run number
+	 */
 	public void perform(int runno) {
 		Split split = SimonManager.getStopwatch("org.javasimon.testapp.action.insertbatch").start();
 
-		System.out.println("Run: "+runno+", InsertBatchAction [count: "+COUNT+"]");
+		System.out.println("Run: " + runno + ", InsertBatchAction [count: " + COUNT + "]");
 
 		List<Tuple> list = new ArrayList<Tuple>(COUNT);
 		for (Tuple t : new Tuples(COUNT)) {

@@ -1,6 +1,5 @@
 package org.javasimon.jmx;
 
-import java.util.Date;
 import java.beans.ConstructorProperties;
 
 /**
@@ -17,7 +16,7 @@ public class JdbcObjectInfo {
 
 	private long active;
 	private long peak;
-	private Date peakTime;
+	private long peakTime;
 	private long opened;
 	private long closed;
 	private long min;
@@ -38,7 +37,7 @@ public class JdbcObjectInfo {
 	 * @param total sum of all lifetimes of object (conn, stmt, rset)
 	 */
 	@ConstructorProperties({"active", "peak", "peakTime", "opened", "closed", "min", "max", "total"})
-	public JdbcObjectInfo(long active, long peak, Date peakTime, long opened, long closed, long min, long max, long total) {
+	public JdbcObjectInfo(long active, long peak, long peakTime, long opened, long closed, long min, long max, long total) {
 		this.active = active;
 		this.peak = peak;
 		this.peakTime = peakTime;
@@ -72,7 +71,7 @@ public class JdbcObjectInfo {
 	 *
 	 * @return time when max active count occured
 	 */
-	public Date getPeakTime() {
+	public long getPeakTime() {
 		return peakTime;
 	}
 

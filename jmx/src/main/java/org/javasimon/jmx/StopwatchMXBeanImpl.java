@@ -12,31 +12,59 @@ import org.javasimon.Simon;
 public class StopwatchMXBeanImpl extends AbstractSimonMXBeanImpl implements StopwatchMXBean {
 	private Stopwatch stopwatch;
 
-	public StopwatchMXBeanImpl(Stopwatch stopwatch) {
+	/**
+	 * Creates the MX bean for the provided Stopwatch.
+	 *
+	 * @param stopwatch wrapped Stopwatch
+	 */
+	protected StopwatchMXBeanImpl(Stopwatch stopwatch) {
 		this.stopwatch = stopwatch;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public final void addTime(long ns) {
+		stopwatch.addTime(ns);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public final long getLast() {
 		return stopwatch.getLast();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public StopwatchSample sample() {
+	public final StopwatchSample sample() {
 		return new StopwatchSample((org.javasimon.StopwatchSample) stopwatch.sample());
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public StopwatchSample sampleAndReset() {
+	public final StopwatchSample sampleAndReset() {
 		return new StopwatchSample((org.javasimon.StopwatchSample) stopwatch.sampleAndReset());
 	}
 
-	protected Simon simon() {
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final Simon simon() {
 		return stopwatch;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public final String getType() {
 		return "Stopwatch";
 	}

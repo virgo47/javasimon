@@ -188,7 +188,7 @@ public class StopwatchSample extends Sample {
 	 *
 	 * @return last measured split in ns
 	 */
-	public long getLast() {
+	public final long getLast() {
 		return last;
 	}
 
@@ -197,7 +197,7 @@ public class StopwatchSample extends Sample {
 	 *
 	 * @param last last measured split in ns
 	 */
-	public void setLast(long last) {
+	public final void setLast(long last) {
 		this.last = last;
 	}
 

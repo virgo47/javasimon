@@ -141,6 +141,11 @@ public final class SqlNormalizer {
 		return type;
 	}
 
+	/**
+	 * Returns human readable string describing this SQL normalizer.
+	 *
+	 * @return original SQL, normalized SQL, SQL type
+	 */
 	@Override
 	public String toString() {
 		return "SqlNormalizer{" +

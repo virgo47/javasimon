@@ -10,7 +10,7 @@ import java.io.IOException;
 
 /**
  * LoggingCallback implements jdbc logging logic.
- * <p>
+ * <p/>
  * LoggingCallback extends from empty Callback implementation ({@link org.javasimon.CallbackSkeleton}) and
  * implements two events: stopwatch start and stopwatch stop. By implementing start end stop event focusing
  * on jdbc callback produces those jdbc events:
@@ -23,7 +23,7 @@ import java.io.IOException;
  * <li>resultset open</li>
  * <li>resultset close</li>
  * </ul>
- *
+ * <p/>
  * Class also contains two build-in formmaters: {@link org.javasimon.jdbc.logging.LoggingCallback.HumanFormatter}
  * and {@link org.javasimon.jdbc.logging.LoggingCallback.CsvFormatter}.
  *
@@ -37,7 +37,7 @@ public final class LoggingCallback extends CallbackSkeleton {
 	/**
 	 * HumanFormatter formats log messages to human readable form.
 	 */
-	private final class HumanFormatter extends SimonFormatter {
+	private static final class HumanFormatter extends SimonFormatter {
 
 		private static final String ID = "human";
 
@@ -64,7 +64,7 @@ public final class LoggingCallback extends CallbackSkeleton {
 	/**
 	 * CsvFormatter formats log messages to comma separated value form.
 	 */
-	private final class CsvFormatter extends SimonFormatter {
+	private static final class CsvFormatter extends SimonFormatter {
 
 		private static final String ID = "csv";
 
@@ -186,7 +186,7 @@ public final class LoggingCallback extends CallbackSkeleton {
 	/**
 	 * Determine and returns formatter. If no formatter is set or initialization of formatter instance
 	 * failed {@link org.javasimon.jdbc.logging.LoggingCallback.HumanFormatter} is returned.
-	 * 
+	 *
 	 * @return choosed formatter or {@link HumanFormatter}
 	 */
 	private SimonFormatter formatter() {
@@ -199,7 +199,7 @@ public final class LoggingCallback extends CallbackSkeleton {
 				try {
 					Object o = Class.forName(logFormat).newInstance();
 					if (o instanceof SimonFormatter) {
-						return (SimonFormatter)o;
+						return (SimonFormatter) o;
 					}
 				} catch (Exception e) {
 					return new HumanFormatter();

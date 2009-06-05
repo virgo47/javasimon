@@ -36,11 +36,13 @@ public class Main {
 	private Runner runner;
 	private Connection connection;
 
+	/**
+	 * Implementation of the application MX bean.
+	 */
 	public class AppMXBeanImpl implements AppMXBean {
-
-		public AppMXBeanImpl() {
-		}
-
+		/**
+		 * Shutdown operation.
+		 */
 		public void shutdown() {
 			if (runner != null) {
 				runner.stop();
@@ -94,6 +96,12 @@ public class Main {
 		runner.run();
 	}
 
+	/**
+	 * Entry point of the test application.
+	 *
+	 * @param args unused
+	 * @throws Exception well, it's just an example!
+	 */
 	public static void main(String[] args) throws Exception {
 		Main m = new Main();
 		m.setupDatabase();

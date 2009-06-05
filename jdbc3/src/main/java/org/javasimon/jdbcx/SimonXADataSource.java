@@ -55,10 +55,16 @@ public final class SimonXADataSource extends AbstractSimonDataSource implements 
 		return ds;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public XAConnection getXAConnection() throws SQLException {
 		return new SimonXAConnection(datasource().getXAConnection(), prefix);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public XAConnection getXAConnection(String user, String password) throws SQLException {
 		return new SimonXAConnection(datasource().getXAConnection(user, password), prefix);
 	}

@@ -23,9 +23,19 @@ for (SimonInfo si : simon.getSimonInfos()) {
  * @see SimonMXBean#getSimonInfos
  */
 public final class SimonInfo {
-
+	/**
+	 * Type identifier for unknown Simon.
+	 */
 	public static final String UNKNOWN = "unknown";
+
+	/**
+	 * Type identifier for Stopwatch.
+	 */
 	public static final String STOPWATCH = "stopwatch";
+
+	/**
+	 * Type identifier for Counter.
+	 */
 	public static final String COUNTER = "counter";
 
 	private String name;
