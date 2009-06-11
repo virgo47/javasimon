@@ -74,8 +74,8 @@ public final class CompositeFilterCallback implements FilterCallback {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void deactivate() {
-		callback.deactivate();
+	public void cleanup() {
+		callback.cleanup();
 	}
 
 	/**

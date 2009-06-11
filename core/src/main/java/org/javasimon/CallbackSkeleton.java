@@ -50,7 +50,7 @@ public class CallbackSkeleton implements Callback {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void deactivate() {
+	public void cleanup() {
 	}
 
 	/**

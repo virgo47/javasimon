@@ -9,7 +9,7 @@ import java.util.List;
  * class that already implements all methods as empty. Callbacks can be configured
  * via Manager configuration facility.
  * <p/>
- * Callback can have a lifecycle supported with methods {@link #initialize()} and {@link #deactivate()}.
+ * Callback can have a lifecycle supported with methods {@link #initialize()} and {@link #cleanup()}.
  * Callback is initialized when it is attached to the manager (anywhere in the callback tree) and
  * deinitialized when the callback is removed from the callback tree.
  *
@@ -44,9 +44,11 @@ public interface Callback {
 	void initialize();
 
 	/**
-	 *
+	 * Lifecycle method called when the callback is removed from the manager. It should implement
+	 * any necessary cleanup or resources - e.g. release JDBC connection if one was used for Callback
+	 * functionality.
 	 */
-	void deactivate();
+	void cleanup();
 
 	/**
 	 * Stopwatch start event.

@@ -44,7 +44,7 @@ public final class CompositeCallback implements Callback {
 	public void removeCallback(Callback callback) {
 		callbacks.remove(callback);
 		if (initialized) {
-			callback.deactivate();
+			callback.cleanup();
 		}
 	}
 
@@ -65,11 +65,11 @@ public final class CompositeCallback implements Callback {
 	/**
 	 * Calls deactivate on all children.
 	 */
-	public void deactivate() {
+	public void cleanup() {
 		initialized = false;
 		for (Callback c : callbacks) {
 			try {
-				c.deactivate();
+				c.cleanup();
 			} catch (Exception e) {
 				warning("Deactivation error", e);
 			}

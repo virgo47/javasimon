@@ -16,7 +16,8 @@ package org.javasimon;
  * <pre>
  * counter = Simon Counter: [com.my.counter INHERIT/stats=NULL] counter=0, max=undef, min=undef</pre>
  *
- * This behavior allows the counter to be initialized - this also sets max/min values:
+ * This behavior allows the counter to be initialized before it is used and its exteremes are
+ * tracked - first initialization also sets max/min (extreme) values:
  * <pre>
  * Counter counter = SimonManager.getCounter("com.my.counter").set(47);
  * System.out.println("counter = " + counter);</pre>
