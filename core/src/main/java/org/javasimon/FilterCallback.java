@@ -62,42 +62,42 @@ public interface FilterCallback extends Callback {
 		}
 
 		/**
-		 * Name of the rule variable for last split time in ns.
+		 * Name of the rule variable for last split time in ns (split).
 		 */
 		public static final String VAR_SPLIT = "split";
 
 		/**
-		 * Name of the rule variable for number of concurrently active splits of a particular Simon.
+		 * Name of the rule variable for number of concurrently active splits of a particular Simon (active).
 		 */
 		public static final String VAR_ACTIVE = "active";
 
 		/**
-		 * Name of the rule variable for maximal number of concurrently active splits.
+		 * Name of the rule variable for maximal number of concurrently active splits (maxactive).
 		 */
 		public static final String VAR_MAX_ACTIVE = "maxactive";
 
 		/**
-		 * Name of the rule variable for current value of the counter.
+		 * Name of the rule variable for current value of the counter (counter).
 		 */
 		public static final String VAR_COUNTER = "counter";
 
 		/**
-		 * Name of the rule variable for maximal value of the Simon (stopwatch in ns, counter without unit).
+		 * Name of the rule variable for maximal value of the Simon - stopwatch in ns, counter without unit (max).
 		 */
 		public static final String VAR_MAX = "max";
 
 		/**
-		 * Name of the rule variable for minimal value of the Simon (stopwatch in ns, counter without unit).
+		 * Name of the rule variable for minimal value of the Simon - stopwatch in ns, counter without unit (min).
 		 */
 		public static final String VAR_MIN = "min";
 
 		/**
-		 * Name of the rule variable for total split time.
+		 * Name of the rule variable for total split time (total).
 		 */
 		public static final String VAR_TOTAL = "total";
 
 		/**
-		 * Name of the rule variable for increment or decrement value.
+		 * Name of the rule variable for increment or decrement value (value).
 		 */
 		public static final String VAR_VALUE = "value";
 
