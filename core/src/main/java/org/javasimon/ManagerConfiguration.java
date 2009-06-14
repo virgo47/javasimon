@@ -51,7 +51,7 @@ public final class ManagerConfiguration {
 	/**
 	 * Clears any previously loaded configuration.
 	 */
-	void clear() {
+	public void clear() {
 		configs = new LinkedHashMap<SimonPattern, SimonConfiguration>();
 	}
 
@@ -61,7 +61,7 @@ public final class ManagerConfiguration {
 	 * @param reader reader containing configuration
 	 * @throws IOException thrown if problem occurs while reading from the reader
 	 */
-	void readConfig(Reader reader) throws IOException {
+	public void readConfig(Reader reader) throws IOException {
 		try {
 			XMLStreamReader xr = XMLInputFactory.newInstance().createXMLStreamReader(reader);
 			try {

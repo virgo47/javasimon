@@ -13,7 +13,7 @@ import org.javasimon.utils.SimonUtils;
  * Without wildcard exact match is required. Every wildcarded pattern always matches with the same string
  * without wildcards (in other words - wildcards matches with nothing as well).
  */
-class SimonPattern {
+public class SimonPattern {
 	private static final String WILDCARD_STAR = "*";
 
 	/**
@@ -110,6 +110,9 @@ class SimonPattern {
 		return end == null || name.endsWith(end);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) {
@@ -124,11 +127,17 @@ class SimonPattern {
 		return !(pattern != null ? !pattern.equals(that.pattern) : that.pattern != null);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int hashCode() {
 		return (pattern != null ? pattern.hashCode() : 0);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String toString() {
 		return "ConfigPattern: " + pattern;
