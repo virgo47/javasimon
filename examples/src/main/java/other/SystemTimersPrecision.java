@@ -71,9 +71,9 @@ public final class SystemTimersPrecision {
 			if (round % (LOOP / 5) == 0) {
 				System.out.println("\nns1 = " + ns1);
 				System.out.println("ns2 = " + ns2 + " (diff: " + (ns2 - ns1) + ")");
-				System.out.println("ns2 = " + ns3 + " (diff: " + (ns3 - ns2) + ")");
-				System.out.println("ns2 = " + ns4 + " (diff: " + (ns4 - ns3) + ")");
-				System.out.println("ns2 = " + ns5 + " (diff: " + (ns5 - ns4) + ")");
+				System.out.println("ns3 = " + ns3 + " (diff: " + (ns3 - ns2) + ")");
+				System.out.println("ns4 = " + ns4 + " (diff: " + (ns4 - ns3) + ")");
+				System.out.println("ns5 = " + ns5 + " (diff: " + (ns5 - ns4) + ")");
 			}
 		}
 	}
