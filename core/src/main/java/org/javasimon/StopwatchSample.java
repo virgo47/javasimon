@@ -1,5 +1,7 @@
 package org.javasimon;
 
+import org.javasimon.utils.SimonUtils;
+
 /**
  * Object holds all relevant data from Stopwatch Simon. Whenever it is important to get more values
  * in a synchronous manner, {@link org.javasimon.Stopwatch#sample()} (or {@link Stopwatch#sampleAndReset()}
@@ -286,18 +288,18 @@ public class StopwatchSample extends Sample {
 	public String toString() {
 		final StringBuilder sb = new StringBuilder();
 		sb.append("StopwatchSample");
-		sb.append("{total=").append(total);
+		sb.append("{total=").append(SimonUtils.presentNanoTime(total));
 		sb.append(", counter=").append(counter);
-		sb.append(", min=").append(min);
-		sb.append(", max=").append(max);
-		sb.append(", minTimestamp=").append(minTimestamp);
-		sb.append(", maxTimestamp=").append(maxTimestamp);
+		sb.append(", min=").append(SimonUtils.presentMinMaxSplit(min));
+		sb.append(", max=").append(SimonUtils.presentMinMaxSplit(max));
+		sb.append(", minTimestamp=").append(SimonUtils.presentTimestamp(minTimestamp));
+		sb.append(", maxTimestamp=").append(SimonUtils.presentTimestamp(maxTimestamp));
 		sb.append(", active=").append(active);
 		sb.append(", maxActive=").append(maxActive);
-		sb.append(", maxActiveTimestamp=").append(maxActiveTimestamp);
-		sb.append(", last=").append(last);
-		sb.append(", mean=").append(getMean());
-		sb.append(", standardDeviation=").append(getStandardDeviation());
+		sb.append(", maxActiveTimestamp=").append(SimonUtils.presentTimestamp(maxActiveTimestamp));
+		sb.append(", last=").append(SimonUtils.presentNanoTime(last));
+		sb.append(", mean=").append(SimonUtils.presentNanoTime((long) getMean()));
+		sb.append(", standardDeviation=").append(SimonUtils.presentNanoTime((long) getStandardDeviation()));
 		sb.append(", variance=").append(getVariance());
 		sb.append(", varianceN=").append(getVarianceN());
 		sb.append(", note=").append(getNote());

@@ -15,10 +15,11 @@ public final class LoopingRandomMethod {
 	 */
 	public static void main(String[] args) {
 		Stopwatch stopwatch = SimonManager.getStopwatch("stopwatch");
-		for (int i = 0; i < 10; i++) {
+		for (int i = 1; i <= 10; i++) {
 			strangeMethod();
+			System.out.println("Stopwatch after round " + i + ": " + stopwatch);
 		}
-		System.out.println("Stopwatch: " + stopwatch);
+		System.out.println("stopwatch.sample() = " + stopwatch.sample());
 	}
 
 	/**

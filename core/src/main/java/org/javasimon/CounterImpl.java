@@ -225,8 +225,8 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	public String toString() {
 		return "Simon Counter: " + super.toString() +
 			" counter=" + counter +
-			", max=" + SimonUtils.presentMinMax(max) +
-			", min=" + SimonUtils.presentMinMax(min) +
+			", max=" + SimonUtils.presentMinMaxCount(max) +
+			", min=" + SimonUtils.presentMinMaxCount(min) +
 			(getNote() != null && getNote().length() != 0 ? ", note '" + getNote() + "'" : "");
 	}
 }

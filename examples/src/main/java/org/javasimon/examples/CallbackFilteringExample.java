@@ -36,6 +36,8 @@ public final class CallbackFilteringExample {
 		sw2.start().stop();
 		System.out.println();
 
+		// we need to remove old callback
+		manager.callback().removeCallback(stdoutCallback);
 		// filter callback is created
 		CompositeFilterCallback filter = new CompositeFilterCallback();
 		// rule to filter out all simons matching pattern "other.*" is added
