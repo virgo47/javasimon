@@ -24,10 +24,8 @@ public final class StopwatchSample extends org.javasimon.StopwatchSample {
 	 * JMX constructor. Constructor used by JMX client code to initialize all properties of object
 	 * from composite data object.
 	 *
-	 * @param count count value (provided optionally)
 	 * @param mean mean value (provided optionally)
 	 * @param stdDev standard deviation (provided optionally)
-	 * @param sum sum value (provided optionally)
 	 * @param var variance (provided optionally)
 	 * @param varN variance N (provided optionally)
 	 * @param total sum of all measured times
@@ -42,15 +40,13 @@ public final class StopwatchSample extends org.javasimon.StopwatchSample {
 	 * @param maxActiveTimestamp time when maximum paralel measures happend
 	 * @param last last split value in ns 
 	 */
-	@ConstructorProperties({"count", "mean", "standardDeviation", "sum", "variance", "varianceN", "note",
+	@ConstructorProperties({"mean", "standardDeviation", "variance", "varianceN", "note",
 			"total", "counter", "min", "max", "minTimestamp", "maxTimestamp", "active", "maxActive", "maxActiveTimestamp", "last"})
-	public StopwatchSample(int count, double mean, double stdDev, double sum, double var, double varN, String note,
+	public StopwatchSample(double mean, double stdDev, double var, double varN, String note,
 		long total, long counter, long min, long max, long minTimestamp, long maxTimestamp, long active, long maxActive,
 		long maxActiveTimestamp, long last) {
-		setCount(count);
 		setMean(mean);
 		setStandardDeviation(stdDev);
-		setSum(sum);
 		setVariance(var);
 		setVarianceN(varN);
 		setNote(note);
@@ -74,10 +70,8 @@ public final class StopwatchSample extends org.javasimon.StopwatchSample {
 	 * @param s sample object obtained from Stopwatch simon
 	 */
 	StopwatchSample(org.javasimon.StopwatchSample s) {
-		setCount(s.getCount());
 		setMean(s.getMean());
 		setStandardDeviation(s.getStandardDeviation());
-		setSum(s.getSum());
 		setVariance(s.getVariance());
 		setVarianceN(s.getVarianceN());
 		setNote(s.getNote());

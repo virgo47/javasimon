@@ -2,7 +2,6 @@ package org.javasimon.examples;
 
 import org.javasimon.SimonManager;
 import org.javasimon.Stopwatch;
-import org.javasimon.StatProcessorType;
 import org.javasimon.Split;
 
 /**
@@ -22,9 +21,6 @@ public final class SamplingExample {
 	 * @param args command line arguments
 	 */
 	public static void main(String[] args) {
-		// Setting richer stat processor
-		SimonManager.getStopwatch("sampled-stopwatch").setStatProcessor(StatProcessorType.BASIC.create());
-
 		// Starts the sampler
 		Sampler sampler = new Sampler();
 		sampler.setDaemon(true);
@@ -51,7 +47,7 @@ public final class SamplingExample {
 	}
 
 	/**
-	 * Prints sampled values from the stopwatch (and its stat processor) every 10 seconds + resets the Simon.
+	 * Prints sampled values from the stopwatch every 10 seconds + resets the Simon.
 	 */
 	static class Sampler extends Thread {
 		/**
@@ -62,6 +58,8 @@ public final class SamplingExample {
 				Stopwatch stopwatch = SimonManager.getStopwatch("sampled-stopwatch");
 				System.out.println("\nstopwatch = " + stopwatch);
 				System.out.println("Stopwatch sample: " + stopwatch.sample());
+				// TODO: uncomment this if you want - of course commment the line above
+//				System.out.println("Stopwatch sample: " + stopwatch.sampleAndReset());
 				try {
 					Thread.sleep(10000);
 				} catch (InterruptedException e) {

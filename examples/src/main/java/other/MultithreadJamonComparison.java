@@ -7,7 +7,6 @@ import java.util.concurrent.CountDownLatch;
 
 import org.javasimon.SimonManager;
 import org.javasimon.Stopwatch;
-import org.javasimon.StatProcessorType;
 import org.javasimon.Split;
 import org.javasimon.utils.SimonUtils;
 
@@ -37,7 +36,6 @@ public final class MultithreadJamonComparison {
 	 * @throws InterruptedException should not happen
 	 */
 	public static void main(String[] args) throws InterruptedException {
-		SimonManager.getStopwatch(NAME).setStatProcessor(StatProcessorType.BASIC.create());
 		int round = 1;
 		while (true) {
 			System.out.println("\nRound: " + round++);

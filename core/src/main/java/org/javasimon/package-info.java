@@ -3,7 +3,7 @@
  * the {@link org.javasimon.SimonManager} as the center point of the API.
  * <p>
  * Core package contains all basic interfaces ({@link org.javasimon.Simon}, {@link org.javasimon.Counter},
- * {@link org.javasimon.Stopwatch}, {@link org.javasimon.StatProcessor} and {@link org.javasimon.Manager})
+ * {@link org.javasimon.Stopwatch} and {@link org.javasimon.Manager})
  * with their implementations along with {@link org.javasimon.SimonManager} that provides convenient access
  * to the default Simon Manger.
  * <p>
@@ -24,10 +24,6 @@
  * {@link org.javasimon.SimonState} enumeration has three values: {@link org.javasimon.SimonState#ENABLED}
  * sets Simon as enabled, {@link org.javasimon.SimonState#DISABLED} sets Simon as disabled and
  * {@link org.javasimon.SimonState#INHERIT} lets Simon to inherit its state from the parent (recursively).
- * <p>
- * Simons by default provide only basic information without any additional statistical meaning.
- * {@link org.javasimon.StatProcessor} of some type can be attached to the Simon to get additional statistic
- * information for measured values.
  * <p>
  * The whole SimonManager can be enabled or disabled - this is importand difference from disabled Simons.
  * Whenever SimonManager is disabled ({@link org.javasimon.SimonManager#disable()}) any method returning

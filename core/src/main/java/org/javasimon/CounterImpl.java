@@ -137,7 +137,6 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		incrementSum = 0;
 		decrementSum = 0;
 		saveResetTimestamp();
-		getStatProcessor().reset();
 		manager.callback().reset(this);
 		return this;
 	}
@@ -163,7 +162,6 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		sample.setMaxTimestamp(maxTimestamp);
 		sample.setIncrementSum(incrementSum);
 		sample.setDecrementSum(decrementSum);
-		sample.setFromStatProcessor(getStatProcessor());
 		sample.setNote(getNote());
 		return sample;
 	}

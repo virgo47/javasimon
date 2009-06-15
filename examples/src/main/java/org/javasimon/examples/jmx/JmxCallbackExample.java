@@ -22,7 +22,6 @@ public final class JmxCallbackExample {
 
 		Counter counter = SimonManager.getCounter("org.javasimon.examples.jmx.counter");
 		Stopwatch stopwatch = SimonManager.getStopwatch("org.javasimon.examples.jmx.stopwatch");
-		stopwatch.setStatProcessor(StatProcessorType.BASIC.create());
 		System.out.println("Now open jconsole and check it out! :-)");
 		while (true) {
 			counter.increase();

@@ -39,8 +39,6 @@ abstract class AbstractSimon implements Simon {
 
 	private final List<Simon> children = new CopyOnWriteArrayList<Simon>();
 
-	private StatProcessor statProcessor = NullStatProcessor.INSTANCE;
-
 	private String note;
 
 	private long resetTimestamp;
@@ -167,20 +165,6 @@ abstract class AbstractSimon implements Simon {
 	/**
 	 * {@inheritDoc}
 	 */
-	public StatProcessor getStatProcessor() {
-		return statProcessor;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setStatProcessor(StatProcessor statProcessor) {
-		this.statProcessor = statProcessor;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
 	public String getNote() {
 		return note;
 	}
@@ -207,13 +191,13 @@ abstract class AbstractSimon implements Simon {
 	}
 
 	/**
-	 * Returns name, state and stats of the Simon as a human readable string.
+	 * Returns name and state of the Simon as a human readable string.
 	 *
-	 * @return name, state and stats of the Simon
+	 * @return name and state of the Simon
 	 */
 	@Override
 	public String toString() {
-		return "[" + name + " " + state + "/stats=" + getStatProcessor().getType() + "]";
+		return "[" + name + " " + state + "]";
 	}
 
 	/**

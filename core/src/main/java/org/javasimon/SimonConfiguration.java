@@ -2,32 +2,21 @@ package org.javasimon;
 
 /**
  * Stores configuration for the particular Simon or the set of Simons.
+ * Currently it holds only the state of the Simon.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Sep 30, 2008
  */
 public final class SimonConfiguration {
-	private StatProcessorType statProcessorType;
 	private SimonState state;
 
 	/**
 	 * Creates SimonConfiguration item.
 	 *
-	 * @param statProcessorType stat processor type
 	 * @param state prefered state - SimonManager sets ihnerit if null is specified here
 	 */
-	SimonConfiguration(StatProcessorType statProcessorType, SimonState state) {
-		this.statProcessorType = statProcessorType;
+	SimonConfiguration(SimonState state) {
 		this.state = state;
-	}
-
-	/**
-	 * Returns stat processor type for this configuration item.
-	 *
-	 * @return configured processor type or null if nothing was specified
-	 */
-	public StatProcessorType getStatProcessorType() {
-		return statProcessorType;
 	}
 
 	/**
@@ -47,7 +36,7 @@ public final class SimonConfiguration {
 	@Override
 	public String toString() {
 		return "SimonConfiguration {\n" +
-			"  statProcessorType=" + statProcessorType + "\n" +
-			"  state=" + state + "\n}";
+			"  state=" + state + "\n" +
+			"}";
 	}
 }

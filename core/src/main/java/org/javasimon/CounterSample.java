@@ -159,13 +159,8 @@ public class CounterSample extends Sample {
 		sb.append(", maxTimestamp=").append(maxTimestamp);
 		sb.append(", incrementSum=").append(incrementSum);
 		sb.append(", decrementSum=").append(decrementSum);
-		sb.append(" [count=").append(getCount());
-		sb.append(", mean=").append(getMean());
-		sb.append(", standardDeviation=").append(getStandardDeviation());
-		sb.append(", sum=").append(getSum());
-		sb.append(", variance=").append(getVariance());
-		sb.append(", varianceN=").append(getVarianceN());
-		sb.append("]}");
+		sb.append(", note=").append(getNote());
+		sb.append("}");
 		return sb.toString();
 	}
 }

@@ -78,22 +78,6 @@ public interface Simon {
 	long getLastReset();
 
 	/**
-	 * Returns statistics processor assigned to the Simon. StatProcessor extends Simon
-	 * with providing more statistic information about measured data (observations).
-	 *
-	 * @return statistics processor
-	 */
-	StatProcessor getStatProcessor();
-
-	/**
-	 * Sets statistics processor assigned to the Simon. StatProcessor extends Simon
-	 * with providing more statistic information about measured data (observations).
-	 *
-	 * @param statProcessor statistics processor
-	 */
-	void setStatProcessor(StatProcessor statProcessor);
-
-	/**
 	 * Returns note for the Simon. Note enables Simon with an additional information in human
 	 * readable form.
 	 *

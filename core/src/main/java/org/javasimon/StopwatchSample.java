@@ -19,6 +19,10 @@ public class StopwatchSample extends Sample {
 	private long maxActive;
 	private long maxActiveTimestamp;
 	private long last;
+	private double mean;
+	private double standardDeviation;
+	private double variance;
+	private double varianceN;
 
 	/**
 	 * Returns the total sum of all split times in nanoseconds.
@@ -202,9 +206,81 @@ public class StopwatchSample extends Sample {
 	}
 
 	/**
+	 * Returns mean value (average) of all measured values.
+	 *
+	 * @return mean value
+	 */
+	public final double getMean() {
+		return mean;
+	}
+
+	/**
+	 * Sets the mean value (average) of all measured values.
+	 *
+	 * @param mean mean value
+	 */
+	public final void setMean(double mean) {
+		this.mean = mean;
+	}
+
+	/**
+	 * Returns standard deviation for all measured values.
+	 *
+	 * @return standard deviation
+	 */
+	public final double getStandardDeviation() {
+		return standardDeviation;
+	}
+
+	/**
+	 * Sets the standard deviation for all measured values.
+	 *
+	 * @param standardDeviation standard deviation
+	 */
+	public final void setStandardDeviation(double standardDeviation) {
+		this.standardDeviation = standardDeviation;
+	}
+
+	/**
+	 * Returns unbiased estimate of the population variance.
+	 *
+	 * @return unbiased estimated variance
+	 */
+	public final double getVariance() {
+		return variance;
+	}
+
+	/**
+	 * Sets the unbiased estimate of the population variance.
+	 *
+	 * @param variance unbiased estimated variance
+	 */
+	public final void setVariance(double variance) {
+		this.variance = variance;
+	}
+
+	/**
+	 * Returns variance value of all measured values (entire population).
+	 *
+	 * @return entire population variance
+	 */
+	public final double getVarianceN() {
+		return varianceN;
+	}
+
+	/**
+	 * Sets the variance value of all measured values (entire population).
+	 *
+	 * @param varianceN entire population variance
+	 */
+	public final void setVarianceN(double varianceN) {
+		this.varianceN = varianceN;
+	}
+
+	/**
 	 * Returns readable representation of object.
 	 *
-	 * @return string with readable representation of object 
+	 * @return string with readable representation of object
 	 */
 	@Override
 	public String toString() {
@@ -220,13 +296,12 @@ public class StopwatchSample extends Sample {
 		sb.append(", maxActive=").append(maxActive);
 		sb.append(", maxActiveTimestamp=").append(maxActiveTimestamp);
 		sb.append(", last=").append(last);
-		sb.append(" [count=").append(getCount());
 		sb.append(", mean=").append(getMean());
 		sb.append(", standardDeviation=").append(getStandardDeviation());
-		sb.append(", sum=").append(getSum());
 		sb.append(", variance=").append(getVariance());
 		sb.append(", varianceN=").append(getVarianceN());
-		sb.append("]}");
+		sb.append(", note=").append(getNote());
+		sb.append("}");
 		return sb.toString();
 	}
 }

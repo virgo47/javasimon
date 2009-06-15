@@ -226,19 +226,6 @@ final class NullSimon implements Counter, Stopwatch {
 	}
 
 	/**
-	 * {@inheritDoc}
-	 */
-	public StatProcessor getStatProcessor() {
-		return NullStatProcessor.INSTANCE;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setStatProcessor(StatProcessor statProcessor) {
-	}
-
-	/**
 	 * Returns note for the Simon.
 	 *
 	 * @return note for the Simon.

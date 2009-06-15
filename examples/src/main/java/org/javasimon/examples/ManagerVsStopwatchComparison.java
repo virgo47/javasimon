@@ -3,7 +3,6 @@ package org.javasimon.examples;
 import org.javasimon.SimonManager;
 import org.javasimon.utils.SimonUtils;
 import org.javasimon.Stopwatch;
-import org.javasimon.StatProcessorType;
 import org.javasimon.Split;
 
 /**
@@ -11,8 +10,8 @@ import org.javasimon.Split;
  * It also measures loop containing get+start/stop construction, so you can get the idea of how fast
  * it is. Generally - it's not necessary to hold the Simon in a class field but if you measure something
  * critical, you can do that and get some time. All the measuring follows after inserting 100000 stopwatches
- * into the SM's internal HashMap (sorted map was much slower). You can also compare get/start/stop with no
- * and basic stats added to the Simon and finally last run is done with SM after reset (nearly empty HashMap).
+ * into the SM's internal HashMap (sorted map was much slower). Last run is done with SM after reset
+ * (nearly empty HashMap).
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 6, 2008
@@ -58,13 +57,6 @@ public final class ManagerVsStopwatchComparison {
 		split = stopwatch.reset().start();
 		getStartStopTest(name);
 		System.out.println("\nget+start/stop: " + SimonUtils.presentNanoTime(split.stop()));
-		System.out.println("Stopwatch: " + tested);
-
-		tested.reset();
-		tested.setStatProcessor(StatProcessorType.BASIC.create());
-		split = stopwatch.reset().start();
-		getStartStopTest(name);
-		System.out.println("\nget+start/stop+basic stats: " + SimonUtils.presentNanoTime(split.stop()));
 		System.out.println("Stopwatch: " + tested);
 
 		SimonManager.clear();
