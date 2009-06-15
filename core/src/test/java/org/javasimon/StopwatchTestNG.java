@@ -48,7 +48,6 @@ public final class StopwatchTestNG {
 	@Test
 	public void resetTest() throws Exception {
 		Stopwatch stopwatch = SimonManager.getStopwatch(STOPWATCH_NAME);
-		stopwatch.setStatProcessor(StatProcessorType.BASIC.create());
 		stopwatch.reset();
 		long ts = System.currentTimeMillis();
 		stopwatch.addTime(100);
@@ -60,10 +59,14 @@ public final class StopwatchTestNG {
 		Assert.assertTrue(stopwatch.getLastUsage() >= ts);
 		Assert.assertTrue(stopwatch.getFirstUsage() >= ts);
 		Assert.assertEquals(stopwatch.getCounter(), 1);
-		Assert.assertEquals(stopwatch.getStatProcessor().getCount(), 1);
-		Assert.assertEquals(stopwatch.getStatProcessor().getSum(), 100d);
-		Assert.assertEquals(stopwatch.getStatProcessor().getMean(), 100d);
-		Assert.assertEquals(stopwatch.getStatProcessor().getStandardDeviation(), 0d);
+		StopwatchSample sample = (StopwatchSample) stopwatch.sample();
+		Assert.assertEquals(sample.getCounter(), 1);
+		Assert.assertEquals(sample.getTotal(), 100);
+		Assert.assertEquals(sample.getMean(), 100d);
+		Assert.assertEquals(sample.getStandardDeviation(), 0d);
+		Assert.assertEquals(sample.getVariance(), 0d);
+		Assert.assertEquals(sample.getVarianceN(), 0d);
+
 		stopwatch.reset();
 		Assert.assertEquals(stopwatch.getTotal(), 0);
 		Assert.assertEquals(stopwatch.getMax(), 0);
@@ -73,10 +76,13 @@ public final class StopwatchTestNG {
 		Assert.assertTrue(stopwatch.getLastUsage() >= ts); // usages are NOT clear!
 		Assert.assertTrue(stopwatch.getFirstUsage() >= ts);
 		Assert.assertEquals(stopwatch.getCounter(), 0);
-		Assert.assertEquals(stopwatch.getStatProcessor().getCount(), 0);
-		Assert.assertEquals(stopwatch.getStatProcessor().getSum(), 0d);
-		Assert.assertEquals(stopwatch.getStatProcessor().getMean(), 0d);
-		Assert.assertEquals(stopwatch.getStatProcessor().getStandardDeviation(), 0d);
+		sample = (StopwatchSample) stopwatch.sample();
+		Assert.assertEquals(sample.getCounter(), 0);
+		Assert.assertEquals(sample.getTotal(), 0);
+		Assert.assertEquals(sample.getMean(), 0d);
+		Assert.assertEquals(sample.getStandardDeviation(), 0d);
+		Assert.assertEquals(sample.getVariance(), 0d);
+		Assert.assertEquals(sample.getVarianceN(), 0d);
 	}
 
 	@Test

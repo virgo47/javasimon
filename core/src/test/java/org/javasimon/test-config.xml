@@ -16,6 +16,5 @@
 	</filter-callback>
 	<callback class="org.javasimon.utils.DebugCallback"/>
 
-	<simon pattern="org.javasimon.test.good.*" stats="basic"/>
 	<simon pattern="org.javasimon.test.*" state="disabled"/>
 </simon-configuration>

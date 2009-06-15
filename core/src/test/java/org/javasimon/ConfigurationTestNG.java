@@ -42,16 +42,10 @@ public final class ConfigurationTestNG {
 	public void testConfig() throws IOException {
 		Manager manager = new EnabledManager();
 		manager.configuration().readConfig(new StringReader("<simon-configuration>\n" +
-			"  <simon pattern='org.javasimon.test.stopwatch'/>\n" +
-			"  <simon pattern='org.javasimon.*' stats='basic'/>\n" +
 			"  <simon pattern='*.debug' state='disabled'/>\n" +
-			"  <simon pattern='*no-stats*' stats='null'/>\n" +
 			"</simon-configuration>"));
 		Assert.assertNull(manager.configuration().getConfig("org.javasimon.bubu").getState());
-		Assert.assertTrue(manager.configuration().getConfig("org.javasimon.test.stopwatch").getStatProcessorType().equals(StatProcessorType.BASIC));
-		Assert.assertTrue(manager.configuration().getConfig("org.javasimon.test.debug").getStatProcessorType().equals(StatProcessorType.BASIC));
 		Assert.assertTrue(manager.configuration().getConfig("org.javasimon.test.debug").getState().equals(SimonState.DISABLED));
-		Assert.assertTrue(manager.configuration().getConfig("org.javasimon.test.debug.no-stats").getStatProcessorType().equals(StatProcessorType.NULL));
 	}
 
 	@Test

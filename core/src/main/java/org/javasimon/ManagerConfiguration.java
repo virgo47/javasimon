@@ -223,9 +223,8 @@ public final class ManagerConfiguration {
 	private void processSimon(XMLStreamReader xr) throws XMLStreamException {
 		Map<String, String> attrs = processStartElement(xr, "simon", "pattern");
 		String pattern = attrs.get("pattern");
-		StatProcessorType statProcessorType = attrs.get("stats") != null ? StatProcessorType.valueOf(toEnum(attrs.get("stats"))) : null;
 		SimonState state = attrs.get("state") != null ? SimonState.valueOf(toEnum(attrs.get("state"))) : null;
-		configs.put(new SimonPattern(pattern), new SimonConfiguration(statProcessorType, state));
+		configs.put(new SimonPattern(pattern), new SimonConfiguration(state));
 		processEndElement(xr, "simon");
 	}
 
@@ -236,7 +235,6 @@ public final class ManagerConfiguration {
 	 * @return configuration for that particular Simon
 	 */
 	SimonConfiguration getConfig(String name) {
-		StatProcessorType spType = null;
 		SimonState state = null;
 
 		for (SimonPattern pattern : configs.keySet()) {
@@ -245,12 +243,9 @@ public final class ManagerConfiguration {
 				if (config.getState() != null) {
 					state = config.getState();
 				}
-				if (config.getStatProcessorType() != null) {
-					spType = config.getStatProcessorType();
-				}
 			}
 		}
-		return new SimonConfiguration(spType, state);
+		return new SimonConfiguration(state);
 	}
 
 	private String toEnum(String enumVal) {

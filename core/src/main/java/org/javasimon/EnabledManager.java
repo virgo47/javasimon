@@ -143,9 +143,6 @@ public final class EnabledManager implements Manager {
 			if (config.getState() != null) {
 				simon.setState(config.getState(), false);
 			}
-			if (config.getStatProcessorType() != null) {
-				simon.setStatProcessor(config.getStatProcessorType().create());
-			}
 		}
 		return simon;
 	}

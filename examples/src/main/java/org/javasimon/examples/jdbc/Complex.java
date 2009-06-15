@@ -1,10 +1,9 @@
 package org.javasimon.examples.jdbc;
 
 import org.javasimon.utils.SimonUtils;
-import org.javasimon.SimonManager;
-import org.javasimon.Simon;
+import org.javasimon.*;
 
-import java.util.Random;
+import java.util.*;
 import java.sql.*;
 
 /**
@@ -68,8 +67,68 @@ public final class Complex extends Simple {
 		System.out.println("Simon monitor hierarchy:\n" + SimonUtils.simonTreeString(SimonManager.getRootSimon()));
 
 		Simon jdbcSimon = SimonManager.getSimon(org.javasimon.jdbc.Driver.DEFAULT_PREFIX);
-		System.out.println(SimonUtils.printJdbcConnectionInfo(jdbcSimon));
-		System.out.println(SimonUtils.printJdbcStatementInfo(jdbcSimon));
+		System.out.println(printJdbcConnectionInfo(jdbcSimon));
+		System.out.println(printJdbcStatementInfo(jdbcSimon));
+	}
+
+	/**
+	 * Returns summary information about monitored JDBC connections as a human readable string -
+	 * main JDBC Simon has to be provided.
+	 *
+	 * @param jdbcSimon top JDBC Simon (typically prefix of the JDBC proxy driver)
+	 * @return information/stats about JDBC connections
+	 * @see org.javasimon.jdbc.Driver#DEFAULT_PREFIX
+	 */
+	private String printJdbcConnectionInfo(Simon jdbcSimon) {
+		if (SimonManager.getSimon(jdbcSimon.getName() + ".conn") != null) {
+			StopwatchSample sws = (StopwatchSample) SimonManager.getStopwatch(jdbcSimon.getName() + ".conn").sample();
+			Counter cc = SimonManager.getCounter(jdbcSimon.getName() + ".conn.commits");
+			Counter cr = SimonManager.getCounter(jdbcSimon.getName() + ".conn.rollbacks");
+			StringBuilder sb = new StringBuilder(512).append("Connection info:").append('\n')
+				.append("  act: ").append(sws.getActive()).append('\n')
+				.append("  max act: ").append(sws.getMaxActive()).append('\n')
+				.append("  max act ts: ").append(new java.util.Date(sws.getMaxActiveTimestamp())).append('\n')
+				.append("  opn: ").append(sws.getCounter()).append('\n')
+				.append("  cls: ").append(sws.getCounter() - sws.getActive()).append('\n')
+				.append("  min: ").append(SimonUtils.presentNanoTime(sws.getMin()))
+				.append(", avg: ").append(SimonUtils.presentNanoTime(sws.getTotal() / sws.getCounter()))
+				.append(", max: ").append(SimonUtils.presentNanoTime(sws.getMax())).append('\n')
+				.append("  max ts: ").append(new java.util.Date(sws.getMaxTimestamp())).append('\n')
+				.append("  comm: ").append(cc != null ? ((CounterSample) cc.sample()).getCounter() : 0).append('\n')
+				.append("  roll: ").append(cr != null ? ((CounterSample) cr.sample()).getCounter() : 0)
+				.append('\n');
+
+			return sb.toString();
+		}
+		return null;
+	}
+
+	/**
+	 * Returns summary information about monitored JDBC statements as a human readable string -
+	 * main JDBC Simon has to be provided.
+	 *
+	 * @param jdbcSimon top JDBC Simon (typically prefix of the JDBC proxy driver)
+	 * @return information/stats about JDBC statements
+	 * @see org.javasimon.jdbc.Driver#DEFAULT_PREFIX
+	 */
+	private String printJdbcStatementInfo(Simon jdbcSimon) {
+		if (SimonManager.getSimon(jdbcSimon.getName() + ".stmt") != null) {
+			StopwatchSample sws = (StopwatchSample) SimonManager.getStopwatch(jdbcSimon.getName() + ".stmt").sample();
+			StringBuilder sb = new StringBuilder(512).append("Statement info:").append('\n')
+				.append("  act: ").append(sws.getActive()).append('\n')
+				.append("  max act: ").append(sws.getMaxActive()).append('\n')
+				.append("  max act ts: ").append(new java.util.Date(sws.getMaxActiveTimestamp())).append('\n')
+				.append("  opn: ").append(sws.getCounter()).append('\n')
+				.append("  cls: ").append(sws.getCounter() - sws.getActive()).append('\n')
+				.append("  min: ").append(SimonUtils.presentNanoTime(sws.getMin()))
+				.append(", avg: ").append(SimonUtils.presentNanoTime(sws.getTotal() / sws.getCounter()))
+				.append(", max: ").append(SimonUtils.presentNanoTime(sws.getMax())).append('\n')
+				.append("  max ts: ").append(new java.util.Date(sws.getMaxTimestamp()))
+				.append('\n');
+
+			return sb.toString();
+		}
+		return null;
 	}
 
 	/**

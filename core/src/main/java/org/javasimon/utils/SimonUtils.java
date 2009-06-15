@@ -31,12 +31,12 @@ import java.util.regex.Pattern;
  * System.out.println(SimonUtils.simonTreeString(SimonManager.getRootSimon()));</pre>
  * And the output is:
  * <pre>
- * (+): Unknown Simon: [ ENABLED/stats=NULL]
- * com(+): Unknown Simon: [com INHERIT/stats=NULL]
- * my(+): Unknown Simon: [com.my INHERIT/stats=NULL]
- * counter(-): Simon Counter: [com.my.counter DISABLED/stats=NULL] counter=0, max=undef, min=undef
- * other(+): Unknown Simon: [com.my.other INHERIT/stats=NULL]
- * stopwatch(+): Simon Stopwatch: [com.my.other.stopwatch INHERIT/stats=NULL] total 1.51 ms, counter 1, max 1.51 ms, min 1.51 ms</pre>
+ * (+): Unknown Simon: [ ENABLED]
+ * com(+): Unknown Simon: [com INHERIT]
+ * my(+): Unknown Simon: [com.my INHERIT]
+ * counter(-): Simon Counter: [com.my.counter DISABLED] counter=0, max=undef, min=undef
+ * other(+): Unknown Simon: [com.my.other INHERIT]
+ * stopwatch(+): Simon Stopwatch: [com.my.other.stopwatch INHERIT] total 1.51 ms, counter 1, max 1.51 ms, min 1.51 ms</pre>
  * Notice +/- signs in parenthesis that displays effective Simon state (enabled/disabled), further
  * details are printed via each Simon's {@code toString} method.
  * <p/>
@@ -251,66 +251,6 @@ public final class SimonUtils {
 			nameBuilder.append(suffix);
 		}
 		return nameBuilder.toString();
-	}
-
-	/**
-	 * Returns summary information about monitored JDBC connections as a human readable string -
-	 * main JDBC Simon has to be provided.
-	 *
-	 * @param jdbcSimon top JDBC Simon (typically prefix of the JDBC proxy driver)
-	 * @return information/stats about JDBC connections
-	 * @see org.javasimon.jdbc.Driver#DEFAULT_PREFIX
-	 */
-	public static String printJdbcConnectionInfo(Simon jdbcSimon) {
-		if (SimonManager.getSimon(jdbcSimon.getName() + ".conn") != null) {
-			StopwatchSample sws = (StopwatchSample) SimonManager.getStopwatch(jdbcSimon.getName() + ".conn").sample();
-			Counter cc = SimonManager.getCounter(jdbcSimon.getName() + ".conn.commits");
-			Counter cr = SimonManager.getCounter(jdbcSimon.getName() + ".conn.rollbacks");
-			StringBuilder sb = new StringBuilder(512).append("Connection info:").append('\n')
-				.append("  act: ").append(sws.getActive()).append('\n')
-				.append("  max act: ").append(sws.getMaxActive()).append('\n')
-				.append("  max act ts: ").append(new Date(sws.getMaxActiveTimestamp())).append('\n')
-				.append("  opn: ").append(sws.getCounter()).append('\n')
-				.append("  cls: ").append(sws.getCounter() - sws.getActive()).append('\n')
-				.append("  min: ").append(presentNanoTime(sws.getMin()))
-				.append(", avg: ").append(presentNanoTime(sws.getTotal() / sws.getCounter()))
-				.append(", max: ").append(presentNanoTime(sws.getMax())).append('\n')
-				.append("  max ts: ").append(new Date(sws.getMaxTimestamp())).append('\n')
-				.append("  comm: ").append(cc != null ? ((CounterSample) cc.sample()).getCounter() : 0).append('\n')
-				.append("  roll: ").append(cr != null ? ((CounterSample) cr.sample()).getCounter() : 0)
-				.append('\n');
-
-			return sb.toString();
-		}
-		return null;
-	}
-
-	/**
-	 * Returns summary information about monitored JDBC statements as a human readable string -
-	 * main JDBC Simon has to be provided.
-	 *
-	 * @param jdbcSimon top JDBC Simon (typically prefix of the JDBC proxy driver)
-	 * @return information/stats about JDBC statements
-	 * @see org.javasimon.jdbc.Driver#DEFAULT_PREFIX
-	 */
-	public static String printJdbcStatementInfo(Simon jdbcSimon) {
-		if (SimonManager.getSimon(jdbcSimon.getName() + ".stmt") != null) {
-			StopwatchSample sws = (StopwatchSample) SimonManager.getStopwatch(jdbcSimon.getName() + ".stmt").sample();
-			StringBuilder sb = new StringBuilder(512).append("Statement info:").append('\n')
-				.append("  act: ").append(sws.getActive()).append('\n')
-				.append("  max act: ").append(sws.getMaxActive()).append('\n')
-				.append("  max act ts: ").append(new Date(sws.getMaxActiveTimestamp())).append('\n')
-				.append("  opn: ").append(sws.getCounter()).append('\n')
-				.append("  cls: ").append(sws.getCounter() - sws.getActive()).append('\n')
-				.append("  min: ").append(presentNanoTime(sws.getMin()))
-				.append(", avg: ").append(presentNanoTime(sws.getTotal() / sws.getCounter()))
-				.append(", max: ").append(presentNanoTime(sws.getMax())).append('\n')
-				.append("  max ts: ").append(new Date(sws.getMaxTimestamp()))
-				.append('\n');
-
-			return sb.toString();
-		}
-		return null;
 	}
 
 	/**

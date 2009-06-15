@@ -34,6 +34,9 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 
 	private long currentNanos;
 
+	private double mean; // used to calculate statistics
+	private double mean2; // used to calculate statistics
+
 	/**
 	 * Construts Stopwatch Simon with a specified name and for the specified manager.
 	 *
@@ -110,8 +113,9 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		// active is not reset, because active Splits do not know about this reset
 		maxActive = active;
 		maxActiveTimestamp = 0;
+		mean = 0;
+		mean2 = 0;
 		saveResetTimestamp();
-		getStatProcessor().reset();
 		manager.callback().reset(this);
 		return this;
 	}
@@ -128,10 +132,38 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 			min = split;
 			minTimestamp = getLastUsage();
 		}
-		if (getStatProcessor() != null) {
-			getStatProcessor().process(split);
-		}
+		// statistics processing
+		double delta = split - mean;
+		mean = ((double) total) / counter;
+		mean2 += delta * (split - mean);
+
 		return split;
+	}
+
+	private synchronized double getMean() {
+		return mean;
+	}
+
+	private synchronized double getVarianceN() {
+		if (counter == 0) {
+			return 0;
+		}
+		return mean2 / counter;
+	}
+
+	private synchronized double getVariance() {
+		if (counter == 0) {
+			return 0;
+		}
+		long countMinusOne = counter - 1;
+		if (counter < 2) {
+			countMinusOne = 1;
+		}
+		return mean2 / countMinusOne;
+	}
+
+	private synchronized double getStandardDeviation() {
+		return Math.sqrt(getVarianceN());
 	}
 
 	/**
@@ -207,15 +239,6 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
-	public void setStatProcessor(StatProcessor statProcessor) {
-		super.setStatProcessor(statProcessor);
-		statProcessor.setInterpreter(StatProcessor.NanoInterpreter.INSTANCE);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
 	public synchronized StopwatchSample sampleAndReset() {
 		StopwatchSample sample = sample();
 		reset();
@@ -236,7 +259,10 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		sample.setActive(active);
 		sample.setMaxActive(maxActive);
 		sample.setMaxActiveTimestamp(maxActiveTimestamp);
-		sample.setFromStatProcessor(getStatProcessor());
+		sample.setMean(getMean());
+		sample.setVariance(getVariance());
+		sample.setVarianceN(getVarianceN());
+		sample.setStandardDeviation(getStandardDeviation());
 		sample.setLast(getLast());
 		sample.setNote(getNote());
 		return sample;

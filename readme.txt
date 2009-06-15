@@ -23,7 +23,7 @@ Check this readme online for updates: http://code.google.com/p/javasimon/wiki/Re
 
 == Usage ==
 
-There are two types of Simons available: `Counter` and `Stopwatch`. Counter tracks single long value, its maximum and minimum. Stopwatch measures time and tracks number of measurements (splits), total time, split minimum and maximum, etc. If you think it's not enough you can get more statistic information by adding `StatProcessor` to your Simon.
+There are two types of Simons available: `Counter` and `Stopwatch`. Counter tracks single long value, its maximum and minimum. Stopwatch measures time and tracks number of measurements (splits), total time, split minimum and maximum, etc.
 
 === Simon Manager ===
 
