@@ -103,7 +103,7 @@ public final class EnabledManager implements Manager {
 		}
 		if (simon == null) {
 			if (name != null && !SimonUtils.checkName(name)) {
-				throw new SimonException("Simon name must match following pattern: '" + SimonUtils.NAME_PATTERN.pattern() + '\'');
+				throw new SimonException("Simon name must match following pattern: '" + SimonUtils.NAME_PATTERN.pattern() + "', used name: " + name);
 			}
 			simon = newSimon(name, simonClass);
 			callback.simonCreated(simon);

@@ -1,5 +1,7 @@
 package org.javasimon;
 
+import org.javasimon.utils.SimonUtils;
+
 /**
  * CounterSample.
  *
@@ -153,10 +155,10 @@ public class CounterSample extends Sample {
 		final StringBuilder sb = new StringBuilder();
 		sb.append("CounterSample");
 		sb.append("{counter=").append(counter);
-		sb.append(", min=").append(min);
-		sb.append(", max=").append(max);
-		sb.append(", minTimestamp=").append(minTimestamp);
-		sb.append(", maxTimestamp=").append(maxTimestamp);
+		sb.append(", min=").append(SimonUtils.presentMinMaxCount(min));
+		sb.append(", max=").append(SimonUtils.presentMinMaxCount(max));
+		sb.append(", minTimestamp=").append(SimonUtils.presentTimestamp(minTimestamp));
+		sb.append(", maxTimestamp=").append(SimonUtils.presentTimestamp(maxTimestamp));
 		sb.append(", incrementSum=").append(incrementSum);
 		sb.append(", decrementSum=").append(decrementSum);
 		sb.append(", note=").append(getNote());

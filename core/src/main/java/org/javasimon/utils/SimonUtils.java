@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
  * {@code toString} outputs. All nanosecond values are converted into few valid digits with
  * proper unit (ns, us, ms, s) - this is done via method {@link #presentNanoTime(long)}.
  * Max/min counter values are checked for undefined state (max/min long value is converted
- * to string "undef") - via method {@link #presentMinMax(long)}.
+ * to string "undef") - via method {@link #presentMinMaxCount(long)}.
  * <p/>
  * <h3>Simon tree operations</h3>
  * Method for recursive reset of the {@link org.javasimon.Simon} and all its children is provided -
@@ -59,9 +59,11 @@ public final class SimonUtils {
 	/**
 	 * Regex pattern for Simon names.
 	 */
-	public static final Pattern NAME_PATTERN = Pattern.compile("[-A-Za-z0-9.,@$%()]+");
+	public static final Pattern NAME_PATTERN = Pattern.compile("[-A-Za-z0-9.,@$%()<>]+");
 
 	private static final int UNIT_PREFIX_FACTOR = 1000;
+
+	private static final SimpleDateFormat TIMESTAMP_FORMAT = new SimpleDateFormat("yyMMdd-HHmmss.SSS");
 
 	private static final DecimalFormatSymbols DECIMAL_FORMAT_SYMBOLS = new DecimalFormatSymbols(Locale.US);
 
@@ -123,20 +125,6 @@ public final class SimonUtils {
 		return formatTime(time, " s");
 	}
 
-	/**
-	 * Returns min/max counter values in human readable form - if the value is max or min long value
-	 * it is considered unused and string "undef" is returned.
-	 *
-	 * @param minmax counter value
-	 * @return counter value or "undef" if counter contains {@code Long.MIN_VALUE} or {@code Long.MAX_VALUE}
-	 */
-	public static String presentMinMax(long minmax) {
-		if (minmax == Long.MAX_VALUE || minmax == Long.MIN_VALUE) {
-			return UNDEF_STRING;
-		}
-		return String.valueOf(minmax);
-	}
-
 	private static String formatTime(double time, String unit) {
 		if (time < TEN) {
 			return UNDER_TEN_FORMAT.format(time) + unit;
@@ -145,6 +133,44 @@ public final class SimonUtils {
 			return UNDER_HUNDRED_FORMAT.format(time) + unit;
 		}
 		return DEFAULT_FORMAT.format(time) + unit;
+	}
+
+	/**
+	 * Returns timestamp in human readable form, yet condensed form "yyMMdd-HHmmss.SSS".
+	 *
+	 * @param timestamp timestamp in millis
+	 * @return timestamp as a human readable string
+	 */
+	public static String presentTimestamp(long timestamp) {
+		return TIMESTAMP_FORMAT.format(new Date(timestamp));
+	}
+
+	/**
+	 * Returns min/max counter values in human readable form - if the value is max or min long value
+	 * it is considered unused and string "undef" is returned.
+	 *
+	 * @param minmax counter extreme value
+	 * @return counter value or "undef" if counter contains {@code Long.MIN_VALUE} or {@code Long.MAX_VALUE}
+	 */
+	public static String presentMinMaxCount(long minmax) {
+		if (minmax == Long.MAX_VALUE || minmax == Long.MIN_VALUE) {
+			return UNDEF_STRING;
+		}
+		return String.valueOf(minmax);
+	}
+
+	/**
+	 * Returns min/max split values in human readable form - if the value is max or min long value
+	 * it is considered unused and string "undef" is returned.
+	 *
+	 * @param minmax split extreme value
+	 * @return extreme value or "undef" if extreme contains {@code Long.MIN_VALUE} or {@code Long.MAX_VALUE}
+	 */
+	public static String presentMinMaxSplit(long minmax) {
+		if (minmax == Long.MAX_VALUE || minmax == Long.MIN_VALUE) {
+			return UNDEF_STRING;
+		}
+		return presentNanoTime(minmax);
 	}
 
 	/**

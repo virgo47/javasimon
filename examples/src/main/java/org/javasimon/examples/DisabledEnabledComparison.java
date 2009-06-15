@@ -12,7 +12,7 @@ import org.javasimon.Split;
  * @created Aug 5, 2008
  */
 public final class DisabledEnabledComparison {
-	private static final int LOOP = 10000000;
+	private static final int LOOP = 1000000;
 
 	private DisabledEnabledComparison() {
 	}

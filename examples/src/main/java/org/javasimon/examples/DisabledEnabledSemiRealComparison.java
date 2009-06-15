@@ -14,8 +14,8 @@ import org.javasimon.Split;
 public final class DisabledEnabledSemiRealComparison {
 	private static final String TEST1_SIMON_NAME = SimonUtils.generateName("-stopwatch", true);
 
-	private static final int OUTER_LOOP = 100;
-	private static final int INNER_LOOP = 100;
+	private static final int OUTER_LOOP = 50;
+	private static final int INNER_LOOP = 50;
 	private static final int ROUNDS = 10;
 
 	// Random strings for test method to concatenate
