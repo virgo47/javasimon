@@ -13,13 +13,16 @@ Check this readme online for updates: http://code.google.com/p/javasimon/wiki/Re
   * Compiled Simon jars depend on:
     * JDK 1.5 or higher;
     * StAX API (`stax-api-1.0.1.jar` and `sjsxp.jar`) - this is NOT needed with JDK 1.6 and higher;
-    * Java Simon JMX jar needs JDK 1.6 or higher (and is also compiled with JDK 1.6);
+    * StAX API (`stax-api-1.0.1.jar` and `sjsxp.jar`) - this is NOT needed with JDK 1.6 and higher;
+    * Java Simon JMX jar is compiled with and needs JDK 1.6 or higher (depends on JMX 1.4 that is not in JDK 1.5);
     * Java Simon Spring jar depends on `aopalliance.jar`, `commons-logging-1.1.1.jar`, `spring-aop.jar` and `spring-core.jar` - it is expected that these dependencies will be at least partially satisfied in a typical Spring environment.
   * Use "ant" to build the Simon:
-    * You need both JDK 1.5 and JDK 1.6 to build Java Simon properly, set paths to both JDKs in the `build.properties` (like `JAVA_HOME` variable);
+    * You need both JDK 1.5 and JDK 1.6 to build Java Simon properly, set paths to both JDKs in the `build.properties` (the same way like `JAVA_HOME` variable);
+    * ant uses included `lib` directory;
     * newly built jars are placed into `build` directory;
     * new ZIP archive is placed into the main project directory.
-  * Some examples requires other libraries (h2, JAMon, ...). If you checkout the project, you have to download them and put them to classpath by yourself. If you download our ZIP, they are included.
+  * For Maven build, you have to set the same properties like for ant. Included libs are not utilized, standard Maven 2 dependency mechanism is used.
+  * Few examples are not built by default (in package `other`). You may need other other libraries (JAMon) to compile and run them.
 
 == Usage ==
 
@@ -66,8 +69,11 @@ Project is hosted on Google Code as "javasimon":
   * Javadoc API: http://javasimon.googlecode.com/svn/javadoc/api-2.0/index.html
   * Source browser: http://code.google.com/p/javasimon/source/browse/
   * Issue tracker: http://code.google.com/p/javasimon/issues/list
+  * Ohloh page: http://www.ohloh.net/p/javasimon
 
 Project uses following libraries:
+  * Eval: https://eval.dev.java.net/ (core, not needed during runtime IF no filter callbacks are used)
+    * `eval-0.4.jar`
   * TestNG: http://testng.org/ (test)
     * `testng-5.8-jdk15.jar`
   * Sun's StAX implementation: https://sjsxp.dev.java.net/ (not needed with JDK 1.6, but required for rebuild)
