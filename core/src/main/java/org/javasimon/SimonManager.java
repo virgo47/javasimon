@@ -42,7 +42,7 @@ public final class SimonManager {
 	/**
 	 * Initilizes the configuration facility for the default Simon Manager. Fetches exception
 	 * if configuration resource or file is not found. This method does NOT clear the manager
-	 * itself, only the configuration is reloaded.
+	 * itself, only the configuration is reloaded. Method also preserves Callback setup.
 	 */
 	public static void init() {
 		CallbackSkeleton tempraryCallback = new CallbackSkeleton();
