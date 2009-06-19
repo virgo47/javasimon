@@ -144,8 +144,10 @@
 
 	<target name="test" depends="compile" description="Runs tests">
 		<mkdir dir="build/test"/>
-		<javac srcdir="core/src/test/java" destdir="build/test" debug="${javac.debug}" deprecation="${javac.deprecation}" classpathref="classpath"/>
-		<javac srcdir="jdbc3/src/test/java" destdir="build/test" debug="${javac.debug}" deprecation="${javac.deprecation}" classpathref="classpath"/>
+		<javac srcdir="core/src/test/java" destdir="build/test" debug="${javac.debug}" deprecation="${javac.deprecation}"
+			classpathref="classpath" fork="true" executable="${jdk6.home}/bin/javac"/>
+		<javac srcdir="jdbc3/src/test/java" destdir="build/test" debug="${javac.debug}" deprecation="${javac.deprecation}"
+			classpathref="classpath" fork="true" executable="${jdk6.home}/bin/javac"/>
 		<copy todir="build/test">
 			<fileset dir="core/src/test/java" includes="**/*.xml"/>
 			<fileset dir="jdbc3/src/test/java" includes="**/*.xml"/>
