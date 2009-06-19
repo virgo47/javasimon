@@ -13,7 +13,6 @@ Check this readme online for updates: http://code.google.com/p/javasimon/wiki/Re
   * Compiled Simon jars depend on:
     * JDK 1.5 or higher;
     * StAX API (`stax-api-1.0.1.jar` and `sjsxp.jar`) - this is NOT needed with JDK 1.6 and higher;
-    * StAX API (`stax-api-1.0.1.jar` and `sjsxp.jar`) - this is NOT needed with JDK 1.6 and higher;
     * Java Simon JMX jar is compiled with and needs JDK 1.6 or higher (depends on JMX 1.4 that is not in JDK 1.5);
     * Java Simon Spring jar depends on `aopalliance.jar`, `commons-logging-1.1.1.jar`, `spring-aop.jar` and `spring-core.jar` - it is expected that these dependencies will be at least partially satisfied in a typical Spring environment.
   * Use "ant" to build the Simon:
