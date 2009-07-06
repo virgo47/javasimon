@@ -59,7 +59,7 @@ public final class SimonUtils {
 	/**
 	 * Regex pattern for Simon names.
 	 */
-	public static final Pattern NAME_PATTERN = Pattern.compile("[-A-Za-z0-9.,@$%()<>]+");
+	public static final Pattern NAME_PATTERN = Pattern.compile("[-_\\[\\]A-Za-z0-9.,@$%()<>]+");
 
 	private static final int UNIT_PREFIX_FACTOR = 1000;
 
