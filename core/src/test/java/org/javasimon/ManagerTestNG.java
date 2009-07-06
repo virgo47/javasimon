@@ -162,6 +162,12 @@ public final class ManagerTestNG {
 	}
 
 	@Test
+	public void testValidNames() {
+		SimonManager.getStopwatch("A-Za-z0-9.,@$%()<>_-");
+		SimonManager.getStopwatch("bubu[1]");
+	}
+
+	@Test
 	public void simonTreeOnDisabledManager() {
 		SimonManager.disable();
 		Assert.assertNull(SimonUtils.simonTreeString(SimonManager.getRootSimon()));
