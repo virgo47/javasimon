@@ -5,6 +5,8 @@ import org.javasimon.Sample;
 import java.util.List;
 
 /**
+ * Interface with common methods for JMX beans for a signle Simon that corresponds
+ * to AbstractSimon in the core package.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Mar 6, 2009

@@ -111,6 +111,31 @@ public interface SimonMXBean {
 	StopwatchSample getStopwatchSample(String name);
 
 	/**
+	 * Retrieves sample data object for a particular Counter and resets it.
+	 *
+	 * @param name name of the Simon
+	 * @return sample object or null if Simon with entered name doesn't exist
+	 * @see org.javasimon.CounterSample
+	 */
+	CounterSample getCounterSampleAndReset(String name);
+
+	/**
+	 * Retrieves sample data object for a particular Stopwatch and resets it.
+	 *
+	 * @param name name of the Simon
+	 * @return sample object or null if Simon with entered name doesn't exist
+	 * @see org.javasimon.StopwatchSample
+	 */
+	StopwatchSample getStopwatchSampleAndReset(String name);
+
+	/**
+	 * Resets the particular Simon by its name.
+	 *
+	 * @param name name of the Simon
+	 */
+	void reset(String name);
+
+	/**
 	 * Prints multi-line string containing Simon tree starting with the specified Simon to standard output.
 	 *
 	 * @see org.javasimon.utils.SimonUtils#simonTreeString(org.javasimon.Simon)

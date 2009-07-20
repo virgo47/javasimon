@@ -189,12 +189,12 @@ public final class CompositeFilterCallback implements FilterCallback {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void addRule(Rule.Type type, String ruleText, String pattern, Event... events) {
+	public void addRule(Rule.Type type, String condition, String pattern, Event... events) {
 		SimonPattern simonPattern = null;
 		if (pattern != null) {
 			simonPattern = new SimonPattern(pattern);
 		}
-		Rule rule = new Rule(type, ruleText, simonPattern);
+		Rule rule = new Rule(type, condition, simonPattern);
 		for (Event event : events) {
 			if (event != null) {
 				rules.get(event).add(rule);

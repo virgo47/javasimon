@@ -1,6 +1,9 @@
 package org.javasimon.jmx;
 
 /**
+ * Interface for MX Bean representing a particular {@link org.javasimon.Counter}.
+ * It is not created by default when JMX is activated - it must be created explicitely.
+ * {@link JmxRegisterCallback} can be used to automate this.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Mar 6, 2009
