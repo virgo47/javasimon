@@ -7,7 +7,8 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- * SimonSuperMXBeanImpl.
+ * Common functionality for JMX bean for a signle Simon that corresponds to AbstractSimon
+ * in the core package.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Mar 6, 2009

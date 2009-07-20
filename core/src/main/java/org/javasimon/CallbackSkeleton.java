@@ -128,7 +128,9 @@ public class CallbackSkeleton implements Callback {
 	 * {@inheritDoc}
 	 */
 	public void warning(String warning, Exception cause) {
-		System.err.println("Simon warning: " + warning);
+		if (warning != null) {
+			System.err.println("Simon warning: " + warning);
+		}
 		if (cause != null) {
 			cause.printStackTrace();
 		}

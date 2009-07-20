@@ -86,6 +86,8 @@ public final class ManagerConfiguration {
 			}
 		} catch (XMLStreamException e) {
 			manager.callback().warning(null, e);
+		} catch (SimonException e) {
+			manager.callback().warning(e.getMessage(), e);
 		}
 	}
 

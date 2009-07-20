@@ -5,19 +5,22 @@ import org.javasimon.*;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
 import javax.management.JMException;
-import java.util.HashSet;
 import java.util.Set;
+import java.util.Iterator;
+import java.util.concurrent.CopyOnWriteArraySet;
 import java.lang.management.ManagementFactory;
 
 /**
- * Callback that registers MXBeans for Simons after their creation.
+ * Callback that registers MXBeans for Simons after their creation. It is
+ * advisable to register the callback as soon as possible otherwise MX Beans
+ * for some Simons may not be created.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Mar 6, 2009
  */
 public final class JmxRegisterCallback extends CallbackSkeleton {
 	private MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
-	private Set<String> registeredNames = new HashSet<String>();
+	private Set<String> registeredNames = new CopyOnWriteArraySet<String>();
 
 	/**
 	 * After Simon is created respective MX bean is registered for it according to
@@ -46,7 +49,15 @@ public final class JmxRegisterCallback extends CallbackSkeleton {
 	 */
 	@Override
 	public void simonDestroyed(Simon simon) {
-		unregister(simon.getName());
+		String name = simon.getName();
+		try {
+			ObjectName objectName = new ObjectName(name);
+			mBeanServer.unregisterMBean(objectName);
+			registeredNames.remove(name);
+			message("Unregistered Simon with the name: " + objectName);
+		} catch (JMException e) {
+			warning("JMX unregistration failed for: " + name, e);
+		}
 	}
 
 	/**
@@ -54,8 +65,19 @@ public final class JmxRegisterCallback extends CallbackSkeleton {
 	 */
 	@Override
 	public void clear() {
-		for (String name : registeredNames) {
-			unregister(name);
+		Iterator<String> namesIter = registeredNames.iterator();
+		while (namesIter.hasNext()) {
+			String name = namesIter.next();
+			try {
+				ObjectName objectName = new ObjectName(name);
+				mBeanServer.unregisterMBean(objectName);
+				// here I have to use iterator.remove() - that's why I can't call common method
+				// for clear() and simonDestroyed(simon)
+				namesIter.remove();
+				message("Unregistered Simon with the name: " + objectName);
+			} catch (JMException e) {
+				warning("JMX unregistration failed for: " + name, e);
+			}
 		}
 	}
 
@@ -73,17 +95,6 @@ public final class JmxRegisterCallback extends CallbackSkeleton {
 		} catch (JMException e) {
 			warning("JMX registration failed for: " + name, e);
 			registeredNames.remove(name);
-		}
-	}
-
-	private void unregister(String name) {
-		try {
-			ObjectName objectName = new ObjectName(name);
-			mBeanServer.unregisterMBean(objectName);
-			registeredNames.remove(name);
-			message("Unregistered Simon with the name: " + objectName);
-		} catch (JMException e) {
-			warning("JMX unregistration failed for: " + name, e);
 		}
 	}
 }

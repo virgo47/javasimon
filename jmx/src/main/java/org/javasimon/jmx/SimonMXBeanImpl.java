@@ -13,13 +13,12 @@ import java.util.Collection;
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
  * @created 15.7.2008 23:19:50
- * @since 2
  * @see Manager
  * @see Simon
  * @see SimonUtils
+ * @since 2
  */
 public class SimonMXBeanImpl implements SimonMXBean {
-
 	private Manager manager;
 
 	/**
@@ -73,7 +72,7 @@ public class SimonMXBeanImpl implements SimonMXBean {
 	public final SimonInfo[] getSimonInfos() {
 		Collection<String> sn = manager.simonNames();
 		SimonInfo[] si = new SimonInfo[sn.size()];
-		int i=0;
+		int i = 0;
 		for (String name : sn) {
 			Simon s = manager.getSimon(name);
 			si[i++] = new SimonInfo(name, s instanceof Stopwatch ? SimonInfo.STOPWATCH :
@@ -116,7 +115,7 @@ public class SimonMXBeanImpl implements SimonMXBean {
 	public final CounterSample getCounterSample(String name) {
 		Simon s = manager.getSimon(name);
 		if (s != null && s instanceof Counter) {
-			return new CounterSample((org.javasimon.CounterSample)s.sample());
+			return new CounterSample((org.javasimon.CounterSample) s.sample());
 		}
 		return null;
 	}
@@ -127,7 +126,29 @@ public class SimonMXBeanImpl implements SimonMXBean {
 	public final StopwatchSample getStopwatchSample(String name) {
 		Simon s = manager.getSimon(name);
 		if (s != null && s instanceof Stopwatch) {
-			return new StopwatchSample((org.javasimon.StopwatchSample)s.sample());
+			return new StopwatchSample((org.javasimon.StopwatchSample) s.sample());
+		}
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final CounterSample getCounterSampleAndReset(String name) {
+		Simon s = manager.getSimon(name);
+		if (s != null && s instanceof Counter) {
+			return new CounterSample((org.javasimon.CounterSample) s.sampleAndReset());
+		}
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final StopwatchSample getStopwatchSampleAndReset(String name) {
+		Simon s = manager.getSimon(name);
+		if (s != null && s instanceof Stopwatch) {
+			return new StopwatchSample((org.javasimon.StopwatchSample) s.sampleAndReset());
 		}
 		return null;
 	}
@@ -137,5 +158,12 @@ public class SimonMXBeanImpl implements SimonMXBean {
 	 */
 	public final void printSimonTree() {
 		System.out.println(SimonUtils.simonTreeString(manager.getRootSimon()));
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void reset(String name) {
+		manager.getSimon(name).reset();
 	}
 }

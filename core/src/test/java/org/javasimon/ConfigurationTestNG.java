@@ -53,7 +53,13 @@ public final class ConfigurationTestNG {
 		Split split = new EnabledManager().getStopwatch(null).start();
 		split.stop();
 		Assert.assertTrue(new FilterCallback.Rule(null, "split > 5", null).checkCondition(split.getStopwatch(), split));
+		Assert.assertTrue(new FilterCallback.Rule(null, "split gt 5", null).checkCondition(split.getStopwatch(), split));
+		Assert.assertTrue(new FilterCallback.Rule(null, "split ge 5", null).checkCondition(split.getStopwatch(), split));
 		Assert.assertFalse(new FilterCallback.Rule(null, "split < 5", null).checkCondition(split.getStopwatch(), split));
+		Assert.assertFalse(new FilterCallback.Rule(null, "split lt 5", null).checkCondition(split.getStopwatch(), split));
+		Assert.assertFalse(new FilterCallback.Rule(null, "split le 5", null).checkCondition(split.getStopwatch(), split));
+		Assert.assertFalse(new FilterCallback.Rule(null, "split eq 5", null).checkCondition(split.getStopwatch(), split));
+		Assert.assertTrue(new FilterCallback.Rule(null, "split ne 5", null).checkCondition(split.getStopwatch(), split));
 		Assert.assertFalse(new FilterCallback.Rule(null, "split < 5 || split > 1000000000000", null).checkCondition(split.getStopwatch(), split));
 		Assert.assertTrue(new FilterCallback.Rule(null, "split > 100 && split < 10000000000", null).checkCondition(split.getStopwatch(), split));
 	}
