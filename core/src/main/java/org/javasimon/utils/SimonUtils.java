@@ -142,6 +142,9 @@ public final class SimonUtils {
 	 * @return timestamp as a human readable string
 	 */
 	public static String presentTimestamp(long timestamp) {
+		if (timestamp == 0) {
+			return UNDEF_STRING;
+		}
 		return TIMESTAMP_FORMAT.format(new Date(timestamp));
 	}
 

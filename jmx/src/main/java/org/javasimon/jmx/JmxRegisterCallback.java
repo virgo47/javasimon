@@ -7,7 +7,7 @@ import javax.management.ObjectName;
 import javax.management.JMException;
 import java.util.Set;
 import java.util.Iterator;
-import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.HashSet;
 import java.lang.management.ManagementFactory;
 
 /**
@@ -20,7 +20,7 @@ import java.lang.management.ManagementFactory;
  */
 public final class JmxRegisterCallback extends CallbackSkeleton {
 	private MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
-	private Set<String> registeredNames = new CopyOnWriteArraySet<String>();
+	private Set<String> registeredNames = new HashSet<String>();
 
 	/**
 	 * After Simon is created respective MX bean is registered for it according to
