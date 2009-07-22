@@ -5,9 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
- * Trieda StoredProcedures.
+ * StoredProcedures for H2.
  *
- * @author <a href="mailto:radovan.sninsky@siemens.com">Radovan Sninsky</a>
+ * @author Radovan Sninsky
  * @version $ Revision $ $ Date $
  * @created 13.1.2009 23:36:48
  * @since 1.0
