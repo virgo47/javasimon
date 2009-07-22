@@ -12,7 +12,7 @@ import org.javasimon.Split;
  * You can experiment with this example, try to put start/stop into the loop and
  * check total time, or whatever.
  *
- * @author <a href="mailto:richard.richter@siemens.sk">Richard "Virgo" Richter</a>
+ * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @version $Revision$ $Date$
  * @created 7.8.2008 13:19:30
  * @since 1.0

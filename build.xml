@@ -148,15 +148,19 @@
 			classpathref="classpath" fork="true" executable="${jdk6.home}/bin/javac"/>
 		<javac srcdir="jdbc3/src/test/java" destdir="build/test" debug="${javac.debug}" deprecation="${javac.deprecation}"
 			classpathref="classpath" fork="true" executable="${jdk6.home}/bin/javac"/>
+		<javac srcdir="jmx/src/test/java" destdir="build/test" debug="${javac.debug}" deprecation="${javac.deprecation}"
+			classpathref="classpath" fork="true" executable="${jdk6.home}/bin/javac"/>
 		<copy todir="build/test">
 			<fileset dir="core/src/test/java" includes="**/*.xml"/>
 			<fileset dir="jdbc3/src/test/java" includes="**/*.xml"/>
+			<fileset dir="jmx/src/test/java" includes="**/*.xml"/>
 		</copy>
 		<testng outputdir="${basedir}/build/testout" haltonfailure="true" verbose="2" classpathref="classpath"
 			jvm="${jdk6.home}/bin/java" >
 			<xmlfileset dir="build/test">
 				<include name="testng-core.xml"/>
 				<include name="testng-jdbc3.xml"/>
+				<include name="testng-jmx.xml"/>
 			</xmlfileset>
 		</testng>
 	</target>

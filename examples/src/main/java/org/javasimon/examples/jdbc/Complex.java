@@ -7,7 +7,7 @@ import java.util.*;
 import java.sql.*;
 
 /**
- * Trieda Complex.
+ * Complicated example.
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
