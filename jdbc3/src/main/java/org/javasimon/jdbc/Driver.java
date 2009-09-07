@@ -61,7 +61,7 @@ import java.io.InputStream;
  * must by derived from {@link org.javasimon.jdbc.logging.SimonFormatter}. For example
  * {@code ...;simon_format=csv} or {@code ...;simon_format=my.package.MyFormmater}
  * </li>
- * </ul>
+ * </ul>                                `
  * <p/>
  * By default, there is no need to load any driver explicitly, because drivers are loaded automatically
  * (since JDK 1.5) if they are in class path and jar have appropriate
@@ -178,27 +178,31 @@ public final class Driver implements java.sql.Driver {
 				driverId = url.substring(JDBC_URL_FIXED_PREFIX_LEN, i - 1);
 			}
 
-			StringTokenizer st = new StringTokenizer(url, ";=");
+			StringTokenizer st = new StringTokenizer(url, ";");
 			while (st.hasMoreTokens()) {
-				String token = st.nextToken().trim();
-				if (token.startsWith("jdbc")) {
-					realUrl = token.replaceFirst(SIMON_JDBC, "jdbc");
-				} else if (token.equalsIgnoreCase(REAL_DRIVER)) {
-					realDriver = st.hasMoreTokens() ? st.nextToken().trim() : null;
-				} else if (token.equalsIgnoreCase(PREFIX)) {
-					prefix = st.hasMoreTokens() ? st.nextToken().trim() : null;
-				} else if (token.equalsIgnoreCase(LOGFILE)) {
-					logfile = st.hasMoreTokens() ? st.nextToken().trim() : null;
-				} else if (token.equalsIgnoreCase(LOGGER)) {
-					logger = st.hasMoreTokens() ? st.nextToken().trim() : null;
-				} else if (token.equalsIgnoreCase(CONSOLE)) {
-					console = st.hasMoreTokens() ? st.nextToken().trim() : null;
-				} else if (token.equalsIgnoreCase(FORMAT)) {
-					format = st.hasMoreTokens() ? st.nextToken().trim() : null;
-				} else {
-					realUrl += ";" + token + (st.hasMoreTokens() ? st.nextToken().trim() : "");
-				}
-			}
+				String tokenPairStr = st.nextToken().trim();
+				String[] tokenPair = tokenPairStr.split("=", 2);
+				String token = tokenPair[0];
+				String tokenValue = tokenPair.length == 2 ? tokenPair[1].trim() : null;
+
+				if (tokenPairStr.startsWith("jdbc")) {
+					realUrl = tokenPairStr.replaceFirst(SIMON_JDBC, "jdbc");
+				 } else if (token.equalsIgnoreCase(REAL_DRIVER)) {
+					realDriver = tokenValue;
+				 } else if (token.equalsIgnoreCase(PREFIX)) {
+					prefix = tokenValue;
+				 } else if (token.equalsIgnoreCase(LOGFILE)) {
+					logfile = tokenValue;
+				 } else if (token.equalsIgnoreCase(LOGGER)) {
+					logger = tokenValue;
+				 } else if (token.equalsIgnoreCase(CONSOLE)) {
+					console = tokenValue;
+				 } else if (token.equalsIgnoreCase(FORMAT)) {
+					format = tokenValue;
+				 } else {
+					realUrl += ";" + tokenPairStr;
+				 }
+			 }
 		}
 
 		/**

@@ -8,6 +8,7 @@
 		</groups>
 		<classes>
 			<class name="org.javasimon.jdbc.SqlNormalizerTestNG"/>
+			<class name="org.javasimon.jdbc.UrlTestNG"/>
 		</classes>
 	</test>
 </suite>
