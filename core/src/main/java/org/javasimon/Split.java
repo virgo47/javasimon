@@ -71,6 +71,9 @@ public final class Split {
 	 */
 	@Override
 	public String toString() {
+		if (stopwatch == null) {
+			return "Split created from disabled Stopwatch";
+		}
 		if (total == 0) {
 			return "Running split for Stopwatch '" + stopwatch.getName() + "': " + SimonUtils.presentNanoTime(runningFor());
 		}

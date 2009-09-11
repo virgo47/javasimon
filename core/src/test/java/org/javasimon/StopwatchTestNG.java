@@ -110,4 +110,13 @@ public final class StopwatchTestNG {
 		Assert.assertEquals(stopwatch.getTotal(), total);
 		Assert.assertEquals(stopwatch.getCounter(), counter);
 	}
+
+	@Test
+	public void issue10NPEInSplitToString() {
+		Stopwatch stopwatch = SimonManager.getStopwatch(STOPWATCH_NAME);
+		SimonManager.getStopwatch("org").setState(SimonState.DISABLED, true);
+		Split split = stopwatch.start();
+		split.stop();
+		split.toString();
+	}
 }
