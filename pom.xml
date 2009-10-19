@@ -5,7 +5,7 @@
 	<groupId>org.javasimon</groupId>
 	<artifactId>javasimon-parent</artifactId>
 	<packaging>pom</packaging>
-	<version>2.1</version>
+	<version>2.1.1</version>
 	<name>javasimon</name>
 
 	<modules>
@@ -17,7 +17,7 @@
 	</modules>
 
 	<properties>
-		<javasimon.version>2.1</javasimon.version>
+		<javasimon.version>2.1.1</javasimon.version>
 	</properties>
 
 	<scm>

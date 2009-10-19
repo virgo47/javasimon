@@ -2,7 +2,7 @@
 <project name="Java Simon Library" default="dist" basedir=".">
 	<property file="build.properties"/>
 
-	<property name="version" value="2.1"/>
+	<property name="version" value="2.1.1"/>
 	<property name="javac.debug" value="true"/>
 	<property name="javac.deprecation" value="false"/>
 
