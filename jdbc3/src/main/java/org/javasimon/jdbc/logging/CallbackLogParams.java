@@ -76,4 +76,11 @@ final class CallbackLogParams {
 	public String getNote() {
 		return note;
 	}
+
+	@Override
+	public String toString() {
+		return "simon='" + fullName + '\'' +
+			", split=" + split +
+			", note='" + note + '\'';
+	}
 }
