@@ -221,7 +221,7 @@ public final class LoggingCallback extends CallbackSkeleton {
 		if (fullName != null && fullName.startsWith(prefix)) {
 			String localName = SimonUtils.localName(fullName);
 			if (localName.equals("conn") || localName.equals("stmt")) {
-				logger.log(Level.INFO, null, new CallbackLogParams(fullName, Event.STOPWATCH_START, 0, split.getStopwatch().getNote()));
+				logger.log(Level.INFO, "Start: {0}", new CallbackLogParams(fullName, Event.STOPWATCH_START, 0, split.getStopwatch().getNote()));
 			}
 		}
 	}
@@ -235,7 +235,7 @@ public final class LoggingCallback extends CallbackSkeleton {
 	public void stopwatchStop(Split split) {
 		String fullName = split.getStopwatch().getName();
 		if (fullName != null && fullName.startsWith(prefix)) {
-			logger.log(Level.INFO, null, new CallbackLogParams(fullName, Event.STOPWATCH_STOP, split.runningFor(), split.getStopwatch().getNote()));
+			logger.log(Level.INFO, "Stop: {0}", new CallbackLogParams(fullName, Event.STOPWATCH_STOP, split.runningFor(), split.getStopwatch().getNote()));
 		}
 	}
 }
