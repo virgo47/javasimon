@@ -18,7 +18,7 @@ public final class Split {
 	 * Creates a new Split for a Stopwatch with a specific timestamp in nanoseconds.
 	 *
 	 * @param stopwatch owning Stopwatch
-	 * @param start start timestamp in nanoseconds
+	 * @param start     start timestamp in nanoseconds
 	 */
 	Split(StopwatchImpl stopwatch, long start) {
 		this.stopwatch = stopwatch;
@@ -62,6 +62,16 @@ public final class Split {
 			return System.nanoTime() - start;
 		}
 		return 0;
+	}
+
+	/**
+	 * Returns printable form of how long this split was running for.
+	 *
+	 * @return short information about the Split  time as a human readable string
+	 * @since 2.2
+	 */
+	public String presentRunningFor() {
+		return SimonUtils.presentNanoTime(runningFor());
 	}
 
 	/**
