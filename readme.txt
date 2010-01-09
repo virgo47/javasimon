@@ -16,7 +16,7 @@ Check this readme online for updates: http://code.google.com/p/javasimon/wiki/Re
     * JDK 1.5 or higher;
     * StAX API (`stax-api-1.0.1.jar` and `sjsxp.jar`) - this is NOT needed with JDK 1.6 and higher;
     * Java Simon JMX jar is compiled with and needs JDK 1.6 or higher (depends on JMX 1.4 that is not in JDK 1.5);
-    * Java Simon Spring jar depends on `aopalliance.jar`, `commons-logging-1.1.1.jar`, `spring-aop.jar` and `spring-core.jar` - it is expected that these dependencies will be at least partially satisfied in a typical Spring environment.
+    * Java Simon Spring jar depends on `aopalliance.jar`, `commons-logging-1.1.1.jar`, `org.springframework.aop-3.0.0.RELEASE.jar` and `org.springframework.core-3.0.0.RELEASE.jar` - it is expected that these dependencies will be at least partially satisfied in a typical Spring environment.
   * Use "ant" to build the Simon:
     * You need both JDK 1.5 and JDK 1.6 to build Java Simon properly, set paths to both JDKs in the `build.properties` (the same way like `JAVA_HOME` variable);
     * ant uses included `lib` directory;
@@ -74,21 +74,21 @@ Project is hosted on Google Code as "javasimon":
 
 Project uses following libraries:
   * Eval: https://eval.dev.java.net/ (core, not needed during runtime IF no filter callbacks are used)
-    * `eval-0.4.jar`
+    * `eval-0.5.jar`
   * TestNG: http://testng.org/ (test)
-    * `testng-5.8-jdk15.jar`
+    * `testng-5.11-jdk15.jar`
   * Sun's StAX implementation: https://sjsxp.dev.java.net/ (not needed with JDK 1.6, but required for rebuild)
     * `stax-api-1.0.1.jar`
     * `sjsxp.jar`
   * Spring (core/aop): http://www.springsource.org/ (Spring integration)
-    * `spring-core.jar`
-    * `spring-aop.jar`
+    * `org.springframework.core-3.0.0.RELEASE.jar`
+    * `org.springframework.aop-3.0.0.RELEASE.jar`
   * AOP alliance: http://aopalliance.sourceforge.net/ (Spring integration)
     * `aopalliance.jar`
   * Commons logging: http://commons.apache.org/logging/ (Spring integration)
     * `commons-logging-1.1.1.jar`
   * H2 Database: http://www.h2database.com/ (examples)
-    * `h2.jar`
+    * `h2-1.1.118.jar`
 
 == Java Simon name ==
 
