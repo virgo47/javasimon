@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+	<!-- ...
+		Add javasimon-core and javaee libs into your EAR or into server's libs.
+		If you wanna use javasimon-jdbc3 as well (most likely you do) you have to go for
+		server's libs, there is no other way, because datasource is created by server without
+		reach to libs that are only in your EAR.
+	-->
+
+	<filter>
+		<filter-name>Simon Filter</filter-name>
+		<filter-class>org.javasimon.javaee.SimonFilter</filter-class>
+		<init-param>
+			<param-name>prefix</param-name>
+			<param-value>com.acme.myweb</param-value>
+		</init-param>
+		<!--
+			this may be handy if you want to get correctly to Simon manager, but it's
+			not necessary when we go directly on classes in scriptlets in our JSP
+		-->
+		<init-param>
+			<param-name>manager-attribute-name</param-name>
+			<param-value>whatever</param-value>
+		</init-param>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>Simon Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- ... -->
+</web-app>
