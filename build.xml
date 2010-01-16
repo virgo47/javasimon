@@ -2,7 +2,7 @@
 <project name="Java Simon Library" default="dist" basedir=".">
 	<property file="build.properties"/>
 
-	<property name="version" value="2.2.0"/>
+	<property name="version" value="2.3.0"/>
 	<property name="javac.debug" value="true"/>
 	<property name="javac.deprecation" value="false"/>
 
@@ -24,6 +24,8 @@
 		<pathelement path="${lib.dir}/commons-logging-1.1.1.jar"/>
 		<pathelement path="${lib.dir}/stax-api-1.0.1.jar"/>
 		<pathelement path="${lib.dir}/eval-0.5.jar"/>
+		<pathelement path="${lib.dir}/jboss-javaee.jar"/>
+		<pathelement path="${lib.dir}/servlet-api.jar"/>
 		<pathelement path="build/core"/>
 		<pathelement path="build/jdbc3"/>
 		<pathelement path="build/jmx"/>
@@ -36,6 +38,7 @@
 	<target name="compile" description="Compile the source code">
 		<compile-module module="core"/>
 		<compile-module module="jdbc3"/>
+		<compile-module module="javaee"/>
 		<compile-module module="spring"/>
 		<compile-module module="jmx" jdk="${jdk6.home}"/>
 	</target>
@@ -62,6 +65,7 @@
 		<jar-module module="core"/>
 		<jar-module module="jdbc3"/>
 		<jar-module module="jmx"/>
+		<jar-module module="javaee"/>
 		<jar-module module="spring"/>
 	</target>
 
@@ -101,6 +105,8 @@
 				<include name="stax-api-1.0.1.jar"/>
 				<include name="sjsxp.jar"/>
 				<include name="eval-0.5.jar"/>
+				<include name="jboss-javaee.jar"/>
+				<include name="servlet-api.jar"/>
 			</zipfileset>
 			<zipfileset prefix="javasimon-${version}/lib" dir="build">
 				<include name="*.jar"/>

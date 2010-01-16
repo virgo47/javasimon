@@ -61,6 +61,13 @@ public final class SimonUtils {
 	 */
 	public static final Pattern NAME_PATTERN = Pattern.compile("[-_\\[\\]A-Za-z0-9.,@$%()<>]+");
 
+	/**
+	 * Allowed Simon name characters.
+	 *
+	 * @since 2.3
+	 */
+	public static final String ALLOWED_CHARS = "-_[]ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstvwxyz0123456789.,@$%()<>";
+
 	private static final int UNIT_PREFIX_FACTOR = 1000;
 
 	private static final SimpleDateFormat TIMESTAMP_FORMAT = new SimpleDateFormat("yyMMdd-HHmmss.SSS");
