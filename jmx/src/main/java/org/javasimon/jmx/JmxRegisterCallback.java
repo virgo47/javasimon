@@ -13,12 +13,13 @@ import java.lang.management.ManagementFactory;
 /**
  * Callback that registers MXBeans for Simons after their creation. It is
  * advisable to register the callback as soon as possible otherwise MX Beans
- * for some Simons may not be created.
+ * for some Simons may not be created. Class can be extended in order to
+ * override {@link #constructObjectName(SimonSuperMXBean)}.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Mar 6, 2009
  */
-public final class JmxRegisterCallback extends CallbackSkeleton {
+public class JmxRegisterCallback extends CallbackSkeleton {
 	private MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
 	private Set<String> registeredNames = new HashSet<String>();
 
@@ -82,7 +83,7 @@ public final class JmxRegisterCallback extends CallbackSkeleton {
 	}
 
 	private void register(SimonSuperMXBean simonMxBean) {
-		String name = simonMxBean.getName() + ":type=" + simonMxBean.getType();
+		String name = constructObjectName(simonMxBean);
 		try {
 			ObjectName objectName = new ObjectName(name);
 			if (mBeanServer.isRegistered(objectName)) {
@@ -96,5 +97,15 @@ public final class JmxRegisterCallback extends CallbackSkeleton {
 			warning("JMX registration failed for: " + name, e);
 			registeredNames.remove(name);
 		}
+	}
+
+	/**
+	 * Constructs JMX object name from Simon MX Bean. Method can be overridden.
+	 *
+	 * @param simonMxBean Simon MX Bean
+	 * @return object name in String form
+	 */
+	protected String constructObjectName(SimonSuperMXBean simonMxBean) {
+		return simonMxBean.getName() + ":type=" + simonMxBean.getType();
 	}
 }
