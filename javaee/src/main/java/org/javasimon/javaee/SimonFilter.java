@@ -16,6 +16,11 @@ import java.io.IOException;
  */
 public class SimonFilter implements Filter {
 	/**
+	 * Default prefix for web filter Simons if no "prefix" init parameter is used.
+	 */
+	public static final String DEFAULT_SIMON_PREFIX = "org.javasimon.web";
+
+	/**
 	 * Name of filter init parameter for Simon name prefix.
 	 */
 	public static final String INIT_PARAM_PREFIX = "prefix";
@@ -27,10 +32,12 @@ public class SimonFilter implements Filter {
 	 */
 	public static final String INIT_PARAM_PUBLISH_MANAGER = "manager-attribute-name";
 
-	private String simonPrefix;
+	private String simonPrefix = DEFAULT_SIMON_PREFIX;
 
 	public void init(FilterConfig filterConfig) throws ServletException {
-		simonPrefix = filterConfig.getInitParameter(INIT_PARAM_PREFIX);
+		if (filterConfig.getInitParameter(INIT_PARAM_PREFIX) != null) {
+			simonPrefix = filterConfig.getInitParameter(INIT_PARAM_PREFIX);
+		}
 		String publishManager = filterConfig.getInitParameter(INIT_PARAM_PUBLISH_MANAGER);
 		if (publishManager != null) {
 			filterConfig.getServletContext().setAttribute(publishManager, SimonManager.manager());
@@ -41,8 +48,11 @@ public class SimonFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
 		String simonName = getSimonName(request);
 		Split split = SimonManager.getStopwatch(simonPrefix + Manager.HIERARCHY_DELIMITER + simonName).start();
-		filterChain.doFilter(request, response);
-		split.stop();
+		try {
+			filterChain.doFilter(request, response);
+		} finally {
+			split.stop();
+		}
 	}
 
 	protected String getSimonName(HttpServletRequest request) {
