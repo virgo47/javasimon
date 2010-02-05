@@ -87,13 +87,13 @@ public final class Complex extends Simple {
 			StringBuilder sb = new StringBuilder(512).append("Connection info:").append('\n')
 				.append("  act: ").append(sws.getActive()).append('\n')
 				.append("  max act: ").append(sws.getMaxActive()).append('\n')
-				.append("  max act ts: ").append(new java.util.Date(sws.getMaxActiveTimestamp())).append('\n')
+				.append("  max act ts: ").append(SimonUtils.presentTimestamp(sws.getMaxActiveTimestamp())).append('\n')
 				.append("  opn: ").append(sws.getCounter()).append('\n')
 				.append("  cls: ").append(sws.getCounter() - sws.getActive()).append('\n')
 				.append("  min: ").append(SimonUtils.presentNanoTime(sws.getMin()))
-				.append(", avg: ").append(SimonUtils.presentNanoTime(sws.getTotal() / sws.getCounter()))
+				.append(", avg: ").append(SimonUtils.presentNanoTime((long) sws.getMean()))
 				.append(", max: ").append(SimonUtils.presentNanoTime(sws.getMax())).append('\n')
-				.append("  max ts: ").append(new java.util.Date(sws.getMaxTimestamp())).append('\n')
+				.append("  max ts: ").append(SimonUtils.presentTimestamp(sws.getMaxTimestamp())).append('\n')
 				.append("  comm: ").append(cc != null ? ((CounterSample) cc.sample()).getCounter() : 0).append('\n')
 				.append("  roll: ").append(cr != null ? ((CounterSample) cr.sample()).getCounter() : 0)
 				.append('\n');
@@ -117,13 +117,13 @@ public final class Complex extends Simple {
 			StringBuilder sb = new StringBuilder(512).append("Statement info:").append('\n')
 				.append("  act: ").append(sws.getActive()).append('\n')
 				.append("  max act: ").append(sws.getMaxActive()).append('\n')
-				.append("  max act ts: ").append(new java.util.Date(sws.getMaxActiveTimestamp())).append('\n')
+				.append("  max act ts: ").append(SimonUtils.presentTimestamp(sws.getMaxActiveTimestamp())).append('\n')
 				.append("  opn: ").append(sws.getCounter()).append('\n')
 				.append("  cls: ").append(sws.getCounter() - sws.getActive()).append('\n')
 				.append("  min: ").append(SimonUtils.presentNanoTime(sws.getMin()))
-				.append(", avg: ").append(SimonUtils.presentNanoTime(sws.getTotal() / sws.getCounter()))
+				.append(", avg: ").append(SimonUtils.presentNanoTime((long) sws.getMean()))
 				.append(", max: ").append(SimonUtils.presentNanoTime(sws.getMax())).append('\n')
-				.append("  max ts: ").append(new java.util.Date(sws.getMaxTimestamp()))
+				.append("  max ts: ").append(SimonUtils.presentTimestamp(sws.getMaxTimestamp()))
 				.append('\n');
 
 			return sb.toString();
@@ -138,6 +138,9 @@ public final class Complex extends Simple {
 	 * @throws Exception sometimes bad things can happen
 	 */
 	public static void main(String[] args) throws Exception {
+// Uncomment these two lines to check out if Issue #15 is fixed: http://code.google.com/p/javasimon/issues/detail?id=15		
+//		Simon jdbcSimon = SimonManager.getStopwatch(org.javasimon.jdbc.Driver.DEFAULT_PREFIX);
+//		jdbcSimon.setState(SimonState.DISABLED, true);
 		Class.forName("org.h2.Driver");
 		Class.forName("org.javasimon.jdbc.Driver");
 

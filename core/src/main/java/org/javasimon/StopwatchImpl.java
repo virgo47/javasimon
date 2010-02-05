@@ -71,7 +71,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 			manager.callback().stopwatchStart(split);
 			return split;
 		}
-		return new Split(null, 0);
+		return new Split(this, 0);
 	}
 
 	/**
