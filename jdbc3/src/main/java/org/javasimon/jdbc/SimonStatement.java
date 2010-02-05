@@ -44,7 +44,7 @@ public class SimonStatement implements Statement {
 	protected SqlNormalizer sqlNormalizer;
 
 	/**
-	 * Stopwatch split measuring the lifespan of the statement until it is closed.
+	 * Stopwatch split measuring the lifespan of the statement until it is closed across all executes.
 	 */
 	protected Split split;
 

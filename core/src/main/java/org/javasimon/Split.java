@@ -10,18 +10,20 @@ import org.javasimon.utils.SimonUtils;
  * @created Jan 7, 2009
  */
 public final class Split {
-	private StopwatchImpl stopwatch;
+	private Stopwatch stopwatch;
 	private long start;
 	private long total;
+	private boolean enabled;
 
 	/**
 	 * Creates a new Split for a Stopwatch with a specific timestamp in nanoseconds.
 	 *
 	 * @param stopwatch owning Stopwatch
-	 * @param start     start timestamp in nanoseconds
+	 * @param start start timestamp in nanoseconds
 	 */
-	Split(StopwatchImpl stopwatch, long start) {
+	Split(Stopwatch stopwatch, long start) {
 		this.stopwatch = stopwatch;
+		enabled = stopwatch.isEnabled();
 		this.start = start;
 	}
 
@@ -40,8 +42,8 @@ public final class Split {
 	 * @return split time in ns
 	 */
 	public long stop() {
-		if (stopwatch != null && start != 0) {
-			total = stopwatch.stop(this, start);
+		if (enabled && start != 0) {
+			total = ((StopwatchImpl) stopwatch).stop(this, start);
 			start = 0;
 			return total;
 		}
@@ -58,7 +60,7 @@ public final class Split {
 		if (total != 0) {
 			return total;
 		}
-		if (stopwatch != null) {
+		if (enabled) {
 			return System.nanoTime() - start;
 		}
 		return 0;
@@ -75,13 +77,22 @@ public final class Split {
 	}
 
 	/**
+	 * Returns true if this split was created from enabled Simon.
+	 *
+	 * @return true if this split was created from enabled Simon
+	 */
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	/**
 	 * Returns information about this Split, if it's running, name of the related Stopwatch and split's time.
 	 *
 	 * @return information about the Split as a human readable string
 	 */
 	@Override
 	public String toString() {
-		if (stopwatch == null) {
+		if (!enabled) {
 			return "Split created from disabled Stopwatch";
 		}
 		if (total == 0) {

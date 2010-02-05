@@ -159,7 +159,7 @@ final class NullSimon implements Counter, Stopwatch {
 	 * {@inheritDoc}
 	 */
 	public Split start() {
-		return new Split(null, 0);
+		return new Split(this, 0);
 	}
 
 	/**
