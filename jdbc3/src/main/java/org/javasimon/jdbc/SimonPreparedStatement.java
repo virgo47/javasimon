@@ -66,7 +66,7 @@ public class SimonPreparedStatement extends SimonStatement implements java.sql.P
 	public final ResultSet executeQuery() throws SQLException {
 		Split s = prepare();
 		try {
-			return stmt.executeQuery();
+			return new SimonResultSet(stmt.executeQuery(), this, prefix, s.getStopwatch().getName());
 		} finally {
 			finish(s);
 		}
