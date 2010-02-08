@@ -9,7 +9,7 @@ import java.io.*;
  * utility-like class. This option may be usefull in Java EE environmant when it's required to
  * separate Simon trees accross different applications. For majority of Java SE applications this
  * class is recommended.
- *
+ * <p/>
  * SimonManager also provides configuration initialization via properties. To initialize configuration
  * with the configuration file following option can be added to JVM executable:
  * <pre>-Djavasimon.config.file=some-path/simon.config.xml</pre>
@@ -55,7 +55,12 @@ public final class SimonManager {
 			}
 			String resourceName = System.getProperty(PROPERTY_CONFIG_RESOURCE_NAME);
 			if (resourceName != null) {
-				manager.configuration().readConfig(new InputStreamReader(SimonManager.class.getClassLoader().getResourceAsStream(resourceName)));
+				InputStream is =
+					SimonManager.class.getClassLoader().getResourceAsStream(resourceName);
+				if (is == null) {
+					throw new FileNotFoundException(resourceName);
+				}
+				manager.configuration().readConfig(new InputStreamReader(is));
 			}
 		} catch (Exception e) {
 			manager.callback().warning("SimonManager initialization error", e);
