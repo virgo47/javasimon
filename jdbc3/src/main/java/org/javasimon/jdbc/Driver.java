@@ -24,7 +24,7 @@ import java.io.InputStream;
  * <p/>
  * Simon driver has following format of JDBC connection string:
  * <pre>{@literal
- * jdbc:simon:&lt;real driver conn string>;&lt;param1>=&lt;value1>;...}</pre>
+ * jdbc:simon:<real driver conn string>;<param1>=<value1>;...}</pre>
  * Simon driver recognizes two parameters:
  * <ul>
  * <li>

@@ -24,11 +24,10 @@ import java.lang.reflect.InvocationTargetException;
  * {@link org.javasimon.SimonManager#PROPERTY_CONFIG_RESOURCE_NAME}) is used.
  * <p/>
  * <b>Structure of the configuration XML:</b>
- * <pre>
- * &lt;simon-configuration>
+ * <pre>{@literal
+ * <simon-configuration>
  * ... TODO
- * &lt;/simon-configuration>
- * </pre>
+ * </simon-configuration>}</pre>
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Sep 6, 2008

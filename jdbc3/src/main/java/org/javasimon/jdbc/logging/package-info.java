@@ -37,16 +37,16 @@
  * {@link org.javasimon.jdbc.Driver}.
  * </li>
  * <li><b>via Simon configuration file</b> - Callback configuration can be added into the configuration file:
- * <pre>&lt;simon-configuration>
-	&lt;callback class="org.javasimon.jdbc.logging.LoggingCallback"> &lt!-- don't mix it with org.javasimon.utils.LoggingCallback! -->
-		&lt;set property="prefix" value="org.javasimon.testdb"/>
-		&lt;set property="loggerName" value="myapp.testdb"/>
-		&lt;set property="logFilename" value="log/myapp.log"/>
- 		&lt;set property="logToConsole"/> &lt;!-- without value! -->
-		&lt;set property="logFormat" value="csv"/> &lt;!-- can be also human -->
-	&lt;/callback>
+ * <pre>{@literal<simon-configuration>
+	<callback class="org.javasimon.jdbc.logging.LoggingCallback"> <!-- don't mix it with org.javasimon.utils.LoggingCallback! -->
+		<set property="prefix" value="org.javasimon.testdb"/>
+		<set property="loggerName" value="myapp.testdb"/>
+		<set property="logFilename" value="log/myapp.log"/>
+ 		<set property="logToConsole"/> <!-- without value! -->
+		<set property="logFormat" value="csv"/> <!-- can be also human -->
+	</callback>
     ...
-&lt;/simon-configuration></pre>
+</simon-configuration>}</pre>
  * If {@code logToConsole} or {@logFilename} is omitted respective handler will not be used.</li>
  * <li>
  * <b>by jmx</b> - jmx package offers {@link org.javasimon.jmx.JdbcMXBean} that provides methods for starting logging
