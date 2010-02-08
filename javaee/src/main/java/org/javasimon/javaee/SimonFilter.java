@@ -10,9 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
- * Simon servlet filter.
+ * Simon Servlet filter measuring HTTP request execution times. Non-HTTP usages are not supported.
  *
  * @author Richard Richter
+ * @version $Revision$ $Date$
+ * @since 2.3
  */
 public class SimonFilter implements Filter {
 	/**
@@ -34,7 +36,13 @@ public class SimonFilter implements Filter {
 
 	private String simonPrefix = DEFAULT_SIMON_PREFIX;
 
-	public void init(FilterConfig filterConfig) throws ServletException {
+	/**
+	 * Initialization method that processes {@link #INIT_PARAM_PREFIX} and {@link #INIT_PARAM_PUBLISH_MANAGER}
+	 * parameters from {@literal web.xml}.
+	 * 
+	 * @param filterConfig filter config object
+	 */
+	public void init(FilterConfig filterConfig) {
 		if (filterConfig.getInitParameter(INIT_PARAM_PREFIX) != null) {
 			simonPrefix = filterConfig.getInitParameter(INIT_PARAM_PREFIX);
 		}
@@ -44,6 +52,16 @@ public class SimonFilter implements Filter {
 		}
 	}
 
+	/**
+	 * Wraps the HTTP request with Simon measuring. Separate Simons are created for different URIs (parameters
+	 * ignored).
+	 *
+	 * @param servletRequest HTTP servlet request
+	 * @param response HTTP servlet response
+	 * @param filterChain filter chain
+	 * @throws IOException possibly thrown by other filter/serlvet in the chain
+	 * @throws ServletException possibly thrown by other filter/serlvet in the chain
+	 */
 	public void doFilter(ServletRequest servletRequest, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
 		String simonName = getSimonName(request);
@@ -55,6 +73,14 @@ public class SimonFilter implements Filter {
 		}
 	}
 
+	/**
+	 * Returns Simon name for the specified HTTP request. By default it contains URI without parameters with
+	 * all slashes replaced for dots (slashes then determines position in Simon hierarchy). Method can be
+	 * overriden.
+	 *
+	 * @param request HTTP request
+	 * @return fully qualified name of the Simon
+	 */
 	protected String getSimonName(HttpServletRequest request) {
 		StringBuilder name = new StringBuilder(request.getRequestURI().replaceAll("\\.+", "").replace('/', '.'));
 		for (int i = 0; i < name.length(); i++) {
@@ -70,6 +96,9 @@ public class SimonFilter implements Filter {
 		return name.toString().replaceAll("^\\.+", "").replaceAll("\\.+", ".");
 	}
 
+	/**
+	 * Does nothing - just implements the contract.
+	 */
 	public void destroy() {
 	}
 }

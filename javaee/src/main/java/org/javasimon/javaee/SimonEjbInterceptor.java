@@ -8,11 +8,11 @@ import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 
 /**
- * Simon EJB Interceptor.
+ * Simon EJB Interceptor measuring EJB method execution time.
  *
  * @author <a href="mailto:richard.richter@siemens-enterprise.com">Richard "Virgo" Richter</a>
  * @version $Revision$ $Date$
- * @created 22.1.2010 10:30:51
+ * @since 2.3
  */
 public class SimonEjbInterceptor {
 	/**
@@ -20,6 +20,13 @@ public class SimonEjbInterceptor {
 	 */
 	public static final String DEFAULT_EJB_INTERCEPTOR_PREFIX = "org.javasimon.ejb";
 
+	/**
+	 * Around invoke method that measures the split for one method invocation.
+	 *
+	 * @param context EJB invocation context
+	 * @return return value from the invocation
+	 * @throws Exception exception thrown from the invocation
+	 */
 	@AroundInvoke
 	public Object monitor(InvocationContext context) throws Exception {
 		String simonName = context.getMethod().getName();
