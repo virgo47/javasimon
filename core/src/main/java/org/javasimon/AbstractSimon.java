@@ -43,6 +43,8 @@ abstract class AbstractSimon implements Simon {
 
 	private long resetTimestamp;
 
+    private Map<String, Object> attributes = new HashMap<String, Object>();
+
 	/**
 	 * Constructor of the abstract Simon is used internally by subclasses.
 	 *
@@ -223,4 +225,44 @@ abstract class AbstractSimon implements Simon {
 			newSimon.setParent(this);
 		}
 	}
+
+    /**
+     * Stores an attribute in this Simon. Attributes can be used to store any custom objects.
+     *
+     * @param name a String specifying the name of the attribute
+     * @param value the Object to be stored
+     */
+    public void setAttribute(String name, Object value) {
+        attributes.put(name, value);
+    }
+
+    /**
+     * Returns the value of the named attribute as an Object, or null if no attribute of
+     * the given name exists.
+     *
+     * @param name a String specifying the name of the attribute
+     * @return an Object containing the value of the attribute, or null if the attribute does not exist
+     */
+    public Object getAttribute(String name) {
+        return attributes.get(name);
+    }
+
+    /**
+     * Removes an attribute from this Simon.
+     *
+     * @param name a String specifying the name of the attribute to remove
+     */
+    public void removeAttribute(String name) {
+        attributes.remove(name);
+    }
+
+    /**
+     * Returns an Iterator containing the names of the attributes available to this Simon.
+     * This method returns an empty Iterator if the Simon has no attributes available to it.
+     *
+     * @return an Iterator of strings containing the names of the Simon's attributes
+     */
+    public Iterator<String> getAttributeNames() {
+        return attributes.keySet().iterator();
+    }
 }
