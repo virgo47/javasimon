@@ -43,7 +43,7 @@ abstract class AbstractSimon implements Simon {
 
 	private long resetTimestamp;
 
-    private Map<String, Object> attributes = new HashMap<String, Object>();
+	private Map<String, Object> attributes;
 
 	/**
 	 * Constructor of the abstract Simon is used internally by subclasses.
@@ -226,43 +226,58 @@ abstract class AbstractSimon implements Simon {
 		}
 	}
 
-    /**
-     * Stores an attribute in this Simon. Attributes can be used to store any custom objects.
-     *
-     * @param name a String specifying the name of the attribute
-     * @param value the Object to be stored
-     */
-    public void setAttribute(String name, Object value) {
-        attributes.put(name, value);
-    }
+	/**
+	 * Stores an attribute in this Simon. Attributes can be used to store any custom objects.
+	 *
+	 * @param name a String specifying the name of the attribute
+	 * @param value the Object to be stored
+	 * @since 2.3
+	 */
+	public void setAttribute(String name, Object value) {
+		if (attributes == null) {
+			attributes = new HashMap<String, Object>();
+		}
+		attributes.put(name, value);
+	}
 
-    /**
-     * Returns the value of the named attribute as an Object, or null if no attribute of
-     * the given name exists.
-     *
-     * @param name a String specifying the name of the attribute
-     * @return an Object containing the value of the attribute, or null if the attribute does not exist
-     */
-    public Object getAttribute(String name) {
-        return attributes.get(name);
-    }
+	/**
+	 * Returns the value of the named attribute as an Object, or null if no attribute of
+	 * the given name exists.
+	 *
+	 * @param name a String specifying the name of the attribute
+	 * @return an Object containing the value of the attribute, or null if the attribute does not exist
+	 * @since 2.3
+	 */
+	public Object getAttribute(String name) {
+		if (attributes == null) {
+			return null;
+		}
+		return attributes.get(name);
+	}
 
-    /**
-     * Removes an attribute from this Simon.
-     *
-     * @param name a String specifying the name of the attribute to remove
-     */
-    public void removeAttribute(String name) {
-        attributes.remove(name);
-    }
+	/**
+	 * Removes an attribute from this Simon.
+	 *
+	 * @param name a String specifying the name of the attribute to remove
+	 * @since 2.3
+	 */
+	public void removeAttribute(String name) {
+		if (attributes != null) {
+			attributes.remove(name);
+		}
+	}
 
-    /**
-     * Returns an Iterator containing the names of the attributes available to this Simon.
-     * This method returns an empty Iterator if the Simon has no attributes available to it.
-     *
-     * @return an Iterator of strings containing the names of the Simon's attributes
-     */
-    public Iterator<String> getAttributeNames() {
-        return attributes.keySet().iterator();
-    }
+	/**
+	 * Returns an Iterator containing the names of the attributes available to this Simon.
+	 * This method returns an empty Iterator if the Simon has no attributes available to it.
+	 *
+	 * @return an Iterator of strings containing the names of the Simon's attributes
+	 * @since 2.3
+	 */
+	public Iterator<String> getAttributeNames() {
+		if (attributes == null) {
+			return Collections.<String>emptySet().iterator();
+		}
+		return attributes.keySet().iterator();
+	}
 }

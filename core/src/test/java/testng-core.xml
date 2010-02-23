@@ -8,6 +8,8 @@
 		</groups>
 		<classes>
 			<class name="org.javasimon.ManagerTestNG"/>
+			<class name="org.javasimon.SimonTestNG"/>
+			<class name="org.javasimon.CounterTestNG"/>
 			<class name="org.javasimon.StopwatchTestNG"/>
 			<class name="org.javasimon.ConfigurationTestNG"/>
 			<class name="org.javasimon.utils.UtilsTestNG"/>
