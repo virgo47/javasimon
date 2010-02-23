@@ -1,10 +1,12 @@
 package org.javasimon;
 
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * Null Simon implements Simon returned by the disabled {@link SimonManager}. Null
- * Simon does nothing, returns empty values or zeroes wherever return value is expected and has
+ * Simon does nothing, returns null or zeroes wherever return value is expected and has
  * minimal performance impact on the system.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
@@ -254,6 +256,40 @@ final class NullSimon implements Counter, Stopwatch {
 	 */
 	public Sample sampleAndReset() {
 		return null;
+	}
+
+	/**
+	 * Does nothing.
+	 *
+	 * @param name ignored
+	 * @param value ignored
+	 */
+	public void setAttribute(String name, Object value) {
+	}
+
+	/**
+	 * Returns null.
+	 *
+	 * @param name ignored
+	 * @return null
+	 */
+	public Object getAttribute(String name) {
+		return null;
+	}
+
+	/**
+	 * Does nothing.
+	 */
+	public void removeAttribute(String name) {
+	}
+
+	/**
+	 * Returns empty iterator.
+	 *
+	 * @return empty iterator
+	 */
+	public Iterator<String> getAttributeNames() {
+		return Collections.<String>emptySet().iterator();
 	}
 
 	/**
