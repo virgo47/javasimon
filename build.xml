@@ -187,6 +187,7 @@
 			<sourcepath path="core/src/main/java"/>
 			<sourcepath path="jdbc3/src/main/java"/>
 			<sourcepath path="jmx/src/main/java"/>
+			<sourcepath path="javaee/src/main/java"/>
 			<sourcepath path="spring/src/main/java"/>
 		</javadoc>
 		<copy todir="${doc.dir}/resources" overwrite="true">

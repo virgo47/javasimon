@@ -12,6 +12,7 @@
 		<module>core</module>
 		<module>jdbc3</module>
 		<module>jmx</module>
+		<module>javaee</module>
 		<module>spring</module>
 		<module>examples</module>
 	</modules>

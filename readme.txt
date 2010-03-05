@@ -17,6 +17,7 @@ Check this readme online for updates: http://code.google.com/p/javasimon/wiki/Re
     * StAX API (`stax-api-1.0.1.jar` and `sjsxp.jar`) - this is NOT needed with JDK 1.6 and higher;
     * Java Simon JMX jar is compiled with and needs JDK 1.6 or higher (depends on JMX 1.4 that is not in JDK 1.5);
     * Java Simon Spring jar depends on `aopalliance.jar`, `commons-logging-1.1.1.jar`, `org.springframework.aop-3.0.0.RELEASE.jar` and `org.springframework.core-3.0.0.RELEASE.jar` - it is expected that these dependencies will be at least partially satisfied in a typical Spring environment.
+    * Java EE module depends on Java EE 5 libs - these are always part of the EE platform
   * Use "ant" to build the Simon:
     * You need both JDK 1.5 and JDK 1.6 to build Java Simon properly, set paths to both JDKs in the `build.properties` (the same way like `JAVA_HOME` variable);
     * ant uses included `lib` directory;
@@ -89,6 +90,9 @@ Project uses following libraries:
     * `commons-logging-1.1.1.jar`
   * H2 Database: http://www.h2database.com/ (examples)
     * `h2-1.1.118.jar`
+  * Java EE libraries for Java EE module compilation:
+    * `servlet-api.jar`
+    * `jboss-javaee.jar`
 
 == Java Simon name ==
 
