@@ -8,6 +8,8 @@ import org.javasimon.utils.SimonUtils;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Simon Servlet filter measuring HTTP request execution times. Non-HTTP usages are not supported.
@@ -34,12 +36,25 @@ public class SimonFilter implements Filter {
 	 */
 	public static final String INIT_PARAM_PUBLISH_MANAGER = "manager-attribute-name";
 
+	/**
+	 * Name of filter init parameter that sets the value of treshold in milliseconds
+	 * for maximal request duration beyond which all splits will be dumped to log.
+	 */
+	public static final String INIT_PARAM_REPORT_TRESHOLD = "report-treshold";
+
+	/**
+	 * Public thread local list of splits used to cummulate all splits for the request.
+	 */
+	public static final ThreadLocal<List<Split>> SPLITS = new ThreadLocal<List<Split>>();
+
 	private String simonPrefix = DEFAULT_SIMON_PREFIX;
+	
+	private Long reportTreshold;
 
 	/**
 	 * Initialization method that processes {@link #INIT_PARAM_PREFIX} and {@link #INIT_PARAM_PUBLISH_MANAGER}
 	 * parameters from {@literal web.xml}.
-	 * 
+	 *
 	 * @param filterConfig filter config object
 	 */
 	public void init(FilterConfig filterConfig) {
@@ -49,6 +64,14 @@ public class SimonFilter implements Filter {
 		String publishManager = filterConfig.getInitParameter(INIT_PARAM_PUBLISH_MANAGER);
 		if (publishManager != null) {
 			filterConfig.getServletContext().setAttribute(publishManager, SimonManager.manager());
+		}
+		String reportTreshold = filterConfig.getInitParameter(INIT_PARAM_REPORT_TRESHOLD);
+		if (reportTreshold != null) {
+			try {
+				this.reportTreshold = Long.parseLong(reportTreshold);
+			} catch (NumberFormatException e) {
+				// ignore
+			}
 		}
 	}
 
@@ -65,11 +88,16 @@ public class SimonFilter implements Filter {
 	public void doFilter(ServletRequest servletRequest, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
 		String simonName = getSimonName(request);
+		SPLITS.set(new ArrayList<Split>());
 		Split split = SimonManager.getStopwatch(simonPrefix + Manager.HIERARCHY_DELIMITER + simonName).start();
 		try {
 			filterChain.doFilter(request, response);
 		} finally {
 			split.stop();
+			if (split.runningFor() > reportTreshold) {
+//				logSomehow(SPLITS.get()); TODO + callback
+			}
+			SPLITS.remove();
 		}
 	}
 
