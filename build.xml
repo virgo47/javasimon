@@ -17,7 +17,7 @@
 	<!-- used for testng or examples, simon.jar requires nothing -->
 	<path id="classpath">
 		<pathelement path="${lib.dir}/${testng.jar}"/>
-		<pathelement path="${lib.dir}/h2-1.1.118.jar"/>
+		<pathelement path="${lib.dir}/h2-1.2.135.jar"/>
 		<pathelement path="${lib.dir}/org.springframework.core-3.0.0.RELEASE.jar"/>
 		<pathelement path="${lib.dir}/org.springframework.aop-3.0.0.RELEASE.jar"/>
 		<pathelement path="${lib.dir}/aopalliance.jar"/>
@@ -97,7 +97,7 @@
 			</zipfileset>
 			<zipfileset prefix="javasimon-${version}/lib" dir="${lib.dir}">
 				<include name="${testng.jar}"/>
-				<include name="h2-1.1.118.jar"/>
+				<include name="h2-1.2.135.jar"/>
 				<include name="org.springframework.core-3.0.0.RELEASE.jar"/>
 				<include name="org.springframework.aop-3.0.0.RELEASE.jar"/>
 				<include name="aopalliance.jar"/>
