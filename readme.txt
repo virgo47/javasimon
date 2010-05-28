@@ -89,7 +89,7 @@ Project uses following libraries:
   * Commons logging: http://commons.apache.org/logging/ (Spring integration)
     * `commons-logging-1.1.1.jar`
   * H2 Database: http://www.h2database.com/ (examples)
-    * `h2-1.1.118.jar`
+    * `h2-1.2.135.jar`
   * Java EE libraries for Java EE module compilation:
     * `servlet-api.jar`
     * `jboss-javaee.jar`
