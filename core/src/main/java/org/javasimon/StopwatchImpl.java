@@ -32,8 +32,6 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 
 	private long firstUsageNanos;
 
-	private long currentNanos;
-
 	private double mean; // used to calculate statistics
 	private double mean2; // used to calculate statistics
 
@@ -72,7 +70,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 				Split split;
 				updateUsages(nowNanos);
 				activeStart();
-				split = new Split(this, currentNanos);
+				split = new Split(this, nowNanos);
 				manager.callback().stopwatchStart(split);
 				return split;
 			}
@@ -93,7 +91,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 			try {
 				active--;
 				updateUsages(nowNanos);
-				return addSplit(currentNanos - start);
+				return addSplit(nowNanos - start);
 			} finally {
 				manager.callback().stopwatchStop(split);
 			}
@@ -284,12 +282,11 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	 * @param nowNanos current value of nano timer
 	 */
 	private void updateUsages(long nowNanos) {
-		currentNanos = nowNanos;
 		if (firstUsage == 0) {
 			firstUsage = System.currentTimeMillis();
-			firstUsageNanos = currentNanos;
+			firstUsageNanos = nowNanos;
 		}
-		lastUsage = firstUsage + (currentNanos - firstUsageNanos) / SimonUtils.NANOS_IN_MILLIS;
+		lastUsage = firstUsage + (nowNanos - firstUsageNanos) / SimonUtils.NANOS_IN_MILLIS;
 	}
 
 	/**
