@@ -5,27 +5,36 @@ import org.javasimon.utils.SimonUtils;
 /**
  * Class implements {@link org.javasimon.Counter} interface - see there for how to use Counter.
  *
- * @see org.javasimon.Counter
- *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Aug 4, 2008
+ * @see org.javasimon.Counter
  */
 final class CounterImpl extends AbstractSimon implements Counter {
-	/** An internal counter. */
+	/**
+	 * An internal counter.
+	 */
 	private long counter;
 
-	/** Sum of all increments. */
+	/**
+	 * Sum of all increments.
+	 */
 	private long incrementSum;
 
-	/** Sum of all decrements. */
+	/**
+	 * Sum of all decrements.
+	 */
 	private long decrementSum;
 
-	/** A maximum tracker. */
+	/**
+	 * A maximum tracker.
+	 */
 	private long max = Long.MIN_VALUE;
 
 	private long maxTimestamp;
 
-	/** A minimum tracker - only negative values. */
+	/**
+	 * A minimum tracker - only negative values.
+	 */
 	private long min = Long.MAX_VALUE;
 
 	private long minTimestamp;
@@ -33,7 +42,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	/**
 	 * Construts Counter Simon with a specified name and for the specified manager.
 	 *
-	 * @param name Simon's name
+	 * @param name    Simon's name
 	 * @param manager owning manager
 	 */
 	CounterImpl(String name, Manager manager) {
@@ -43,16 +52,21 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	/**
 	 * {@inheritDoc}
 	 */
-	public synchronized Counter set(long val) {
-		try {
-			return privateSet(val);
-		} finally {
-			manager.callback().counterSet(this, val);
+	public Counter set(long val) {
+		long now = System.currentTimeMillis();
+		synchronized (this) {
+			try {
+				return privateSet(val, now);
+			} finally {
+				manager.callback().counterSet(this, val);
+			}
 		}
 	}
 
-	private Counter privateSet(long val) {
-		updateUsages();
+	// must be called from synchronized block
+
+	private Counter privateSet(long val, long now) {
+		updateUsages(now);
 		counter = val;
 		if (counter >= max) {
 			max = counter;
@@ -68,36 +82,54 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	/**
 	 * {@inheritDoc}
 	 */
-	public synchronized Counter increase() {
-		try {
-			updateUsages();
-			counter++;
-			incrementSum++;
-			if (counter >= max) {
-				max = counter;
-				maxTimestamp = getLastUsage();
+	public Counter increase() {
+		long now = System.currentTimeMillis();
+		synchronized (this) {
+			try {
+				updateUsages(now);
+				counter++;
+				incrementSum++;
+				if (counter >= max) {
+					max = counter;
+					maxTimestamp = getLastUsage();
+				}
+				return this;
+			} finally {
+				manager.callback().counterIncrease(this, 1);
 			}
-			return this;
-		} finally {
-			manager.callback().counterIncrease(this, 1);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public synchronized Counter decrease() {
-		try {
-			updateUsages();
-			counter--;
-			decrementSum++;
-			if (counter <= min) {
-				min = counter;
-				minTimestamp = getLastUsage();
+	public Counter decrease() {
+		long now = System.currentTimeMillis();
+		synchronized (this) {
+			try {
+				updateUsages(now);
+				counter--;
+				decrementSum++;
+				if (counter <= min) {
+					min = counter;
+					minTimestamp = getLastUsage();
+				}
+				return this;
+			} finally {
+				manager.callback().counterDecrease(this, 1);
 			}
-			return this;
-		} finally {
-			manager.callback().counterDecrease(this, 1);
+		}
+	}
+
+	/**
+	 * Updates usage statistics.
+	 *
+	 * @param now current millis timestamp
+	 */
+	private void updateUsages(long now) {
+		lastUsage = now;
+		if (firstUsage == 0) {
+			firstUsage = lastUsage;
 		}
 	}
 
@@ -105,11 +137,14 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	 * {@inheritDoc}
 	 */
 	public synchronized Counter increase(long inc) {
-		try {
-			incrementSum += inc;
-			return set(counter + inc);
-		} finally {
-			manager.callback().counterIncrease(this, inc);
+		long now = System.currentTimeMillis();
+		synchronized (this) {
+			try {
+				incrementSum += inc;
+				return privateSet(counter + inc, now);
+			} finally {
+				manager.callback().counterIncrease(this, inc);
+			}
 		}
 	}
 
