@@ -203,16 +203,6 @@ abstract class AbstractSimon implements Simon {
 	}
 
 	/**
-	 * Updates usage statistics.
-	 */
-	protected void updateUsages() {
-		lastUsage = System.currentTimeMillis();
-		if (firstUsage == 0) {
-			firstUsage = lastUsage;
-		}
-	}
-
-	/**
 	 * Replaces one of the children for a new one (unknown to concrete). Used only internally.
 	 *
 	 * @param simon original Simon (unknown)

@@ -40,7 +40,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	/**
 	 * Construts Stopwatch Simon with a specified name and for the specified manager.
 	 *
-	 * @param name Simon's name
+	 * @param name    Simon's name
 	 * @param manager owning manager
 	 */
 	StopwatchImpl(String name, Manager manager) {
@@ -50,28 +50,34 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	/**
 	 * {@inheritDoc}
 	 */
-	public synchronized Stopwatch addTime(long ns) {
-		if (enabled) {
-			updateUsages();
-			addSplit(ns);
-			manager.callback().stopwatchAdd(this, ns);
+	public Stopwatch addTime(long ns) {
+		long nowNanos = System.nanoTime();
+		synchronized (this) {
+			if (enabled) {
+				updateUsages(nowNanos);
+				addSplit(ns);
+				manager.callback().stopwatchAdd(this, ns);
+			}
+			return this;
 		}
-		return this;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public synchronized Split start() {
-		if (enabled) {
-			Split split;
-			updateUsages();
-			activeStart();
-			split = new Split(this, currentNanos);
-			manager.callback().stopwatchStart(split);
-			return split;
+	public Split start() {
+		long nowNanos = System.nanoTime();
+		synchronized (this) {
+			if (enabled) {
+				Split split;
+				updateUsages(nowNanos);
+				activeStart();
+				split = new Split(this, currentNanos);
+				manager.callback().stopwatchStart(split);
+				return split;
+			}
+			return new Split(this, 0);
 		}
-		return new Split(this, 0);
 	}
 
 	/**
@@ -81,17 +87,21 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	 * @param start start nano-time of the split @return split time in ns
 	 * @return duration of the split in nanoseconds
 	 */
-	synchronized long stop(Split split, long start) {
-		try {
-			active--;
-			updateUsages();
-			return addSplit(currentNanos - start);
-		} finally {
-			manager.callback().stopwatchStop(split);
+	long stop(Split split, long start) {
+		long nowNanos = System.nanoTime();
+		synchronized (this) {
+			try {
+				active--;
+				updateUsages(nowNanos);
+				return addSplit(currentNanos - start);
+			} finally {
+				manager.callback().stopwatchStop(split);
+			}
 		}
 	}
 
 	// Uses last usage, hence it must be placed after usages update
+
 	private void activeStart() {
 		active++;
 		if (active >= maxActive) {
@@ -270,9 +280,11 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 
 	/**
 	 * Updates usage statistics.
+	 *
+	 * @param nowNanos current value of nano timer
 	 */
-	protected void updateUsages() {
-		currentNanos = System.nanoTime();
+	private void updateUsages(long nowNanos) {
+		currentNanos = nowNanos;
 		if (firstUsage == 0) {
 			firstUsage = System.currentTimeMillis();
 			firstUsageNanos = currentNanos;
