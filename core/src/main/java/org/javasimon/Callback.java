@@ -51,14 +51,15 @@ public interface Callback {
 	void cleanup();
 
 	/**
-	 * Stopwatch start event.
+	 * Stopwatch start event. <b>Duration of this processing is included into the split time!</b>
 	 *
 	 * @param split started Split
 	 */
 	void stopwatchStart(Split split);
 
 	/**
-	 * Stopwatch stop event.
+	 * Stopwatch stop event. This action is executed after the split time is calculated and does not
+	 * affect the measuring.
 	 *
 	 * @param split stopped Split
 	 */
