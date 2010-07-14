@@ -2,6 +2,7 @@ package org.javasimon.jmx;
 
 import org.javasimon.Simon;
 import org.javasimon.SimonState;
+import org.javasimon.utils.SimonUtils;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -101,8 +102,24 @@ public abstract class AbstractSimonMXBeanImpl implements SimonSuperMXBean {
 	 * {@inheritDoc}
 	 */
 	@Override
+	public String getFirstUsageAsString() {
+		return SimonUtils.presentTimestamp(getFirstUsage());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public final long getLastUsage() {
 		return simon().getLastUsage();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getLastUsageAsString() {
+		return SimonUtils.presentTimestamp(getLastUsage());
 	}
 
 	/**

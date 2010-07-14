@@ -24,6 +24,13 @@ public interface StopwatchMXBean extends SimonSuperMXBean {
 	long getLast();
 
 	/**
+	 * Returns value of the last added split as formatted string.
+	 *
+	 * @return value of the last added split as string
+	 */
+	String getLastAsString();
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override

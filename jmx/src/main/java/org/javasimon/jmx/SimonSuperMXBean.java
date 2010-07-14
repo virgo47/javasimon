@@ -93,6 +93,13 @@ public interface SimonSuperMXBean {
 	long getFirstUsage();
 
 	/**
+	 * Returns nicely formatted timestamp of the first usage of this Simon.
+	 *
+	 * @return formatted date and time of the first usage
+	 */
+	String getFirstUsageAsString();
+
+	/**
 	 * Returns ms timestamp of the last usage of this Simon. First and last usage
 	 * are updated when monitor performs the measuring (start/stop/count/etc). They
 	 * are not updated when values are obtained from the monitor.
@@ -100,6 +107,13 @@ public interface SimonSuperMXBean {
 	 * @return ms timestamp of the last usage
 	 */
 	long getLastUsage();
+
+	/**
+	 * Returns nicely formatted timestamp of the last usage of this Simon.
+	 *
+	 * @return formatted date and time of the last usage
+	 */
+	String getLastUsageAsString();
 
 	/**
 	 * Samples Simon values and returns them in a Java Bean derived from Sample interface.

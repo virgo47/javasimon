@@ -2,6 +2,7 @@ package org.javasimon.jmx;
 
 import org.javasimon.Stopwatch;
 import org.javasimon.Simon;
+import org.javasimon.utils.SimonUtils;
 
 /**
  * MX Bean representing a particular {@link org.javasimon.Stopwatch}. It is not created
@@ -37,6 +38,14 @@ public class StopwatchMXBeanImpl extends AbstractSimonMXBeanImpl implements Stop
 	@Override
 	public final long getLast() {
 		return stopwatch.getLast();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getLastAsString() {
+		return SimonUtils.presentNanoTime(getLast());
 	}
 
 	/**

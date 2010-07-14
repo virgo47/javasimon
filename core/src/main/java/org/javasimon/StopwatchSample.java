@@ -36,6 +36,15 @@ public class StopwatchSample extends Sample {
 	}
 
 	/**
+	 * Returns the total sum of all split times in nanoseconds as a formatted string.
+	 *
+	 * @return total time of the stopwatch in nanoseconds as string
+	 */
+	public final String getTotalAsString() {
+		return SimonUtils.presentNanoTime(total);
+	}
+
+	/**
 	 * Sets the total sum of all split times in nanoseconds.
 	 *
 	 * @param total total time of the stopwatch in nanoseconds
@@ -73,6 +82,15 @@ public class StopwatchSample extends Sample {
 	}
 
 	/**
+	 * Returns minimal time split value in nanoseconds as a formatted string.
+	 *
+	 * @return minimal time split in nanoseconds as string
+	 */
+	public final String getMinAsString() {
+		return SimonUtils.presentMinMaxSplit(min);
+	}
+
+	/**
 	 * Sets the minimal time split value in nanoseconds.
 	 *
 	 * @param min minimal time split in nanoseconds
@@ -88,6 +106,15 @@ public class StopwatchSample extends Sample {
 	 */
 	public final long getMax() {
 		return max;
+	}
+
+	/**
+	 * Returns maximal time split value in nanoseconds as a formatted string.
+	 *
+	 * @return maximal time split in nanoseconds as string
+	 */
+	public final String getMaxAsString() {
+		return SimonUtils.presentMinMaxSplit(max);
 	}
 
 	/**
@@ -109,6 +136,15 @@ public class StopwatchSample extends Sample {
 	}
 
 	/**
+	 * Returns ms timestamp when the min value was measured as a formatted string.
+	 *
+	 * @return ms timestamp of the min value measurement as string
+	 */
+	public final String getMinTimestampAsString() {
+		return SimonUtils.presentTimestamp(minTimestamp);
+	}
+
+	/**
 	 * Sets the ms timestamp when the min value was measured.
 	 *
 	 * @param minTimestamp ms timestamp of the min value measurement
@@ -124,6 +160,15 @@ public class StopwatchSample extends Sample {
 	 */
 	public final long getMaxTimestamp() {
 		return maxTimestamp;
+	}
+
+	/**
+	 * Returns ms timestamp when the max value was measured as a formatted string.
+	 *
+	 * @return ms timestamp of the max value measurement as string
+	 */
+	public final String getMaxTimestampAsString() {
+		return SimonUtils.presentTimestamp(maxTimestamp);
 	}
 
 	/**
@@ -172,12 +217,21 @@ public class StopwatchSample extends Sample {
 	}
 
 	/**
-	 * Retruns ms timestamp when the last peek of the active split count occured.
+	 * Returns ms timestamp when the last peek of the active split count occured.
 	 *
 	 * @return ms timestamp of the last peek of the active split count
 	 */
 	public final long getMaxActiveTimestamp() {
 		return maxActiveTimestamp;
+	}
+
+	/**
+	 * Returns ms timestamp when the last peek of the active split count occured as a formatted string.
+	 *
+	 * @return ms timestamp of the last peek of the active split count as string
+	 */
+	public final String getMaxActiveTimestampAsString() {
+		return SimonUtils.presentTimestamp(maxActiveTimestamp);
 	}
 
 	/**
@@ -199,6 +253,15 @@ public class StopwatchSample extends Sample {
 	}
 
 	/**
+	 * Returns the value of the last measured split in ns as a formatted string.
+	 *
+	 * @return last measured split in ns as string
+	 */
+	public final String getLastAsString() {
+		return SimonUtils.presentNanoTime(last);
+	}
+
+	/**
 	 * Sets the value of the last measured split in ns.
 	 *
 	 * @param last last measured split in ns
@@ -214,6 +277,15 @@ public class StopwatchSample extends Sample {
 	 */
 	public final double getMean() {
 		return mean;
+	}
+
+	/**
+	 * Returns mean value (average) of all measured values as a formatted string (ns).
+	 *
+	 * @return mean value as string
+	 */
+	public final String getMeanAsString() {
+		return SimonUtils.presentTimestamp((long) mean);
 	}
 
 	/**
