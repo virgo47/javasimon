@@ -48,7 +48,7 @@ public class SimonFilter implements Filter {
 	public static final ThreadLocal<List<Split>> SPLITS = new ThreadLocal<List<Split>>();
 
 	private String simonPrefix = DEFAULT_SIMON_PREFIX;
-	
+
 	private Long reportTreshold;
 
 	/**

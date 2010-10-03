@@ -15,10 +15,10 @@ public class UrlTestNG {
 
 	@DataProvider(name = "dp1")
 	public Object[][] createTestData() {
-		return new Object[][] {
+		return new Object[][]{
 			{"jdbc:simon:sqlserver://test;databaseName=testdb", "jdbc:sqlserver://test;databaseName=testdb"},
 			{"jdbc:simon:sqlserver://test;databaseName=testdb;simon_format=human;simon_console=t",
-					"jdbc:sqlserver://test;databaseName=testdb"},
+				"jdbc:sqlserver://test;databaseName=testdb"},
 			{"jdbc:simon:h2:tcp://localhost:6762/testdb;simon_console=y", "jdbc:h2:tcp://localhost:6762/testdb"}
 		};
 	}

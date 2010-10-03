@@ -8,7 +8,7 @@ import java.lang.reflect.Method;
 /**
  * Wrapper class for real XADataSource implementation, produces xa
  * {@link javax.sql.XAConnection} object.
- * <p>
+ * <p/>
  * See the {@link org.javasimon.jdbcx.SimonDataSource} for more information.
  *
  * @author Radovan Sninsky
@@ -32,7 +32,7 @@ public final class SimonXADataSource extends AbstractSimonDataSource implements 
 				throw new SQLException(e.getMessage());
 			}
 			if (o instanceof XADataSource) {
-				ds = (XADataSource)o;
+				ds = (XADataSource) o;
 				try {
 					for (Method m : ds.getClass().getMethods()) {
 						String methodName = m.getName();

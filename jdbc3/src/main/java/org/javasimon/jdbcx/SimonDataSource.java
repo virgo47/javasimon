@@ -10,24 +10,24 @@ import java.lang.reflect.Method;
 /**
  * Wrapper class for real DataSource implementation, produces standard {@link Connection}
  * object.
- * <p>
+ * <p/>
  * To use SimonDataSource, <b>MUST</b> properties are:
  * <ul>
  * <li><code>realDataSourceClassName</code> - full qualified classname of real Datasource
  * implementation</li>
- * <li><code>url</code> - jdbc connection url (no special simon added tags are needed)</li>
- * <li><code>user</code> - db user name</li>
- * <li><code>password</code> - db user name</li>
+ * <li><code>url</code> - JDBC connection URL (no special Simon added tags are needed)</li>
+ * <li><code>user</code> - DB user name</li>
+ * <li><code>password</code> - DB user name</li>
  * </ul>
  * <b>MAY</b> properties are:
  * <ul>
- * <li><code>perfix</code> - simon prefix (default: <code>org.javasimon.jdbcx</code></li>
+ * <li><code>perfix</code> - Simon prefix (default: <code>org.javasimon.jdbcx</code></li>
  * </ul>
- * <p>
+ * <p/>
  * As mentioned in package description all <code>getConnection</code> methods
  * just invokes real {@link javax.sql.DataSource} object methods and wraps obtained
  * {@link java.sql.Connection} with {@link org.javasimon.jdbc.SimonConnection} object.
- * <p>
+ * <p/>
  * Real {@link javax.sql.DataSource} is obtained in method {@link #datasource()}. It tries
  * to instantiate real datasource object by property <code>realDataSourceClassName</code>
  * (setters and getters for properties are in {@link AbstractSimonDataSource}) and then sets
@@ -54,7 +54,7 @@ public final class SimonDataSource extends AbstractSimonDataSource implements Da
 				throw new SQLException(e.getMessage());
 			}
 			if (o instanceof DataSource) {
-				ds = (DataSource)o;
+				ds = (DataSource) o;
 				try {
 					for (Method m : ds.getClass().getMethods()) {
 						String methodName = m.getName();
@@ -82,8 +82,8 @@ public final class SimonDataSource extends AbstractSimonDataSource implements Da
 	 * <p>Attempts to establish a connection with the data source that
 	 * this <code>DataSource</code> object represents.
 	 *
-	 * @return  a connection to the data source
-	 * @exception SQLException if a database access error occurs
+	 * @return a connection to the data source
+	 * @throws SQLException if a database access error occurs
 	 */
 	public Connection getConnection() throws SQLException {
 		return new SimonConnection(datasource().getConnection(), prefix);
@@ -95,8 +95,8 @@ public final class SimonDataSource extends AbstractSimonDataSource implements Da
 	 *
 	 * @param user the database user on whose behalf the connection is being made
 	 * @param password the user's password
-	 * @return  a connection to the data source
-	 * @exception SQLException if a database access error occurs
+	 * @return a connection to the data source
+	 * @throws SQLException if a database access error occurs
 	 */
 	public Connection getConnection(String user, String password) throws SQLException {
 		return new SimonConnection(datasource().getConnection(user, password), prefix);

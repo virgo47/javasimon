@@ -12,7 +12,7 @@ import java.util.Calendar;
 import java.net.URL;
 
 /**
- * Simon jdbc proxy result set implemntation class.
+ * Simon JDBC proxy result set implementation class.
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
@@ -31,11 +31,11 @@ public final class SimonResultSet implements ResultSet {
 	private String stmtPrefix;
 
 	/**
-	 * Class constructor, initializes simons (lifespan) related to result set.
+	 * Class constructor, initializes Simons (lifespan) related to result set.
 	 *
 	 * @param rset real resultset
-	 * @param stmt simon statement
-	 * @param prefix hierarchy preffix for JDBC Simons
+	 * @param stmt Simon statement
+	 * @param prefix hierarchy prefix for JDBC Simons
 	 * @param stmtPrefix statement prefix
 	 */
 	public SimonResultSet(ResultSet rset, SimonStatement stmt, String prefix, String stmtPrefix) {
@@ -53,16 +53,16 @@ public final class SimonResultSet implements ResultSet {
 	 * @throws SQLException if real next operation fails
 	 */
 	public boolean next() throws SQLException {
-		Split s = SimonManager.getStopwatch(stmtPrefix+".next").start();
+		Split s = SimonManager.getStopwatch(stmtPrefix + ".next").start();
 		try {
 			return rset.next();
 		} finally {
-			s.stop();	
+			s.stop();
 		}
 	}
 
 	/**
-	 * Closes real result set, stops lifespan simon.
+	 * Closes real result set, stops lifespan Simon.
 	 *
 	 * @throws SQLException if real close operation fails
 	 */

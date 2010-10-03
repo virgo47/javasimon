@@ -2,7 +2,7 @@
 
 = Java Simon - Simple Monitors for Java =
 
-Version: 2.3.1
+Version: 2.4.0
 
 This software is distributed under the terms of the FSF Lesser Gnu Public License:
   * check "lgpl.txt" in the root directory of the project

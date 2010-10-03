@@ -94,7 +94,7 @@
  * Stopwatch Simons are used. To count how many statements are open Counter Simons are used.
  * <p>
  * Each Simon is placed in the tree hierarchy (basic feature of Simon) and the place is strictly defined
- * inside the driver. Therefore you can use static configuration of those simons by defining their state
+ * inside the driver. Therefore you can use static configuration of those Simons by defining their state
  * in the config file (for more information see {@code SimonConfigTest.java} example).
  * <p>
  * Hierarchy of Simons in Simon JDBC proxy driver is following:

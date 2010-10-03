@@ -42,7 +42,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	/**
 	 * Construts Counter Simon with a specified name and for the specified manager.
 	 *
-	 * @param name    Simon's name
+	 * @param name Simon's name
 	 * @param manager owning manager
 	 */
 	CounterImpl(String name, Manager manager) {

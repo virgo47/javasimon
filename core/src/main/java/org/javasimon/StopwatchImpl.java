@@ -38,7 +38,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	/**
 	 * Construts Stopwatch Simon with a specified name and for the specified manager.
 	 *
-	 * @param name    Simon's name
+	 * @param name Simon's name
 	 * @param manager owning manager
 	 */
 	StopwatchImpl(String name, Manager manager) {

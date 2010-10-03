@@ -8,19 +8,19 @@ import java.util.Map;
 import java.sql.*;
 
 /**
- * Class implements simon jdbc proxy connection.
+ * Class implements Simon JDBC proxy connection.
  * <p>
  * Every method of this connection is implemented as call of real connection method.
- * Several methods have added work with simons (starting, stoping, etc.) for monitoring
+ * Several methods have added work with Simons (starting, stoping, etc.) for monitoring
  * purposes.
  * </p>
  * <p>
  * From all statement-return-methods (<code>createStatement(*)</code>,
  * <code>prepareStatement(*)</code>, <code>prepareCall(*)</code>) connection returns own
  * implementation of statement classes. Those classes are also proxies and provides
- * additional simons for monitoring features of JDBC driver.
+ * additional Simons for monitoring features of JDBC driver.
  * </p>
- * Monitoring connection ensure following simons:
+ * Monitoring connection ensure following Simons:
  * <ul>
  * <li>lifespan (<code>org.javasimon.jdbc.conn</code>, stopwatch) - measure connection life and count</li>
  * <li>commits (<code>org.javasimon.jdbc.conn.commits</code>, counter) - measure executed commits of all connections</li>
@@ -43,11 +43,11 @@ public final class SimonConnection implements Connection {
 	private Counter rollbacks;
 
 	/**
-	 * Class constructor, initializes simons (lifespan, active, commits
-	 * and rollbacks) related to db connection.
+	 * Class constructor, initializes Simons (lifespan, active, commits
+	 * and rollbacks) related to DB connection.
 	 *
-	 * @param conn real db connection
-	 * @param prefix hierarchy preffix for connection simons
+	 * @param conn real DB connection
+	 * @param prefix hierarchy prefix for connection Simons
 	 */
 	public SimonConnection(Connection conn, String prefix) {
 		this.conn = conn;
@@ -59,7 +59,7 @@ public final class SimonConnection implements Connection {
 	}
 
 	/**
-	 * Closes real connection, stops lifespan simon and decrease active simon.
+	 * Closes real connection, stops lifespan Simon and decrease active Simon.
 	 *
 	 * @throws SQLException if real operation fails
 	 */
@@ -70,7 +70,7 @@ public final class SimonConnection implements Connection {
 	}
 
 	/**
-	 * Commits real connection and increase commits simon.
+	 * Commits real connection and increase commits Simon.
 	 *
 	 * @throws SQLException if real commit fails
 	 */
@@ -81,7 +81,7 @@ public final class SimonConnection implements Connection {
 	}
 
 	/**
-	 * Rollback real connection and increase rollbacks simon.
+	 * Rollback real connection and increase rollbacks Simon.
 	 *
 	 * @throws SQLException if real operation fails
 	 */
@@ -92,7 +92,7 @@ public final class SimonConnection implements Connection {
 	}
 
 	/**
-	 * Rollback real connection and increase rollbacks simon.
+	 * Rollback real connection and increase rollbacks Simon.
 	 *
 	 * @param savepoint the <code>Savepoint</code> object to roll back to
 	 * @throws SQLException if real operation fails

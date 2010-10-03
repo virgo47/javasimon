@@ -3,13 +3,13 @@ package org.javasimon.jmx;
 import java.beans.ConstructorProperties;
 
 /**
- * Value object for retrieving simon name and type info via Simon MXBean ({@link SimonMXBean}).
- * This value object make possible to retrieve list of all instantiated simons together with
+ * Value object for retrieving Simon name and type info via Simon MXBean ({@link SimonMXBean}).
+ * This value object make possible to retrieve list of all instantiated Simons together with
  * their types, so no multiple roundtrips are needed.
  * <p>
- * Example: Following example shows usage of SimonInfo object to find out simon type through jmx.
+ * Example: Following example shows usage of SimonInfo object to find out Simon type through jmx.
  * <pre>
-System.out.println("List of stopwatch simons:");
+System.out.println("List of stopwatch Simons:");
 for (SimonInfo si : simon.getSimonInfos()) {
 	if (si.getType().equals(SimonInfo.STOPWATCH)) {
 		System.out.println("  " + si.getName());
@@ -43,8 +43,8 @@ public final class SimonInfo {
 
 	/**
 	 * Class constructor due to JMX requirements.
-	 * @param name simon name
-	 * @param type simon type ({@code 'stopwatch'} or {@code 'counter'})
+	 * @param name Simon name
+	 * @param type Simon type ({@code 'stopwatch'} or {@code 'counter'})
 	 */
 	@ConstructorProperties({"name", "type"})
 	public SimonInfo(String name, String type) {
@@ -53,17 +53,17 @@ public final class SimonInfo {
 	}
 
 	/**
-	 * Returns fully hierarchical name of simon.
-	 * @return simon name
+	 * Returns fully hierarchical name of Simon.
+	 * @return Simon name
 	 */
 	public String getName() {
 		return name;
 	}
 
 	/**
-	 * Returns simon type, either {@code 'stopwatch'} or {@code 'counter'} strings.
+	 * Returns Simon type, either {@code 'stopwatch'} or {@code 'counter'} strings.
 	 * 
-	 * @return simon type
+	 * @return Simon type
 	 * @see org.javasimon.jmx.SimonInfo#UNKNOWN
 	 * @see org.javasimon.jmx.SimonInfo#STOPWATCH
 	 * @see org.javasimon.jmx.SimonInfo#COUNTER

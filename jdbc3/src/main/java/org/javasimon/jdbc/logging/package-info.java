@@ -2,11 +2,11 @@
  * Logging feature of Simon JDBC Proxy driver.
  * <p>
  * This logging feature is based on Callback feature of Javasimon core library, see {@link org.javasimon.Callback}.
- * In short, Callback feature allow intercept event from simon (like start, stop, etc.) and perform custom action,
+ * In short, Callback feature allow intercept event from Simon (like start, stop, etc.) and perform custom action,
  * in this case log message with details into file or to console.
  * <p>
- * By default, start and stop event from all jdbc stopwatch simons are logged. Jdbc stopwatches are determined by
- * provided jdbc prefix. This means that logged events are connections starts and stops, statements starts and stops
+ * By default, start and stop event from all JDBC stopwatch Simons are logged. Jdbc stopwatches are determined by
+ * provided JDBC prefix. This means that logged events are connections starts and stops, statements starts and stops
  * and sql executions.
  * <p>
  * Java standard logging feature ({@link java.util.logging}) is used for logging from Simon JDBC Proxy driver. There
@@ -29,7 +29,7 @@
  * There is also other build-in csv formatter (identifier CSV). There is also possibility to provide custom formatter.
  * Only requriment is that custom formatter extends from {@link org.javasimon.jdbc.logging.SimonFormatter}.
  * <br>
- * How to setup jdbc logging:
+ * How to setup JDBC logging:
  * <ul>
  * <li>
  * <b>via JDBC URL</b> - Simon JDBC URL can by enhanced with Simon specific parameters to setup logging to file, logger
@@ -38,14 +38,14 @@
  * </li>
  * <li><b>via Simon configuration file</b> - Callback configuration can be added into the configuration file:
  * <pre>{@literal<simon-configuration>
-	<callback class="org.javasimon.jdbc.logging.LoggingCallback"> <!-- don't mix it with org.javasimon.utils.LoggingCallback! -->
-		<set property="prefix" value="org.javasimon.testdb"/>
-		<set property="loggerName" value="myapp.testdb"/>
-		<set property="logFilename" value="log/myapp.log"/>
- 		<set property="logToConsole"/> <!-- without value! -->
-		<set property="logFormat" value="csv"/> <!-- can be also human -->
-	</callback>
-    ...
+<callback class="org.javasimon.jdbc.logging.LoggingCallback"> <!-- don't mix it with org.javasimon.utils.LoggingCallback! -->
+<set property="prefix" value="org.javasimon.testdb"/>
+<set property="loggerName" value="myapp.testdb"/>
+<set property="logFilename" value="log/myapp.log"/>
+<set property="logToConsole"/> <!-- without value! -->
+<set property="logFormat" value="csv"/> <!-- can be also human -->
+</callback>
+...
 </simon-configuration>}</pre>
  * If {@code logToConsole} or {@logFilename} is omitted respective handler will not be used.</li>
  * <li>

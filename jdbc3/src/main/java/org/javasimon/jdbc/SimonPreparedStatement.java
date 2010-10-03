@@ -10,7 +10,7 @@ import java.util.Calendar;
 import java.net.URL;
 
 /**
- * Simon jdbc proxy prepared statement implemntation class.
+ * Simon JDBC proxy prepared statement implementation class.
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
@@ -27,12 +27,12 @@ public class SimonPreparedStatement extends SimonStatement implements java.sql.P
 	private java.sql.PreparedStatement stmt;
 
 	/**
-	 * Class constructor, initializes simons (lifespan, active) related to statement.
+	 * Class constructor, initializes Simons (lifespan, active) related to statement.
 	 *
-	 * @param conn database connection (simon impl.)
+	 * @param conn database connection (Simon impl.)
 	 * @param stmt real prepared statement
 	 * @param sql sql command
-	 * @param prefix hierarchy preffix for statement simons
+	 * @param prefix hierarchy prefix for statement Simons
 	 */
 	SimonPreparedStatement(Connection conn, java.sql.PreparedStatement stmt, String sql, String prefix) {
 		super(conn, stmt, prefix);
@@ -43,7 +43,7 @@ public class SimonPreparedStatement extends SimonStatement implements java.sql.P
 
 	/**
 	 * Called before each prepared SQL command execution. Prepares (obtains and starts)
-	 * {@link org.javasimon.Stopwatch Stopwatch simon} for measure SQL operation.
+	 * {@link org.javasimon.Stopwatch Stopwatch Simon} for measure SQL operation.
 	 *
 	 * @return simon stopwatch object or null if sql is null or empty
 	 */

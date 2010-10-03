@@ -40,7 +40,7 @@ public final class CallbackFilteringExample {
 		manager.callback().removeCallback(stdoutCallback);
 		// filter callback is created
 		CompositeFilterCallback filter = new CompositeFilterCallback();
-		// rule to filter out all simons matching pattern "other.*" is added
+		// rule to filter out all Simons matching pattern "other.*" is added
 		filter.addRule(FilterCallback.Rule.Type.MUST_NOT, null, "other.*");
 		// original callback is added after this callback
 		filter.addCallback(stdoutCallback);

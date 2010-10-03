@@ -9,10 +9,10 @@ import java.sql.SQLException;
 
 /**
  * Simon implementation of <code>PooledConnection</code>, needed for
- * simon ConnectionPollDataSource implementation.
- * <p>
+ * Simon ConnectionPollDataSource implementation.
+ * <p/>
  * All method invokes its real implementation.
- * <p>
+ * <p/>
  * See the {@link org.javasimon.jdbcx package description} for more
  * information.
  *
@@ -30,29 +30,37 @@ public class SimonPooledConnection implements PooledConnection {
 	 * Class constructor.
 	 *
 	 * @param connection real pooled connection
-	 * @param prefix simon prefix
+	 * @param prefix Simon prefix
 	 */
 	public SimonPooledConnection(PooledConnection connection, String prefix) {
 		this.pooledConn = connection;
 		this.prefix = prefix;
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public final Connection getConnection() throws SQLException {
 		return new SimonConnection(pooledConn.getConnection(), prefix);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public final void close() throws SQLException {
 		pooledConn.close();
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public final void addConnectionEventListener(ConnectionEventListener listener) {
 		pooledConn.addConnectionEventListener(listener);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public final void removeConnectionEventListener(ConnectionEventListener listener) {
 		pooledConn.removeConnectionEventListener(listener);
 	}

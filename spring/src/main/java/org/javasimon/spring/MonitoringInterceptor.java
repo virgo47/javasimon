@@ -18,7 +18,7 @@ public final class MonitoringInterceptor implements MethodInterceptor, Serializa
 	 *
 	 * @param invocation method invocation
 	 * @return return object from the method
-	 * @throws Throwable anything thrown by the method 
+	 * @throws Throwable anything thrown by the method
 	 */
 	public Object invoke(MethodInvocation invocation) throws Throwable {
 		String monitorName = MonitoredHelper.getMonitorName(invocation);

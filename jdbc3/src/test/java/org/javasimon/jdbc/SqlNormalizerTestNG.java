@@ -18,7 +18,7 @@ import java.util.Arrays;
 public final class SqlNormalizerTestNG {
 	@DataProvider(name = "dp1")
 	public Object[][] createTestData() {
-		return new Object[][] {
+		return new Object[][]{
 			{null, null, null},
 			{"select * from trn, subtrn where amount>=45.8 and date!=to_date('5.6.2008', 'dd.mm.yyyy') and type='Mark''s'",
 				"select", "select * from trn, subtrn where amount >= ? and date != ? and type = ?"},

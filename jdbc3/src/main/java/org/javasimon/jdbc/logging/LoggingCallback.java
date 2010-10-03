@@ -9,11 +9,11 @@ import java.text.SimpleDateFormat;
 import java.io.IOException;
 
 /**
- * LoggingCallback implements jdbc logging logic.
+ * LoggingCallback implements JDBC logging logic.
  * <p/>
  * LoggingCallback extends from empty Callback implementation ({@link org.javasimon.CallbackSkeleton}) and
  * implements two events: stopwatch start and stopwatch stop. By implementing start end stop event focusing
- * on jdbc callback produces those jdbc events:
+ * on JDBC callback produces those JDBC events:
  * <ul>
  * <li>connection open</li>
  * <li>connection close</li>
@@ -100,9 +100,9 @@ public final class LoggingCallback extends CallbackSkeleton {
 	}
 
 	/**
-	 * Return jdbc prefix that identifies jdbc driver that has enabled logging.
+	 * Return JDBC prefix that identifies JDBC driver that has enabled logging.
 	 *
-	 * @return jdbc prefix
+	 * @return JDBC prefix
 	 * @see org.javasimon.jdbc.Driver
 	 */
 	public String getPrefix() {
@@ -110,7 +110,7 @@ public final class LoggingCallback extends CallbackSkeleton {
 	}
 
 	/**
-	 * Sets jdbc prefix that identifies jdbc driver that has enabled logging.
+	 * Sets JDBC prefix that identifies JDBC driver that has enabled logging.
 	 *
 	 * @param prefix new prexif value
 	 */
@@ -128,7 +128,7 @@ public final class LoggingCallback extends CallbackSkeleton {
 	}
 
 	/**
-	 * Sets logger name that will be used for log jdbc events.
+	 * Sets logger name that will be used for log JDBC events.
 	 *
 	 * @param loggerName new logger name value
 	 */
@@ -210,8 +210,8 @@ public final class LoggingCallback extends CallbackSkeleton {
 	}
 
 	/**
-	 * Custom start event handler for jdbc logging.
-	 * Checks if stopwatch simon is one of jdbc stopwatch and if it is connection or statement
+	 * Custom start event handler for JDBC logging.
+	 * Checks if stopwatch Simon is one of JDBC stopwatch and if it is connection or statement
 	 * stopwatch, if yes, logs event.
 	 *
 	 * @param split split from stopwatch from start moment
@@ -227,8 +227,8 @@ public final class LoggingCallback extends CallbackSkeleton {
 	}
 
 	/**
-	 * Custom stop event handler for jdbc logging.
-	 * Checks if stopwatch simon is one of jdbc stopwatch, if yes, logs event.
+	 * Custom stop event handler for JDBC logging.
+	 * Checks if stopwatch Simon is one of JDBC stopwatch, if yes, logs event.
 	 *
 	 * @param split split from stopwatch from stop moment
 	 */

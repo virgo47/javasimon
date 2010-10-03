@@ -136,7 +136,7 @@ public final class SimonManager {
 
 	/**
 	 * Returns root Simon. Type of the Simon is unknown at the start but it can be replaced
-	 * by the real Simon later. Specific get method with root simon name constant can be used
+	 * by the real Simon later. Specific get method with root Simon name constant can be used
 	 * in that case.
 	 *
 	 * @return root Simon
