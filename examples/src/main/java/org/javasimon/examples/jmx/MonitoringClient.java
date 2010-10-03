@@ -38,12 +38,12 @@ public class MonitoringClient {
 		MBeanServerConnection mbsc = jmxc.getMBeanServerConnection();
 		SimonMXBean simon = JMX.newMXBeanProxy(mbsc, new ObjectName("org.javasimon.jmx.example:type=Simon"), SimonMXBean.class);
 
-		System.out.println("List of retrieved simons:");
+		System.out.println("List of retrieved Simons:");
 		for (String n : simon.getSimonNames()) {
 			System.out.println("  " + n);
 		}
 
-		System.out.println("List of stopwatch simons:");
+		System.out.println("List of stopwatch Simons:");
 		for (SimonInfo si : simon.getSimonInfos()) {
 			if (si.getType().equals(SimonInfo.STOPWATCH)) {
 				System.out.println("  " + si.getName());

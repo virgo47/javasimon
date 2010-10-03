@@ -70,16 +70,16 @@ public class StandaloneExample {
 	 * @throws MalformedObjectNameException probably never
 	 */
 	public static void main(String[] args) throws MalformedObjectNameException {
-		// We create some example simons
+		// We create some example Simons
 		Stopwatch stopwatch = SimonManager.getStopwatch("org.javasimon.jmx.example1");
 		Counter counter = SimonManager.getCounter("org.javasimon.jmx.example2");
 
-		// Do little measurement for stopwatch simon ...
+		// Do little measurement for stopwatch Simon ...
 		Split s = stopwatch.start();
 		try { Thread.sleep(632); } catch (InterruptedException e) { /* do nothing */ }
 		s.stop();
 
-		// ... and few usage of counter simon.
+		// ... and few usage of counter Simon.
 		counter.increase(52);
 		counter.decrease(12);
 		counter.increase(18);
@@ -98,7 +98,7 @@ public class StandaloneExample {
 		SimonMXBean simon = JMX.newMXBeanProxy(ManagementFactory.getPlatformMBeanServer(),
 			new ObjectName("org.javasimon.jmx.example:type=Simon"), SimonMXBean.class);
 
-		// Now, we can freely retrieve smples for counter and stopwatch example simons
+		// Now, we can freely retrieve smples for counter and stopwatch example Simons
 		System.out.println("counter = " + simon.getCounterSample("org.javasimon.jmx.example2"));
 		System.out.println("stopwatch = " + simon.getStopwatchSample("org.javasimon.jmx.example1"));
 

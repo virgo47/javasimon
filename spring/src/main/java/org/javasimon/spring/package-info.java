@@ -10,13 +10,13 @@
  * {@literal web.xml}, the {@literal contextConfigLocation} context parameter will look something like this:
  * <pre>{@literal
 <context-param>
-  <param-name>contextConfigLocation</param-name>
-  <param-value>
-    classpath:org/javasimon/spring/monitoring.xml
-    classpath:context/services.xml
-    classpath:context/data-access-layer.xml
-    /WEB-INF/applicationContext.xml
-  </param-value>
+<param-name>contextConfigLocation</param-name>
+<param-value>
+classpath:org/javasimon/spring/monitoring.xml
+classpath:context/services.xml
+classpath:context/data-access-layer.xml
+/WEB-INF/applicationContext.xml
+</param-value>
 </context-param>}</pre>
  *
  * <p>Step -2- Annotate all classes and/or methods you want to monitor (see {@link org.javasimon.spring.Monitored} for

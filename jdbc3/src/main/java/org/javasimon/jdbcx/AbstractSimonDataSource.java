@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 /**
  * SimonCommonDataSource is parent for all three datasource implementation classes.
- * <p>
+ * <p/>
  * It contains getters and setters for basic properties which all three datasource types
  * needs to impelement.
  *
@@ -30,8 +30,8 @@ public abstract class AbstractSimonDataSource {
 	 * <p>Retrieves the log writer for this <code>DataSource</code> object.
 	 *
 	 * @return the log writer for this data source or null if logging is disabled
-	 * @exception SQLException if a database access error occurs
-	 * @see javax.sql.DataSource#getLogWriter() 
+	 * @throws SQLException if a database access error occurs
+	 * @see javax.sql.DataSource#getLogWriter()
 	 * @see #setLogWriter(java.io.PrintWriter)
 	 */
 	public final PrintWriter getLogWriter() throws SQLException {
@@ -43,7 +43,7 @@ public abstract class AbstractSimonDataSource {
 	 * object to the given <code>java.io.PrintWriter</code> object.
 	 *
 	 * @param out the new log writer; to disable logging, set to null
-	 * @exception SQLException if a database access error occurs
+	 * @throws SQLException if a database access error occurs
 	 * @see javax.sql.DataSource#setLogWriter(java.io.PrintWriter)
 	 * @see #getLogWriter
 	 */
@@ -52,17 +52,18 @@ public abstract class AbstractSimonDataSource {
 	}
 
 	/**
-	 * Returns jdbc connection url.
+	 * Returns JDBC connection URL.
 	 *
-	 * @return jdbc connection url
+	 * @return JDBC connection URL
 	 */
 	public final String getUrl() {
 		return url;
 	}
 
 	/**
-	 * Setter for url property.  
-	 * @param url jdbc connection url
+	 * Setter for URL property.
+	 *
+	 * @param url JDBC connection URL
 	 */
 	public final void setUrl(String url) {
 		this.url = url;
@@ -70,6 +71,7 @@ public abstract class AbstractSimonDataSource {
 
 	/**
 	 * Returns database user to autenticate connection.
+	 *
 	 * @return database user
 	 */
 	public final String getUser() {
@@ -78,6 +80,7 @@ public abstract class AbstractSimonDataSource {
 
 	/**
 	 * Setter for user property.
+	 *
 	 * @param user database user
 	 */
 	public final void setUser(String user) {
@@ -86,6 +89,7 @@ public abstract class AbstractSimonDataSource {
 
 	/**
 	 * Returns database password to autenticate connection.
+	 *
 	 * @return database password
 	 */
 	public final String getPassword() {
@@ -94,7 +98,8 @@ public abstract class AbstractSimonDataSource {
 
 	/**
 	 * Setter for password property.
-	 * @param password database password 
+	 *
+	 * @param password database password
 	 */
 	public final void setPassword(String password) {
 		this.password = password;
@@ -109,7 +114,7 @@ public abstract class AbstractSimonDataSource {
 	 * initially zero.
 	 *
 	 * @param seconds the data source login time limit
-	 * @exception SQLException if a database access error occurs.
+	 * @throws SQLException if a database access error occurs.
 	 * @see #getLoginTimeout
 	 */
 	public final void setLoginTimeout(int seconds) throws SQLException {
@@ -125,7 +130,7 @@ public abstract class AbstractSimonDataSource {
 	 * initially zero.
 	 *
 	 * @return the data source login time limit
-	 * @exception SQLException if a database access error occurs.
+	 * @throws SQLException if a database access error occurs.
 	 * @see #setLoginTimeout
 	 */
 	public final int getLoginTimeout() throws SQLException {
@@ -134,6 +139,7 @@ public abstract class AbstractSimonDataSource {
 
 	/**
 	 * Returns real datasource class name.
+	 *
 	 * @return real datasource class name
 	 */
 	public final String getRealDataSourceClassName() {
@@ -142,6 +148,7 @@ public abstract class AbstractSimonDataSource {
 
 	/**
 	 * Setter for realDataSourceClassName property.
+	 *
 	 * @param className class name of real datasource
 	 */
 	public final void setRealDataSourceClassName(String className) {
@@ -149,8 +156,9 @@ public abstract class AbstractSimonDataSource {
 	}
 
 	/**
-	 * Returns simon prefix for constructing names of simons.
-	 * @return simon prefix
+	 * Returns Simon prefix for constructing names of Simons.
+	 *
+	 * @return Simon prefix
 	 */
 	public final String getPrefix() {
 		return prefix;
@@ -158,7 +166,8 @@ public abstract class AbstractSimonDataSource {
 
 	/**
 	 * Setter for prefix property.
-	 * @param prefix simon prefix
+	 *
+	 * @param prefix Simon prefix
 	 */
 	public final void setPrefix(String prefix) {
 		this.prefix = prefix;

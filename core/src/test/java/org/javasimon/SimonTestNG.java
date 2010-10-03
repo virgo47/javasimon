@@ -33,7 +33,7 @@ public final class SimonTestNG {
 		Assert.assertFalse(attributeNamesIterator.hasNext());
 		Assert.assertEquals(simon.getAttribute("key"), "value");
 
-		// with existing attributes, null simon should return nothing
+		// with existing attributes, null Simon should return nothing
 		SimonManager.disable();
 		Simon nullSimon = SimonManager.getStopwatch(STOPWATCH_NAME);
 		Assert.assertFalse(nullSimon.getAttributeNames().hasNext());

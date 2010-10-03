@@ -3,8 +3,8 @@ package org.javasimon.jmx;
 import java.beans.ConstructorProperties;
 
 /**
- * Object is used as transfer object for jdbc mbean. Object holds data for jdbc runtime objects: connection, statements
- * and result sets. These objects has same data structure, so it's used for transfering data from jdbc javasimon hierarchy
+ * Object is used as transfer object for JDBC MBean. Object holds data for JDBC runtime objects: connection, statements
+ * and result sets. These objects has same data structure, so it's used for transfering data from JDBC Simon hierarchy
  * through jmx.
  *
  * @author Radovan Sninsky

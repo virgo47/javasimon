@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.javasimon</groupId>
+	<artifactId>javasimon-jdbc4</artifactId>
+	<packaging>jar</packaging>
+	<version>${javasimon.version}</version>
+	<name>JavaSimon JDBC 4 Support</name>
+
+	<parent>
+		<groupId>org.javasimon</groupId>
+		<artifactId>javasimon-parent</artifactId>
+		<version>2.4.0</version>
+	</parent>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.javasimon</groupId>
+			<artifactId>javasimon-core</artifactId>
+			<version>${javasimon.version}</version>
+		</dependency>
+	</dependencies>
+</project>

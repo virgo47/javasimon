@@ -8,11 +8,11 @@ import java.lang.reflect.Method;
 /**
  * Wrapper class for real ConnectionPoolDataSource implementation, produces pooled
  * {@link javax.sql.PooledConnection} object.
- * <p>
+ * <p/>
  * See the {@link org.javasimon.jdbcx.SimonDataSource} for more information.
  *
  * @author Radovan Sninsky
- * @version $Revision$ $Date$ 
+ * @version $Revision$ $Date$
  * @created 17.9.2008 21:55:01
  * @since 1.0
  */
@@ -20,7 +20,7 @@ public final class SimonConnectionPoolDataSource extends AbstractSimonDataSource
 
 	private ConnectionPoolDataSource ds;
 
-	private ConnectionPoolDataSource datasource() throws SQLException{
+	private ConnectionPoolDataSource datasource() throws SQLException {
 		if (ds == null) {
 			if (realDataSourceClassName == null || realDataSourceClassName.length() == 0) {
 				throw new SQLException("Property realdatasourceclassname is not set");
@@ -32,7 +32,7 @@ public final class SimonConnectionPoolDataSource extends AbstractSimonDataSource
 				throw new SQLException(e.getMessage());
 			}
 			if (o instanceof ConnectionPoolDataSource) {
-				ds = (ConnectionPoolDataSource)o;
+				ds = (ConnectionPoolDataSource) o;
 				try {
 					for (Method m : ds.getClass().getMethods()) {
 						String methodName = m.getName();

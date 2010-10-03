@@ -93,6 +93,7 @@ public final class EnabledManager implements Manager {
 	}
 
 	// name can be null in case of "anonymous" Simons
+
 	private synchronized Simon getOrCreateSimon(String name, Class<? extends AbstractSimon> simonClass) {
 		AbstractSimon simon = null;
 		if (name != null) {

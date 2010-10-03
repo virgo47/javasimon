@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.LinkedList;
 
 /**
- * Simon jdbc proxy statement implemntation class.
+ * Simon JDBC proxy statement implementation class.
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
@@ -29,7 +29,7 @@ public class SimonStatement implements Statement {
 	protected Connection conn;
 
 	/**
-	 * Hierarchy preffix for JDBC Simons.
+	 * Hierarchy prefix for JDBC Simons.
 	 */
 	protected String prefix;
 
@@ -51,11 +51,11 @@ public class SimonStatement implements Statement {
 	private Statement stmt;
 
 	/**
-	 * Class constructor, initializes simons (lifespan, active) related to statement.
+	 * Class constructor, initializes Simons (lifespan, active) related to statement.
 	 *
 	 * @param conn database connection (simon impl.)
 	 * @param stmt real statement
-	 * @param prefix hierarchy preffix for JDBC Simons
+	 * @param prefix hierarchy prefix for JDBC Simons
 	 */
 	SimonStatement(Connection conn, Statement stmt, String prefix) {
 		this.conn = conn;
@@ -66,7 +66,7 @@ public class SimonStatement implements Statement {
 	}
 
 	/**
-	 * Closes real statement, stops lifespan simon and decrease active simon.
+	 * Closes real statement, stops lifespan Simon and decrease active Simon.
 	 *
 	 * @throws SQLException if real operation fails
 	 */
@@ -86,7 +86,7 @@ public class SimonStatement implements Statement {
 	}
 
 	/**
-	 * Called before each SQL command execution. Prepares (obtains and starts) {@link org.javasimon.Stopwatch Stopwatch simon}
+	 * Called before each SQL command execution. Prepares (obtains and starts) {@link org.javasimon.Stopwatch Stopwatch Simon}
 	 * for measure SQL operation.
 	 *
 	 * @param sql sql command for execution
@@ -103,7 +103,7 @@ public class SimonStatement implements Statement {
 	}
 
 	/**
-	 * Called before each SQL command execution. Prepares (obtains and starts) {@link org.javasimon.Stopwatch Stopwatch simon}
+	 * Called before each SQL command execution. Prepares (obtains and starts) {@link org.javasimon.Stopwatch Stopwatch Simon}
 	 * for measure bach SQL operations.
 	 *
 	 * @param sqls list of sql commands
@@ -135,7 +135,7 @@ public class SimonStatement implements Statement {
 
 	/**
 	 * Called after each SQL command execution. Stops concrete SQL stopwatch (started in {@link #prepare(String)}),
-	 * also adds time to SQL command type simon and sets human readable SQL cmd as note.
+	 * also adds time to SQL command type Simon and sets human readable SQL cmd as note.
 	 *
 	 * @param split started Stopwatch split
 	 */

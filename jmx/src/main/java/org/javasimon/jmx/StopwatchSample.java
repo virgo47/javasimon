@@ -3,7 +3,7 @@ package org.javasimon.jmx;
 import java.beans.ConstructorProperties;
 
 /**
- * Value object for retrieving data from Stopwatch simon. Basically, it's
+ * Value object for retrieving data from Stopwatch Simon. Basically, it's
  * {@link org.javasimon.StopwatchSample} with added JMX capabilities to be return as object via
  * MXBean method.
  * <p>
@@ -65,9 +65,9 @@ public final class StopwatchSample extends org.javasimon.StopwatchSample {
 
 	/**
 	 * Internall, framework constructor for Simon MBean implementation to initialize all properties
-	 * by sample obtained from simon.
+	 * by sample obtained from Simon.
 	 *
-	 * @param s sample object obtained from Stopwatch simon
+	 * @param s sample object obtained from Stopwatch Simon
 	 */
 	StopwatchSample(org.javasimon.StopwatchSample s) {
 		setMean(s.getMean());

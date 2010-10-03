@@ -7,31 +7,31 @@ import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 
 /**
- * SimonFormatter is abstract root for custom log formatters for logging feature of simon jdbc driver.
- * <p>
+ * SimonFormatter is abstract root for custom log formatters for logging feature of Simon JDBC driver.
+ * <p/>
  * Main format method is {@link #formatRecord(java.util.logging.LogRecord, CallbackLogParams)}. It consumes standard
  * logging {@link java.util.logging.LogRecord} and object {@link CallbackLogParams}. {@link CallbackLogParams} contains
- * parameters from callbacks like name of simon, slit, etc.
+ * parameters from callbacks like name of Simon, split, etc.
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
  * @created 18.2.2009 21:10:59
- * @since 2.0
  * @see CallbackLogParams
  * @see LoggingCallback#formatter()
+ * @since 2.0
  */
 public abstract class SimonFormatter extends Formatter {
 	/**
 	 * {@inheritDoc}
 	 */
 	public final synchronized String format(LogRecord record) {
-		return formatRecord(record, (CallbackLogParams)record.getParameters()[0]);
+		return formatRecord(record, (CallbackLogParams) record.getParameters()[0]);
 	}
 
 	/**
 	 * Custom format method.
 	 *
-	 * @param record standard logging log record 
+	 * @param record standard logging log record
 	 * @param params callback logging parameters
 	 * @return log message formated to string
 	 */
@@ -54,6 +54,6 @@ public abstract class SimonFormatter extends Formatter {
 	 * @return note if present; otherwise empty string
 	 */
 	protected String note(CallbackLogParams p) {
-		return p.getNote() != null ? "{"+p.getNote()+"}" : "";
+		return p.getNote() != null ? "{" + p.getNote() + "}" : "";
 	}
 }

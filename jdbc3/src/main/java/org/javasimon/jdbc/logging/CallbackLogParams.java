@@ -10,8 +10,8 @@ import org.javasimon.utils.SimonUtils;
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
  * @created 3.3.2009 23:28:48
- * @since 2.0
  * @see org.javasimon.jdbc.logging.SimonFormatter
+ * @since 2.0
  */
 final class CallbackLogParams {
 
@@ -24,7 +24,7 @@ final class CallbackLogParams {
 	/**
 	 * Class constructor, initialize all properties.
 	 *
-	 * @param fullName full name of simon
+	 * @param fullName full name of Simon
 	 * @param event event (see {@link org.javasimon.Callback.Event})
 	 * @param split split in ms
 	 * @param note provided note
@@ -38,16 +38,18 @@ final class CallbackLogParams {
 	}
 
 	/**
-	 * Getter for simon fully qualified name.
-	 * @return simon fullname
+	 * Getter for Simon fully qualified name.
+	 *
+	 * @return Simon fullname
 	 */
 	public String getFullName() {
 		return fullName;
 	}
 
 	/**
-	 * Getter for simon local name, just name after last dot.
-	 * @return simon local name
+	 * Getter for Simon local name, just name after last dot.
+	 *
+	 * @return Simon local name
 	 */
 	public String getLocalName() {
 		return localName;
@@ -55,6 +57,7 @@ final class CallbackLogParams {
 
 	/**
 	 * Getter for stopwatch event (start, stop, etc.), see {@link org.javasimon.Callback.Event}.
+	 *
 	 * @return stopwatch event
 	 */
 	public Callback.Event getEvent() {
@@ -63,6 +66,7 @@ final class CallbackLogParams {
 
 	/**
 	 * Getter for stopwatch split.
+	 *
 	 * @return stopwatch split
 	 */
 	public long getSplit() {
@@ -70,8 +74,9 @@ final class CallbackLogParams {
 	}
 
 	/**
-	 * Getter for simon note.
-	 * @return simon note
+	 * Getter for Simon note.
+	 *
+	 * @return Simon note
 	 */
 	public String getNote() {
 		return note;

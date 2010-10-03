@@ -6,10 +6,10 @@ import java.sql.SQLException;
 
 /**
  * Simon implementation of <code>XAConnection</code>, needed for
- * simon XADataSource implementation.
- * <p>
+ * Simon XADataSource implementation.
+ * <p/>
  * All method invokes its real implementation.
- * <p>
+ * <p/>
  * See the {@link org.javasimon.jdbcx package description} for more
  * information.
  *
@@ -26,7 +26,7 @@ public final class SimonXAConnection extends SimonPooledConnection implements XA
 	 * Class constructor.
 	 *
 	 * @param connection real xa connection
-	 * @param prefix simon prefix
+	 * @param prefix Simon prefix
 	 */
 	public SimonXAConnection(XAConnection connection, String prefix) {
 		super(connection, prefix);
@@ -34,7 +34,9 @@ public final class SimonXAConnection extends SimonPooledConnection implements XA
 		this.realConn = connection;
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public XAResource getXAResource() throws SQLException {
 		return realConn.getXAResource();
 	}

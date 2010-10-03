@@ -6,7 +6,7 @@ import org.javasimon.StopwatchSample;
  * Interface of Simon management bean (MXBean).
  * <p>
  * It provides general management tasks over all Simon infrastructure (means hierarchy
- * of simons) plus some usefull util functions.
+ * of Simons) plus some usefull util functions.
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
@@ -16,14 +16,14 @@ import org.javasimon.StopwatchSample;
 public interface SimonMXBean {
 
 	/**
-	 * Enables the Simon Manager, enable monitoring application by simons.
+	 * Enables the Simon Manager, enable monitoring application by Simons.
 	 *
 	 * @see org.javasimon.Manager#enable()
 	 */
 	void enable();
 
 	/**
-	 * Disables the Simon Manager, disable monitoring application by simons.
+	 * Disables the Simon Manager, disable monitoring application by Simons.
 	 *
 	 * @see org.javasimon.Manager#disable()
 	 */
@@ -46,11 +46,11 @@ public interface SimonMXBean {
 	String[] getSimonNames();
 
 	/**
-	 * Returns type of simon, either COUNTER, STOPWATCH or UNKNOWN.
+	 * Returns type of Simon, either COUNTER, STOPWATCH or UNKNOWN.
 	 *
-	 * @param name name of simon
-	 * @return string COUNTER if Counter simon, STOPWATCH if Stopwatch simon
-	 * or UKNOWN if there is no simon just undefined hierarchy node
+	 * @param name name of Simon
+	 * @return string COUNTER if Counter Simon, STOPWATCH if Stopwatch Simon
+	 * or UKNOWN if there is no Simon just undefined hierarchy node
 	 */
 	String getType(String name);
 

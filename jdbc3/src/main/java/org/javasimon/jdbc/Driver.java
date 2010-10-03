@@ -100,7 +100,7 @@ public final class Driver implements java.sql.Driver {
 	public static final String REAL_DRIVER = "simon_real_drv";
 
 	/**
-	 * Default hierarchy prefix for Simon JDBC driver. All simons created by Simon JDBC
+	 * Default hierarchy prefix for Simon JDBC driver. All Simons created by Simon JDBC
 	 * driver without explicitly specified prefix are started with default prefix.
 	 */
 	public static final String DEFAULT_PREFIX = "org.javasimon.jdbc";
@@ -170,7 +170,7 @@ public final class Driver implements java.sql.Driver {
 		/**
 		 * Class constructor, parses given url and recognizes driver's properties.
 		 *
-		 * @param url given jdbc url
+		 * @param url given JDBC URL
 		 */
 		Url(String url) {
 			int i = url.indexOf(':', JDBC_URL_FIXED_PREFIX_LEN);
@@ -187,28 +187,28 @@ public final class Driver implements java.sql.Driver {
 
 				if (tokenPairStr.startsWith("jdbc")) {
 					realUrl = tokenPairStr.replaceFirst(SIMON_JDBC, "jdbc");
-				 } else if (token.equalsIgnoreCase(REAL_DRIVER)) {
+				} else if (token.equalsIgnoreCase(REAL_DRIVER)) {
 					realDriver = tokenValue;
-				 } else if (token.equalsIgnoreCase(PREFIX)) {
+				} else if (token.equalsIgnoreCase(PREFIX)) {
 					prefix = tokenValue;
-				 } else if (token.equalsIgnoreCase(LOGFILE)) {
+				} else if (token.equalsIgnoreCase(LOGFILE)) {
 					logfile = tokenValue;
-				 } else if (token.equalsIgnoreCase(LOGGER)) {
+				} else if (token.equalsIgnoreCase(LOGGER)) {
 					logger = tokenValue;
-				 } else if (token.equalsIgnoreCase(CONSOLE)) {
+				} else if (token.equalsIgnoreCase(CONSOLE)) {
 					console = tokenValue;
-				 } else if (token.equalsIgnoreCase(FORMAT)) {
+				} else if (token.equalsIgnoreCase(FORMAT)) {
 					format = tokenValue;
-				 } else {
+				} else {
 					realUrl += ";" + tokenPairStr;
-				 }
-			 }
+				}
+			}
 		}
 
 		/**
-		 * Returns orignal jdbc url without any simon stuff.
+		 * Returns orignal JDBC URL without any Simon stuff.
 		 *
-		 * @return original jdbc url
+		 * @return original JDBC URL
 		 */
 		public String getRealUrl() {
 			return realUrl;
@@ -233,16 +233,16 @@ public final class Driver implements java.sql.Driver {
 		}
 
 		/**
-		 * Returns prefix for hierarchy of jdbc related simons.
+		 * Returns prefix for hierarchy of JDBC related Simons.
 		 *
-		 * @return prefix for jdbc simons
+		 * @return prefix for JDBC Simons
 		 */
 		public String getPrefix() {
 			return prefix == null ? DEFAULT_PREFIX : prefix;
 		}
 
 		/**
-		 * Returns filename to log events from jdbc simons if provided.
+		 * Returns filename to log events from JDBC Simons if provided.
 		 *
 		 * @return filename
 		 */
@@ -307,7 +307,7 @@ public final class Driver implements java.sql.Driver {
 	/**
 	 * Opens new Simon proxy driver connection associated with real connection to specified database.
 	 *
-	 * @param simonUrl jdbc connection string (i.e. jdbc:simon:h2:file:test)
+	 * @param simonUrl JDBC connection string (i.e. jdbc:simon:h2:file:test)
 	 * @param info properties for connection
 	 * @return open connection to database or null if provided url is not accepted by this driver
 	 * @throws SQLException if there is no real driver registered/recognized or opening real connection fails
@@ -322,7 +322,7 @@ public final class Driver implements java.sql.Driver {
 		java.sql.Driver driver = getRealDriver(url, info);
 
 		// if one of three possible way of setting logging is set, than
-		// configure simon jdbc driver logging through jdbc logging callback
+		// configure Simon JDBC driver logging through JDBC logging callback
 		if (url.getLogfile() != null || url.getLogger() != null || url.getConsole()) {
 			// check if LoggingCallback is already registerd
 			LoggingCallback loggingCallback = null;
@@ -342,7 +342,7 @@ public final class Driver implements java.sql.Driver {
 	}
 
 	/**
-	 * Registers jdbc logging callback to simon manager.
+	 * Registers JDBC logging callback to Simon manager.
 	 *
 	 * @param url instance of {@link org.javasimon.jdbc.Driver.Url}
 	 * @see org.javasimon.SimonManager#callback()
@@ -440,14 +440,14 @@ public final class Driver implements java.sql.Driver {
 	 * {@inheritDoc}
 	 */
 	public int getMajorVersion() {
-		return 1;
+		return 2;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public int getMinorVersion() {
-		return 0;
+		return 4;
 	}
 
 	/**

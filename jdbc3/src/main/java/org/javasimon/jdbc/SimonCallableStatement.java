@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.io.Reader;
 
 /**
- * Simon jdbc proxy callable statement implemntation class.
+ * Simon JDBC proxy callable statement implemntation class.
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
@@ -22,12 +22,12 @@ public final class SimonCallableStatement extends SimonPreparedStatement impleme
 	private CallableStatement stmt;
 
 	/**
-	 * Class constructor, initializes simons (lifespan, active) related to statement.
+	 * Class constructor, initializes Simons (lifespan, active) related to statement.
 	 *
-	 * @param conn database connection (simon impl.)
+	 * @param conn database connection (Simon impl.)
 	 * @param stmt real callable statement
 	 * @param sql sql command
-	 * @param prefix hierarchy preffix for statement simons
+	 * @param prefix hierarchy prefix for statement Simons
 	 */
 	SimonCallableStatement(Connection conn, CallableStatement stmt, String sql, String prefix) {
 		super(conn, stmt, sql, prefix);
@@ -35,397 +35,556 @@ public final class SimonCallableStatement extends SimonPreparedStatement impleme
 		this.stmt = stmt;
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public void registerOutParameter(int i, int i1) throws SQLException {
 		stmt.registerOutParameter(i, i1);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public void registerOutParameter(int i, int i1, int i2) throws SQLException {
 		stmt.registerOutParameter(i, i1, i2);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean wasNull() throws SQLException {
 		return stmt.wasNull();
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getString(int i) throws SQLException {
 		return stmt.getString(i);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean getBoolean(int i) throws SQLException {
 		return stmt.getBoolean(i);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public byte getByte(int i) throws SQLException {
 		return stmt.getByte(i);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public short getShort(int i) throws SQLException {
 		return stmt.getShort(i);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public int getInt(int i) throws SQLException {
 		return stmt.getInt(i);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public long getLong(int i) throws SQLException {
 		return stmt.getLong(i);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public float getFloat(int i) throws SQLException {
 		return stmt.getFloat(i);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public double getDouble(int i) throws SQLException {
 		return stmt.getDouble(i);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
+	@Deprecated
 	public BigDecimal getBigDecimal(int i, int i1) throws SQLException {
 		return stmt.getBigDecimal(i, i1);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public byte[] getBytes(int i) throws SQLException {
 		return stmt.getBytes(i);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public Date getDate(int i) throws SQLException {
 		return stmt.getDate(i);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public Time getTime(int i) throws SQLException {
 		return stmt.getTime(i);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public Timestamp getTimestamp(int i) throws SQLException {
 		return stmt.getTimestamp(i);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public Object getObject(int i) throws SQLException {
 		return stmt.getObject(i);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public BigDecimal getBigDecimal(int i) throws SQLException {
 		return stmt.getBigDecimal(i);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public Object getObject(int i, Map<String, Class<?>> stringClassMap) throws SQLException {
 		return stmt.getObject(i, stringClassMap);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public Ref getRef(int i) throws SQLException {
 		return stmt.getRef(i);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public Blob getBlob(int i) throws SQLException {
 		return stmt.getBlob(i);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public Clob getClob(int i) throws SQLException {
 		return stmt.getClob(i);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public Array getArray(int i) throws SQLException {
 		return stmt.getArray(i);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public Date getDate(int i, Calendar calendar) throws SQLException {
 		return stmt.getDate(i, calendar);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public Time getTime(int i, Calendar calendar) throws SQLException {
 		return stmt.getTime(i, calendar);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public Timestamp getTimestamp(int i, Calendar calendar) throws SQLException {
 		return stmt.getTimestamp(i, calendar);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public void registerOutParameter(int i, int i1, String s) throws SQLException {
 		stmt.registerOutParameter(i, i1, s);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public void registerOutParameter(String s, int i) throws SQLException {
 		stmt.registerOutParameter(s, i);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public void registerOutParameter(String s, int i, int i1) throws SQLException {
 		stmt.registerOutParameter(s, i, i1);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public void registerOutParameter(String s, int i, String s1) throws SQLException {
 		stmt.registerOutParameter(s, i, s1);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public URL getURL(int i) throws SQLException {
 		return stmt.getURL(i);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setURL(String s, URL url) throws SQLException {
 		stmt.setURL(s, url);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setNull(String s, int i) throws SQLException {
 		stmt.setNull(s, i);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setBoolean(String s, boolean b) throws SQLException {
 		stmt.setBoolean(s, b);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setByte(String s, byte b) throws SQLException {
 		stmt.setByte(s, b);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setShort(String s, short i) throws SQLException {
 		stmt.setShort(s, i);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setInt(String s, int i) throws SQLException {
 		stmt.setInt(s, i);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setLong(String s, long l) throws SQLException {
 		stmt.setLong(s, l);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setFloat(String s, float v) throws SQLException {
 		stmt.setFloat(s, v);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setDouble(String s, double v) throws SQLException {
 		stmt.setDouble(s, v);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setBigDecimal(String s, BigDecimal bigDecimal) throws SQLException {
 		stmt.setBigDecimal(s, bigDecimal);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setString(String s, String s1) throws SQLException {
 		stmt.setString(s, s1);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setBytes(String s, byte[] bytes) throws SQLException {
 		stmt.setBytes(s, bytes);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setDate(String s, Date date) throws SQLException {
 		stmt.setDate(s, date);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setTime(String s, Time time) throws SQLException {
 		stmt.setTime(s, time);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setTimestamp(String s, Timestamp timestamp) throws SQLException {
 		stmt.setTimestamp(s, timestamp);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setAsciiStream(String s, InputStream inputStream, int i) throws SQLException {
 		stmt.setAsciiStream(s, inputStream, i);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setBinaryStream(String s, InputStream inputStream, int i) throws SQLException {
 		stmt.setBinaryStream(s, inputStream, i);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setObject(String s, Object o, int i, int i1) throws SQLException {
 		stmt.setObject(s, o, i, i1);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setObject(String s, Object o, int i) throws SQLException {
 		stmt.setObject(s, o, i);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setObject(String s, Object o) throws SQLException {
 		stmt.setObject(s, o);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setCharacterStream(String s, Reader reader, int i) throws SQLException {
 		stmt.setCharacterStream(s, reader, i);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setDate(String s, Date date, Calendar calendar) throws SQLException {
 		stmt.setDate(s, date, calendar);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setTime(String s, Time time, Calendar calendar) throws SQLException {
 		stmt.setTime(s, time, calendar);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setTimestamp(String s, Timestamp timestamp, Calendar calendar) throws SQLException {
 		stmt.setTimestamp(s, timestamp, calendar);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setNull(String s, int i, String s1) throws SQLException {
 		stmt.setNull(s, i, s1);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getString(String s) throws SQLException {
 		return stmt.getString(s);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean getBoolean(String s) throws SQLException {
 		return stmt.getBoolean(s);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public byte getByte(String s) throws SQLException {
 		return stmt.getByte(s);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public short getShort(String s) throws SQLException {
 		return stmt.getShort(s);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public int getInt(String s) throws SQLException {
 		return stmt.getInt(s);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public long getLong(String s) throws SQLException {
 		return stmt.getLong(s);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public float getFloat(String s) throws SQLException {
 		return stmt.getFloat(s);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public double getDouble(String s) throws SQLException {
 		return stmt.getDouble(s);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public byte[] getBytes(String s) throws SQLException {
 		return stmt.getBytes(s);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public Date getDate(String s) throws SQLException {
 		return stmt.getDate(s);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public Time getTime(String s) throws SQLException {
 		return stmt.getTime(s);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public Timestamp getTimestamp(String s) throws SQLException {
 		return stmt.getTimestamp(s);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public Object getObject(String s) throws SQLException {
 		return stmt.getObject(s);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public BigDecimal getBigDecimal(String s) throws SQLException {
 		return stmt.getBigDecimal(s);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public Object getObject(String s, Map<String, Class<?>> stringClassMap) throws SQLException {
 		return stmt.getObject(s, stringClassMap);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public Ref getRef(String s) throws SQLException {
 		return stmt.getRef(s);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public Blob getBlob(String s) throws SQLException {
 		return stmt.getBlob(s);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public Clob getClob(String s) throws SQLException {
 		return stmt.getClob(s);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public Array getArray(String s) throws SQLException {
 		return stmt.getArray(s);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public Date getDate(String s, Calendar calendar) throws SQLException {
 		return stmt.getDate(s, calendar);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public Time getTime(String s, Calendar calendar) throws SQLException {
 		return stmt.getTime(s, calendar);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public Timestamp getTimestamp(String s, Calendar calendar) throws SQLException {
 		return stmt.getTimestamp(s, calendar);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	public URL getURL(String s) throws SQLException {
 		return stmt.getURL(s);
 	}

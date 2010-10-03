@@ -103,7 +103,7 @@ public interface FilterCallback extends Callback {
 		 */
 		public static final String VAR_VALUE = "value";
 
-		private static final Replacer[] CONDITION_REPLACERS = new Replacer[] {
+		private static final Replacer[] CONDITION_REPLACERS = new Replacer[]{
 			new Replacer(" lt ", " < "),
 			new Replacer(" le ", " <= "),
 			new Replacer(" eq ", " == "),

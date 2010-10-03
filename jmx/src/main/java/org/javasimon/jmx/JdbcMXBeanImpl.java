@@ -84,10 +84,11 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Deprecated
 	public void logToFile(String filename, String format) {
 		stopLogging();
 
-		// install new jdbc log callback
+		// install new JDBC log callback
 		LoggingCallback jlc =  new LoggingCallback();
 		jlc.setPrefix(prefix);
 		jlc.setLogFilename(filename);
@@ -98,10 +99,11 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Deprecated
 	public void logToLogger(String logger, String format) {
 		stopLogging();
 
-		// install new jdbc log callback
+		// install new JDBC log callback
 		LoggingCallback jlc =  new LoggingCallback();
 		jlc.setPrefix(prefix);
 		jlc.setLoggerName(logger);
@@ -112,10 +114,11 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Deprecated
 	public void logToConsole(String format) {
 		stopLogging();
 
-		// install new jdbc log callback
+		// install new JDBC log callback
 		LoggingCallback jlc =  new LoggingCallback();
 		jlc.setPrefix(prefix);
 		jlc.setLogToConsole();
@@ -126,8 +129,9 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Deprecated
 	public void stopLogging() {
-		// remove ALL jdbc log callback if exists for default prefix
+		// remove ALL JDBC log callback if exists for default prefix
 		for (Callback c : manager.callback().callbacks()) {
 			if (c instanceof LoggingCallback && ((LoggingCallback)c).getPrefix().equalsIgnoreCase(prefix)) {
 				manager.callback().removeCallback(c);

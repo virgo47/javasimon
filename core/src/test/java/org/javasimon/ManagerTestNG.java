@@ -148,6 +148,7 @@ public final class ManagerTestNG {
 			public void stopwatchStart(Split split) {
 				messages.add("start");
 			}
+
 			public void stopwatchStop(Split split) {
 				messages.add("stop");
 			}

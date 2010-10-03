@@ -222,9 +222,9 @@ public final class SimonUtils {
 	}
 
 	/**
-	 * Returns last part of simon hierarchycal name - local name.
+	 * Returns last part of Simon name - local name.
 	 *
-	 * @param name full simon name
+	 * @param name full Simon name
 	 * @return string containing local name
 	 */
 	public static String localName(String name) {

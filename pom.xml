@@ -5,12 +5,13 @@
 	<groupId>org.javasimon</groupId>
 	<artifactId>javasimon-parent</artifactId>
 	<packaging>pom</packaging>
-	<version>2.3.1</version>
+	<version>2.4.0</version>
 	<name>javasimon</name>
 
 	<modules>
 		<module>core</module>
 		<module>jdbc3</module>
+		<module>jdbc4</module>
 		<module>jmx</module>
 		<module>javaee</module>
 		<module>spring</module>
@@ -18,7 +19,7 @@
 	</modules>
 
 	<properties>
-		<javasimon.version>2.3.1</javasimon.version>
+		<javasimon.version>2.4.0</javasimon.version>
 	</properties>
 
 	<scm>
@@ -68,40 +69,6 @@
 						<encoding>UTF-8</encoding>
 					</configuration>
 					<inherited>true</inherited>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-dependency-plugin</artifactId>
-					<version>2.1</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-install-plugin</artifactId>
-					<version>2.3</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-war-plugin</artifactId>
-					<version>2.1-beta-1</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-help-plugin</artifactId>
-					<version>2.1</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-site-plugin</artifactId>
-					<version>2.0</version>
-				</plugin>
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>findbugs-maven-plugin</artifactId>
-					<!--<version>1.2</version>-->
-					<configuration>
-						<findbugsXmlOutput>true</findbugsXmlOutput>
-						<xmlOutput>true</xmlOutput>
-					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -154,21 +121,6 @@
 			<url>http://download.java.net/maven/2/</url>
 		</repository>
 	</repositories>
-
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>2.0</version>
-				<configuration>
-					<findbugsXmlOutput>true</findbugsXmlOutput>
-					<findbugsXmlWithMessages>true</findbugsXmlWithMessages>
-					<xmlOutput>true</xmlOutput>
-				</configuration>
-			</plugin>
-		</plugins>
-	</reporting>
 
 	<distributionManagement>
 		<repository>
