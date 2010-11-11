@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Simon JDBC Proxy Driver.
+ * Simon JDBC4 Proxy Driver.
  * <p>
  * An application should not use this class directly. The application (if standalone)
  * should use {@link java.sql.DriverManager} only. For example:
@@ -104,7 +104,7 @@ public final class Driver implements java.sql.Driver {
 	 * @author Radovan Sninsky
 	 * @version $Revision: 272 $ $Date: 2010-02-08 16:07:46 +0100 (Mon, 08 Feb 2010) $
 	 * @created 14.2.2009 18:18:48
-	 * @since 2
+	 * @since 2.4
 	 */
 	static class Url {
 

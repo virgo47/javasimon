@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
  * Wrapper class for real XADataSource implementation, produces xa
  * {@link javax.sql.XAConnection} object.
  * <p/>
- * See the {@link org.javasimon.jdbcx.SimonDataSource} for more information.
+ * See the {@link org.javasimon.jdbcx4.SimonDataSource} for more information.
  *
  * @author Radovan Sninsky
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>

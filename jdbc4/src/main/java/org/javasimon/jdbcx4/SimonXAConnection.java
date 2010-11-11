@@ -11,7 +11,7 @@ import java.sql.SQLException;
  * <p/>
  * All method invokes its real implementation.
  * <p/>
- * See the {@link org.javasimon.jdbcx package description} for more
+ * See the {@link org.javasimon.jdbcx4 package description} for more
  * information.
  *
  * @author Radovan Sninsky
