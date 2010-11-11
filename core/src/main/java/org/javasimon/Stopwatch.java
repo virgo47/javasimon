@@ -12,7 +12,7 @@ package org.javasimon;
  * Split split = SimonManager.getStopwatch("com.my.stopwatch").start();
  * //... here goes the measured code
  * split.stop();
- * System.out.println("Result: " + stopwatch); // not really necessary</pre>
+ * System.out.println("Result: " + split.getStopwatch()); // print will be probably somewhere else</pre>
  * This can be used for simple micro-benchmarking, critical section monitoring, in web
  * filter to measure request times, etc.
  * <p/>
