@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.LinkedList;
 
 /**
- * Simon JDBC proxy statement implementation class.
+ * Simon JDBC4 proxy statement implementation class.
  *
  * @author Radovan Sninsky
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>

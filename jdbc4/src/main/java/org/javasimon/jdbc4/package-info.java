@@ -1,7 +1,9 @@
 /**
- * Simon JDBC Proxy Driver for monitoring JDBC drivers through the Java Simon API.
+ * Simon JDBC4 Proxy Driver for monitoring JDBC drivers through the Java Simon API.
  * <p>
- * Main goal of monitoring the JDBC driver through the Simon JDBC Proxy Driver is to gain data
+ * <b>Don't use both JDBC (v3) and JDBC4 proxy drivers on your classpath.</b>
+ * <p>
+ * Main goal of monitoring the JDBC driver through the Simon JDBC4 Proxy Driver is to gain data
  * about so-called monitored entities of the JDBC driver, which could provide reasonable information
  * about their usage in the monitored system.
  * <p>
@@ -75,11 +77,11 @@
  * instead - similar to prepared statement syntax).
  * </ul>
  *
- * From technical point of view, Simon JDBC Proxy Driver is based on a simple idea of the proxy driver
+ * From technical point of view, Simon JDBC4 Proxy Driver is based on a simple idea of the proxy driver
  * that delegates invocations to the real driver which is wrapped. This allows to intercept invocations
  * to the real driver and measure (or count) them.
  * <p>
- * However, the goal is not to measure each invocation on every possible function of JDBC driver (there
+ * The goal is not to measure each invocation on every possible function of JDBC driver (there
  * are another techniques like profiling for that purpose), but just monitor those functions of driver
  * which somehow influence paramater values of monitored entities mentioned earlier.
  * <p>
@@ -97,7 +99,7 @@
  * inside the driver. Therefore you can use static configuration of those Simons by defining their state
  * in the config file (for more information see {@code SimonConfigTest.java} example).
  * <p>
- * Hierarchy of Simons in Simon JDBC proxy driver is following:
+ * Hierarchy of Simons in Simon JDBC4 proxy driver is following:
  * <pre>{@literal
  * org.javasimon.jdbc
  * |
@@ -116,7 +118,7 @@
  * If default prefix value is not suficient or you need to differentiate between two different drivers
  * (or its configuration) you can define your own prefix as parameter {@code SIMON_PREFIX=<prefix>}
  * within JDBC connection string. For example, {@code jdbc:simon:....;SIMON_PREFIX=com.foo.bar}. More
- * about setuping Simon JDBC proxy driver see {@link org.javasimon.jdbc4.Driver}.
+ * about setuping Simon JDBC4 proxy driver see {@link org.javasimon.jdbc4.Driver}.
  * <p>
  * For printing information from Simons to standard output you can use:
  * <pre>

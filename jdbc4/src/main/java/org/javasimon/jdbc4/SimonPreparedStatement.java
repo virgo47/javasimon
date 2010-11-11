@@ -10,7 +10,7 @@ import java.util.Calendar;
 import java.net.URL;
 
 /**
- * Simon JDBC proxy prepared statement implementation class.
+ * Simon JDBC4 proxy prepared statement implementation class.
  *
  * @author Radovan Sninsky
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>

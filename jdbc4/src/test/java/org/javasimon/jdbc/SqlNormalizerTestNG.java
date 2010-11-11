@@ -12,8 +12,7 @@ import java.util.Arrays;
  * @author Radovan Sninsky
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @version $Revision: 192 $ $Date: 2009-03-22 01:03:48 +0100 (Sun, 22 Mar 2009) $
- * @created 25.8.2008 10:51:52
- * @since 1.0
+ * @since 2.4
  */
 public final class SqlNormalizerTestNG {
 	@DataProvider(name = "dp1")

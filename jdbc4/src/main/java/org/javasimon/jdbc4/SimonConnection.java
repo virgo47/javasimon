@@ -9,7 +9,7 @@ import java.sql.*;
 import java.util.Properties;
 
 /**
- * Class implements Simon JDBC proxy connection.
+ * Class implements Simon JDBC4 proxy connection.
  * <p>
  * Every method of this connection is implemented as call of real connection method.
  * Several methods have added work with Simons (starting, stoping, etc.) for monitoring
@@ -32,7 +32,7 @@ import java.util.Properties;
  * @version $Revision: 184 $ $Date: 2009-02-26 23:38:29 +0100 (Thu, 26 Feb 2009) $
  * @created 6.8.2008 23:50:57
  * @see java.sql.Connection
- * @since 1.0
+ * @since 2.4
  */
 public final class SimonConnection implements Connection {
 	private Connection conn;

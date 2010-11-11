@@ -12,7 +12,7 @@ import java.util.Calendar;
 import java.net.URL;
 
 /**
- * Simon JDBC proxy result set implementation class.
+ * Simon JDBC4 proxy result set implementation class.
  *
  * @author Radovan Sninsky
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>

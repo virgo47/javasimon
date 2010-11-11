@@ -9,7 +9,7 @@ import org.testng.annotations.DataProvider;
  *
  * @author Radovan Sninsky
  * @version $Revision $ $Date $
- * @since 2.0, 29.8.2009 22:20:11
+ * @since 2.4
  */
 public class UrlTestNG {
 
