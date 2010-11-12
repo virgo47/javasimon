@@ -38,7 +38,8 @@ public interface Manager {
 	Simon getSimon(String name);
 
 	/**
-	 * Returns existing Counter or creates new if necessary.
+	 * Returns existing Counter or creates new if necessary. "Anonymous" Counter can
+	 * be obtained if null name is specified - then it is not added to the Simon hierarchy.
 	 *
 	 * @param name name of the Counter
 	 * @return counter object
@@ -46,8 +47,8 @@ public interface Manager {
 	Counter getCounter(String name);
 
 	/**
-	 * Returns existing Stopwatch or creates new if necessary. Stopwatch implementation
-	 * type can be specified.
+	 * Returns existing Stopwatch or creates new if necessary. "Anonymous" Stopwatch can
+	 * be obtained if null name is specified - then it is not added to the Simon hierarchy.
 	 *
 	 * @param name name of the Stopwatch
 	 * @return stopwatch object
