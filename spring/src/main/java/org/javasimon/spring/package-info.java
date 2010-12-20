@@ -6,7 +6,7 @@
  * <p>Step -1- Make sure the Spring configuration file {@literal org/javasimon/spring/monitoring.xml} is loaded as one
  * of the first configuration files.
  *
- * <p>For example, if you use the {@link org.springframework.web.context.ContextLoaderListener} in your
+ * <p>For example, if you use the {@code org.springframework.web.context.ContextLoaderListener} in your
  * {@literal web.xml}, the {@literal contextConfigLocation} context parameter will look something like this:
  * <pre>{@literal
 <context-param>

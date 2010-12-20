@@ -4,7 +4,8 @@ import org.javasimon.utils.SimonUtils;
 
 /**
  * Represents single time split - one stopwatch measurement. Object is obtained by {@link org.javasimon.Stopwatch#start()}
- * and the measurement is ended via {@link #stop()} method on this object.
+ * and the measurement is ended using {@link #stop()} method on this object. Split will return 0 as the result
+ * if the related Stopwatch was disabled when the Split was obtained. 
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Jan 7, 2009

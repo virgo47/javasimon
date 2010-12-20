@@ -124,12 +124,11 @@
  * <pre>
  * SimonUtils.printSimonTree(SimonManager.getRootSimon());</pre>
  *
- * Also see examples classes {@link org.javasimon.jdbc.Simple} and {@link org.javasimon.jdbc.Complex}.
+ * Also see examples classes {@link org.javasimon.examples.jdbc.Simple} and {@link org.javasimon.examples.jdbc.Complex}.
  *
  * @author Radovan Sninsky
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @version $Revision: $ $Date: $
- * @created 3.10.2010
  * @since 2.4
  */
 package org.javasimon.jdbc4;
