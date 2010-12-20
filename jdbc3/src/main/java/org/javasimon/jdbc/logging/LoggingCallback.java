@@ -24,7 +24,7 @@ import java.io.IOException;
  * <li>resultset close</li>
  * </ul>
  * <p/>
- * Class also contains two build-in formmaters: {@link org.javasimon.jdbc.logging.LoggingCallback.HumanFormatter}
+ * Class also contains two build-in formatters: {@link org.javasimon.jdbc.logging.LoggingCallback.HumanFormatter}
  * and {@link org.javasimon.jdbc.logging.LoggingCallback.CsvFormatter}.
  *
  * @author Radovan Sninsky

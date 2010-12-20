@@ -14,7 +14,7 @@
 	<echo message="JDK6: ${jdk6.home}"/>
 	<echo message="libs: ${lib.dir}"/>
 
-	<!-- used for testng or examples, simon.jar requires nothing -->
+	<!-- used for testng or examples -->
 	<path id="classpath">
 		<pathelement path="${lib.dir}/${testng.jar}"/>
 		<pathelement path="${lib.dir}/h2-1.2.135.jar"/>
@@ -26,6 +26,7 @@
 		<pathelement path="${lib.dir}/eval-0.5.jar"/>
 		<pathelement path="${lib.dir}/jboss-javaee.jar"/>
 		<pathelement path="${lib.dir}/servlet-api.jar"/>
+		<pathelement path="${lib.dir}/jamon-2.7.jar"/>
 		<pathelement path="build/core"/>
 		<pathelement path="build/jdbc3"/>
 		<pathelement path="build/jmx"/>
@@ -201,6 +202,7 @@
 			<sourcepath path="jmx/src/main/java"/>
 			<sourcepath path="javaee/src/main/java"/>
 			<sourcepath path="spring/src/main/java"/>
+			<sourcepath path="examples/src/main/java"/>
 		</javadoc>
 		<copy todir="${doc.dir}/resources" overwrite="true">
 			<fileset dir="docs/api/resources"/>

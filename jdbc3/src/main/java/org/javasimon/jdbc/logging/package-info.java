@@ -9,7 +9,7 @@
  * provided JDBC prefix. This means that logged events are connections starts and stops, statements starts and stops
  * and sql executions.
  * <p>
- * Java standard logging feature ({@link java.util.logging}) is used for logging from Simon JDBC Proxy driver. There
+ * Java standard logging feature ({@code java.util.logging}) is used for logging from Simon JDBC Proxy driver. There
  * are three targets where to log and also three ways how to setup logging.
  * Where to log:
  * <ul>
@@ -37,7 +37,7 @@
  * {@link org.javasimon.jdbc.Driver}.
  * </li>
  * <li><b>via Simon configuration file</b> - Callback configuration can be added into the configuration file:
- * <pre>{@literal<simon-configuration>
+ * <pre>{@literal <simon-configuration>
 <callback class="org.javasimon.jdbc.logging.LoggingCallback"> <!-- don't mix it with org.javasimon.utils.LoggingCallback! -->
 <set property="prefix" value="org.javasimon.testdb"/>
 <set property="loggerName" value="myapp.testdb"/>
@@ -47,7 +47,7 @@
 </callback>
 ...
 </simon-configuration>}</pre>
- * If {@code logToConsole} or {@logFilename} is omitted respective handler will not be used.</li>
+ * If {@code logToConsole} or {@code logFilename} is omitted respective handler will not be used.</li>
  * <li>
  * <b>by jmx</b> - jmx package offers {@link org.javasimon.jmx.JdbcMXBean} that provides methods for starting logging
  * to file, logger or console and for stopping too. Each method has its parameters to setup specific details.
