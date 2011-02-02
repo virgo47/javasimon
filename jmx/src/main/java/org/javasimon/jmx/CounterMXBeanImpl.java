@@ -84,7 +84,7 @@ public class CounterMXBeanImpl extends AbstractSimonMXBeanImpl implements Counte
 	 */
 	@Override
 	public final String getType() {
-		return "Counter";
+		return SimonInfo.COUNTER;
 	}
 
 	/**

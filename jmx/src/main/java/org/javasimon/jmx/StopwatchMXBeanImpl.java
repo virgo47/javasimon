@@ -77,6 +77,6 @@ public class StopwatchMXBeanImpl extends AbstractSimonMXBeanImpl implements Stop
 	 */
 	@Override
 	public final String getType() {
-		return "Stopwatch";
+		return SimonInfo.STOPWATCH;
 	}
 }

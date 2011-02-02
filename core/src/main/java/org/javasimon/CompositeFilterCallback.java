@@ -7,7 +7,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * This callback combines Composite and Filter behavior. Filter can be configured
- * via {@link #addRule(org.javasimon.FilterCallback.Rule.Type, String, String, org.javasimon.Callback.Event[])}
+ * via {@link #addRule(org.javasimon.FilterCallback.Rule.Type, String, String, org.javasimon.Callback.Event...)}
  * method and if the rule is satisfied the event is propagated to all
  * children callbacks added via {@link #addCallback(Callback)}.
  * Filter without any rules does not propagate events. Any number of global

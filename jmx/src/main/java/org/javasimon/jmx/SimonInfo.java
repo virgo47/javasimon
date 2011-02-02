@@ -17,6 +17,7 @@ for (SimonInfo si : simon.getSimonInfos()) {
 }</pre>
  *
  * @author Radovan Sninsky
+ * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @version $Revision$ $Date$
  * @created 26.1.2009 16:05:29
  * @since 2
@@ -26,17 +27,17 @@ public final class SimonInfo {
 	/**
 	 * Type identifier for unknown Simon.
 	 */
-	public static final String UNKNOWN = "unknown";
+	public static final String UNKNOWN = "Unknown";
 
 	/**
 	 * Type identifier for Stopwatch.
 	 */
-	public static final String STOPWATCH = "stopwatch";
+	public static final String STOPWATCH = "Stopwatch";
 
 	/**
 	 * Type identifier for Counter.
 	 */
-	public static final String COUNTER = "counter";
+	public static final String COUNTER = "Counter";
 
 	private String name;
 	private String type;
