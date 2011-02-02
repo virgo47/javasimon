@@ -14,7 +14,7 @@ import java.lang.management.ManagementFactory;
  * Callback that registers MXBeans for Simons after their creation. It is
  * advisable to register the callback as soon as possible otherwise MX Beans
  * for some Simons may not be created. Class can be extended in order to
- * override {@link #constructObjectName(SimonSuperMXBean)}.
+ * override {@link #constructObjectName(Simon)}.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @created Mar 6, 2009
@@ -34,13 +34,7 @@ public class JmxRegisterCallback extends CallbackSkeleton {
 		if (simon.getName() == null) {
 			return;
 		}
-		if (simon instanceof Counter) {
-			register(new CounterMXBeanImpl((Counter) simon));
-		} else if (simon instanceof Stopwatch) {
-			register(new StopwatchMXBeanImpl((Stopwatch) simon));
-		} else {
-			warning("Unknown type of Simon! " + simon, null);
-		}
+		register(simon);
 	}
 
 	/**
@@ -50,7 +44,7 @@ public class JmxRegisterCallback extends CallbackSkeleton {
 	 */
 	@Override
 	public void simonDestroyed(Simon simon) {
-		String name = simon.getName();
+		String name = constructObjectName(simon);
 		try {
 			ObjectName objectName = new ObjectName(name);
 			mBeanServer.unregisterMBean(objectName);
@@ -85,10 +79,19 @@ public class JmxRegisterCallback extends CallbackSkeleton {
 	/**
 	 * Method registering Simon MX Bean - can not be overriden, but can be used in subclasses.
 	 *
-	 * @param simonMxBean Simon MX Bean to be registered
+	 * @param simon Simon MX Bean to be registered
 	 */
-	protected final void register(SimonSuperMXBean simonMxBean) {
-		String name = constructObjectName(simonMxBean);
+	protected final void register(Simon simon) {
+		SimonSuperMXBean simonMxBean;
+		if (simon instanceof Counter) {
+			simonMxBean = new CounterMXBeanImpl((Counter) simon);
+		} else if (simon instanceof Stopwatch) {
+			simonMxBean = new StopwatchMXBeanImpl((Stopwatch) simon);
+		} else {
+			warning("Unknown type of Simon! " + simon, null);
+			return;
+		}
+		String name = constructObjectName(simon);
 		try {
 			ObjectName objectName = new ObjectName(name);
 			if (mBeanServer.isRegistered(objectName)) {
@@ -105,12 +108,29 @@ public class JmxRegisterCallback extends CallbackSkeleton {
 	}
 
 	/**
-	 * Constructs JMX object name from Simon MX Bean. Method can be overridden.
+	 * Constructs JMX object name from Simon object. Method can be overridden.
 	 *
-	 * @param simonMxBean Simon MX Bean
+	 * @param simon Simon object
 	 * @return object name in String form
 	 */
-	protected String constructObjectName(SimonSuperMXBean simonMxBean) {
-		return simonMxBean.getName() + ":type=" + simonMxBean.getType();
+	protected String constructObjectName(Simon simon) {
+		return simon.getName() + ":type=" + simonType(simon);
+	}
+
+	/**
+	 * Returns type of the simon as defined in {@link SimonInfo#COUNTER},
+	 * {@link SimonInfo#STOPWATCH} or {@link SimonInfo#UNKNOWN}.
+	 *
+	 * @param simon Simon object
+	 * @return type of the Simon as String
+	 */
+	protected String simonType(Simon simon) {
+		String type = SimonInfo.UNKNOWN;
+		if (simon instanceof Counter) {
+			type = SimonInfo.COUNTER;
+		} else if (simon instanceof Stopwatch) {
+			type = SimonInfo.STOPWATCH;
+		}
+		return type;
 	}
 }
