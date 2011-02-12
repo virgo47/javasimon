@@ -7,8 +7,8 @@
 			</run>
 		</groups>
 		<classes>
-			<class name="org.javasimon.jdbc.SqlNormalizerTestNG"/>
-			<class name="org.javasimon.jdbc.UrlTestNG"/>
+			<class name="org.javasimon.jdbc4.SqlNormalizerTestNG"/>
+			<class name="org.javasimon.jdbc4.UrlTestNG"/>
 		</classes>
 	</test>
 </suite>

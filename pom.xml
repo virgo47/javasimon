@@ -7,6 +7,8 @@
 	<packaging>pom</packaging>
 	<version>2.5.0</version>
 	<name>javasimon</name>
+	<description>Java Simon - simple monitoring library</description>
+	<url>http://code.google.com/p/javasimon/</url>
 
 	<modules>
 		<module>core</module>
@@ -24,17 +26,18 @@
 
 	<scm>
 		<url>http://javasimon.googlecode.com/svn/trunk/</url>
+		<connection>scm:svn:http://javasimon.googlecode.com/svn/trunk/</connection>
 	</scm>
 
 	<licenses>
 		<license>
-			<name>GNU Lesser General Public License</name>
+			<name>GNU Lesser General Public License, 2.1</name>
 			<url>http://www.gnu.org/licenses/lgpl-2.1.txt</url>
 		</license>
 	</licenses>
 
 	<prerequisites>
-		<maven>2.1.0</maven>
+		<maven>2.2.1</maven>
 	</prerequisites>
 
 	<dependencies>
@@ -71,7 +74,10 @@
 				</plugin>
 				<!--attach source-->
 				<plugin>
+					<inherited>true</inherited>
+					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-source-plugin</artifactId>
+					<version>2.1.2</version>
 					<executions>
 						<execution>
 							<id>attach-sources</id>

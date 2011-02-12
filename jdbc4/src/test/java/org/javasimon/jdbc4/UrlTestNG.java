@@ -1,4 +1,4 @@
-package org.javasimon.jdbc;
+package org.javasimon.jdbc4;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
