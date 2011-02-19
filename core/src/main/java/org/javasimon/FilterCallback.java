@@ -1,12 +1,12 @@
 package org.javasimon;
 
-import net.java.dev.eval.Expression;
-
 import java.math.BigDecimal;
 import java.util.Map;
 import java.util.HashMap;
 
 import org.javasimon.utils.Replacer;
+import org.mvel2.MVEL;
+import org.mvel2.compiler.ExecutableAccessor;
 
 /**
  * FilterCallback extends Callback with filtering capabilities. Filter callback
@@ -114,7 +114,7 @@ public interface FilterCallback extends Callback {
 
 		private Type type;
 		private String condition;
-		private Expression expression;
+		private ExecutableAccessor expression;
 		private SimonPattern pattern;
 
 		/**
@@ -135,7 +135,10 @@ public interface FilterCallback extends Callback {
 					condition = conditionReplacer.process(condition);
 				}
 				try {
-					expression = new Expression(condition);
+					expression = (ExecutableAccessor) MVEL.compileExpression(condition);
+					if (!expression.getKnownEgressType().equals(Boolean.class)) {
+						throw new SimonException("Expression '" + condition + "' does not return boolean.");
+					}
 				} catch (Exception e) {
 					throw new SimonException(e);
 				}
@@ -222,7 +225,7 @@ public interface FilterCallback extends Callback {
 		}
 
 		private boolean eval(Map<String, BigDecimal> vars) {
-			return expression.eval(vars).equals(BigDecimal.ONE);
+			return (Boolean) MVEL.executeExpression(expression, vars);
 		}
 	}
 }
