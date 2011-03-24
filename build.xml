@@ -122,6 +122,7 @@
 				<include name="jdbc3/**"/>
 				<include name="jdbc4/**"/>
 				<include name="jmx/**"/>
+				<include name="javaee/**"/>
 				<include name="spring/**"/>
 				<include name="examples/**"/>
 				<include name="build.xml"/>

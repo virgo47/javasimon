@@ -6,7 +6,7 @@ import java.beans.ConstructorProperties;
  * Value object for retrieving data from Stopwatch Simon. Basically, it's
  * {@link org.javasimon.StopwatchSample} with added JMX capabilities to be return as object via
  * MXBean method.
- * <p>
+ * <p/>
  * Example:
  * <pre>
  * SimonMXBean simon = JMX.newMXBeanProxy(..., new ObjectName("domain:type=Simon"), SimonMXBean.class);
@@ -38,18 +38,22 @@ public final class StopwatchSample extends org.javasimon.StopwatchSample {
 	 * @param active count of actual running measures
 	 * @param maxActive maximum paralel measures
 	 * @param maxActiveTimestamp time when maximum paralel measures happend
-	 * @param last last split value in ns 
+	 * @param last last split value in ns
 	 */
-	@ConstructorProperties({"mean", "standardDeviation", "variance", "varianceN", "note",
-			"total", "counter", "min", "max", "minTimestamp", "maxTimestamp", "active", "maxActive", "maxActiveTimestamp", "last"})
-	public StopwatchSample(double mean, double stdDev, double var, double varN, String note,
-		long total, long counter, long min, long max, long minTimestamp, long maxTimestamp, long active, long maxActive,
-		long maxActiveTimestamp, long last) {
+	@ConstructorProperties({"mean", "standardDeviation", "variance", "varianceN", "note", "firstUsage", "lastUsage",
+		"lastReset", "total", "counter", "min", "max", "minTimestamp", "maxTimestamp", "active", "maxActive",
+		"maxActiveTimestamp", "last"})
+	public StopwatchSample(double mean, double stdDev, double var, double varN, String note, long firstUsage,
+		long lastUsage, long lastReset, long total, long counter, long min, long max, long minTimestamp,
+		long maxTimestamp, long active, long maxActive, long maxActiveTimestamp, long last) {
 		setMean(mean);
 		setStandardDeviation(stdDev);
 		setVariance(var);
 		setVarianceN(varN);
 		setNote(note);
+		setFirstUsage(firstUsage);
+		setLastUsage(lastUsage);
+		setLastReset(lastReset);
 
 		setTotal(total);
 		setCounter(counter);
@@ -75,6 +79,9 @@ public final class StopwatchSample extends org.javasimon.StopwatchSample {
 		setVariance(s.getVariance());
 		setVarianceN(s.getVarianceN());
 		setNote(s.getNote());
+		setFirstUsage(s.getFirstUsage());
+		setLastUsage(s.getLastUsage());
+		setLastReset(s.getLastReset());
 
 		setCounter(s.getCounter());
 		setTotal(s.getTotal());
