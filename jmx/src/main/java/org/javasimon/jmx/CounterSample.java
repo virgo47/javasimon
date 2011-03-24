@@ -22,7 +22,7 @@ public final class CounterSample extends org.javasimon.CounterSample {
 
 	/**
 	 * JMX constructor. Constructor used by JMX client code to initialize all properties of object
-	 * from composite data object. 
+	 * from composite data object.
 	 *
 	 * @param note note (provided optionally)
 	 * @param counter actual counter value
@@ -33,9 +33,12 @@ public final class CounterSample extends org.javasimon.CounterSample {
 	 * @param incSum sum of all increments
 	 * @param decSum sum of all decrements
 	 */
-	@ConstructorProperties({"note", "counter", "min", "max", "minTimestamp", "maxTimestamp", "incrementSum", "decrementSum"})
-	public CounterSample(String note, long counter, long min, long max, long minTimestamp, long maxTimestamp, long incSum, long decSum) {
+	@ConstructorProperties({"note", "firstUsage", "lastUsage", "lastReset", "counter", "min", "max", "minTimestamp", "maxTimestamp", "incrementSum", "decrementSum"})
+	public CounterSample(String note, long firstUsage, long lastUsage, long lastReset, long counter, long min, long max, long minTimestamp, long maxTimestamp, long incSum, long decSum) {
 		setNote(note);
+		setFirstUsage(firstUsage);
+		setLastUsage(lastUsage);
+		setLastReset(lastReset);
 
 		setCounter(counter);
 		setMin(min);
@@ -54,6 +57,9 @@ public final class CounterSample extends org.javasimon.CounterSample {
 	 */
 	CounterSample(org.javasimon.CounterSample s) {
 		setNote(s.getNote());
+		setFirstUsage(s.getFirstUsage());
+		setLastUsage(s.getLastUsage());
+		setLastReset(s.getLastReset());
 
 		setCounter(s.getCounter());
 		setMin(s.getMin());

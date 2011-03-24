@@ -285,7 +285,7 @@ public class StopwatchSample extends Sample {
 	 * @return mean value as string
 	 */
 	public final String getMeanAsString() {
-		return SimonUtils.presentTimestamp((long) mean);
+		return SimonUtils.presentNanoTime((long) mean);
 	}
 
 	/**
@@ -375,6 +375,9 @@ public class StopwatchSample extends Sample {
 		sb.append(", variance=").append(getVariance());
 		sb.append(", varianceN=").append(getVarianceN());
 		sb.append(", note=").append(getNote());
+		sb.append(", firstUsage=").append(getFirstUsage());
+		sb.append(", lastUsage=").append(getLastUsage());
+		sb.append(", lastReset=").append(getLastReset());
 		sb.append("}");
 		return sb.toString();
 	}

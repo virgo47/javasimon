@@ -197,7 +197,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		sample.setMaxTimestamp(maxTimestamp);
 		sample.setIncrementSum(incrementSum);
 		sample.setDecrementSum(decrementSum);
-		sample.setNote(getNote());
+		sampleCommon(sample);
 		return sample;
 	}
 

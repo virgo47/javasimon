@@ -270,4 +270,11 @@ abstract class AbstractSimon implements Simon {
 		}
 		return attributes.keySet().iterator();
 	}
+
+	protected void sampleCommon(Sample sample) {
+		sample.setNote(note);
+		sample.setFirstUsage(firstUsage);
+		sample.setLastUsage(lastUsage);
+		sample.setLastReset(resetTimestamp);
+	}
 }

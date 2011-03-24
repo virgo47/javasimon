@@ -180,6 +180,9 @@ public class CounterSample extends Sample {
 		sb.append(", incrementSum=").append(incrementSum);
 		sb.append(", decrementSum=").append(decrementSum);
 		sb.append(", note=").append(getNote());
+		sb.append(", firstUsage=").append(getFirstUsage());
+		sb.append(", lastUsage=").append(getLastUsage());
+		sb.append(", lastReset=").append(getLastReset());
 		sb.append("}");
 		return sb.toString();
 	}
