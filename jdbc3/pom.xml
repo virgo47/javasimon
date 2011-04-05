@@ -5,20 +5,19 @@
 	<groupId>org.javasimon</groupId>
 	<artifactId>javasimon-jdbc3</artifactId>
 	<packaging>jar</packaging>
-	<version>${javasimon.version}</version>
 	<name>JavaSimon JDBC 3 Support</name>
 
 	<parent>
 		<groupId>org.javasimon</groupId>
 		<artifactId>javasimon-parent</artifactId>
-		<version>2.5.0</version>
+		<version>2.5.0-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.javasimon</groupId>
 			<artifactId>javasimon-core</artifactId>
-			<version>${javasimon.version}</version>
+			<version>2.5.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
@@ -28,27 +27,13 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<!--<source>1.5</source>-->
-					<!--<target>1.5</target>-->
+					<source>1.5</source>
+					<target>1.5</target>
 					<verbose>true</verbose>
 					<fork>true</fork>
-					<executable>${jdk5.home}/bin/javac</executable>
+					<executable>${JDK5_HOME}/bin/javac</executable>
 				</configuration>
 				<inherited>true</inherited>
-			</plugin>
-			<plugin>
-				<inherited>true</inherited>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<version>2.1.2</version>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>

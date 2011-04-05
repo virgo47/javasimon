@@ -18,8 +18,8 @@
 	<path id="classpath">
 		<pathelement path="${lib.dir}/${testng.jar}"/>
 		<pathelement path="${lib.dir}/h2-1.2.135.jar"/>
-		<pathelement path="${lib.dir}/org.springframework.core-3.0.5.RELEASE.jar"/>
-		<pathelement path="${lib.dir}/org.springframework.aop-3.0.5.RELEASE.jar"/>
+		<pathelement path="${lib.dir}/spring-core-3.0.5.RELEASE.jar"/>
+		<pathelement path="${lib.dir}/spring-aop-3.0.5.RELEASE.jar"/>
 		<pathelement path="${lib.dir}/aopalliance.jar"/>
 		<pathelement path="${lib.dir}/commons-logging-1.1.1.jar"/>
 		<pathelement path="${lib.dir}/stax-api-1.0.1.jar"/>
@@ -39,20 +39,20 @@
 
 	<target name="compile" description="Compile the source code">
 		<compile-module module="core"/>
-		<compile-module module="jdbc3"/>
-		<compile-module module="jdbc4" jdk="${jdk6.home}"/>
+		<compile-module module="jdbc3" jdk="${jdk5.home}"/>
+		<compile-module module="jdbc4"/>
 		<compile-module module="javaee"/>
 		<compile-module module="spring"/>
-		<compile-module module="jmx" jdk="${jdk6.home}"/>
+		<compile-module module="jmx"/>
 	</target>
 
 	<macrodef name="compile-module">
 		<attribute name="module"/>
-		<attribute name="jdk" default="${jdk5.home}"/>
+		<attribute name="jdk" default="${jdk6.home}"/>
 		<sequential>
 			<mkdir dir="build/@{module}"/>
 			<javac srcdir="@{module}/src/main/java" destdir="build/@{module}" debug="${javac.debug}"
-				deprecation="${javac.deprecation}" classpathref="classpath"
+				deprecation="${javac.deprecation}" classpathref="classpath" source="1.5" target="1.5"
 				fork="true" executable="@{jdk}/bin/javac"/>
 			<copy todir="build/@{module}">
 				<fileset dir="@{module}/src/main/java" includes="**/*.properties"/>
@@ -104,8 +104,8 @@
 			<zipfileset prefix="javasimon-${version}/lib" dir="${lib.dir}">
 				<include name="${testng.jar}"/>
 				<include name="h2-1.2.135.jar"/>
-				<include name="org.springframework.core-3.0.5.RELEASE.jar"/>
-				<include name="org.springframework.aop-3.0.5.RELEASE.jar"/>
+				<include name="spring-core-3.0.5.RELEASE.jar"/>
+				<include name="spring-aop-3.0.5.RELEASE.jar"/>
 				<include name="aopalliance.jar"/>
 				<include name="commons-logging-1.1.1.jar"/>
 				<include name="stax-api-1.0.1.jar"/>
