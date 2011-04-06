@@ -17,12 +17,15 @@
 		<dependency>
 			<groupId>stax</groupId>
 			<artifactId>stax-api</artifactId>
-			<version>1.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mvel</groupId>
 			<artifactId>mvel2</artifactId>
-			<version>2.0.19</version>
+		</dependency>
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<classifier>jdk15</classifier>
 		</dependency>
 	</dependencies>
 </project>
