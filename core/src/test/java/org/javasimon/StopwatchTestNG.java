@@ -8,7 +8,6 @@ import org.testng.Assert;
  * StopwatchTest.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Aug 11, 2008
  */
 public final class StopwatchTestNG {
 	private static final String STOPWATCH_NAME = "org.javasimon.test-stopwatch";

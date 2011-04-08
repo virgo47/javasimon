@@ -9,7 +9,6 @@ import org.javasimon.Split;
  * with 10s period. Try it with reset/no-reset.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Sep 4, 2008
  */
 public final class SamplingExample {
 	private SamplingExample() {

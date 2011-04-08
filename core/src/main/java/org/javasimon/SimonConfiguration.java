@@ -5,7 +5,6 @@ package org.javasimon;
  * Currently it holds only the state of the Simon.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Sep 30, 2008
  */
 public final class SimonConfiguration {
 	private SimonState state;

@@ -26,7 +26,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * satisfied SUFFICE rule before.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Jan 22, 2009
  */
 public final class CompositeFilterCallback implements FilterCallback {
 	private CompositeCallback callback = new CompositeCallback();

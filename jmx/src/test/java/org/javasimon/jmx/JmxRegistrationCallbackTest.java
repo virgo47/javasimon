@@ -19,7 +19,6 @@ import java.lang.management.ManagementFactory;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @author joshcanfiel
  * @version $Revision$ $Date$
- * @created 21.7.2009 10:07:06
  * @since 1.0
  */
 public class JmxRegistrationCallbackTest {

@@ -10,7 +10,6 @@ import java.util.*;
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
- * @created 19.3.2009 13:18:29
  * @since 2.0
  */
 public class WeightController implements Controller {

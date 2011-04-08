@@ -11,7 +11,6 @@ import java.util.List;
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
- * @created 18.3.2009 11:48:49
  * @since 1.0
  */
 public class TupleDAO {

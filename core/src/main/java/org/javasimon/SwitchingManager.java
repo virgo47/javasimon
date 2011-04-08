@@ -6,7 +6,6 @@ import java.util.List;
  * SwitchingManager.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Jan 14, 2009
  */
 public final class SwitchingManager implements Manager {
 	private Manager enabled = new EnabledManager();

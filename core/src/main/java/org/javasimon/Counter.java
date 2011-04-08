@@ -33,7 +33,6 @@ package org.javasimon;
  * always available to set the counter to the particular value when needed.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Aug 4, 2008
  */
 public interface Counter extends Simon {
 	/**

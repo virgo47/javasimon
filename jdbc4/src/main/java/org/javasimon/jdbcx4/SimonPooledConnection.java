@@ -20,7 +20,6 @@ import java.sql.SQLException;
  * @author Radovan Sninsky
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @version $Revision: $ $Date: $
- * @created 3.10.2010
  * @since 2.4
  */
 public class SimonPooledConnection implements PooledConnection {

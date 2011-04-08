@@ -12,7 +12,6 @@ import java.util.Collection;
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
- * @created 15.7.2008 23:19:50
  * @see Manager
  * @see Simon
  * @see SimonUtils

@@ -6,7 +6,6 @@ import org.javasimon.utils.SimonUtils;
  * Class implements {@link org.javasimon.Stopwatch} interface - see there for how to use Stopwatch.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Aug 4, 2008
  * @see org.javasimon.Stopwatch
  */
 final class StopwatchImpl extends AbstractSimon implements Stopwatch {

@@ -19,7 +19,6 @@ for (SimonInfo si : simon.getSimonInfos()) {
  * @author Radovan Sninsky
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @version $Revision$ $Date$
- * @created 26.1.2009 16:05:29
  * @since 2
  * @see SimonMXBean#getSimonInfos
  */

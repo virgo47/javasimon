@@ -9,7 +9,6 @@ import java.beans.ConstructorProperties;
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
- * @created 9.1.2009 15:08:50
  * @since 2
  */
 public class JdbcObjectInfo {

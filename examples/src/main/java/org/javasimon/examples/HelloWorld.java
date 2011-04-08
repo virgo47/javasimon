@@ -14,7 +14,6 @@ import org.javasimon.Split;
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @version $Revision$ $Date$
- * @created 7.8.2008 13:19:30
  * @since 1.0
  */
 public final class HelloWorld {

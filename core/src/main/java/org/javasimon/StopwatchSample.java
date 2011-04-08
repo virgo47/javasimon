@@ -8,7 +8,6 @@ import org.javasimon.utils.SimonUtils;
  * should be used to obtain this Java Bean object.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Jan 7, 2009
  */
 public class StopwatchSample extends Sample {
 	private long total;

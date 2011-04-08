@@ -29,7 +29,6 @@ import java.sql.*;
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
- * @created 6.8.2008 23:50:57
  * @see java.sql.Connection
  * @since 1.0
  */

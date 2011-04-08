@@ -7,7 +7,6 @@ import java.util.Collections;
  * DisabledManager implements methods called from SimonManager to do nothing or return NullSimon.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Aug 16, 2008
  */
 public final class DisabledManager implements Manager {
 	/**

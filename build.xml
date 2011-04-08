@@ -26,7 +26,6 @@
 		<pathelement path="${lib.dir}/mvel2-2.0.19.jar"/>
 		<pathelement path="${lib.dir}/jboss-javaee.jar"/>
 		<pathelement path="${lib.dir}/servlet-api.jar"/>
-		<pathelement path="${lib.dir}/jamon-2.7.jar"/>
 		<pathelement path="build/core"/>
 		<pathelement path="build/jdbc3"/>
 		<pathelement path="build/jdbc4"/>

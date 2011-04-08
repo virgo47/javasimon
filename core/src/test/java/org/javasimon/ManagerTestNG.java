@@ -12,7 +12,6 @@ import java.util.LinkedList;
  * Tests SimonManager behavior.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Aug 8, 2008
  */
 public final class ManagerTestNG {
 	private static final int FRESH_MANAGER_SIMON_LIST_SIZE = 1;

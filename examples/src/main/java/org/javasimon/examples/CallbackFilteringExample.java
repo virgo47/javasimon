@@ -6,7 +6,6 @@ import org.javasimon.*;
  * CallbackFilteringExample shows how filter works and how it can be set up programmaticaly.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Feb 12, 2009
  */
 public final class CallbackFilteringExample {
 	/**

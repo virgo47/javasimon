@@ -13,7 +13,6 @@ import java.sql.SQLException;
  *
  * @author Radovan Sninsky
  * @version $Revision$ $ Date: $
- * @created 19.3.2009 17:51:45
  * @since 2.0
  */
 public class DeleteAction implements Action {

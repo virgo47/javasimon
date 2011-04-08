@@ -9,7 +9,6 @@ import org.javasimon.Split;
  * DisabledEnabledComparison.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Aug 5, 2008
  */
 public final class DisabledEnabledSemiRealComparison {
 	private static final String TEST1_SIMON_NAME = SimonUtils.generateName("-stopwatch", true);

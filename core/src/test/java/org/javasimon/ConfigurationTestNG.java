@@ -13,7 +13,6 @@ import java.util.logging.Level;
  * ConfigurationTestNG tests the configuration facility.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Sep 7, 2008
  */
 public final class ConfigurationTestNG {
 	@Test

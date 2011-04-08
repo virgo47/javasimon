@@ -7,7 +7,6 @@ import org.javasimon.Split;
  * DebugCallback just prints start and stop operations on Stopwatches/Splits.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Feb 7, 2009
  */
 public final class DebugCallback extends CallbackSkeleton {
 	/**

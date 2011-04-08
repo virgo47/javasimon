@@ -15,7 +15,6 @@ import java.util.logging.LogRecord;
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
- * @created 18.2.2009 21:10:59
  * @see CallbackLogParams
  * @see LoggingCallback#formatter()
  * @since 2.0

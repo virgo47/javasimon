@@ -11,7 +11,6 @@ import java.sql.SQLException;
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
- * @created 29.9.2008 22:39:06
  * @since 1.0
  */
 public abstract class AbstractSimonDataSource {

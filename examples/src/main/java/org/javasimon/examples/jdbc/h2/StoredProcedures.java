@@ -9,7 +9,6 @@ import java.sql.SQLException;
  *
  * @author Radovan Sninsky
  * @version $ Revision $ $ Date $
- * @created 13.1.2009 23:36:48
  * @since 1.0
  */
 public class StoredProcedures {

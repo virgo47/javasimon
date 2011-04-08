@@ -18,7 +18,6 @@ import java.sql.SQLException;
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
- * @created 17.9.2008 21:57:55
  * @since 1.0
  */
 public class SimonPooledConnection implements PooledConnection {

@@ -10,7 +10,6 @@ import java.util.ArrayList;
  * This callback accumulates some selected splits when they are stopped for further analysis.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Jun 2, 2009
  */
 public final class SplitCumulatorCallback extends CallbackSkeleton {
 	public static final int MAX_SPLITS = 100;

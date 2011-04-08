@@ -10,7 +10,6 @@ import java.util.logging.Level;
  * LoggingCallback logs events via JDK logging API.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Feb 7, 2009
  */
 public final class LoggingCallback extends CallbackSkeleton {
 	private Logger logger = Logger.getAnonymousLogger();

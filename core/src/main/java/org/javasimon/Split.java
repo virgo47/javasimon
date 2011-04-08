@@ -8,7 +8,6 @@ import org.javasimon.utils.SimonUtils;
  * if the related Stopwatch was disabled when the Split was obtained. 
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Jan 7, 2009
  */
 public final class Split {
 	private Stopwatch stopwatch;

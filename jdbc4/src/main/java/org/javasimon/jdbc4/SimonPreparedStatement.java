@@ -15,7 +15,6 @@ import java.net.URL;
  * @author Radovan Sninsky
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @version $Revision: $ $Date: $
- * @created 3.10.2010
  * @see java.sql.PreparedStatement
  * @since 2.4
  */

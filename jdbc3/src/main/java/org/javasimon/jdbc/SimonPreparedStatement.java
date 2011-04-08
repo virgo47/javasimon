@@ -14,7 +14,6 @@ import java.net.URL;
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
- * @created 9.8.2008 15:42:52
  * @see java.sql.PreparedStatement
  * @since 1.0
  */

@@ -18,7 +18,6 @@ import java.lang.management.ManagementFactory;
  *
  * @author Radovan Sninsky
  * @version $Revision $ $Date $
- * @created 26.1.2009 9:57:39
  * @since 2
  */
 public class StandaloneExample {

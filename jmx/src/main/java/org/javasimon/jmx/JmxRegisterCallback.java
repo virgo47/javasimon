@@ -17,7 +17,6 @@ import java.lang.management.ManagementFactory;
  * override {@link #constructObjectName(Simon)}.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Mar 6, 2009
  */
 public class JmxRegisterCallback extends CallbackSkeleton {
 	private MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();

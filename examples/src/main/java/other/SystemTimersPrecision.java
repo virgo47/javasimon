@@ -14,7 +14,6 @@ import java.util.TreeMap;
  * See http://code.google.com/p/javasimon/wiki/SystemTimersGranularity for more.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Aug 13, 2008
  */
 public final class SystemTimersPrecision {
 	private static final long LOOP = 10000000;

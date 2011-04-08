@@ -11,7 +11,6 @@ import org.javasimon.jdbc.logging.LoggingCallback;
  *
  * @author Radovan Sninsky
  * @version $Revision: 281 $ $Date: 2009-01-20 12:21:37 +0100 (ut, 20 I 2009) $
- * @created 3.10.2008 15:56:29
  * @since 2
  */
 public class JdbcMXBeanImpl implements JdbcMXBean {

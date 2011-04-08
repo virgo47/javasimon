@@ -9,7 +9,6 @@ import java.util.Random;
  *
  * @author Radovan Sninsky
  * @version $Revision$ $ Date: $
- * @created 19.3.2009 14:36:13
  * @since 2.0
  */
 public class RandomNumberDataProvider implements DataProvider {

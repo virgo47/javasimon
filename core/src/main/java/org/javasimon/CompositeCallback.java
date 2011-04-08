@@ -8,7 +8,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * It implements {@link #callbacks()}, {@link #addCallback(Callback)} and {@link #removeCallback(Callback)}.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Jan 22, 2009
  */
 public final class CompositeCallback implements Callback {
 	private List<Callback> callbacks = new CopyOnWriteArrayList<Callback>();

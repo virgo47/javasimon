@@ -15,7 +15,6 @@ import java.beans.ConstructorProperties;
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
- * @created 23.1.2009 12:37:40
  * @since 2
  */
 public final class CounterSample extends org.javasimon.CounterSample {

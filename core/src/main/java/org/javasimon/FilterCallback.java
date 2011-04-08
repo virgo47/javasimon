@@ -24,7 +24,6 @@ import org.mvel2.compiler.ExecutableAccessor;
  * satisfied SUFFICE rule before.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Feb 7, 2009
  */
 public interface FilterCallback extends Callback {
 	/**

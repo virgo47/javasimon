@@ -14,7 +14,6 @@ import java.util.List;
  * deinitialized when the callback is removed from the callback tree.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Jan 22, 2009
  */
 public interface Callback {
 	/**

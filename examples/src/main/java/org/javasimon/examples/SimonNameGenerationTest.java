@@ -9,7 +9,6 @@ import org.javasimon.Split;
  * Compares get/start/stop with static name with the same cycle with name generated every time.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Aug 6, 2008
  */
 public final class SimonNameGenerationTest {
 	private static final int LOOP = 100000;

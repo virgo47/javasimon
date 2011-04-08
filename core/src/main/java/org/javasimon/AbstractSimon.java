@@ -8,7 +8,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * All Simon implementations extend this class.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Aug 4, 2008
  */
 abstract class AbstractSimon implements Simon {
 	/**
@@ -75,14 +74,18 @@ abstract class AbstractSimon implements Simon {
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Sets parent for this Simon - used only internally.
+	 *
+	 * @param parent Simon's parent
 	 */
 	final void setParent(Simon parent) {
 		this.parent = parent;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Adds child to this Simon with setting the parent of the child.
+	 *
+	 * @param simon future child of this Simon
 	 */
 	final void addChild(AbstractSimon simon) {
 		children.add(simon);

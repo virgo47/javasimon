@@ -15,7 +15,6 @@ import java.sql.SQLException;
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
- * @created 17.9.2008 22:32:53
  * @since 1.0
  */
 public final class SimonXAConnection extends SimonPooledConnection implements XAConnection {

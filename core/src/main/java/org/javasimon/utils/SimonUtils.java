@@ -47,7 +47,6 @@ import java.util.regex.Pattern;
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @author Radovan Sninsky
- * @created Aug 6, 2008
  * @since 1.0
  */
 public final class SimonUtils {

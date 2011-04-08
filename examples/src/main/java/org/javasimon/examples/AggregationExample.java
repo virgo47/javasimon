@@ -11,7 +11,6 @@ import java.util.Random;
  * built-in and this example shows how to work around it using the hierarchy.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created 13.1.2011
  */
 public class AggregationExample {
 	private static final String STOPWATCH_PARENT = "org.javasimon.examples.aggregation";

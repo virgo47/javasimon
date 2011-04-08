@@ -16,7 +16,6 @@ import java.util.List;
  * object for normalizedSql and type via respective getters.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Aug 17, 2008
  */
 public final class SqlNormalizer {
 	private static final Replacer[] FIRST_REPLACERS;

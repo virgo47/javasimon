@@ -15,7 +15,6 @@ import java.beans.ConstructorProperties;
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
- * @created 26.1.2009 10:21:36
  * @since 2
  */
 public final class StopwatchSample extends org.javasimon.StopwatchSample {

@@ -28,7 +28,6 @@ import java.sql.Connection;
  *
  * @author Radovan Sninsky
  * @version $Revision$ $ Date: $
- * @created 19.3.2009 12:55:56
  * @since 2.0
  */
 public class Main {
