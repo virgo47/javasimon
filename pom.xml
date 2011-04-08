@@ -4,7 +4,7 @@
 	<groupId>org.javasimon</groupId>
 	<artifactId>javasimon-parent</artifactId>
 	<packaging>pom</packaging>
-	<version>2.5.0-SNAPSHOT</version>
+	<version>2.5.0</version>
 	<name>javasimon</name>
 	<description>Java Simon - simple monitoring library</description>
 	<url>http://code.google.com/p/javasimon/</url>
@@ -35,9 +35,9 @@
 	</properties>
 
 	<scm>
-		<url>https://javasimon.googlecode.com/svn/trunk/</url>
-		<connection>scm:svn:https://javasimon.googlecode.com/svn/trunk/</connection>
-		<developerConnection>scm:svn:https://javasimon.googlecode.com/svn/trunk/</developerConnection>
+		<url>https://javasimon.googlecode.com/svn/tags/v2.5</url>
+		<connection>scm:svn:https://javasimon.googlecode.com/svn/tags/v2.5</connection>
+		<developerConnection>scm:svn:https://javasimon.googlecode.com/svn/tags/v2.5</developerConnection>
 	</scm>
 
 	<licenses>
@@ -125,17 +125,17 @@
 			<dependency>
 				<groupId>org.javasimon</groupId>
 				<artifactId>javasimon-core</artifactId>
-				<version>2.5.0-SNAPSHOT</version>
+				<version>2.5.0</version>
 			</dependency>
 			<dependency>
 				<groupId>org.javasimon</groupId>
 				<artifactId>javasimon-jdbc3</artifactId>
-				<version>2.5.0-SNAPSHOT</version>
+				<version>2.5.0</version>
 			</dependency>
 			<dependency>
 				<groupId>org.javasimon</groupId>
 				<artifactId>javasimon-jmx</artifactId>
-				<version>2.5.0-SNAPSHOT</version>
+				<version>2.5.0</version>
 			</dependency>
 
 			<dependency>
