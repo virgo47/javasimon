@@ -35,9 +35,9 @@
 	</properties>
 
 	<scm>
-		<url>http://javasimon.googlecode.com/svn/tags/javasimon-parent-2.5.0</url>
-		<connection>scm:svn:http://javasimon.googlecode.com/svn/tags/javasimon-parent-2.5.0</connection>
-		<developerConnection>scm:svn:http://javasimon.googlecode.com/svn/tags/javasimon-parent-2.5.0</developerConnection>
+		<url>https://javasimon.googlecode.com/svn/tags/javasimon-parent-2.5.0</url>
+		<connection>scm:svn:https://javasimon.googlecode.com/svn/tags/javasimon-parent-2.5.0</connection>
+		<developerConnection>scm:svn:https://javasimon.googlecode.com/svn/tags/javasimon-parent-2.5.0</developerConnection>
 	</scm>
 
 	<licenses>
