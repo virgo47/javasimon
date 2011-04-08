@@ -8,7 +8,6 @@ import org.testng.Assert;
  * CounterTestNG.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Mar 6, 2009
  */
 public final class CounterTestNG {
 	private static final String COUNTER_NAME = "org.javasimon.test-counter";

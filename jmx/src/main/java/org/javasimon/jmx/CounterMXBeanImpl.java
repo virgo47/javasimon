@@ -9,7 +9,6 @@ import org.javasimon.Counter;
  * {@link JmxRegisterCallback} can be used to automate this.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Mar 6, 2009
  */
 public class CounterMXBeanImpl extends AbstractSimonMXBeanImpl implements CounterMXBean {
 	private Counter counter;

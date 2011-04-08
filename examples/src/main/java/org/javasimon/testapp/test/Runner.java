@@ -8,7 +8,6 @@ import org.javasimon.SimonManager;
  *
  * @author Radovan Sninsky
  * @version $Revision$ $ Date: $
- * @created 19.3.2009 14:17:01
  * @since 2.0
  */
 public class Runner {

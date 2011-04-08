@@ -10,7 +10,6 @@ import org.javasimon.utils.*;
  * Various timer calles compared along with stopwatch start/stop calls.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Aug 7, 2008
  */
 public final class NanoMillisComparison {
 	private static final int LOOP = 10000000;

@@ -8,7 +8,6 @@ import java.util.List;
  * via convenient static utility class SimonManager.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Aug 11, 2008
  */
 public interface Manager {
 	/**

@@ -18,7 +18,6 @@ import java.util.Iterator;
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
- * @created 18.3.2009 12:22:40
  * @since 2.0
  */
 public class InsertAction implements Action {

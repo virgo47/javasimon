@@ -11,7 +11,6 @@ import java.util.List;
  * implemented.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Jan 22, 2009
  */
 public class CallbackSkeleton implements Callback {
 	/**

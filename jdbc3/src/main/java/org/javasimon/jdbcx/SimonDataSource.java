@@ -35,7 +35,6 @@ import java.lang.reflect.Method;
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
- * @created 14.9.2008 16:30:36
  * @since 1.0
  */
 public final class SimonDataSource extends AbstractSimonDataSource implements DataSource {

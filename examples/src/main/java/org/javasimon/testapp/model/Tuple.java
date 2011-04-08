@@ -8,7 +8,6 @@ import java.util.Date;
  *
  * @author Radovan Sninsky
  * @version $Revision: $ $Date: $
- * @created 06.11.2008 23:19:14
  * @since 2.0
  * @see Tuples
  */

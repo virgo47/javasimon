@@ -15,8 +15,6 @@
     <orderEntry type="module" module-name="javasimon-jdbc3" />
     <orderEntry type="module" module-name="javasimon-jmx" />
     <orderEntry type="library" name="Maven: com.h2database:h2:1.2.135" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.testng:testng:jdk15:5.10" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: junit:junit:3.8.1" level="project" />
   </component>
 </module>
 

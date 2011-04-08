@@ -89,7 +89,6 @@ import java.io.InputStream;
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
- * @created 6.8.2008 23:13:27
  * @see java.sql.DriverManager#getConnection(String)
  * @since 1.0
  */
@@ -149,7 +148,6 @@ public final class Driver implements java.sql.Driver {
 	 *
 	 * @author Radovan Sninsky
 	 * @version $Revision$ $Date$
-	 * @created 14.2.2009 18:18:48
 	 * @since 2
 	 */
 	static class Url {

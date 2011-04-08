@@ -66,7 +66,6 @@ import java.io.InputStream;
  * @author Radovan Sninsky
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @version $Revision: $ $Date: $
- * @created 3.10.2010
  * @see java.sql.DriverManager#getConnection(String)
  * @since 2.4
  */
@@ -103,7 +102,6 @@ public final class Driver implements java.sql.Driver {
 	 *
 	 * @author Radovan Sninsky
 	 * @version $Revision: 272 $ $Date: 2010-02-08 16:07:46 +0100 (Mon, 08 Feb 2010) $
-	 * @created 14.2.2009 18:18:48
 	 * @since 2.4
 	 */
 	static class Url {

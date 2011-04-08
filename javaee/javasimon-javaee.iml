@@ -13,8 +13,6 @@
     <orderEntry type="library" name="Maven: stax:stax-api:1.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.mvel:mvel2:2.0.19" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax:javaee-api:6.0" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.testng:testng:jdk15:5.10" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: junit:junit:3.8.1" level="project" />
   </component>
 </module>
 

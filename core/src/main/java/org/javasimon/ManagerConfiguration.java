@@ -30,7 +30,6 @@ import java.lang.reflect.InvocationTargetException;
  * </simon-configuration>}</pre>
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Sep 6, 2008
  */
 public final class ManagerConfiguration {
 	private Map<SimonPattern, SimonConfiguration> configs;

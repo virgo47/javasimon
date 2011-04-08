@@ -13,7 +13,6 @@ import java.text.DecimalFormatSymbols;
  * probably need additional adjustment, but most of the work will be done by the tool.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Aug 13, 2008
  */
 public final class GoogleChartGenerator {
 	private static final String URL_START = "http://chart.apis.google.com/chart?chs=600x300";

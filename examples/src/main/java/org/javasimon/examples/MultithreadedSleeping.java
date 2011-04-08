@@ -17,7 +17,6 @@ import java.util.concurrent.CountDownLatch;
  * 1 second. Either the sleep or the nanoTime is not perfect.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Aug 6, 2008
  */
 public final class MultithreadedSleeping extends Thread {
 	private static final int THREADS = 100;

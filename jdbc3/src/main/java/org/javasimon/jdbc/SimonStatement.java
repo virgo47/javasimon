@@ -13,7 +13,6 @@ import java.util.LinkedList;
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
- * @created 8.8.2008 0:25:33
  * @see java.sql.Statement
  * @since 1.0
  */

@@ -7,7 +7,6 @@ import java.util.Iterator;
  *
  * @author Radovan Sninsky
  * @version $Revision: $ $Date: $
- * @created 07.11.2008 9:52:43
  * @since 2.0
  * @see Tuple
  */

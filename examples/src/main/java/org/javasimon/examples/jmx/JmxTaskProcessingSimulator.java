@@ -24,7 +24,6 @@ import java.util.logging.Level;
  * stopwatch values. 
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Feb 15, 2009
  */
 public final class JmxTaskProcessingSimulator {
 	/**

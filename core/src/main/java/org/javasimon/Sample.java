@@ -12,7 +12,6 @@ import org.javasimon.utils.SimonUtils;
  * Sample generally doesn't have any behavior.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Jan 7, 2009
  */
 public abstract class Sample {
 	private String note;

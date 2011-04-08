@@ -8,7 +8,6 @@ import java.util.*;
  * DataCollector collects data. :-) Data are stored as doubles whatever the original type was.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Aug 13, 2008
  */
 public abstract class AbstractDataCollector {
 	private final Map<Simon, List<Double>> data = new LinkedHashMap<Simon, List<Double>>();

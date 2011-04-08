@@ -10,7 +10,6 @@ import org.javasimon.StopwatchSample;
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
- * @created 15.7.2008 22:43:49
  * @since 2
  */
 public interface SimonMXBean {

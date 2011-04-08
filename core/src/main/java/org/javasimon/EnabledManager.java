@@ -10,7 +10,6 @@ import java.lang.reflect.InvocationTargetException;
  * EnabledManager implements methods called from SimonManager when the manager is enabled.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Aug 16, 2008
  */
 public final class EnabledManager implements Manager {
 	private final Map<String, AbstractSimon> allSimons = new HashMap<String, AbstractSimon>();

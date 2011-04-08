@@ -9,7 +9,6 @@ import org.javasimon.utils.SimonUtils;
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
- * @created 3.3.2009 23:28:48
  * @see org.javasimon.jdbc.logging.SimonFormatter
  * @since 2.0
  */

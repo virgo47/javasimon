@@ -29,7 +29,6 @@ import java.io.IOException;
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
- * @created 30.1.2009 15:26:00
  * @since 2
  */
 public final class LoggingCallback extends CallbackSkeleton {

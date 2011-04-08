@@ -9,7 +9,6 @@ import java.util.List;
  * to AbstractSimon in the core package.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Mar 6, 2009
  */
 public interface SimonSuperMXBean {
 	/**

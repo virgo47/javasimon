@@ -6,7 +6,6 @@ import org.javasimon.utils.SimonUtils;
  * Class implements {@link org.javasimon.Counter} interface - see there for how to use Counter.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Aug 4, 2008
  * @see org.javasimon.Counter
  */
 final class CounterImpl extends AbstractSimon implements Counter {

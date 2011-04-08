@@ -24,7 +24,6 @@ Check this readme online for updates: http://code.google.com/p/javasimon/wiki/Re
     * newly built jars are placed into `build` directory;
     * new ZIP archive is placed into the main project directory.
   * For Maven build, you have to set the same properties like for ant. Included libs are not utilized, standard Maven 2 dependency mechanism is used.
-  * Few examples are not built by default (in package `other`). You may need other other libraries (JAMon) to compile and run them.
 
 == Usage ==
 

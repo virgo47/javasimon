@@ -14,7 +14,6 @@ import java.io.Reader;
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
- * @created 16.8.2008 22:00:26
  * @since 1.0
  */
 public final class SimonCallableStatement extends SimonPreparedStatement implements CallableStatement {

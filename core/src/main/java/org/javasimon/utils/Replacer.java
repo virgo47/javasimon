@@ -13,7 +13,6 @@ import java.util.regex.Pattern;
  * {@code repeatUntilUnchanged} set to {@code true}.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Aug 28, 2008
  */
 public final class Replacer {
 	private final Pattern from;

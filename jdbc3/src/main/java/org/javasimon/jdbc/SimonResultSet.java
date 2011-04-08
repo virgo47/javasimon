@@ -16,7 +16,6 @@ import java.net.URL;
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
- * @created 18.2.2009 20:01:26
  * @since 2.0
  */
 public final class SimonResultSet implements ResultSet {

@@ -23,7 +23,6 @@ package org.javasimon.jmx;
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
- * @created 3.10.2008 15:46:36
  * @see org.javasimon.jmx.JdbcMXBeanImpl
  * @since 2
  */

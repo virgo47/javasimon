@@ -14,7 +14,6 @@ import org.javasimon.Split;
  * (nearly empty HashMap).
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Aug 6, 2008
  */
 public final class ManagerVsStopwatchComparison {
 	private static final int LOOP = 10000000;

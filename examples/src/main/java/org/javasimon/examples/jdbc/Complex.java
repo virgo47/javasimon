@@ -11,7 +11,6 @@ import java.sql.*;
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
- * @created 16.8.2008 21:10:39
  * @since 1.0
  */
 public final class Complex extends Simple {

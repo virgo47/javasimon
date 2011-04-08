@@ -17,7 +17,6 @@ import java.io.IOException;
  *
  * @author Radovan Sninsky
  * @version $Revision $ $Date $
- * @created 27.1.2009 18:50:41
  * @since 1.0
  */
 public class MonitoringClient {

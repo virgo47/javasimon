@@ -10,7 +10,6 @@ import java.util.List;
  * minimal performance impact on the system.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Aug 4, 2008
  */
 final class NullSimon implements Counter, Stopwatch {
 	/**

@@ -8,7 +8,6 @@ import org.javasimon.jmx.JmxRegisterCallback;
  * and one Stopwatch that can be monitored via {@code jconsole} or any other/custom JMX client.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Mar 6, 2009
  */
 public final class JmxCallbackExample {
 	/**

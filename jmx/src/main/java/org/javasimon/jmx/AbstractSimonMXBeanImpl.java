@@ -12,7 +12,6 @@ import java.util.ArrayList;
  * in the core package.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Mar 6, 2009
  */
 public abstract class AbstractSimonMXBeanImpl implements SimonSuperMXBean {
 	public final String getName() {

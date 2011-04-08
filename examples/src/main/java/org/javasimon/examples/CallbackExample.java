@@ -11,7 +11,6 @@ import org.javasimon.utils.SimonUtils;
  * on the specific events.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @created Jan 22, 2009
  */
 public final class CallbackExample {
 	/**

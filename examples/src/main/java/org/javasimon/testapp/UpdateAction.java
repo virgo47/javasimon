@@ -13,7 +13,6 @@ import java.sql.Connection;
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
- * @created 22.3.2009 0:40:46
  * @since 2.0
  */
 public class UpdateAction implements Action {
