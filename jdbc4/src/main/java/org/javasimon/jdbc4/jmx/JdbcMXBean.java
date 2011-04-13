@@ -1,4 +1,6 @@
-package org.javasimon.jmx;
+package org.javasimon.jdbc4.jmx;
+
+import org.javasimon.jmx.StopwatchSample;
 
 /**
  * Interface of JDBC management bean (MXBean).
@@ -12,7 +14,7 @@ package org.javasimon.jmx;
  * to different types of database (i.e. oracle and mysql), there is possibility to differentiate
  * each used driver by specifying Simon hierarchy prefix for driver.<br>
  * Jdbc mxbean has prefix associated with it. It's is initialized through mxbean implementation
- * class constructor ({@link org.javasimon.jmx.JdbcMXBeanImpl#JdbcMXBeanImpl(org.javasimon.Manager, String)})
+ * class constructor ({@link JdbcMXBeanImpl#JdbcMXBeanImpl(org.javasimon.Manager, String)})
  * or later through setter ({@link #setPrefix(String)}). Then is also possible to register Jdbc mxbean
  * for each prefix.
  * <p/>
@@ -23,7 +25,7 @@ package org.javasimon.jmx;
  *
  * @author Radovan Sninsky
  * @version $Revision$ $Date$
- * @see org.javasimon.jmx.JdbcMXBeanImpl
+ * @see JdbcMXBeanImpl
  * @since 2
  */
 public interface JdbcMXBean {
@@ -46,7 +48,7 @@ public interface JdbcMXBean {
 	String getPrefix();
 
 	/**
-	 * Sets custom prefix of JDBC Simon hierarchy, see more {@link org.javasimon.jmx.JdbcMXBean}.
+	 * Sets custom prefix of JDBC Simon hierarchy, see more {@link JdbcMXBean}.
 	 *
 	 * @param value new prefix
 	 */
@@ -120,21 +122,21 @@ public interface JdbcMXBean {
 	/**
 	 * Retrieves summary data about JDBC connection objects.
 	 *
-	 * @return value object {@link org.javasimon.jmx.JdbcObjectInfo}
+	 * @return value object {@link JdbcObjectInfo}
 	 */
 	JdbcObjectInfo connectionsStat();
 
 	/**
 	 * Retrieves summary data about JDBC statement objects.
 	 *
-	 * @return value object {@link org.javasimon.jmx.JdbcObjectInfo}
+	 * @return value object {@link JdbcObjectInfo}
 	 */
 	JdbcObjectInfo statementsStat();
 
 	/**
 	 * Retrieves summary data about JDBC result set objects.
 	 *
-	 * @return value object {@link org.javasimon.jmx.JdbcObjectInfo}
+	 * @return value object {@link JdbcObjectInfo}
 	 */
 	JdbcObjectInfo resultsetsStat();
 

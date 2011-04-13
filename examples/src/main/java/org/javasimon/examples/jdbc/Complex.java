@@ -65,7 +65,7 @@ public final class Complex extends Simple {
 	private void printMonitoringInfo() {
 		System.out.println("Simon monitor hierarchy:\n" + SimonUtils.simonTreeString(SimonManager.getRootSimon()));
 
-		Simon jdbcSimon = SimonManager.getSimon(org.javasimon.jdbc.Driver.DEFAULT_PREFIX);
+		Simon jdbcSimon = SimonManager.getSimon(org.javasimon.jdbc4.Driver.DEFAULT_PREFIX);
 		System.out.println(printJdbcConnectionInfo(jdbcSimon));
 		System.out.println(printJdbcStatementInfo(jdbcSimon));
 	}
@@ -76,7 +76,7 @@ public final class Complex extends Simple {
 	 *
 	 * @param jdbcSimon top JDBC Simon (typically prefix of the JDBC proxy driver)
 	 * @return information/stats about JDBC connections
-	 * @see org.javasimon.jdbc.Driver#DEFAULT_PREFIX
+	 * @see org.javasimon.jdbc4.Driver#DEFAULT_PREFIX
 	 */
 	private String printJdbcConnectionInfo(Simon jdbcSimon) {
 		if (SimonManager.getSimon(jdbcSimon.getName() + ".conn") != null) {
@@ -108,7 +108,7 @@ public final class Complex extends Simple {
 	 *
 	 * @param jdbcSimon top JDBC Simon (typically prefix of the JDBC proxy driver)
 	 * @return information/stats about JDBC statements
-	 * @see org.javasimon.jdbc.Driver#DEFAULT_PREFIX
+	 * @see org.javasimon.jdbc4.Driver#DEFAULT_PREFIX
 	 */
 	private String printJdbcStatementInfo(Simon jdbcSimon) {
 		if (SimonManager.getSimon(jdbcSimon.getName() + ".stmt") != null) {
@@ -137,11 +137,11 @@ public final class Complex extends Simple {
 	 * @throws Exception sometimes bad things can happen
 	 */
 	public static void main(String[] args) throws Exception {
-// Uncomment these two lines to check out if Issue #15 is fixed: http://code.google.com/p/javasimon/issues/detail?id=15		
-//		Simon jdbcSimon = SimonManager.getStopwatch(org.javasimon.jdbc.Driver.DEFAULT_PREFIX);
+// Uncomment these two lines to check out if Issue #15 is fixed: http://code.google.com/p/javasimon/issues/detail?id=15
+//		Simon jdbcSimon = SimonManager.getStopwatch(org.javasimon.jdbc4.Driver.DEFAULT_PREFIX);
 //		jdbcSimon.setState(SimonState.DISABLED, true);
 		Class.forName("org.h2.Driver");
-		Class.forName("org.javasimon.jdbc.Driver");
+		Class.forName("org.javasimon.jdbc4.Driver");
 
 		Complex complex = new Complex();
 		complex.setUp();

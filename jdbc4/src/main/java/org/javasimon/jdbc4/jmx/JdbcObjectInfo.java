@@ -1,4 +1,4 @@
-package org.javasimon.jmx;
+package org.javasimon.jdbc4.jmx;
 
 import java.beans.ConstructorProperties;
 

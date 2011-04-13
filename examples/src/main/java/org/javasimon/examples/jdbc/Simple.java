@@ -99,7 +99,7 @@ public class Simple {
 	public static void main(String[] args) throws Exception {
 		Split main = SimonManager.getStopwatch("org.javasimon.examples.jdbc.main").start();
 		Class.forName("org.h2.Driver");
-		Class.forName("org.javasimon.jdbc.Driver");
+		Class.forName("org.javasimon.jdbc4.Driver");
 
 		Simple s = new Simple();
 		s.setUp();

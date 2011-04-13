@@ -1,11 +1,10 @@
-package org.javasimon.jmx;
+package org.javasimon.jdbc4.jmx;
 
 import org.javasimon.*;
 import org.javasimon.utils.SimonUtils;
-import org.javasimon.jdbc.logging.LoggingCallback;
 
 /**
- * Jdbc MXBean implementation. See {@link org.javasimon.jmx.JdbcMXBean} for interface
+ * Jdbc MXBean implementation. See {@link JdbcMXBean} for interface
  * documentation.
  * Most methods are implemented by calling the {@link Manager}.
  *
@@ -88,11 +87,11 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 		stopLogging();
 
 		// install new JDBC log callback
-		LoggingCallback jlc =  new LoggingCallback();
-		jlc.setPrefix(prefix);
-		jlc.setLogFilename(filename);
-		jlc.setLogFormat(format);
-		manager.callback().addCallback(jlc);
+//		LoggingCallback jlc =  new LoggingCallback();
+//		jlc.setPrefix(prefix);
+//		jlc.setLogFilename(filename);
+//		jlc.setLogFormat(format);
+//		manager.callback().addCallback(jlc);
 	}
 
 	/**
@@ -103,11 +102,11 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 		stopLogging();
 
 		// install new JDBC log callback
-		LoggingCallback jlc =  new LoggingCallback();
-		jlc.setPrefix(prefix);
-		jlc.setLoggerName(logger);
-		jlc.setLogFormat(format);
-		manager.callback().addCallback(jlc);
+//		LoggingCallback jlc =  new LoggingCallback();
+//		jlc.setPrefix(prefix);
+//		jlc.setLoggerName(logger);
+//		jlc.setLogFormat(format);
+//		manager.callback().addCallback(jlc);
 	}
 
 	/**
@@ -118,11 +117,11 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 		stopLogging();
 
 		// install new JDBC log callback
-		LoggingCallback jlc =  new LoggingCallback();
-		jlc.setPrefix(prefix);
-		jlc.setLogToConsole();
-		jlc.setLogFormat(format);
-		manager.callback().addCallback(jlc);
+//		LoggingCallback jlc =  new LoggingCallback();
+//		jlc.setPrefix(prefix);
+//		jlc.setLogToConsole();
+//		jlc.setLogFormat(format);
+//		manager.callback().addCallback(jlc);
 	}
 
 	/**
@@ -132,9 +131,9 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 	public void stopLogging() {
 		// remove ALL JDBC log callback if exists for default prefix
 		for (Callback c : manager.callback().callbacks()) {
-			if (c instanceof LoggingCallback && ((LoggingCallback)c).getPrefix().equalsIgnoreCase(prefix)) {
-				manager.callback().removeCallback(c);
-			}
+//			if (c instanceof LoggingCallback && ((LoggingCallback)c).getPrefix().equalsIgnoreCase(prefix)) {
+//				manager.callback().removeCallback(c);
+//			}
 		}
 	}
 
@@ -207,9 +206,9 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 	/**
 	 * {@inheritDoc}
 	 */
-	public StopwatchSample getSqlCommandStat(String cmdId) {
+	public org.javasimon.jmx.StopwatchSample getSqlCommandStat(String cmdId) {
 		if (manager.getSimon(prefix+".sql."+cmdId) != null) {
-			return new StopwatchSample(
+			return new org.javasimon.jmx.StopwatchSample(
 				(org.javasimon.StopwatchSample)manager.getStopwatch(prefix+".sql."+cmdId).sample());
 		}
 		return null;
@@ -235,11 +234,11 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 	/**
 	 * {@inheritDoc}
 	 */
-	public StopwatchSample getSqlStat(String sqlId) {
+	public org.javasimon.jmx.StopwatchSample getSqlStat(String sqlId) {
 		if (manager != null) {
 			for (String s : manager.simonNames()) {
 				if (SimonUtils.localName(s).equals(sqlId)) {
-					return new StopwatchSample(
+					return new org.javasimon.jmx.StopwatchSample(
 						(org.javasimon.StopwatchSample)manager.getStopwatch(s).sample());
 				}
 			}

@@ -2,17 +2,13 @@
 <project name="Java Simon Library" default="dist" basedir=".">
 	<property file="build.properties"/>
 
-	<property name="version" value="2.5.0"/>
+	<property name="version" value="3.0.0"/>
 	<property name="javac.debug" value="true"/>
 	<property name="javac.deprecation" value="false"/>
 
 	<property name="lib.dir" value="lib"/>
 
 	<property name="testng.jar" value="testng-5.11-jdk15.jar"/>
-
-	<echo message="JDK5: ${jdk5.home}"/>
-	<echo message="JDK6: ${jdk6.home}"/>
-	<echo message="libs: ${lib.dir}"/>
 
 	<!-- used for testng or examples -->
 	<path id="classpath">
@@ -38,21 +34,17 @@
 
 	<target name="compile" description="Compile the source code">
 		<compile-module module="core"/>
-		<compile-module module="jdbc3" jdk="${jdk5.home}"/>
 		<compile-module module="jdbc4"/>
 		<compile-module module="javaee"/>
 		<compile-module module="spring"/>
-		<compile-module module="jmx"/>
 	</target>
 
 	<macrodef name="compile-module">
 		<attribute name="module"/>
-		<attribute name="jdk" default="${jdk6.home}"/>
 		<sequential>
 			<mkdir dir="build/@{module}"/>
 			<javac srcdir="@{module}/src/main/java" destdir="build/@{module}" debug="${javac.debug}"
-				deprecation="${javac.deprecation}" classpathref="classpath" source="1.5" target="1.5"
-				fork="true" executable="@{jdk}/bin/javac"/>
+				deprecation="${javac.deprecation}" classpathref="classpath"/>
 			<copy todir="build/@{module}">
 				<fileset dir="@{module}/src/main/java" includes="**/*.properties"/>
 				<fileset dir="@{module}/src/main/java" includes="**/*.xml"/>
@@ -67,9 +59,7 @@
 		<mkdir dir="build/jdbc4/META-INF/services"/>
 		<echo file="build/jdbc4/META-INF/services/java.sql.Driver">org.javasimon.jdbc.Driver</echo>
 		<jar-module module="core"/>
-		<jar-module module="jdbc3"/>
 		<jar-module module="jdbc4"/>
-		<jar-module module="jmx"/>
 		<jar-module module="javaee"/>
 		<jar-module module="spring"/>
 	</target>

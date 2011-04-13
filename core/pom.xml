@@ -9,14 +9,10 @@
 	<parent>
 		<groupId>org.javasimon</groupId>
 		<artifactId>javasimon-parent</artifactId>
-		<version>2.6.0-SNAPSHOT</version>
+		<version>3.0.0-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
-		<dependency>
-			<groupId>stax</groupId>
-			<artifactId>stax-api</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>org.mvel</groupId>
 			<artifactId>mvel2</artifactId>
@@ -24,7 +20,6 @@
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
-			<classifier>jdk15</classifier>
 		</dependency>
 	</dependencies>
 </project>
