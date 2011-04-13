@@ -67,12 +67,12 @@ public final class StopwatchSample extends org.javasimon.StopwatchSample {
 	}
 
 	/**
-	 * Internall, framework constructor for Simon MBean implementation to initialize all properties
+	 * Framework constructor for Simon MBean implementation to initialize all properties
 	 * by sample obtained from Simon.
 	 *
 	 * @param s sample object obtained from Stopwatch Simon
 	 */
-	StopwatchSample(org.javasimon.StopwatchSample s) {
+	public StopwatchSample(org.javasimon.StopwatchSample s) {
 		setMean(s.getMean());
 		setStandardDeviation(s.getStandardDeviation());
 		setVariance(s.getVariance());

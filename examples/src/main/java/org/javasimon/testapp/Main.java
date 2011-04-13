@@ -4,8 +4,8 @@ import org.javasimon.testapp.test.Runner;
 import org.javasimon.testapp.mm.AppMXBean;
 import org.javasimon.jmx.SimonMXBeanImpl;
 import org.javasimon.jmx.SimonMXBean;
-import org.javasimon.jmx.JdbcMXBean;
-import org.javasimon.jmx.JdbcMXBeanImpl;
+import org.javasimon.jdbc4.jmx.JdbcMXBean;
+import org.javasimon.jdbc4.jmx.JdbcMXBeanImpl;
 import org.javasimon.SimonManager;
 import org.h2.tools.RunScript;
 
