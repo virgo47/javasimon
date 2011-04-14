@@ -8,7 +8,7 @@ import org.javasimon.jmx.StopwatchSample;
  * JDBC MXBean provides management operations to monitoring and logging JDBC driver
  * and operations to retrieve gathered statistics from special JDBC hierarchy of Simons.<br>
  * This JDBC hierarchy of Simon is well known and specified in JDBC javadoc
- * ({@link org.javasimon.jdbc}). There is prefix of this hierarchy that is associated with
+ * ({@link org.javasimon.jdbc4}). There is prefix of this hierarchy that is associated with
  * one instance of monitored JDBC driver. Typically, thare is only one driver instance used
  * in application, becouse of connection to one type of database. If application is connected
  * to different types of database (i.e. oracle and mysql), there is possibility to differentiate
@@ -20,7 +20,7 @@ import org.javasimon.jmx.StopwatchSample;
  * <p/>
  * Monitoring and logging JDBC driver by javasimons is possible only if javasimon JDBC driver is used
  * over orginal JDBC driver (eg. Oracle, PostgreSQL, MySQL etc.). For more details how to do
- * that, please look at {@link org.javasimon.jdbc.Driver} a package {@link org.javasimon.jdbc}
+ * that, please look at {@link org.javasimon.jdbc4.Driver} a package {@link org.javasimon.jdbc4}
  * javadoc.
  *
  * @author Radovan Sninsky
@@ -81,7 +81,7 @@ public interface JdbcMXBean {
 	 *
 	 * @param filename path to file on disk
 	 * @param format could identifier of build-in formatters {@code human} or {@code csv}
-	 * or classname of custom formatter derived from {@link org.javasimon.jdbc.logging.SimonFormatter}
+	 * or classname of custom formatter derived from {@link org.javasimon.jdbc4.logging.SimonFormatter}
 	 */
 	@Deprecated
 	void logToFile(String filename, String format);
@@ -92,7 +92,7 @@ public interface JdbcMXBean {
 	 *
 	 * @param logger name of JDK14 logger
 	 * @param format could identifier of build-in formatters {@code human} or {@code csv}
-	 * or classname of custom formatter derived from {@link org.javasimon.jdbc.logging.SimonFormatter}
+	 * or classname of custom formatter derived from {@link org.javasimon.jdbc4.logging.SimonFormatter}
 	 */
 	@Deprecated
 	void logToLogger(String logger, String format);
@@ -103,7 +103,7 @@ public interface JdbcMXBean {
 	 * This is going to be removed in 3.0 as the whole design is now not future proof, now it is stuck to JDBC 3.
 	 *
 	 * @param format could identifier of build-in formatters {@code human} or {@code csv}
-	 * or classname of custom formatter derived from {@link org.javasimon.jdbc.logging.SimonFormatter}
+	 * or classname of custom formatter derived from {@link org.javasimon.jdbc4.logging.SimonFormatter}
 	 */
 	@Deprecated
 	void logToConsole(String format);
