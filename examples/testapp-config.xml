@@ -1,5 +1,6 @@
 <simon-configuration>
-	<callback class="org.javasimon.jdbc.logging.LoggingCallback">
+	<!-- TODO find some replacement for this -->
+	<callback class="org.javasimon.jdbc4.logging.LoggingCallback">
 		<set property="prefix" value="org.javasimon.testapp.jdbc"/>
 		<set property="loggerName" value="myapp.testdb"/>
 		<set property="logFilename" value="myapp.log"/>
@@ -7,7 +8,7 @@
 		<set property="logFormat" value="csv"/>
 	</callback>
 	<filter-callback>
-		<rule pattern="org.javasimon.testapp.jdbc.*"/>
+		<rule pattern="org.javasimon.testapp.jdbc4.*"/>
 		<rule pattern="org.javasimon.testapp.action"/> <!-- must be added otherwise auto-ordering doesn't work -->
 
 		<callback class="org.javasimon.testapp.SplitCumulatorCallback">

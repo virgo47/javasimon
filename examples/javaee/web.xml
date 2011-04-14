@@ -6,7 +6,7 @@
 
 	<!-- ...
 		Add javasimon-core and javaee libs into your EAR or into server's libs.
-		If you wanna use javasimon-jdbc3/4 as well (most likely you do) you have to go for
+		If you wanna use javasimon-jdbc4 as well (most likely you do) you have to go for
 		server's libs, there is no other way, because datasource is created by server without
 		reach to libs that are only in your EAR.
 	-->

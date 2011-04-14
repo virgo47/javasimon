@@ -15,11 +15,11 @@
  * connection pool or XA), implementation class of real datasource and real datasource properties of course.
  * By datasource type, there are three different Java Simon datasource implementation for each type:
  * <ul>
- * <li>{@link org.javasimon.jdbcx.SimonDataSource} for ordinary or non-XA datasource (implements
+ * <li>{@link org.javasimon.jdbcx4.SimonDataSource} for ordinary or non-XA datasource (implements
  * {@link javax.sql.DataSource}),</li>
- * <li>{@link org.javasimon.jdbcx.SimonConnectionPoolDataSource} for connection pool datasource with pooling
+ * <li>{@link org.javasimon.jdbcx4.SimonConnectionPoolDataSource} for connection pool datasource with pooling
  * connections feature (implements {@link javax.sql.ConnectionPoolDataSource}),</li>
- * <li> and {@link org.javasimon.jdbcx.SimonDataSource} for XA datasource with two-phase commits feature (implements
+ * <li> and {@link org.javasimon.jdbcx4.SimonDataSource} for XA datasource with two-phase commits feature (implements
  * {@link javax.sql.XADataSource}).</li>
  * </ul>
  * Implementation class of real datasource is then important for creating right datasource instance by Java Simon

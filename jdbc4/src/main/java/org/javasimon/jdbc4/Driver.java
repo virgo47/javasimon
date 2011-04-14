@@ -59,7 +59,7 @@ import java.io.InputStream;
  * database connection, use following code:
  * <pre>
  * Class.forName("oracle.jdbc.driver.OracleDriver");  // loads real driver
- * Class.forName("org.javasimon.jdbc.Driver");  // loads Simon proxy driver
+ * Class.forName("org.javasimon.jdbc4.Driver");  // loads Simon proxy driver
  * Connection conn = DriverManager.getConnection(
  *      "jdbc:simon:oracle:thin:...", "scott", "tiger");</pre>
  *

@@ -19,9 +19,9 @@ import java.sql.Connection;
 /**
  * Main class of the test application (DB+JMX).
  * Run it from main javasimon directory (where {@code examples} directory is). Compilation:
- * <pre>javac -cp lib/h2.jar:build/core:build/jdbc3:build/jmx examples/org/javasimon/testapp/*.java examples/org/javasimon/testapp/*\/*.java</pre>
+ * <pre>javac -cp lib/h2.jar:build/core:build/jdbc4:build/jmx examples/org/javasimon/testapp/*.java examples/org/javasimon/testapp/*\/*.java</pre>
  * Run it with command:
- * <pre>java -cp ../lib/h2.jar:build/core:build/jdbc3:ild/jmx:examples org.javasimon.testapp.Main</pre>
+ * <pre>java -cp ../lib/h2.jar:build/core:build/jdbc4:ild/jmx:examples org.javasimon.testapp.Main</pre>
  *
  * To initialize JDBC logging callback following switch has to be added as the JVM option:
  * {@code java -cp -Djavasimon.config.file=examples/testapp-config.xml}

@@ -17,6 +17,7 @@ import java.util.TreeMap;
  */
 public final class SystemTimersPrecision {
 	private static final long LOOP = 10000000;
+	private static final long MS_RUN = 500;
 
 	private SystemTimersPrecision() {
 	}
@@ -59,6 +60,30 @@ public final class SystemTimersPrecision {
 			System.out.println("msChanges: " + msChanges + " during " + (System.currentTimeMillis() - initMs) + " ms");
 			System.out.println("deltaCount = " + deltaCount);
 			System.out.println("nsChanges: " + nsChanges + " during " + (System.nanoTime() - initNs) + " ns");
+
+			// now something else...
+			long msCount = 0;
+			initMs = System.currentTimeMillis();
+			while (true) {
+				long newMs = System.currentTimeMillis();
+				msCount++;
+				if (newMs - initMs >= MS_RUN) {
+					break;
+				}
+			}
+			System.out.println("currentTimeMillis msCount = " + msCount);
+
+			long nsCount = 0;
+			initMs = System.nanoTime() / 1000000;
+			while (true) {
+				long newMs = System.nanoTime() / 1000000;
+				nsCount++;
+				if (newMs - initMs >= MS_RUN) {
+					break;
+				}
+			}
+			System.out.println("nanoTime msCount = " + nsCount);
+			System.out.println("Ratio ms/ns: " + msCount / (double) nsCount);
 		}
 
 		for (int round = 1; round <= LOOP; round++) {
