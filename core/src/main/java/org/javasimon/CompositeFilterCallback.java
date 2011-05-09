@@ -9,9 +9,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * This callback combines Composite and Filter behavior. Filter can be configured
  * via {@link #addRule(org.javasimon.FilterCallback.Rule.Type, String, String, org.javasimon.Callback.Event...)}
  * method and if the rule is satisfied the event is propagated to all
- * children callbacks added via {@link #addCallback(Callback)}.
- * Filter without any rules does not propagate events. Any number of global
- * rules and per event rules can be added. Event rules have higher priority.
+ * children callbacks added via {@link #addCallback(Callback)}. XML facility for configuration
+ * is provided via {@link ManagerConfiguration#readConfig(java.io.Reader)}.
+ * <p/>
+ * Filter without any rules does not propagate events (default DENY behavior).
+ * Any number of global rules (for {@link Event#ALL}) and per event rules can be added.
+ * Event rules have higher priority and if the filter passes on event rules, global rules are not consulted.
  * Rules are checked in the order they were added to the filter.
  * <p/>
  * Rule can be one of the following types:
@@ -81,7 +84,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	 * {@inheritDoc}
 	 */
 	public void reset(Simon simon) {
-		if (rulesAppliesTo(simon, Event.RESET)) {
+		if (rulesApplyTo(simon, Event.RESET)) {
 			callback.reset(simon);
 		}
 	}
@@ -90,7 +93,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	 * {@inheritDoc}
 	 */
 	public void stopwatchAdd(Stopwatch stopwatch, long ns) {
-		if (rulesAppliesTo(stopwatch, Event.STOPWATCH_ADD, ns)) {
+		if (rulesApplyTo(stopwatch, Event.STOPWATCH_ADD, ns)) {
 			callback.stopwatchAdd(stopwatch, ns);
 		}
 	}
@@ -99,7 +102,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	 * {@inheritDoc}
 	 */
 	public void stopwatchStart(Split split) {
-		if (rulesAppliesTo(split.getStopwatch(), Event.STOPWATCH_START, split)) {
+		if (rulesApplyTo(split.getStopwatch(), Event.STOPWATCH_START, split)) {
 			callback.stopwatchStart(split);
 		}
 	}
@@ -108,7 +111,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	 * {@inheritDoc}
 	 */
 	public void stopwatchStop(Split split) {
-		if (rulesAppliesTo(split.getStopwatch(), Event.STOPWATCH_STOP, split)) {
+		if (rulesApplyTo(split.getStopwatch(), Event.STOPWATCH_STOP, split)) {
 			callback.stopwatchStop(split);
 		}
 	}
@@ -117,7 +120,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	 * {@inheritDoc}
 	 */
 	public void counterDecrease(Counter counter, long dec) {
-		if (rulesAppliesTo(counter, Event.COUNTER_DECREASE, dec)) {
+		if (rulesApplyTo(counter, Event.COUNTER_DECREASE, dec)) {
 			callback.counterDecrease(counter, dec);
 		}
 	}
@@ -126,7 +129,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	 * {@inheritDoc}
 	 */
 	public void counterIncrease(Counter counter, long inc) {
-		if (rulesAppliesTo(counter, Event.COUNTER_INCREASE, inc)) {
+		if (rulesApplyTo(counter, Event.COUNTER_INCREASE, inc)) {
 			callback.counterDecrease(counter, inc);
 		}
 	}
@@ -135,7 +138,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	 * {@inheritDoc}
 	 */
 	public void counterSet(Counter counter, long val) {
-		if (rulesAppliesTo(counter, Event.COUNTER_SET, val)) {
+		if (rulesApplyTo(counter, Event.COUNTER_SET, val)) {
 			callback.counterDecrease(counter, val);
 		}
 	}
@@ -144,7 +147,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	 * {@inheritDoc}
 	 */
 	public void simonCreated(Simon simon) {
-		if (rulesAppliesTo(simon, Event.CREATED)) {
+		if (rulesApplyTo(simon, Event.CREATED)) {
 			callback.simonCreated(simon);
 		}
 	}
@@ -153,7 +156,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	 * {@inheritDoc}
 	 */
 	public void simonDestroyed(Simon simon) {
-		if (rulesAppliesTo(simon, Event.DESTROYED)) {
+		if (rulesApplyTo(simon, Event.DESTROYED)) {
 			callback.simonDestroyed(simon);
 		}
 	}
@@ -162,7 +165,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	 * {@inheritDoc}
 	 */
 	public void clear() {
-		if (rulesAppliesTo(null, Event.CLEAR)) {
+		if (rulesApplyTo(null, Event.CLEAR)) {
 			callback.clear();
 		}
 	}
@@ -171,7 +174,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	 * {@inheritDoc}
 	 */
 	public void message(String message) {
-		if (rulesAppliesTo(null, Event.MESSAGE, message)) {
+		if (rulesApplyTo(null, Event.MESSAGE, message)) {
 			callback.message(message);
 		}
 	}
@@ -180,7 +183,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	 * {@inheritDoc}
 	 */
 	public void warning(String warning, Exception cause) {
-		if (rulesAppliesTo(null, Event.WARNING, cause)) {
+		if (rulesApplyTo(null, Event.WARNING, cause)) {
 			callback.warning(warning, cause);
 		}
 	}
@@ -204,23 +207,36 @@ public final class CompositeFilterCallback implements FilterCallback {
 		}
 	}
 
-	private boolean rulesAppliesTo(Simon simon, Event checkedEvent, Object... params) {
-		for (Event event : new Event[]{checkedEvent, Event.ALL}) {
-			for (Rule rule : rules.get(event)) {
-				boolean result = patternAndConditionCheck(simon, rule, params);
+	private boolean rulesApplyTo(Simon simon, Event checkedEvent, Object... params) {
+		// onlyl if event rules are empty, check rules for ALL as a fallback
+		if (rules.get(checkedEvent).size() == 0) {
+			return checkRules(simon, Event.ALL, params);
+		}
+		return checkRules(simon, checkedEvent, params);
+	}
 
-				if (!result && rule.getType().equals(Rule.Type.MUST)) { // fast fail on MUST condition
-					return false;
-				}
-				if (result && rule.getType().equals(Rule.Type.MUST_NOT)) { // fast fail on MUST NOT condition
-					return false;
-				}
-				if (result && rule.getType().equals(Rule.Type.SUFFICE)) { // fast success on SUFFICE condition
-					return true;
-				}
+	private boolean checkRules(Simon simon, Event event, Object... params) {
+		List<Rule> rulesForEvent = rules.get(event);
+		if (rulesForEvent.size() == 0) { // empty rule list => DENY
+			return false;
+		}
+		boolean allMustSatisfied = false;
+		for (Rule rule : rulesForEvent) {
+			boolean result = patternAndConditionCheck(simon, rule, params);
+
+			if (!result && rule.getType().equals(Rule.Type.MUST)) { // fast fail on MUST condition
+				return false;
+			} else if (result && rule.getType().equals(Rule.Type.MUST)) { // MUST condition met, let's go on
+				allMustSatisfied = true;
+			} else if (result && rule.getType().equals(Rule.Type.MUST_NOT)) { // fast fail on MUST NOT condition
+				return false;
+			} else if (!result && rule.getType().equals(Rule.Type.MUST_NOT)) { // MUST NOT condition met, go on
+				allMustSatisfied = true;
+			} else if (result && rule.getType().equals(Rule.Type.SUFFICE)) { // fast success on SUFFICE condition
+				return true;
 			}
 		}
-		return true;
+		return allMustSatisfied;
 	}
 
 	private boolean patternAndConditionCheck(Simon simon, Rule rule, Object... params) {

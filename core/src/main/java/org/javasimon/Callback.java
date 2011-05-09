@@ -1,6 +1,8 @@
 package org.javasimon;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Callback processes various events of the Java Simon API. Callbacks can be
@@ -149,66 +151,90 @@ public interface Callback {
 		/**
 		 * Meta-action designating all actions (or any action in rules).
 		 */
-		ALL,
+		ALL("all"),
 
 		/**
 		 * Reset of the Simon.
 		 */
-		RESET,
+		RESET("reset"),
 
 		/**
 		 * Start of the stopwatch.
 		 */
-		STOPWATCH_START,
+		STOPWATCH_START("start"),
 
 		/**
 		 * Stop of the stopwatch.
 		 */
-		STOPWATCH_STOP,
+		STOPWATCH_STOP("stop"),
 
 		/**
 		 * Adding value to the stopwatch.
 		 */
-		STOPWATCH_ADD,
+		STOPWATCH_ADD("add"),
 
 		/**
 		 * Counter increased.
 		 */
-		COUNTER_INCREASE,
+		COUNTER_INCREASE("increase"),
 
 		/**
 		 * Counter decreased.
 		 */
-		COUNTER_DECREASE,
+		COUNTER_DECREASE("decrease"),
 
 		/**
 		 * Counter set to arbitrary value.
 		 */
-		COUNTER_SET,
+		COUNTER_SET("set"),
 
 		/**
 		 * Creation of a Simon.
 		 */
-		CREATED,
+		CREATED("created"),
 
 		/**
 		 * Removing of a Simon.
 		 */
-		DESTROYED,
+		DESTROYED("destroyed"),
 
 		/**
 		 * Clearing of the manager.
 		 */
-		CLEAR,
+		CLEAR("clear"),
 
 		/**
 		 * Event producing arbitrary message.
 		 */
-		MESSAGE,
+		MESSAGE("message"),
 
 		/**
 		 * Warning related to the manager.
 		 */
-		WARNING
+		WARNING("warning");
+
+		private static Map<String, Event> codeValues = new HashMap<String, Event>();
+
+		private String code;
+
+		static {
+			for (Event value : values()) {
+				codeValues.put(value.code, value);
+			}
+		}
+
+		Event(String code) {
+			this.code = code;
+		}
+
+		/**
+		 * Returns event for String code used in XML configuration.
+		 *
+		 * @param code String code
+		 * @return Event object
+		 */
+		public static Event forCode(String code) {
+			return codeValues.get(code);
+		}
 	}
 }

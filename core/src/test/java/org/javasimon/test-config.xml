@@ -1,7 +1,7 @@
 <simon-configuration>
 	<filter-callback>
 		<rule type="must" pattern="org.javasimon.test.good.*"/>
-		<rule event="stop">
+		<rule events="stop">
 			<condition>
 				<![CDATA[
 						split > 5000 || split < 10000
