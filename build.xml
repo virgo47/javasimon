@@ -1,0 +1,212 @@
+<?xml version="1.0"?>
+<project name="Java Simon Library" default="dist" basedir=".">
+	<property file="build.properties"/>
+
+	<property name="version" value="2.5.1"/>
+	<property name="javac.debug" value="true"/>
+	<property name="javac.deprecation" value="false"/>
+
+	<property name="lib.dir" value="lib"/>
+
+	<property name="testng.jar" value="testng-5.11-jdk15.jar"/>
+
+	<echo message="JDK5: ${jdk5.home}"/>
+	<echo message="JDK6: ${jdk6.home}"/>
+	<echo message="libs: ${lib.dir}"/>
+
+	<!-- used for testng or examples -->
+	<path id="classpath">
+		<pathelement path="${lib.dir}/${testng.jar}"/>
+		<pathelement path="${lib.dir}/h2-1.2.135.jar"/>
+		<pathelement path="${lib.dir}/spring-core-3.0.5.RELEASE.jar"/>
+		<pathelement path="${lib.dir}/spring-aop-3.0.5.RELEASE.jar"/>
+		<pathelement path="${lib.dir}/aopalliance.jar"/>
+		<pathelement path="${lib.dir}/commons-logging-1.1.1.jar"/>
+		<pathelement path="${lib.dir}/stax-api-1.0.1.jar"/>
+		<pathelement path="${lib.dir}/mvel2-2.0.19.jar"/>
+		<pathelement path="${lib.dir}/jboss-javaee.jar"/>
+		<pathelement path="${lib.dir}/servlet-api.jar"/>
+		<pathelement path="build/core"/>
+		<pathelement path="build/jdbc3"/>
+		<pathelement path="build/jdbc4"/>
+		<pathelement path="build/jmx"/>
+		<pathelement path="build/spring"/>
+		<pathelement path="build/test"/>
+	</path>
+
+	<target name="dist" depends="clean,build,examples,test,docs,zip" description="Distribution - clean/build/zip"/>
+
+	<target name="compile" description="Compile the source code">
+		<compile-module module="core"/>
+		<compile-module module="jdbc3" jdk="${jdk5.home}"/>
+		<compile-module module="jdbc4"/>
+		<compile-module module="javaee"/>
+		<compile-module module="spring"/>
+		<compile-module module="jmx"/>
+	</target>
+
+	<macrodef name="compile-module">
+		<attribute name="module"/>
+		<attribute name="jdk" default="${jdk6.home}"/>
+		<sequential>
+			<mkdir dir="build/@{module}"/>
+			<javac srcdir="@{module}/src/main/java" destdir="build/@{module}" debug="${javac.debug}"
+				deprecation="${javac.deprecation}" classpathref="classpath" source="1.5" target="1.5"
+				fork="true" executable="@{jdk}/bin/javac"/>
+			<copy todir="build/@{module}">
+				<fileset dir="@{module}/src/main/java" includes="**/*.properties"/>
+				<fileset dir="@{module}/src/main/java" includes="**/*.xml"/>
+			</copy>
+		</sequential>
+	</macrodef>
+
+	<!-- Packaging section -->
+	<target name="build" depends="compile" description="Package the archives">
+		<mkdir dir="build/jdbc3/META-INF/services"/>
+		<echo file="build/jdbc3/META-INF/services/java.sql.Driver">org.javasimon.jdbc.Driver</echo>
+		<mkdir dir="build/jdbc4/META-INF/services"/>
+		<echo file="build/jdbc4/META-INF/services/java.sql.Driver">org.javasimon.jdbc.Driver</echo>
+		<jar-module module="core"/>
+		<jar-module module="jdbc3"/>
+		<jar-module module="jdbc4"/>
+		<jar-module module="jmx"/>
+		<jar-module module="javaee"/>
+		<jar-module module="spring"/>
+	</target>
+
+	<macrodef name="jar-module">
+		<attribute name="module"/>
+		<sequential>
+			<jar jarfile="build/javasimon-@{module}-${version}.jar" description="Java Simon @{module} ${version}">
+				<fileset dir="build/@{module}"/>
+			</jar>
+		</sequential>
+	</macrodef>
+
+	<target name="examples" depends="compile" description="Compiles the examples">
+		<mkdir dir="build/examples"/>
+		<javac srcdir="examples/src/main/java" destdir="build/examples" debug="${javac.debug}"
+			deprecation="${javac.deprecation}" fork="true" executable="${jdk6.home}/bin/javac"
+			classpathref="classpath" excludes="other/**"/>
+	</target>
+
+	<target name="clean-examples" depends="compile" description="Compiles the examples">
+		<delete failonerror="false" dir="build/examples"/>
+	</target>
+
+	<target name="zip" description="Creates distribution ZIP file">
+		<zip file="javasimon-${version}.zip">
+			<zipfileset prefix="javasimon-${version}" dir="build">
+				<include name="docs/**"/>
+				<exclude name="docs/api"/>
+			</zipfileset>
+			<zipfileset prefix="javasimon-${version}/lib" dir="${lib.dir}">
+				<include name="${testng.jar}"/>
+				<include name="h2-1.2.135.jar"/>
+				<include name="spring-core-3.0.5.RELEASE.jar"/>
+				<include name="spring-aop-3.0.5.RELEASE.jar"/>
+				<include name="aopalliance.jar"/>
+				<include name="commons-logging-1.1.1.jar"/>
+				<include name="stax-api-1.0.1.jar"/>
+				<include name="sjsxp.jar"/>
+				<include name="mvel2-2.0.19.jar"/>
+				<include name="jboss-javaee.jar"/>
+				<include name="servlet-api.jar"/>
+			</zipfileset>
+			<zipfileset prefix="javasimon-${version}/lib" dir="build">
+				<include name="*.jar"/>
+			</zipfileset>
+			<zipfileset prefix="javasimon-${version}" dir=".">
+				<include name="core/**"/>
+				<include name="jdbc3/**"/>
+				<include name="jdbc4/**"/>
+				<include name="jmx/**"/>
+				<include name="javaee/**"/>
+				<include name="spring/**"/>
+				<include name="examples/**"/>
+				<include name="build.xml"/>
+				<include name="pom.xml"/>
+				<include name="overview.html"/>
+				<include name="build.properties"/>
+				<include name="readme.txt"/>
+				<include name="lgpl.txt"/>
+			</zipfileset>
+		</zip>
+		<zip file="javasimon-maven-src-${version}.zip">
+			<zipfileset prefix="javasimon-${version}" dir=".">
+				<include name="core/**"/>
+				<include name="jdbc3/**"/>
+				<include name="jdbc4/**"/>
+				<include name="jmx/**"/>
+				<include name="javaee/**"/>
+				<include name="spring/**"/>
+				<include name="examples/**"/>
+				<include name="pom.xml"/>
+				<include name="overview.html"/>
+				<include name="readme.txt"/>
+				<include name="lgpl.txt"/>
+			</zipfileset>
+		</zip>
+	</target>
+
+	<target name="clean" description="Cleans up the build directory">
+		<delete failonerror="false" dir="${basedir}" includes="javasimon-*.zip"/>
+		<delete failonerror="false" dir="build"/>
+		<delete failonerror="false" dir="test-output"/>
+	</target>
+
+	<taskdef resource="testngtasks" classpath="${lib.dir}/${testng.jar}"/>
+
+	<target name="test" depends="compile" description="Runs tests">
+		<mkdir dir="build/test"/>
+		<javac srcdir="core/src/test/java" destdir="build/test" debug="${javac.debug}" deprecation="${javac.deprecation}"
+			classpathref="classpath" fork="true" executable="${jdk6.home}/bin/javac"/>
+		<javac srcdir="jdbc3/src/test/java" destdir="build/test" debug="${javac.debug}" deprecation="${javac.deprecation}"
+			classpathref="classpath" fork="true" executable="${jdk6.home}/bin/javac"/>
+		<javac srcdir="jdbc4/src/test/java" destdir="build/test" debug="${javac.debug}" deprecation="${javac.deprecation}"
+			classpathref="classpath" fork="true" executable="${jdk6.home}/bin/javac"/>
+		<javac srcdir="jmx/src/test/java" destdir="build/test" debug="${javac.debug}" deprecation="${javac.deprecation}"
+			classpathref="classpath" fork="true" executable="${jdk6.home}/bin/javac"/>
+		<copy todir="build/test">
+			<fileset dir="core/src/test/java" includes="**/*.xml"/>
+			<fileset dir="jdbc3/src/test/java" includes="**/*.xml"/>
+			<fileset dir="jdbc4/src/test/java" includes="**/*.xml"/>
+			<fileset dir="jmx/src/test/java" includes="**/*.xml"/>
+		</copy>
+		<testng outputdir="${basedir}/build/testout" haltonfailure="true" verbose="2" classpathref="classpath"
+			jvm="${jdk6.home}/bin/java" >
+			<xmlfileset dir="build/test">
+				<include name="testng-core.xml"/>
+				<include name="testng-jdbc3.xml"/>
+				<include name="testng-jdbc4.xml"/>
+				<include name="testng-jmx.xml"/>
+			</xmlfileset>
+		</testng>
+	</target>
+
+	<property name="doc.dir" value="build/docs/api"/>
+
+	<target name="docs" description="Create Javadoc API documentation">
+		<mkdir dir="${doc.dir}"/>
+
+		<javadoc destdir="${doc.dir}" protected="true" linksource="true" executable="${jdk6.home}/bin/javadoc"
+			doctitle="Java Simon API" windowtitle="Java Simon API"
+			header="&lt;table&gt;&lt;tr&gt;&lt;td style='valign: middle;'&gt;&lt;span style='font-weight: bold; margin-right: 16px;'&gt;Java Simon ${version}&lt;/span&gt;&lt;/td&gt;&lt;td&gt;&lt;div class='logo'/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;"
+			overview="overview.html"
+			stylesheetfile="docs/api/stylesheet.css"
+			additionalparam="-tag created:t:Created:"
+			classpathref="classpath">
+
+			<sourcepath path="core/src/main/java"/>
+			<sourcepath path="jdbc3/src/main/java"/>
+			<sourcepath path="jdbc4/src/main/java"/>
+			<sourcepath path="jmx/src/main/java"/>
+			<sourcepath path="javaee/src/main/java"/>
+			<sourcepath path="spring/src/main/java"/>
+			<sourcepath path="examples/src/main/java"/>
+		</javadoc>
+		<copy todir="${doc.dir}/resources" overwrite="true">
+			<fileset dir="docs/api/resources"/>
+		</copy>
+	</target>
+</project>

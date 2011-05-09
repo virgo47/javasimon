@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.javasimon</groupId>
+	<artifactId>javasimon-parent</artifactId>
+	<packaging>pom</packaging>
+	<version>2.5.1-SNAPSHOT</version>
+	<name>javasimon</name>
+	<description>Java Simon - simple monitoring library</description>
+	<url>http://code.google.com/p/javasimon/</url>
+
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>5</version>
+    </parent>
+
+	<modules>
+		<module>core</module>
+		<module>jdbc3</module>
+		<module>jdbc4</module>
+		<module>jmx</module>
+		<module>javaee</module>
+		<module>spring</module>
+		<module>examples</module>
+	</modules>
+
+	<properties>
+		<version.stax>1.0.1</version.stax>
+		<version.mvel>2.0.19</version.mvel>
+		<version.javaee-api>6.0</version.javaee-api>
+		<version.spring>3.0.5.RELEASE</version.spring>
+		<version.testng>5.10</version.testng>
+		<version.h2database>1.2.135</version.h2database>
+	</properties>
+
+	<scm>
+		<url>https://javasimon.googlecode.com/svn/tags/v2.5</url>
+		<connection>scm:svn:https://javasimon.googlecode.com/svn/tags/v2.5</connection>
+		<developerConnection>scm:svn:https://javasimon.googlecode.com/svn/tags/v2.5</developerConnection>
+	</scm>
+
+	<licenses>
+		<license>
+			<name>GNU Lesser General Public License, 2.1</name>
+			<url>http://www.gnu.org/licenses/lgpl-2.1.txt</url>
+		</license>
+	</licenses>
+
+	<prerequisites>
+		<maven>2.2.1</maven>
+	</prerequisites>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.properties</include>
+					<include>**/*.xml</include>
+				</includes>
+			</resource>
+			<resource>
+				<filtering>false</filtering>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**</include>
+				</includes>
+			</resource>
+		</resources>
+		<testResources>
+			<testResource>
+				<directory>src/test/java</directory>
+				<includes>
+					<include>**</include>
+				</includes>
+			</testResource>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<includes>
+					<include>**</include>
+				</includes>
+			</testResource>
+		</testResources>
+
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+					<compilerVersion>1.5</compilerVersion>
+					<encoding>UTF-8</encoding>
+					<optimize>true</optimize>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<configuration>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<show>private</show>
+				</configuration>
+			</plugin>
+		</plugins>
+
+		<extensions>
+			<extension>
+				<groupId>org.jvnet.wagon-svn</groupId>
+				<artifactId>wagon-svn</artifactId>
+				<version>1.9</version>
+			</extension>
+		</extensions>
+	</build>
+	
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.javasimon</groupId>
+				<artifactId>javasimon-core</artifactId>
+				<version>2.5.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>org.javasimon</groupId>
+				<artifactId>javasimon-jdbc3</artifactId>
+				<version>2.5.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>org.javasimon</groupId>
+				<artifactId>javasimon-jmx</artifactId>
+				<version>2.5.1-SNAPSHOT</version>
+			</dependency>
+
+			<dependency>
+				<groupId>stax</groupId>
+				<artifactId>stax-api</artifactId>
+				<version>${version.stax}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.mvel</groupId>
+				<artifactId>mvel2</artifactId>
+				<version>${version.mvel}</version>
+			</dependency>
+			<dependency>
+				<groupId>javax</groupId>
+				<artifactId>javaee-api</artifactId>
+				<version>${version.javaee-api}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-core</artifactId>
+				<version>${version.spring}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-aop</artifactId>
+				<version>${version.spring}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.testng</groupId>
+				<artifactId>testng</artifactId>
+				<version>${version.testng}</version>
+				<classifier>jdk15</classifier>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.h2database</groupId>
+				<artifactId>h2</artifactId>
+				<version>${version.h2database}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+    <developers>
+        <developer>
+            <id>virgo</id>
+            <name>Richard Richter</name>
+            <email>virgo47@gmail.com</email>
+            <roles>
+                <role>project-leader</role>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+</project>
