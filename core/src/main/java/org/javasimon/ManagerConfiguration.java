@@ -174,7 +174,7 @@ public final class ManagerConfiguration {
 		if (attrs.get("events") != null) {
 			String[] sa = attrs.get("events").trim().split(" *, *");
 			for (String eventName : sa) {
-				events.add(Callback.Event.valueOf(toEnum(eventName)));
+				events.add(Callback.Event.forCode(eventName.toLowerCase()));
 			}
 		}
 		if (isStartTag(xr, "condition")) {

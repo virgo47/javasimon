@@ -63,24 +63,31 @@ public final class ConfigurationTestNG {
 		Assert.assertTrue(new FilterCallback.Rule(null, "split > 100 && split < 10000000000", null).checkCondition(split.getStopwatch(), split));
 	}
 
+	// Callback helper class that does sets trigger on start/stop events
+	class MyCallback extends CallbackSkeleton {
+		private boolean triggered;
+
+		public void stopwatchStart(Split split) {
+			triggered = true;
+		}
+
+		public void stopwatchStop(Split split) {
+			triggered = true;
+		}
+
+		// checks and resets the trigger flag
+		boolean isTriggered() {
+			boolean val = triggered;
+			triggered = false;
+			return val;
+		}
+	}
+
 	@Test
-	public void testStopwatchRules() {
+	public void testMustRule() {
 		EnabledManager manager = new EnabledManager();
 		CompositeFilterCallback filter = new CompositeFilterCallback();
 		filter.addRule(FilterCallback.Rule.Type.MUST, "active == 2", "*.sw1", Callback.Event.STOPWATCH_START);
-		class MyCallback extends CallbackSkeleton {
-			private boolean triggered;
-
-			public void stopwatchStart(Split split) {
-				triggered = true;
-			}
-
-			boolean isTriggered() {
-				boolean val = triggered;
-				triggered = false;
-				return val;
-			}
-		}
 		MyCallback callback = new MyCallback();
 		filter.addCallback(callback);
 		manager.callback().addCallback(filter);
@@ -96,7 +103,7 @@ public final class ConfigurationTestNG {
 		Split split1 = sw1.start();
 		Assert.assertFalse(callback.isTriggered());
 		Split split2 = sw1.start();
-		// this is the only place when the callback should trigger - active==2 after start and it's *.sq1
+		// this is the only place when the callback should trigger - active==2 after start and it's *.sw1
 		Assert.assertTrue(callback.isTriggered());
 		sw1.start().stop(); // active went to three for a while, but wasn't at 2 after start
 		Assert.assertFalse(callback.isTriggered());
@@ -110,6 +117,64 @@ public final class ConfigurationTestNG {
 		Assert.assertFalse(callback.isTriggered());
 		split1.stop();
 		split2.stop();
+		Assert.assertFalse(callback.isTriggered());
+		manager.callback().removeCallback(filter);
+	}
+
+	@Test
+	public void testSufficeRuleAllEvents() {
+		EnabledManager manager = new EnabledManager();
+		CompositeFilterCallback filter = new CompositeFilterCallback();
+		filter.addRule(FilterCallback.Rule.Type.SUFFICE, null, "*.sw1");
+		MyCallback callback = new MyCallback();
+		filter.addCallback(callback);
+		manager.callback().addCallback(filter);
+
+		Stopwatch sw1 = manager.getStopwatch("whatever.sw1");
+		Stopwatch sw2 = manager.getStopwatch("whatever.sw2");
+
+		sw1.start().stop();
+		Assert.assertTrue(callback.isTriggered());
+		sw2.start().stop();
+		Assert.assertFalse(callback.isTriggered());
+
+		Split split1 = sw1.start();
+		Assert.assertTrue(callback.isTriggered());
+		split1.stop();
+		Assert.assertTrue(callback.isTriggered());
+
+		split1 = sw2.start();
+		Assert.assertFalse(callback.isTriggered());
+		split1.stop();
+		Assert.assertFalse(callback.isTriggered());
+		manager.callback().removeCallback(filter);
+	}
+
+	@Test
+	public void testSufficeRuleForEvent() {
+		EnabledManager manager = new EnabledManager();
+		CompositeFilterCallback filter = new CompositeFilterCallback();
+		filter.addRule(FilterCallback.Rule.Type.SUFFICE, null, "*.sw1", Callback.Event.STOPWATCH_START);
+		MyCallback callback = new MyCallback();
+		filter.addCallback(callback);
+		manager.callback().addCallback(filter);
+
+		Stopwatch sw1 = manager.getStopwatch("whatever.sw1");
+		Stopwatch sw2 = manager.getStopwatch("whatever.sw2");
+
+		sw1.start().stop();
+		Assert.assertTrue(callback.isTriggered());
+		sw2.start().stop();
+		Assert.assertFalse(callback.isTriggered());
+
+		Split split1 = sw1.start();
+		Assert.assertTrue(callback.isTriggered());
+		split1.stop();
+		Assert.assertFalse(callback.isTriggered());
+
+		split1 = sw2.start();
+		Assert.assertFalse(callback.isTriggered());
+		split1.stop();
 		Assert.assertFalse(callback.isTriggered());
 		manager.callback().removeCallback(filter);
 	}

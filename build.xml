@@ -21,8 +21,7 @@
 		<pathelement path="${lib.dir}/stax-api-1.0.1.jar"/>
 		<pathelement path="${lib.dir}/mvel2-2.0.19.jar"/>
 		<pathelement path="${lib.dir}/jboss-javaee.jar"/>
-		<pathelement path="${lib.dir}/servlet-api.jar"/>
-		<pathelement path="build/core"/>
+		<pathelement path="${lib.dir}/servlet-api.jar"/>		<pathelement path="build/core"/>
 		<pathelement path="build/jdbc4"/>
 		<pathelement path="build/spring"/>
 		<pathelement path="build/test"/>
@@ -163,19 +162,18 @@
 	<target name="docs" description="Create Javadoc API documentation">
 		<mkdir dir="${doc.dir}"/>
 
-		<javadoc destdir="${doc.dir}" protected="true" linksource="true" executable="${jdk6.home}/bin/javadoc"
+		<javadoc destdir="${doc.dir}" protected="true" linksource="true"
 			doctitle="Java Simon API" windowtitle="Java Simon API"
 			header="&lt;table&gt;&lt;tr&gt;&lt;td style='valign: middle;'&gt;&lt;span style='font-weight: bold; margin-right: 16px;'&gt;Java Simon ${version}&lt;/span&gt;&lt;/td&gt;&lt;td&gt;&lt;div class='logo'/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;"
 			overview="overview.html"
 			stylesheetfile="docs/api/stylesheet.css"
-			additionalparam="-tag created:t:Created:"
 			classpathref="classpath">
 
 			<sourcepath path="core/src/main/java"/>
 			<sourcepath path="jdbc4/src/main/java"/>
 			<sourcepath path="javaee/src/main/java"/>
 			<sourcepath path="spring/src/main/java"/>
-			<sourcepath path="examples/src/main/java"/>
+			<!--<sourcepath path="examples/src/main/java"/>-->
 		</javadoc>
 		<copy todir="${doc.dir}/resources" overwrite="true">
 			<fileset dir="docs/api/resources"/>
