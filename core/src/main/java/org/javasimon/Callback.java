@@ -75,8 +75,7 @@ public interface Callback {
 	void message(String message);
 
 	/**
-	 * Warning event containing warning and/or cause. Either cause or warning (or both) should be provided
-	 * otherwise the method does nothing.
+	 * Warning event containing warning and/or cause.
 	 *
 	 * @param warning arbitrary warning message
 	 * @param cause exception causing this warning

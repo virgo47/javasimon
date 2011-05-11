@@ -17,6 +17,7 @@ public final class SwitchingManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Simon getRootSimon() {
 		return manager.getRootSimon();
 	}
@@ -24,6 +25,7 @@ public final class SwitchingManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Simon getSimon(String name) {
 		return manager.getSimon(name);
 	}
@@ -31,6 +33,7 @@ public final class SwitchingManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Counter getCounter(String name) {
 		return manager.getCounter(name);
 	}
@@ -38,6 +41,7 @@ public final class SwitchingManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Stopwatch getStopwatch(String name) {
 		return manager.getStopwatch(name);
 	}
@@ -45,6 +49,7 @@ public final class SwitchingManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public List<String> simonNames() {
 		return manager.simonNames();
 	}
@@ -52,6 +57,7 @@ public final class SwitchingManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void destroySimon(String name) {
 		manager.destroySimon(name);
 	}
@@ -59,6 +65,7 @@ public final class SwitchingManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void clear() {
 		manager.clear();
 	}
@@ -66,6 +73,7 @@ public final class SwitchingManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Callback callback() {
 		return manager.callback();
 	}
@@ -73,6 +81,7 @@ public final class SwitchingManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public ManagerConfiguration configuration() {
 		return manager.configuration();
 	}
@@ -80,6 +89,7 @@ public final class SwitchingManager implements Manager {
 	/**
 	 * Enables the Simon Manager. Enabled manager provides real Simons.
 	 */
+	@Override
 	public void enable() {
 		manager = enabled;
 	}
@@ -87,6 +97,7 @@ public final class SwitchingManager implements Manager {
 	/**
 	 * Disables the Simon Manager. Disabled manager provides null Simons that actually do nothing.
 	 */
+	@Override
 	public void disable() {
 		manager = disabled;
 	}
@@ -96,7 +107,24 @@ public final class SwitchingManager implements Manager {
 	 *
 	 * @return true if the API is enabled
 	 */
+	@Override
 	public boolean isEnabled() {
 		return manager == enabled;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void message(String message) {
+		manager.message(message);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void warning(String warning, Exception cause) {
+		manager.warning(warning, cause);
 	}
 }

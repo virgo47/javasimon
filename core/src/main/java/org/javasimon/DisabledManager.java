@@ -12,6 +12,7 @@ public final class DisabledManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Simon getSimon(String name) {
 		return NullSimon.INSTANCE;
 	}
@@ -19,18 +20,21 @@ public final class DisabledManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void destroySimon(String name) {
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void clear() {
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Callback callback() {
 		return null;
 	}
@@ -38,6 +42,7 @@ public final class DisabledManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public ManagerConfiguration configuration() {
 		return null;
 	}
@@ -45,6 +50,7 @@ public final class DisabledManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Counter getCounter(String name) {
 		return NullSimon.INSTANCE;
 	}
@@ -52,6 +58,7 @@ public final class DisabledManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Stopwatch getStopwatch(String name) {
 		return NullSimon.INSTANCE;
 	}
@@ -59,6 +66,7 @@ public final class DisabledManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Simon getRootSimon() {
 		return NullSimon.INSTANCE;
 	}
@@ -66,6 +74,7 @@ public final class DisabledManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public List<String> simonNames() {
 		return Collections.emptyList();
 	}
@@ -73,6 +82,7 @@ public final class DisabledManager implements Manager {
 	/**
 	 * Throws UnsupportedOperationException.
 	 */
+	@Override
 	public void enable() {
 		throw new UnsupportedOperationException("Only SwitchingManager supports this operation.");
 	}
@@ -80,6 +90,7 @@ public final class DisabledManager implements Manager {
 	/**
 	 * Throws UnsupportedOperationException.
 	 */
+	@Override
 	public void disable() {
 		throw new UnsupportedOperationException("Only SwitchingManager supports this operation.");
 	}
@@ -89,7 +100,27 @@ public final class DisabledManager implements Manager {
 	 *
 	 * @return false
 	 */
+	@Override
 	public boolean isEnabled() {
 		return false;
+	}
+
+	/**
+	 * Does nothing here.
+	 *
+	 * @param message not used
+	 */
+	@Override
+	public void message(String message) {
+	}
+
+	/**
+	 * Does nothing here.
+	 *
+	 * @param message not used
+	 * @param cause not used
+	 */
+	@Override
+	public void warning(String message, Exception cause) {
 	}
 }
