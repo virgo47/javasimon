@@ -122,7 +122,8 @@ public class CallbackSkeleton implements Callback {
 	}
 
 	/**
-	 * Warning and stack trace are print out to the error output.
+	 * Warning and stack trace are print out to the error output. Either cause or warning
+	 * (or both) should be provided otherwise the method does nothing.
 	 * <p/>
 	 * {@inheritDoc}
 	 */

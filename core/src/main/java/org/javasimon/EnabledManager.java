@@ -33,6 +33,7 @@ public final class EnabledManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Simon getSimon(String name) {
 		return allSimons.get(name);
 	}
@@ -40,6 +41,7 @@ public final class EnabledManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public synchronized void destroySimon(String name) {
 		if (name.equals(ROOT_SIMON_NAME)) {
 			throw new SimonException("Root Simon cannot be destroyed!");
@@ -56,6 +58,7 @@ public final class EnabledManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public synchronized void clear() {
 		allSimons.clear();
 		rootSimon = new UnknownSimon(ROOT_SIMON_NAME, this);
@@ -66,6 +69,7 @@ public final class EnabledManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Counter getCounter(String name) {
 		return (Counter) getOrCreateSimon(name, CounterImpl.class);
 	}
@@ -73,6 +77,7 @@ public final class EnabledManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Stopwatch getStopwatch(String name) {
 		return (Stopwatch) getOrCreateSimon(name, StopwatchImpl.class);
 	}
@@ -80,6 +85,7 @@ public final class EnabledManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Simon getRootSimon() {
 		return rootSimon;
 	}
@@ -87,6 +93,7 @@ public final class EnabledManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public List<String> simonNames() {
 		return new ArrayList<String>(allSimons.keySet());
 	}
@@ -182,6 +189,7 @@ public final class EnabledManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Callback callback() {
 		return callback;
 	}
@@ -189,6 +197,7 @@ public final class EnabledManager implements Manager {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public ManagerConfiguration configuration() {
 		return configuration;
 	}
@@ -196,6 +205,7 @@ public final class EnabledManager implements Manager {
 	/**
 	 * Throws UnsupportedOperationException.
 	 */
+	@Override
 	public void enable() {
 		throw new UnsupportedOperationException("Only SwitchingManager supports this operation.");
 	}
@@ -203,6 +213,7 @@ public final class EnabledManager implements Manager {
 	/**
 	 * Throws UnsupportedOperationException.
 	 */
+	@Override
 	public void disable() {
 		throw new UnsupportedOperationException("Only SwitchingManager supports this operation.");
 	}
@@ -212,7 +223,24 @@ public final class EnabledManager implements Manager {
 	 *
 	 * @return true
 	 */
+	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void message(String message) {
+		callback.message(message);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void warning(String warning, Exception cause) {
+		callback.warning(warning, cause);
 	}
 }

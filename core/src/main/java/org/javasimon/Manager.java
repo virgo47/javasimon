@@ -108,4 +108,21 @@ public interface Manager {
 	 * @return true if the API is enabled
 	 */
 	boolean isEnabled();
+
+	/**
+	 * Method propagates message to manager's {@link Callback}. This allows user to report any
+	 * message if they implement {@link Callback#message(String)}.
+	 *
+	 * @param message message text
+	 */
+	void message(String message);
+
+	/**
+	 * Method propagates warning to manager's {@link Callback}. This allows user to report any
+	 * warning and/or exception if they implement {@link Callback#warning(String, Exception)}.
+	 *
+	 * @param warning arbitrary warning message
+	 * @param cause exception causing this warning
+	 */
+	void warning(String warning, Exception cause);
 }
