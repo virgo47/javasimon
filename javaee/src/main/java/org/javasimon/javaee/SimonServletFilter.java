@@ -18,7 +18,7 @@ import java.util.List;
  * @version $Revision$ $Date$
  * @since 2.3
  */
-public class SimonFilter implements Filter {
+public class SimonServletFilter implements Filter {
 	/**
 	 * Default prefix for web filter Simons if no "prefix" init parameter is used.
 	 */

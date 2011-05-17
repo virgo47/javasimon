@@ -13,7 +13,7 @@
 
 	<filter>
 		<filter-name>Simon Filter</filter-name>
-		<filter-class>org.javasimon.javaee.SimonFilter</filter-class>
+		<filter-class>org.javasimon.javaee.SimonServletFilter</filter-class>
 		<init-param>
 			<param-name>prefix</param-name>
 			<param-value>com.acme.myweb</param-value>
