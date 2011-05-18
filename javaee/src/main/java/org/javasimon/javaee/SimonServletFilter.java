@@ -37,10 +37,16 @@ public class SimonServletFilter implements Filter {
 	public static final String INIT_PARAM_PUBLISH_MANAGER = "manager-attribute-name";
 
 	/**
-	 * Name of filter init parameter that sets the value of treshold in milliseconds
+	 * Name of filter init parameter that sets the value of threshold in milliseconds
 	 * for maximal request duration beyond which all splits will be dumped to log.
 	 */
-	public static final String INIT_PARAM_REPORT_TRESHOLD = "report-treshold";
+	public static final String INIT_PARAM_REPORT_THRESHOLD = "report-threshold";
+
+	/**
+	 * Name of filter init parameter that sets relative ULR path that will provide
+	 * Simon report page.
+	 */
+	public static final String INIT_PARAM_REPORT_PATH = "report-path";
 
 	/**
 	 * Public thread local list of splits used to cummulate all splits for the request.
@@ -49,7 +55,12 @@ public class SimonServletFilter implements Filter {
 
 	private String simonPrefix = DEFAULT_SIMON_PREFIX;
 
-	private Long reportTreshold;
+	private Long reportThreshold;
+
+	/**
+	 * URL path that displays report (or null if no report is required).
+	 */
+	private String reportPath;
 
 	/**
 	 * Initialization method that processes {@link #INIT_PARAM_PREFIX} and {@link #INIT_PARAM_PUBLISH_MANAGER}
@@ -65,13 +76,17 @@ public class SimonServletFilter implements Filter {
 		if (publishManager != null) {
 			filterConfig.getServletContext().setAttribute(publishManager, SimonManager.manager());
 		}
-		String reportTreshold = filterConfig.getInitParameter(INIT_PARAM_REPORT_TRESHOLD);
+		String reportTreshold = filterConfig.getInitParameter(INIT_PARAM_REPORT_THRESHOLD);
 		if (reportTreshold != null) {
 			try {
-				this.reportTreshold = Long.parseLong(reportTreshold);
+				this.reportThreshold = Long.parseLong(reportTreshold);
 			} catch (NumberFormatException e) {
 				// ignore
 			}
+		}
+		String reportPath = filterConfig.getInitParameter(INIT_PARAM_REPORT_PATH);
+		if (reportPath != null) {
+			this.reportPath = reportPath;
 		}
 	}
 
@@ -87,6 +102,10 @@ public class SimonServletFilter implements Filter {
 	 */
 	public void doFilter(ServletRequest servletRequest, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
+		if (reportPath != null && request.getRequestURI().startsWith(reportPath)) {
+			response.getOutputStream().println(SimonUtils.simonTreeString(SimonManager.getRootSimon()));
+			return;
+		}
 		String simonName = getSimonName(request);
 		SPLITS.set(new ArrayList<Split>());
 		Split split = SimonManager.getStopwatch(simonPrefix + Manager.HIERARCHY_DELIMITER + simonName).start();
@@ -94,7 +113,7 @@ public class SimonServletFilter implements Filter {
 			filterChain.doFilter(request, response);
 		} finally {
 			split.stop();
-			if (split.runningFor() > reportTreshold) {
+			if (reportThreshold != null && split.runningFor() > reportThreshold) {
 //				logSomehow(SPLITS.get()); TODO + callback
 			}
 			SPLITS.remove();

@@ -89,8 +89,9 @@ public final class Driver implements java.sql.Driver {
 	static {
 		try {
 			DriverManager.registerDriver(new Driver());
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			// don't know what to do yet, maybe throw RuntimeException ???
+			e.printStackTrace();
 		}
 	}
 
@@ -189,7 +190,8 @@ public final class Driver implements java.sql.Driver {
 		try {
 			InputStream stream = null;
 			try {
-				stream = Thread.currentThread().getContextClassLoader().getResourceAsStream("org/javasimon/jdbc/drivers.properties");
+				// TODO: limited to known drivers, better find driver later based on JDBC URL without "simon" word
+				stream = Thread.currentThread().getContextClassLoader().getResourceAsStream("org/javasimon/jdbc4/drivers.properties");
 				drivers.load(stream);
 			} finally {
 				if (stream != null) {

@@ -54,6 +54,16 @@
         <option name="myName" value="Project Default" />
         <option name="myLocal" value="false" />
         <inspection_tool class="JavadocReference" enabled="true" level="WARNING" enabled_by_default="true" />
+        <inspection_tool class="NullableProblems" enabled="false" level="WARNING" enabled_by_default="false">
+          <option name="REPORT_NULLABLE_METHOD_OVERRIDES_NOTNULL" value="true" />
+          <option name="REPORT_NOT_ANNOTATED_METHOD_OVERRIDES_NOTNULL" value="true" />
+          <option name="REPORT_NOTNULL_PARAMETER_OVERRIDES_NULLABLE" value="true" />
+          <option name="REPORT_NOT_ANNOTATED_PARAMETER_OVERRIDES_NOTNULL" value="true" />
+          <option name="REPORT_NOT_ANNOTATED_GETTER" value="true" />
+          <option name="REPORT_NOT_ANNOTATED_SETTER_PARAMETER" value="true" />
+          <option name="REPORT_ANNOTATION_NOT_PROPAGATED_TO_OVERRIDERS" value="true" />
+          <option name="REPORT_NULLS_PASSED_TO_NON_ANNOTATED_METHOD" value="true" />
+        </inspection_tool>
         <inspection_tool class="SpellCheckingInspection" enabled="false" level="TYPO" enabled_by_default="false">
           <option name="processCode" value="true" />
           <option name="processLiterals" value="true" />
@@ -248,8 +258,12 @@
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/aopalliance/aopalliance/1.0/aopalliance-1.0.jar!/" />
       </CLASSES>
-      <JAVADOC />
-      <SOURCES />
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/aopalliance/aopalliance/1.0/aopalliance-1.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/aopalliance/aopalliance/1.0/aopalliance-1.0-sources.jar!/" />
+      </SOURCES>
     </library>
     <library name="Maven: com.beust:jcommander:1.12">
       <CLASSES>
