@@ -7,6 +7,7 @@ import org.javasimon.utils.SimonUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,9 +45,9 @@ public class SimonServletFilter implements Filter {
 
 	/**
 	 * Name of filter init parameter that sets relative ULR path that will provide
-	 * Simon report page.
+	 * Simon console page.
 	 */
-	public static final String INIT_PARAM_REPORT_PATH = "report-path";
+	public static final String INIT_PARAM_SIMON_CONSOLE = "console-path";
 
 	/**
 	 * Public thread local list of splits used to cummulate all splits for the request.
@@ -58,9 +59,9 @@ public class SimonServletFilter implements Filter {
 	private Long reportThreshold;
 
 	/**
-	 * URL path that displays report (or null if no report is required).
+	 * URL path that displays Simon web console (or null if no console is required).
 	 */
-	private String reportPath;
+	private String consolePath;
 
 	/**
 	 * Initialization method that processes {@link #INIT_PARAM_PREFIX} and {@link #INIT_PARAM_PUBLISH_MANAGER}
@@ -84,9 +85,9 @@ public class SimonServletFilter implements Filter {
 				// ignore
 			}
 		}
-		String reportPath = filterConfig.getInitParameter(INIT_PARAM_REPORT_PATH);
-		if (reportPath != null) {
-			this.reportPath = reportPath;
+		String consolePath = filterConfig.getInitParameter(INIT_PARAM_SIMON_CONSOLE);
+		if (consolePath != null) {
+			this.consolePath = consolePath;
 		}
 	}
 
@@ -102,8 +103,8 @@ public class SimonServletFilter implements Filter {
 	 */
 	public void doFilter(ServletRequest servletRequest, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
-		if (reportPath != null && request.getRequestURI().startsWith(reportPath)) {
-			response.getOutputStream().println(SimonUtils.simonTreeString(SimonManager.getRootSimon()));
+		if (consolePath != null && request.getRequestURI().startsWith(consolePath)) {
+			consolePage(request, (HttpServletResponse) response);
 			return;
 		}
 		String simonName = getSimonName(request);
@@ -118,6 +119,30 @@ public class SimonServletFilter implements Filter {
 			}
 			SPLITS.remove();
 		}
+	}
+
+	private void consolePage(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		response.setContentType("text/plain");
+		response.setHeader("Cache-Control", "no-cache, no-store, max-age=0, must-revalidate");
+		response.setHeader("Pragma", "no-cache");
+		String subcommand = request.getRequestURI().substring(consolePath.length());
+		if (subcommand.isEmpty()) {
+			printSimonTree(response);
+		} else if (subcommand.equalsIgnoreCase("/clear")) {
+			SimonManager.clear();
+			response.getOutputStream().println("Simon Manager was cleared");
+		} else {
+			response.getOutputStream().println("Invalid command\n");
+			simonHelp(response);
+		}
+	}
+
+	private void simonHelp(ServletResponse response) throws IOException {
+		response.getOutputStream().println("Simon Console help:");
+	}
+
+	private void printSimonTree(ServletResponse response) throws IOException {
+		response.getOutputStream().println(SimonUtils.simonTreeString(SimonManager.getRootSimon()));
 	}
 
 	/**
