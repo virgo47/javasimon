@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<project name="GWT Simon Console" default="build" basedir=".">
+	<property file="../build.properties"/>
+
+	<property name="javac.debug" value="true"/>
+	<property name="javac.deprecation" value="false"/>
+	<property name="build.classes" value="gwimon.war/WEB-INF/classes"/>
+	<property name="src" value="gwimon.war/WEB-INF/src"/>
+	<property name="war.file" value="gwimon-${version}.war"/>
+
+	<path id="project.classpath">
+		<pathelement location="build/classes"/>
+		<pathelement location="../build/javasimon-core-3.0.0.jar"/>
+		<pathelement location="../build/javasimon-javaee-3.0.0.jar"/>
+		<pathelement location="${gwt.visualization}/gwt-visualization.jar"/>
+		<pathelement location="${gwt.sdk}/gwt-user.jar"/>
+		<!--<pathelement location="${gwt.sdk}/gwt-servlet-deps.jar"/>-->
+		<pathelement location="${gwt.sdk}/validation-api-1.0.0.GA.jar"/>
+		<pathelement location="${gwt.sdk}/validation-api-1.0.0.GA-sources.jar"/>
+		<fileset dir="${gwt.sdk}" includes="gwt-dev*.jar"/>
+	</path>
+
+	<target name="build" depends="clean,compile,war"/>
+
+	<target name="compile">
+		<mkdir dir="${build.classes}"/>
+		<javac srcdir="${src}" destdir="${build.classes}"
+			debug="${javac.debug}" deprecation="${javac.deprecation}" classpathref="project.classpath"/>
+		<copy todir="${build.classes}">
+			<fileset dir="${src}"/>
+		</copy>
+	</target>
+
+	<target name="war">
+		<war basedir="gwimon.war" warfile="${war.file}">
+		</war>
+	</target>
+
+	<target name="hosted" depends="clean" description="Run hosted mode">
+		<mkdir dir="${build.classes}"/>
+		<javac srcdir="${src}" destdir="${build.classes}"
+			debug="${javac.debug}" deprecation="${javac.deprecation}" classpathref="project.classpath"/>
+		<java failonerror="true" fork="true" classname="com.google.gwt.dev.DevMode">
+			<classpath>
+				<pathelement location="${src}"/>
+				<path refid="project.classpath"/>
+			</classpath>
+			<jvmarg value="-Xmx256M"/>
+			<!-- remote debug on port 4004, works ok -->
+			<jvmarg value="-Xdebug"/>
+			<jvmarg value="-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=4004"/>
+			<!-- use exploded war from build -->
+			<arg value="-war"/>
+			<arg value="gwimon.war"/>
+			<!-- additional arguments like -style PRETTY or -logLevel DEBUG -->
+			<arg value="gwimon.Gwimon"/>
+		</java>
+	</target>
+
+	<target name="clean">
+		<delete dir="build" failonerror="false"/>
+		<delete dir="gwimon.war/gwimon" failonerror="false"/>
+		<delete dir="gwimon.war/WEB-INF/deploy" failonerror="false"/>
+		<delete dir="gwimon.war/WEB-INF/lib" failonerror="false"/>
+		<delete dir="${build.classes}" failonerror="false"/>
+		<delete failonerror="false" dir="${basedir}" includes="*.war"/>
+	</target>
+</project>

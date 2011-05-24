@@ -1,0 +1,84 @@
+body, p, h1, h2, h3, h4, table, tbody, thead, tfoot, tr, th, td, div, button, a {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-family: Verdana, sans-serif;
+	font-size: 12px;
+	text-align: left;
+	vertical-align: middle;
+	cursor: default;
+	text-decoration: none;
+}
+
+.width-100-percent {
+	width: 100%;
+}
+
+.content-screen {
+	padding: 4px;
+}
+
+.upper-bar {
+	height: 28px;
+	border-bottom: solid thin darkblue;
+	background-color: #bcc;
+	padding: 0 6px;
+}
+
+.top-title {
+	font-weight: bold;
+	font-size: 14px;
+	padding: 4px;
+}
+
+.top-text {
+	padding: 6px 4px;
+}
+
+.menulink {
+	padding: 6px 4px;
+	font-weight: bold;
+	color: #008;
+	cursor: pointer;
+}
+
+.title {
+	font-weight: bold;
+	font-size: 14px;
+}
+
+.table-header-row {
+	background: #bcc;
+	font-weight: bold;
+	text-align: left;
+}
+
+.table-even-row {
+	background-color: #cdd;
+}
+
+.table-odd-row {
+}
+
+.data-table td {
+	padding: 2px 10px;
+	border-bottom: thin solid #bcd;
+}
+
+.link {
+	font-weight: bold;
+	color: #008;
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+.pagecontrol-link {
+	padding: 0 3px;
+	font-weight: bold;
+	color: #008;
+	cursor: pointer;
+}
+
+.pagecontrol {
+	padding: 0 3px;
+}
