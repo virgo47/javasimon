@@ -21,10 +21,16 @@
 		<!--
 			this may be handy if you want to get correctly to Simon manager, but it's
 			not necessary when we go directly on classes in scriptlets in our JSP
-		-->
 		<init-param>
 			<param-name>manager-attribute-name</param-name>
 			<param-value>whatever</param-value>
+		</init-param>
+		-->
+
+		<!-- Path to very simple and raw Java Simon console. Better use Gwimon when it's done. :-) -->
+		<init-param>
+			<param-name>console-path</param-name>
+			<param-value>/simon</param-value>
 		</init-param>
 	</filter>
 
