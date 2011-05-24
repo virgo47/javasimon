@@ -187,4 +187,25 @@ public final class SimonManager {
 	public static Manager manager() {
 		return manager;
 	}
+
+	/**
+	 * Method propagates message to manager's {@link Callback}. This allows user to report any
+	 * message if they implement {@link Callback#message(String)}.
+	 *
+	 * @param message message text
+	 */
+	public static void message(String message) {
+		manager.message(message);
+	}
+
+	/**
+	 * Method propagates warning to manager's {@link Callback}. This allows user to report any
+	 * warning and/or exception if they implement {@link Callback#warning(String, Exception)}.
+	 *
+	 * @param warning arbitrary warning message
+	 * @param cause exception causing this warning
+	 */
+	public static void warning(String warning, Exception cause) {
+		manager.warning(warning, cause);
+	}
 }

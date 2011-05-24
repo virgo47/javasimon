@@ -14,6 +14,12 @@ import java.util.List;
 
 /**
  * Simon Servlet filter measuring HTTP request execution times. Non-HTTP usages are not supported.
+ * Filter provides these functions:
+ * <ul>
+ *     <li>measures all requests and creates tree of Simons with names derived from URLs</li>
+ *     <li>checks if the request is not longer then a specified threshold and logs warning (TODO)</li>
+ *     <li>provides basic "console" function if config parameter {@link #INIT_PARAM_SIMON_CONSOLE_PATH} is used in {@code web.xml}</li>
+ * </ul>
  *
  * @author Richard Richter
  * @version $Revision$ $Date$
@@ -47,7 +53,7 @@ public class SimonServletFilter implements Filter {
 	 * Name of filter init parameter that sets relative ULR path that will provide
 	 * Simon console page.
 	 */
-	public static final String INIT_PARAM_SIMON_CONSOLE = "console-path";
+	public static final String INIT_PARAM_SIMON_CONSOLE_PATH = "console-path";
 
 	/**
 	 * Public thread local list of splits used to cummulate all splits for the request.
@@ -85,7 +91,7 @@ public class SimonServletFilter implements Filter {
 				// ignore
 			}
 		}
-		String consolePath = filterConfig.getInitParameter(INIT_PARAM_SIMON_CONSOLE);
+		String consolePath = filterConfig.getInitParameter(INIT_PARAM_SIMON_CONSOLE_PATH);
 		if (consolePath != null) {
 			this.consolePath = consolePath;
 		}
@@ -115,7 +121,7 @@ public class SimonServletFilter implements Filter {
 		} finally {
 			split.stop();
 			if (reportThreshold != null && split.runningFor() > reportThreshold) {
-//				logSomehow(SPLITS.get()); TODO + callback
+				SimonManager.message("Split is too long: " + SPLITS.get()); // TODO + callback, logging, whatever
 			}
 			SPLITS.remove();
 		}
