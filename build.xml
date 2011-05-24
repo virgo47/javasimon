@@ -42,7 +42,7 @@
 		<sequential>
 			<mkdir dir="build/@{module}"/>
 			<javac srcdir="@{module}/src/main/java" destdir="build/@{module}" debug="${javac.debug}"
-			       deprecation="${javac.deprecation}" classpathref="classpath"/>
+				deprecation="${javac.deprecation}" classpathref="classpath"/>
 			<copy todir="build/@{module}">
 				<fileset dir="@{module}/src/main/java" includes="**/*.properties"/>
 				<fileset dir="@{module}/src/main/java" includes="**/*.xml"/>
@@ -71,7 +71,7 @@
 	<target name="examples" depends="compile" description="Compiles the examples">
 		<mkdir dir="build/examples"/>
 		<javac srcdir="examples/src/main/java" destdir="build/examples" debug="${javac.debug}"
-		       deprecation="${javac.deprecation}" fork="true" classpathref="classpath" excludes="other/**"/>
+			deprecation="${javac.deprecation}" fork="true" classpathref="classpath" excludes="other/**"/>
 	</target>
 
 	<target name="clean-examples" depends="compile" description="Compiles the examples">
@@ -114,19 +114,6 @@
 				<include name="lgpl.txt"/>
 			</zipfileset>
 		</zip>
-		<zip file="javasimon-maven-src-${version}.zip">
-			<zipfileset prefix="javasimon-${version}" dir=".">
-				<include name="core/**"/>
-				<include name="jdbc4/**"/>
-				<include name="javaee/**"/>
-				<include name="spring/**"/>
-				<include name="examples/**"/>
-				<include name="pom.xml"/>
-				<include name="overview.html"/>
-				<include name="readme.txt"/>
-				<include name="lgpl.txt"/>
-			</zipfileset>
-		</zip>
 	</target>
 
 	<target name="clean" description="Cleans up the build directory">
@@ -161,11 +148,11 @@
 		<mkdir dir="${doc.dir}"/>
 
 		<javadoc destdir="${doc.dir}" protected="true" linksource="true"
-		         doctitle="Java Simon API" windowtitle="Java Simon API"
-		         header="&lt;table&gt;&lt;tr&gt;&lt;td style='valign: middle;'&gt;&lt;span style='font-weight: bold; margin-right: 16px;'&gt;Java Simon ${version}&lt;/span&gt;&lt;/td&gt;&lt;td&gt;&lt;div class='logo'/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;"
-		         overview="overview.html"
-		         stylesheetfile="docs/api/stylesheet.css"
-		         classpathref="classpath">
+			doctitle="Java Simon API" windowtitle="Java Simon API"
+			header="&lt;table&gt;&lt;tr&gt;&lt;td style='valign: middle;'&gt;&lt;span style='font-weight: bold; margin-right: 16px;'&gt;Java Simon ${version}&lt;/span&gt;&lt;/td&gt;&lt;td&gt;&lt;div class='logo'/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;"
+			overview="overview.html"
+			stylesheetfile="docs/api/stylesheet.css"
+			classpathref="classpath">
 
 			<sourcepath path="core/src/main/java"/>
 			<sourcepath path="jdbc4/src/main/java"/>
