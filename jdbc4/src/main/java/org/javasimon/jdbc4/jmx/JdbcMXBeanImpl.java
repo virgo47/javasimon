@@ -9,11 +9,10 @@ import org.javasimon.utils.SimonUtils;
  * Most methods are implemented by calling the {@link Manager}.
  *
  * @author Radovan Sninsky
- * @version $Revision: 281 $ $Date: 2009-01-20 12:21:37 +0100 (ut, 20 I 2009) $
+ * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @since 2
  */
 public class JdbcMXBeanImpl implements JdbcMXBean {
-
 	private Manager manager;
 	private String prefix;
 
@@ -77,64 +76,6 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 	 */
 	public boolean isMonitoringEnabled() {
 		return manager.getSimon(prefix) != null && manager.getSimon(prefix).isEnabled();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Deprecated
-	public void logToFile(String filename, String format) {
-		stopLogging();
-
-		// install new JDBC log callback
-//		LoggingCallback jlc =  new LoggingCallback();
-//		jlc.setPrefix(prefix);
-//		jlc.setLogFilename(filename);
-//		jlc.setLogFormat(format);
-//		manager.callback().addCallback(jlc);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Deprecated
-	public void logToLogger(String logger, String format) {
-		stopLogging();
-
-		// install new JDBC log callback
-//		LoggingCallback jlc =  new LoggingCallback();
-//		jlc.setPrefix(prefix);
-//		jlc.setLoggerName(logger);
-//		jlc.setLogFormat(format);
-//		manager.callback().addCallback(jlc);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Deprecated
-	public void logToConsole(String format) {
-		stopLogging();
-
-		// install new JDBC log callback
-//		LoggingCallback jlc =  new LoggingCallback();
-//		jlc.setPrefix(prefix);
-//		jlc.setLogToConsole();
-//		jlc.setLogFormat(format);
-//		manager.callback().addCallback(jlc);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Deprecated
-	public void stopLogging() {
-		// remove ALL JDBC log callback if exists for default prefix
-		for (Callback c : manager.callback().callbacks()) {
-//			if (c instanceof LoggingCallback && ((LoggingCallback)c).getPrefix().equalsIgnoreCase(prefix)) {
-//				manager.callback().removeCallback(c);
-//			}
-		}
 	}
 
 	/**
