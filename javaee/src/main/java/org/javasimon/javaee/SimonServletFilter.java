@@ -118,6 +118,8 @@ public class SimonServletFilter implements Filter {
 		Split split = SimonManager.getStopwatch(simonPrefix + Manager.HIERARCHY_DELIMITER + simonName).start();
 		try {
 			filterChain.doFilter(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
 		} finally {
 			split.stop();
 			if (reportThreshold != null && split.runningFor() > reportThreshold) {

@@ -5,7 +5,7 @@ import org.javasimon.jmx.StopwatchSample;
 /**
  * Interface of JDBC management bean (MXBean).
  * <p/>
- * JDBC MXBean provides management operations to monitoring and logging JDBC driver
+ * JDBC MXBean provides management operations for monitoring JDBC driver
  * and operations to retrieve gathered statistics from special JDBC hierarchy of Simons.<br>
  * This JDBC hierarchy of Simon is well known and specified in JDBC javadoc
  * ({@link org.javasimon.jdbc4}). There is prefix of this hierarchy that is associated with
@@ -18,28 +18,17 @@ import org.javasimon.jmx.StopwatchSample;
  * or later through setter ({@link #setPrefix(String)}). Then is also possible to register Jdbc mxbean
  * for each prefix.
  * <p/>
- * Monitoring and logging JDBC driver by javasimons is possible only if javasimon JDBC driver is used
+ * Monitoring of the JDBC driver is enabled only if Java Simon JDBC proxy driver is used
  * over orginal JDBC driver (eg. Oracle, PostgreSQL, MySQL etc.). For more details how to do
  * that, please look at {@link org.javasimon.jdbc4.Driver} a package {@link org.javasimon.jdbc4}
  * javadoc.
  *
  * @author Radovan Sninsky
- * @version $Revision$ $Date$
+ * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @see JdbcMXBeanImpl
  * @since 2
  */
 public interface JdbcMXBean {
-
-	/**
-	 * Identifier of build-in format used to format JDBC log events, human redable format.
-	 */
-	static final String HUMAN_FORMAT = "human";
-
-	/**
-	 * Identifier of build-in format used to format JDBC log events, CSV format.
-	 */
-	static final String CSV_FORMAT = "csv";
-
 	/**
 	 * Returns actual prefix associated with mxbean.
 	 *
@@ -74,50 +63,6 @@ public interface JdbcMXBean {
 	 * @return {@code true} if associated prefix is enabled; otherwise {@code false}
 	 */
 	boolean isMonitoringEnabled();
-
-	/**
-	 * Starts logging JDBC events from driver (associated with prefix) to file.
-	 * This is going to be removed in 3.0 as the whole design is now not future proof, now it is stuck to JDBC 3.
-	 *
-	 * @param filename path to file on disk
-	 * @param format could identifier of build-in formatters {@code human} or {@code csv}
-	 * or classname of custom formatter derived from {@link org.javasimon.jdbc4.logging.SimonFormatter}
-	 */
-	@Deprecated
-	void logToFile(String filename, String format);
-
-	/**
-	 * Starts logging JDBC events from driver (associated with prefix)to {@link java.util.logging.Logger}.
-	 * This is going to be removed in 3.0 as the whole design is now not future proof, now it is stuck to JDBC 3.
-	 *
-	 * @param logger name of JDK14 logger
-	 * @param format could identifier of build-in formatters {@code human} or {@code csv}
-	 * or classname of custom formatter derived from {@link org.javasimon.jdbc4.logging.SimonFormatter}
-	 */
-	@Deprecated
-	void logToLogger(String logger, String format);
-
-	/**
-	 * Starts logging JDBC events from driver (associated with prefix) to {@link java.util.logging.ConsoleHandler}
-	 * ({@code System.out.err}).
-	 * This is going to be removed in 3.0 as the whole design is now not future proof, now it is stuck to JDBC 3.
-	 *
-	 * @param format could identifier of build-in formatters {@code human} or {@code csv}
-	 * or classname of custom formatter derived from {@link org.javasimon.jdbc4.logging.SimonFormatter}
-	 */
-	@Deprecated
-	void logToConsole(String format);
-
-	/**
-	 * Stops logging events from driver (associated with prefix).
-	 * This is going to be removed in 3.0 as the whole design is now not future proof, now it is stuck to JDBC 3.
-	 *
-	 * @see #logToFile(String, String)
-	 * @see #logToLogger(String, String)
-	 * @see #logToConsole(String)
-	 */
-	@Deprecated
-	void stopLogging();
 
 	/**
 	 * Retrieves summary data about JDBC connection objects.

@@ -4,18 +4,12 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.cellview.client.CellTable;
-import com.google.gwt.user.cellview.client.ColumnSortEvent;
-import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.*;
-import com.google.gwt.view.client.ListDataProvider;
 
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 
 /**
  * Gwimon console main class with entry point.
@@ -25,6 +19,7 @@ import java.util.List;
 public class Gwimon implements EntryPoint {
 	private GwimonServiceAsync service;
 	private VerticalPanel contentPanel;
+	private GwimonTable simonTable;
 
 	@Override
 	public void onModuleLoad() {
@@ -36,6 +31,8 @@ public class Gwimon implements EntryPoint {
 		contentPanel.addStyleName("content-screen");
 		Panel uberPanel = new VerticalPanel();
 		uberPanel.addStyleName("width-100-percent");
+
+		Panel formPanel = new HorizontalPanel();
 		Button refreshButton = new Button("Refresh");
 		refreshButton.addClickHandler(new ClickHandler() {
 			@Override
@@ -43,7 +40,19 @@ public class Gwimon implements EntryPoint {
 				listAllSimons();
 			}
 		});
-		uberPanel.add(refreshButton);
+		formPanel.add(refreshButton);
+		Button toggleColsButton = new Button("Toggle Columns");
+		toggleColsButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				if (simonTable != null) {
+					simonTable.toggleColumns();
+				}
+			}
+		});
+		formPanel.add(toggleColsButton);
+
+		uberPanel.add(formPanel);
 		uberPanel.add(contentPanel);
 		RootPanel.get().add(uberPanel);
 
@@ -67,50 +76,9 @@ public class Gwimon implements EntryPoint {
 	private void showSimons(ArrayList<SimonValue> simonValues) {
 		contentPanel.clear();
 
-		CellTable<SimonValue> table = new CellTable<SimonValue>();
-
-		TextColumn<SimonValue> nameColumn = new TextColumn<SimonValue>() {
-			@Override
-			public String getValue(SimonValue simon) {
-				return simon.name;
-			}
-		};
-
-		TextColumn<SimonValue> meanColumn = new TextColumn<SimonValue>() {
-			@Override
-			public String getValue(SimonValue simon) {
-				return Utils.presentNanoTime((long) simon.mean);
-			}
-		};
-
-		table.addColumn(nameColumn, "Simon");
-		table.addColumn(meanColumn, "Mean");
-
-		ListDataProvider<SimonValue> dataProvider = new ListDataProvider<SimonValue>(simonValues);
-		dataProvider.addDataDisplay(table);
-
-		ColumnSortEvent.ListHandler<SimonValue> columnSortHandler = new ColumnSortEvent.ListHandler<SimonValue>(dataProvider.getList());
-		columnSortHandler.setComparator(nameColumn, new Comparator<SimonValue>() {
-				public int compare(SimonValue o1, SimonValue o2) {
-					if (o1 == o2) {
-						return 0;
-					}
-					if (o1 != null) {
-						return (o2 != null) ? o1.name.compareTo(o2.name) : 1;
-					}
-					return -1;
-				}
-			});
-		table.addColumnSortHandler(columnSortHandler);
-
-		// We know that the data is sorted alphabetically by default.
-		table.getColumnSortList().push(nameColumn);
-
-		contentPanel.add(table);
-
-//		for (SimonValue simonValue : simonValues) {
-//			contentPanel.add(new Label(simonValue.name));
-//		}
+		simonTable = new GwimonTable(simonValues);
+		simonTable.setPageSize(10);
+		contentPanel.add(simonTable);
 	}
 
 	public GwimonServiceAsync getService() {
