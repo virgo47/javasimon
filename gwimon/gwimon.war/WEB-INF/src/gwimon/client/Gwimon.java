@@ -9,8 +9,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.*;
 
-import java.util.ArrayList;
-
 /**
  * Gwimon console main class with entry point.
  *
@@ -20,6 +18,7 @@ public class Gwimon implements EntryPoint {
 	private GwimonServiceAsync service;
 	private VerticalPanel contentPanel;
 	private GwimonTable simonTable;
+	private TextBox filterMask;
 
 	@Override
 	public void onModuleLoad() {
@@ -33,6 +32,13 @@ public class Gwimon implements EntryPoint {
 		uberPanel.addStyleName("width-100-percent");
 
 		Panel formPanel = new HorizontalPanel();
+		formPanel.addStyleName("top-form");
+
+		formPanel.add(new Label("Simon mask (regex):"));
+
+		filterMask = new TextBox();
+		formPanel.add(filterMask);
+
 		Button refreshButton = new Button("Refresh");
 		refreshButton.addClickHandler(new ClickHandler() {
 			@Override
@@ -60,10 +66,12 @@ public class Gwimon implements EntryPoint {
 	}
 
 	private void listAllSimons() {
-		service.listSimons(null, new AsyncCallback<ArrayList<SimonValue>>() {
+		SimonFilter simonFilter = new SimonFilter();
+		simonFilter.setMask(filterMask.getValue());
+		service.listSimons(simonFilter, new AsyncCallback<SimonAggregation>() {
 			@Override
-			public void onSuccess(ArrayList<SimonValue> simonValues) {
-				showSimons(simonValues);
+			public void onSuccess(SimonAggregation result) {
+				showSimonResults(result);
 			}
 
 			@Override
@@ -73,10 +81,10 @@ public class Gwimon implements EntryPoint {
 		});
 	}
 
-	private void showSimons(ArrayList<SimonValue> simonValues) {
+	private void showSimonResults(SimonAggregation aggregation) {
 		contentPanel.clear();
 
-		simonTable = new GwimonTable(simonValues);
+		simonTable = new GwimonTable(aggregation.getSimonList());
 		simonTable.setPageSize(10);
 		contentPanel.add(simonTable);
 	}
