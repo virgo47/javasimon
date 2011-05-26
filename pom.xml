@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.javasimon</groupId>
 	<artifactId>javasimon-parent</artifactId>
@@ -9,11 +10,11 @@
 	<description>Java Simon - simple monitoring library</description>
 	<url>http://code.google.com/p/javasimon/</url>
 
-    <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>5</version>
-    </parent>
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>5</version>
+	</parent>
 
 	<modules>
 		<module>core</module>
@@ -28,7 +29,7 @@
 		<version.javaee-api>6.0</version.javaee-api>
 		<version.spring>3.0.5.RELEASE</version.spring>
 		<version.testng>5.14.10</version.testng>
-		<version.h2database>1.3.152</version.h2database>
+		<version.h2database>1.3.154</version.h2database>
 	</properties>
 
 	<scm>
@@ -45,7 +46,7 @@
 	</licenses>
 
 	<prerequisites>
-		<maven>2.2.1</maven>
+		<maven>3.0.0</maven>
 	</prerequisites>
 
 	<build>
@@ -81,16 +82,6 @@
 		</testResources>
 
 		<plugins>
-			<!--<plugin>-->
-				<!--<artifactId>maven-compiler-plugin</artifactId>-->
-				<!--<configuration>-->
-					<!--<source>1.5</source>-->
-					<!--<target>1.5</target>-->
-					<!--<compilerVersion>1.5</compilerVersion>-->
-					<!--<encoding>UTF-8</encoding>-->
-					<!--<optimize>true</optimize>-->
-				<!--</configuration>-->
-			<!--</plugin>-->
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
 				<configuration>
@@ -155,15 +146,15 @@
 		</dependencies>
 	</dependencyManagement>
 
-    <developers>
-        <developer>
-            <id>virgo</id>
-            <name>Richard Richter</name>
-            <email>virgo47@gmail.com</email>
-            <roles>
-                <role>project-leader</role>
-                <role>developer</role>
-            </roles>
-        </developer>
-    </developers>
+	<developers>
+		<developer>
+			<id>virgo</id>
+			<name>Richard Richter</name>
+			<email>virgo47@gmail.com</email>
+			<roles>
+				<role>project-leader</role>
+				<role>developer</role>
+			</roles>
+		</developer>
+	</developers>
 </project>

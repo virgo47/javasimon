@@ -2,10 +2,12 @@ package gwimon.server;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import gwimon.client.GwimonService;
+import gwimon.client.SimonAggregation;
+import gwimon.client.SimonFilter;
 import gwimon.client.SimonValue;
 import org.javasimon.*;
 
-import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 /**
  * Gwimon Servlet providing Simon data for the GWT client.
@@ -14,9 +16,18 @@ import java.util.ArrayList;
  */
 public class GwimonServlet extends RemoteServiceServlet implements GwimonService {
 	@Override
-	public ArrayList<SimonValue> listSimons(String mask) {
-		ArrayList<SimonValue> values = new ArrayList<SimonValue>();
+	public SimonAggregation listSimons(SimonFilter filter) {
+		Pattern simonMask = null;
+		if (filter.getMask() != null && !filter.getMask().isEmpty()) {
+			// TODO can fail - but maybe we don't need to solve it for now
+			simonMask = Pattern.compile(filter.getMask());
+		}
+		SimonAggregation aggregation = new SimonAggregation();
 		for (String name : SimonManager.manager().simonNames()) {
+			if (simonMask != null && !simonMask.matcher(name).find()) {
+				System.out.println("No match: " + name);
+				continue; // required match, but failed
+			}
 			SimonValue value = new SimonValue();
 			if (name.equals(Manager.ROOT_SIMON_NAME)) {
 				value.name = "!ROOT!";
@@ -28,10 +39,10 @@ public class GwimonServlet extends RemoteServiceServlet implements GwimonService
 			if (sample != null) {
 				sampleToValueObject(value, sample);
 			}
-			values.add(value);
+			aggregation.add(value);
 		}
 
-		return values;
+		return aggregation;
 	}
 
 	private void sampleToValueObject(SimonValue value, Sample sample) {

@@ -82,3 +82,7 @@ body, p, h1, h2, h3, h4, table, tbody, thead, tfoot, tr, th, td, div, button, a 
 .pagecontrol {
 	padding: 0 3px;
 }
+
+.top-form {
+	padding: 8px;
+}

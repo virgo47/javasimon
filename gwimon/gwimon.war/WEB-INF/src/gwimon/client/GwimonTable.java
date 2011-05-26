@@ -18,7 +18,7 @@ public class GwimonTable extends CellTable<SimonValue> {
 	private ListDataProvider<SimonValue> dataProvider;
 	private List<SimonColumn> hiddenColumns = new ArrayList<SimonColumn>();
 
-	public GwimonTable(ArrayList<SimonValue> simonValues) {
+	public GwimonTable(List<SimonValue> simonValues) {
 		dataProvider = new ListDataProvider<SimonValue>(simonValues);
 		dataProvider.addDataDisplay(this);
 
