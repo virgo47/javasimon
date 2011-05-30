@@ -2,8 +2,6 @@ package gwimon.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
@@ -18,7 +16,7 @@ public class Gwimon implements EntryPoint {
 	private GwimonServiceAsync service;
 	private VerticalPanel contentPanel;
 	private GwimonTable simonTable;
-	private TextBox filterMask;
+	private FilterForm filterForm;
 
 	@Override
 	public void onModuleLoad() {
@@ -31,34 +29,21 @@ public class Gwimon implements EntryPoint {
 		Panel uberPanel = new VerticalPanel();
 		uberPanel.addStyleName("width-100-percent");
 
-		Panel formPanel = new HorizontalPanel();
-		formPanel.addStyleName("top-form");
-
-		formPanel.add(new Label("Simon mask (regex):"));
-
-		filterMask = new TextBox();
-		formPanel.add(filterMask);
-
-		Button refreshButton = new Button("Refresh");
-		refreshButton.addClickHandler(new ClickHandler() {
+		filterForm = new FilterForm() {
 			@Override
-			public void onClick(ClickEvent event) {
-				listAllSimons();
-			}
-		});
-		formPanel.add(refreshButton);
-		Button toggleColsButton = new Button("Toggle Columns");
-		toggleColsButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
+			public void callToggleColumns() {
 				if (simonTable != null) {
 					simonTable.toggleColumns();
 				}
 			}
-		});
-		formPanel.add(toggleColsButton);
 
-		uberPanel.add(formPanel);
+			@Override
+			public void callRefresh() {
+				listAllSimons();
+			}
+		};
+
+		uberPanel.add(filterForm);
 		uberPanel.add(contentPanel);
 		RootPanel.get().add(uberPanel);
 
@@ -67,7 +52,7 @@ public class Gwimon implements EntryPoint {
 
 	private void listAllSimons() {
 		SimonFilter simonFilter = new SimonFilter();
-		simonFilter.setMask(filterMask.getValue());
+		simonFilter.setMask(filterForm.getFilterMask());
 		service.listSimons(simonFilter, new AsyncCallback<SimonAggregation>() {
 			@Override
 			public void onSuccess(SimonAggregation result) {
