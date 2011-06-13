@@ -1,5 +1,6 @@
 package org.javasimon.spring;
 
+import org.javasimon.aop.Monitored;
 import org.springframework.aop.Pointcut;
 import org.springframework.aop.ClassFilter;
 import org.springframework.aop.MethodMatcher;

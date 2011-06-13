@@ -14,17 +14,4 @@
 		<url-pattern>/gwimon/gwimon</url-pattern>
 	</servlet-mapping>
 
-	<filter>
-		<filter-name>Simon Filter</filter-name>
-		<filter-class>org.javasimon.javaee.SimonServletFilter</filter-class>
-		<init-param>
-			<param-name>prefix</param-name>
-			<param-value>gwimon</param-value>
-		</init-param>
-	</filter>
-
-	<filter-mapping>
-		<filter-name>Simon Filter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
 </web-app>

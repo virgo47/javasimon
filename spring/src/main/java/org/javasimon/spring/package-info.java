@@ -1,5 +1,5 @@
 /**
- * Support classes to automatically monitor Spring beans with the {@link org.javasimon.spring.Monitored} annotation.
+ * Support classes to automatically monitor Spring beans with the {@link org.javasimon.aop.Monitored} annotation.
  *
  * <p>Usage instructions:
  *
@@ -19,7 +19,7 @@ classpath:context/data-access-layer.xml
 </param-value>
 </context-param>}</pre>
  *
- * <p>Step -2- Annotate all classes and/or methods you want to monitor (see {@link org.javasimon.spring.Monitored} for
+ * <p>Step -2- Annotate all classes and/or methods you want to monitor (see {@link org.javasimon.aop.Monitored} for
  * more details). As step 1 configured annotation detection only for spring beans, make sure these classes are
  * instantiated through Spring (i.e. declare them as a bean in a Spring configuration file).
  */

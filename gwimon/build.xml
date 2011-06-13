@@ -20,8 +20,6 @@
 		<fileset dir="${gwt.sdk}" includes="gwt-dev*.jar"/>
 	</path>
 
-	<target name="build" depends="clean,compile,war"/>
-
 	<target name="compile">
 		<mkdir dir="${build.classes}"/>
 		<javac srcdir="${src}" destdir="${build.classes}"
@@ -31,9 +29,22 @@
 		</copy>
 	</target>
 
-	<target name="war">
-		<war basedir="gwimon.war" warfile="${war.file}">
-		</war>
+	<target name="build" depends="clean,compile,gwtc">
+		<copy todir="gwimon.war/WEB-INF/lib" file="${gwt.sdk}/gwt-user.jar"/>
+		<war basedir="gwimon.war" warfile="${war.file}"/>
+	</target>
+
+	<target name="gwtc">
+		<java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler">
+			<classpath>
+				<pathelement location="${src}"/>
+				<path refid="project.classpath"/>
+			</classpath>
+			<jvmarg value="-Xmx256M"/>
+			<arg value="-war"/>
+			<arg value="gwimon.war"/>
+			<arg value="gwimon.Gwimon"/>
+		</java>
 	</target>
 
 	<target name="hosted" depends="clean" description="Run hosted mode">
@@ -52,7 +63,6 @@
 			<!-- use exploded war from build -->
 			<arg value="-war"/>
 			<arg value="gwimon.war"/>
-			<!-- additional arguments like -style PRETTY or -logLevel DEBUG -->
 			<arg value="gwimon.Gwimon"/>
 		</java>
 	</target>

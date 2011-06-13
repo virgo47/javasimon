@@ -64,7 +64,7 @@ Project is hosted on Google Code as "javasimon":
   * Homepage: http://www.javasimon.org
   * Project page: http://code.google.com/p/javasimon/
   * Download: http://code.google.com/p/javasimon/downloads/list
-  * Javadoc API: http://javasimon.googlecode.com/svn/javadoc/api-2.1/index.html
+  * Javadoc API: http://javasimon.googlecode.com/svn/javadoc/api-3.0/index.html
   * Source browser: http://code.google.com/p/javasimon/source/browse/
   * Issue tracker: http://code.google.com/p/javasimon/issues/list
   * Ohloh page: http://www.ohloh.net/p/javasimon

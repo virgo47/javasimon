@@ -3,6 +3,7 @@ package org.javasimon.javaee;
 import org.javasimon.Manager;
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
+import org.javasimon.Stopwatch;
 import org.javasimon.utils.SimonUtils;
 
 import javax.servlet.*;
@@ -115,7 +116,11 @@ public class SimonServletFilter implements Filter {
 		}
 		String simonName = getSimonName(request);
 		SPLITS.set(new ArrayList<Split>());
-		Split split = SimonManager.getStopwatch(simonPrefix + Manager.HIERARCHY_DELIMITER + simonName).start();
+		Stopwatch stopwatch = SimonManager.getStopwatch(simonPrefix + Manager.HIERARCHY_DELIMITER + simonName);
+		if (stopwatch.getNote() == null) {
+			stopwatch.setNote(request.getRequestURI());
+		}
+		Split split = stopwatch.start();
 		try {
 			filterChain.doFilter(request, response);
 		} catch (Exception e) {
