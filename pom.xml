@@ -84,6 +84,7 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.5</version>
 				<configuration>
 					<encoding>UTF-8</encoding>
 					<outputDirectory/>
@@ -92,6 +93,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.7</version>
 				<configuration>
 					<encoding>UTF-8</encoding>
 					<show>private</show>

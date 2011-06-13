@@ -31,7 +31,7 @@ public class Utils {
 	 * @return human readable time string
 	 */
 	public static String presentNanoTime(long nanos) {
-		if (nanos == Long.MAX_VALUE || nanos == 0) {
+		if (nanos == Long.MAX_VALUE || nanos <= 0) {
 			return UNDEF_STRING;
 		}
 		if (nanos < UNIT_PREFIX_FACTOR) {

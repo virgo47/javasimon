@@ -70,7 +70,7 @@ public class Gwimon implements EntryPoint {
 		contentPanel.clear();
 
 		simonTable = new GwimonTable(aggregation.getSimonList());
-		simonTable.setPageSize(10);
+		simonTable.setPageSize(47);
 		contentPanel.add(simonTable);
 	}
 

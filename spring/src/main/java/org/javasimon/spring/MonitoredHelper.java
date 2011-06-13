@@ -1,6 +1,7 @@
 package org.javasimon.spring;
 
 import org.aopalliance.intercept.MethodInvocation;
+import org.javasimon.aop.Monitored;
 import org.springframework.aop.support.AopUtils;
 
 /**

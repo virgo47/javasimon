@@ -1,4 +1,4 @@
-package org.javasimon.spring;
+package org.javasimon.aop;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
