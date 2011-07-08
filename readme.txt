@@ -81,6 +81,8 @@ Project uses following libraries:
     * `aopalliance.jar`
   * Commons logging: http://commons.apache.org/logging/ (Spring integration)
     * `commons-logging-1.1.1.jar`
+  * AspectJ: http://www.eclipse.org/aspectj/downloads.php (AOP/Spring integration)
+    * `aspectjrt.jar`
   * H2 Database: http://www.h2database.com/ (examples)
     * `h2-1.2.135.jar`
   * Java EE libraries for Java EE module compilation:
@@ -89,4 +91,4 @@ Project uses following libraries:
 
 == Java Simon name ==
 
-*Java Simon* is the official name of the project with _Simple Monitoring API_ as a half title. Codename of the project is *javasimon*. We use word Simon as a synonym for a "monitor" in javadoc or on our wiki - of course we use it only for monitors based on the API. We write Simon mostly with capital S, Java Simon with space and javasimon as a one word with all lowercase. Word javasimon is probably best to use in search engines.
+*Java Simon* is the official name of the project with _Simple Monitoring API_ as a subtitle. Codename of the project is *javasimon*. We use word Simon as a synonym for a "monitor" in javadoc or on our wiki - of course we use it only for monitors based on the API. We write Simon mostly with capital S, Java Simon with space and javasimon as a one word with all lowercase. Word javasimon is probably best to use in search engines.
