@@ -9,6 +9,7 @@ import org.aspectj.lang.annotation.Pointcut;
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
+// TODO hardly started, right now only AOP alliance aspect is usable
 public class MonitoredAspect {
 	@Pointcut("@annotation(org.javasimon.aop.Monitored)")
 	public void mergeEntitiesMethod() {

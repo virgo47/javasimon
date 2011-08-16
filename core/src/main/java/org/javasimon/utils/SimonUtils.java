@@ -5,6 +5,7 @@ import org.javasimon.*;
 import java.text.*;
 import java.util.Locale;
 import java.util.Date;
+import java.util.concurrent.Callable;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
@@ -236,7 +237,9 @@ public final class SimonUtils {
 
 	/**
 	 * Resets the whole Simon subtree - calls {@link org.javasimon.Simon#reset()} on the
-	 * Simon and recursively on all its children.
+	 * Simon and recursively on all its children. Operation is not truly atomic as a whole,
+	 * consistency on the Simon level depends on the implementation of {@link org.javasimon.Simon#reset()}
+	 * (which is thread-safe in all current implementations).
 	 *
 	 * @param simon subtree root
 	 */
@@ -312,6 +315,40 @@ public final class SimonUtils {
 		Callback rootCallback = manager.callback();
 		for (Callback callback : rootCallback.callbacks()) {
 			rootCallback.removeCallback(callback);
+		}
+	}
+
+	/**
+	 * Calls a block of code with stopwatch around and returns result.
+	 *
+	 * @param name name of the Stopwatch
+	 * @param callable callable block of code
+	 * @param <T> return type
+	 * @return whatever block of code returns
+	 * @throws Exception whatever block of code throws
+	 */
+	public static <T> T doWithStopwatch(String name, Callable<T> callable) throws Exception {
+		Split split = SimonManager.getStopwatch(name).start();
+		try {
+			return callable.call();
+		} finally {
+			split.stop();
+		}
+	}
+
+	/**
+	 * Calls a block of code with stopwatch around, can not return any result or throw an exception
+	 * (use {@link #doWithStopwatch(String, java.util.concurrent.Callable)} instead).
+	 *
+	 * @param name name of the Stopwatch
+	 * @param runnable wrapped block of code
+	 */
+	public static void doWithStopwatch(String name, Runnable runnable) {
+		Split split = SimonManager.getStopwatch(name).start();
+		try {
+			runnable.run();
+		} finally {
+			split.stop();
 		}
 	}
 }

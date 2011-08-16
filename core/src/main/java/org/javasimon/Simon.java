@@ -8,6 +8,9 @@ import java.util.List;
  * It does not contain any real action method - these are in specific interfaces that describes
  * purpose of the particular type of monitor.
  *
+ * @see Manager
+ * @see Counter for Simon counting some events
+ * @see Stopwatch for Simon measuring time spans
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public interface Simon {
