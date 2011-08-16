@@ -1,8 +1,9 @@
 package org.javasimon;
 
 /**
- * Simon stopwatch is for time span measuring. Methods {@link #start} creates new {@link org.javasimon.Split}
- * object. On this object you can call {@link org.javasimon.Split#stop()} - this demarcates measured interval.
+ * Stopwatch Simon measures time spans and holds related statistics.
+ * Methods {@link #start} creates new {@link org.javasimon.Split} object.
+ * On this object you can call {@link org.javasimon.Split#stop()} - this demarcates measured interval.
  * Alternatively method {@link #addTime} can be used to add split time to the stopwatch. Both ways effectively
  * updates usage times, increase usage counter by one and updates total time of the stopwatch.
  * Split object enables multiple time-splits to be measured in parallel.
@@ -40,9 +41,7 @@ package org.javasimon;
  * When the stopwatch is disabled, its active count is set to 0 and before it is enabled again both
  * its thread-local split map and keyed-object split map is cleared. Of course, all totals/counts
  * are preserved.
- * <p/>
  * <h3>Other usages</h3>
- * <p/>
  * Reset of the stopwatch resets all stats except usages that are rather management related and
  * should not be reset. Reset is used often for various sampling purposes which requires that only
  * cumulative stats are reset, but all running splits are preserved. Running splits will be added
@@ -60,8 +59,12 @@ public interface Stopwatch extends Simon {
 	Stopwatch addTime(long ns);
 
 	/**
-	 * Starts the new split for this stopwatch.
+	 * Starts the new split for this stopwatch. This action does not hold any resources and
+	 * if {@link Split} object is collected, no leak occurs. However, active count is increased
+	 * and without stopping the split active count stays increased which may render that
+	 * information useless.
 	 *
+	 * @see org.javasimon.Split#stop()
 	 * @return split object
 	 */
 	Split start();
@@ -119,7 +122,7 @@ public interface Stopwatch extends Simon {
 	/**
 	 * Resets the Simon - clears total time, min, max, usage stats, etc. Split times that
 	 * started before reset will be counted when appropriate stop is called, so no split
-	 * time is ignored by the stopwatch.
+	 * time is ignored by the stopwatch. Active count is not reset.
 	 *
 	 * @return returns this
 	 */
