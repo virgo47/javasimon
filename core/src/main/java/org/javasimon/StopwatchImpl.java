@@ -302,7 +302,6 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 			", max " + SimonUtils.presentNanoTime(max) +
 			", min " + SimonUtils.presentNanoTime(min) +
 			", mean " + SimonUtils.presentNanoTime((long) mean) +
-			super.toString() +
-			(getNote() != null && getNote().length() != 0 ? ", note '" + getNote() + "'" : "");
+			super.toString();
 	}
 }

@@ -202,7 +202,8 @@ abstract class AbstractSimon implements Simon {
 	 */
 	@Override
 	public String toString() {
-		return "[" + name + " " + state + "]";
+		return " [" + name + " " + state +
+			(getNote() != null && getNote().length() != 0 ? " \"" + getNote() + "\"]" : "]");
 	}
 
 	/**
