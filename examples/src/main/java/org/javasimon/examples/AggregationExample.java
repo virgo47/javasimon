@@ -44,7 +44,7 @@ public class AggregationExample {
 		long totalSum = 0;
 		for (Simon child : children) {
 			System.out.println(child);
-			// do whatever you need to do here... TODO: good idea to create some utils for this
+			// do whatever you need to do here...
 			totalSum += ((Stopwatch) child).getTotal();
 		}
 		System.out.println("totalSum = " + SimonUtils.presentNanoTime(totalSum));

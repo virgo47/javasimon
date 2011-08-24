@@ -135,6 +135,11 @@
         <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
+    <option name="activeProfiles">
+      <list>
+        <option value="sonatype-oss-release" />
+      </list>
+    </option>
   </component>
   <component name="Palette2">
     <group name="Swing">
