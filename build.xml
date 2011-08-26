@@ -15,7 +15,7 @@
 		<pathelement path="${lib.dir}/h2-1.2.135.jar"/>
 		<pathelement path="${lib.dir}/spring-core-3.0.5.RELEASE.jar"/>
 		<pathelement path="${lib.dir}/spring-aop-3.0.5.RELEASE.jar"/>
-		<pathelement path="${lib.dir}/aspectjrt.jar"/>
+		<pathelement path="${lib.dir}/aspectjrt-1.5.3.jar"/>
 		<pathelement path="${lib.dir}/aopalliance.jar"/>
 		<pathelement path="${lib.dir}/commons-logging-1.1.1.jar"/>
 		<pathelement path="${lib.dir}/stax-api-1.0.1.jar"/>
@@ -96,7 +96,7 @@
 				<include name="mvel2-2.0.19.jar"/>
 				<include name="jboss-javaee.jar"/>
 				<include name="servlet-api.jar"/>
-				<include name="aspectjrt.jar"/>
+				<include name="aspectjrt-1.5.3.jar"/>
 			</zipfileset>
 			<zipfileset prefix="javasimon-${version}/lib" dir="build">
 				<include name="*.jar"/>

@@ -147,18 +147,27 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		return split;
 	}
 
-	private synchronized double getMean() {
+	/**
+	 * {@inheritDoc}
+	 */
+	public synchronized double getMean() {
 		return mean;
 	}
 
-	private synchronized double getVarianceN() {
+	/**
+	 * {@inheritDoc}
+	 */
+	public synchronized double getVarianceN() {
 		if (counter == 0) {
 			return 0;
 		}
 		return mean2 / counter;
 	}
 
-	private synchronized double getVariance() {
+	/**
+	 * {@inheritDoc}
+	 */
+	public synchronized double getVariance() {
 		if (counter == 0) {
 			return 0;
 		}
@@ -169,7 +178,10 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		return mean2 / countMinusOne;
 	}
 
-	private synchronized double getStandardDeviation() {
+	/**
+	 * {@inheritDoc}
+	 */
+	public synchronized double getStandardDeviation() {
 		return Math.sqrt(getVarianceN());
 	}
 
