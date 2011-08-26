@@ -9,9 +9,7 @@
       <maximumHeapSize value="128" />
       <maximumStackSize value="2" />
       <properties>
-        <property name="jdk5.home" value="c:\progra~1\java\jdk1.5.0_22" />
-        <property name="jdk6.home" value="c:\progra~1\java\jdk1.6.0_23" />
-        <property name="lib.home" value="..\lib" />
+        <property name="lib.home" value="lib" />
       </properties>
     </buildFile>
     <buildFile url="file://$PROJECT_DIR$/gwimon/build.xml">

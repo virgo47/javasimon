@@ -244,6 +244,46 @@ final class NullSimon implements Counter, Stopwatch {
 	}
 
 	/**
+	 * Returns zero.
+	 *
+	 * @return zero
+	 */
+	@Override
+	public double getMean() {
+		return 0;
+	}
+
+	/**
+	 * Returns zero.
+	 *
+	 * @return zero
+	 */
+	@Override
+	public double getStandardDeviation() {
+		return 0;
+	}
+
+	/**
+	 * Returns zero.
+	 *
+	 * @return zero
+	 */
+	@Override
+	public double getVariance() {
+		return 0;
+	}
+
+	/**
+	 * Returns zero.
+	 *
+	 * @return zero
+	 */
+	@Override
+	public double getVarianceN() {
+		return 0;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public Sample sample() {

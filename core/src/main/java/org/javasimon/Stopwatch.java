@@ -16,12 +16,12 @@ package org.javasimon;
  * System.out.println("Result: " + split.getStopwatch()); // print will be probably somewhere else</pre>
  * This can be used for simple micro-benchmarking, critical section monitoring, in web
  * filter to measure request times, etc.
- * <p/>
+ *
  * {@link org.javasimon.SimonManager} should always be used to get the stopwatch before using it,
  * because otherwise the code will not reflect enable/disable of the whole API.
- * <p/>
+ *
  * <h3>Disable/enable considerations</h3>
- * <p/>
+ *
  * While Counter's usage is atomic, Stopwatch measures splits and every measurement involves two
  * calls (start/stop) over a period of time. It's important to know how various management actions
  * affect measurement:
@@ -35,7 +35,7 @@ package org.javasimon;
  * If it's other way around then the split is not measured because obtained instance is "null"
  * Simon.
  * </ul>
- * <p/>
+ *
  * While API disable causes that the code works with "null" Simons, state of the real Simon is
  * perfectly preserved. Disabling particular Simon on the other hand resets some of its state.
  * When the stopwatch is disabled, its active count is set to 0 and before it is enabled again both
@@ -64,8 +64,8 @@ public interface Stopwatch extends Simon {
 	 * and without stopping the split active count stays increased which may render that
 	 * information useless.
 	 *
-	 * @see org.javasimon.Split#stop()
 	 * @return split object
+	 * @see org.javasimon.Split#stop()
 	 */
 	Split start();
 
@@ -148,4 +148,32 @@ public interface Stopwatch extends Simon {
 	 * @return ms timestamp of the last peek of the active split count
 	 */
 	long getMaxActiveTimestamp();
+
+	/**
+	 * Returns mean value (average) of all measured values.
+	 *
+	 * @return mean value
+	 */
+	double getMean();
+
+	/**
+	 * Returns standard deviation for all measured values.
+	 *
+	 * @return standard deviation
+	 */
+	double getStandardDeviation();
+
+	/**
+	 * Returns unbiased estimate of the population variance.
+	 *
+	 * @return unbiased estimated variance
+	 */
+	double getVariance();
+
+	/**
+	 * Returns variance value of all measured values (entire population).
+	 *
+	 * @return entire population variance
+	 */
+	double getVarianceN();
 }
