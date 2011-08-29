@@ -1,11 +1,12 @@
 package org.javasimon.spring;
 
+import java.lang.reflect.Method;
+
 import org.javasimon.aop.Monitored;
-import org.springframework.aop.Pointcut;
 import org.springframework.aop.ClassFilter;
 import org.springframework.aop.MethodMatcher;
-
-import java.lang.reflect.Method;
+import org.springframework.aop.Pointcut;
+import org.springframework.core.annotation.AnnotationUtils;
 
 /**
  * Pointcut that identifies methods/classes with the {@link Monitored} annotation.
@@ -32,7 +33,14 @@ public final class MonitoredMeasuringPointcut implements Pointcut {
 		INSTANCE;
 
 		public boolean matches(Method method, Class targetClass) {
-			return targetClass.isAnnotationPresent(Monitored.class) || method.isAnnotationPresent(Monitored.class);
+			if (AnnotationUtils.findAnnotation(targetClass, Monitored.class) != null) {
+				return true;
+			} else if (AnnotationUtils.findAnnotation(method, Monitored.class) != null) {
+				return true;
+			}
+
+			// if nothing matches return false
+			return false;
 		}
 
 		public boolean isRuntime() {
