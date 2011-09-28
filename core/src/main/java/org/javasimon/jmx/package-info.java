@@ -1,8 +1,10 @@
 /**
- * JMX cabalities for core Simons and JDBC proxy driver. Pacakge contains two management beans:
- * general management bean for Simons and JDBC management bean.
- * <p>
- * <b>Simon mbean</b> ({@link org.javasimon.jmx.SimonMXBean}) implements jmx support for core functionality,
+ * JMX cabalities for Simons. Package provides two ways of working with Simons via JMX:
+ * <ul>
+ *     <li>generic single-point Simon MBean;</li>
+ *     <li>MX Bean for every Simon.</li>
+ * </ul>
+ * <b>Simon MBean</b> ({@link org.javasimon.jmx.SimonMXBean}) implements jmx support for core functionality,
  * it means firstly management of java Simons during runtime and secondly, very requested,
  * way how to get gathered data by Simons out of application (jvm) for aditional processing.
  * <p>
@@ -29,13 +31,7 @@
  * sample has all needed access methods of its Simon. Parameter for retrieving methods is Simon hierarchical
  * name. To know all existing Simons and its type, use {@link org.javasimon.jmx.SimonMXBean#getSimonInfos()}.
  * <p>
- * <b>JDBC mbean</b> ({@link org.javasimon.jmx.JdbcMXBean}) provides jmx support for monitoring and logging capabilities
- * of Simon JDBC Driver which covers standard JDBC driver, you can find more details in package {@link org.javasimon.jdbc}.
- * This comprises features like enable and disable monitoring (gathering statistics data) by hierarchy of javasimons,
- * starting and stoping logging events from JDBC driver, configuring logging settings and also retrieve
- * gathered data from javasimons through special designed interface.
- * <p>
- * Both MBeans needs to be registered first. Bellow are two sniplets, one for registring Simon MBean:
+ * Both MBean needs to be registered first. Snippet bellow registers the Simon MBean:
  * <pre>
 MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
 try {
@@ -50,7 +46,7 @@ try {
 	System.out.println("SimonMXBean registration failed!\n"+e);
 }
  * </pre>
- * and other for unregistering Simon MBean:
+ * Following code then unregisters the MBean.
  * <pre>
 MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
 try {
@@ -63,8 +59,8 @@ try {
 	System.out.println("SimonMXBean unregistration failed!\n"+e);
 }
  * </pre>
- * Javasimon doesn't provide any automatic mechanism or util functions to register
- * or unregister Simon MBean becouse there are simply too many things which could be customized. This is
- * client's programmer responsibility to properly register and later unregister MBean from MBean server.
+ * Java Simon doesn't provide any automatic mechanism or util functions to register
+ * or unregister Simon MBean becouse there are simply too many things which could be customized. It is
+ * programmer's responsibility to properly register and later unregister MBean from MBean server.
  */
 package org.javasimon.jmx;
