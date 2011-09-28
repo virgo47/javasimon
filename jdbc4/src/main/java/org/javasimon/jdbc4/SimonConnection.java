@@ -43,7 +43,7 @@ public final class SimonConnection implements Connection {
 
 	/**
 	 * Class constructor, initializes Simons (lifespan, active, commits
-	 * and rollbacks) related to DB connection.
+	 * and rollbacks) related to the DB connection.
 	 *
 	 * @param conn real DB connection
 	 * @param prefix hierarchy prefix for connection Simons
@@ -58,7 +58,7 @@ public final class SimonConnection implements Connection {
 	}
 
 	/**
-	 * Closes real connection, stops lifespan Simon and decrease active Simon.
+	 * Closes the real connection, stops lifespan Simon and decreases the active Simon.
 	 *
 	 * @throws java.sql.SQLException if real operation fails
 	 */
@@ -70,7 +70,7 @@ public final class SimonConnection implements Connection {
 	}
 
 	/**
-	 * Commits real connection and increase commits Simon.
+	 * Commits the real connection and increases the commits Simon.
 	 *
 	 * @throws java.sql.SQLException if real commit fails
 	 */
@@ -82,7 +82,7 @@ public final class SimonConnection implements Connection {
 	}
 
 	/**
-	 * Rollback real connection and increase rollbacks Simon.
+	 * Rollback the real connection and increase the rollbacks Simon.
 	 *
 	 * @throws java.sql.SQLException if real operation fails
 	 */
@@ -94,7 +94,7 @@ public final class SimonConnection implements Connection {
 	}
 
 	/**
-	 * Rollback real connection and increase rollbacks Simon.
+	 * Rollbacks the real connection and increases the rollbacks Simon.
 	 *
 	 * @param savepoint the <code>Savepoint</code> object to roll back to
 	 * @throws java.sql.SQLException if real operation fails
@@ -107,7 +107,7 @@ public final class SimonConnection implements Connection {
 	}
 
 	/**
-	 * Calls real createStatement and wraps returned statement by Simon's statement.
+	 * Calls the real createStatement and wraps the returned statement by Simon's statement.
 	 *
 	 * @return Simon's statement with wraped real statement
 	 * @throws java.sql.SQLException if real operation fails

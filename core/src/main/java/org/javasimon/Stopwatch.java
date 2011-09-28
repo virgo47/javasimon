@@ -176,4 +176,16 @@ public interface Stopwatch extends Simon {
 	 * @return entire population variance
 	 */
 	double getVarianceN();
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	StopwatchSample sample();
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	StopwatchSample sampleAndReset();
 }

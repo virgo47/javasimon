@@ -52,7 +52,7 @@ public final class DisabledManager implements Manager {
 	 */
 	@Override
 	public Counter getCounter(String name) {
-		return NullSimon.INSTANCE;
+		return NullCounter.INSTANCE;
 	}
 
 	/**
@@ -60,7 +60,7 @@ public final class DisabledManager implements Manager {
 	 */
 	@Override
 	public Stopwatch getStopwatch(String name) {
-		return NullSimon.INSTANCE;
+		return NullStopwatch.INSTANCE;
 	}
 
 	/**

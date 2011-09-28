@@ -11,19 +11,20 @@ import java.util.List;
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
-final class NullSimon implements Counter, Stopwatch {
+class NullSimon implements Simon {
 	/**
 	 * Internal singleton value of the null Simon. Null Simon is never used in client code, only its
 	 * behavior manifestates to the client.
 	 */
 	static final NullSimon INSTANCE = new NullSimon();
 
-	private NullSimon() {
+	NullSimon() {
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Simon getParent() {
 		return null;
 	}
@@ -31,6 +32,7 @@ final class NullSimon implements Counter, Stopwatch {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final List<Simon> getChildren() {
 		return null;
 	}
@@ -38,6 +40,7 @@ final class NullSimon implements Counter, Stopwatch {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public String getName() {
 		return null;
 	}
@@ -45,6 +48,7 @@ final class NullSimon implements Counter, Stopwatch {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public SimonState getState() {
 		return null;
 	}
@@ -52,15 +56,14 @@ final class NullSimon implements Counter, Stopwatch {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void setState(SimonState state, boolean overrule) {
-		if (state == null) {
-			throw new IllegalArgumentException();
-		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public boolean isEnabled() {
 		return false;
 	}
@@ -68,6 +71,7 @@ final class NullSimon implements Counter, Stopwatch {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public NullSimon reset() {
 		return this;
 	}
@@ -75,140 +79,8 @@ final class NullSimon implements Counter, Stopwatch {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public long getLastReset() {
-		return 0;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public Counter set(long val) {
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public Counter increase() {
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public Counter decrease() {
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public Counter increase(long inc) {
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public Counter decrease(long dec) {
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public long getCounter() {
-		return 0;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public long getMin() {
-		return 0;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public long getMax() {
-		return 0;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public long getMaxTimestamp() {
-		return 0;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public long getMinTimestamp() {
-		return 0;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public Stopwatch addTime(long ns) {
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public Split start() {
-		return new Split(this, 0);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public long getTotal() {
-		return 0;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public long getLast() {
-		return 0;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public long getIncrementSum() {
-		return 0;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public long getDecrementSum() {
-		return 0;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public long getActive() {
-		return 0;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public long getMaxActive() {
-		return 0;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public long getMaxActiveTimestamp() {
 		return 0;
 	}
 
@@ -241,46 +113,6 @@ final class NullSimon implements Counter, Stopwatch {
 	 * @param note note for the Simon.
 	 */
 	public void setNote(String note) {
-	}
-
-	/**
-	 * Returns zero.
-	 *
-	 * @return zero
-	 */
-	@Override
-	public double getMean() {
-		return 0;
-	}
-
-	/**
-	 * Returns zero.
-	 *
-	 * @return zero
-	 */
-	@Override
-	public double getStandardDeviation() {
-		return 0;
-	}
-
-	/**
-	 * Returns zero.
-	 *
-	 * @return zero
-	 */
-	@Override
-	public double getVariance() {
-		return 0;
-	}
-
-	/**
-	 * Returns zero.
-	 *
-	 * @return zero
-	 */
-	@Override
-	public double getVarianceN() {
-		return 0;
 	}
 
 	/**
@@ -339,5 +171,305 @@ final class NullSimon implements Counter, Stopwatch {
 	@Override
 	public String toString() {
 		return "Null Simon";
+	}
+}
+
+final class NullStopwatch extends NullSimon implements Stopwatch {
+	/**
+	 * Internal singleton value of the null Simon. Null Simon is never used in client code, only its
+	 * behavior manifestates to the client.
+	 */
+	static final NullStopwatch INSTANCE = new NullStopwatch();
+
+	private NullStopwatch() {
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public NullStopwatch reset() {
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public long getCounter() {
+		return 0;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public long getMin() {
+		return 0;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public long getMax() {
+		return 0;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public long getMaxTimestamp() {
+		return 0;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public long getMinTimestamp() {
+		return 0;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Stopwatch addTime(long ns) {
+		return this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Split start() {
+		return new Split(this, 0);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public long getTotal() {
+		return 0;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public long getLast() {
+		return 0;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public long getActive() {
+		return 0;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public long getMaxActive() {
+		return 0;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public long getMaxActiveTimestamp() {
+		return 0;
+	}
+
+	/**
+	 * Returns zero.
+	 *
+	 * @return zero
+	 */
+	@Override
+	public double getMean() {
+		return 0;
+	}
+
+	/**
+	 * Returns zero.
+	 *
+	 * @return zero
+	 */
+	@Override
+	public double getStandardDeviation() {
+		return 0;
+	}
+
+	/**
+	 * Returns zero.
+	 *
+	 * @return zero
+	 */
+	@Override
+	public double getVariance() {
+		return 0;
+	}
+
+	/**
+	 * Returns zero.
+	 *
+	 * @return zero
+	 */
+	@Override
+	public double getVarianceN() {
+		return 0;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public StopwatchSample sample() {
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public StopwatchSample sampleAndReset() {
+		return null;
+	}
+}
+
+final class NullCounter extends NullSimon implements Counter {
+	/**
+	 * Internal singleton value of the null Counter. Null Counter is never used in client code, only its
+	 * behavior manifestates to the client.
+	 */
+	static final NullCounter INSTANCE = new NullCounter();
+
+	private NullCounter() {
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public NullCounter reset() {
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Counter set(long val) {
+		return this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Counter increase() {
+		return this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Counter decrease() {
+		return this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Counter increase(long inc) {
+		return this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Counter decrease(long dec) {
+		return this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public long getCounter() {
+		return 0;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public long getMin() {
+		return 0;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public long getMax() {
+		return 0;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public long getMaxTimestamp() {
+		return 0;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public long getMinTimestamp() {
+		return 0;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public long getIncrementSum() {
+		return 0;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public long getDecrementSum() {
+		return 0;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public CounterSample sample() {
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public CounterSample sampleAndReset() {
+		return null;
 	}
 }
