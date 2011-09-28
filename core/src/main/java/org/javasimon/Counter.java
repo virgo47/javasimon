@@ -128,4 +128,16 @@ public interface Counter extends Simon {
 	 * @return sum of all decremented values
 	 */
 	long getDecrementSum();
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	CounterSample sample();
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	CounterSample sampleAndReset();
 }
