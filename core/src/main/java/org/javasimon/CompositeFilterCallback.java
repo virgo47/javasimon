@@ -13,7 +13,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * is provided via {@link ManagerConfiguration#readConfig(java.io.Reader)}.
  * <p/>
  * Filter without any rules does not propagate events (default DENY behavior).
- * Any number of global rules (for {@link Event#ALL}) and per event rules can be added.
+ * Any number of global rules (for {@link Callback.Event#ALL}) and per event rules can be added.
  * Event rules have higher priority and if the filter passes on event rules, global rules are not consulted.
  * Rules are checked in the order they were added to the filter.
  * <p/>
