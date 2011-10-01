@@ -2,7 +2,7 @@
  * JMX cabalities for Simons. Package provides two ways of working with Simons via JMX:
  * <ul>
  *     <li>generic single-point Simon MBean;</li>
- *     <li>MX Bean for every Simon.</li>
+ *     <li>MX Bean for every Simon (using {@link org.javasimon.jmx.JmxRegisterCallback}.</li>
  * </ul>
  * <b>Simon MBean</b> ({@link org.javasimon.jmx.SimonMXBean}) implements jmx support for core functionality,
  * it means firstly management of java Simons during runtime and secondly, very requested,
@@ -17,12 +17,10 @@
  * <li>clear all Simons (all values are cleared)</li>
  * </ul>
  * For retrieving data from Simons is used new feature: <b>return custom object from MBean's method</b>.
- * This is one of news in JMX 1.4 introduced with Java 6. Against standard MBean this has its pros: all
- * retrieved data are from one moment and also all data are retrieved within single call, so
- * for retrieving data from one Simon only one network roundtrip is needed. However, a con is that
- * classes are not compatible with Java 5 anymore and have to be compiled with Java 6 logicaly. This
- * creates ugly dependency mess between javasimon modules. It complicates build script slightly, but
- * end-user wouldn't be touched by this.
+ * This is one of news in JMX 1.4 introduced with Java 6. Compared to calling many getters on an MBean
+ * custom object as a return value has following advantages: there is only a single call (faster - especially
+ * in case of a remote call) and all data is consistent (from one moment) which makes it better for graphing,
+ * logging, etc.
  * <p>
  * Technically, there are two methods, each for one Simon
  * type, {@link org.javasimon.jmx.SimonMXBean#getCounterSample(String)} for retrieving data from Counter Simon

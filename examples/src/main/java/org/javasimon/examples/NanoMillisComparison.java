@@ -51,16 +51,6 @@ public final class NanoMillisComparison {
 		System.out.println("\nGoogle Chart:\n" + GoogleChartGenerator.barChart(collector, "10M-loop duration", 1000000, "ms"));
 	}
 
-	private static void nanoTest() {
-		nanos = SimonManager.getStopwatch("nanos").reset();
-		Split split = nanos.start();
-		for (int i = 0; i < LOOP; i++) {
-			System.nanoTime();
-		}
-		split.stop();
-		System.out.println("Nanos: " + nanos);
-	}
-
 	private static void emptyTest() {
 		empty = SimonManager.getStopwatch("empty").reset();
 		Split split = empty.start();
@@ -78,6 +68,16 @@ public final class NanoMillisComparison {
 		}
 		split.stop();
 		System.out.println("Millis: " + millis);
+	}
+
+	private static void nanoTest() {
+		nanos = SimonManager.getStopwatch("nanos").reset();
+		Split split = nanos.start();
+		for (int i = 0; i < LOOP; i++) {
+			System.nanoTime();
+		}
+		split.stop();
+		System.out.println("Nanos: " + nanos);
 	}
 
 	private static void msAssignTest() {
@@ -108,6 +108,6 @@ public final class NanoMillisComparison {
 			simon.start().stop();
 		}
 		split.stop();
-		System.out.println("Threadsafe: " + stopwatch);
+		System.out.println("Stopwatch start/stop: " + stopwatch);
 	}
 }
