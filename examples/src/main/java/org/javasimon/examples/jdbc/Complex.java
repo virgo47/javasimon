@@ -80,7 +80,7 @@ public final class Complex extends Simple {
 	 */
 	private String printJdbcConnectionInfo(Simon jdbcSimon) {
 		if (SimonManager.getSimon(jdbcSimon.getName() + ".conn") != null) {
-			StopwatchSample sws = (StopwatchSample) SimonManager.getStopwatch(jdbcSimon.getName() + ".conn").sample();
+			StopwatchSample sws = SimonManager.getStopwatch(jdbcSimon.getName() + ".conn").sample();
 			Counter cc = SimonManager.getCounter(jdbcSimon.getName() + ".conn.commits");
 			Counter cr = SimonManager.getCounter(jdbcSimon.getName() + ".conn.rollbacks");
 			StringBuilder sb = new StringBuilder(512).append("Connection info:").append('\n')
@@ -93,8 +93,8 @@ public final class Complex extends Simple {
 				.append(", avg: ").append(SimonUtils.presentNanoTime((long) sws.getMean()))
 				.append(", max: ").append(SimonUtils.presentNanoTime(sws.getMax())).append('\n')
 				.append("  max ts: ").append(SimonUtils.presentTimestamp(sws.getMaxTimestamp())).append('\n')
-				.append("  comm: ").append(cc != null ? ((CounterSample) cc.sample()).getCounter() : 0).append('\n')
-				.append("  roll: ").append(cr != null ? ((CounterSample) cr.sample()).getCounter() : 0)
+				.append("  comm: ").append(cc != null ? cc.sample().getCounter() : 0).append('\n')
+				.append("  roll: ").append(cr != null ? cr.sample().getCounter() : 0)
 				.append('\n');
 
 			return sb.toString();
@@ -112,7 +112,7 @@ public final class Complex extends Simple {
 	 */
 	private String printJdbcStatementInfo(Simon jdbcSimon) {
 		if (SimonManager.getSimon(jdbcSimon.getName() + ".stmt") != null) {
-			StopwatchSample sws = (StopwatchSample) SimonManager.getStopwatch(jdbcSimon.getName() + ".stmt").sample();
+			StopwatchSample sws = SimonManager.getStopwatch(jdbcSimon.getName() + ".stmt").sample();
 			StringBuilder sb = new StringBuilder(512).append("Statement info:").append('\n')
 				.append("  act: ").append(sws.getActive()).append('\n')
 				.append("  max act: ").append(sws.getMaxActive()).append('\n')
@@ -137,9 +137,6 @@ public final class Complex extends Simple {
 	 * @throws Exception sometimes bad things can happen
 	 */
 	public static void main(String[] args) throws Exception {
-// Uncomment these two lines to check out if Issue #15 is fixed: http://code.google.com/p/javasimon/issues/detail?id=15
-//		Simon jdbcSimon = SimonManager.getStopwatch(org.javasimon.jdbc4.Driver.DEFAULT_PREFIX);
-//		jdbcSimon.setState(SimonState.DISABLED, true);
 		Class.forName("org.h2.Driver");
 		Class.forName("org.javasimon.jdbc4.Driver");
 

@@ -308,8 +308,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	 */
 	@Override
 	public synchronized String toString() {
-		return "Simon Stopwatch: " +
-			" total " + SimonUtils.presentNanoTime(total) +
+		return "Simon Stopwatch: total " + SimonUtils.presentNanoTime(total) +
 			", counter " + counter +
 			", max " + SimonUtils.presentNanoTime(max) +
 			", min " + SimonUtils.presentNanoTime(min) +
