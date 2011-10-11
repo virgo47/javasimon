@@ -130,7 +130,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	 */
 	public void counterIncrease(Counter counter, long inc) {
 		if (rulesApplyTo(counter, Event.COUNTER_INCREASE, inc)) {
-			callback.counterDecrease(counter, inc);
+			callback.counterIncrease(counter, inc);
 		}
 	}
 
@@ -139,7 +139,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	 */
 	public void counterSet(Counter counter, long val) {
 		if (rulesApplyTo(counter, Event.COUNTER_SET, val)) {
-			callback.counterDecrease(counter, val);
+			callback.counterSet(counter, val);
 		}
 	}
 
