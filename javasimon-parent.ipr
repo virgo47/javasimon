@@ -404,6 +404,17 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/mvel/mvel2/2.0.19/mvel2-2.0.19-sources.jar!/" />
       </SOURCES>
     </library>
+    <library name="Maven: org.slf4j:slf4j-api:1.6.2">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.6.2/slf4j-api-1.6.2.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.6.2/slf4j-api-1.6.2-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.6.2/slf4j-api-1.6.2-sources.jar!/" />
+      </SOURCES>
+    </library>
     <library name="Maven: org.springframework:spring-aop:3.0.5.RELEASE">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-aop/3.0.5.RELEASE/spring-aop-3.0.5.RELEASE.jar!/" />

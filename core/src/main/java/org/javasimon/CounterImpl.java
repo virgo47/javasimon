@@ -151,9 +151,10 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	 * {@inheritDoc}
 	 */
 	public synchronized Counter decrease(long dec) {
+		long now = System.currentTimeMillis();
 		try {
 			decrementSum -= dec;
-			return set(counter - dec);
+			return privateSet(counter - dec, now);
 		} finally {
 			manager.callback().counterDecrease(this, dec);
 		}
