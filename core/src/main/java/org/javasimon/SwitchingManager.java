@@ -1,5 +1,6 @@
 package org.javasimon;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -52,6 +53,22 @@ public final class SwitchingManager implements Manager {
 	@Override
 	public List<String> simonNames() {
 		return manager.simonNames();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Collection<String> getSimonNames() {
+		return manager.getSimonNames();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Collection<Simon> getSimons(String pattern) {
+		return manager.getSimons(pattern);
 	}
 
 	/**

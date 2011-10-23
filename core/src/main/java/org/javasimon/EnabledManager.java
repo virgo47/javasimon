@@ -98,9 +98,35 @@ public final class EnabledManager implements Manager {
 		return new ArrayList<String>(allSimons.keySet());
 	}
 
-	// name can be null in case of "anonymous" Simons
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Collection<String> getSimonNames() {
+		return Collections.unmodifiableCollection(allSimons.keySet());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@SuppressWarnings({"unchecked"})
+	@Override
+	public Collection<Simon> getSimons(String pattern) {
+		if (pattern == null) {
+			return Collections.unmodifiableCollection((Collection) allSimons.values());
+		}
+		SimonPattern simonPattern = new SimonPattern(pattern);
+		Collection<Simon> simons = new ArrayList<Simon>();
+		for (Map.Entry<String, AbstractSimon> entry : allSimons.entrySet()) {
+			if (simonPattern.matches(entry.getKey())) {
+				simons.add(entry.getValue());
+			}
+		}
+		return simons;
+	}
 
 	private synchronized Simon getOrCreateSimon(String name, Class<? extends AbstractSimon> simonClass) {
+		// name can be null in case of "anonymous" Simons
 		AbstractSimon simon = null;
 		if (name != null) {
 			if (name.equals(ROOT_SIMON_NAME)) {

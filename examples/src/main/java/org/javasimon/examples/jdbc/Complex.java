@@ -1,5 +1,7 @@
 package org.javasimon.examples.jdbc;
 
+import org.javasimon.jdbc4.*;
+import org.javasimon.jdbc4.Driver;
 import org.javasimon.utils.SimonUtils;
 import org.javasimon.*;
 
@@ -63,11 +65,14 @@ public final class Complex extends Simple {
 	}
 
 	private void printMonitoringInfo() {
-		System.out.println("Simon monitor hierarchy:\n" + SimonUtils.simonTreeString(SimonManager.getRootSimon()));
+//		System.out.println("Simon monitor hierarchy:\n" + SimonUtils.simonTreeString(SimonManager.getRootSimon()));
+		System.out.println(SimonUtils.simonTreeString(SimonManager.getSimon(org.javasimon.jdbc4.Driver.DEFAULT_PREFIX)));
+		Collection<Simon> simons = SimonManager.getSimons(Driver.DEFAULT_PREFIX + ".sql.select.*");
+		System.out.println("simons = " + simons);
 
-		Simon jdbcSimon = SimonManager.getSimon(org.javasimon.jdbc4.Driver.DEFAULT_PREFIX);
-		System.out.println(printJdbcConnectionInfo(jdbcSimon));
-		System.out.println(printJdbcStatementInfo(jdbcSimon));
+//		Simon jdbcSimon = SimonManager.getSimon(org.javasimon.jdbc4.Driver.DEFAULT_PREFIX);
+//		System.out.println(printJdbcConnectionInfo(jdbcSimon));
+//		System.out.println(printJdbcStatementInfo(jdbcSimon));
 	}
 
 	/**

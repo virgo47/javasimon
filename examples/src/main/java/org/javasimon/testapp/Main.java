@@ -1,5 +1,6 @@
 package org.javasimon.testapp;
 
+import org.javasimon.jdbc4.Driver;
 import org.javasimon.testapp.test.Runner;
 import org.javasimon.testapp.mm.AppMXBean;
 import org.javasimon.jmx.SimonMXBeanImpl;
@@ -8,6 +9,7 @@ import org.javasimon.jdbc4.jmx.JdbcMXBean;
 import org.javasimon.jdbc4.jmx.JdbcMXBeanImpl;
 import org.javasimon.SimonManager;
 import org.h2.tools.RunScript;
+import org.javasimon.utils.SimonUtils;
 
 import javax.management.ObjectName;
 import javax.management.MBeanServer;
@@ -51,8 +53,6 @@ public class Main {
 
 	private void setupDatabase() throws Exception {
 		RunScript.execute("jdbc:h2:file:testappdb", "sa", "sa", "examples/testapp.db.sql", null, false);
-
-		Class.forName("org.javasimon.jdbc.Driver");
 		connection = DriverManager.getConnection("jdbc:simon:h2:file:testappdb;simon_prefix=org.javasimon.testapp.jdbc", "sa", "sa");
 	}
 

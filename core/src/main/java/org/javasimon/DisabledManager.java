@@ -1,5 +1,6 @@
 package org.javasimon;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Collections;
 
@@ -76,6 +77,22 @@ public final class DisabledManager implements Manager {
 	 */
 	@Override
 	public List<String> simonNames() {
+		return Collections.emptyList();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Collection<String> getSimonNames() {
+		return Collections.emptyList();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Collection<Simon> getSimons(String pattern) {
 		return Collections.emptyList();
 	}
 

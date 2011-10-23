@@ -5,11 +5,12 @@ import org.javasimon.utils.SimonUtils;
 /**
  * Matches Simon name patterns from configuration. Patterns can contain wildcard (*) that
  * can be placed in following fashions:
+ * <ul>
  * <li>{@code *something} - matches if tested name ends with {@code something}
  * <li>{@code something*} - matches if tested name starts with {@code something}
  * <li>{@code *something*} - matches if tested name contains {@code something} anywhere
  * <li>{@code something*else} - matches if tested name starts with {@code something} and ends with {@code else}
- * <p/>
+ * </ul>
  * Without wildcard exact match is required. Every wildcarded pattern always matches with the same string
  * without wildcards (in other words - wildcards matches with nothing as well).
  */
