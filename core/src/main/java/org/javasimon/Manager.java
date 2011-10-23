@@ -1,5 +1,6 @@
 package org.javasimon;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -57,9 +58,32 @@ public interface Manager {
 	/**
 	 * Returns collection containing names of all existing Simons.
 	 *
+	 * @deprecated after 3.0.0 deprecated in favour of {@link #getSimonNames()}
 	 * @return collection of all Simon names
 	 */
+	@Deprecated
+	// TODO: I always expect this to start with get - another thing - isn't unmodifiable collection good enough?
 	List<String> simonNames();
+
+	/**
+	 * Returns unmodifiable collection containing names of all existing Simons.
+	 *
+	 * @return collection of all Simon names
+	 * @since 3.1
+	 */
+	Collection<String> getSimonNames();
+
+	/**
+	 * Returns collection containing all existing Simons matching the pattern (can be {@code null}).
+	 * Collection is unmodifiable if {@code null} pattern is provided and all Simons are returned,
+	 * otherwise new collection with matching Simons is returned.
+	 *
+	 * @param pattern Simon name pattern (see {@link SimonPattern}
+	 * @return collection of all Simons matching the pattern
+	 * @see SimonPattern to find out more about possible patterns
+	 * @since 3.1
+	 */
+	Collection<Simon> getSimons(String pattern);
 
 	/**
 	 * Removes Simon from the Manager. If Simon has some children it will be replaced
