@@ -58,7 +58,7 @@ public final class StopwatchTestNG {
 		Assert.assertTrue(stopwatch.getLastUsage() >= ts);
 		Assert.assertTrue(stopwatch.getFirstUsage() >= ts);
 		Assert.assertEquals(stopwatch.getCounter(), 1);
-		StopwatchSample sample = (StopwatchSample) stopwatch.sample();
+		StopwatchSample sample = stopwatch.sample();
 		Assert.assertEquals(sample.getCounter(), 1);
 		Assert.assertEquals(sample.getTotal(), 100);
 		Assert.assertEquals(sample.getMean(), 100d);
@@ -75,7 +75,7 @@ public final class StopwatchTestNG {
 		Assert.assertTrue(stopwatch.getLastUsage() >= ts); // usages are NOT clear!
 		Assert.assertTrue(stopwatch.getFirstUsage() >= ts);
 		Assert.assertEquals(stopwatch.getCounter(), 0);
-		sample = (StopwatchSample) stopwatch.sample();
+		sample = stopwatch.sample();
 		Assert.assertEquals(sample.getCounter(), 0);
 		Assert.assertEquals(sample.getTotal(), 0);
 		Assert.assertEquals(sample.getMean(), 0d);
