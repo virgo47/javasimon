@@ -50,6 +50,7 @@ import java.util.regex.Pattern;
  * @author Radovan Sninsky
  * @since 1.0
  */
+@SuppressWarnings({"UnusedDeclaration"})
 public final class SimonUtils {
 	/**
 	 * Number of nanoseconds in one millisecond.
