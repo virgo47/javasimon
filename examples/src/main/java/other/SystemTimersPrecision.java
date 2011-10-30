@@ -29,7 +29,8 @@ public final class SystemTimersPrecision {
 	 */
 	public static void main(String[] args) {
 		for (int round = 1; round <= 5; round++) {
-			Map<Long, Integer> deltaCount = new TreeMap<Long, Integer>();
+			Map<Long, Integer> deltaMsCount = new TreeMap<Long, Integer>();
+			Map<Long, Integer> deltaNsCount = new TreeMap<Long, Integer>();
 			System.out.println("\nRound: " + round);
 			long msChanges = 0;
 			long nsChanges = 0;
@@ -44,22 +45,29 @@ public final class SystemTimersPrecision {
 				long newNs = System.nanoTime();
 				if (newMs != ms) {
 					long delta = newMs - ms;
-					Integer count = deltaCount.get(delta);
+					Integer count = deltaMsCount.get(delta);
 					if (count == null) {
 						count = 0;
 					}
-					deltaCount.put(delta, ++count);
+					deltaMsCount.put(delta, ++count);
 					msChanges++;
 				}
 				if (newNs != ns) {
+					long delta = newNs - ns;
+					Integer count = deltaNsCount.get(delta);
+					if (count == null) {
+						count = 0;
+					}
+					deltaNsCount.put(delta, ++count);
 					nsChanges++;
 				}
 				ms = newMs;
 				ns = newNs;
 			}
 			System.out.println("msChanges: " + msChanges + " during " + (System.currentTimeMillis() - initMs) + " ms");
-			System.out.println("deltaCount = " + deltaCount);
+			System.out.println("deltaMsCount = " + deltaMsCount);
 			System.out.println("nsChanges: " + nsChanges + " during " + (System.nanoTime() - initNs) + " ns");
+			System.out.println("deltaNsCount = " + deltaNsCount);
 
 			// now something else...
 			long msCount = 0;
@@ -98,6 +106,20 @@ public final class SystemTimersPrecision {
 				System.out.println("ns3 = " + ns3 + " (diff: " + (ns3 - ns2) + ")");
 				System.out.println("ns4 = " + ns4 + " (diff: " + (ns4 - ns3) + ")");
 				System.out.println("ns5 = " + ns5 + " (diff: " + (ns5 - ns4) + ")");
+			}
+		}
+
+		System.out.println();
+
+		// last thing - we will count how many nanoTimes in a row will have the same value
+		for (int round = 1; round <= LOOP; round++) {
+			long val = System.nanoTime();
+			int count = 1;
+			while (val == System.nanoTime()) {
+				count++;
+			}
+			if (round % (LOOP / 5) == 0) {
+				System.out.println("Change after " + count + " calls");
 			}
 		}
 	}
