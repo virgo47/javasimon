@@ -10,21 +10,13 @@ This software is distributed under the terms of the FSF Lesser Gnu Public Licens
 
 Check this readme online for updates: http://code.google.com/p/javasimon/wiki/Readme
 
-== Build ==
+For development and building see: http://code.google.com/p/javasimon/wiki/Development
 
-  * Compiled Simon jars depend on:
-    * JDK 1.6 or higher;
-    * Java Simon Spring jar depends on `aopalliance.jar`, `commons-logging-1.1.1.jar`, `org.springframework.aop-3.0.5.RELEASE.jar` and `org.springframework.core-3.0.5.RELEASE.jar` - it is expected that these dependencies will be at least partially satisfied in a typical Spring environment.
-    * Java EE module depends on Java EE 6 libs - these are always part of the EE platform
-  * Use "ant" to build the Simon:
-    * ant uses included `lib` directory;
-    * newly built jars are placed into `build` directory;
-    * new ZIP archive is placed into the main project directory.
-  * Nothing special is needed for Maven build.
+== Getting started ==
 
-== Usage ==
+Easiest way to start with Java Simon is adding Maven depndencies into your Maven project. See http://code.google.com/p/javasimon/wiki/MavenSupport for more.
 
-There are two types of Simons available: `Counter` and `Stopwatch`. Counter tracks single long value, its maximum and minimum. Stopwatch measures time and tracks number of measurements (splits), total time, split minimum and maximum, etc.
+A monitors in Java Simon is called "Simon". There are two types of Simons available: `Counter` and `Stopwatch`. Counter tracks single long value, its maximum and minimum. Stopwatch measures time and tracks number of measurements (splits), total time, split minimum and maximum, etc.
 
 === Simon Manager ===
 
@@ -57,6 +49,8 @@ System.out.println("Total time: " + SimonUtils.presentNanoTime(totalNanos));
 }}}
 
 Or simply print the Simon itself, it has nice `toString` output.
+
+For more check other Resources (lower), you may head to GettingStarted wiki page: http://code.google.com/p/javasimon/wiki/GettingStarted
 
 == Resources ==
 
