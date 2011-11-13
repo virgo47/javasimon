@@ -13,6 +13,7 @@ import org.slf4j.MarkerFactory;
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @author nigel.thomas@york.ac.uk
+ * @since 3.0
  */
 public final class SLF4JLoggingCallback extends CallbackSkeleton {
 	private Logger logger = LoggerFactory.getLogger(SLF4JLoggingCallback.class);
