@@ -1,5 +1,7 @@
 package org.javasimon;
 
+import org.javasimon.utils.SimonUtils;
+
 import java.util.*;
 import java.io.*;
 
@@ -31,11 +33,17 @@ public final class SimonManager {
 
 	private static Manager manager = new SwitchingManager();
 
+	private static final long initNanos;
+	private static final long initMillis;
+
 	/**
 	 * Calls {@link #init()}.
 	 */
 	static {
 		init();
+		// for conversion between nano and millis - see method millisForNano(long)
+		initNanos = System.nanoTime();
+		initMillis = System.currentTimeMillis();
 	}
 
 	/**
@@ -233,5 +241,16 @@ public final class SimonManager {
 	 */
 	public static void warning(String warning, Exception cause) {
 		manager.warning(warning, cause);
+	}
+
+	/**
+	 * Converts nano timer value into millis timestamp compatible with {@link System#currentTimeMillis()}.
+	 *
+	 * @param nanos nano timer value
+	 * @return ms timestamp
+	 * @since 3.1
+	 */
+	public static long millisForNano(long nanos) {
+		return initMillis + (nanos - initNanos) / SimonUtils.NANOS_IN_MILLIS;
 	}
 }

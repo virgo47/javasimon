@@ -51,14 +51,6 @@ package org.javasimon;
  */
 public interface Stopwatch extends Simon {
 	/**
-	 * Adds split time in nanoseconds to total time of the stopwatch.
-	 *
-	 * @param ns split time
-	 * @return this stopwatch
-	 */
-	Stopwatch addTime(long ns);
-
-	/**
 	 * Starts the new split for this stopwatch. This action does not hold any resources and
 	 * if {@link Split} object is collected, no leak occurs. However, active count is increased
 	 * and without stopping the split active count stays increased which may render that
@@ -68,6 +60,25 @@ public interface Stopwatch extends Simon {
 	 * @see org.javasimon.Split#stop()
 	 */
 	Split start();
+
+	/**
+	 * Adds split time in nanoseconds to total time of the stopwatch.
+	 *
+	 * @param ns split time
+	 * @return this stopwatch
+	 */
+	Stopwatch addTime(long ns);
+
+	/**
+	 * Adds {@link Split} to the stopwatch which is useful for aggregation of splits created for other stopwatch.
+	 * Split object should be stopped. Main difference is the callback method called as
+	 * {@link Callback#stopwatchAdd(Stopwatch, Split)} provides split object to the callback.
+	 *
+	 * @param split split object (should be stopped)
+	 * @return this stopwatch
+	 * @since 3.1
+	 */
+	Stopwatch addSplit(Split split);
 
 	/**
 	 * Returns total sum of all split times in nanoseconds.

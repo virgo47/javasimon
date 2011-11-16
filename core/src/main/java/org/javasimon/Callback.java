@@ -98,6 +98,15 @@ public interface Callback {
 	void stopwatchAdd(Stopwatch stopwatch, long ns);
 
 	/**
+	 * Stopwatch add split event.
+	 *
+	 * @param stopwatch modified Stopwatch
+	 * @param split added split object
+	 * @since 3.1
+	 */
+	void stopwatchAdd(Stopwatch stopwatch, Split split);
+
+	/**
 	 * Counter decrease event.
 	 *
 	 * @param counter modified Counter

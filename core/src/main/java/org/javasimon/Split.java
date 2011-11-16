@@ -8,14 +8,28 @@ import org.javasimon.utils.SimonUtils;
  * if the related Stopwatch was disabled when the Split was obtained. The Split can be stopped in any other thread.
  * Split measures real time (based on {@link System#nanoTime()}), it does not measure CPU time.
  *
- * @see Stopwatch
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
+ * @see Stopwatch
  */
 public final class Split {
 	private Stopwatch stopwatch;
 	private long start;
 	private long total;
 	private boolean enabled;
+
+	/**
+	 * Creates a new Split for direct use without {@link Stopwatch}. Stop will not update any Stopwatch, value can
+	 * be added to any chosen Stopwatch using {@link Stopwatch#addSplit(Split)} in conjuction with
+	 * {@link #stop()} like this:
+	 * <pre>Split split = new Split();
+	 * ...
+	 * SimonManager.getStopwatch("codeBlock2.success").addTime(split.stop());</pre>
+	 *
+	 * @since 3.1
+	 */
+	public Split() {
+		start = System.nanoTime();
+	}
 
 	/**
 	 * Creates a new Split for a Stopwatch with a specific timestamp in nanoseconds.
@@ -30,26 +44,28 @@ public final class Split {
 	}
 
 	/**
-	 * Returns the stopwatch that this split is running for.
+	 * Returns the stopwatch that this split is running for. May be null for directly created splits.
 	 *
-	 * @return owning stopwatch
+	 * @return owning stopwatch, may be null
 	 */
 	public Stopwatch getStopwatch() {
 		return stopwatch;
 	}
 
 	/**
-	 * Stops the time split and returns split time. Returns 0 if the Split is stopped already.
+	 * Stops the split, updates the stopwatch and returns this. Returns 0 if the Split is stopped already.
 	 *
-	 * @return split time in ns
+	 * @return this split object
+	 * @since 3.1 - previously returned split time in ns, call additional {@link #runningFor()} for the same result
 	 */
-	public long stop() {
-		if (enabled && start != 0) {
+	public Split stop() {
+		if (stopwatch == null) {
+			total = System.nanoTime() - start;
+		} else if (enabled && start != 0) {
 			total = ((StopwatchImpl) stopwatch).stop(this, start);
 			start = 0;
-			return total;
 		}
-		return 0;
+		return this;
 	}
 
 	/**
@@ -85,6 +101,16 @@ public final class Split {
 	 */
 	public boolean isEnabled() {
 		return enabled;
+	}
+
+	/**
+	 * Returns start nano timer value - can be converted to ms timestamp using {@link SimonManager#millisForNano(long)}.
+	 *
+	 * @return nano timer value when the Split was started
+	 * @since 3.1
+	 */
+	public long getStart() {
+		return start;
 	}
 
 	/**

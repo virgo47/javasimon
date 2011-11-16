@@ -21,7 +21,7 @@ public final class StopwatchTestNG {
 	@Test
 	public void basicStopwatchTest() {
 		Stopwatch stopwatch = SimonManager.getStopwatch(STOPWATCH_NAME);
-		long split = stopwatch.start().stop();
+		long split = stopwatch.start().stop().runningFor();
 		Assert.assertTrue(stopwatch.getTotal() >= 0);
 		Assert.assertEquals(stopwatch.getTotal(), split);
 		Assert.assertEquals(stopwatch.getCounter(), 1);

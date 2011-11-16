@@ -96,6 +96,15 @@ public final class CompositeCallback implements Callback {
 	/**
 	 * {@inheritDoc}
 	 */
+	public void stopwatchAdd(Stopwatch stopwatch, Split split) {
+		for (Callback c : callbacks) {
+			c.stopwatchAdd(stopwatch, split);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public void stopwatchStart(Split split) {
 		for (Callback c : callbacks) {
 			c.stopwatchStart(split);

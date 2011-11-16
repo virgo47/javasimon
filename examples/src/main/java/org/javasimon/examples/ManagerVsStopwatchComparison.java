@@ -44,18 +44,18 @@ public final class ManagerVsStopwatchComparison {
 		Stopwatch stopwatch = SimonManager.getStopwatch(null);
 		Split split = stopwatch.start();
 		getStopwatchTest(name);
-		System.out.println("\ngetStopwatch: " + SimonUtils.presentNanoTime(split.stop()));
+		System.out.println("\ngetStopwatch: " + SimonUtils.presentNanoTime(split.stop().runningFor()));
 
 		tested.reset();
 		split = stopwatch.reset().start();
 		startStopTest(tested);
-		System.out.println("\nstart/stop: " + SimonUtils.presentNanoTime(split.stop()));
+		System.out.println("\nstart/stop: " + SimonUtils.presentNanoTime(split.stop().runningFor()));
 		System.out.println("Stopwatch: " + tested);
 
 		tested.reset();
 		split = stopwatch.reset().start();
 		getStartStopTest(name);
-		System.out.println("\nget+start/stop: " + SimonUtils.presentNanoTime(split.stop()));
+		System.out.println("\nget+start/stop: " + SimonUtils.presentNanoTime(split.stop().runningFor()));
 		System.out.println("Stopwatch: " + tested);
 
 		SimonManager.clear();
@@ -63,7 +63,7 @@ public final class ManagerVsStopwatchComparison {
 		tested.reset();
 		split = stopwatch.reset().start();
 		getStartStopTest(name);
-		System.out.println("\nget+start/stop after SM clear: " + SimonUtils.presentNanoTime(split.stop()));
+		System.out.println("\nget+start/stop after SM clear: " + SimonUtils.presentNanoTime(split.stop().runningFor()));
 		System.out.println("Stopwatch: " + tested);
 	}
 

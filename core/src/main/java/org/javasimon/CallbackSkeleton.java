@@ -61,6 +61,12 @@ public class CallbackSkeleton implements Callback {
 	/**
 	 * {@inheritDoc}
 	 */
+	public void stopwatchAdd(Stopwatch stopwatch, Split split) {
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public void stopwatchStart(Split split) {
 	}
 
