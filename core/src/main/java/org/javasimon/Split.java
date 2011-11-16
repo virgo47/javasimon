@@ -78,7 +78,7 @@ public final class Split {
 		if (total != 0) {
 			return total;
 		}
-		if (enabled) {
+		if (enabled || stopwatch == null) {
 			return System.nanoTime() - start;
 		}
 		return 0;

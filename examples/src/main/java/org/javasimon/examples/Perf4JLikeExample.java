@@ -65,7 +65,9 @@ public class Perf4JLikeExample {
 			SimonManager.getStopwatch("codeBlock2.success").addSplit(split.stop()); //, "Sleep time was < 500 ms");
 //			stopWatch.stop("codeBlock2.success", "Sleep time was < 500 ms");
 		} catch (Exception e) {
-			SimonManager.getStopwatch("codeBlock2.failure").addSplit(split.stop()); //, "Exception was: " + e);
+			// Technically, this is NOT correct usage - however it will work if you forget the split and
+			// don't use it for something else again
+			SimonManager.getStopwatch("codeBlock2.failure").addSplit(split); //, "Exception was: " + e);
 //			stopWatch.stop("codeBlock2.failure", "Exception was: " + e);
 		}
 	}
