@@ -143,7 +143,7 @@ public class SimonStatement implements Statement {
 	 */
 	protected final void finish(Split split) {
 		if (split != null) {
-			SimonManager.getStopwatch(sqlCmdLabel).addTime(split.stop());
+			SimonManager.getStopwatch(sqlCmdLabel).addSplit(split.stop());
 		}
 	}
 

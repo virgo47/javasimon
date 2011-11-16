@@ -34,13 +34,13 @@ public final class SimonNameGenerationTest {
 		Split split = stopwatch.start();
 		tested.reset();
 		getStartStopTest();
-		System.out.println("\nget+start/stop: " + SimonUtils.presentNanoTime(split.stop()));
+		System.out.println("\nget+start/stop: " + SimonUtils.presentNanoTime(split.stop().runningFor()));
 		System.out.println("Stopwatch: " + tested);
 
 		tested.reset();
 		split = stopwatch.reset().start();
 		getStartStopGenerateWithSuffixTest();
-		System.out.println("\nget generated+start/stop: " + SimonUtils.presentNanoTime(split.stop()));
+		System.out.println("\nget generated+start/stop: " + SimonUtils.presentNanoTime(split.stop().runningFor()));
 		System.out.println("Stopwatch: " + tested);
 	}
 

@@ -30,9 +30,9 @@ public final class ManagerTestNG {
 
 	@Test
 	public void testSimonCreation() {
-		Assert.assertEquals(SimonManager.simonNames().size(), FRESH_MANAGER_SIMON_LIST_SIZE);
+		Assert.assertEquals(SimonManager.getSimonNames().size(), FRESH_MANAGER_SIMON_LIST_SIZE);
 		SimonManager.getCounter(ORG_JAVASIMON_TEST_COUNTER).increase();
-		Assert.assertEquals(SimonManager.simonNames().size(), SIMON_COUNT_AFTER_COUNTER_ADDED);
+		Assert.assertEquals(SimonManager.getSimonNames().size(), SIMON_COUNT_AFTER_COUNTER_ADDED);
 
 		Assert.assertTrue(SimonManager.getSimon(ORG_JAVASIMON_TEST_COUNTER).getParent() instanceof UnknownSimon);
 		Assert.assertEquals(SimonManager.getSimon(ORG_JAVASIMON_TEST_COUNTER).getParent().getChildren().size(), 1);

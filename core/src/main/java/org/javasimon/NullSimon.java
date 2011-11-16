@@ -244,6 +244,14 @@ final class NullStopwatch extends NullSimon implements Stopwatch {
 	 * {@inheritDoc}
 	 */
 	@Override
+	public Stopwatch addSplit(Split split) {
+		return this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public Split start() {
 		return new Split(this, 0);
 	}

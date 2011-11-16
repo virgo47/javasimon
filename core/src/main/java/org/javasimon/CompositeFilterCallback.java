@@ -101,6 +101,15 @@ public final class CompositeFilterCallback implements FilterCallback {
 	/**
 	 * {@inheritDoc}
 	 */
+	public void stopwatchAdd(Stopwatch stopwatch, Split split) {
+		if (rulesApplyTo(stopwatch, Event.STOPWATCH_ADD, split.runningFor())) {
+			callback.stopwatchAdd(stopwatch, split);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public void stopwatchStart(Split split) {
 		if (rulesApplyTo(split.getStopwatch(), Event.STOPWATCH_START, split)) {
 			callback.stopwatchStart(split);
@@ -208,7 +217,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	}
 
 	private boolean rulesApplyTo(Simon simon, Event checkedEvent, Object... params) {
-		// onlyl if event rules are empty, check rules for ALL as a fallback
+		// only if event rules are empty, check rules for ALL as a fallback
 		if (rules.get(checkedEvent).size() == 0) {
 			return checkRules(simon, Event.ALL, params);
 		}

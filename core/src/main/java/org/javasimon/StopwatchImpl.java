@@ -29,8 +29,6 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 
 	private long last;
 
-	private long firstUsageNanos;
-
 	private double mean; // used to calculate statistics
 	private double mean2; // used to calculate statistics
 
@@ -47,11 +45,11 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Stopwatch addTime(long ns) {
-		long nowNanos = System.nanoTime();
 		synchronized (this) {
 			if (enabled) {
-				updateUsages(nowNanos);
+				updateUsages();
 				addSplit(ns);
 				manager.callback().stopwatchAdd(this, ns);
 			}
@@ -62,6 +60,22 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
+	public Stopwatch addSplit(Split split) {
+		synchronized (this) {
+			if (enabled) {
+				updateUsages();
+				addSplit(split.runningFor());
+				manager.callback().stopwatchAdd(this, split);
+			}
+			return this;
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public Split start() {
 		long nowNanos = System.nanoTime();
 		synchronized (this) {
@@ -110,6 +124,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public synchronized Stopwatch reset() {
 		total = 0;
 		counter = 0;
@@ -150,6 +165,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public synchronized double getMean() {
 		return mean;
 	}
@@ -157,6 +173,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public synchronized double getVarianceN() {
 		if (counter == 0) {
 			return 0;
@@ -167,6 +184,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public synchronized double getVariance() {
 		if (counter == 0) {
 			return 0;
@@ -181,6 +199,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public synchronized double getStandardDeviation() {
 		return Math.sqrt(getVarianceN());
 	}
@@ -188,6 +207,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public synchronized long getTotal() {
 		return total;
 	}
@@ -195,6 +215,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public long getLast() {
 		return last;
 	}
@@ -202,6 +223,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public synchronized long getCounter() {
 		return counter;
 	}
@@ -209,6 +231,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public synchronized long getMax() {
 		return max;
 	}
@@ -216,6 +239,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public synchronized long getMin() {
 		return min;
 	}
@@ -223,6 +247,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public synchronized long getMaxTimestamp() {
 		return maxTimestamp;
 	}
@@ -230,6 +255,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public synchronized long getMinTimestamp() {
 		return minTimestamp;
 	}
@@ -237,6 +263,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public long getActive() {
 		return active;
 	}
@@ -244,6 +271,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public long getMaxActive() {
 		return maxActive;
 	}
@@ -251,6 +279,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public long getMaxActiveTimestamp() {
 		return maxActiveTimestamp;
 	}
@@ -258,6 +287,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public synchronized StopwatchSample sampleAndReset() {
 		StopwatchSample sample = sample();
 		reset();
@@ -267,6 +297,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public synchronized StopwatchSample sample() {
 		StopwatchSample sample = new StopwatchSample();
 		sample.setTotal(total);
@@ -288,16 +319,26 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	}
 
 	/**
-	 * Updates usage statistics.
+	 * Updates usage statistics without using {@link System#currentTimeMillis()} if client code already has
+	 * current nano timer value.
 	 *
 	 * @param nowNanos current value of nano timer
 	 */
 	private void updateUsages(long nowNanos) {
+		lastUsage = SimonManager.millisForNano(nowNanos);
 		if (firstUsage == 0) {
-			firstUsage = System.currentTimeMillis();
-			firstUsageNanos = nowNanos;
+			firstUsage = lastUsage;
 		}
-		lastUsage = firstUsage + (nowNanos - firstUsageNanos) / SimonUtils.NANOS_IN_MILLIS;
+	}
+
+	/**
+	 * Updates usage statistics. If current nano timer value is available use {@link #updateUsages(long)} instead.
+	 */
+	private void updateUsages() {
+		lastUsage = System.currentTimeMillis();
+		if (firstUsage == 0) {
+			firstUsage = lastUsage;
+		}
 	}
 
 	/**
