@@ -73,6 +73,11 @@ public interface Stopwatch extends Simon {
 	 * Adds {@link Split} to the stopwatch which is useful for aggregation of splits created for other stopwatch.
 	 * Split object should be stopped. Main difference is the callback method called as
 	 * {@link Callback#stopwatchAdd(Stopwatch, Split)} provides split object to the callback.
+	 * <p/>
+	 * Usage examples:
+	 * <pre>Split split = new Split(); // no stopwatch needed
+...
+someStopwatch.addSplit(split.stop()); // you may omit stop(), if you does not use the split after this point</pre>
 	 *
 	 * @param split split object (should be stopped)
 	 * @return this stopwatch

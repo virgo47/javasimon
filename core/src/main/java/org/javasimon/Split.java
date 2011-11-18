@@ -12,39 +12,64 @@ import org.javasimon.utils.SimonUtils;
  * @see Stopwatch
  */
 public final class Split {
-	private Stopwatch stopwatch;
-	private long start;
-	private long total;
-	private boolean enabled;
+	private volatile Stopwatch stopwatch;
+	private volatile long start;
+	private volatile long total;
+	private volatile boolean enabled;
+	private volatile boolean running;
 
 	/**
-	 * Creates a new Split for direct use without {@link Stopwatch}. Stop will not update any Stopwatch, value can
-	 * be added to any chosen Stopwatch using {@link Stopwatch#addSplit(Split)} in conjuction with
+	 * Creates a new Split for direct use without {@link Stopwatch} ("anonymous split"). Stop will not update any Stopwatch,
+	 * value can be added to any chosen Stopwatch using {@link Stopwatch#addSplit(Split)} in conjuction with
 	 * {@link #stop()} like this:
+	 *
 	 * <pre>Split split = new Split();
 	 * ...
 	 * SimonManager.getStopwatch("codeBlock2.success").addTime(split.stop());</pre>
 	 *
+	 * If the split is not needed afterwards calling {@link #stop()} is not necessary:
+	 *
+	 * <pre>Split split = new Split();
+	 * ...
+	 * SimonManager.getStopwatch("codeBlock2.success").addTime(split);</pre>
+	 *
 	 * @since 3.1
 	 */
 	public Split() {
+		enabled = true;
+		running = true;
 		start = System.nanoTime();
 	}
 
 	/**
-	 * Creates a new Split for a Stopwatch with a specific timestamp in nanoseconds.
+	 * Creates a new Split for an enabled Stopwatch with a specific timestamp in nanoseconds - <b>called internally only</b>.
 	 *
-	 * @param stopwatch owning Stopwatch
+	 * @param stopwatch owning Stopwatch (enabled)
 	 * @param start start timestamp in nanoseconds
 	 */
 	Split(Stopwatch stopwatch, long start) {
+		assert start > 0 : "start ns value should not be 0 in this constructor!";
+		assert stopwatch.isEnabled() : "stopwatch must be enabled in this constructor!";
+
 		this.stopwatch = stopwatch;
-		enabled = stopwatch.isEnabled();
 		this.start = start;
+		enabled = true;
+		running = true;
 	}
 
 	/**
-	 * Returns the stopwatch that this split is running for. May be null for directly created splits.
+	 * Creates a new Split for a disabled Stopwatch - <b>called internally only</b>.
+	 *
+	 * @param stopwatch owning Stopwatch (disabled)
+	 */
+	Split(Stopwatch stopwatch) {
+		assert !(stopwatch.isEnabled()) : "stopwatch must be disabled in this constructor!";
+
+		this.stopwatch = stopwatch;
+	}
+
+	/**
+	 * Returns the stopwatch that this split is running for. May be null for anonymous splits (directly created).
 	 *
 	 * @return owning stopwatch, may be null
 	 */
@@ -53,17 +78,20 @@ public final class Split {
 	}
 
 	/**
-	 * Stops the split, updates the stopwatch and returns this. Returns 0 if the Split is stopped already.
+	 * Stops the split, updates the stopwatch and returns this. Subsequent calls do not change the state of the split.
 	 *
 	 * @return this split object
 	 * @since 3.1 - previously returned split time in ns, call additional {@link #runningFor()} for the same result
 	 */
 	public Split stop() {
-		if (stopwatch == null) {
+		if (!running) {
+			return this;
+		}
+		running = false;
+		if (stopwatch == null) { // always enabled
 			total = System.nanoTime() - start;
-		} else if (enabled && start != 0) {
+		} else if (enabled) {
 			total = ((StopwatchImpl) stopwatch).stop(this, start);
-			start = 0;
 		}
 		return this;
 	}
@@ -75,10 +103,10 @@ public final class Split {
 	 * @return current running nano-time of the split
 	 */
 	public long runningFor() {
-		if (total != 0) {
+		if (!running) {
 			return total;
 		}
-		if (enabled || stopwatch == null) {
+		if (enabled) {
 			return System.nanoTime() - start;
 		}
 		return 0;
@@ -105,8 +133,9 @@ public final class Split {
 
 	/**
 	 * Returns start nano timer value - can be converted to ms timestamp using {@link SimonManager#millisForNano(long)}.
+	 * Returns 0 if the split is not enabled (started for disabled Stopwatch).
 	 *
-	 * @return nano timer value when the Split was started
+	 * @return nano timer value when the Split was started or 0 if the split is not enabled
 	 * @since 3.1
 	 */
 	public long getStart() {
@@ -123,9 +152,9 @@ public final class Split {
 		if (!enabled) {
 			return "Split created from disabled Stopwatch";
 		}
-		if (total == 0) {
-			return "Running split for Stopwatch '" + stopwatch.getName() + "': " + SimonUtils.presentNanoTime(runningFor());
+		if (running) {
+			return "Running split" + (stopwatch != null ? " for Stopwatch '" + stopwatch.getName() + "': " : ": ") + SimonUtils.presentNanoTime(runningFor());
 		}
-		return "Stopped split for Stopwatch '" + stopwatch.getName() + "': " + SimonUtils.presentNanoTime(total);
+		return "Stopped split" + (stopwatch != null ? "for Stopwatch '" + stopwatch.getName() + "': " : ": ") + SimonUtils.presentNanoTime(total);
 	}
 }

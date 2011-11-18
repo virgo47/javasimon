@@ -253,7 +253,7 @@ final class NullStopwatch extends NullSimon implements Stopwatch {
 	 */
 	@Override
 	public Split start() {
-		return new Split(this, 0);
+		return new Split(this);
 	}
 
 	/**

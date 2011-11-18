@@ -21,8 +21,7 @@ public final class CallbackExample {
 	public static void main(String[] args) {
 		SimonManager.callback().addCallback(new CallbackSkeleton() {
 			public void stopwatchStart(Split split) {
-				System.out.println("Stopwatch " + split.getStopwatch().getName()
-					+ " has just been started.");
+				System.out.println("Stopwatch " + split.getStopwatch().getName() + " has just been started.");
 			}
 
 			public void stopwatchStop(Split split) {
@@ -40,7 +39,7 @@ public final class CallbackExample {
 		}
 		split.stop();
 
-		System.out.println("\"Illegal\" stop is ignored, hope you like it (and it returns 0).");
+		System.out.println("\"Illegal\" stop does nothing, state is preserved.");
 		split.stop();
 	}
 }
