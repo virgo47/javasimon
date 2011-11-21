@@ -99,7 +99,7 @@ public interface Manager {
 	void clear();
 
 	/**
-	 * Accesses default composite callback of this manager. Callback can't be removed or replaced,
+	 * Accesses default composite callback of this manager. Default callback can't be removed or replaced,
 	 * only other callbacks can be added or removed. To remove all callbacks use
 	 * {@link org.javasimon.utils.SimonUtils#removeAllCallbacks(Manager)}.
 	 *

@@ -1,20 +1,21 @@
 <body>
 <p>
-Java Simon API provides support for implementing an internal application performance monitoring.
-Monitors (called Simons) have to be incorporated directly into the code and API provides additional
-management features for these monitors.
+	Java Simon API provides support for implementing an internal application performance monitoring.
+	Monitors (called Simons) have to be incorporated directly into the code and API provides additional
+	management features for these monitors.
 </p>
+
 <p>
-Java Simon is not a tool for profiling in the first place - it is rather the library that helps to
-implement performance (and other metrics) monitoring directly in the application as the integral part
-of it. Measured metrics can be sampled and stored persistently for later processing, trend analyzing,
-problem tracking, etc. It helps to give an additional perspective (history) to the application.
+	Java Simon is not a tool for profiling in the first place - it is rather a library that helps to
+	implement performance (and other metrics) monitoring directly in the application as the integral part
+	of it. Measured metrics can be sampled and stored persistently for later processing, trend analyzing,
+	problem tracking, etc. It helps to give an additional perspective (history) to the application.
 </p>
 
 <h2>Using Stopwatch</h2>
 
 <p>
-{@link org.javasimon.Stopwatch} is probably the most often used monitor. Simple use case looks like this:
+	{@link org.javasimon.Stopwatch} is probably the most often used monitor. Simple use case looks like this:
 </p>
 <pre>
     Stopwatch stopwatch = SimonManager.getStopwatch("stopwatch-name");
@@ -24,21 +25,90 @@ problem tracking, etc. It helps to give an additional perspective (history) to t
 </pre>
 
 <p>
-Monitors are always obtained from the {@link org.javasimon.Manager} - in this case so called
-"default manager" is used via convenient utility class {@link org.javasimon.SimonManager}.
-Every time the same name of the monitor is requested the same monitor is returned.
+	Monitors are always obtained from the {@link org.javasimon.Manager} - in this case so called
+	"default manager" is used via convenient utility class {@link org.javasimon.SimonManager}.
+	Every time the same name of the monitor is requested the same monitor is returned.
 </p>
+
 <p>
-If there is no need for explicit {@code stopwatch} reference first two lines can be shortened to:
+	If there is no need for explicit {@code stopwatch} reference first two lines can be shortened to:
 </p>
 <pre>
     Split split = SimonManager.getStopwatch("stopwatch-name").start();
 </pre>
 
 <p>
-Instead of stopping the stopwatch directly, there is the {@link org.javasimon.Split} object
-that represents the measured time-span. Client code has to keep this reference in order to
-stop the measuring, but it also allows for multiple splits measured in parallel without binding
-them to specific threads.
+	Instead of stopping the stopwatch directly, there is the {@link org.javasimon.Split} object
+	that represents the measured time-span. Client code has to keep this reference in order to
+	stop the measuring, but it also allows for multiple splits measured in parallel without binding
+	them to specific threads.
+</p>
+
+<h2>How are Simons organized</h2>
+
+<p>
+	Simon names form a hierarchy similar to Java Logging API. It is possible to disable whole subtrees of Simons
+	to minimiaze performance penalty (mostly neglectable) or use {@link org.javasimon.utils.SimonUtils} to
+	perform other operations on the hierarchy (print Simon tree, aggregations, recursive Simon reset, ...).
+</p>
+
+<p>
+	Example of the Simon tree (partial) printed with the help of
+	{@link org.javasimon.utils.SimonUtils#simonTreeString(org.javasimon.Simon)}:
+</p>
+<pre>
+jdbc(+): Unknown Simon:  [org.javasimon.jdbc INHERIT]
+  conn(+): Simon Stopwatch: total 41.4 ms, counter 1, max 41.4 ms, min 41.4 ms, mean 41.4 ms [org.javasimon.jdbc.conn INHERIT]
+	commits(+): Simon Counter: counter=2, max=2, min=undef [org.javasimon.jdbc.conn.commits INHERIT]
+	rollbacks(+): Simon Counter: counter=0, max=undef, min=undef [org.javasimon.jdbc.conn.rollbacks INHERIT]
+  stmt(+): Simon Stopwatch: total 26.6 ms, counter 3, max 13.7 ms, min 3.81 ms, mean 8.88 ms [org.javasimon.jdbc.stmt INHERIT]
+  sql(+): Unknown Simon:  [org.javasimon.jdbc.sql INHERIT]
+	insert(+): Simon Stopwatch: total 1.18 ms, counter 2, max 1.02 ms, min 161 us, mean 592 us [org.javasimon.jdbc.sql.insert INHERIT]
+	  125069376(+): Simon Stopwatch: total 1.18 ms, counter 2, max 1.02 ms, min 161 us, mean 592 us [org.javasimon.jdbc.sql.insert.125069376 INHERIT "insert into foo values (?, ?)"]
+	call(+): Simon Stopwatch: total 8.50 ms, counter 1, max 8.50 ms, min 8.50 ms, mean 8.50 ms [org.javasimon.jdbc.sql.call INHERIT]
+	  519218118(+): Simon Stopwatch: total 8.50 ms, counter 1, max 8.50 ms, min 8.50 ms, mean 8.50 ms [org.javasimon.jdbc.sql.call.519218118 INHERIT "call foo_proc(?, ?)"]
+	select(+): Simon Stopwatch: total 13.1 ms, counter 1, max 13.1 ms, min 13.1 ms, mean 13.1 ms [org.javasimon.jdbc.sql.select INHERIT]
+	  -402642902(+): Simon Stopwatch: total 13.1 ms, counter 1, max 13.1 ms, min 13.1 ms, mean 13.1 ms [org.javasimon.jdbc.sql.select.-402642902 INHERIT "select * from foo"]
+		next(+): Simon Stopwatch: total 46.5 us, counter 4, max 32.4 us, min 4.27 us, mean 11.6 us [org.javasimon.jdbc.sql.select.-402642902.next INHERIT]
+  rset(+): Simon Stopwatch: total 195 us, counter 1, max 195 us, min 195 us, mean 195 us [org.javasimon.jdbc.rset INHERIT]
+</pre>
+
+<p>
+	Hierarchy is held by {@link org.javasimon.Manager} that is most easily accessed via convenient static class
+	{@link org.javasimon.SimonManager} (but there can be more managers, it is up to the user how to organize them).
+	Manager provides access to the Simons (one manager, one hierarchy) and other management operations related
+	to one set of Simons. Whole manager can be disabled which is even stronger form of disabled Simon (with close
+	to no performance overhead - see DisabledEnabledComparison from example classes).
+</p>
+
+<h2>Support components</h2>
+
+<p>
+	Being able to put a Stopwatch anywhere is powerful because one is not limited to method beginning or end,
+	split allows to stop the stopwatch in a different thread, etc. Drawback is that the code might get poluted
+	with various Simon code. Simon API provides a few tools how to get results quickly with minimal to no coding:
+</p>
+
+<ul>
+	<li>
+		{@link org.javasimon.aop.Monitored} annotation allows to put aspect around method or all methods in a class,
+		there is Spring integration that uses this annotation (Spring AOP and/or AspectJ).
+	</li>
+	<li>
+		{@link org.javasimon.javaee.SimonServletFilter} measures HTTP requests and provides simple way how to
+		display tree of all Simons or reset the Manager.
+	</li>
+	<li>
+		JDBC4 proxy driver is provided - performance monitoring of nearly any relevant JDBC API call is performed
+		after a simple JDBC URL change (just add {@code simon:} in front of the real name of the driver - so it will look
+		something like {@code jdbc:simon:h2:...}). When combined with Servlet filter, results are available easily as
+		a Simon tree dump.
+	</li>
+</ul>
+
+<p>
+	In addition to this Simon provides JMX support (see {@link org.javasimon.jmx}) or simple EJB intercpetor.
+	It is also very easy to hook onto Simon events (create/destroy of the Simon, measuring, start/stop, ...) via
+	{@link org.javasimon.Callback} facility (set up on the Manager object).
 </p>
 </body>

@@ -12,7 +12,6 @@ import java.sql.SQLException;
  * Class DeleteAction.
  *
  * @author Radovan Sninsky
- * @version $Revision$ $ Date: $
  * @since 2.0
  */
 public class DeleteAction implements Action {

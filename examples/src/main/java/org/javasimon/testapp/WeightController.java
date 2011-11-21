@@ -9,7 +9,6 @@ import java.util.*;
  * Class WeightController.
  *
  * @author Radovan Sninsky
- * @version $Revision$ $Date$
  * @since 2.0
  */
 public class WeightController implements Controller {

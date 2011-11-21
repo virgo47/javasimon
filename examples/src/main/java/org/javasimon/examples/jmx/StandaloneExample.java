@@ -17,8 +17,7 @@ import java.lang.management.ManagementFactory;
  * useful for studying purposes. Code is also commented
  *
  * @author Radovan Sninsky
- * @version $Revision $ $Date $
- * @since 2
+ * @since 2.0
  */
 public class StandaloneExample {
 

@@ -29,7 +29,6 @@ import java.sql.Connection;
  * {@code java -cp -Djavasimon.config.file=examples/testapp-config.xml}
  *
  * @author Radovan Sninsky
- * @version $Revision$ $ Date: $
  * @since 2.0
  */
 public class Main {

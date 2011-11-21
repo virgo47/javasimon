@@ -9,18 +9,17 @@ import java.beans.ConstructorProperties;
  * <p>
  * Example: Following example shows usage of SimonInfo object to find out Simon type through jmx.
  * <pre>
-System.out.println("List of stopwatch Simons:");
-for (SimonInfo si : simon.getSimonInfos()) {
-	if (si.getType().equals(SimonInfo.STOPWATCH)) {
-		System.out.println("  " + si.getName());
-	}
-}</pre>
+ * System.out.println("List of stopwatch Simons:");
+ * for (SimonInfo si : simon.getSimonInfos()) {
+ * if (si.getType().equals(SimonInfo.STOPWATCH)) {
+ * System.out.println("  " + si.getName());
+ * }
+ * }</pre>
  *
  * @author Radovan Sninsky
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @version $Revision$ $Date$
- * @since 2
  * @see SimonMXBean#getSimonInfos
+ * @since 2.0
  */
 public final class SimonInfo {
 	/**
@@ -43,6 +42,7 @@ public final class SimonInfo {
 
 	/**
 	 * Class constructor due to JMX requirements.
+	 *
 	 * @param name Simon name
 	 * @param type Simon type ({@code 'stopwatch'} or {@code 'counter'})
 	 */
@@ -54,6 +54,7 @@ public final class SimonInfo {
 
 	/**
 	 * Returns fully hierarchical name of Simon.
+	 *
 	 * @return Simon name
 	 */
 	public String getName() {
@@ -62,7 +63,7 @@ public final class SimonInfo {
 
 	/**
 	 * Returns Simon type, either {@code 'stopwatch'} or {@code 'counter'} strings.
-	 * 
+	 *
 	 * @return Simon type
 	 * @see org.javasimon.jmx.SimonInfo#UNKNOWN
 	 * @see org.javasimon.jmx.SimonInfo#STOPWATCH

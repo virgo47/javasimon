@@ -8,7 +8,6 @@ import org.javasimon.utils.SimonUtils;
  * HelloUniverse is just a bit more than HelloWorld.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @version $Revision$ $Date$
  * @since 3.0
  */
 public final class HelloUniverse {

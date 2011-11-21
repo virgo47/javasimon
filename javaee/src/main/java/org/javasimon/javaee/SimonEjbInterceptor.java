@@ -11,7 +11,6 @@ import javax.interceptor.InvocationContext;
  * Simon EJB Interceptor measuring EJB method execution time.
  *
  * @author <a href="mailto:richard.richter@siemens-enterprise.com">Richard "Virgo" Richter</a>
- * @version $Revision$ $Date$
  * @since 2.3
  */
 public class SimonEjbInterceptor {

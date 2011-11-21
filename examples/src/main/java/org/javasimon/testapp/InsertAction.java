@@ -17,7 +17,6 @@ import java.util.Iterator;
  * Class InsertAction.
  *
  * @author Radovan Sninsky
- * @version $Revision$ $Date$
  * @since 2.0
  */
 public class InsertAction implements Action {
