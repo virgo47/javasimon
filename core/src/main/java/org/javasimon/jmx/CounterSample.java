@@ -14,8 +14,7 @@ import java.beans.ConstructorProperties;
  * </pre>
  *
  * @author Radovan Sninsky
- * @version $Revision$ $Date$
- * @since 2
+ * @since 2.0
  */
 public final class CounterSample extends org.javasimon.CounterSample {
 
@@ -24,6 +23,9 @@ public final class CounterSample extends org.javasimon.CounterSample {
 	 * from composite data object.
 	 *
 	 * @param note note (provided optionally)
+	 * @param firstUsage first usage ms timestamp
+	 * @param lastUsage last usage ms timestamp
+	 * @param lastReset last reset ms timestamp
 	 * @param counter actual counter value
 	 * @param min minimal counter value
 	 * @param max maximal counter value

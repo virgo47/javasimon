@@ -9,8 +9,7 @@ import org.javasimon.StopwatchSample;
  * of Simons) plus some usefull util functions.
  *
  * @author Radovan Sninsky
- * @version $Revision$ $Date$
- * @since 2
+ * @since 2.0
  */
 public interface SimonMXBean {
 

@@ -8,7 +8,6 @@ import java.sql.SQLException;
  * StoredProcedures for H2.
  *
  * @author Radovan Sninsky
- * @version $ Revision $ $ Date $
  * @since 1.0
  */
 public class StoredProcedures {

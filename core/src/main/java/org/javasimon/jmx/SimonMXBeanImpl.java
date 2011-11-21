@@ -11,11 +11,10 @@ import java.util.Collection;
  * Most methods are implemented by calling the {@link Manager}.
  *
  * @author Radovan Sninsky
- * @version $Revision$ $Date$
  * @see Manager
  * @see Simon
  * @see SimonUtils
- * @since 2
+ * @since 2.0
  */
 public class SimonMXBeanImpl implements SimonMXBean {
 	private Manager manager;

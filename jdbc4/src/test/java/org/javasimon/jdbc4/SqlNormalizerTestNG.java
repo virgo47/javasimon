@@ -11,7 +11,6 @@ import java.util.Arrays;
  *
  * @author Radovan Sninsky
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @version $Revision: 192 $ $Date: 2009-03-22 01:03:48 +0100 (Sun, 22 Mar 2009) $
  * @since 2.4
  */
 public final class SqlNormalizerTestNG {

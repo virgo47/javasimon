@@ -16,7 +16,6 @@ import java.util.Random;
  * </p>
  *
  * @author Radovan Sninsky
- * @version $Revision$ $Date$
  * @since 1.0
  */
 public class Simple {

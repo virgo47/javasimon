@@ -6,7 +6,6 @@ import java.util.Iterator;
  * Tuple generator.
  *
  * @author Radovan Sninsky
- * @version $Revision: $ $Date: $
  * @since 2.0
  * @see Tuple
  */

@@ -16,7 +16,6 @@ import java.io.IOException;
  * Trieda ExampleClient.
  *
  * @author Radovan Sninsky
- * @version $Revision $ $Date $
  * @since 1.0
  */
 public class MonitoringClient {

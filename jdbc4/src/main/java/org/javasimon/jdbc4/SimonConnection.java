@@ -29,7 +29,6 @@ import java.util.Properties;
  * </ul>
  *
  * @author Radovan Sninsky
- * @version $Revision: 184 $ $Date: 2009-02-26 23:38:29 +0100 (Thu, 26 Feb 2009) $
  * @see java.sql.Connection
  * @since 2.4
  */

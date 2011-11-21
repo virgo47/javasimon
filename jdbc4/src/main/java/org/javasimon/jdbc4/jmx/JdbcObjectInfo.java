@@ -8,8 +8,7 @@ import java.beans.ConstructorProperties;
  * through jmx.
  *
  * @author Radovan Sninsky
- * @version $Revision$ $Date$
- * @since 2
+ * @since 2.0
  */
 public class JdbcObjectInfo {
 

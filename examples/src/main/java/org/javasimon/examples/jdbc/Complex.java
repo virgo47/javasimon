@@ -12,7 +12,6 @@ import java.sql.*;
  * Complicated example.
  *
  * @author Radovan Sninsky
- * @version $Revision$ $Date$
  * @since 1.0
  */
 public final class Complex extends Simple {

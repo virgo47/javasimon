@@ -128,7 +128,6 @@
  *
  * @author Radovan Sninsky
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @version $Revision: $ $Date: $
  * @since 2.4
  */
 package org.javasimon.jdbc4;

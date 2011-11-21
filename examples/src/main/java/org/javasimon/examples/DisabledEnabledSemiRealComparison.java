@@ -7,6 +7,7 @@ import org.javasimon.Split;
 
 /**
  * DisabledEnabledComparison.
+ * TODO: rework for current benchmark framework, if neccessary, use different manager
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */

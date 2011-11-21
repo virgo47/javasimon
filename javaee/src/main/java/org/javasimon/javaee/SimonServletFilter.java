@@ -23,7 +23,6 @@ import java.util.List;
  * </ul>
  *
  * @author Richard Richter
- * @version $Revision$ $Date$
  * @since 2.3
  */
 public class SimonServletFilter implements Filter {

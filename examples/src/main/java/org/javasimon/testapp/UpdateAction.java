@@ -12,7 +12,6 @@ import java.sql.Connection;
  * Class UpdateAction.
  *
  * @author Radovan Sninsky
- * @version $Revision$ $Date$
  * @since 2.0
  */
 public class UpdateAction implements Action {

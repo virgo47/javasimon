@@ -10,7 +10,6 @@ import java.util.List;
  * DAO (Data Access Object) for Tuple data object.
  *
  * @author Radovan Sninsky
- * @version $Revision$ $Date$
  * @since 1.0
  */
 public class TupleDAO {

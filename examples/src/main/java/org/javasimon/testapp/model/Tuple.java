@@ -7,7 +7,6 @@ import java.util.Date;
  * Tuple data object.
  *
  * @author Radovan Sninsky
- * @version $Revision: $ $Date: $
  * @since 2.0
  * @see Tuples
  */

@@ -8,7 +8,6 @@ import java.util.Random;
  * Class UniformRandomTimer.
  *
  * @author Radovan Sninsky
- * @version $Revision$ $ Date: $
  * @since 2.0
  */
 public class UniformRandomTimer implements Timer {

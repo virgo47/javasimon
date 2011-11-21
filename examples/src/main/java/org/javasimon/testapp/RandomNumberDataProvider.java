@@ -8,7 +8,6 @@ import java.util.Random;
  * Class InsertDataProvider.
  *
  * @author Radovan Sninsky
- * @version $Revision$ $ Date: $
  * @since 2.0
  */
 public class RandomNumberDataProvider implements DataProvider {
