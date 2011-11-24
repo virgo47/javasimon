@@ -155,6 +155,6 @@ public final class Split {
 		if (running) {
 			return "Running split" + (stopwatch != null ? " for Stopwatch '" + stopwatch.getName() + "': " : ": ") + SimonUtils.presentNanoTime(runningFor());
 		}
-		return "Stopped split" + (stopwatch != null ? "for Stopwatch '" + stopwatch.getName() + "': " : ": ") + SimonUtils.presentNanoTime(total);
+		return "Stopped split" + (stopwatch != null ? " for Stopwatch '" + stopwatch.getName() + "': " : ": ") + SimonUtils.presentNanoTime(total);
 	}
 }

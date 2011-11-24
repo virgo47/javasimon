@@ -53,7 +53,7 @@ public class SimonMXBeanImpl implements SimonMXBean {
 	 * {@inheritDoc}
 	 */
 	public final String[] getSimonNames() {
-		return manager.simonNames().toArray(new String[manager.simonNames().size()]);
+		return (String[]) manager.getSimonNames().toArray();
 	}
 
 	/**
@@ -68,15 +68,15 @@ public class SimonMXBeanImpl implements SimonMXBean {
 	 * {@inheritDoc}
 	 */
 	public final SimonInfo[] getSimonInfos() {
-		Collection<String> sn = manager.simonNames();
-		SimonInfo[] si = new SimonInfo[sn.size()];
+		Collection<String> simonNames = manager.getSimonNames();
+		SimonInfo[] simonInfo = new SimonInfo[simonNames.size()];
 		int i = 0;
-		for (String name : sn) {
+		for (String name : simonNames) {
 			Simon s = manager.getSimon(name);
-			si[i++] = new SimonInfo(name, s instanceof Stopwatch ? SimonInfo.STOPWATCH :
+			simonInfo[i++] = new SimonInfo(name, s instanceof Stopwatch ? SimonInfo.STOPWATCH :
 				s instanceof Counter ? SimonInfo.COUNTER : SimonInfo.UNKNOWN);
 		}
-		return si;
+		return simonInfo;
 	}
 
 	/**
