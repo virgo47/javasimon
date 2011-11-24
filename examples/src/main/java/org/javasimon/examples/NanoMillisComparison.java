@@ -1,8 +1,11 @@
 package org.javasimon.examples;
 
+import org.javasimon.Simon;
 import org.javasimon.SimonManager;
 import org.javasimon.Stopwatch;
+import org.javasimon.utils.AbstractDataCollector;
 import org.javasimon.utils.BenchmarkUtils;
+import org.javasimon.utils.GoogleChartGenerator;
 
 /**
  * Various timer calles compared along with stopwatch start/stop calls.
@@ -10,7 +13,7 @@ import org.javasimon.utils.BenchmarkUtils;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public final class NanoMillisComparison {
-	private static final int LOOP = 10000000;
+	private static final int LOOP = 1000000;
 
 	private NanoMillisComparison() {
 	}
@@ -21,7 +24,7 @@ public final class NanoMillisComparison {
 	 * @param args command line arguments
 	 */
 	public static void main(String[] args) {
-		BenchmarkUtils.run(2, 5,
+		Stopwatch[] results = BenchmarkUtils.run(2, 5,
 			new BenchmarkUtils.Task("empty") {
 				@Override
 				public void perform() throws Exception {
@@ -80,16 +83,12 @@ public final class NanoMillisComparison {
 			}
 		);
 
-		// TODO: add the following to BenchmarkUitls as well
-//		AbstractDataCollector collector = null;
-//			if (collector == null) {
-//				 collector = new AbstractDataCollector(empty, millis, nanos, assignMs, assignNs, stopwatch) {
-//					 public double obtainValue(Simon simon) {
-//						 return ((Stopwatch) simon).getTotal();
-//					 }
-//				 };
-//			}
-//			collector.collect();
-//		System.out.println("\nGoogle Chart:\n" + GoogleChartGenerator.barChart(collector, "10M-loop duration", 1000000, "ms"));
+		AbstractDataCollector collector = new AbstractDataCollector(results) {
+			public double obtainValue(Simon simon) {
+				return ((Stopwatch) simon).getTotal();
+			}
+		};
+		collector.collect();
+		System.out.println("\nGoogle Chart:\n" + GoogleChartGenerator.barChart(collector, "10M-loop duration", 1000000, "ms"));
 	}
 }

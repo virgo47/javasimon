@@ -4,12 +4,9 @@ import org.javasimon.SimonManager;
 
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
-import javax.management.ObjectName;
-import javax.management.MBeanServer;
-import javax.management.MalformedObjectNameException;
+import javax.management.*;
 import java.lang.management.ManagementFactory;
 
 /**
@@ -21,7 +18,6 @@ import java.lang.management.ManagementFactory;
  * @since 1.0
  */
 public class JmxRegistrationCallbackTest {
-	private static final String OBJECT_NAME = "whatever:type=anything";
 	private MBeanServer mbs;
 
 	@BeforeMethod
@@ -29,9 +25,6 @@ public class JmxRegistrationCallbackTest {
 		SimonManager.clear();
 
 		mbs = ManagementFactory.getPlatformMBeanServer();
-		ObjectName name = new ObjectName(OBJECT_NAME);
-		SimonMXBean simon = new SimonMXBeanImpl(SimonManager.manager());
-		mbs.registerMBean(simon, name);
 
 		SimonManager.callback().addCallback(new JmxRegisterCallback());
 	}
@@ -80,10 +73,11 @@ public class JmxRegistrationCallbackTest {
 		Assert.assertFalse(mbs.isRegistered(stopwatchObjectName));
 	}
 
-	@AfterMethod
-	public void tearDown() throws Exception {
-		MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
-		ObjectName name = new ObjectName(OBJECT_NAME);
+	@Test
+	public void simonMxBeanTest() throws Exception {
+		ObjectName name = new ObjectName("whatever:type=anything");
+		SimonMXBean simonMXBean = new SimonMXBeanImpl(SimonManager.manager());
+		mbs.registerMBean(simonMXBean, name);
 		mbs.unregisterMBean(name);
 	}
 }
