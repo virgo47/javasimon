@@ -5,7 +5,7 @@ import org.javasimon.SimonManager;
 import org.javasimon.Stopwatch;
 import org.javasimon.utils.AbstractDataCollector;
 import org.javasimon.utils.BenchmarkUtils;
-import org.javasimon.utils.GoogleChartGenerator;
+import org.javasimon.utils.GoogleChartImageGenerator;
 
 /**
  * Various timer calles compared along with stopwatch start/stop calls.
@@ -89,6 +89,6 @@ public final class NanoMillisComparison {
 			}
 		};
 		collector.collect();
-		System.out.println("\nGoogle Chart:\n" + GoogleChartGenerator.barChart(collector, "10M-loop duration", 1000000, "ms"));
+		System.out.println("\nGoogle Chart:\n" + GoogleChartImageGenerator.barChart(collector, "10M-loop duration", 1000000, "ms"));
 	}
 }
