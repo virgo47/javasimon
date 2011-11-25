@@ -5,16 +5,16 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Null Simon implements Simon returned by the disabled {@link SimonManager}. Null
- * Simon does nothing, returns null or zeroes wherever return value is expected and has
- * minimal performance impact on the system.
+ * Null Simon implements Simon returned by the disabled {@link Manager#getSimon(String)}
+ * or {@link org.javasimon.Manager#getRootSimon()}. Null Simon does nothing, returns null
+ * or zeroes wherever return value is expected and has minimal performance impact on the system.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 class NullSimon implements Simon {
 	/**
-	 * Internal singleton value of the null Simon. Null Simon is never used in client code, only its
-	 * behavior manifestates to the client.
+	 * Internal singleton value of the null Simon. Null Simon is never directly used in the client code,
+	 * it is always hidden behind the {@link Simon} interface - only its behavior manifests to the client.
 	 */
 	static final NullSimon INSTANCE = new NullSimon();
 
@@ -174,11 +174,13 @@ class NullSimon implements Simon {
 	}
 }
 
+/**
+ * Null Stopwatch implements Simon returned by the disabled {@link Manager#getStopwatch(String)}.
+ * It extends {@link NullSimon} to satisfy {@link Stopwatch} interface.
+ *
+ * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
+ */
 final class NullStopwatch extends NullSimon implements Stopwatch {
-	/**
-	 * Internal singleton value of the null Simon. Null Simon is never used in client code, only its
-	 * behavior manifestates to the client.
-	 */
 	static final NullStopwatch INSTANCE = new NullStopwatch();
 
 	private NullStopwatch() {
@@ -353,11 +355,13 @@ final class NullStopwatch extends NullSimon implements Stopwatch {
 	}
 }
 
+/**
+ * Null Counter implements Simon returned by the disabled {@link Manager#getCounter(String)}.
+ * It extends {@link NullSimon} to satisfy {@link Counter} interface.
+ *
+ * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
+ */
 final class NullCounter extends NullSimon implements Counter {
-	/**
-	 * Internal singleton value of the null Counter. Null Counter is never used in client code, only its
-	 * behavior manifestates to the client.
-	 */
 	static final NullCounter INSTANCE = new NullCounter();
 
 	private NullCounter() {

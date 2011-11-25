@@ -11,7 +11,8 @@ import java.util.Collections;
  */
 public final class DisabledManager implements Manager {
 	/**
-	 * {@inheritDoc}
+	 * Returns "Null Simon" that always returns empty/null values and cannot measure anything.
+	 * Null Simon returned by this method is neither {@link Stopwatch} nor {@link Counter}.
 	 */
 	@Override
 	public Simon getSimon(String name) {
@@ -49,7 +50,7 @@ public final class DisabledManager implements Manager {
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Returns "Null Counter" that always returns empty/null values and cannot measure anything.
 	 */
 	@Override
 	public Counter getCounter(String name) {
@@ -57,7 +58,7 @@ public final class DisabledManager implements Manager {
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Returns "Null Stopwatch" that always returns empty/null values and cannot measure anything.
 	 */
 	@Override
 	public Stopwatch getStopwatch(String name) {
@@ -65,7 +66,8 @@ public final class DisabledManager implements Manager {
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Returns "Null Simon" that always returns empty/null values and cannot measure anything.
+	 * Null Simon returned by this method is neither {@link Stopwatch} nor {@link Counter}.
 	 */
 	@Override
 	public Simon getRootSimon() {
