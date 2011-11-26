@@ -3,6 +3,7 @@ package org.javasimon.utils;
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
+import org.javasimon.StopwatchSample;
 
 /**
  * Utility class for benchmark execution.
@@ -26,15 +27,15 @@ public class BenchmarkUtils {
 	 * @param tasks list of tasks to measure
 	 * @return result of the measured runs as an array of stopwatch objects in the order of the tasks
 	 */
-	public static Stopwatch[] run(int warmupRuns, int measuredRuns, Task... tasks) {
+	public static StopwatchSample[] run(int warmupRuns, int measuredRuns, Task... tasks) {
 		warmup(warmupRuns, tasks);
 		measure(measuredRuns, tasks);
 		presentSummary(tasks);
-		Stopwatch[] result = new Stopwatch[tasks.length];
+		StopwatchSample[] result = new StopwatchSample[tasks.length];
 		for (int i = 0; i < result.length; i++) {
 			Stopwatch stopwatch = SimonManager.getStopwatch(tasks[i].stopwatchName + STOPWATCH_SUM_SUFFIX);
 			stopwatch.setNote(tasks[i].stopwatchName);
-			result[i] = stopwatch;
+			result[i] = stopwatch.sample();
 		}
 		return result;
 	}

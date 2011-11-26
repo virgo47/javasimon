@@ -1,9 +1,7 @@
 package org.javasimon.utils;
 
-import org.javasimon.Simon;
 import org.javasimon.Stopwatch;
-
-import java.util.Set;
+import org.javasimon.StopwatchSample;
 
 /**
  * Generates HTML page that generates JavaScript interactive graph based on Google Charts.
@@ -18,9 +16,7 @@ public final class GoogleInteractiveChartGenerator {
 		throw new UnsupportedOperationException();
 	}
 
-	public static String barChart(AbstractDataCollector collector, String title, double divisor, String unit) {
-		Set<Simon> simons = collector.getSimons();
-
+	public static String barChart(StopwatchSample[] samples, String title, double divisor, String unit) {
 		final StringBuilder result = new StringBuilder("<html>\n" +
 			"  <head>\n" +
 			"    <script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script>\n" +
@@ -33,11 +29,11 @@ public final class GoogleInteractiveChartGenerator {
 			"        data.addColumn('number', 'avg');\n" +
 			"        data.addColumn('number', 'max');\n" +
 			"        data.addColumn('number', 'min');\n" +
-			"        data.addRows(").append(simons.size()).append(");\n");
+			"        data.addRows(").append(samples.length).append(");\n");
 
 		int rowIndex = 0;
-		for (Simon simon : simons) {
-			Stopwatch stopwatch = (Stopwatch) simon;
+		for (StopwatchSample sample : samples) {
+			Stopwatch stopwatch = (Stopwatch) sample;
 
 			result.append("        data.setValue(").append(rowIndex).append(", 0, '")
 				.append(stopwatch.getNote()).append("');\n")
@@ -52,7 +48,7 @@ public final class GoogleInteractiveChartGenerator {
 
 		result.append("        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));\n" +
 			"        chart.draw(data, {width: ").
-			append(ONE_BAR_WIDTH * (1 + simons.size())).
+			append(ONE_BAR_WIDTH * (1 + samples.length)).
 			append(", height: 600, title: '").
 			append(title).
 			append("',\n                          hAxis: {title: 'stopwatch', titleTextStyle: {color: 'red'}}\n" +
