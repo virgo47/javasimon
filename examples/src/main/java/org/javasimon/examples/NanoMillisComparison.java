@@ -1,11 +1,11 @@
 package org.javasimon.examples;
 
-import org.javasimon.Simon;
 import org.javasimon.SimonManager;
 import org.javasimon.Stopwatch;
-import org.javasimon.utils.AbstractDataCollector;
+import org.javasimon.StopwatchSample;
 import org.javasimon.utils.BenchmarkUtils;
 import org.javasimon.utils.GoogleChartImageGenerator;
+import org.javasimon.utils.SimonUtils;
 
 /**
  * Various timer calles compared along with stopwatch start/stop calls.
@@ -24,7 +24,7 @@ public final class NanoMillisComparison {
 	 * @param args command line arguments
 	 */
 	public static void main(String[] args) {
-		Stopwatch[] results = BenchmarkUtils.run(2, 5,
+		StopwatchSample[] results = BenchmarkUtils.run(2, 5,
 			new BenchmarkUtils.Task("empty") {
 				@Override
 				public void perform() throws Exception {
@@ -73,7 +73,7 @@ public final class NanoMillisComparison {
 					}
 				}
 			},
-			new BenchmarkUtils.Task("stopwatch-manager") {
+			new BenchmarkUtils.Task("sw,manager") {
 				@Override
 				public void perform() throws Exception {
 					for (int i = 0; i < LOOP; i++) {
@@ -83,12 +83,9 @@ public final class NanoMillisComparison {
 			}
 		);
 
-		AbstractDataCollector collector = new AbstractDataCollector(results) {
-			public double obtainValue(Simon simon) {
-				return ((Stopwatch) simon).getTotal();
-			}
-		};
-		collector.collect();
-		System.out.println("\nGoogle Chart:\n" + GoogleChartImageGenerator.barChart(collector, "10M-loop duration", 1000000, "ms"));
+		System.out.println("\nGoogle Chart avg:\n" + GoogleChartImageGenerator.barChart(
+			results, "10M-loop duration", SimonUtils.NANOS_IN_MILLIS, "ms", false));
+		System.out.println("\nGoogle Chart avg/max/min:\n" + GoogleChartImageGenerator.barChart(
+			results, "10M-loop duration", SimonUtils.NANOS_IN_MILLIS, "ms", true));
 	}
 }
