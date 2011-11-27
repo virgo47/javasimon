@@ -2,7 +2,6 @@ package org.javasimon.utils;
 
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
-import org.javasimon.Stopwatch;
 import org.javasimon.StopwatchSample;
 
 /**
@@ -13,14 +12,11 @@ import org.javasimon.StopwatchSample;
  */
 public class BenchmarkUtils {
 	/**
-	 * Suffix of the stopwatch that aggregates partial measurings.
-	 */
-	public static final String STOPWATCH_SUM_SUFFIX = "-sum";
-
-	/**
-	 * Runs the list of tasks to be benchmarked and returns {@link Stopwatch} arrah with measured results.
+	 * Runs the list of tasks to be benchmarked and returns {@link StopwatchSample} array with measured results.
 	 * Number of warmup runs (without measuring) and measured runs must be specified.
 	 * {@link Task} provides the name of the {@link org.javasimon.Stopwatch} that will store results.
+	 * <p/>
+	 * Tasks should not be extremely short - see {@link Task} javadoc for more.
 	 *
 	 * @param warmupRuns number of runs before the measuring starts
 	 * @param measuredRuns number of measured runs
@@ -33,9 +29,7 @@ public class BenchmarkUtils {
 		presentSummary(tasks);
 		StopwatchSample[] result = new StopwatchSample[tasks.length];
 		for (int i = 0; i < result.length; i++) {
-			Stopwatch stopwatch = SimonManager.getStopwatch(tasks[i].stopwatchName + STOPWATCH_SUM_SUFFIX);
-			stopwatch.setNote(tasks[i].stopwatchName);
-			result[i] = stopwatch.sample();
+			result[i] = SimonManager.getStopwatch(tasks[i].stopwatchName).sample();
 		}
 		return result;
 	}
@@ -66,7 +60,7 @@ public class BenchmarkUtils {
 		System.out.println("\nSUMMARY:");
 		for (Task task : tasks) {
 			System.out.println(task.stopwatchName + ": " +
-				SimonManager.getStopwatch(task.stopwatchName + STOPWATCH_SUM_SUFFIX));
+				SimonManager.getStopwatch(task.stopwatchName));
 		}
 	}
 
@@ -74,6 +68,11 @@ public class BenchmarkUtils {
 	 * Helper object that requires implementing the {@link #perform()} method with benchmarked block of code.
 	 * Calling {@link #run()} executes the code and measures statistics using the stopwatch named in the
 	 * constructor. Calling {@link #perform()} executes the code without the stopwatch being used.
+	 * <p/>
+	 * It is not recommended to implement too short Task repeated for many runs (thousands or millions)
+	 * but rather to impelement loop in the task to measure short operations and run the Task for units
+	 * of times (tens, hundreds). Otherwise Simon overhead (mostly {@link System#nanoTime()} call) may
+	 * distort the results. If the measured operation is extremely short even the for loop can distort the results.
 	 */
 	public static abstract class Task implements Runnable {
 		private String stopwatchName;
@@ -88,7 +87,7 @@ public class BenchmarkUtils {
 		@Override
 		public void run() {
 			System.out.print(stopwatchName + ": ");
-			Split split = SimonManager.getStopwatch(stopwatchName).reset().start();
+			Split split = new Split();
 			try {
 				perform();
 			} catch (Exception e) {
@@ -96,7 +95,7 @@ public class BenchmarkUtils {
 			} finally {
 				split.stop();
 				System.out.println(split.presentRunningFor());
-				SimonManager.getStopwatch(stopwatchName + STOPWATCH_SUM_SUFFIX).addTime(split.runningFor());
+				SimonManager.getStopwatch(stopwatchName).addSplit(split);
 			}
 		}
 

@@ -22,28 +22,34 @@ public final class StopwatchSample extends org.javasimon.StopwatchSample {
 	 * JMX constructor. Constructor used by JMX client code to initialize all properties of object
 	 * from composite data object.
 	 *
+	 * @param name Simon's name
 	 * @param mean mean value (provided optionally)
 	 * @param stdDev standard deviation (provided optionally)
 	 * @param var variance (provided optionally)
 	 * @param varN variance N (provided optionally)
+	 * @param firstUsage first usage ms timestamp
+	 * @param lastUsage last usage ms timestamp
+	 * @param lastReset last reset ms timestamp
 	 * @param total sum of all measured times
 	 * @param note note (provided optionally)
 	 * @param counter count of measures
 	 * @param min minimal measured time
 	 * @param max maximal measured time
-	 * @param minTimestamp time when minimal time was measured
-	 * @param maxTimestamp time when maximal time was measured
+	 * @param minTimestamp ms timestamp when minimal time was measured
+	 * @param maxTimestamp ms timestamp when maximal time was measured
 	 * @param active count of actual running measures
 	 * @param maxActive maximum paralel measures
-	 * @param maxActiveTimestamp time when maximum paralel measures happend
+	 * @param maxActiveTimestamp ms timestamp time when maximum paralel measures happend
 	 * @param last last split value in ns
 	 */
-	@ConstructorProperties({"mean", "standardDeviation", "variance", "varianceN", "note", "firstUsage", "lastUsage",
+	@ConstructorProperties({"name", "mean", "standardDeviation", "variance", "varianceN", "note", "firstUsage", "lastUsage",
 		"lastReset", "total", "counter", "min", "max", "minTimestamp", "maxTimestamp", "active", "maxActive",
 		"maxActiveTimestamp", "last"})
-	public StopwatchSample(double mean, double stdDev, double var, double varN, String note, long firstUsage,
+	public StopwatchSample(String name, double mean, double stdDev, double var, double varN, String note, long firstUsage,
 		long lastUsage, long lastReset, long total, long counter, long min, long max, long minTimestamp,
-		long maxTimestamp, long active, long maxActive, long maxActiveTimestamp, long last) {
+		long maxTimestamp, long active, long maxActive, long maxActiveTimestamp, long last)
+	{
+		setName(name);
 		setMean(mean);
 		setStandardDeviation(stdDev);
 		setVariance(var);

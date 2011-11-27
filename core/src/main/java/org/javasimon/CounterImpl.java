@@ -171,8 +171,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		minTimestamp = 0;
 		incrementSum = 0;
 		decrementSum = 0;
-		saveResetTimestamp();
-		manager.callback().reset(this);
+		resetCommon();
 		return this;
 	}
 

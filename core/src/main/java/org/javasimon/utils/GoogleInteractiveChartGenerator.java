@@ -36,7 +36,7 @@ public final class GoogleInteractiveChartGenerator {
 			Stopwatch stopwatch = (Stopwatch) sample;
 
 			result.append("        data.setValue(").append(rowIndex).append(", 0, '")
-				.append(stopwatch.getNote()).append("');\n")
+				.append(stopwatch.getName()).append("');\n")
 				.append("        data.setValue(").append(rowIndex).append(", 1, ")
 				.append(stopwatch.getMean() / divisor).append(");\n")
 				.append("        data.setValue(").append(rowIndex).append(", 2, ")

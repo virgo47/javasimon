@@ -87,7 +87,7 @@ abstract class AbstractSimon implements Simon {
 	 *
 	 * @param simon future child of this Simon
 	 */
-	final void addChild(AbstractSimon simon) {
+	final synchronized void addChild(AbstractSimon simon) {
 		children.add(simon);
 		simon.setParent(this);
 		simon.enabled = enabled;
@@ -105,7 +105,7 @@ abstract class AbstractSimon implements Simon {
 	 *
 	 * @throws IllegalArgumentException if {@code state} is {@code null}.
 	 */
-	public final void setState(SimonState state, boolean overrule) {
+	public synchronized final void setState(SimonState state, boolean overrule) {
 		if (state == null) {
 			throw new IllegalArgumentException();
 		}
@@ -142,21 +142,23 @@ abstract class AbstractSimon implements Simon {
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean isEnabled() {
+	public synchronized boolean isEnabled() {
 		return enabled;
 	}
 
 	/**
-	 * Saves the timestamp when the Simon was reset.
+	 * Saves the timestamp when the Simon was reset and calls {@link Callback#reset(Simon)}.
+	 * Called only from synchronized method {@link #reset()}.
 	 */
-	protected void saveResetTimestamp() {
+	protected void resetCommon() {
 		resetTimestamp = System.currentTimeMillis();
+		manager.callback().reset(this);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public long getLastReset() {
+	public synchronized long getLastReset() {
 		return resetTimestamp;
 	}
 
@@ -276,6 +278,7 @@ abstract class AbstractSimon implements Simon {
 	}
 
 	protected void sampleCommon(Sample sample) {
+		sample.setName(name);
 		sample.setNote(note);
 		sample.setFirstUsage(firstUsage);
 		sample.setLastUsage(lastUsage);

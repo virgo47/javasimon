@@ -14,10 +14,29 @@ import org.javasimon.utils.SimonUtils;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public abstract class Sample {
+	private String name;
 	private String note;
 	private long firstUsage;
 	private long lastUsage;
 	private long lastReset;
+
+	/**
+	 * Name of the sampled Simon.
+	 *
+	 * @return Simon's name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * Sets the name of the sampled Simon - mostly not used directly.
+	 *
+	 * @param name Simon's name
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	/**
 	 * Note from the sampled Simon.
