@@ -1,5 +1,6 @@
 package org.javasimon;
 
+import org.javasimon.callback.CallbackSkeleton;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeMethod;
 import org.testng.Assert;

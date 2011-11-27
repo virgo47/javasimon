@@ -1,6 +1,6 @@
 package org.javasimon.testapp;
 
-import org.javasimon.CallbackSkeleton;
+import org.javasimon.callback.CallbackSkeleton;
 import org.javasimon.Split;
 
 import java.util.List;

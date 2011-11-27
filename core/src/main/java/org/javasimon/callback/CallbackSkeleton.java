@@ -1,4 +1,9 @@
-package org.javasimon;
+package org.javasimon.callback;
+
+import org.javasimon.Counter;
+import org.javasimon.Simon;
+import org.javasimon.Split;
+import org.javasimon.Stopwatch;
 
 import java.util.Collections;
 import java.util.List;

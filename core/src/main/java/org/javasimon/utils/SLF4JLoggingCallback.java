@@ -1,6 +1,6 @@
 package org.javasimon.utils;
 
-import org.javasimon.CallbackSkeleton;
+import org.javasimon.callback.CallbackSkeleton;
 import org.javasimon.Split;
 
 import org.slf4j.Logger;

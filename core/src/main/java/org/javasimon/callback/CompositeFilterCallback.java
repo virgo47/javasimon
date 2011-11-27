@@ -1,4 +1,6 @@
-package org.javasimon;
+package org.javasimon.callback;
+
+import org.javasimon.*;
 
 import java.util.List;
 import java.util.Map;
@@ -7,10 +9,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * This callback combines Composite and Filter behavior. Filter can be configured
- * via {@link #addRule(org.javasimon.FilterCallback.Rule.Type, String, String, org.javasimon.Callback.Event...)}
+ * via {@link #addRule(FilterCallback.Rule.Type, String, String, Callback.Event...)}
  * method and if the rule is satisfied the event is propagated to all
  * children callbacks added via {@link #addCallback(Callback)}. XML facility for configuration
- * is provided via {@link ManagerConfiguration#readConfig(java.io.Reader)}.
+ * is provided via {@link org.javasimon.ManagerConfiguration#readConfig(java.io.Reader)}.
  * <p/>
  * Filter without any rules does not propagate events (default DENY behavior).
  * Any number of global rules (for {@link Callback.Event#ALL}) and per event rules can be added.

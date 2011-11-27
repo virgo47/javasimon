@@ -1,9 +1,9 @@
 package org.javasimon.examples.jmx;
 
+import org.javasimon.utils.LoggingCallback;
 import org.javasimon.jmx.SimonMXBeanImpl;
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
-import org.javasimon.utils.LoggingCallback;
 
 import javax.management.MBeanServer;
 import javax.management.ObjectName;

@@ -1,6 +1,7 @@
 package org.javasimon.jmx;
 
 import org.javasimon.*;
+import org.javasimon.callback.CallbackSkeleton;
 
 import javax.management.MBeanServer;
 import javax.management.ObjectName;

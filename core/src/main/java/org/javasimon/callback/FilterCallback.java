@@ -1,9 +1,10 @@
-package org.javasimon;
+package org.javasimon.callback;
 
 import java.math.BigDecimal;
 import java.util.Map;
 import java.util.HashMap;
 
+import org.javasimon.*;
 import org.javasimon.utils.Replacer;
 import org.mvel2.MVEL;
 import org.mvel2.compiler.ExecutableAccessor;
@@ -125,7 +126,7 @@ public interface FilterCallback extends Callback {
 		 * @param condition additional conditional expression that must be true
 		 * @param pattern Simon pattern that must match
 		 */
-		Rule(Type type, String condition, SimonPattern pattern) {
+		public Rule(Type type, String condition, SimonPattern pattern) {
 			this.type = type;
 			this.condition = condition;
 			if (condition != null) {
@@ -179,7 +180,7 @@ public interface FilterCallback extends Callback {
 		 * @param params optional parameters, e.g. value that is added to a Counter
 		 * @return true if no condition is specified or the condition is satisfied, otherwise false
 		 */
-		boolean checkCondition(Simon simon, Object... params) {
+		public boolean checkCondition(Simon simon, Object... params) {
 			if (condition == null) {
 				return true;
 			}

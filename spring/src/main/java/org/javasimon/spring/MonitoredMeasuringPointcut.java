@@ -15,15 +15,19 @@ import org.springframework.core.annotation.AnnotationUtils;
  */
 public final class MonitoredMeasuringPointcut implements Pointcut {
 	/**
-	 * @return a class filter that lets all class through.
+	 * Returns a class filter that lets all class through.
+	 *
+	 * @return a class filter that lets all class through
 	 */
 	public ClassFilter getClassFilter() {
 		return ClassFilter.TRUE;
 	}
 
 	/**
-	 * @return a method matcher that matches any method that has the {@link Monitored} annotation,
-	 *         or is in a class with the {@link Monitored} annotation
+	 * Returns a method matcher that matches any method that has the {@link Monitored} annotation,
+	 * or is in a class with the {@link Monitored} annotation or is in a subclass of such a class or interface.
+	 *
+	 * @return method matcher matching {@link Monitored} methods
 	 */
 	public MethodMatcher getMethodMatcher() {
 		return MonitoredMethodMatcher.INSTANCE;

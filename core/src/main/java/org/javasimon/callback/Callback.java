@@ -1,4 +1,9 @@
-package org.javasimon;
+package org.javasimon.callback;
+
+import org.javasimon.Counter;
+import org.javasimon.Simon;
+import org.javasimon.Split;
+import org.javasimon.Stopwatch;
 
 import java.util.HashMap;
 import java.util.List;
@@ -7,7 +12,7 @@ import java.util.Map;
 /**
  * Callback processes various events of the Java Simon API. Callbacks can be
  * structured into the tree using {@link CompositeCallback} implementation.
- * Partial callbacks can be easily implemented extending the {@link org.javasimon.CallbackSkeleton}
+ * Partial callbacks can be easily implemented extending the {@link CallbackSkeleton}
  * class that already implements all methods as empty. Callbacks can be configured
  * via Manager configuration facility.
  * <p/>
@@ -19,21 +24,21 @@ import java.util.Map;
  */
 public interface Callback {
 	/**
-	 * Returns the list of all child-callbacks. Implemented in {@link org.javasimon.CompositeCallback}.
+	 * Returns the list of all child-callbacks. Implemented in {@link CompositeCallback}.
 	 *
 	 * @return children list
 	 */
 	List<Callback> callbacks();
 
 	/**
-	 * Adds another callback as a child to this callback. Implemented in {@link org.javasimon.CompositeCallback}.
+	 * Adds another callback as a child to this callback. Implemented in {@link CompositeCallback}.
 	 *
 	 * @param callback added callback
 	 */
 	void addCallback(Callback callback);
 
 	/**
-	 * Removes specified callback from this callback. Implemented in {@link org.javasimon.CompositeCallback}.
+	 * Removes specified callback from this callback. Implemented in {@link CompositeCallback}.
 	 *
 	 * @param callback removed child-callback
 	 */

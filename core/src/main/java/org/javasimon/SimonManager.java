@@ -1,5 +1,7 @@
 package org.javasimon;
 
+import org.javasimon.callback.Callback;
+import org.javasimon.callback.CallbackSkeleton;
 import org.javasimon.utils.SimonUtils;
 
 import java.util.*;
@@ -223,8 +225,8 @@ public final class SimonManager {
 	}
 
 	/**
-	 * Method propagates message to manager's {@link Callback}. This allows user to report any
-	 * message if they implement {@link Callback#message(String)}.
+	 * Method propagates message to manager's {@link org.javasimon.callback.Callback}. This allows user to report any
+	 * message if they implement {@link org.javasimon.callback.Callback#message(String)}.
 	 *
 	 * @param message message text
 	 */
@@ -233,8 +235,8 @@ public final class SimonManager {
 	}
 
 	/**
-	 * Method propagates warning to manager's {@link Callback}. This allows user to report any
-	 * warning and/or exception if they implement {@link Callback#warning(String, Exception)}.
+	 * Method propagates warning to manager's {@link org.javasimon.callback.Callback}. This allows user to report any
+	 * warning and/or exception if they implement {@link org.javasimon.callback.Callback#warning(String, Exception)}.
 	 *
 	 * @param warning arbitrary warning message
 	 * @param cause exception causing this warning
