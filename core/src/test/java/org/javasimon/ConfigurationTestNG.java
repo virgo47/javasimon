@@ -1,9 +1,10 @@
 package org.javasimon;
 
+import org.javasimon.callback.*;
+import org.javasimon.utils.LoggingCallback;
 import org.testng.annotations.Test;
 import org.testng.Assert;
 import org.javasimon.utils.DebugCallback;
-import org.javasimon.utils.LoggingCallback;
 
 import java.io.IOException;
 import java.io.StringReader;

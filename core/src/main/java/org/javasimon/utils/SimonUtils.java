@@ -1,6 +1,7 @@
 package org.javasimon.utils;
 
 import org.javasimon.*;
+import org.javasimon.callback.Callback;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;

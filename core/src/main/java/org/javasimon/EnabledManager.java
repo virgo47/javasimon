@@ -1,5 +1,7 @@
 package org.javasimon;
 
+import org.javasimon.callback.Callback;
+import org.javasimon.callback.CompositeCallback;
 import org.javasimon.utils.SimonUtils;
 
 import java.util.*;

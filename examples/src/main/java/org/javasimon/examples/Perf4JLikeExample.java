@@ -1,6 +1,7 @@
 package org.javasimon.examples;
 
 import org.javasimon.*;
+import org.javasimon.callback.CallbackSkeleton;
 import org.javasimon.utils.SimonUtils;
 
 /**

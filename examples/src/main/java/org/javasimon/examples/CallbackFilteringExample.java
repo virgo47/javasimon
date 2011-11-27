@@ -1,6 +1,10 @@
 package org.javasimon.examples;
 
 import org.javasimon.*;
+import org.javasimon.callback.Callback;
+import org.javasimon.callback.CallbackSkeleton;
+import org.javasimon.callback.CompositeFilterCallback;
+import org.javasimon.callback.FilterCallback;
 
 /**
  * CallbackFilteringExample shows how filter works and how it can be set up programmaticaly.

@@ -1,10 +1,10 @@
 package org.javasimon.utils;
 
-import org.javasimon.CallbackSkeleton;
 import org.javasimon.Split;
+import org.javasimon.callback.CallbackSkeleton;
 
-import java.util.logging.Logger;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * LoggingCallback logs events via JDK logging API.
