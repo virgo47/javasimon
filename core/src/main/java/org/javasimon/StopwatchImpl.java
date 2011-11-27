@@ -64,8 +64,10 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	public Stopwatch addSplit(Split split) {
 		synchronized (this) {
 			if (enabled) {
-				updateUsages();
-				addSplit(split.runningFor());
+				long splitNs = split.runningFor();
+				// using parameter version saves one currentTimeMillis call
+				updateUsages(split.getStart() + splitNs);
+				addSplit(splitNs);
 				manager.callback().stopwatchAdd(this, split);
 			}
 			return this;
@@ -137,8 +139,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		maxActiveTimestamp = 0;
 		mean = 0;
 		mean2 = 0;
-		saveResetTimestamp();
-		manager.callback().reset(this);
+		resetCommon();
 		return this;
 	}
 

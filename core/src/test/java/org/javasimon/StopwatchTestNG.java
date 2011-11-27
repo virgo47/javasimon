@@ -59,6 +59,7 @@ public final class StopwatchTestNG {
 		Assert.assertTrue(stopwatch.getFirstUsage() >= ts);
 		Assert.assertEquals(stopwatch.getCounter(), 1);
 		StopwatchSample sample = stopwatch.sample();
+		Assert.assertEquals(sample.getName(), stopwatch.getName());
 		Assert.assertEquals(sample.getCounter(), 1);
 		Assert.assertEquals(sample.getTotal(), 100);
 		Assert.assertEquals(sample.getMean(), 100d);

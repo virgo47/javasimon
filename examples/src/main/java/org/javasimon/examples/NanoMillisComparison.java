@@ -13,7 +13,7 @@ import org.javasimon.utils.SimonUtils;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public final class NanoMillisComparison {
-	private static final int LOOP = 1000000;
+	private static final int LOOP = 10000000;
 
 	private NanoMillisComparison() {
 	}

@@ -6,7 +6,7 @@ import java.beans.ConstructorProperties;
  * Value object for retrieving data from Counter Simon. Basically, it's
  * {@link org.javasimon.CounterSample} with added JMX capabilities to be return as object via
  * MXBean method.
- * <p>
+ * <p/>
  * Example:
  * <pre>
  * SimonMXBean simon = JMX.newMXBeanProxy(..., new ObjectName("domain:type=Simon"), SimonMXBean.class);
@@ -22,6 +22,7 @@ public final class CounterSample extends org.javasimon.CounterSample {
 	 * JMX constructor. Constructor used by JMX client code to initialize all properties of object
 	 * from composite data object.
 	 *
+	 * @param name Simon's name
 	 * @param note note (provided optionally)
 	 * @param firstUsage first usage ms timestamp
 	 * @param lastUsage last usage ms timestamp
@@ -34,8 +35,12 @@ public final class CounterSample extends org.javasimon.CounterSample {
 	 * @param incSum sum of all increments
 	 * @param decSum sum of all decrements
 	 */
-	@ConstructorProperties({"note", "firstUsage", "lastUsage", "lastReset", "counter", "min", "max", "minTimestamp", "maxTimestamp", "incrementSum", "decrementSum"})
-	public CounterSample(String note, long firstUsage, long lastUsage, long lastReset, long counter, long min, long max, long minTimestamp, long maxTimestamp, long incSum, long decSum) {
+	@ConstructorProperties({"name", "note", "firstUsage", "lastUsage", "lastReset", "counter", "min",
+		"max", "minTimestamp", "maxTimestamp", "incrementSum", "decrementSum"})
+	public CounterSample(String name, String note, long firstUsage, long lastUsage, long lastReset, long counter,
+		long min, long max, long minTimestamp, long maxTimestamp, long incSum, long decSum)
+	{
+		setName(name);
 		setNote(note);
 		setFirstUsage(firstUsage);
 		setLastUsage(lastUsage);
@@ -54,20 +59,20 @@ public final class CounterSample extends org.javasimon.CounterSample {
 	 * Internall, framework constructor for Simon MBean implementation to initialize all properties
 	 * by sample obtained from Simon.
 	 *
-	 * @param s sample object obtained from Counter Simon
+	 * @param sample sample object obtained from Counter Simon
 	 */
-	CounterSample(org.javasimon.CounterSample s) {
-		setNote(s.getNote());
-		setFirstUsage(s.getFirstUsage());
-		setLastUsage(s.getLastUsage());
-		setLastReset(s.getLastReset());
+	CounterSample(org.javasimon.CounterSample sample) {
+		setNote(sample.getNote());
+		setFirstUsage(sample.getFirstUsage());
+		setLastUsage(sample.getLastUsage());
+		setLastReset(sample.getLastReset());
 
-		setCounter(s.getCounter());
-		setMin(s.getMin());
-		setMax(s.getMax());
-		setMinTimestamp(s.getMinTimestamp());
-		setMaxTimestamp(s.getMaxTimestamp());
-		setIncrementSum(s.getIncrementSum());
-		setDecrementSum(s.getDecrementSum());
+		setCounter(sample.getCounter());
+		setMin(sample.getMin());
+		setMax(sample.getMax());
+		setMinTimestamp(sample.getMinTimestamp());
+		setMaxTimestamp(sample.getMaxTimestamp());
+		setIncrementSum(sample.getIncrementSum());
+		setDecrementSum(sample.getDecrementSum());
 	}
 }

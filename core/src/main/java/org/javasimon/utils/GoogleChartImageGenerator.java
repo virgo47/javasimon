@@ -95,8 +95,7 @@ public final class GoogleChartImageGenerator {
 				maxData.append(',');
 				minData.append(',');
 			}
-			// Collector uses the Simon with -sum suffix, original simon name is in note
-			simonNamesAxis.append('|').append(encode(sample.getNote()));
+			simonNamesAxis.append('|').append(encode(sample.getName()));
 			meanData.append(addValueToAxis(meanValuesAxis, sample.getMean()));
 			if (showMaxMin) {
 				maxData.append(addValueToAxis(maxValuesAxis, sample.getMax()));
