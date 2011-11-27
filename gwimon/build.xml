@@ -10,8 +10,8 @@
 
 	<path id="project.classpath">
 		<pathelement location="build/classes"/>
-		<pathelement location="../build/javasimon-core-3.0.0.jar"/>
-		<pathelement location="../build/javasimon-javaee-3.0.0.jar"/>
+		<pathelement location="../build/core"/>
+		<pathelement location="../build/javaee"/>
 		<pathelement location="${gwt.visualization}/gwt-visualization.jar"/>
 		<pathelement location="${gwt.sdk}/gwt-user.jar"/>
 		<!--<pathelement location="${gwt.sdk}/gwt-servlet-deps.jar"/>-->

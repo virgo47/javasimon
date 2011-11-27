@@ -13,11 +13,11 @@ import java.lang.annotation.ElementType;
  * The Stopwatch name consists of a "name" part and a "suffix" part - these parts are provided using parameters of
  * the annotation. Rules are as follows:
  * <ul>
+ * <li>If method annotation has the name parameter it will be the name of the Stopwatch (suffix is ignored).</li>
  * <li>Default name part is the fully qualified class name.</li>
  * <li>Default suffix part is the name of the current method.</li>
  * <li>Name can be overruled by class annotation paramter, this can be overruled by method annotation parameter.</li>
  * <li>Suffix parameter overrules default method name. Suffix paramter is ignored on the class annotation.</li>
- * <li>If name parameter is used by method annotation, suffix parameter is ignored.</li>
  * </ul>
  * If no parameter is used, name of the Stopwatch will be: {@code fully.qualified.ClassName.methodName}
  * <p/>

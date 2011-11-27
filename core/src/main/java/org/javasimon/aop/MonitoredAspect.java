@@ -6,42 +6,39 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.javasimon.SimonManager;
+import org.javasimon.Split;
 
 /**
  * AspectJ aspect for Spring configuration bound to Monitored annotation.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
-// TODO hardly started, right now only AOP alliance aspect is usable
 public class MonitoredAspect {
 	@Pointcut("@annotation(org.javasimon.aop.Monitored)")
-	public void mergeEntitiesMethod() {
+	public void monitoredMethod() {
 	}
 
 	@Pointcut("@within(org.javasimon.aop.Monitored)")
-	public void mergeEntitiesClass() {
+	public void monitoredClass() {
 	}
 
-	@Around("mergeEntitiesMethod() || mergeEntitiesClass()")
+	@Around("monitoredMethod() || monitoredClass()")
 	public Object mergeEntities(ProceedingJoinPoint pjp) throws Throwable {
-		System.out.println("pjp = " + pjp);
-//		SimonManager.getSimon(pjp.get)
+		// TODO possibly inject the manager some time in the future
+		Split split = SimonManager.getStopwatch(getSimonName(pjp)).start();
 		try {
 			return pjp.proceed();
 		} finally {
-
+			split.stop();
 		}
 	}
 
-	private Monitored getAnnotation(ProceedingJoinPoint pjp) throws Exception {
-		Monitored annotation = pjp.getTarget().getClass().getAnnotation(Monitored.class);
+	private String getSimonName(ProceedingJoinPoint pjp) throws Exception {
+		Class targetClass = pjp.getTarget().getClass();
+		Method method = ((MethodSignature) pjp.getSignature()).getMethod();
+		method = targetClass.getMethod(method.getName(), method.getParameterTypes());
 
-		if ((annotation == null) && (pjp.getSignature() instanceof MethodSignature)) {
-			Method method = ((MethodSignature) pjp.getSignature()).getMethod();
-			method = pjp.getTarget().getClass().getMethod(method.getName(), method.getParameterTypes());
-			annotation = method.getAnnotation(Monitored.class);
-		}
-		return annotation;
+		return new MonitorNameHelper(targetClass, method).getStopwatchName();
 	}
-
 }
