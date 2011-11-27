@@ -1,5 +1,6 @@
 package org.javasimon.jdbc4;
 
+import org.javasimon.Manager;
 import org.javasimon.SimonManager;
 import org.javasimon.Stopwatch;
 import org.javasimon.Split;
@@ -127,7 +128,7 @@ public class SimonStatement implements Statement {
 	 * @return split for the execution of the specific SQL command
 	 */
 	protected Split startSplit() {
-		Stopwatch stopwatch = SimonManager.getStopwatch(sqlCmdLabel + "." + sqlNormalizer.getNormalizedSql().hashCode());
+		Stopwatch stopwatch = SimonManager.getStopwatch(sqlCmdLabel + Manager.HIERARCHY_DELIMITER + sqlNormalizer.getNormalizedSql().hashCode());
 		if (stopwatch.getNote() == null) {
 			stopwatch.setNote(sqlNormalizer.getNormalizedSql());
 		}

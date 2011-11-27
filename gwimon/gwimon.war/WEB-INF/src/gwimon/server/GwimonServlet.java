@@ -23,7 +23,7 @@ public class GwimonServlet extends RemoteServiceServlet implements GwimonService
 			simonMask = Pattern.compile(filter.getMask());
 		}
 		SimonAggregation aggregation = new SimonAggregation();
-		for (String name : SimonManager.manager().simonNames()) {
+		for (String name : SimonManager.manager().getSimonNames()) {
 			if (simonMask != null && !simonMask.matcher(name).find()) {
 				System.out.println("No match: " + name);
 				continue; // required match, but failed
