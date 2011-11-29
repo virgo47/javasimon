@@ -32,14 +32,15 @@ public final class HelloUniverse {
 				System.out.println("After decrease 5: " + counter);
 				counter.set(7);
 				System.out.println("After set 7: " + counter);
-				System.out.println("Sample from the counter: " + counter.sample());
+				System.out.println("\nSample from the counter: " + counter.sample());
 			}
 		});
 
 		// here you don't need specific stopwatch interface, so we may use getSimon instead of getStopwatch
-		System.out.println("Hello universe, here is your stopwatch: " + SimonManager.getSimon("stopwatch"));
-		System.out.println("And here is its sample: " + SimonManager.getSimon("stopwatch").sampleAndReset());
+		System.out.println("\nHello universe, here is your stopwatch: " + SimonManager.getSimon("stopwatch"));
+		System.out.println("\nAnd here is its sample: " + SimonManager.getSimon("stopwatch").sampleAndReset());
+
 		SimonManager.getSimon("stopwatch").setNote("stopwatch wants some note too! ...after all to have a note is the basic right of any Simon!");
-		System.out.println("Ouch, we probably reset it! " + SimonManager.getSimon("stopwatch"));
+		System.out.println("\nOuch, we probably reset it! " + SimonManager.getSimon("stopwatch"));
 	}
 }

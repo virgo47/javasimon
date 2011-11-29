@@ -10,6 +10,8 @@ import java.util.Random;
  * Example shows how to aggregate results from multiple Stopwatch. This feature is not exactly
  * built-in and this example shows how to work around it using the hierarchy.
  *
+ * TODO: Should be supported by API in 3.1 or 3.2 version.
+ *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public class AggregationExample {

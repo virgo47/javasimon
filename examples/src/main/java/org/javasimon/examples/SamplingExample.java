@@ -19,6 +19,7 @@ public final class SamplingExample {
 	 *
 	 * @param args command line arguments
 	 */
+	@SuppressWarnings({"InfiniteLoopStatement"})
 	public static void main(String[] args) {
 		// Starts the sampler
 		Sampler sampler = new Sampler();
@@ -27,22 +28,10 @@ public final class SamplingExample {
 
 		// Starts the measuring
 		while (true) {
-			callStrangeMethod();
+			Split split = SimonManager.getStopwatch("sampled-stopwatch").start();
+			ExampleUtils.waitRandomly(50);
+			split.stop();
 		}
-	}
-
-	/**
-	 * Method that lasts randomly from ~0 to ~2500 ms.
-	 */
-	private static void callStrangeMethod() {
-		Split split = SimonManager.getStopwatch("sampled-stopwatch").start();
-		long random = (long) (Math.random() * 50);
-		try {
-			Thread.sleep(random * random);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		split.stop();
 	}
 
 	/**
@@ -52,12 +41,13 @@ public final class SamplingExample {
 		/**
 		 * Method implementing the code of the thread.
 		 */
+		@SuppressWarnings({"InfiniteLoopStatement"})
 		public void run() {
 			while (true) {
 				Stopwatch stopwatch = SimonManager.getStopwatch("sampled-stopwatch");
 				System.out.println("\nstopwatch = " + stopwatch);
 				System.out.println("Stopwatch sample: " + stopwatch.sample());
-				// TODO: uncomment this if you want - of course commment the line above
+				// uncomment this if you want reset - of course commment the line above
 //				System.out.println("Stopwatch sample: " + stopwatch.sampleAndReset());
 				try {
 					Thread.sleep(10000);

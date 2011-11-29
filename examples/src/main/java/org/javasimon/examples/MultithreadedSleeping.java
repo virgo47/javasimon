@@ -23,7 +23,7 @@ public final class MultithreadedSleeping extends Thread {
 	private static final int SLEEP = 1000;
 
 	// name of the Simon will be the same like the name of this class
-	private static final String NAME = SimonUtils.generateName(null, false);
+	private static final String NAME = SimonUtils.generateNameForClass(null);
 
 	private static final CountDownLatch latch = new CountDownLatch(THREADS);
 

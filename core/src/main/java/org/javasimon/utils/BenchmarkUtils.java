@@ -1,6 +1,7 @@
 package org.javasimon.utils;
 
-import org.javasimon.SimonManager;
+import org.javasimon.EnabledManager;
+import org.javasimon.Manager;
 import org.javasimon.Split;
 import org.javasimon.StopwatchSample;
 
@@ -11,6 +12,8 @@ import org.javasimon.StopwatchSample;
  * @since 3.1
  */
 public class BenchmarkUtils {
+	private static final Manager manager = new EnabledManager();
+
 	/**
 	 * Runs the list of tasks to be benchmarked and returns {@link StopwatchSample} array with measured results.
 	 * Number of warmup runs (without measuring) and measured runs must be specified.
@@ -18,9 +21,9 @@ public class BenchmarkUtils {
 	 * <p/>
 	 * Tasks should not be extremely short - see {@link Task} javadoc for more.
 	 *
-	 * @param warmupRuns number of runs before the measuring starts
+	 * @param warmupRuns   number of runs before the measuring starts
 	 * @param measuredRuns number of measured runs
-	 * @param tasks list of tasks to measure
+	 * @param tasks        list of tasks to measure
 	 * @return result of the measured runs as an array of stopwatch objects in the order of the tasks
 	 */
 	public static StopwatchSample[] run(int warmupRuns, int measuredRuns, Task... tasks) {
@@ -29,7 +32,7 @@ public class BenchmarkUtils {
 		presentSummary(tasks);
 		StopwatchSample[] result = new StopwatchSample[tasks.length];
 		for (int i = 0; i < result.length; i++) {
-			result[i] = SimonManager.getStopwatch(tasks[i].stopwatchName).sample();
+			result[i] = manager.getStopwatch(tasks[i].stopwatchName).sample();
 		}
 		return result;
 	}
@@ -38,12 +41,16 @@ public class BenchmarkUtils {
 		for (int i = 1; i <= warmupRuns; i++) {
 			System.out.println("\nWarmup run #" + i);
 			for (Task task : tasks) {
-				try {
-					task.perform();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				warmupTask(task);
 			}
+		}
+	}
+
+	private static void warmupTask(Task task) {
+		try {
+			task.perform();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -60,7 +67,7 @@ public class BenchmarkUtils {
 		System.out.println("\nSUMMARY:");
 		for (Task task : tasks) {
 			System.out.println(task.stopwatchName + ": " +
-				SimonManager.getStopwatch(task.stopwatchName));
+				manager.getStopwatch(task.stopwatchName));
 		}
 	}
 
@@ -95,7 +102,7 @@ public class BenchmarkUtils {
 			} finally {
 				split.stop();
 				System.out.println(split.presentRunningFor());
-				SimonManager.getStopwatch(stopwatchName).addSplit(split);
+				manager.getStopwatch(stopwatchName).addSplit(split);
 			}
 		}
 

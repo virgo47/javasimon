@@ -1,19 +1,19 @@
 package org.javasimon.examples;
 
-import org.javasimon.SimonManager;
+import org.javasimon.*;
+import org.javasimon.utils.BenchmarkUtils;
+import org.javasimon.utils.GoogleChartImageGenerator;
 import org.javasimon.utils.SimonUtils;
-import org.javasimon.Stopwatch;
-import org.javasimon.Split;
 
 /**
- * Compares get/start/stop with static name with the same cycle with name generated every time.
+ * Compares get/start/stop with a static name and the same cycle with a name generated every time.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public final class SimonNameGenerationTest {
-	private static final int LOOP = 100000;
+	private static final int LOOP = 200000;
 
-	private static final String NAME = SimonUtils.generateName("-stopwatch", false);
+	private static final String NAME = SimonUtils.generateNameForClass("-stopwatch");
 
 	private SimonNameGenerationTest() {
 	}
@@ -24,35 +24,44 @@ public final class SimonNameGenerationTest {
 	 * @param args command line arguments
 	 */
 	public static void main(String[] args) {
-		// warmup
-		Stopwatch tested = SimonManager.getStopwatch(NAME);
-		getStartStopTest();
-		getStartStopGenerateWithSuffixTest();
-		System.out.println("Warm-up complete");
+		StopwatchSample[] results = BenchmarkUtils.run(2, 5,
+			new BenchmarkUtils.Task("get-start-stop") {
+				@Override
+				public void perform() throws Exception {
+					for (int i = 0; i < LOOP; i++) {
+						SimonManager.getStopwatch(NAME).start().stop();
+					}
+				}
+			},
+			new BenchmarkUtils.Task("gen-get-s-s") {
+				@Override
+				public void perform() throws Exception {
+					for (int i = 0; i < LOOP; i++) {
+						SimonManager.getStopwatch(SimonUtils.generateNameForClass("-stopwatch")).start().stop();
+					}
+				}
+			},
+			new BenchmarkUtils.Task("generate") {
+				@Override
+				public void perform() throws Exception {
+					for (int i = 0; i < LOOP; i++) {
+						SimonUtils.generateName();
+					}
+				}
+			},
+			new BenchmarkUtils.Task("get-stacktrace") {
+				@Override
+				public void perform() throws Exception {
+					for (int i = 0; i < LOOP; i++) {
+						Thread.currentThread().getStackTrace();
+					}
+				}
+			}
+		);
 
-		Stopwatch stopwatch = SimonManager.getStopwatch(null);
-		Split split = stopwatch.start();
-		tested.reset();
-		getStartStopTest();
-		System.out.println("\nget+start/stop: " + SimonUtils.presentNanoTime(split.stop().runningFor()));
-		System.out.println("Stopwatch: " + tested);
-
-		tested.reset();
-		split = stopwatch.reset().start();
-		getStartStopGenerateWithSuffixTest();
-		System.out.println("\nget generated+start/stop: " + SimonUtils.presentNanoTime(split.stop().runningFor()));
-		System.out.println("Stopwatch: " + tested);
-	}
-
-	private static void getStartStopTest() {
-		for (int i = 0; i < LOOP; i++) {
-			SimonManager.getStopwatch(NAME).start().stop();
-		}
-	}
-
-	private static void getStartStopGenerateWithSuffixTest() {
-		for (int i = 0; i < LOOP; i++) {
-			SimonManager.getStopwatch(SimonUtils.generateName("-stopwatch", false)).start().stop();
-		}
+		System.out.println("\nGoogle Chart avg:\n" + GoogleChartImageGenerator.barChart(
+			results, "200k-loop duration", SimonUtils.NANOS_IN_MILLIS, "ms", false));
+		System.out.println("\nGoogle Chart avg/max/min:\n" + GoogleChartImageGenerator.barChart(
+			results, "200k-loop duration", SimonUtils.NANOS_IN_MILLIS, "ms", true));
 	}
 }
