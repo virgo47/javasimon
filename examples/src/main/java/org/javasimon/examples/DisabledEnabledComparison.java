@@ -1,17 +1,17 @@
 package org.javasimon.examples;
 
-import org.javasimon.Stopwatch;
-import org.javasimon.SimonManager;
-import org.javasimon.SimonState;
-import org.javasimon.Split;
+import org.javasimon.*;
+import org.javasimon.utils.BenchmarkUtils;
+import org.javasimon.utils.GoogleChartImageGenerator;
+import org.javasimon.utils.SimonUtils;
 
 /**
- * DisabledEnabledComparison.
+ * Compares start-stop cycle of an enabled and disabled Stopwatch and get-start-stop cycle on an enabled and disabled Manager.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public final class DisabledEnabledComparison {
-	private static final int LOOP = 1000000;
+	private static final int LOOP = 10000000;
 
 	private DisabledEnabledComparison() {
 	}
@@ -22,52 +22,55 @@ public final class DisabledEnabledComparison {
 	 * @param args command line arguments
 	 */
 	public static void main(String[] args) {
-		Stopwatch tested;
-		Stopwatch stopwatch;
-		int round = 1;
-		while (true) {
-			System.out.println("\nRound: " + round++);
-			SimonManager.clear();
-			SimonManager.enable();
-
-			stopwatch = SimonManager.getStopwatch(null);
-			tested = SimonManager.getStopwatch("org.javasimon.stopwatch");
-			Split split = stopwatch.start();
-			for (int i = 0; i < LOOP; i++) {
-				tested.start().stop();
+		StopwatchSample[] results = BenchmarkUtils.run(2, 5,
+			new BenchmarkUtils.Task("enabled") {
+				@Override
+				public void perform() throws Exception {
+					SimonManager.clear();
+					SimonManager.enable();
+					Stopwatch tested = SimonManager.getStopwatch("org.javasimon.stopwatch");
+					for (int i = 0; i < LOOP; i++) {
+						tested.start().stop();
+					}
+				}
+			},
+			new BenchmarkUtils.Task("disabled") {
+				@Override
+				public void perform() throws Exception {
+					SimonManager.clear();
+					SimonManager.enable();
+					Stopwatch tested = SimonManager.getStopwatch("org.javasimon.stopwatch");
+					tested.setState(SimonState.DISABLED, false);
+					for (int i = 0; i < LOOP; i++) {
+						tested.start().stop();
+					}
+				}
+			},
+			new BenchmarkUtils.Task("mgr-enabled") {
+				@Override
+				public void perform() throws Exception {
+					SimonManager.clear();
+					SimonManager.enable();
+					for (int i = 0; i < LOOP; i++) {
+						SimonManager.getStopwatch("org.javasimon.stopwatch").start().stop();
+					}
+				}
+			},
+			new BenchmarkUtils.Task("mgr-disabled") {
+				@Override
+				public void perform() throws Exception {
+					SimonManager.clear();
+					SimonManager.disable();
+					for (int i = 0; i < LOOP; i++) {
+						SimonManager.getStopwatch("org.javasimon.stopwatch").start().stop();
+					}
+				}
 			}
-			split.stop();
-			System.out.println("Enabled start/stop: " + stopwatch);
+		);
 
-			stopwatch = SimonManager.getStopwatch(null);
-			tested = SimonManager.getStopwatch("org.javasimon.stopwatch");
-			tested.setState(SimonState.DISABLED, false);
-			split = stopwatch.start();
-			for (int i = 0; i < LOOP; i++) {
-				tested.start().stop();
-			}
-			split.stop();
-			System.out.println("Disabled start/stop: " + stopwatch);
-
-			stopwatch = SimonManager.getStopwatch(null);
-			SimonManager.getStopwatch("org.javasimon.stopwatch").setState(SimonState.ENABLED, false);
-
-			split = stopwatch.start();
-			for (int i = 0; i < LOOP; i++) {
-				SimonManager.getStopwatch("org.javasimon.stopwatch").start().stop();
-			}
-			split.stop();
-			System.out.println("Enabled get/start/stop: " + stopwatch);
-
-			stopwatch = SimonManager.getStopwatch(null);
-			SimonManager.disable();
-
-			split = stopwatch.start();
-			for (int i = 0; i < LOOP; i++) {
-				SimonManager.getStopwatch("org.javasimon.stopwatch").start().stop();
-			}
-			split.stop();
-			System.out.println("Disabled manager get/start/stop: " + stopwatch);
-		}
+		System.out.println("\nGoogle Chart avg:\n" + GoogleChartImageGenerator.barChart(
+			results, "10M-loop duration", SimonUtils.NANOS_IN_MILLIS, "ms", false));
+		System.out.println("\nGoogle Chart avg/max/min:\n" + GoogleChartImageGenerator.barChart(
+			results, "10M-loop duration", SimonUtils.NANOS_IN_MILLIS, "ms", true));
 	}
 }

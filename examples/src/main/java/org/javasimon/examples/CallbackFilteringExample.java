@@ -5,6 +5,7 @@ import org.javasimon.callback.Callback;
 import org.javasimon.callback.CallbackSkeleton;
 import org.javasimon.callback.CompositeFilterCallback;
 import org.javasimon.callback.FilterCallback;
+import org.javasimon.utils.SimonUtils;
 
 /**
  * CallbackFilteringExample shows how filter works and how it can be set up programmaticaly.
@@ -30,10 +31,11 @@ public final class CallbackFilteringExample {
 			}
 
 			public void stopwatchStop(Split split) {
-				System.out.println("Stopped " + split.getStopwatch().getName() + " (" + split.runningFor() + " ns)");
+				System.out.println("Stopped " + split.getStopwatch().getName() + " (" + SimonUtils.presentNanoTime(split.runningFor()) + ")");
 			}
 		};
 		manager.callback().addCallback(stdoutCallback);
+
 		// prints start/stop for both stopwatches
 		sw1.start().stop();
 		sw2.start().stop();
@@ -41,6 +43,9 @@ public final class CallbackFilteringExample {
 
 		// we need to remove old callback
 		manager.callback().removeCallback(stdoutCallback);
+		// alternatively you can simply call this util if you want to remove all callbacks
+		SimonUtils.removeAllCallbacks(manager);
+
 		// filter callback is created
 		CompositeFilterCallback filter = new CompositeFilterCallback();
 		// rule to filter out all Simons matching pattern "other.*" is added

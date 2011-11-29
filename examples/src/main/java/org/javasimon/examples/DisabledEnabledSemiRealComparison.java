@@ -12,7 +12,7 @@ import org.javasimon.Split;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public final class DisabledEnabledSemiRealComparison {
-	private static final String TEST1_SIMON_NAME = SimonUtils.generateName("-stopwatch", true);
+	private static final String TEST1_SIMON_NAME = SimonUtils.generateNameForClassAndMethod("-stopwatch");
 
 	private static final int OUTER_LOOP = 50;
 	private static final int INNER_LOOP = 50;

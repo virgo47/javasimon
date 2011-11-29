@@ -7,8 +7,7 @@ import org.javasimon.Stopwatch;
 import org.javasimon.utils.SimonUtils;
 
 /**
- * CallbackExample shows how to implement callback that prints out some information
- * on the specific events.
+ * CallbackExample shows how to implement callback that prints out some information on the specific events.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
@@ -30,7 +29,7 @@ public final class CallbackExample {
 			}
 		});
 
-		Stopwatch sw = SimonManager.getStopwatch(SimonUtils.generateName(null, false));
+		Stopwatch sw = SimonManager.getStopwatch(SimonUtils.generateName());
 		sw.start().stop();
 
 		Split split = sw.start();
@@ -39,7 +38,8 @@ public final class CallbackExample {
 		}
 		split.stop();
 
-		System.out.println("\"Illegal\" stop does nothing, state is preserved.");
+		System.out.println("Additional stop() does nothing, Split state is preserved.");
 		split.stop();
+		System.out.println("split = " + split);
 	}
 }
