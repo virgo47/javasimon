@@ -61,8 +61,6 @@ public final class MultithreadedStopwatchLoad extends Thread {
 
 		System.out.println("\nGoogle Chart avg:\n" + GoogleChartImageGenerator.barChart(
 			results, "Multithreaded test", SimonUtils.NANOS_IN_MILLIS, "ms", false));
-		System.out.println("\nGoogle Chart avg/max/min:\n" + GoogleChartImageGenerator.barChart(
-			results, "Multithreaded test", SimonUtils.NANOS_IN_MILLIS, "ms", true));
 	}
 }
 
@@ -101,6 +99,7 @@ class MultithreadedTester extends Thread {
 			", currently active " + stopwatch.getActive() + ")");
 		// here we wait for all threads to end
 		latch.await();
+		System.out.println("All threads finished: " + stopwatch.sample());
 	}
 
 	class TestThread extends Thread {

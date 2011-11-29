@@ -65,7 +65,16 @@ public final class NanoMillisComparison {
 					}
 				}
 			},
-			new BenchmarkUtils.Task("stopwatch") {
+			new BenchmarkUtils.Task("just-start") {
+				@Override
+				public void perform() throws Exception {
+					Stopwatch simon = SimonManager.getStopwatch(null);
+					for (int i = 0; i < LOOP; i++) {
+						simon.start();
+					}
+				}
+			},
+			new BenchmarkUtils.Task("start-stop") {
 				@Override
 				public void perform() throws Exception {
 					Stopwatch simon = SimonManager.getStopwatch(null);
@@ -74,7 +83,7 @@ public final class NanoMillisComparison {
 					}
 				}
 			},
-			new BenchmarkUtils.Task("sw,manager") {
+			new BenchmarkUtils.Task("get-start-stop") {
 				@Override
 				public void perform() throws Exception {
 					for (int i = 0; i < LOOP; i++) {

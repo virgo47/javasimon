@@ -70,7 +70,5 @@ public final class DisabledEnabledComparison {
 
 		System.out.println("\nGoogle Chart avg:\n" + GoogleChartImageGenerator.barChart(
 			results, "10M-loop duration", SimonUtils.NANOS_IN_MILLIS, "ms", false));
-		System.out.println("\nGoogle Chart avg/max/min:\n" + GoogleChartImageGenerator.barChart(
-			results, "10M-loop duration", SimonUtils.NANOS_IN_MILLIS, "ms", true));
 	}
 }
