@@ -30,7 +30,7 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 	 * MXBean constructor with custom prefix initialization.
 	 *
 	 * @param manager instance of {@link Manager}, typically {@code SimonManager.manager()}.
-	 * @param prefix custom prefix
+	 * @param prefix  custom prefix
 	 */
 	public JdbcMXBeanImpl(Manager manager, String prefix) {
 		this.manager = manager;
@@ -82,7 +82,7 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 	 * {@inheritDoc}
 	 */
 	public JdbcObjectInfo connectionsStat() {
-		Stopwatch s = manager.getStopwatch(prefix+".conn");
+		Stopwatch s = manager.getStopwatch(prefix + ".conn");
 
 		if (s != null) {
 			return new JdbcObjectInfo(
@@ -103,7 +103,7 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 	 * {@inheritDoc}
 	 */
 	public JdbcObjectInfo statementsStat() {
-		Stopwatch s = manager.getStopwatch(prefix+".stmt");
+		Stopwatch s = manager.getStopwatch(prefix + ".stmt");
 
 		if (s != null) {
 			return new JdbcObjectInfo(
@@ -131,10 +131,10 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 	 * {@inheritDoc}
 	 */
 	public String[] getSqlCommands() {
-		Simon s = manager.getSimon(prefix+".sql");
+		Simon s = manager.getSimon(prefix + ".sql");
 		if (s != null) {
 			String[] names = new String[s.getChildren().size()];
-			int i=0;
+			int i = 0;
 			for (Simon sn : s.getChildren()) {
 				names[i++] = SimonUtils.localName(sn.getName());
 			}
@@ -148,9 +148,9 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 	 * {@inheritDoc}
 	 */
 	public org.javasimon.jmx.StopwatchSample getSqlCommandStat(String cmdId) {
-		if (manager.getSimon(prefix+".sql."+cmdId) != null) {
+		if (manager.getSimon(prefix + ".sql." + cmdId) != null) {
 			return new org.javasimon.jmx.StopwatchSample(
-				(org.javasimon.StopwatchSample)manager.getStopwatch(prefix+".sql."+cmdId).sample());
+				manager.getStopwatch(prefix + ".sql." + cmdId).sample());
 		}
 		return null;
 	}
@@ -159,10 +159,10 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 	 * {@inheritDoc}
 	 */
 	public String[] getSqls(String cmdId) {
-		Simon s = manager.getSimon(prefix+".sql."+cmdId);
+		Simon s = manager.getSimon(prefix + ".sql." + cmdId);
 		if (s != null) {
 			String[] names = new String[s.getChildren().size()];
-			int i=0;
+			int i = 0;
 			for (Simon sn : s.getChildren()) {
 				names[i++] = SimonUtils.localName(sn.getName());
 			}
@@ -177,10 +177,10 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 	 */
 	public org.javasimon.jmx.StopwatchSample getSqlStat(String sqlId) {
 		if (manager != null) {
-			for (String s : manager.simonNames()) {
-				if (SimonUtils.localName(s).equals(sqlId)) {
+			for (String simonName : manager.getSimonNames()) {
+				if (SimonUtils.localName(simonName).equals(sqlId)) {
 					return new org.javasimon.jmx.StopwatchSample(
-						(org.javasimon.StopwatchSample)manager.getStopwatch(s).sample());
+						manager.getStopwatch(simonName).sample());
 				}
 			}
 		}

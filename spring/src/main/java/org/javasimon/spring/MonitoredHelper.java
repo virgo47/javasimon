@@ -4,6 +4,7 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.javasimon.aop.MonitorNameHelper;
 import org.javasimon.aop.Monitored;
 import org.springframework.aop.support.AopUtils;
+import org.springframework.core.annotation.AnnotationUtils;
 
 import java.lang.reflect.Method;
 
@@ -27,6 +28,7 @@ final class MonitoredHelper {
 	public static String getMonitorName(MethodInvocation invocation) {
 		Class targetClass = AopUtils.getTargetClass(invocation.getThis());
 		Method method = invocation.getMethod();
-		return new MonitorNameHelper(targetClass, method).getStopwatchName();
+		return new MonitorNameHelper(targetClass, AnnotationUtils.findAnnotation(targetClass, Monitored.class),
+			method, AnnotationUtils.findAnnotation(method, Monitored.class)).getStopwatchName();
 	}
 }

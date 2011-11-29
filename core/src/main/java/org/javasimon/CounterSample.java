@@ -171,18 +171,15 @@ public class CounterSample extends Sample {
 	public String toString() {
 		final StringBuilder sb = new StringBuilder();
 		sb.append("CounterSample");
-		sb.append("{counter=").append(counter);
+		sb.append("{name=").append(getName());
+		sb.append(", counter=").append(counter);
 		sb.append(", min=").append(SimonUtils.presentMinMaxCount(min));
 		sb.append(", max=").append(SimonUtils.presentMinMaxCount(max));
 		sb.append(", minTimestamp=").append(SimonUtils.presentTimestamp(minTimestamp));
 		sb.append(", maxTimestamp=").append(SimonUtils.presentTimestamp(maxTimestamp));
 		sb.append(", incrementSum=").append(incrementSum);
 		sb.append(", decrementSum=").append(decrementSum);
-		sb.append(", note=").append(getNote());
-		sb.append(", firstUsage=").append(getFirstUsage());
-		sb.append(", lastUsage=").append(getLastUsage());
-		sb.append(", lastReset=").append(getLastReset());
-		sb.append("}");
+		finishWithUsagesAndNote(sb);
 		return sb.toString();
 	}
 }

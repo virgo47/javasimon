@@ -98,15 +98,14 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	 *
 	 * @param split Split object that has been stopped
 	 * @param start start nano-time of the split @return split time in ns
-	 * @return duration of the split in nanoseconds
+	 * @param nowNanos current nano time
 	 */
-	long stop(Split split, long start) {
-		long nowNanos = System.nanoTime();
+	void stop(Split split, long start, long nowNanos) {
 		synchronized (this) {
 			try {
 				active--;
 				updateUsages(nowNanos);
-				return addSplit(nowNanos - start);
+				addSplit(nowNanos - start);
 			} finally {
 				manager.callback().stopwatchStop(split);
 			}

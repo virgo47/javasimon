@@ -136,4 +136,13 @@ public abstract class Sample {
 	public void setLastReset(long lastReset) {
 		this.lastReset = lastReset;
 	}
+
+	// common part of the toString method
+	protected void finishWithUsagesAndNote(StringBuilder sb) {
+		sb.append(", firstUsage=").append(SimonUtils.presentTimestamp(getFirstUsage()));
+		sb.append(", lastUsage=").append(SimonUtils.presentTimestamp(getLastUsage()));
+		sb.append(", lastReset=").append(SimonUtils.presentTimestamp(getLastReset()));
+		sb.append(", note=").append(getNote());
+		sb.append("}");
+	}
 }

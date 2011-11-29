@@ -359,7 +359,8 @@ public class StopwatchSample extends Sample {
 	public String toString() {
 		final StringBuilder sb = new StringBuilder();
 		sb.append("StopwatchSample");
-		sb.append("{total=").append(SimonUtils.presentNanoTime(total));
+		sb.append("{name=").append(getName());
+		sb.append(", total=").append(SimonUtils.presentNanoTime(total));
 		sb.append(", counter=").append(counter);
 		sb.append(", min=").append(SimonUtils.presentMinMaxSplit(min));
 		sb.append(", max=").append(SimonUtils.presentMinMaxSplit(max));
@@ -373,11 +374,7 @@ public class StopwatchSample extends Sample {
 		sb.append(", standardDeviation=").append(SimonUtils.presentNanoTime((long) getStandardDeviation()));
 		sb.append(", variance=").append(getVariance());
 		sb.append(", varianceN=").append(getVarianceN());
-		sb.append(", note=").append(getNote());
-		sb.append(", firstUsage=").append(getFirstUsage());
-		sb.append(", lastUsage=").append(getLastUsage());
-		sb.append(", lastReset=").append(getLastReset());
-		sb.append("}");
+		finishWithUsagesAndNote(sb);
 		return sb.toString();
 	}
 }
