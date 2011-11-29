@@ -121,7 +121,7 @@ public final class ManagerTestNG {
 
 	@Test
 	public void testGeneratedNames() {
-		Assert.assertEquals(SimonUtils.generateName("-stopwatch", true), getClass().getName() + ".testGeneratedNames-stopwatch");
+		Assert.assertEquals(SimonUtils.generateNameForClassAndMethod("-stopwatch"), getClass().getName() + ".testGeneratedNames-stopwatch");
 	}
 
 	@Test(expectedExceptions = SimonException.class)

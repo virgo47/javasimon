@@ -7,7 +7,8 @@ import java.lang.reflect.Method;
 /**
  * Helper to determine the monitor name for the aspect execution. Class, method, class annotation and method annotation
  * is provided from the aspect implementation (AspectJ/AOP), this resolution part is common. For name resolution rules
- * see {@link Monitored}.
+ * see {@link Monitored}. It is up to the user of this helper to provide proper annotation be it from the target class
+ * or from the superclass, the same goes for method annotation. This helper does not check "inherited" annotations.
  *
  * @author <a href="mailto:richard.richter@posam.sk">Richard "Virgo" Richter</a>
  */
@@ -18,11 +19,11 @@ public class MonitorNameHelper {
 	private Monitored methodAnnotation;
 
 	@SuppressWarnings({"unchecked"})
-	public MonitorNameHelper(Class targetClass, Method method) {
+	public MonitorNameHelper(Class targetClass, Monitored classAnnotation, Method method, Monitored methodAnnotation) {
 		this.targetClass = targetClass;
+		this.classAnnotation = classAnnotation;
 		this.method = method;
-		classAnnotation = (Monitored) targetClass.getAnnotation(Monitored.class);
-		methodAnnotation = method.getAnnotation(Monitored.class);
+		this.methodAnnotation = methodAnnotation;
 	}
 
 	public String getStopwatchName() {
