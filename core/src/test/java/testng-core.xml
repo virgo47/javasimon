@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Java Simon Test Suite" verbose="2" annotations="JDK">
+<suite name="Java Simon Core Suite">
 	<test name="Java Simon Core Test">
 		<classes>
 			<class name="org.javasimon.ManagerTestNG"/>
@@ -14,6 +14,11 @@
 	<test name="Java Simon JMX Test">
 		<classes>
 			<class name="org.javasimon.jmx.JmxRegistrationCallbackTest"/>
+		</classes>
+	</test>
+	<test name="Java Simon AOP Test">
+		<classes>
+			<class name="org.javasimon.aop.MonitoredAnnotationTest"/>
 		</classes>
 	</test>
 </suite>

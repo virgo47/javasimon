@@ -34,11 +34,13 @@ public class MonitoredAspect {
 		}
 	}
 
+	@SuppressWarnings({"unchecked"})
 	private String getSimonName(ProceedingJoinPoint pjp) throws Exception {
 		Class targetClass = pjp.getTarget().getClass();
 		Method method = ((MethodSignature) pjp.getSignature()).getMethod();
 		method = targetClass.getMethod(method.getName(), method.getParameterTypes());
 
-		return new MonitorNameHelper(targetClass, method).getStopwatchName();
+		return new MonitorNameHelper(targetClass, (Monitored) targetClass.getAnnotation(Monitored.class),
+			method, method.getAnnotation(Monitored.class)).getStopwatchName();
 	}
 }
