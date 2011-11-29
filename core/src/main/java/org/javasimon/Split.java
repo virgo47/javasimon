@@ -88,10 +88,10 @@ public final class Split {
 			return this;
 		}
 		running = false;
-		if (stopwatch == null) { // always enabled
-			total = System.nanoTime() - start;
-		} else if (enabled) {
-			total = ((StopwatchImpl) stopwatch).stop(this, start);
+		long nowNanos = System.nanoTime();
+		total = nowNanos - start; // we update total before calling the stop so that callbacks can use it
+		if (stopwatch != null) {
+			((StopwatchImpl) stopwatch).stop(this, start, nowNanos);
 		}
 		return this;
 	}
