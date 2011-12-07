@@ -5,7 +5,9 @@ import org.javasimon.SimonManager;
 import org.javasimon.utils.SimonUtils;
 
 /**
- * HelloUniverse is just a bit more than HelloWorld.
+ * HelloUniverse is just a bit more than {@link HelloWorld}. Example shows usage of an utility method
+ * that can run a block of code inside the stopwatch. This time {@link org.javasimon.Counter} is introduced,
+ * both sample methods are used and note is shown too.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @since 3.0
