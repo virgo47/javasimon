@@ -161,7 +161,12 @@
 			<sourcepath path="jdbc4/src/main/java"/>
 			<sourcepath path="javaee/src/main/java"/>
 			<sourcepath path="spring/src/main/java"/>
-			<!--<sourcepath path="examples/src/main/java"/>-->
+			<sourcepath path="examples/src/main/java"/>
+			<excludepackage name="other"/>
+			<excludepackage name="org.javasimon.examples.jdbc"/>
+			<excludepackage name="org.javasimon.examples.jdbc.h2"/>
+			<excludepackage name="org.javasimon.testapp"/>
+			<excludepackage name="org.javasimon.testapp.*"/>
 		</javadoc>
 		<copy todir="${doc.dir}/resources" overwrite="true">
 			<fileset dir="docs/api/resources"/>

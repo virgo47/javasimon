@@ -10,6 +10,7 @@ import org.javasimon.utils.SimonUtils;
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
+@SuppressWarnings("UnusedDeclaration")
 public final class DisabledEnabledComparison {
 	private static final int LOOP = 10000000;
 
@@ -63,6 +64,14 @@ public final class DisabledEnabledComparison {
 					SimonManager.disable();
 					for (int i = 0; i < LOOP; i++) {
 						SimonManager.getStopwatch("org.javasimon.stopwatch").start().stop();
+					}
+				}
+			},
+			new BenchmarkUtils.Task("assign-ns") {
+				@Override
+				public void perform() throws Exception {
+					for (int i = 0; i < LOOP; i++) {
+						long ns = System.nanoTime();
 					}
 				}
 			}
