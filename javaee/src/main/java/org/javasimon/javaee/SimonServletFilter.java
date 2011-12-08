@@ -4,6 +4,7 @@ import org.javasimon.Manager;
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
+import org.javasimon.callback.CallbackSkeleton;
 import org.javasimon.utils.SimonUtils;
 
 import javax.servlet.*;
@@ -58,7 +59,7 @@ public class SimonServletFilter implements Filter {
 	/**
 	 * Public thread local list of splits used to cummulate all splits for the request.
 	 */
-	public static final ThreadLocal<List<Split>> SPLITS = new ThreadLocal<List<Split>>();
+	private static final ThreadLocal<List<Split>> SPLITS = new ThreadLocal<List<Split>>();
 
 	private String simonPrefix = DEFAULT_SIMON_PREFIX;
 
@@ -86,7 +87,8 @@ public class SimonServletFilter implements Filter {
 		String reportTreshold = filterConfig.getInitParameter(INIT_PARAM_REPORT_THRESHOLD);
 		if (reportTreshold != null) {
 			try {
-				this.reportThreshold = Long.parseLong(reportTreshold);
+				this.reportThreshold = Long.parseLong(reportTreshold) * SimonUtils.NANOS_IN_MILLIS;
+				SimonManager.callback().addCallback(new SplitSaverCallback());
 			} catch (NumberFormatException e) {
 				// ignore
 			}
@@ -113,8 +115,11 @@ public class SimonServletFilter implements Filter {
 			consolePage(request, (HttpServletResponse) response);
 			return;
 		}
+		if (reportThreshold != null) {
+			SPLITS.set(new ArrayList<Split>());
+		}
+
 		String simonName = getSimonName(request);
-		SPLITS.set(new ArrayList<Split>());
 		Stopwatch stopwatch = SimonManager.getStopwatch(simonPrefix + Manager.HIERARCHY_DELIMITER + simonName);
 		if (stopwatch.getNote() == null) {
 			stopwatch.setNote(request.getRequestURI());
@@ -125,11 +130,13 @@ public class SimonServletFilter implements Filter {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			split.stop();
-			if (reportThreshold != null && split.runningFor() > reportThreshold) {
-				SimonManager.message("Split is too long: " + SPLITS.get()); // TODO + callback, logging, whatever
+			long splitNanoTime = split.stop().runningFor();
+			if (reportThreshold != null) {
+				if (splitNanoTime > reportThreshold) {
+					SimonManager.message("Split is too long (" + SimonUtils.presentNanoTime(splitNanoTime) + "): " + SPLITS.get()); // TODO + callback, logging, whatever
+				}
+				SPLITS.remove();
 			}
-			SPLITS.remove();
 		}
 	}
 
@@ -185,4 +192,12 @@ public class SimonServletFilter implements Filter {
 	 */
 	public void destroy() {
 	}
+
+	class SplitSaverCallback extends CallbackSkeleton {
+		@Override
+		public void stopwatchStart(Split split) {
+			SPLITS.get().add(split);
+		}
+	}
+
 }

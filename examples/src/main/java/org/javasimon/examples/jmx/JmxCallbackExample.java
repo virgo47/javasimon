@@ -1,6 +1,7 @@
 package org.javasimon.examples.jmx;
 
 import org.javasimon.*;
+import org.javasimon.examples.ExampleUtils;
 import org.javasimon.jmx.JmxRegisterCallback;
 
 /**
@@ -16,6 +17,7 @@ public final class JmxCallbackExample {
 	 * @param args unused
 	 * @throws Exception whatever may happen in this crazy world
 	 */
+	@SuppressWarnings("InfiniteLoopStatement")
 	public static void main(String[] args) throws Exception {
 		SimonManager.callback().addCallback(new JmxRegisterCallback());
 
@@ -25,7 +27,7 @@ public final class JmxCallbackExample {
 		while (true) {
 			counter.increase();
 			Split split = stopwatch.start();
-			Thread.sleep(500);
+			ExampleUtils.waitRandomly(40);
 			split.stop();
 		}
 	}

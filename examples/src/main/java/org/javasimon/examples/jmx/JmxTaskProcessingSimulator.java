@@ -9,6 +9,7 @@ import javax.management.MBeanServer;
 import javax.management.ObjectName;
 import javax.management.JMException;
 import java.lang.management.ManagementFactory;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.logging.Level;
 
@@ -88,6 +89,7 @@ public final class JmxTaskProcessingSimulator {
 	 * @param args unused
 	 * @throws Exception whatever may happen in this crazy world
 	 */
+	@SuppressWarnings("InfiniteLoopStatement")
 	public static void main(String[] args) throws Exception {
 		LoggingCallback loggingCallback = new LoggingCallback();
 		loggingCallback.setLevel(Level.INFO);
