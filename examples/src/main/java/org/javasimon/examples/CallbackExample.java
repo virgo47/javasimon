@@ -20,7 +20,7 @@ public final class CallbackExample {
 	public static void main(String[] args) {
 		SimonManager.callback().addCallback(new CallbackSkeleton() {
 			public void stopwatchStart(Split split) {
-				System.out.println("Stopwatch " + split.getStopwatch().getName() + " has just been started.");
+				System.out.println("\nStopwatch " + split.getStopwatch().getName() + " has just been started.");
 			}
 
 			public void stopwatchStop(Split split) {
@@ -38,7 +38,9 @@ public final class CallbackExample {
 		}
 		split.stop();
 
-		System.out.println("Additional stop() does nothing, Split state is preserved.");
+		sw.start().stop();
+
+		System.out.println("\nAdditional stop() does nothing, Split state is preserved.");
 		split.stop();
 		System.out.println("split = " + split);
 	}

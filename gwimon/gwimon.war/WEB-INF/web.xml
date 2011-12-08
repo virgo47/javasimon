@@ -26,6 +26,10 @@
 			<param-name>console-path</param-name>
 			<param-value>/simon</param-value>
 		</init-param>
+		<init-param>
+			<param-name>report-threshold</param-name>
+			<param-value>4</param-value>
+		</init-param>
 	</filter>
 
 	<filter-mapping>
