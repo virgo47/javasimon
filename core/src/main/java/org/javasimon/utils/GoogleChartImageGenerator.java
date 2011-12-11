@@ -23,7 +23,7 @@ public final class GoogleChartImageGenerator {
 
 	private static final String URL_START = "http://chart.apis.google.com/chart?chs=";
 	private static final String TYPE_BAR1 = "&cht=bvg&chbh=a,3,";
-	private static final String TYPE_BAR2 = "&chco=2d69f9,a6c9fd,d0eeff&chxt=x,x,y";
+	private static final String TYPE_BAR2 = "&chco=2d69f9,a6c9fd,d0eeff&chxt=y,x,x";
 	private static final DecimalFormat NUMBER_FORMAT = new DecimalFormat("0.00", new DecimalFormatSymbols(Locale.US));
 
 	private static final List<Replacer> REPLACERS = new LinkedList<Replacer>();
@@ -79,9 +79,10 @@ public final class GoogleChartImageGenerator {
 			result.append(",x,x");
 		}
 		result.append("&chtt=").append(encode(title));
-		final StringBuilder simonNamesAxis = new StringBuilder("&chxl=0:");
-		final StringBuilder meanValuesAxis = new StringBuilder("|1:");
-		// 2: is Y axis calculated later - following axis values are optional
+		// 0: is Y axis calculated later
+		final StringBuilder simonNamesAxis = new StringBuilder("|1:");
+		final StringBuilder meanValuesAxis = new StringBuilder("|2:");
+		// following axis values are optional
 		final StringBuilder maxValuesAxis = new StringBuilder("|3:");
 		final StringBuilder minValuesAxis = new StringBuilder("|4:");
 		final StringBuilder meanData = new StringBuilder("&chd=t:");
@@ -103,14 +104,14 @@ public final class GoogleChartImageGenerator {
 			}
 		}
 		double division = Math.pow(TEN_BASE, Math.floor(Math.log10(max)));
-		StringBuilder yAxis = new StringBuilder("|2:");
+		StringBuilder yAxis = new StringBuilder("&chxl=0:");
 		double x = 0;
 		for (; x < max + division; x += division) {
 			yAxis.append('|').append(Double.valueOf(x).longValue());
 		}
 		result.append("&chxr=2,0,").append(Double.valueOf(x - division).longValue());
 		result.append("&chds=0,").append(Double.valueOf(x - division).longValue());
-		result.append(simonNamesAxis).append(meanValuesAxis).append(yAxis);
+		result.append(yAxis).append(simonNamesAxis).append(meanValuesAxis);
 		if (showMaxMin) {
 			result.append(maxValuesAxis).append(minValuesAxis);
 		}
