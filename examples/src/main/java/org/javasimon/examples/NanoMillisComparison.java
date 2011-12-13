@@ -25,6 +25,9 @@ public final class NanoMillisComparison {
 	 * @param args command line arguments
 	 */
 	public static void main(String[] args) {
+		// with or without - results on get/start/stop are virtually the same!
+		ExampleUtils.fillManagerWithSimons(100000);
+
 		StopwatchSample[] results = BenchmarkUtils.run(2, 5,
 			new BenchmarkUtils.Task("empty") {
 				@Override

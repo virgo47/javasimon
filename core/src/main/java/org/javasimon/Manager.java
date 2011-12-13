@@ -68,7 +68,7 @@ public interface Manager {
 	List<String> simonNames();
 
 	/**
-	 * Returns unmodifiable collection containing names of all existing Simons.
+	 * Returns unmodifiable collection containing names of all existing Simons. Collection is not ordered.
 	 *
 	 * @return collection of all Simon names
 	 * @since 3.1

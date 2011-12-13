@@ -39,9 +39,17 @@ public interface SimonMXBean {
 	 * Returns array containing full hierarchical names of all existing Simons.
 	 *
 	 * @return array of all Simon names
-	 * @see org.javasimon.Manager#simonNames()
+	 * @see org.javasimon.Manager#getSimonNames()
 	 */
 	String[] getSimonNames();
+
+	/**
+	 * Returns array containing full hierarchical names of all existing Simons in natural String order.
+	 *
+	 * @return array of all Simon names (ordered)
+	 * @see org.javasimon.Manager#getSimonNames()
+	 */
+	String[] getSimonNamesOrdered();
 
 	/**
 	 * Returns type of Simon, either COUNTER, STOPWATCH or UNKNOWN.
@@ -53,9 +61,9 @@ public interface SimonMXBean {
 	String getType(String name);
 
 	/**
-	 * Returns array containing names and types of all existing Simons.
+	 * Returns array containing names and types of all existing Simons ordered naturally by name.
 	 *
-	 * @return array of {@link SimonInfo} object
+	 * @return array of {@link SimonInfo} objects
 	 */
 	SimonInfo[] getSimonInfos();
 
