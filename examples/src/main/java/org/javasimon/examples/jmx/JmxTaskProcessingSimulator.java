@@ -9,7 +9,6 @@ import javax.management.MBeanServer;
 import javax.management.ObjectName;
 import javax.management.JMException;
 import java.lang.management.ManagementFactory;
-import java.util.Arrays;
 import java.util.Random;
 import java.util.logging.Level;
 

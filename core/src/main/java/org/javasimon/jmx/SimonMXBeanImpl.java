@@ -3,6 +3,7 @@ package org.javasimon.jmx;
 import org.javasimon.*;
 import org.javasimon.utils.SimonUtils;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 /**
@@ -53,7 +54,17 @@ public class SimonMXBeanImpl implements SimonMXBean {
 	 * {@inheritDoc}
 	 */
 	public final String[] getSimonNames() {
-		return (String[]) manager.getSimonNames().toArray();
+		Collection<String> simonNames = manager.getSimonNames();
+		return simonNames.toArray(new String[simonNames.size()]);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final String[] getSimonNamesOrdered() {
+		String[] simonNames = getSimonNames();
+		Arrays.sort(simonNames);
+		return simonNames;
 	}
 
 	/**
@@ -68,8 +79,8 @@ public class SimonMXBeanImpl implements SimonMXBean {
 	 * {@inheritDoc}
 	 */
 	public final SimonInfo[] getSimonInfos() {
-		Collection<String> simonNames = manager.getSimonNames();
-		SimonInfo[] simonInfo = new SimonInfo[simonNames.size()];
+		String[] simonNames = getSimonNamesOrdered();
+		SimonInfo[] simonInfo = new SimonInfo[simonNames.length];
 		int i = 0;
 		for (String name : simonNames) {
 			Simon s = manager.getSimon(name);
@@ -161,7 +172,7 @@ public class SimonMXBeanImpl implements SimonMXBean {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void reset(String name) {
+	public final void reset(String name) {
 		manager.getSimon(name).reset();
 	}
 }

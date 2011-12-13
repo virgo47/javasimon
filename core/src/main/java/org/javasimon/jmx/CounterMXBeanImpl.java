@@ -18,7 +18,7 @@ public class CounterMXBeanImpl extends AbstractSimonMXBeanImpl implements Counte
 	 *
 	 * @param counter wrapped Counter
 	 */
-	protected CounterMXBeanImpl(Counter counter) {
+	public CounterMXBeanImpl(Counter counter) {
 		this.counter = counter;
 	}
 
@@ -67,7 +67,7 @@ public class CounterMXBeanImpl extends AbstractSimonMXBeanImpl implements Counte
 	 */
 	@Override
 	public final CounterSample sample() {
-		return new CounterSample((org.javasimon.CounterSample) counter.sample());
+		return new CounterSample(counter.sample());
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class CounterMXBeanImpl extends AbstractSimonMXBeanImpl implements Counte
 	 */
 	@Override
 	public final CounterSample sampleAndReset() {
-		return new CounterSample((org.javasimon.CounterSample) counter.sampleAndReset());
+		return new CounterSample(counter.sampleAndReset());
 	}
 
 	/**

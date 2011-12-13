@@ -19,7 +19,7 @@ public class StopwatchMXBeanImpl extends AbstractSimonMXBeanImpl implements Stop
 	 *
 	 * @param stopwatch wrapped Stopwatch
 	 */
-	protected StopwatchMXBeanImpl(Stopwatch stopwatch) {
+	public StopwatchMXBeanImpl(Stopwatch stopwatch) {
 		this.stopwatch = stopwatch;
 	}
 
@@ -43,7 +43,7 @@ public class StopwatchMXBeanImpl extends AbstractSimonMXBeanImpl implements Stop
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String getLastAsString() {
+	public final String getLastAsString() {
 		return SimonUtils.presentNanoTime(getLast());
 	}
 
@@ -52,7 +52,7 @@ public class StopwatchMXBeanImpl extends AbstractSimonMXBeanImpl implements Stop
 	 */
 	@Override
 	public final StopwatchSample sample() {
-		return new StopwatchSample((org.javasimon.StopwatchSample) stopwatch.sample());
+		return new StopwatchSample(stopwatch.sample());
 	}
 
 	/**
@@ -60,7 +60,7 @@ public class StopwatchMXBeanImpl extends AbstractSimonMXBeanImpl implements Stop
 	 */
 	@Override
 	public final StopwatchSample sampleAndReset() {
-		return new StopwatchSample((org.javasimon.StopwatchSample) stopwatch.sampleAndReset());
+		return new StopwatchSample(stopwatch.sampleAndReset());
 	}
 
 	/**
