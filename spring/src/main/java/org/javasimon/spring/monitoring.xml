@@ -6,7 +6,7 @@
 	<bean id="javasimonInterceptor" class="org.javasimon.spring.MonitoringInterceptor"/>
 
 	<bean id="javasimonAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
-		<property name="advice" ref="monitoringInterceptor"/>
+		<property name="advice" ref="javasimonInterceptor"/>
 		<property name="pointcut">
 			<bean class="org.javasimon.spring.MonitoredMeasuringPointcut"/>
 		</property>
