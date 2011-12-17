@@ -7,11 +7,13 @@ import org.javasimon.Counter;
  * MX Bean representing a particular {@link org.javasimon.Counter}. It is not created
  * by default when JMX is activated - it must be created explicitely.
  * {@link JmxRegisterCallback} can be used to automate this.
+ * <p/>
+ * Class can be subclassed to override default behavior if desired, {@link #counter} is declared protected for this reason.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public class CounterMXBeanImpl extends AbstractSimonMXBeanImpl implements CounterMXBean {
-	private Counter counter;
+	protected Counter counter;
 
 	/**
 	 * Creates the MX bean for the provided Counter.
@@ -26,7 +28,7 @@ public class CounterMXBeanImpl extends AbstractSimonMXBeanImpl implements Counte
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final void increase() {
+	public void increase() {
 		counter.increase();
 	}
 
@@ -34,7 +36,7 @@ public class CounterMXBeanImpl extends AbstractSimonMXBeanImpl implements Counte
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final void decrease() {
+	public void decrease() {
 		counter.decrease();
 	}
 
@@ -42,7 +44,7 @@ public class CounterMXBeanImpl extends AbstractSimonMXBeanImpl implements Counte
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final void increase(long inc) {
+	public void increase(long inc) {
 		counter.increase(inc);
 	}
 
@@ -50,7 +52,7 @@ public class CounterMXBeanImpl extends AbstractSimonMXBeanImpl implements Counte
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final void decrease(long dec) {
+	public void decrease(long dec) {
 		counter.decrease(dec);
 	}
 
@@ -58,7 +60,7 @@ public class CounterMXBeanImpl extends AbstractSimonMXBeanImpl implements Counte
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final void set(long val) {
+	public void set(long val) {
 		counter.set(val);
 	}
 
@@ -66,7 +68,7 @@ public class CounterMXBeanImpl extends AbstractSimonMXBeanImpl implements Counte
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final CounterSample sample() {
+	public CounterSample sample() {
 		return new CounterSample(counter.sample());
 	}
 
@@ -74,7 +76,7 @@ public class CounterMXBeanImpl extends AbstractSimonMXBeanImpl implements Counte
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final CounterSample sampleAndReset() {
+	public CounterSample sampleAndReset() {
 		return new CounterSample(counter.sampleAndReset());
 	}
 
@@ -82,7 +84,7 @@ public class CounterMXBeanImpl extends AbstractSimonMXBeanImpl implements Counte
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final String getType() {
+	public String getType() {
 		return SimonInfo.COUNTER;
 	}
 
@@ -90,7 +92,7 @@ public class CounterMXBeanImpl extends AbstractSimonMXBeanImpl implements Counte
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final Simon simon() {
+	protected Simon simon() {
 		return counter;
 	}
 }
