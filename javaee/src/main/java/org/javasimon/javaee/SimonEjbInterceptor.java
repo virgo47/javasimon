@@ -20,6 +20,19 @@ public class SimonEjbInterceptor {
 	public static final String DEFAULT_EJB_INTERCEPTOR_PREFIX = "org.javasimon.ejb";
 
 	/**
+	 * Returns Simon name for the specified Invocation context.
+	 * By default it contains the prefix + method name.
+	 * This method can be overriden.
+	 *
+	 * @param context Invocation context
+	 * @return fully qualified name of the Simon
+	 * @since 3.1
+	 */
+	protected String getSimonName(InvocationContext context) {
+		return DEFAULT_EJB_INTERCEPTOR_PREFIX + Manager.HIERARCHY_DELIMITER + context.getMethod().getName();
+	}
+
+	/**
 	 * Around invoke method that measures the split for one method invocation.
 	 *
 	 * @param context EJB invocation context
@@ -28,8 +41,8 @@ public class SimonEjbInterceptor {
 	 */
 	@AroundInvoke
 	public Object monitor(InvocationContext context) throws Exception {
-		String simonName = context.getMethod().getName();
-		Split split = SimonManager.getStopwatch(DEFAULT_EJB_INTERCEPTOR_PREFIX + Manager.HIERARCHY_DELIMITER + simonName).start();
+		String simonName = getSimonName(context);
+		Split split = SimonManager.getStopwatch(simonName).start();
 		try {
 			return context.proceed();
 		} finally {
