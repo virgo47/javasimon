@@ -20,8 +20,25 @@ import java.lang.management.ManagementFactory;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public class JmxRegisterCallback extends CallbackSkeleton {
-	private MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
+	private MBeanServer mBeanServer;
+
 	private Set<String> registeredNames = new HashSet<String>();
+
+	/**
+	 * Default constructor uses default MBeanServer.
+	 */
+	public JmxRegisterCallback() {
+		this.mBeanServer = ManagementFactory.getPlatformMBeanServer();
+	}
+
+	/**
+	 * Constructor using specific MBeanServer.
+	 *
+	 * @param mBeanServer specific MBeanServer
+	 */
+	public JmxRegisterCallback(MBeanServer mBeanServer) {
+		this.mBeanServer = mBeanServer;
+	}
 
 	/**
 	 * After Simon is created respective MX bean is registered for it according to
@@ -82,6 +99,32 @@ public class JmxRegisterCallback extends CallbackSkeleton {
 	 * @param simon Simon MX Bean to be registered
 	 */
 	protected final void register(Simon simon) {
+		Object mBean = constructObject(simon);
+		String name = constructObjectName(simon);
+		if (mBean != null && name != null) {
+			try {
+				ObjectName objectName = new ObjectName(name);
+				if (mBeanServer.isRegistered(objectName)) {
+					mBeanServer.unregisterMBean(objectName);
+				} else {
+					registeredNames.add(name);
+				}
+				mBeanServer.registerMBean(mBean, objectName);
+				message("Simon registered under the name: " + objectName);
+			} catch (JMException e) {
+				warning("JMX registration failed for: " + name, e);
+				registeredNames.remove(name);
+			}
+		}
+	}
+
+	/**
+	 * Constructs JMX object from Simon object. Method can be overridden.
+	 *
+	 * @param simon Simon object
+	 * @return JMX object (=MBean) representing the Simon
+	 */
+	protected SimonSuperMXBean constructObject(Simon simon) {
 		SimonSuperMXBean simonMxBean;
 		if (simon instanceof Counter) {
 			simonMxBean = new CounterMXBeanImpl((Counter) simon);
@@ -89,22 +132,9 @@ public class JmxRegisterCallback extends CallbackSkeleton {
 			simonMxBean = new StopwatchMXBeanImpl((Stopwatch) simon);
 		} else {
 			warning("Unknown type of Simon! " + simon, null);
-			return;
+			simonMxBean = null;
 		}
-		String name = constructObjectName(simon);
-		try {
-			ObjectName objectName = new ObjectName(name);
-			if (mBeanServer.isRegistered(objectName)) {
-				mBeanServer.unregisterMBean(objectName);
-			} else {
-				registeredNames.add(name);
-			}
-			mBeanServer.registerMBean(simonMxBean, objectName);
-			message("Simon registered under the name: " + objectName);
-		} catch (JMException e) {
-			warning("JMX registration failed for: " + name, e);
-			registeredNames.remove(name);
-		}
+		return simonMxBean;
 	}
 
 	/**
