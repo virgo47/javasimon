@@ -97,6 +97,7 @@ public class JmxRegisterCallback extends CallbackSkeleton {
 	 * Method registering Simon MX Bean - can not be overriden, but can be used in subclasses.
 	 *
 	 * @param simon Simon MX Bean to be registered
+	 * @since 3.1
 	 */
 	protected final void register(Simon simon) {
 		Object mBean = constructObject(simon);
