@@ -23,6 +23,8 @@ import java.util.List;
  * <li>provides basic "console" function if config parameter {@link #INIT_PARAM_SIMON_CONSOLE_PATH} is used in {@code web.xml}</li>
  * </ul>
  *
+ * All constants are public and fields protected for easy extension of the class.
+ *
  * @author Richard Richter
  * @since 2.3
  */
@@ -57,18 +59,32 @@ public class SimonServletFilter implements Filter {
 	public static final String INIT_PARAM_SIMON_CONSOLE_PATH = "console-path";
 
 	/**
-	 * Public thread local list of splits used to cummulate all splits for the request.
+	 * Thread local list of splits used to cummulate all splits for the request.
 	 */
-	private static final ThreadLocal<List<Split>> SPLITS = new ThreadLocal<List<Split>>();
+	protected static final ThreadLocal<List<Split>> SPLITS = new ThreadLocal<List<Split>>();
 
-	private String simonPrefix = DEFAULT_SIMON_PREFIX;
+	protected String simonPrefix = DEFAULT_SIMON_PREFIX;
 
-	private Long reportThreshold;
+	/**
+	 * Threshold in ms - any reqest longer than this will be reported by
+	 * {@link #reportRequestOverThreshold(long, javax.servlet.http.HttpServletRequest)}. Specified by
+	 * {@link #INIT_PARAM_REPORT_THRESHOLD} ({@value #INIT_PARAM_REPORT_THRESHOLD}) in the {@code web.xml}.
+	 *
+	 */
+	protected Long reportThreshold;
 
 	/**
 	 * URL path that displays Simon web console (or null if no console is required).
 	 */
-	private String consolePath;
+	protected String consolePath;
+
+	/**
+	 * Callback that saves all splits in {@link #SPLITS} if {@link #reportThreshold} is configured.
+	 */
+	protected SplitSaverCallback splitSaverCallback;
+
+	// not configurable yet, but at least class uses this field and not the SM class
+	protected Manager manager = SimonManager.manager();
 
 	/**
 	 * Initialization method that processes {@link #INIT_PARAM_PREFIX} and {@link #INIT_PARAM_PUBLISH_MANAGER}
@@ -76,19 +92,20 @@ public class SimonServletFilter implements Filter {
 	 *
 	 * @param filterConfig filter config object
 	 */
-	public void init(FilterConfig filterConfig) {
+	public final void init(FilterConfig filterConfig) {
 		if (filterConfig.getInitParameter(INIT_PARAM_PREFIX) != null) {
 			simonPrefix = filterConfig.getInitParameter(INIT_PARAM_PREFIX);
 		}
 		String publishManager = filterConfig.getInitParameter(INIT_PARAM_PUBLISH_MANAGER);
 		if (publishManager != null) {
-			filterConfig.getServletContext().setAttribute(publishManager, SimonManager.manager());
+			filterConfig.getServletContext().setAttribute(publishManager, manager);
 		}
 		String reportTreshold = filterConfig.getInitParameter(INIT_PARAM_REPORT_THRESHOLD);
 		if (reportTreshold != null) {
 			try {
 				this.reportThreshold = Long.parseLong(reportTreshold) * SimonUtils.NANOS_IN_MILLIS;
-				SimonManager.callback().addCallback(new SplitSaverCallback());
+				splitSaverCallback = new SplitSaverCallback();
+				manager.callback().addCallback(splitSaverCallback);
 			} catch (NumberFormatException e) {
 				// ignore
 			}
@@ -109,7 +126,7 @@ public class SimonServletFilter implements Filter {
 	 * @throws IOException possibly thrown by other filter/serlvet in the chain
 	 * @throws ServletException possibly thrown by other filter/serlvet in the chain
 	 */
-	public void doFilter(ServletRequest servletRequest, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
+	public final void doFilter(ServletRequest servletRequest, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
 		String localPath = request.getRequestURI().substring(request.getContextPath().length());
 		if (consolePath != null && localPath.startsWith(consolePath)) {
@@ -121,7 +138,7 @@ public class SimonServletFilter implements Filter {
 		}
 
 		String simonName = getSimonName(request);
-		Stopwatch stopwatch = SimonManager.getStopwatch(simonPrefix + Manager.HIERARCHY_DELIMITER + simonName);
+		Stopwatch stopwatch = manager.getStopwatch(simonPrefix + Manager.HIERARCHY_DELIMITER + simonName);
 		if (stopwatch.getNote() == null) {
 			stopwatch.setNote(request.getRequestURI());
 		}
@@ -132,11 +149,22 @@ public class SimonServletFilter implements Filter {
 			long splitNanoTime = split.stop().runningFor();
 			if (reportThreshold != null) {
 				if (splitNanoTime > reportThreshold) {
-					SimonManager.message("Split is too long (" + SimonUtils.presentNanoTime(splitNanoTime) + "): " + SPLITS.get()); // TODO + callback, logging, whatever
+					reportRequestOverThreshold(splitNanoTime, request);
 				}
 				SPLITS.remove();
 			}
 		}
+	}
+
+	/**
+	 * Reports request that exceeds the threshold.
+	 *
+	 * @param splitNanoTime nano time of the request
+	 * @param request offending request itself
+	 */
+	@SuppressWarnings("UnusedParameters")
+	protected void reportRequestOverThreshold(long splitNanoTime, HttpServletRequest request) {
+		manager.message("Split is too long (" + SimonUtils.presentNanoTime(splitNanoTime) + "): " + SPLITS.get());
 	}
 
 	private void consolePage(HttpServletRequest request, HttpServletResponse response, String localPath) throws IOException {
@@ -147,7 +175,7 @@ public class SimonServletFilter implements Filter {
 		if (subcommand.isEmpty()) {
 			printSimonTree(response);
 		} else if (subcommand.equalsIgnoreCase("/clear")) {
-			SimonManager.clear();
+			manager.clear();
 			response.getOutputStream().println("Simon Manager was cleared");
 		} else {
 			response.getOutputStream().println("Invalid command\n");
@@ -156,11 +184,12 @@ public class SimonServletFilter implements Filter {
 	}
 
 	private void simonHelp(ServletResponse response) throws IOException {
-		response.getOutputStream().println("Simon Console help:");
+		response.getOutputStream().println("Simon Console help - available commands:");
+		response.getOutputStream().println("<b>clear</b> - clears the manager (removes all Simons)");
 	}
 
 	private void printSimonTree(ServletResponse response) throws IOException {
-		response.getOutputStream().println(SimonUtils.simonTreeString(SimonManager.getRootSimon()));
+		response.getOutputStream().println(SimonUtils.simonTreeString(manager.getRootSimon()));
 	}
 
 	/**
@@ -187,15 +216,21 @@ public class SimonServletFilter implements Filter {
 	}
 
 	/**
-	 * Does nothing - just implements the contract.
+	 * Removes the splitSaverCallback if initialized.
 	 */
 	public void destroy() {
+		if (splitSaverCallback != null) {
+			manager.callback().removeCallback(splitSaverCallback);
+		}
 	}
 
 	class SplitSaverCallback extends CallbackSkeleton {
 		@Override
 		public void stopwatchStart(Split split) {
-			SPLITS.get().add(split);
+			List<Split> splits = SPLITS.get();
+			if (splits != null) {
+				splits.add(split);
+			}
 		}
 	}
 
