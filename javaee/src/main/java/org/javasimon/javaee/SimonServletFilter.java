@@ -18,9 +18,9 @@ import java.util.List;
  * Simon Servlet filter measuring HTTP request execution times. Non-HTTP usages are not supported.
  * Filter provides these functions:
  * <ul>
- *     <li>measures all requests and creates tree of Simons with names derived from URLs</li>
- *     <li>checks if the request is not longer then a specified threshold and logs warning (TODO)</li>
- *     <li>provides basic "console" function if config parameter {@link #INIT_PARAM_SIMON_CONSOLE_PATH} is used in {@code web.xml}</li>
+ * <li>measures all requests and creates tree of Simons with names derived from URLs</li>
+ * <li>checks if the request is not longer then a specified threshold and logs warning (TODO)</li>
+ * <li>provides basic "console" function if config parameter {@link #INIT_PARAM_SIMON_CONSOLE_PATH} is used in {@code web.xml}</li>
  * </ul>
  *
  * @author Richard Richter
@@ -111,8 +111,9 @@ public class SimonServletFilter implements Filter {
 	 */
 	public void doFilter(ServletRequest servletRequest, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
-		if (consolePath != null && request.getRequestURI().startsWith(consolePath)) {
-			consolePage(request, (HttpServletResponse) response);
+		String localPath = request.getRequestURI().substring(request.getContextPath().length());
+		if (consolePath != null && localPath.startsWith(consolePath)) {
+			consolePage(request, (HttpServletResponse) response, localPath);
 			return;
 		}
 		if (reportThreshold != null) {
@@ -127,8 +128,6 @@ public class SimonServletFilter implements Filter {
 		Split split = stopwatch.start();
 		try {
 			filterChain.doFilter(request, response);
-		} catch (Exception e) {
-			e.printStackTrace();
 		} finally {
 			long splitNanoTime = split.stop().runningFor();
 			if (reportThreshold != null) {
@@ -140,11 +139,11 @@ public class SimonServletFilter implements Filter {
 		}
 	}
 
-	private void consolePage(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	private void consolePage(HttpServletRequest request, HttpServletResponse response, String localPath) throws IOException {
 		response.setContentType("text/plain");
 		response.setHeader("Cache-Control", "no-cache, no-store, max-age=0, must-revalidate");
 		response.setHeader("Pragma", "no-cache");
-		String subcommand = request.getRequestURI().substring(consolePath.length());
+		String subcommand = localPath.substring(consolePath.length());
 		if (subcommand.isEmpty()) {
 			printSimonTree(response);
 		} else if (subcommand.equalsIgnoreCase("/clear")) {
