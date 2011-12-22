@@ -13,11 +13,17 @@ import javax.interceptor.InvocationContext;
  * @author <a href="mailto:richard.richter@siemens-enterprise.com">Richard "Virgo" Richter</a>
  * @since 2.3
  */
+@SuppressWarnings("UnusedParameters")
 public class SimonEjbInterceptor {
 	/**
 	 * Default prefix for EJB interceptor Simons if no "prefix" init parameter is used.
 	 */
 	public static final String DEFAULT_EJB_INTERCEPTOR_PREFIX = "org.javasimon.ejb";
+
+	/**
+	 * Simon name prefix - can be overriden in subclasses.
+	 */
+	protected String prefix = DEFAULT_EJB_INTERCEPTOR_PREFIX;
 
 	/**
 	 * Returns Simon name for the specified Invocation context.
@@ -29,7 +35,21 @@ public class SimonEjbInterceptor {
 	 * @since 3.1
 	 */
 	protected String getSimonName(InvocationContext context) {
-		return DEFAULT_EJB_INTERCEPTOR_PREFIX + Manager.HIERARCHY_DELIMITER + context.getMethod().getName();
+		String className = context.getMethod().getDeclaringClass().getSimpleName();
+		String methodName = context.getMethod().getName();
+		return prefix + Manager.HIERARCHY_DELIMITER + className + Manager.HIERARCHY_DELIMITER + methodName;
+	}
+
+	/**
+	 * Indicates whether the method invocation should be monitored.
+	 * Default: always returns true.
+	 * This method can be overriden
+	 *
+	 * @param context Method invocation context
+	 * @return true to enable Simon, false either
+	 */
+	protected boolean isMonitored(InvocationContext context) {
+		return true;
 	}
 
 	/**
@@ -41,12 +61,16 @@ public class SimonEjbInterceptor {
 	 */
 	@AroundInvoke
 	public Object monitor(InvocationContext context) throws Exception {
-		String simonName = getSimonName(context);
-		Split split = SimonManager.getStopwatch(simonName).start();
-		try {
+		if (isMonitored(context)) {
+			String simonName = getSimonName(context);
+			Split split = SimonManager.getStopwatch(simonName).start();
+			try {
+				return context.proceed();
+			} finally {
+				split.stop();
+			}
+		} else {
 			return context.proceed();
-		} finally {
-			split.stop();
 		}
 	}
 }

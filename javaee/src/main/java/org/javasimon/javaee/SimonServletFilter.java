@@ -22,12 +22,13 @@ import java.util.List;
  * <li>checks if the request is not longer then a specified threshold and logs warning (TODO)</li>
  * <li>provides basic "console" function if config parameter {@link #INIT_PARAM_SIMON_CONSOLE_PATH} is used in {@code web.xml}</li>
  * </ul>
- *
+ * <p/>
  * All constants are public and fields protected for easy extension of the class.
  *
  * @author Richard Richter
  * @since 2.3
  */
+@SuppressWarnings("UnusedParameters")
 public class SimonServletFilter implements Filter {
 	/**
 	 * Default prefix for web filter Simons if no "prefix" init parameter is used.
@@ -58,21 +59,12 @@ public class SimonServletFilter implements Filter {
 	 */
 	public static final String INIT_PARAM_SIMON_CONSOLE_PATH = "console-path";
 
-	/**
-	 * Thread local list of splits used to cummulate all splits for the request.
-	 * Every instance of the Servlet has its own thread-local to bind its lifecycle to
-	 * the callback that servlet is registering. Then even more callbacks registered from various
-	 * servlets in the same manager do not interfere.
-	 */
-	protected final ThreadLocal<List<Split>> splitsThreadLocal = new ThreadLocal<List<Split>>();
-
 	protected String simonPrefix = DEFAULT_SIMON_PREFIX;
 
 	/**
 	 * Threshold in ms - any reqest longer than this will be reported by
-	 * {@link #reportRequestOverThreshold(long, javax.servlet.http.HttpServletRequest)}. Specified by
-	 * {@link #INIT_PARAM_REPORT_THRESHOLD} ({@value #INIT_PARAM_REPORT_THRESHOLD}) in the {@code web.xml}.
-	 *
+	 * {@link #reportRequestOverThreshold(javax.servlet.http.HttpServletRequest, long, java.util.List)}.
+	 * Specified by {@link #INIT_PARAM_REPORT_THRESHOLD} ({@value #INIT_PARAM_REPORT_THRESHOLD}) in the {@code web.xml}.
 	 */
 	protected Long reportThreshold;
 
@@ -81,13 +73,21 @@ public class SimonServletFilter implements Filter {
 	 */
 	protected String consolePath;
 
+	// not configurable yet, but at least class uses this field and not the SM class
+	protected Manager manager = SimonManager.manager();
+
+	/**
+	 * Thread local list of splits used to cummulate all splits for the request.
+	 * Every instance of the Servlet has its own thread-local to bind its lifecycle to
+	 * the callback that servlet is registering. Then even more callbacks registered from various
+	 * servlets in the same manager do not interfere.
+	 */
+	private final ThreadLocal<List<Split>> splitsThreadLocal = new ThreadLocal<List<Split>>();
+
 	/**
 	 * Callback that saves all splits in {@link #splitsThreadLocal} if {@link #reportThreshold} is configured.
 	 */
-	protected SplitSaverCallback splitSaverCallback;
-
-	// not configurable yet, but at least class uses this field and not the SM class
-	protected Manager manager = SimonManager.manager();
+	private SplitSaverCallback splitSaverCallback;
 
 	/**
 	 * Initialization method that processes {@link #INIT_PARAM_PREFIX} and {@link #INIT_PARAM_PUBLISH_MANAGER}
@@ -136,38 +136,60 @@ public class SimonServletFilter implements Filter {
 			consolePage(request, (HttpServletResponse) response, localPath);
 			return;
 		}
-		if (reportThreshold != null) {
-			splitsThreadLocal.set(new ArrayList<Split>());
-		}
-
-		String simonName = getSimonName(request);
-		Stopwatch stopwatch = manager.getStopwatch(simonPrefix + Manager.HIERARCHY_DELIMITER + simonName);
-		if (stopwatch.getNote() == null) {
-			stopwatch.setNote(request.getRequestURI());
-		}
-		Split split = stopwatch.start();
-		try {
-			filterChain.doFilter(request, response);
-		} finally {
-			long splitNanoTime = split.stop().runningFor();
+		if (isMonitored(request)) {
 			if (reportThreshold != null) {
-				if (splitNanoTime > reportThreshold) {
-					reportRequestOverThreshold(splitNanoTime, request);
-				}
-				splitsThreadLocal.remove();
+				splitsThreadLocal.set(new ArrayList<Split>());
 			}
+
+			String simonName = getSimonName(request);
+			Stopwatch stopwatch = manager.getStopwatch(simonPrefix + Manager.HIERARCHY_DELIMITER + simonName);
+			if (stopwatch.getNote() == null) {
+				stopwatch.setNote(request.getRequestURI());
+			}
+			Split split = stopwatch.start();
+			try {
+				filterChain.doFilter(request, response);
+			} finally {
+				long splitNanoTime = split.stop().runningFor();
+				if (reportThreshold != null) {
+					if (splitNanoTime > reportThreshold) {
+						reportRequestOverThreshold(request, splitNanoTime, splitsThreadLocal.get());
+					}
+					splitsThreadLocal.remove();
+				}
+			}
+		} else {
+			filterChain.doFilter(request, response);
 		}
 	}
 
 	/**
-	 * Reports request that exceeds the threshold.
+	 * Indicates whether the HTTP Request should be monitored - method is intended for override.
+	 * Default behavior always return true.
+	 * <p/>
+	 * Example of overriding code:
+	 * <code>
+	 * String uri = request.getRequestURI().toLowerCase();
+	 * return !(uri.endsWith(".css") || uri.endsWith(".png") || uri.endsWith(".gif") || uri.endsWith(".jpg") || uri.endsWith(".js"));
+	 * </code>
 	 *
-	 * @param splitNanoTime nano time of the request
-	 * @param request offending request itself
+	 * @param request HTTP Request
+	 * @return true to enable Simon, false either
 	 */
-	@SuppressWarnings("UnusedParameters")
-	protected void reportRequestOverThreshold(long splitNanoTime, HttpServletRequest request) {
-		manager.message("Split is too long (" + SimonUtils.presentNanoTime(splitNanoTime) + "): " + splitsThreadLocal.get());
+	protected boolean isMonitored(HttpServletRequest request) {
+		return true;
+	}
+
+	/**
+	 * Reports request that exceeds the threshold - method is intended for override.
+	 * Default behavior reports over {@link Manager#message(String)}.
+	 *
+	 * @param request offending HTTP request
+	 * @param splitNanoTime nano time of the request
+	 * @param splits list of all splits started for this request
+	 */
+	protected void reportRequestOverThreshold(HttpServletRequest request, long splitNanoTime, List<Split> splits) {
+		manager.message("Split is too long (" + SimonUtils.presentNanoTime(splitNanoTime) + "): " + splits);
 	}
 
 	private void consolePage(HttpServletRequest request, HttpServletResponse response, String localPath) throws IOException {
@@ -227,7 +249,7 @@ public class SimonServletFilter implements Filter {
 		}
 	}
 
-	class SplitSaverCallback extends CallbackSkeleton {
+	private class SplitSaverCallback extends CallbackSkeleton {
 		@Override
 		public void stopwatchStart(Split split) {
 			List<Split> splits = splitsThreadLocal.get();
