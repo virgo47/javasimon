@@ -1,29 +1,25 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.javasimon.examples.jmx.custom;
 
-import org.javasimon.jmx.SimonSuperMXBean;
+import org.javasimon.jmx.StopwatchMXBean;
 
 /**
+ * Custom extension to Stopwatch MX bean interface to provide values in millis.
  *
  * @author gquintana
  */
-public interface CustomStopwatchMXBean extends SimonSuperMXBean {
+public interface CustomStopwatchMXBean extends StopwatchMXBean {
 
-    long getCounter();
+	long getCounter();
 
-    long getLast();
+	long getLastInMillis();
 
-    long getMax();
+	long getMaxInMillis();
 
-    double getMean();
+	double getMeanInMillis();
 
-    long getMin();
+	long getMinInMillis();
 
-    double getStandardDeviation();
+	double getStandardDeviationInMillis();
 
-    long getTotal();
-    
+	long getTotalInMillis();
 }

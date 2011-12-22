@@ -28,7 +28,7 @@ public class CounterMXBeanImpl extends AbstractSimonMXBeanImpl implements Counte
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void increase() {
+	public final void increase() {
 		counter.increase();
 	}
 
@@ -36,7 +36,7 @@ public class CounterMXBeanImpl extends AbstractSimonMXBeanImpl implements Counte
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void decrease() {
+	public final void decrease() {
 		counter.decrease();
 	}
 
@@ -44,7 +44,7 @@ public class CounterMXBeanImpl extends AbstractSimonMXBeanImpl implements Counte
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void increase(long inc) {
+	public final void increase(long inc) {
 		counter.increase(inc);
 	}
 
@@ -52,7 +52,7 @@ public class CounterMXBeanImpl extends AbstractSimonMXBeanImpl implements Counte
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void decrease(long dec) {
+	public final void decrease(long dec) {
 		counter.decrease(dec);
 	}
 
@@ -60,7 +60,7 @@ public class CounterMXBeanImpl extends AbstractSimonMXBeanImpl implements Counte
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void set(long val) {
+	public final void set(long val) {
 		counter.set(val);
 	}
 
@@ -68,7 +68,7 @@ public class CounterMXBeanImpl extends AbstractSimonMXBeanImpl implements Counte
 	 * {@inheritDoc}
 	 */
 	@Override
-	public CounterSample sample() {
+	public final CounterSample sample() {
 		return new CounterSample(counter.sample());
 	}
 
@@ -76,7 +76,7 @@ public class CounterMXBeanImpl extends AbstractSimonMXBeanImpl implements Counte
 	 * {@inheritDoc}
 	 */
 	@Override
-	public CounterSample sampleAndReset() {
+	public final CounterSample sampleAndReset() {
 		return new CounterSample(counter.sampleAndReset());
 	}
 
@@ -84,7 +84,7 @@ public class CounterMXBeanImpl extends AbstractSimonMXBeanImpl implements Counte
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String getType() {
+	public final String getType() {
 		return SimonInfo.COUNTER;
 	}
 
@@ -92,7 +92,7 @@ public class CounterMXBeanImpl extends AbstractSimonMXBeanImpl implements Counte
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected Simon simon() {
+	protected final Simon simon() {
 		return counter;
 	}
 }

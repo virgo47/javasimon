@@ -20,24 +20,31 @@ import java.lang.management.ManagementFactory;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public class JmxRegisterCallback extends CallbackSkeleton {
-	private MBeanServer mBeanServer;
+	protected String domain;
+
+	protected MBeanServer mBeanServer;
 
 	private Set<String> registeredNames = new HashSet<String>();
 
 	/**
 	 * Default constructor uses default MBeanServer.
+	 *
+	 * @param domain domain part of the object name
 	 */
-	public JmxRegisterCallback() {
-		this.mBeanServer = ManagementFactory.getPlatformMBeanServer();
+	public JmxRegisterCallback(String domain) {
+		this(ManagementFactory.getPlatformMBeanServer(), domain);
 	}
 
 	/**
 	 * Constructor using specific MBeanServer.
 	 *
 	 * @param mBeanServer specific MBeanServer
+	 * @param domain domain part of the object name
 	 */
-	public JmxRegisterCallback(MBeanServer mBeanServer) {
+	public JmxRegisterCallback(MBeanServer mBeanServer, String domain) {
+		assert domain != null && !(domain.isEmpty());
 		this.mBeanServer = mBeanServer;
+		this.domain = domain;
 	}
 
 	/**
@@ -47,7 +54,7 @@ public class JmxRegisterCallback extends CallbackSkeleton {
 	 * @param simon created Simon
 	 */
 	@Override
-	public void simonCreated(Simon simon) {
+	public final void simonCreated(Simon simon) {
 		if (simon.getName() == null) {
 			return;
 		}
@@ -60,7 +67,7 @@ public class JmxRegisterCallback extends CallbackSkeleton {
 	 * @param simon destroyed Simon
 	 */
 	@Override
-	public void simonDestroyed(Simon simon) {
+	public final void simonDestroyed(Simon simon) {
 		String name = constructObjectName(simon);
 		try {
 			ObjectName objectName = new ObjectName(name);
@@ -76,7 +83,7 @@ public class JmxRegisterCallback extends CallbackSkeleton {
 	 * When the manager is cleared, all MX beans for its Simons are unregistered.
 	 */
 	@Override
-	public void clear() {
+	public final void clear() {
 		Iterator<String> namesIter = registeredNames.iterator();
 		while (namesIter.hasNext()) {
 			String name = namesIter.next();
@@ -145,7 +152,7 @@ public class JmxRegisterCallback extends CallbackSkeleton {
 	 * @return object name in String form
 	 */
 	protected String constructObjectName(Simon simon) {
-		return simon.getName() + ":type=" + simonType(simon);
+		return domain + ":type=" + simonType(simon) + ",name=" + simon.getName();
 	}
 
 	/**

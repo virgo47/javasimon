@@ -117,7 +117,7 @@ public abstract class AbstractSimonMXBeanImpl implements SimonSuperMXBean {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String getLastUsageAsString() {
+	public final String getLastUsageAsString() {
 		return SimonUtils.presentTimestamp(getLastUsage());
 	}
 
