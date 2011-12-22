@@ -60,8 +60,11 @@ public class SimonServletFilter implements Filter {
 
 	/**
 	 * Thread local list of splits used to cummulate all splits for the request.
+	 * Every instance of the Servlet has its own thread-local to bind its lifecycle to
+	 * the callback that servlet is registering. Then even more callbacks registered from various
+	 * servlets in the same manager do not interfere.
 	 */
-	protected static final ThreadLocal<List<Split>> SPLITS = new ThreadLocal<List<Split>>();
+	protected final ThreadLocal<List<Split>> splitsThreadLocal = new ThreadLocal<List<Split>>();
 
 	protected String simonPrefix = DEFAULT_SIMON_PREFIX;
 
@@ -79,7 +82,7 @@ public class SimonServletFilter implements Filter {
 	protected String consolePath;
 
 	/**
-	 * Callback that saves all splits in {@link #SPLITS} if {@link #reportThreshold} is configured.
+	 * Callback that saves all splits in {@link #splitsThreadLocal} if {@link #reportThreshold} is configured.
 	 */
 	protected SplitSaverCallback splitSaverCallback;
 
@@ -134,7 +137,7 @@ public class SimonServletFilter implements Filter {
 			return;
 		}
 		if (reportThreshold != null) {
-			SPLITS.set(new ArrayList<Split>());
+			splitsThreadLocal.set(new ArrayList<Split>());
 		}
 
 		String simonName = getSimonName(request);
@@ -151,7 +154,7 @@ public class SimonServletFilter implements Filter {
 				if (splitNanoTime > reportThreshold) {
 					reportRequestOverThreshold(splitNanoTime, request);
 				}
-				SPLITS.remove();
+				splitsThreadLocal.remove();
 			}
 		}
 	}
@@ -164,7 +167,7 @@ public class SimonServletFilter implements Filter {
 	 */
 	@SuppressWarnings("UnusedParameters")
 	protected void reportRequestOverThreshold(long splitNanoTime, HttpServletRequest request) {
-		manager.message("Split is too long (" + SimonUtils.presentNanoTime(splitNanoTime) + "): " + SPLITS.get());
+		manager.message("Split is too long (" + SimonUtils.presentNanoTime(splitNanoTime) + "): " + splitsThreadLocal.get());
 	}
 
 	private void consolePage(HttpServletRequest request, HttpServletResponse response, String localPath) throws IOException {
@@ -185,7 +188,7 @@ public class SimonServletFilter implements Filter {
 
 	private void simonHelp(ServletResponse response) throws IOException {
 		response.getOutputStream().println("Simon Console help - available commands:");
-		response.getOutputStream().println("<b>clear</b> - clears the manager (removes all Simons)");
+		response.getOutputStream().println("- clear - clears the manager (removes all Simons)");
 	}
 
 	private void printSimonTree(ServletResponse response) throws IOException {
@@ -227,11 +230,10 @@ public class SimonServletFilter implements Filter {
 	class SplitSaverCallback extends CallbackSkeleton {
 		@Override
 		public void stopwatchStart(Split split) {
-			List<Split> splits = SPLITS.get();
+			List<Split> splits = splitsThreadLocal.get();
 			if (splits != null) {
 				splits.add(split);
 			}
 		}
 	}
-
 }
