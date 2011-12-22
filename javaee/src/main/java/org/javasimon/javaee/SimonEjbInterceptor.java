@@ -42,7 +42,7 @@ public class SimonEjbInterceptor {
 
 	/**
 	 * Indicates whether the method invocation should be monitored.
-	 * Default: always returns true.
+	 * Default behavior always returns true.
 	 * This method can be overriden
 	 *
 	 * @param context Method invocation context
