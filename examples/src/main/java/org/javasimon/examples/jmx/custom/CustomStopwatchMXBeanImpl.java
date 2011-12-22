@@ -4,12 +4,11 @@ import org.javasimon.Stopwatch;
 import org.javasimon.jmx.StopwatchMXBeanImpl;
 
 /**
- * Customized Stopwatch JMX bean displaying values in milliseconds
+ * Customized Stopwatch JMX bean displaying values in milliseconds.
  *
  * @author <a href="mailto:gerald.quintana@gmail.com">Gerald Quintana</a>
  */
 public class CustomStopwatchMXBeanImpl extends StopwatchMXBeanImpl implements CustomStopwatchMXBean {
-
 	public CustomStopwatchMXBeanImpl(Stopwatch stopwatch) {
 		super(stopwatch);
 	}
@@ -23,27 +22,27 @@ public class CustomStopwatchMXBeanImpl extends StopwatchMXBeanImpl implements Cu
 	}
 
 	@Override
-	public double getMean() {
+	public double getMeanInMillis() {
 		return nanosToMillis(stopwatch.getMean());
 	}
 
 	@Override
-	public long getMin() {
+	public long getMinInMillis() {
 		return nanosToMillis(stopwatch.getMin());
 	}
 
 	@Override
-	public long getMax() {
+	public long getMaxInMillis() {
 		return nanosToMillis(stopwatch.getMax());
 	}
 
 	@Override
-	public long getTotal() {
+	public long getTotalInMillis() {
 		return nanosToMillis(stopwatch.getTotal());
 	}
 
 	@Override
-	public long getLast() {
+	public long getLastInMillis() {
 		return nanosToMillis(stopwatch.getLast());
 	}
 
@@ -53,8 +52,7 @@ public class CustomStopwatchMXBeanImpl extends StopwatchMXBeanImpl implements Cu
 	}
 
 	@Override
-	public double getStandardDeviation() {
+	public double getStandardDeviationInMillis() {
 		return nanosToMillis(stopwatch.getStandardDeviation());
 	}
-
 }

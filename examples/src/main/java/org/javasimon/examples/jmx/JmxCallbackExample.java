@@ -19,10 +19,14 @@ public final class JmxCallbackExample {
 	 */
 	@SuppressWarnings("InfiniteLoopStatement")
 	public static void main(String[] args) throws Exception {
-		SimonManager.callback().addCallback(new JmxRegisterCallback());
+		SimonManager.callback().addCallback(new JmxRegisterCallback("org.javasimon.examples.jmx.JmxCallbackExample"));
 
 		Counter counter = SimonManager.getCounter("org.javasimon.examples.jmx.counter");
 		Stopwatch stopwatch = SimonManager.getStopwatch("org.javasimon.examples.jmx.stopwatch");
+		// these created just to have more stuff in jconsole
+		SimonManager.getCounter("org.javasimon.different.counter");
+		SimonManager.getStopwatch("org.javasimon.some.other.jmx.stopwatch1");
+		SimonManager.getStopwatch("org.javasimon.some.other.jmx.stopwatch2");
 		System.out.println("Now open jconsole and check it out! :-)");
 		while (true) {
 			counter.increase();

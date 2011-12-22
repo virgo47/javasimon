@@ -18,6 +18,7 @@ import java.lang.management.ManagementFactory;
  * @since 1.0
  */
 public class JmxRegistrationCallbackTest {
+	private static final String DOMAIN = "org.javasimon.jmx.JmxRegistrationCallbackTest";
 	private MBeanServer mbs;
 
 	@BeforeMethod
@@ -26,16 +27,16 @@ public class JmxRegistrationCallbackTest {
 
 		mbs = ManagementFactory.getPlatformMBeanServer();
 
-		SimonManager.callback().addCallback(new JmxRegisterCallback());
+		SimonManager.callback().addCallback(new JmxRegisterCallback(DOMAIN));
 	}
 
 	@Test
 	public void managerClearTest() throws MalformedObjectNameException {
 		String counterName = "test.1";
-		ObjectName counterObjectName = new ObjectName(counterName + ":type=" + SimonInfo.COUNTER);
+		ObjectName counterObjectName = new ObjectName(DOMAIN + ":type=" + SimonInfo.COUNTER + ",name=" + counterName);
 
 		String stopwatchName = "test.2";
-		ObjectName stopwatchObjectName = new ObjectName(stopwatchName + ":type=" + SimonInfo.STOPWATCH);
+		ObjectName stopwatchObjectName = new ObjectName(DOMAIN + ":type=" + SimonInfo.STOPWATCH + ",name=" + stopwatchName);
 
 		Assert.assertFalse(mbs.isRegistered(counterObjectName));
 		Assert.assertFalse(mbs.isRegistered(stopwatchObjectName));
@@ -54,10 +55,10 @@ public class JmxRegistrationCallbackTest {
 	@Test
 	public void destroySimonTest() throws MalformedObjectNameException {
 		String counterName = "test.1";
-		ObjectName counterObjectName = new ObjectName(counterName + ":type=" + SimonInfo.COUNTER);
+		ObjectName counterObjectName = new ObjectName(DOMAIN + ":type=" + SimonInfo.COUNTER + ",name=" + counterName);
 
 		String stopwatchName = "test.2";
-		ObjectName stopwatchObjectName = new ObjectName(stopwatchName + ":type=" + SimonInfo.STOPWATCH);
+		ObjectName stopwatchObjectName = new ObjectName(DOMAIN + ":type=" + SimonInfo.STOPWATCH + ",name=" + stopwatchName);
 
 		Assert.assertFalse(mbs.isRegistered(counterObjectName));
 		Assert.assertFalse(mbs.isRegistered(stopwatchObjectName));

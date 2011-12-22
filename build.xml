@@ -165,6 +165,7 @@
 			<excludepackage name="other"/>
 			<excludepackage name="org.javasimon.examples.jdbc"/>
 			<excludepackage name="org.javasimon.examples.jdbc.h2"/>
+			<excludepackage name="org.javasimon.examples.jmx.custom"/>
 			<excludepackage name="org.javasimon.testapp"/>
 			<excludepackage name="org.javasimon.testapp.*"/>
 		</javadoc>
