@@ -165,7 +165,7 @@ public class SimonServletFilter implements Filter {
 
 	/**
 	 * Indicates whether the HTTP Request should be monitored - method is intended for override.
-	 * Default behavior always return true.
+	 * Default behavior always returns true.
 	 * <p/>
 	 * Example of overriding code:
 	 * <code>
