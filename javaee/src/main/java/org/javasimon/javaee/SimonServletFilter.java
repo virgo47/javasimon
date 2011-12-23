@@ -63,7 +63,7 @@ public class SimonServletFilter implements Filter {
 
 	/**
 	 * Threshold in ms - any reqest longer than this will be reported by
-	 * {@link #reportRequestOverThreshold(javax.servlet.http.HttpServletRequest, long, java.util.List)}.
+	 * {@link #reportRequestOverThreshold(javax.servlet.http.HttpServletRequest, org.javasimon.Split, java.util.List)}.
 	 * Specified by {@link #INIT_PARAM_REPORT_THRESHOLD} ({@value #INIT_PARAM_REPORT_THRESHOLD}) in the {@code web.xml}.
 	 */
 	protected Long reportThreshold;
@@ -152,10 +152,11 @@ public class SimonServletFilter implements Filter {
 			} finally {
 				long splitNanoTime = split.stop().runningFor();
 				if (reportThreshold != null) {
+					List<Split> splits = splitsThreadLocal.get();
+					splitsThreadLocal.remove(); // better do this before we call potentially overriden method
 					if (splitNanoTime > reportThreshold) {
-						reportRequestOverThreshold(request, splitNanoTime, splitsThreadLocal.get());
+						reportRequestOverThreshold(request, split, splits);
 					}
-					splitsThreadLocal.remove();
 				}
 			}
 		} else {
@@ -185,11 +186,16 @@ public class SimonServletFilter implements Filter {
 	 * Default behavior reports over {@link Manager#message(String)}.
 	 *
 	 * @param request offending HTTP request
-	 * @param splitNanoTime nano time of the request
+	 * @param requestSplit split measuring the offending request
 	 * @param splits list of all splits started for this request
 	 */
-	protected void reportRequestOverThreshold(HttpServletRequest request, long splitNanoTime, List<Split> splits) {
-		manager.message("Split is too long (" + SimonUtils.presentNanoTime(splitNanoTime) + "): " + splits);
+	protected void reportRequestOverThreshold(HttpServletRequest request, Split requestSplit, List<Split> splits) {
+		StringBuilder messageBuilder = new StringBuilder("Web request is too long (" + SimonUtils.presentNanoTime(requestSplit.runningFor()) +
+			") [" + requestSplit.getStopwatch().getNote() + "]");
+		for (Split split : splits) {
+			messageBuilder.append("\n\t" + split.getStopwatch().getName() + ": " + SimonUtils.presentNanoTime(split.runningFor()));
+		}
+		manager.message(messageBuilder.toString());
 	}
 
 	private void consolePage(HttpServletRequest request, HttpServletResponse response, String localPath) throws IOException {
