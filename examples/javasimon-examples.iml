@@ -10,7 +10,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="javasimon-core" />
-    <orderEntry type="library" name="Maven: org.mvel:mvel2:2.0.19" level="project" />
     <orderEntry type="module" module-name="javasimon-jdbc4" />
     <orderEntry type="library" name="Maven: com.h2database:h2:1.3.154" level="project" />
   </component>

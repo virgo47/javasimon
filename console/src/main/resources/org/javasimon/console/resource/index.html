@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Simon Console</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link  href="resource/css/javasimon.css" rel="stylesheet" type="text/css" />
+        <link  href="resource/css/uilightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css" />
+        <script src="resource/js/jquery-1.7.1.min.js" type="text/javascript"></script>
+        <script src="resource/js/jquery-ui-1.8.16.custom.min.js" type="text/javascript"></script>
+        <script src="resource/js/jquery-dataTables-1.8.2.js" type="text/javascript"></script>
+        <script src="resource/js/jquery-dataTables-reloadAjax.js" type="text/javascript"></script>
+        <script src="resource/js/jquery-getUrlParam.js" type="text/javascript"></script>
+        <script type="text/javascript">
+$(document).ready(function() {
+    $('#patternText').val($(document).getUrlParam('pattern'));
+    $('#typeSelect').val($(document).getUrlParam('type'));
+    $('#filterButton').button();
+    var oDataTable=$('#dataTable').dataTable( {
+        "bJQueryUI": true,
+        "bProcessing": true,
+        "bAutoWidth":false,
+        "sAjaxSource": 'data.json',
+        "fnServerData": function( sUrl, aoData, fnCallback ) {
+            var sPattern= $("#patternText").val();
+            if (sPattern == undefined) {
+                sPattern="";
+            } 
+            aoData.push( { "name": "pattern", "value": sPattern } );
+            var sType=$("#typeSelect").val();
+            if (sType == undefined) {
+                sType="";
+            } 
+            aoData.push( { "name": "type", "value": sType } );
+            $.ajax( {
+                "url": sUrl,
+                "data": aoData,
+                "success": function(json) {
+                    if (json.aaData == undefined) {
+                        json = {
+                            "aaData":json
+                        };
+                    }
+                    fnCallback(json);
+                },
+                "dataType": "json",
+                "cache":false
+            } );
+        },
+        "aoColumns": [
+            {"sTitle":"Name", "mDataProp": "name","bSearchable": true,"sType":"string","sWidth": "40%"},
+            {"sTitle":"Type", "mDataProp": "type","bSearchable": false,"sType":"string","sWidth": "5%"},
+            {"sTitle":"Count", "mDataProp": "count","bSearchable": false,"sType":"numeric","sWidth": "5%","sClass":"numeric"},
+            {"sTitle":"Total", "mDataProp": "total","bSearchable": false,"sType":"numeric","sWidth": "5%","sClass":"numeric" },
+            {"sTitle":"Min", "mDataProp": "min","bSearchable": false,"sType":"numeric","sWidth": "5%","sClass":"numeric" },
+            {"sTitle":"Mean", "mDataProp": "mean","bSearchable": false,"sType":"numeric","sWidth": "5%","sClass":"numeric" },
+            {"sTitle":"Max", "mDataProp": "max","bSearchable": false,"sType":"numeric","sWidth": "5%","sClass":"numeric" },
+            {"sTitle":"Std Dev", "mDataProp": "standardDeviation","bSearchable": false,"sType":"numeric","sWidth": "5%","sClass":"numeric" },
+            {"sTitle":"Last", "mDataProp": "last","bSearchable": false,"sType":"numeric","sWidth": "5%","sClass":"numeric" },
+            {"sTitle":"First Date", "mDataProp": "firstUsage","bSearchable": false,"sWidth": "10%","sClass":"numeric" },
+            {"sTitle":"Last Date", "mDataProp": "lastUsage","bSearchable": false,"sWidth": "10%","sClass":"numeric"  },
+            {"sTitle":"Note", "mDataProp": "note","bSearchable": true, "bVisible": false ,"sType":"string"}
+        ],
+        "aaSorting": [[ 3, "desc" ]]
+    } );
+    $(window).bind('resize', function () {
+        oDataTable.fnAdjustColumnSizing();
+    } );
+} );            
+        </script>
+    </head>
+    <body>
+        <h1>Simon Console</h1>
+        <div id="filters" class="ui-widget">
+            <form id="filterForm">
+            <table>
+                <tr>
+                    <td>Pattern</td>
+                    <td><input id="patternText" name="pattern" type="text" size="64"/></td>
+                </tr>
+                <tr>
+                    <td>Type</td>
+                    <td>
+                        <select id="typeSelect" name="type">
+                            <option value=""></option>
+                            <option value="stopwatch">Stopwatch</option>
+                            <option value="counter">Counter</option>
+                            <option value="unknown">Unknown</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            <div><button id="filterButton" name="filter" onclick="$('#dataTable').dataTable().fnReloadAjax();return false">Filter</button></div>
+            </form>
+        </div>
+        <div id="data">
+            <table id="dataTable">
+                
+            </table>
+        </div>
+    </body>
+</html>

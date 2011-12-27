@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <project name="GWT Simon Console" default="build" basedir=".">
+	<description>Experimental GWT console</description>
 	<property file="../build.properties"/>
 
 	<property name="javac.debug" value="true"/>
@@ -14,7 +15,6 @@
 		<pathelement location="../build/javaee"/>
 		<pathelement location="${gwt.visualization}/gwt-visualization.jar"/>
 		<pathelement location="${gwt.sdk}/gwt-user.jar"/>
-		<!--<pathelement location="${gwt.sdk}/gwt-servlet-deps.jar"/>-->
 		<pathelement location="${gwt.sdk}/validation-api-1.0.0.GA.jar"/>
 		<pathelement location="${gwt.sdk}/validation-api-1.0.0.GA-sources.jar"/>
 		<fileset dir="${gwt.sdk}" includes="gwt-dev*.jar"/>

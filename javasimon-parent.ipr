@@ -183,6 +183,7 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/console/pom.xml" />
       </list>
     </option>
     <option name="activeProfiles">
@@ -419,6 +420,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/gwimon/gwimon.iml" filepath="$PROJECT_DIR$/gwimon/gwimon.iml" />
+      <module fileurl="file://$PROJECT_DIR$/console/javasimon-console.iml" filepath="$PROJECT_DIR$/console/javasimon-console.iml" />
       <module fileurl="file://$PROJECT_DIR$/core/javasimon-core.iml" filepath="$PROJECT_DIR$/core/javasimon-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/examples/javasimon-examples.iml" filepath="$PROJECT_DIR$/examples/javasimon-examples.iml" />
       <module fileurl="file://$PROJECT_DIR$/javaee/javasimon-javaee.iml" filepath="$PROJECT_DIR$/javaee/javasimon-javaee.iml" />
@@ -537,17 +539,6 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/org/beanshell/bsh/2.0b4/bsh-2.0b4-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: org.mvel:mvel2:2.0.19">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/mvel/mvel2/2.0.19/mvel2-2.0.19.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/mvel/mvel2/2.0.19/mvel2-2.0.19-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/mvel/mvel2/2.0.19/mvel2-2.0.19-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: org.slf4j:slf4j-api:1.6.2">

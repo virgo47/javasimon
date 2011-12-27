@@ -1,5 +1,7 @@
 package org.javasimon;
 
+import javax.script.ScriptException;
+
 import org.javasimon.callback.*;
 import org.javasimon.utils.LoggingCallback;
 import org.testng.annotations.Test;
@@ -49,19 +51,23 @@ public final class ConfigurationTestNG {
 	}
 
 	@Test
-	public void testConditions() {
+	public void testConditions() throws ScriptException {
 		Split split = new EnabledManager().getStopwatch(null).start();
 		split.stop();
-		Assert.assertTrue(new FilterCallback.Rule(null, "split > 5", null).checkCondition(split.getStopwatch(), split));
-		Assert.assertTrue(new FilterCallback.Rule(null, "split gt 5", null).checkCondition(split.getStopwatch(), split));
-		Assert.assertTrue(new FilterCallback.Rule(null, "split ge 5", null).checkCondition(split.getStopwatch(), split));
-		Assert.assertFalse(new FilterCallback.Rule(null, "split < 5", null).checkCondition(split.getStopwatch(), split));
-		Assert.assertFalse(new FilterCallback.Rule(null, "split lt 5", null).checkCondition(split.getStopwatch(), split));
-		Assert.assertFalse(new FilterCallback.Rule(null, "split le 5", null).checkCondition(split.getStopwatch(), split));
-		Assert.assertFalse(new FilterCallback.Rule(null, "split eq 5", null).checkCondition(split.getStopwatch(), split));
-		Assert.assertTrue(new FilterCallback.Rule(null, "split ne 5", null).checkCondition(split.getStopwatch(), split));
-		Assert.assertFalse(new FilterCallback.Rule(null, "split < 5 || split > 1000000000000", null).checkCondition(split.getStopwatch(), split));
-		Assert.assertTrue(new FilterCallback.Rule(null, "split > 100 && split < 10000000000", null).checkCondition(split.getStopwatch(), split));
+		Assert.assertTrue(new FilterRule(null, "split > 5", null).checkCondition(split.getStopwatch(), split));
+		Assert.assertTrue(new FilterRule(null, "split gt 5", null).checkCondition(split.getStopwatch(), split));
+		Assert.assertTrue(new FilterRule(null, "split ge 5", null).checkCondition(split.getStopwatch(), split));
+		Assert.assertFalse(new FilterRule(null, "split < 5", null).checkCondition(split.getStopwatch(), split));
+		Assert.assertFalse(new FilterRule(null, "split lt 5", null).checkCondition(split.getStopwatch(), split));
+		Assert.assertFalse(new FilterRule(null, "split le 5", null).checkCondition(split.getStopwatch(), split));
+		Assert.assertFalse(new FilterRule(null, "split eq 5", null).checkCondition(split.getStopwatch(), split));
+		Assert.assertTrue(new FilterRule(null, "split ne 5", null).checkCondition(split.getStopwatch(), split));
+		Assert.assertFalse(new FilterRule(null, "split < 5 || split > 1000000000us", null).checkCondition(split.getStopwatch(), split));
+		Assert.assertTrue(new FilterRule(null, "split > 100 && split < 10000ms", null).checkCondition(split.getStopwatch(), split));
+		Assert.assertTrue(new FilterRule(null, "value == 1s", null).checkCondition(split.getStopwatch(), 1000000000L));
+		Assert.assertTrue(new FilterRule(null, "value == 1ms", null).checkCondition(split.getStopwatch(), 1000000L));
+		Assert.assertTrue(new FilterRule(null, "value == 1us", null).checkCondition(split.getStopwatch(), 1000L));
+		Assert.assertTrue(new FilterRule(null, "value == 1", null).checkCondition(split.getStopwatch(), 1L));
 	}
 
 	// Callback helper class that does sets trigger on start/stop events
@@ -88,7 +94,7 @@ public final class ConfigurationTestNG {
 	public void testMustRule() {
 		EnabledManager manager = new EnabledManager();
 		CompositeFilterCallback filter = new CompositeFilterCallback();
-		filter.addRule(FilterCallback.Rule.Type.MUST, "active == 2", "*.sw1", Callback.Event.STOPWATCH_START);
+		filter.addRule(FilterRule.Type.MUST, "active == 2", "*.sw1", Callback.Event.STOPWATCH_START);
 		MyCallback callback = new MyCallback();
 		filter.addCallback(callback);
 		manager.callback().addCallback(filter);
@@ -126,7 +132,7 @@ public final class ConfigurationTestNG {
 	public void testSufficeRuleAllEvents() {
 		EnabledManager manager = new EnabledManager();
 		CompositeFilterCallback filter = new CompositeFilterCallback();
-		filter.addRule(FilterCallback.Rule.Type.SUFFICE, null, "*.sw1");
+		filter.addRule(FilterRule.Type.SUFFICE, null, "*.sw1");
 		MyCallback callback = new MyCallback();
 		filter.addCallback(callback);
 		manager.callback().addCallback(filter);
@@ -155,7 +161,7 @@ public final class ConfigurationTestNG {
 	public void testSufficeRuleForEvent() {
 		EnabledManager manager = new EnabledManager();
 		CompositeFilterCallback filter = new CompositeFilterCallback();
-		filter.addRule(FilterCallback.Rule.Type.SUFFICE, null, "*.sw1", Callback.Event.STOPWATCH_START);
+		filter.addRule(FilterRule.Type.SUFFICE, null, "*.sw1", Callback.Event.STOPWATCH_START);
 		MyCallback callback = new MyCallback();
 		filter.addCallback(callback);
 		manager.callback().addCallback(filter);

@@ -12,7 +12,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="javasimon-core" />
-    <orderEntry type="library" name="Maven: org.mvel:mvel2:2.0.19" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.testng:testng:5.14.10" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:3.8.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.beanshell:bsh:2.0b4" level="project" />

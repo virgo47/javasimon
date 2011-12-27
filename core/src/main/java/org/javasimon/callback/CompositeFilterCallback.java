@@ -1,5 +1,7 @@
 package org.javasimon.callback;
 
+import javax.script.ScriptException;
+
 import org.javasimon.*;
 
 import java.util.List;
@@ -9,7 +11,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * This callback combines Composite and Filter behavior. Filter can be configured
- * via {@link #addRule(FilterCallback.Rule.Type, String, String, Callback.Event...)}
+ * via {@link #addRule(FilterRule.Type, String, String, Callback.Event...)}
  * method and if the rule is satisfied the event is propagated to all
  * children callbacks added via {@link #addCallback(Callback)}. XML facility for configuration
  * is provided via {@link org.javasimon.ManagerConfiguration#readConfig(java.io.Reader)}.
@@ -35,15 +37,15 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public final class CompositeFilterCallback implements FilterCallback {
 	private CompositeCallback callback = new CompositeCallback();
 
-	private Map<Event, List<Rule>> rules;
+	private Map<Event, List<FilterRule>> rules;
 
 	/**
 	 * Constructs composite filter callback.
 	 */
 	public CompositeFilterCallback() {
-		rules = new EnumMap<Event, List<Rule>>(Event.class);
+		rules = new EnumMap<Event, List<FilterRule>>(Event.class);
 		for (Event event : Event.values()) {
-			rules.put(event, new CopyOnWriteArrayList<Rule>());
+			rules.put(event, new CopyOnWriteArrayList<FilterRule>());
 		}
 	}
 
@@ -202,12 +204,12 @@ public final class CompositeFilterCallback implements FilterCallback {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void addRule(Rule.Type type, String condition, String pattern, Event... events) {
+	public void addRule(FilterRule.Type type, String condition, String pattern, Event... events) {
 		SimonPattern simonPattern = null;
 		if (pattern != null) {
 			simonPattern = new SimonPattern(pattern);
 		}
-		Rule rule = new Rule(type, condition, simonPattern);
+		FilterRule rule = new FilterRule(type, condition, simonPattern);
 		for (Event event : events) {
 			if (event != null) {
 				rules.get(event).add(rule);
@@ -227,30 +229,35 @@ public final class CompositeFilterCallback implements FilterCallback {
 	}
 
 	private boolean checkRules(Simon simon, Event event, Object... params) {
-		List<Rule> rulesForEvent = rules.get(event);
+		List<FilterRule> rulesForEvent = rules.get(event);
 		if (rulesForEvent.size() == 0) { // empty rule list => DENY
 			return false;
 		}
 		boolean allMustSatisfied = false;
-		for (Rule rule : rulesForEvent) {
-			boolean result = patternAndConditionCheck(simon, rule, params);
+		for (FilterRule rule : rulesForEvent) {
+			boolean result = false;
+			try {
+				result = patternAndConditionCheck(simon, rule, params);
+			} catch (ScriptException e) {
+				warning("Script exception while evaluating rule expression", e);
+			}
 
-			if (!result && rule.getType().equals(Rule.Type.MUST)) { // fast fail on MUST condition
+			if (!result && rule.getType().equals(FilterRule.Type.MUST)) { // fast fail on MUST condition
 				return false;
-			} else if (result && rule.getType().equals(Rule.Type.MUST)) { // MUST condition met, let's go on
+			} else if (result && rule.getType().equals(FilterRule.Type.MUST)) { // MUST condition met, let's go on
 				allMustSatisfied = true;
-			} else if (result && rule.getType().equals(Rule.Type.MUST_NOT)) { // fast fail on MUST NOT condition
+			} else if (result && rule.getType().equals(FilterRule.Type.MUST_NOT)) { // fast fail on MUST NOT condition
 				return false;
-			} else if (!result && rule.getType().equals(Rule.Type.MUST_NOT)) { // MUST NOT condition met, go on
+			} else if (!result && rule.getType().equals(FilterRule.Type.MUST_NOT)) { // MUST NOT condition met, go on
 				allMustSatisfied = true;
-			} else if (result && rule.getType().equals(Rule.Type.SUFFICE)) { // fast success on SUFFICE condition
+			} else if (result && rule.getType().equals(FilterRule.Type.SUFFICE)) { // fast success on SUFFICE condition
 				return true;
 			}
 		}
 		return allMustSatisfied;
 	}
 
-	private boolean patternAndConditionCheck(Simon simon, Rule rule, Object... params) {
+	private boolean patternAndConditionCheck(Simon simon, FilterRule rule, Object... params) throws ScriptException {
 		boolean result = true;
 		if (simon != null && rule.getPattern() != null && !rule.getPattern().matches(simon.getName())) {
 			result = false;
