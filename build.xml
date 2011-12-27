@@ -19,7 +19,6 @@
 		<pathelement path="${lib.dir}/aopalliance.jar"/>
 		<pathelement path="${lib.dir}/commons-logging-1.1.1.jar"/>
 		<pathelement path="${lib.dir}/stax-api-1.0.1.jar"/>
-		<pathelement path="${lib.dir}/mvel2-2.0.19.jar"/>
 		<pathelement path="${lib.dir}/jboss-javaee.jar"/>
 		<pathelement path="${lib.dir}/servlet-api.jar"/>
 		<pathelement path="${lib.dir}/slf4j-api-1.6.2.jar"/>
@@ -94,7 +93,6 @@
 				<include name="commons-logging-1.1.1.jar"/>
 				<include name="stax-api-1.0.1.jar"/>
 				<include name="sjsxp.jar"/>
-				<include name="mvel2-2.0.19.jar"/>
 				<include name="jboss-javaee.jar"/>
 				<include name="servlet-api.jar"/>
 				<include name="aspectjrt-1.6.6.jar"/>

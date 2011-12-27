@@ -4,6 +4,7 @@ import org.javasimon.callback.Callback;
 import org.javasimon.callback.CompositeCallback;
 import org.javasimon.callback.CompositeFilterCallback;
 import org.javasimon.callback.FilterCallback;
+import org.javasimon.callback.FilterRule;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -164,7 +165,7 @@ public final class ManagerConfiguration {
 
 	private void processRule(XMLStreamReader xr, FilterCallback callback) throws XMLStreamException {
 		String pattern = null;
-		FilterCallback.Rule.Type type = FilterCallback.Rule.Type.SUFFICE;
+		FilterRule.Type type = FilterRule.Type.SUFFICE;
 		String condition = null;
 		List<Callback.Event> events = new ArrayList<Callback.Event>();
 
@@ -173,7 +174,7 @@ public final class ManagerConfiguration {
 			condition = attrs.get("condition");
 		}
 		if (attrs.get("type") != null) {
-			type = FilterCallback.Rule.Type.valueOf(toEnum(attrs.get("type")));
+			type = FilterRule.Type.valueOf(toEnum(attrs.get("type")));
 		}
 		if (attrs.get("pattern") != null) {
 			pattern = attrs.get("pattern");

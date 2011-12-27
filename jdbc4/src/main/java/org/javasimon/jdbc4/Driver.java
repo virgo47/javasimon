@@ -202,7 +202,7 @@ public final class Driver implements java.sql.Driver {
 	}
 
 	/**
-	 * Opens new Simon proxy driver connection associated with real connection to specified database.
+	 * Opens new Simon proxy driver connection associated with real connection to the specified database.
 	 *
 	 * @param simonUrl JDBC connection string (i.e. jdbc:simon:h2:file:test)
 	 * @param info properties for connection

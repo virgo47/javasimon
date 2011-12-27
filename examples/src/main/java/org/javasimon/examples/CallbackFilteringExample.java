@@ -4,7 +4,7 @@ import org.javasimon.*;
 import org.javasimon.callback.Callback;
 import org.javasimon.callback.CallbackSkeleton;
 import org.javasimon.callback.CompositeFilterCallback;
-import org.javasimon.callback.FilterCallback;
+import org.javasimon.callback.FilterRule;
 import org.javasimon.utils.SimonUtils;
 
 /**
@@ -49,7 +49,7 @@ public final class CallbackFilteringExample {
 		// filter callback is created
 		CompositeFilterCallback filter = new CompositeFilterCallback();
 		// rule to filter out all Simons matching pattern "other.*" is added
-		filter.addRule(FilterCallback.Rule.Type.MUST_NOT, null, "other.*");
+		filter.addRule(FilterRule.Type.MUST_NOT, null, "other.*");
 		// original callback is added after this callback
 		filter.addCallback(stdoutCallback);
 

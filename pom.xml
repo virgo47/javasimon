@@ -25,7 +25,6 @@
 	</modules>
 
 	<properties>
-		<version.mvel>2.0.19</version.mvel>
 		<version.javaee-api>6.0</version.javaee-api>
 		<version.spring>3.0.5.RELEASE</version.spring>
 		<version.testng>5.14.10</version.testng>
@@ -106,11 +105,6 @@
 
 	<dependencyManagement>
 		<dependencies>
-			<dependency>
-				<groupId>org.mvel</groupId>
-				<artifactId>mvel2</artifactId>
-				<version>${version.mvel}</version>
-			</dependency>
 			<dependency>
 				<groupId>javax</groupId>
 				<artifactId>javaee-api</artifactId>
