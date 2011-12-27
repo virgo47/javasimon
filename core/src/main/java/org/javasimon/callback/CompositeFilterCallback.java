@@ -20,19 +20,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * Any number of global rules (for {@link Callback.Event#ALL}) and per event rules can be added.
  * Event rules have higher priority and if the filter passes on event rules, global rules are not consulted.
  * Rules are checked in the order they were added to the filter.
- * <p/>
- * Rule can be one of the following types:
- * <ul>
- * <li>must - rule MUST be true and following rules are checked
- * <li>suffice - if this rule is true the filter passes the event to children
- * otherwise next rules are checked
- * <li>must-not - if this rule is true the filter ignores the event, otherwise
- * next rules are checked
- * </ul>
- * As the order is important not all MUST rules must pass if there is any
- * satisfied SUFFICE rule before.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
+ * @see FilterRule
  */
 public final class CompositeFilterCallback implements FilterCallback {
 	private CompositeCallback callback = new CompositeCallback();
@@ -258,13 +248,9 @@ public final class CompositeFilterCallback implements FilterCallback {
 	}
 
 	private boolean patternAndConditionCheck(Simon simon, FilterRule rule, Object... params) throws ScriptException {
-		boolean result = true;
 		if (simon != null && rule.getPattern() != null && !rule.getPattern().matches(simon.getName())) {
-			result = false;
+			return false;
 		}
-		if (result && !rule.checkCondition(simon, params)) {
-			result = false;
-		}
-		return result;
+		return rule.checkCondition(simon, params);
 	}
 }

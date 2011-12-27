@@ -19,7 +19,17 @@ import org.javasimon.utils.Replacer;
 
 /**
  * Represents filtering rule that checks whether subcallbacks will get the event.
- * 
+ * Rule can be one of the following types:
+ * <ul>
+ * <li>{@link Type#MUST} - rule MUST be true and following rules are checked
+ * <li>{@link Type#SUFFICE} - if this rule is true the filter passes the event to children
+ * otherwise next rules are checked
+ * <li>{@link Type#MUST_NOT} - if this rule is true the filter ignores the event, otherwise
+ * next rules are checked
+ * </ul>
+ * As the order is important not all MUST rules must pass if there is any satisfied SUFFICE rule before.
+ *
+ * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @since 3.1 (previously was {@code FilterCallback.Rule})
  */
 public class FilterRule {
@@ -105,8 +115,8 @@ public class FilterRule {
 	private SimonPattern pattern;
 
 	/**
-	 * Creates the rule with a specified type, condition and pattern. Rule can have a condition
-	 * and/or a pattern. Pattern is not relevant for some callback operations (for example "warning").
+	 * Creates the rule with a specified type, condition and pattern. Rule can have a condition and/or a pattern.
+	 * Pattern is not relevant for manager-level callback operations ({@link Callback#warning(String, Exception)}, {@link Callback#message(String)}).
 	 * Both condition and pattern are optional and can be null.
 	 *
 	 * @param type rule type determining the role of the rule in the chain of the filter
@@ -118,9 +128,9 @@ public class FilterRule {
 		this.condition = condition;
 		if (condition != null) {
 			condition = condition.toLowerCase();
-				for (Replacer conditionReplacer : CONDITION_REPLACERS) {
-					condition = conditionReplacer.process(condition);
-				}
+			for (Replacer conditionReplacer : CONDITION_REPLACERS) {
+				condition = conditionReplacer.process(condition);
+			}
 			try {
 				expression = ((Compilable) ecmaScriptEngine).compile(condition);
 				Bindings bindings = ecmaScriptEngine.getBindings(ScriptContext.ENGINE_SCOPE);
