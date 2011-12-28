@@ -10,11 +10,17 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Callback processes various events of the Java Simon API. Callbacks can be
- * structured into the tree using {@link CompositeCallback} implementation.
- * Partial callbacks can be easily implemented extending the {@link CallbackSkeleton}
- * class that already implements all methods as empty. Callbacks can be configured
- * via Manager configuration facility.
+ * Callback processes various events of the Java Simon API. Callbacks can be structured into the tree
+ * using {@link CompositeCallback} implementation (this tree has no correlation with Simon tree
+ * in the {@link org.javasimon.Manager}). Partial callbacks can be easily implemented extending
+ * the {@link CallbackSkeleton} class that already implements all methods as empty.
+ * <p/>
+ * Both simple callbacks and composite callbacks implement this single interface, with simple callback expected
+ * to throw {@link UnsupportedOperationException} for tree-related operations. {@link CompositeFilterCallback}
+ * can be used to filter events passed to the subtree, this class is most likely to be used instead of plain
+ * {@link CompositeCallback}.
+ * <p/>
+ * Callbacks can be configured via Manager configuration facility. (Configuration part is still rather WIP.)
  * <p/>
  * Callback can have a lifecycle supported with methods {@link #initialize()} and {@link #cleanup()}.
  * Callback is initialized when it is attached to the manager (anywhere in the callback tree) and

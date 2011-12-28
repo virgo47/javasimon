@@ -1,6 +1,5 @@
 package org.javasimon.testapp;
 
-import org.javasimon.jdbc4.Driver;
 import org.javasimon.testapp.test.Runner;
 import org.javasimon.testapp.mm.AppMXBean;
 import org.javasimon.jmx.SimonMXBeanImpl;
@@ -9,7 +8,6 @@ import org.javasimon.jdbc4.jmx.JdbcMXBean;
 import org.javasimon.jdbc4.jmx.JdbcMXBeanImpl;
 import org.javasimon.SimonManager;
 import org.h2.tools.RunScript;
-import org.javasimon.utils.SimonUtils;
 
 import javax.management.ObjectName;
 import javax.management.MBeanServer;
