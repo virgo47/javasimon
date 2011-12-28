@@ -1,8 +1,8 @@
 package org.javasimon.callback;
 
 /**
- * FilterCallback extends Callback with filtering capabilities. Filter callback
- * adds {@link FilterRule}s that allow selective event propagation to children.
+ * FilterCallback extends {@link Callback} adding filtering capabilities. {@link FilterRule}s can be added to
+ * the filter callback, these allow selective event propagation to children.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */

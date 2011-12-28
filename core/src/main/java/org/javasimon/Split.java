@@ -22,13 +22,13 @@ public final class Split {
 	 * Creates a new Split for direct use without {@link Stopwatch} ("anonymous split"). Stop will not update any Stopwatch,
 	 * value can be added to any chosen Stopwatch using {@link Stopwatch#addSplit(Split)} in conjuction with
 	 * {@link #stop()} like this:
-	 *
+	 * <p/>
 	 * <pre>Split split = new Split();
 	 * ...
 	 * SimonManager.getStopwatch("codeBlock2.success").addTime(split.stop());</pre>
-	 *
+	 * <p/>
 	 * If the split is not needed afterwards calling {@link #stop()} is not necessary:
-	 *
+	 * <p/>
 	 * <pre>Split split = new Split();
 	 * ...
 	 * SimonManager.getStopwatch("codeBlock2.success").addTime(split);</pre>
@@ -129,6 +129,16 @@ public final class Split {
 	 */
 	public boolean isEnabled() {
 		return enabled;
+	}
+
+	/**
+	 * Returns true if this split is still running ({@link #stop()} has not been called yet).
+	 *
+	 * @return true if this split is still running
+	 * @since 3.1.0
+	 */
+	public boolean isRunning() {
+		return running;
 	}
 
 	/**
