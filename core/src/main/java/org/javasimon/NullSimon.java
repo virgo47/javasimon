@@ -18,6 +18,9 @@ class NullSimon implements Simon {
 	 */
 	static final NullSimon INSTANCE = new NullSimon();
 
+	/**
+	 * Used only by the subclasses, otherwise should not be used at all except for a single {@link #INSTANCE}.
+	 */
 	NullSimon() {
 	}
 
@@ -150,6 +153,8 @@ class NullSimon implements Simon {
 
 	/**
 	 * Does nothing.
+	 *
+	 * @param name ignored
 	 */
 	public void removeAttribute(String name) {
 	}
@@ -181,6 +186,10 @@ class NullSimon implements Simon {
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 final class NullStopwatch extends NullSimon implements Stopwatch {
+	/**
+	 * Internal singleton value of the null Stopwatch. Null Stopwatch is never directly used in the client code,
+	 * it is always hidden behind the {@link Stopwatch} interface - only its behavior manifests to the client.
+	 */
 	static final NullStopwatch INSTANCE = new NullStopwatch();
 
 	private NullStopwatch() {
@@ -362,6 +371,10 @@ final class NullStopwatch extends NullSimon implements Stopwatch {
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 final class NullCounter extends NullSimon implements Counter {
+	/**
+	 * Internal singleton value of the null Counter. Null Counter is never directly used in the client code,
+	 * it is always hidden behind the {@link Counter} interface - only its behavior manifests to the client.
+	 */
 	static final NullCounter INSTANCE = new NullCounter();
 
 	private NullCounter() {

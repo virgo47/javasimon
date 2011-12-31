@@ -9,7 +9,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 /**
- * EnabledManager implements methods called from SimonManager when the manager is enabled.
+ * Implements fully functional {@link Manager} in the enabled state. Does not support
+ * {@link #enable()}/{@link #disable()} - for this use {@link SwitchingManager}.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
@@ -90,14 +91,6 @@ public final class EnabledManager implements Manager {
 	@Override
 	public Simon getRootSimon() {
 		return rootSimon;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public List<String> simonNames() {
-		return new ArrayList<String>(allSimons.keySet());
 	}
 
 	/**
@@ -231,7 +224,7 @@ public final class EnabledManager implements Manager {
 	}
 
 	/**
-	 * Throws UnsupportedOperationException.
+	 * Throws {@link UnsupportedOperationException}.
 	 */
 	@Override
 	public void enable() {
@@ -239,7 +232,7 @@ public final class EnabledManager implements Manager {
 	}
 
 	/**
-	 * Throws UnsupportedOperationException.
+	 * Throws {@link UnsupportedOperationException}.
 	 */
 	@Override
 	public void disable() {

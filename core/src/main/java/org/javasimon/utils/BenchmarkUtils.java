@@ -12,7 +12,7 @@ import org.javasimon.StopwatchSample;
  * @since 3.1
  */
 public class BenchmarkUtils {
-	private static final Manager manager = new EnabledManager();
+	private static final Manager MANAGER = new EnabledManager();
 
 	/**
 	 * Runs the list of tasks to be benchmarked and returns {@link StopwatchSample} array with measured results.
@@ -32,7 +32,7 @@ public class BenchmarkUtils {
 		presentSummary(tasks);
 		StopwatchSample[] result = new StopwatchSample[tasks.length];
 		for (int i = 0; i < result.length; i++) {
-			result[i] = manager.getStopwatch(tasks[i].stopwatchName).sample();
+			result[i] = MANAGER.getStopwatch(tasks[i].stopwatchName).sample();
 		}
 		return result;
 	}
@@ -67,7 +67,7 @@ public class BenchmarkUtils {
 		System.out.println("\nSUMMARY:");
 		for (Task task : tasks) {
 			System.out.println(task.stopwatchName + ": " +
-				manager.getStopwatch(task.stopwatchName));
+				MANAGER.getStopwatch(task.stopwatchName));
 		}
 	}
 
@@ -84,6 +84,11 @@ public class BenchmarkUtils {
 	public static abstract class Task implements Runnable {
 		private String stopwatchName;
 
+		/**
+		 * Protected constructor intended for extension.
+		 *
+		 * @param stopwatchName name of the stopwatch (measuring name)
+		 */
 		protected Task(String stopwatchName) {
 			this.stopwatchName = stopwatchName;
 		}
@@ -102,7 +107,7 @@ public class BenchmarkUtils {
 			} finally {
 				split.stop();
 				System.out.println(split.presentRunningFor());
-				manager.getStopwatch(stopwatchName).addSplit(split);
+				MANAGER.getStopwatch(stopwatchName).addSplit(split);
 			}
 		}
 

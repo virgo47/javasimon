@@ -120,14 +120,14 @@ abstract class AbstractSimon implements Simon {
 		return (name == null || name.equals(Manager.ROOT_SIMON_NAME));
 	}
 
-	private boolean shouldBeEffectivlyEnabled() {
+	private synchronized boolean shouldBeEffectivlyEnabled() {
 		if (state.equals(SimonState.INHERIT)) {
 			return parent.isEnabled();
 		}
 		return state.equals(SimonState.ENABLED);
 	}
 
-	private void updateAndPropagateEffectiveState(boolean enabled, boolean overrule) {
+	private synchronized void updateAndPropagateEffectiveState(boolean enabled, boolean overrule) {
 		this.enabled = enabled;
 		for (Simon child : children) {
 			if (overrule) {
@@ -165,7 +165,7 @@ abstract class AbstractSimon implements Simon {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final SimonState getState() {
+	public synchronized final SimonState getState() {
 		return state;
 	}
 
@@ -203,7 +203,7 @@ abstract class AbstractSimon implements Simon {
 	 * @return name and state of the Simon
 	 */
 	@Override
-	public String toString() {
+	public synchronized String toString() {
 		return " [" + name + " " + state +
 			(getNote() != null && getNote().length() != 0 ? " \"" + getNote() + "\"]" : "]");
 	}
@@ -277,7 +277,7 @@ abstract class AbstractSimon implements Simon {
 		return attributes.keySet().iterator();
 	}
 
-	protected void sampleCommon(Sample sample) {
+	void sampleCommon(Sample sample) {
 		sample.setName(name);
 		sample.setNote(note);
 		sample.setFirstUsage(firstUsage);

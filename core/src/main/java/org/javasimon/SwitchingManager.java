@@ -3,10 +3,10 @@ package org.javasimon;
 import org.javasimon.callback.Callback;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
- * SwitchingManager.
+ * {@link Manager} implementation that supports {@link #enable()} and {@link #disable()} and switches between
+ * backing {@link EnabledManager} and {@link DisabledManager} accordingly.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
@@ -47,14 +47,6 @@ public final class SwitchingManager implements Manager {
 	@Override
 	public Stopwatch getStopwatch(String name) {
 		return manager.getStopwatch(name);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public List<String> simonNames() {
-		return manager.simonNames();
 	}
 
 	/**

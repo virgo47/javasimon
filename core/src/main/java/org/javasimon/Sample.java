@@ -138,7 +138,7 @@ public abstract class Sample {
 	}
 
 	// common part of the toString method
-	protected void finishWithUsagesAndNote(StringBuilder sb) {
+	void finishWithUsagesAndNote(StringBuilder sb) {
 		sb.append(", firstUsage=").append(SimonUtils.presentTimestamp(getFirstUsage()));
 		sb.append(", lastUsage=").append(SimonUtils.presentTimestamp(getLastUsage()));
 		sb.append(", lastReset=").append(SimonUtils.presentTimestamp(getLastReset()));

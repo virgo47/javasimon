@@ -165,6 +165,8 @@ public interface Callback {
 	 * configurations meaning that the configuration entry applies to all actions (any action).
 	 * In callback configuration action names in lowercase and with _ replaced for - can be
 	 * used (e.g. "counter-increase" instead for {@link #COUNTER_INCREASE}.
+	 * <p/>
+	 * Event codes are used for configuration purposes instead of enum literals.
 	 */
 	enum Event {
 		/**
@@ -242,6 +244,11 @@ public interface Callback {
 			}
 		}
 
+		/**
+		 * Constructor of the event with its code.
+		 *
+		 * @param code code of the event
+		 */
 		Event(String code) {
 			this.code = code;
 		}

@@ -59,6 +59,9 @@ public class SimonServletFilter implements Filter {
 	 */
 	public static final String INIT_PARAM_SIMON_CONSOLE_PATH = "console-path";
 
+	/**
+	 * Simon prefix - protected for subclasses.
+	 */
 	protected String simonPrefix = DEFAULT_SIMON_PREFIX;
 
 	/**
@@ -73,7 +76,11 @@ public class SimonServletFilter implements Filter {
 	 */
 	protected String consolePath;
 
-	// not configurable yet, but at least class uses this field and not the SM class
+	/**
+	 * Simon Manager used by the filter - protected for the subclass.
+	 * <p/>
+	 * TODO: not configurable yet, but at least class uses this field and not the SM class.
+	 */
 	protected Manager manager = SimonManager.manager();
 
 	/**

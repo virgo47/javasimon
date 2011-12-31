@@ -18,6 +18,14 @@ public class MonitorNameHelper {
 	private Method method;
 	private Monitored methodAnnotation;
 
+	/**
+	 * Creates the helper with all the necessary parameters - used from aspect implementations.
+	 *
+	 * @param targetClass real class of the target object
+	 * @param classAnnotation annotation on the class (or found on any superclass/superinterface)
+	 * @param method method being called
+	 * @param methodAnnotation annotation found on the method (or declared for the method in the superclass/superinterface)
+	 */
 	@SuppressWarnings({"unchecked"})
 	public MonitorNameHelper(Class targetClass, Monitored classAnnotation, Method method, Monitored methodAnnotation) {
 		this.targetClass = targetClass;
@@ -26,6 +34,11 @@ public class MonitorNameHelper {
 		this.methodAnnotation = methodAnnotation;
 	}
 
+	/**
+	 * Determines the name of the stopwatch as specified in the class javadoc for {@link Monitored}.
+	 *
+	 * @return name of the stopwatch based on the call context and its annotations
+	 */
 	public String getStopwatchName() {
 		if (methodAnnotation != null && methodAnnotation.name() != null && methodAnnotation.name().length() > 0) {
 			return methodAnnotation.name();
