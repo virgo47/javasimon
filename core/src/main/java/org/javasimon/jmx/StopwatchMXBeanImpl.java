@@ -14,6 +14,9 @@ import org.javasimon.utils.SimonUtils;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public class StopwatchMXBeanImpl extends AbstractSimonMXBeanImpl implements StopwatchMXBean {
+	/**
+	 * Wrapped {@link Stopwatch} instance - protected for subclasses.
+	 */
 	protected Stopwatch stopwatch;
 
 	/**

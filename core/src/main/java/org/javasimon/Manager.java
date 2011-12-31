@@ -3,12 +3,19 @@ package org.javasimon;
 import org.javasimon.callback.Callback;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Manager provides access to Simons and manages them in a tree structure. Any number of Managers
  * can be created. There is also one special Manager (called "default manager") that is accessible
- * via convenient static utility class SimonManager.
+ * via convenient static utility class {@link SimonManager}.
+ * <p/>
+ * Three different implementations exist:
+ * <ul>
+ * <li>{@link EnabledManager} represents fully functional manager in the enabled state;</li>
+ * <li>{@link DisabledManager} is manager implementation in the disabled state;</li>
+ * <li>{@link SwitchingManager} is manager implementation with both enabled and disabled manager in the background,
+ * only this implementation supports {@link #enable()} and {@link #disable()} method.</li>
+ * </ul>
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
@@ -17,6 +24,7 @@ public interface Manager {
 	 * Name of the root Simon.
 	 */
 	String ROOT_SIMON_NAME = "";
+
 	/**
 	 * Hierarchy delimiter in Simon name.
 	 */
@@ -56,16 +64,6 @@ public interface Manager {
 	 * @return stopwatch object
 	 */
 	Stopwatch getStopwatch(String name);
-
-	/**
-	 * Returns collection containing names of all existing Simons.
-	 *
-	 * @deprecated after 3.0.0 deprecated in favour of {@link #getSimonNames()}
-	 * @return collection of all Simon names
-	 */
-	@Deprecated
-	// TODO: I always expect this to start with get - another thing - isn't unmodifiable collection good enough?
-	List<String> simonNames();
 
 	/**
 	 * Returns unmodifiable collection containing names of all existing Simons. Collection is not ordered.

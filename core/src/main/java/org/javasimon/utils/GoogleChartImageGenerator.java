@@ -53,7 +53,7 @@ public final class GoogleChartImageGenerator {
 	}
 
 	/**
-	 * Generates Google bar chart URL for last values of all collected Simons.
+	 * Generates Google bar chart URL for the provided samples.
 	 *
 	 * @param samples stopwatch samples
 	 * @param title chart title

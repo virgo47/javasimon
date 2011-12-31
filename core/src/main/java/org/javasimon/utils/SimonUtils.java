@@ -286,17 +286,6 @@ public final class SimonUtils {
 		return generatePrivate(suffix, true);
 	}
 
-	/**
-	 * Will be removed after 3.1.
-	 *
-	 * @deprecated in favour of {@link #generateNameForClass(String)} or {@link #generateNameForClassAndMethod(String)}
-	 */
-	@SuppressWarnings({"JavaDoc"})
-	@Deprecated
-	public static String generateName(String suffix, boolean includeMethodName) {
-		return generatePrivate(suffix, includeMethodName);
-	}
-
 	// method is exatracted, so the stack trace index is always right
 	private static String generatePrivate(String suffix, boolean includeMethodName) {
 		StackTraceElement stackElement = Thread.currentThread().getStackTrace()[CLIENT_CODE_STACK_INDEX];

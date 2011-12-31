@@ -20,8 +20,14 @@ import java.lang.management.ManagementFactory;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public class JmxRegisterCallback extends CallbackSkeleton {
+	/**
+	 * Domain part of the JMX object name - protected for subclasses.
+	 */
 	protected String domain;
 
+	/**
+	 * MBean server instance specified for this callback (or default platform one) - protected for subclasses.
+	 */
 	protected MBeanServer mBeanServer;
 
 	private Set<String> registeredNames = new HashSet<String>();

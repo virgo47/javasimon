@@ -13,6 +13,9 @@ import org.javasimon.Counter;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public class CounterMXBeanImpl extends AbstractSimonMXBeanImpl implements CounterMXBean {
+	/**
+	 * Wrapped {@link Counter} instance - protected for subclasses.
+	 */
 	protected Counter counter;
 
 	/**

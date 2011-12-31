@@ -25,7 +25,7 @@ public abstract class AbstractSimonDataSource {
 	protected String prefix = "org.javasimon.jdbcx4";
 
 	/**
-	 * <p>Retrieves the log writer for this <code>DataSource</code> object.
+	 * Retrieves the log writer for this <code>DataSource</code> object.
 	 *
 	 * @return the log writer for this data source or null if logging is disabled
 	 * @throws java.sql.SQLException if a database access error occurs
@@ -37,8 +37,7 @@ public abstract class AbstractSimonDataSource {
 	}
 
 	/**
-	 * <p>Sets the log writer for this <code>DataSource</code>
-	 * object to the given <code>java.io.PrintWriter</code> object.
+	 * Sets the log writer for this <code>DataSource</code> object to the given <code>java.io.PrintWriter</code> object.
 	 *
 	 * @param out the new log writer; to disable logging, set to null
 	 * @throws java.sql.SQLException if a database access error occurs

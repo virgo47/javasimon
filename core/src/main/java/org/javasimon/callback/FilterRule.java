@@ -95,7 +95,7 @@ public class FilterRule {
 	 */
 	public static final String VAR_VALUE = "value";
 
-	private static final ScriptEngine ecmaScriptEngine = new ScriptEngineManager().getEngineByName("ecmascript");
+	private static final ScriptEngine ECMA_SCRIPT_ENGINE = new ScriptEngineManager().getEngineByName("ecmascript");
 
 	private static final Replacer[] CONDITION_REPLACERS = new Replacer[] {
 		new Replacer(" lt ", " < "),
@@ -132,8 +132,8 @@ public class FilterRule {
 				condition = conditionReplacer.process(condition);
 			}
 			try {
-				expression = ((Compilable) ecmaScriptEngine).compile(condition);
-				Bindings bindings = ecmaScriptEngine.getBindings(ScriptContext.ENGINE_SCOPE);
+				expression = ((Compilable) ECMA_SCRIPT_ENGINE).compile(condition);
+				Bindings bindings = ECMA_SCRIPT_ENGINE.getBindings(ScriptContext.ENGINE_SCOPE);
 				bindings.put(VAR_ACTIVE, 0);
 				bindings.put(VAR_COUNTER, 0);
 				bindings.put(VAR_MAX, 0);
@@ -145,7 +145,7 @@ public class FilterRule {
 				if (!(expression.eval(bindings) instanceof Boolean)) {
 					throw new SimonException("Expression '" + condition + "' does not return boolean.");
 				}
-			} catch (Exception e) {
+			} catch (ScriptException e) {
 				throw new SimonException(e);
 			}
 		}
@@ -201,7 +201,7 @@ public class FilterRule {
 	}
 
 	private boolean checkCounter(Counter counter, Object... params) throws ScriptException {
-		Bindings bindings = ecmaScriptEngine.getBindings(ScriptContext.ENGINE_SCOPE);
+		Bindings bindings = ECMA_SCRIPT_ENGINE.getBindings(ScriptContext.ENGINE_SCOPE);
 		processParams(bindings, params);
 		bindings.put(VAR_COUNTER, counter.getCounter());
 		bindings.put(VAR_MAX, counter.getMax());
@@ -210,7 +210,7 @@ public class FilterRule {
 	}
 
 	private boolean checkStopwtach(Stopwatch stopwatch, Object... params) throws ScriptException {
-		Bindings bindings = ecmaScriptEngine.getBindings(ScriptContext.ENGINE_SCOPE);
+		Bindings bindings = ECMA_SCRIPT_ENGINE.getBindings(ScriptContext.ENGINE_SCOPE);
 		processParams(bindings, params);
 		bindings.put(VAR_ACTIVE, stopwatch.getActive());
 		bindings.put(VAR_COUNTER, stopwatch.getCounter());

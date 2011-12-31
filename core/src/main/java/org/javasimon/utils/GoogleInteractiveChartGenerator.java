@@ -16,6 +16,16 @@ public final class GoogleInteractiveChartGenerator {
 		throw new UnsupportedOperationException();
 	}
 
+	/**
+	 * Generates Google bar chart HTML5 source code for the provided samples.
+	 *
+	 * @param samples stopwatch samples
+	 * @param title chart title
+	 * @param divisor value divisor. For example: if values are in ns and ms are required,
+	 * divisor should be set to 1000000.
+	 * @param unit unit shown after values under every bar - TODO currently not used
+	 * @return HTML5 source code displaying the chart
+	 */
 	public static String barChart(StopwatchSample[] samples, String title, double divisor, String unit) {
 		final StringBuilder result = new StringBuilder("<html>\n" +
 			"  <head>\n" +

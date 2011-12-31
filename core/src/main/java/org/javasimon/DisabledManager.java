@@ -3,11 +3,12 @@ package org.javasimon;
 import org.javasimon.callback.Callback;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Collections;
 
 /**
- * DisabledManager implements methods called from SimonManager to do nothing or return NullSimon.
+ * {@link Manager} implementation that does nothing or returns {@code null} or {@link NullSimon} as expected
+ * from manager in disabled state. Does not support {@link #enable()}/{@link #disable()} - for this
+ * use {@link SwitchingManager}.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
@@ -15,6 +16,9 @@ public final class DisabledManager implements Manager {
 	/**
 	 * Returns "Null Simon" that always returns empty/null values and cannot measure anything.
 	 * Null Simon returned by this method is neither {@link Stopwatch} nor {@link Counter}.
+	 *
+	 * @param name ignored
+	 * @return null Simon
 	 */
 	@Override
 	public Simon getSimon(String name) {
@@ -53,6 +57,9 @@ public final class DisabledManager implements Manager {
 
 	/**
 	 * Returns "Null Counter" that always returns empty/null values and cannot measure anything.
+	 *
+	 * @param name ignored
+	 * @return null Counter
 	 */
 	@Override
 	public Counter getCounter(String name) {
@@ -61,6 +68,9 @@ public final class DisabledManager implements Manager {
 
 	/**
 	 * Returns "Null Stopwatch" that always returns empty/null values and cannot measure anything.
+	 *
+	 * @param name ignored
+	 * @return null Stopwatch
 	 */
 	@Override
 	public Stopwatch getStopwatch(String name) {
@@ -70,18 +80,12 @@ public final class DisabledManager implements Manager {
 	/**
 	 * Returns "Null Simon" that always returns empty/null values and cannot measure anything.
 	 * Null Simon returned by this method is neither {@link Stopwatch} nor {@link Counter}.
+	 *
+	 * @return null Simon
 	 */
 	@Override
 	public Simon getRootSimon() {
 		return NullSimon.INSTANCE;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public List<String> simonNames() {
-		return Collections.emptyList();
 	}
 
 	/**
@@ -101,7 +105,7 @@ public final class DisabledManager implements Manager {
 	}
 
 	/**
-	 * Throws UnsupportedOperationException.
+	 * Throws {@link UnsupportedOperationException}.
 	 */
 	@Override
 	public void enable() {
@@ -109,7 +113,7 @@ public final class DisabledManager implements Manager {
 	}
 
 	/**
-	 * Throws UnsupportedOperationException.
+	 * Throws {@link UnsupportedOperationException}.
 	 */
 	@Override
 	public void disable() {

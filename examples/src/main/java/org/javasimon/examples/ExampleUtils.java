@@ -30,11 +30,12 @@ public final class ExampleUtils {
 		}
 	}
 
-	private static String[] RANDOM_NAMES = ("Deadra Breakell Rod Herrero Genesis Boutilier Cliff Daus Carey Chevas" +
+	private static final String[] RANDOM_NAMES = ("Deadra Breakell Rod Herrero Genesis Boutilier Cliff Daus Carey Chevas" +
 		" Loralee Rizvi Virgen Pahler Un Muscat Elwood Poeppel Jeffry Carlise Kuramoto Bibi Whatcott Lianne Tellefson" +
 		" Ruthanne Stipes Elwood Kisselburg Raphael Maxam Pura Abrecht Rod Jernberg Bok Mehrtens Brittanie Palamino" +
 		" Jeffry Wansing Delsie Palms Rob Doub Moises Minney Armand Khaleel").split(" ");
-	private static Random random = new Random();
+
+	private static final Random RANDOM = new Random();
 
 	/**
 	 * Fills the {@link org.javasimon.SimonManager} with specified number of Simons (or slightly more).
@@ -44,7 +45,7 @@ public final class ExampleUtils {
 	public static void fillManagerWithSimons(int roughCount) {
 		System.out.print("Filling manager with ~" + roughCount + " Simons...");
 		while (SimonManager.getSimonNames().size() < roughCount) {
-			SimonManager.getStopwatch(generateRandomName(random.nextInt(10) + 1));
+			SimonManager.getStopwatch(generateRandomName(RANDOM.nextInt(10) + 1));
 		}
 		System.out.println(" " + SimonManager.getSimonNames().size() + " created.");
 	}
@@ -55,7 +56,7 @@ public final class ExampleUtils {
 			if (sb.length() > 0) {
 				sb.append(Manager.HIERARCHY_DELIMITER);
 			}
-			sb.append(RANDOM_NAMES[random.nextInt(RANDOM_NAMES.length)]);
+			sb.append(RANDOM_NAMES[RANDOM.nextInt(RANDOM_NAMES.length)]);
 		}
 		return sb.toString();
 	}

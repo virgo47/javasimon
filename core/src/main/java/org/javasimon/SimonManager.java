@@ -33,10 +33,11 @@ public final class SimonManager {
 	 */
 	public static final String PROPERTY_CONFIG_RESOURCE_NAME = "javasimon.config.resource";
 
-	private static Manager manager = new SwitchingManager();
+	private static final long INIT_NANOS;
 
-	private static final long initNanos;
-	private static final long initMillis;
+	private static final long INIT_MILLIS;
+
+	private static Manager manager = new SwitchingManager();
 
 	/**
 	 * Calls {@link #init()}.
@@ -44,8 +45,8 @@ public final class SimonManager {
 	static {
 		init();
 		// for conversion between nano and millis - see method millisForNano(long)
-		initNanos = System.nanoTime();
-		initMillis = System.currentTimeMillis();
+		INIT_NANOS = System.nanoTime();
+		INIT_MILLIS = System.currentTimeMillis();
 	}
 
 	/**
@@ -155,17 +156,6 @@ public final class SimonManager {
 	}
 
 	/**
-	 * Returns collection containing names of all existing Simons.
-	 *
-	 * @return collection of all Simon names
-	 * @deprecated after 3.0.0 deprecated in favour of {@link #getSimonNames()}
-	 */
-	@Deprecated
-	public static Collection<String> simonNames() {
-		return manager.simonNames();
-	}
-
-	/**
 	 * Returns unmodifiable collection containing names of all existing Simons.
 	 *
 	 * @return collection of all Simon names
@@ -253,6 +243,6 @@ public final class SimonManager {
 	 * @since 3.1
 	 */
 	public static long millisForNano(long nanos) {
-		return initMillis + (nanos - initNanos) / SimonUtils.NANOS_IN_MILLIS;
+		return INIT_MILLIS + (nanos - INIT_NANOS) / SimonUtils.NANOS_IN_MILLIS;
 	}
 }
