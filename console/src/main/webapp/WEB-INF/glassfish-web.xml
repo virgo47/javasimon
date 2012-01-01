@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GlassFish Config File -->
+<glassfish-web-app>
+  <context-root>/javasimon-console</context-root>
+  <class-loader delegate="true"/>
+</glassfish-web-app>
