@@ -1,6 +1,49 @@
-body { 
-    font-family: Trebuchet MS, Tahoma, Verdana, Arial, sans-serif; 
+body {
+    font-family: "Trebuchet MS",Tahoma,Verdana,Arial,sans-serif;
+}
+img#logo {
+    height: 55px;
+    padding: 0;
+    vertical-align: middle;
+    width: 55px;
+}
+h1 {
+    vertical-align: middle;
+}
+div#filter {
+    margin-bottom: 2em;
+}
+div.filterTitle {
+    padding: 0.5em;
+}
+div.filterButtons {
+    padding-left: 0.5em;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+}
+span#exportSpan {
+    padding-left: 250px;
+    display: inline-block;
 }
 td.numeric {
     text-align: right;
+}
+table.flatTable > tbody > tr > td.counter, td.total, td.min, td.mean, td.last, td.max, td.standardDeviation {
+    text-align: right;
+}
+table.flatTable > tbody > tr.odd {
+    background-color: lightgrey;
+}
+table.flatTable td {
+    border-left:  solid black thin;
+}
+table.flatTable > thead {
+    font-weight: bold;
+    border:  solid black thin;
+    text-align:  center;
+}
+table.flatTable {
+    border: thin solid black;
+    border-collapse: collapse;
+    width:  100%;
 }
