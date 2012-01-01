@@ -27,14 +27,14 @@ public class StandaloneExample {
 	 *
 	 * @return registered SimonMXBean implementation object
 	 */
-	private static SimonMXBeanImpl register() {
+	private static SimonMXBean register() {
 		MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
 		try {
 			ObjectName name = new ObjectName("org.javasimon.jmx.example:type=Simon");
 			if (mbs.isRegistered(name)) {
 				mbs.unregisterMBean(name);
 			}
-			SimonMXBeanImpl simon = new SimonMXBeanImpl(SimonManager.manager());
+			SimonMXBean simon = new SimonMXBeanImpl(SimonManager.manager());
 			mbs.registerMBean(simon, name);
 			System.out.println("SimonMXBean registerd under name: "+name);
 			return simon;
