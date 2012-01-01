@@ -4,7 +4,7 @@
 	<groupId>org.javasimon</groupId>
 	<artifactId>javasimon-parent</artifactId>
 	<packaging>pom</packaging>
-	<version>3.1.0</version>
+	<version>3.1.1-SNAPSHOT</version>
 	<name>javasimon</name>
 	<description>Java Simon - simple monitoring library</description>
 	<url>http://code.google.com/p/javasimon/</url>
@@ -33,9 +33,9 @@
 	</properties>
 
 	<scm>
-		<url>https://javasimon.googlecode.com/svn/tags/javasimon-parent-3.1.0</url>
-		<connection>scm:svn:https://javasimon.googlecode.com/svn/tags/javasimon-parent-3.1.0</connection>
-		<developerConnection>scm:svn:https://javasimon.googlecode.com/svn/tags/javasimon-parent-3.1.0</developerConnection>
+		<url>https://javasimon.googlecode.com/svn/trunk/</url>
+		<connection>scm:svn:https://javasimon.googlecode.com/svn/trunk/</connection>
+		<developerConnection>scm:svn:https://javasimon.googlecode.com/svn/trunk/</developerConnection>
 	</scm>
 
 	<licenses>
