@@ -1,6 +1,8 @@
 package org.javasimon.console;
 
 /**
+ * Exception raised during action execution
+ *
  * @author gquintana
  */
 public class ActionException extends Exception {
@@ -12,5 +14,4 @@ public class ActionException extends Exception {
 	public ActionException(String message) {
 		super(message);
 	}
-
 }

@@ -6,11 +6,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.javasimon.console.action.*;
 
 /**
+ * Front controller servlet of Simon Web console
  * @author gquintana
  */
 public class SimonConsoleServlet extends HttpServlet {
+
 	public static final String PREFIX_URL_INIT_PARAMETER = "prefix-url";
 	private String prefixUrl;
 
@@ -18,6 +21,11 @@ public class SimonConsoleServlet extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
 		prefixUrl = config.getInitParameter(PREFIX_URL_INIT_PARAMETER);
+		if (prefixUrl==null) {
+			prefixUrl="";
+		} else {
+			prefixUrl=prefixUrl.trim();
+		}
 	}
 
 	/**
@@ -31,19 +39,35 @@ public class SimonConsoleServlet extends HttpServlet {
 	 * @throws IOException if an I/O error occurs
 	 */
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-		throws ServletException, IOException
-	{
+		throws ServletException, IOException {
 		String path = request.getRequestURI().substring(request.getContextPath().length() + prefixUrl.length());
-		Action action;
+		ActionContext actionContext = new ActionContext(request, response, path);
+		Action action = null;
 		try {
 			if (path.equals("/")) {
-				action = createResourceAction(request, response, ResourceAction.PREFIX + "/index.html");
+				action = createResourceAction(actionContext, ResourceAction.PREFIX + "/index.html");
 			} else if (path.endsWith("*.html")) {
-				action = createResourceAction(request, response, ResourceAction.PREFIX + path);
+				action = createResourceAction(actionContext, ResourceAction.PREFIX + path);
 			} else if (path.startsWith(ResourceAction.PREFIX)) {
-				action = createResourceAction(request, response, path);
-			} else if (path.equals(DataJsonAction.PATH)) {
-				action = new DataJsonAction(request, response);
+				action = createResourceAction(actionContext, path);
+			} else if (path.equals(TableJsonAction.PATH)) {
+				TableJsonAction dataTableJsonAction = new TableJsonAction(actionContext);
+				action = dataTableJsonAction;
+			} else if (path.equals(ListJsonAction.PATH)) {
+				ListJsonAction dataTableJsonAction = new ListJsonAction(actionContext);
+				action = dataTableJsonAction;
+			} else if (path.equals(TreeJsonAction.PATH)) {
+				TreeJsonAction dataTreeJsonAction = new TreeJsonAction(actionContext);
+				action = dataTreeJsonAction;
+			} else if (path.equals(TableHtmlAction.PATH)) {
+				TableHtmlAction dataTableHtmlAction = new TableHtmlAction(actionContext);
+				action = dataTableHtmlAction;
+			} else if (path.equals(TableCsvAction.PATH)) {
+				TableCsvAction dataTableCsvAction = new TableCsvAction(actionContext);
+				action = dataTableCsvAction;
+			} else if (path.equals(TreeXmlAction.PATH)) {
+				TreeXmlAction treeXmlAction = new TreeXmlAction(actionContext);
+				action = treeXmlAction;
 			} else {
 				throw new ActionException("No action for path " + path);
 			}
@@ -51,7 +75,7 @@ public class SimonConsoleServlet extends HttpServlet {
 			action.execute();
 		} catch (ActionException actionException) {
 			try {
-				ErrorAction errorAction = new ErrorAction(request, response);
+				ErrorAction errorAction = new ErrorAction(actionContext);
 				errorAction.setError(actionException);
 				errorAction.execute();
 			} catch (ActionException actionException1) {
@@ -60,14 +84,13 @@ public class SimonConsoleServlet extends HttpServlet {
 		}
 	}
 
-	private ResourceAction createResourceAction(HttpServletRequest request, HttpServletResponse response, String path) {
-		ResourceAction resourceAction = new ResourceAction(request, response);
-		resourceAction.setPath(path);
+	private ResourceAction createResourceAction(ActionContext actionContext, String path) {
+		actionContext.setPath(path);
+		ResourceAction resourceAction = new ResourceAction(actionContext);
 		return resourceAction;
 	}
 
 	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-
 	/**
 	 * Handles the HTTP
 	 * <code>GET</code> method.
@@ -79,8 +102,7 @@ public class SimonConsoleServlet extends HttpServlet {
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-		throws ServletException, IOException
-	{
+		throws ServletException, IOException {
 		processRequest(request, response);
 	}
 
@@ -95,8 +117,7 @@ public class SimonConsoleServlet extends HttpServlet {
 	 */
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-		throws ServletException, IOException
-	{
+		throws ServletException, IOException {
 		processRequest(request, response);
 	}
 
