@@ -10,24 +10,34 @@ import org.javasimon.console.action.*;
 
 /**
  * Front controller servlet of Simon Web console
+ *
  * @author gquintana
  */
 public class SimonConsoleServlet extends HttpServlet {
-
-	public static final String PREFIX_URL_INIT_PARAMETER = "prefix-url";
-	private String prefixUrl;
+	/**
+	 * URL Prefix init parameter name
+	 */
+	public static final String URL_PREFIX_INIT_PARAMETER = "url-prefix";
+	/**
+	 * Root page path
+	 */
+	public static final String ROOT_PATH = "/index.html";
+	/**
+	 * URL Prefix.
+	 * Set with init parameters
+	 */
+	private String urlPrefix;
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		prefixUrl = config.getInitParameter(PREFIX_URL_INIT_PARAMETER);
-		if (prefixUrl==null) {
-			prefixUrl="";
+		urlPrefix = config.getInitParameter(URL_PREFIX_INIT_PARAMETER);
+		if (urlPrefix == null) {
+			urlPrefix = "";
 		} else {
-			prefixUrl=prefixUrl.trim();
+			urlPrefix = urlPrefix.trim();
 		}
 	}
-
 	/**
 	 * Processes requests for both HTTP
 	 * <code>GET</code> and
@@ -40,40 +50,38 @@ public class SimonConsoleServlet extends HttpServlet {
 	 */
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-		String path = request.getRequestURI().substring(request.getContextPath().length() + prefixUrl.length());
+		String path = request.getRequestURI().substring(request.getContextPath().length() + urlPrefix.length());
 		ActionContext actionContext = new ActionContext(request, response, path);
 		Action action = null;
 		try {
-			if (path.equals("/")) {
-				action = createResourceAction(actionContext, ResourceAction.PREFIX + "/index.html");
-			} else if (path.endsWith("*.html")) {
-				action = createResourceAction(actionContext, ResourceAction.PREFIX + path);
+			// Create action corresponding to request path
+			if (path.equals("")) {
+				action = new RedirectAction(request.getContextPath() + urlPrefix + ROOT_PATH, actionContext);
+			} else if (path.equals("/")||path.equals(ROOT_PATH)) {
+				action = createResourceAction(actionContext, ResourceAction.PREFIX + ROOT_PATH);
 			} else if (path.startsWith(ResourceAction.PREFIX)) {
 				action = createResourceAction(actionContext, path);
 			} else if (path.equals(TableJsonAction.PATH)) {
-				TableJsonAction dataTableJsonAction = new TableJsonAction(actionContext);
-				action = dataTableJsonAction;
+				action = new TableJsonAction(actionContext);
 			} else if (path.equals(ListJsonAction.PATH)) {
-				ListJsonAction dataTableJsonAction = new ListJsonAction(actionContext);
-				action = dataTableJsonAction;
+				action = new ListJsonAction(actionContext);
 			} else if (path.equals(TreeJsonAction.PATH)) {
-				TreeJsonAction dataTreeJsonAction = new TreeJsonAction(actionContext);
-				action = dataTreeJsonAction;
+				action = new TreeJsonAction(actionContext);
 			} else if (path.equals(TableHtmlAction.PATH)) {
-				TableHtmlAction dataTableHtmlAction = new TableHtmlAction(actionContext);
-				action = dataTableHtmlAction;
+				action = new TableHtmlAction(actionContext);
 			} else if (path.equals(TableCsvAction.PATH)) {
-				TableCsvAction dataTableCsvAction = new TableCsvAction(actionContext);
-				action = dataTableCsvAction;
+				action = new TableCsvAction(actionContext);
 			} else if (path.equals(TreeXmlAction.PATH)) {
-				TreeXmlAction treeXmlAction = new TreeXmlAction(actionContext);
-				action = treeXmlAction;
+				action = new TreeXmlAction(actionContext);
 			} else {
 				throw new ActionException("No action for path " + path);
 			}
+			// Read request parameters
 			action.readParameters();
+			// Execute action (generate response)
 			action.execute();
 		} catch (ActionException actionException) {
+			// Handle action errors
 			try {
 				ErrorAction errorAction = new ErrorAction(actionContext);
 				errorAction.setError(actionException);
