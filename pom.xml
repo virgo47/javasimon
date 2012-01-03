@@ -20,6 +20,7 @@
 		<module>jdbc4</module>
 		<module>javaee</module>
 		<module>spring</module>
+		<module>console</module>
 		<module>examples</module>
 	</modules>
 
