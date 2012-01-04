@@ -48,14 +48,15 @@ public class SimonServletFilter implements Filter {
 	public static final String INIT_PARAM_PUBLISH_MANAGER = "manager-attribute-name";
 
 	/**
-	 * Name of filter init parameter that sets the value of threshold in milliseconds
-	 * for maximal request duration beyond which all splits will be dumped to log.
+	 * Name of filter init parameter that sets the value of threshold in milliseconds for maximal
+	 * request duration beyond which all splits will be dumped to log. The actual threshold can be
+	 * further customized overriding {@link #getThreshold(javax.servlet.http.HttpServletRequest)} method,
+	 * but this parameter has to be set to non-null value to enable threshold reporting feature (0 for instance).
 	 */
 	public static final String INIT_PARAM_REPORT_THRESHOLD = "report-threshold";
 
 	/**
-	 * Name of filter init parameter that sets relative ULR path that will provide
-	 * Simon console page.
+	 * Name of filter init parameter that sets relative ULR path that will provide Simon console page.
 	 */
 	public static final String INIT_PARAM_SIMON_CONSOLE_PATH = "console-path";
 
@@ -65,9 +66,12 @@ public class SimonServletFilter implements Filter {
 	protected String simonPrefix = DEFAULT_SIMON_PREFIX;
 
 	/**
-	 * Threshold in ms - any reqest longer than this will be reported by
+	 * Threshold in ns - any reqest longer than this will be reported by
 	 * {@link #reportRequestOverThreshold(javax.servlet.http.HttpServletRequest, org.javasimon.Split, java.util.List)}.
-	 * Specified by {@link #INIT_PARAM_REPORT_THRESHOLD} ({@value #INIT_PARAM_REPORT_THRESHOLD}) in the {@code web.xml}.
+	 * Specified by {@link #INIT_PARAM_REPORT_THRESHOLD} ({@value #INIT_PARAM_REPORT_THRESHOLD}) in the {@code web.xml} (in ms,
+	 * converted to ns during servlet init). This is the default value returned by {@link #getThreshold(javax.servlet.http.HttpServletRequest)}
+	 * but it may be completely ignored if method is overrided so. However if the field is {@link null} threshold reporting feature
+	 * is disabled.
 	 */
 	protected Long reportThreshold;
 
@@ -161,7 +165,7 @@ public class SimonServletFilter implements Filter {
 				if (reportThreshold != null) {
 					List<Split> splits = splitsThreadLocal.get();
 					splitsThreadLocal.remove(); // better do this before we call potentially overriden method
-					if (splitNanoTime > reportThreshold) {
+					if (splitNanoTime > getThreshold(request)) {
 						reportRequestOverThreshold(request, split, splits);
 					}
 				}
@@ -186,6 +190,18 @@ public class SimonServletFilter implements Filter {
 	 */
 	protected boolean isMonitored(HttpServletRequest request) {
 		return true;
+	}
+
+	/**
+	 * Returns actual threshold in *nanoseconds* (not ms as configured) which allows to further customize threshold per request - intended for override.
+	 * Default behavior returns configured {@link #reportThreshold} (already converted to ns).
+	 *
+	 * @param request HTTP Request
+	 * @return threshold in ns for current request
+	 * @since 3.2.0
+	 */
+	protected long getThreshold(HttpServletRequest request) {
+		return reportThreshold;
 	}
 
 	/**
