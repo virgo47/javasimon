@@ -7,6 +7,8 @@ import java.sql.*;
 import java.sql.Connection;
 import java.lang.reflect.Method;
 
+import org.javasimon.jdbc4.WrapperSupport;
+
 /**
  * Wrapper class for real DataSource implementation, produces standard {@link java.sql.Connection}
  * object.
@@ -21,7 +23,7 @@ import java.lang.reflect.Method;
  * </ul>
  * <b>MAY</b> properties are:
  * <ul>
- * <li><code>perfix</code> - Simon prefix (default: <code>org.javasimon.jdbcx4</code></li>
+ * <li><code>prefix</code> - Simon prefix (default: <code>org.javasimon.jdbcx4</code></li>
  * </ul>
  * <p/>
  * As mentioned in package description all <code>getConnection</code> methods
@@ -39,6 +41,7 @@ import java.lang.reflect.Method;
  */
 public final class SimonDataSource extends AbstractSimonDataSource implements DataSource {
 	private DataSource ds;
+	private WrapperSupport<DataSource> wrapperSupport;
 
 	private DataSource datasource() throws SQLException {
 		if (ds == null) {
@@ -69,6 +72,7 @@ public final class SimonDataSource extends AbstractSimonDataSource implements Da
 				}
 				ds.setLogWriter(logWriter);
 				ds.setLoginTimeout(loginTimeout);
+				wrapperSupport = new WrapperSupport<DataSource>(ds, DataSource.class);
 			} else {
 				throw new SQLException("Class in realdatasourceclassname is not a DataSource");
 			}
@@ -107,7 +111,7 @@ public final class SimonDataSource extends AbstractSimonDataSource implements Da
 	 */
 	@Override
 	public <T> T unwrap(Class<T> iface) throws SQLException {
-		return ds.unwrap(iface);
+		return wrapperSupport.unwrap(iface);
 	}
 
 	/**
@@ -115,6 +119,6 @@ public final class SimonDataSource extends AbstractSimonDataSource implements Da
 	 */
 	@Override
 	public boolean isWrapperFor(Class<?> iface) throws SQLException {
-		return ds.isWrapperFor(iface);
+		return wrapperSupport.isWrapperFor(iface);
 	}
 }

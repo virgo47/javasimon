@@ -18,13 +18,15 @@ import java.net.URL;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @since 2.4
  */
+@SuppressWarnings("deprecation")
 public final class SimonResultSet implements ResultSet {
 	/**
 	 * Stopwatch split measuring the lifespan of the statement until it is closed.
 	 */
 	private Split split;
 
-	private ResultSet rset;
+	private final ResultSet rset;
+	private final WrapperSupport<ResultSet> wrapperSupport;
 	private SimonStatement stmt;
 	private String stmtPrefix;
 
@@ -38,6 +40,7 @@ public final class SimonResultSet implements ResultSet {
 	 */
 	public SimonResultSet(ResultSet rset, SimonStatement stmt, String prefix, String stmtPrefix) {
 		this.rset = rset;
+		this.wrapperSupport = new WrapperSupport<ResultSet>(rset, ResultSet.class);
 		this.stmt = stmt;
 		this.stmtPrefix = stmtPrefix;
 
@@ -1516,7 +1519,7 @@ public final class SimonResultSet implements ResultSet {
 	 */
 	@Override
 	public <T> T unwrap(Class<T> iface) throws SQLException {
-		return rset.unwrap(iface);
+		return wrapperSupport.unwrap(iface);
 	}
 
 	/**
@@ -1524,6 +1527,6 @@ public final class SimonResultSet implements ResultSet {
 	 */
 	@Override
 	public boolean isWrapperFor(Class<?> iface) throws SQLException {
-		return rset.isWrapperFor(iface);
+		return wrapperSupport.isWrapperFor(iface);
 	}
 }

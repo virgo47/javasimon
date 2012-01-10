@@ -48,7 +48,9 @@ public class SimonStatement implements Statement {
 	 */
 	protected Split split;
 
-	private Statement stmt;
+	private final Statement stmt;
+
+	private final WrapperSupport<Statement> wrapperSupport;
 
 	/**
 	 * Class constructor, initializes Simons (lifespan, active) related to statement.
@@ -61,7 +63,7 @@ public class SimonStatement implements Statement {
 		this.conn = conn;
 		this.stmt = stmt;
 		this.prefix = prefix;
-
+		this.wrapperSupport = new WrapperSupport<Statement>(stmt, Statement.class);
 		split = SimonManager.getStopwatch(prefix + ".stmt").start();
 	}
 
@@ -572,7 +574,7 @@ public class SimonStatement implements Statement {
 	 */
 	@Override
 	public final <T> T unwrap(Class<T> tClass) throws SQLException {
-		throw new SQLException("not implemented");
+		return wrapperSupport.unwrap(tClass);
 	}
 
 	/**
@@ -580,6 +582,6 @@ public class SimonStatement implements Statement {
 	 */
 	@Override
 	public final boolean isWrapperFor(Class<?> aClass) throws SQLException {
-		throw new SQLException("not implemented");
+		return wrapperSupport.isWrapperFor(aClass);
 	}
 }
