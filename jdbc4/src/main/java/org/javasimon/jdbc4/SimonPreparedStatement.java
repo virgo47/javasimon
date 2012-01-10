@@ -17,6 +17,7 @@ import java.net.URL;
  * @see java.sql.PreparedStatement
  * @since 2.4
  */
+@SuppressWarnings("deprecation")
 public class SimonPreparedStatement extends SimonStatement implements PreparedStatement {
 	/**
 	 * SQL string.

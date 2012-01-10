@@ -33,7 +33,8 @@ import java.util.Properties;
  * @since 2.4
  */
 public final class SimonConnection implements Connection {
-	private Connection conn;
+	private final Connection conn;
+	private final WrapperSupport<Connection> wrapperSupport;
 	private String suffix;
 
 	private Split life;
@@ -49,6 +50,7 @@ public final class SimonConnection implements Connection {
 	 */
 	public SimonConnection(Connection conn, String prefix) {
 		this.conn = conn;
+		this.wrapperSupport = new WrapperSupport<Connection>(this.conn, Connection.class);
 		this.suffix = prefix;
 
 		commits = SimonManager.getCounter(prefix + ".conn.commits");
@@ -520,15 +522,15 @@ public final class SimonConnection implements Connection {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public <T> T unwrap(Class<T> tClass) throws SQLException {
-		throw new SQLException("not implemented");
+	public <T> T unwrap(Class<T> iface) throws SQLException {
+		return wrapperSupport.unwrap(iface);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean isWrapperFor(Class<?> aClass) throws SQLException {
-		throw new SQLException("not implemented");
+	public boolean isWrapperFor(Class<?> iface) throws SQLException {
+		return wrapperSupport.isWrapperFor(iface);
 	}
 }
