@@ -6,7 +6,7 @@
 		<servlet-name>SimonConsoleServlet</servlet-name>
 		<servlet-class>org.javasimon.console.SimonConsoleServlet</servlet-class>
 		<init-param>
-			<param-name>prefix-url</param-name>
+			<param-name>url-prefix</param-name>
 			<param-value></param-value>
 		</init-param>
 	</servlet>
