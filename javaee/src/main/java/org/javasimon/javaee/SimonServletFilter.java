@@ -280,7 +280,7 @@ public class SimonServletFilter implements Filter {
 
 	private class SplitSaverCallback extends CallbackSkeleton {
 		@Override
-		public void stopwatchStart(Split split) {
+		public void onStopwatchStart(Split split) {
 			List<Split> splits = splitsThreadLocal.get();
 			if (splits != null) {
 				splits.add(split);

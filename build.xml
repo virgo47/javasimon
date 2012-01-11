@@ -7,7 +7,7 @@
 
 	<property name="lib.dir" value="lib"/>
 
-	<property name="testng.jar" value="testng-5.11-jdk15.jar"/>
+	<property name="testng.jar" value="testng-6.3.1.jar"/>
 
 	<!-- used for testng or examples -->
 	<path id="classpath">

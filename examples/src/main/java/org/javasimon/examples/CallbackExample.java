@@ -19,11 +19,11 @@ public final class CallbackExample {
 	 */
 	public static void main(String[] args) {
 		SimonManager.callback().addCallback(new CallbackSkeleton() {
-			public void stopwatchStart(Split split) {
+			public void onStopwatchStart(Split split) {
 				System.out.println("\nStopwatch " + split.getStopwatch().getName() + " has just been started.");
 			}
 
-			public void stopwatchStop(Split split) {
+			public void onStopwatchStop(Split split) {
 				System.out.println("Stopwatch " + split.getStopwatch().getName()
 					+ " has just been stopped (" + SimonUtils.presentNanoTime(split.runningFor()) + ").");
 			}

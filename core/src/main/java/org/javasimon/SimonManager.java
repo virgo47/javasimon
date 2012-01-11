@@ -56,7 +56,7 @@ public final class SimonManager {
 	 */
 	public static void init() {
 		CallbackSkeleton tempraryCallback = new CallbackSkeleton();
-		manager.callback().addCallback(tempraryCallback);
+		manager.callback().addCallback(tempraryCallback); // just for reporting warnings, will be removed
 		try {
 			manager.configuration().clear();
 			String fileName = System.getProperty(PROPERTY_CONFIG_FILE_NAME);
@@ -65,15 +65,14 @@ public final class SimonManager {
 			}
 			String resourceName = System.getProperty(PROPERTY_CONFIG_RESOURCE_NAME);
 			if (resourceName != null) {
-				InputStream is =
-					SimonManager.class.getClassLoader().getResourceAsStream(resourceName);
+				InputStream is = SimonManager.class.getClassLoader().getResourceAsStream(resourceName);
 				if (is == null) {
 					throw new FileNotFoundException(resourceName);
 				}
 				manager.configuration().readConfig(new InputStreamReader(is));
 			}
 		} catch (Exception e) {
-			manager.callback().warning("SimonManager initialization error", e);
+			manager.callback().onManagerWarning("SimonManager initialization error", e);
 		}
 		manager.callback().removeCallback(tempraryCallback);
 	}
@@ -216,7 +215,7 @@ public final class SimonManager {
 
 	/**
 	 * Method propagates message to manager's {@link org.javasimon.callback.Callback}. This allows user to report any
-	 * message if they implement {@link org.javasimon.callback.Callback#message(String)}.
+	 * message if they implement {@link org.javasimon.callback.Callback#onManagerMessage(String)}.
 	 *
 	 * @param message message text
 	 */
@@ -226,7 +225,7 @@ public final class SimonManager {
 
 	/**
 	 * Method propagates warning to manager's {@link org.javasimon.callback.Callback}. This allows user to report any
-	 * warning and/or exception if they implement {@link org.javasimon.callback.Callback#warning(String, Exception)}.
+	 * warning and/or exception if they implement {@link org.javasimon.callback.Callback#onManagerWarning(String, Exception)}.
 	 *
 	 * @param warning arbitrary warning message
 	 * @param cause exception causing this warning

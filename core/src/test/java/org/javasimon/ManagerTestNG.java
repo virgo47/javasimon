@@ -145,11 +145,11 @@ public final class ManagerTestNG {
 		final Queue<String> messages = new LinkedList<String>();
 		SimonUtils.removeAllCallbacks(SimonManager.manager());
 		SimonManager.callback().addCallback(new CallbackSkeleton() {
-			public void stopwatchStart(Split split) {
+			public void onStopwatchStart(Split split) {
 				messages.add("start");
 			}
 
-			public void stopwatchStop(Split split) {
+			public void onStopwatchStop(Split split) {
 				messages.add("stop");
 			}
 		});
@@ -179,7 +179,7 @@ public final class ManagerTestNG {
 		final Queue<String> messages = new LinkedList<String>();
 		SimonUtils.removeAllCallbacks(SimonManager.manager());
 		SimonManager.callback().addCallback(new CallbackSkeleton() {
-			public void warning(String warning, Exception cause) {
+			public void onManagerWarning(String warning, Exception cause) {
 				messages.add(warning);
 			}
 		});

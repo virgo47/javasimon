@@ -60,7 +60,7 @@ public class JmxRegisterCallback extends CallbackSkeleton {
 	 * @param simon created Simon
 	 */
 	@Override
-	public final void simonCreated(Simon simon) {
+	public final void onSimonCreated(Simon simon) {
 		if (simon.getName() == null) {
 			return;
 		}
@@ -73,15 +73,15 @@ public class JmxRegisterCallback extends CallbackSkeleton {
 	 * @param simon destroyed Simon
 	 */
 	@Override
-	public final void simonDestroyed(Simon simon) {
+	public final void onSimonDestroyed(Simon simon) {
 		String name = constructObjectName(simon);
 		try {
 			ObjectName objectName = new ObjectName(name);
 			mBeanServer.unregisterMBean(objectName);
 			registeredNames.remove(name);
-			message("Unregistered Simon with the name: " + objectName);
+			onManagerMessage("Unregistered Simon with the name: " + objectName);
 		} catch (JMException e) {
-			warning("JMX unregistration failed for: " + name, e);
+			onManagerWarning("JMX unregistration failed for: " + name, e);
 		}
 	}
 
@@ -89,7 +89,7 @@ public class JmxRegisterCallback extends CallbackSkeleton {
 	 * When the manager is cleared, all MX beans for its Simons are unregistered.
 	 */
 	@Override
-	public final void clear() {
+	public final void onManagerClear() {
 		Iterator<String> namesIter = registeredNames.iterator();
 		while (namesIter.hasNext()) {
 			String name = namesIter.next();
@@ -99,9 +99,9 @@ public class JmxRegisterCallback extends CallbackSkeleton {
 				// here I have to use iterator.remove() - that's why I can't call common method
 				// for clear() and simonDestroyed(simon)
 				namesIter.remove();
-				message("Unregistered Simon with the name: " + objectName);
+				onManagerMessage("Unregistered Simon with the name: " + objectName);
 			} catch (JMException e) {
-				warning("JMX unregistration failed for: " + name, e);
+				onManagerWarning("JMX unregistration failed for: " + name, e);
 			}
 		}
 	}
@@ -124,9 +124,9 @@ public class JmxRegisterCallback extends CallbackSkeleton {
 					registeredNames.add(name);
 				}
 				mBeanServer.registerMBean(mBean, objectName);
-				message("Simon registered under the name: " + objectName);
+				onManagerMessage("Simon registered under the name: " + objectName);
 			} catch (JMException e) {
-				warning("JMX registration failed for: " + name, e);
+				onManagerWarning("JMX registration failed for: " + name, e);
 				registeredNames.remove(name);
 			}
 		}
@@ -145,7 +145,7 @@ public class JmxRegisterCallback extends CallbackSkeleton {
 		} else if (simon instanceof Stopwatch) {
 			simonMxBean = new StopwatchMXBeanImpl((Stopwatch) simon);
 		} else {
-			warning("Unknown type of Simon! " + simon, null);
+			onManagerWarning("Unknown type of Simon! " + simon, null);
 			simonMxBean = null;
 		}
 		return simonMxBean;

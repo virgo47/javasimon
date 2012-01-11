@@ -10,10 +10,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Callback processes various events of the Java Simon API. Callbacks can be structured into the tree
- * using {@link CompositeCallback} implementation (this tree has no correlation with Simon tree
- * in the {@link org.javasimon.Manager}). Partial callbacks can be easily implemented extending
- * the {@link CallbackSkeleton} class that already implements all methods as empty.
+ * Callback processes various events of the Java Simon API. All methods called on various events are named
+ * {@code onEventXY} with type of the source clearly mentioned in the name (Manager, Simon, Stopwatch, Counter).
+ * <p/>
+ * Callbacks can be structured into the tree using {@link CompositeCallback} implementation (this tree has no
+ * correlation with Simon tree in the {@link org.javasimon.Manager}). Partial callbacks can be easily implemented
+ * extending the {@link CallbackSkeleton} class that already implements all methods as empty.
  * <p/>
  * Both simple callbacks and composite callbacks implement this single interface, with simple callback expected
  * to throw {@link UnsupportedOperationException} for tree-related operations. {@link CompositeFilterCallback}
@@ -67,7 +69,7 @@ public interface Callback {
 	 *
 	 * @param split started Split
 	 */
-	void stopwatchStart(Split split);
+	void onStopwatchStart(Split split);
 
 	/**
 	 * Stopwatch stop event. This action is executed after the split time is calculated and does not
@@ -75,30 +77,14 @@ public interface Callback {
 	 *
 	 * @param split stopped Split
 	 */
-	void stopwatchStop(Split split);
-
-	/**
-	 * Message event is used to propagate arbitrary messages from the manager, or it can
-	 * be used by the other Callback methods internally.
-	 *
-	 * @param message message text
-	 */
-	void message(String message);
-
-	/**
-	 * Warning event containing warning and/or cause.
-	 *
-	 * @param warning arbitrary warning message
-	 * @param cause exception causing this warning
-	 */
-	void warning(String warning, Exception cause);
+	void onStopwatchStop(Split split);
 
 	/**
 	 * Simon reset event.
 	 *
 	 * @param simon reset Simon
 	 */
-	void reset(Simon simon);
+	void onSimonReset(Simon simon);
 
 	/**
 	 * Stopwatch add time event.
@@ -106,7 +92,7 @@ public interface Callback {
 	 * @param stopwatch modified Stopwatch
 	 * @param ns added split time in ns
 	 */
-	void stopwatchAdd(Stopwatch stopwatch, long ns);
+	void onStopwatchAdd(Stopwatch stopwatch, long ns);
 
 	/**
 	 * Stopwatch add split event.
@@ -115,7 +101,7 @@ public interface Callback {
 	 * @param split added split object
 	 * @since 3.1
 	 */
-	void stopwatchAdd(Stopwatch stopwatch, Split split);
+	void onStopwatchAdd(Stopwatch stopwatch, Split split);
 
 	/**
 	 * Counter decrease event.
@@ -123,7 +109,7 @@ public interface Callback {
 	 * @param counter modified Counter
 	 * @param dec decrement amount
 	 */
-	void counterDecrease(Counter counter, long dec);
+	void onCounterDecrease(Counter counter, long dec);
 
 	/**
 	 * Counter increase event.
@@ -131,7 +117,7 @@ public interface Callback {
 	 * @param counter modified Counter
 	 * @param inc increment amount
 	 */
-	void counterIncrease(Counter counter, long inc);
+	void onCounterIncrease(Counter counter, long inc);
 
 	/**
 	 * Counter set event.
@@ -139,26 +125,43 @@ public interface Callback {
 	 * @param counter modified Counter
 	 * @param val new value
 	 */
-	void counterSet(Counter counter, long val);
+	void onCounterSet(Counter counter, long val);
 
 	/**
 	 * Simon created event is called when Simon is successfully created by the Manager.
 	 *
 	 * @param simon created Simon
 	 */
-	void simonCreated(Simon simon);
+	void onSimonCreated(Simon simon);
 
 	/**
 	 * Simon destroyed event is called when Simon is successfully destroyed by the Manager.
 	 *
 	 * @param simon destroyed Simon
 	 */
-	void simonDestroyed(Simon simon);
+	void onSimonDestroyed(Simon simon);
 
 	/**
 	 * Event called when the manager is cleared.
 	 */
-	void clear();
+	void onManagerClear();
+
+	/**
+	 * Message event is used to propagate arbitrary messages from the manager, or it can
+	 * be used by the other Callback methods internally.
+	 *
+	 * @param message message text
+	 */
+	void onManagerMessage(String message);
+
+	/**
+	 * Warning event containing warning and/or cause.
+	 *
+	 * @param warning arbitrary warning message
+	 * @param cause exception causing this warning
+	 */
+	void onManagerWarning(String warning, Exception cause);
+
 
 	/**
 	 * Enumeration of all supported callback actions. {@link #ALL} is meta-action usable in

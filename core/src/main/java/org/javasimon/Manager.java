@@ -135,7 +135,7 @@ public interface Manager {
 
 	/**
 	 * Method propagates message to manager's {@link org.javasimon.callback.Callback}. This allows user to report any
-	 * message if they implement {@link org.javasimon.callback.Callback#message(String)}.
+	 * message if they implement {@link org.javasimon.callback.Callback#onManagerMessage(String)}.
 	 *
 	 * @param message message text
 	 */
@@ -143,7 +143,7 @@ public interface Manager {
 
 	/**
 	 * Method propagates warning to manager's {@link org.javasimon.callback.Callback}. This allows user to report any
-	 * warning and/or exception if they implement {@link org.javasimon.callback.Callback#warning(String, Exception)}.
+	 * warning and/or exception if they implement {@link org.javasimon.callback.Callback#onManagerWarning(String, Exception)}.
 	 *
 	 * @param warning arbitrary warning message
 	 * @param cause exception causing this warning

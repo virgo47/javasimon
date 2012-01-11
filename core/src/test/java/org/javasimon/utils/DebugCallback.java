@@ -14,7 +14,7 @@ public final class DebugCallback extends CallbackSkeleton {
 	 *
 	 * @param split started split
 	 */
-	public void stopwatchStart(Split split) {
+	public void onStopwatchStart(Split split) {
 		System.out.println("Start split: " + split);
 	}
 
@@ -23,7 +23,7 @@ public final class DebugCallback extends CallbackSkeleton {
 	 *
 	 * @param split stopped split
 	 */
-	public void stopwatchStop(Split split) {
+	public void onStopwatchStop(Split split) {
 		System.out.println("Stop split: " + split);
 	}
 }

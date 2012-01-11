@@ -20,7 +20,7 @@ public final class LoggingCallback extends CallbackSkeleton {
 	 *
 	 * @param split started split
 	 */
-	public void stopwatchStart(Split split) {
+	public void onStopwatchStart(Split split) {
 		logger.log(level, "SIMON START: " + split.getStopwatch());
 	}
 
@@ -29,7 +29,7 @@ public final class LoggingCallback extends CallbackSkeleton {
 	 *
 	 * @param split stopped split
 	 */
-	public void stopwatchStop(Split split) {
+	public void onStopwatchStop(Split split) {
 		logger.log(level, "SIMON STOP: " + split.getStopwatch() + " (" + split.runningFor() + ")");
 	}
 
@@ -39,7 +39,7 @@ public final class LoggingCallback extends CallbackSkeleton {
 	 * @param warning warning message
 	 * @param cause throwable cause
 	 */
-	public void warning(String warning, Exception cause) {
+	public void onManagerWarning(String warning, Exception cause) {
 		logger.log(level, "SIMON WARNING: " + warning, cause);
 	}
 
