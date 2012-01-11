@@ -116,7 +116,7 @@ public class FilterRule {
 
 	/**
 	 * Creates the rule with a specified type, condition and pattern. Rule can have a condition and/or a pattern.
-	 * Pattern is not relevant for manager-level callback operations ({@link Callback#warning(String, Exception)}, {@link Callback#message(String)}).
+	 * Pattern is not relevant for manager-level callback operations ({@link Callback#onManagerWarning(String, Exception)}, {@link Callback#onManagerMessage(String)}).
 	 * Both condition and pattern are optional and can be null.
 	 *
 	 * @param type rule type determining the role of the rule in the chain of the filter

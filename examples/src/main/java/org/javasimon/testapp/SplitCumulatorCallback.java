@@ -43,7 +43,7 @@ public final class SplitCumulatorCallback extends CallbackSkeleton {
 	 *
 	 * @param split used to check the name
 	 */
-	public void stopwatchStart(Split split) {
+	public void onStopwatchStart(Split split) {
 		if (controller != null && split.getStopwatch().getName().equals(controller)) {
 			orderSplits();
 		}
@@ -55,7 +55,7 @@ public final class SplitCumulatorCallback extends CallbackSkeleton {
 	 *
 	 * @param split stopped split that is going to be accumulated
 	 */
-	public void stopwatchStop(Split split) {
+	public void onStopwatchStop(Split split) {
 		List<Split> splitList = splits.get();
 		if (controller != null && split.getStopwatch().getName().equals(controller)) {
 			System.out.println("Splits: " + getSplits());

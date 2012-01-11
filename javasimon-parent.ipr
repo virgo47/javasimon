@@ -653,15 +653,15 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/3.0.5.RELEASE/spring-core-3.0.5.RELEASE-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.testng:testng:5.14.10">
+    <library name="Maven: org.testng:testng:6.3.1">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/testng/testng/5.14.10/testng-5.14.10.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/testng/testng/6.3.1/testng-6.3.1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/testng/testng/5.14.10/testng-5.14.10-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/testng/testng/6.3.1/testng-6.3.1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/testng/testng/5.14.10/testng-5.14.10-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/testng/testng/6.3.1/testng-6.3.1-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: org.yaml:snakeyaml:1.6">

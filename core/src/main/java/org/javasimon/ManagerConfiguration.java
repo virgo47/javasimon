@@ -91,9 +91,9 @@ public final class ManagerConfiguration {
 				xr.close();
 			}
 		} catch (XMLStreamException e) {
-			manager.callback().warning(null, e);
+			manager.callback().onManagerWarning(null, e);
 		} catch (SimonException e) {
-			manager.callback().warning(e.getMessage(), e);
+			manager.callback().onManagerWarning(e.getMessage(), e);
 		}
 	}
 

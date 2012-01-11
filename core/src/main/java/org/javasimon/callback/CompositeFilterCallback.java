@@ -77,117 +77,117 @@ public final class CompositeFilterCallback implements FilterCallback {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void reset(Simon simon) {
+	public void onSimonReset(Simon simon) {
 		if (rulesApplyTo(simon, Event.RESET)) {
-			callback.reset(simon);
+			callback.onSimonReset(simon);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void stopwatchAdd(Stopwatch stopwatch, long ns) {
+	public void onStopwatchAdd(Stopwatch stopwatch, long ns) {
 		if (rulesApplyTo(stopwatch, Event.STOPWATCH_ADD, ns)) {
-			callback.stopwatchAdd(stopwatch, ns);
+			callback.onStopwatchAdd(stopwatch, ns);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void stopwatchAdd(Stopwatch stopwatch, Split split) {
+	public void onStopwatchAdd(Stopwatch stopwatch, Split split) {
 		if (rulesApplyTo(stopwatch, Event.STOPWATCH_ADD, split.runningFor())) {
-			callback.stopwatchAdd(stopwatch, split);
+			callback.onStopwatchAdd(stopwatch, split);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void stopwatchStart(Split split) {
+	public void onStopwatchStart(Split split) {
 		if (rulesApplyTo(split.getStopwatch(), Event.STOPWATCH_START, split)) {
-			callback.stopwatchStart(split);
+			callback.onStopwatchStart(split);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void stopwatchStop(Split split) {
+	public void onStopwatchStop(Split split) {
 		if (rulesApplyTo(split.getStopwatch(), Event.STOPWATCH_STOP, split)) {
-			callback.stopwatchStop(split);
+			callback.onStopwatchStop(split);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void counterDecrease(Counter counter, long dec) {
+	public void onCounterDecrease(Counter counter, long dec) {
 		if (rulesApplyTo(counter, Event.COUNTER_DECREASE, dec)) {
-			callback.counterDecrease(counter, dec);
+			callback.onCounterDecrease(counter, dec);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void counterIncrease(Counter counter, long inc) {
+	public void onCounterIncrease(Counter counter, long inc) {
 		if (rulesApplyTo(counter, Event.COUNTER_INCREASE, inc)) {
-			callback.counterIncrease(counter, inc);
+			callback.onCounterIncrease(counter, inc);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void counterSet(Counter counter, long val) {
+	public void onCounterSet(Counter counter, long val) {
 		if (rulesApplyTo(counter, Event.COUNTER_SET, val)) {
-			callback.counterSet(counter, val);
+			callback.onCounterSet(counter, val);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void simonCreated(Simon simon) {
+	public void onSimonCreated(Simon simon) {
 		if (rulesApplyTo(simon, Event.CREATED)) {
-			callback.simonCreated(simon);
+			callback.onSimonCreated(simon);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void simonDestroyed(Simon simon) {
+	public void onSimonDestroyed(Simon simon) {
 		if (rulesApplyTo(simon, Event.DESTROYED)) {
-			callback.simonDestroyed(simon);
+			callback.onSimonDestroyed(simon);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void clear() {
+	public void onManagerClear() {
 		if (rulesApplyTo(null, Event.CLEAR)) {
-			callback.clear();
+			callback.onManagerClear();
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void message(String message) {
+	public void onManagerMessage(String message) {
 		if (rulesApplyTo(null, Event.MESSAGE, message)) {
-			callback.message(message);
+			callback.onManagerMessage(message);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void warning(String warning, Exception cause) {
+	public void onManagerWarning(String warning, Exception cause) {
 		if (rulesApplyTo(null, Event.WARNING, cause)) {
-			callback.warning(warning, cause);
+			callback.onManagerWarning(warning, cause);
 		}
 	}
 
@@ -229,7 +229,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 			try {
 				result = patternAndConditionCheck(simon, rule, params);
 			} catch (ScriptException e) {
-				warning("Script exception while evaluating rule expression", e);
+				onManagerWarning("Script exception while evaluating rule expression", e);
 			}
 
 			if (!result && rule.getType().equals(FilterRule.Type.MUST)) { // fast fail on MUST condition

@@ -61,7 +61,7 @@ public final class CompositeCallback implements Callback {
 			try {
 				c.initialize();
 			} catch (Exception e) {
-				warning("Initialization error", e);
+				onManagerWarning("Initialization error", e);
 			}
 		}
 	}
@@ -75,7 +75,7 @@ public final class CompositeCallback implements Callback {
 			try {
 				c.cleanup();
 			} catch (Exception e) {
-				warning("Deactivation error", e);
+				onManagerWarning("Deactivation error", e);
 			}
 		}
 	}
@@ -83,99 +83,99 @@ public final class CompositeCallback implements Callback {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void reset(Simon simon) {
+	public void onSimonReset(Simon simon) {
 		for (Callback c : callbacks) {
-			c.reset(simon);
+			c.onSimonReset(simon);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void stopwatchAdd(Stopwatch stopwatch, long ns) {
+	public void onStopwatchAdd(Stopwatch stopwatch, long ns) {
 		for (Callback c : callbacks) {
-			c.stopwatchAdd(stopwatch, ns);
+			c.onStopwatchAdd(stopwatch, ns);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void stopwatchAdd(Stopwatch stopwatch, Split split) {
+	public void onStopwatchAdd(Stopwatch stopwatch, Split split) {
 		for (Callback c : callbacks) {
-			c.stopwatchAdd(stopwatch, split);
+			c.onStopwatchAdd(stopwatch, split);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void stopwatchStart(Split split) {
+	public void onStopwatchStart(Split split) {
 		for (Callback c : callbacks) {
-			c.stopwatchStart(split);
+			c.onStopwatchStart(split);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void stopwatchStop(Split split) {
+	public void onStopwatchStop(Split split) {
 		for (Callback c : callbacks) {
-			c.stopwatchStop(split);
+			c.onStopwatchStop(split);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void counterDecrease(Counter counter, long dec) {
+	public void onCounterDecrease(Counter counter, long dec) {
 		for (Callback c : callbacks) {
-			c.counterDecrease(counter, dec);
+			c.onCounterDecrease(counter, dec);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void counterIncrease(Counter counter, long inc) {
+	public void onCounterIncrease(Counter counter, long inc) {
 		for (Callback c : callbacks) {
-			c.counterIncrease(counter, inc);
+			c.onCounterIncrease(counter, inc);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void counterSet(Counter counter, long val) {
+	public void onCounterSet(Counter counter, long val) {
 		for (Callback c : callbacks) {
-			c.counterSet(counter, val);
+			c.onCounterSet(counter, val);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void simonCreated(Simon simon) {
+	public void onSimonCreated(Simon simon) {
 		for (Callback c : callbacks) {
-			c.simonCreated(simon);
+			c.onSimonCreated(simon);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void simonDestroyed(Simon simon) {
+	public void onSimonDestroyed(Simon simon) {
 		for (Callback c : callbacks) {
-			c.simonDestroyed(simon);
+			c.onSimonDestroyed(simon);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void clear() {
+	public void onManagerClear() {
 		for (Callback c : callbacks) {
-			c.clear();
+			c.onManagerClear();
 		}
 	}
 
@@ -183,18 +183,18 @@ public final class CompositeCallback implements Callback {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void message(String message) {
+	public void onManagerMessage(String message) {
 		for (Callback c : callbacks) {
-			c.message(message);
+			c.onManagerMessage(message);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void warning(String warning, Exception cause) {
+	public void onManagerWarning(String warning, Exception cause) {
 		for (Callback c : callbacks) {
-			c.warning(warning, cause);
+			c.onManagerWarning(warning, cause);
 		}
 	}
 }

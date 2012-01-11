@@ -4,6 +4,7 @@ import javax.script.ScriptException;
 
 import org.javasimon.callback.*;
 import org.javasimon.utils.LoggingCallback;
+import org.javasimon.utils.SimonUtils;
 import org.testng.annotations.Test;
 import org.testng.Assert;
 import org.javasimon.utils.DebugCallback;
@@ -20,10 +21,7 @@ import java.util.logging.Level;
 public final class ConfigurationTestNG {
 	@Test
 	public void testConfigResource() throws IOException {
-		SimonManager.isEnabled();
-		// Calling init causes configuration to be read twice because the init is called from
-		// static initialization anyway. This just makes the static initialization do
-		// empty initialization, because no configuration property is set.
+		SimonUtils.removeAllCallbacks(SimonManager.manager());
 
 		System.setProperty(SimonManager.PROPERTY_CONFIG_RESOURCE_NAME, "org/javasimon/test-config.xml");
 		SimonManager.init(); // this really reads the config resource
@@ -74,11 +72,11 @@ public final class ConfigurationTestNG {
 	class MyCallback extends CallbackSkeleton {
 		private boolean triggered;
 
-		public void stopwatchStart(Split split) {
+		public void onStopwatchStart(Split split) {
 			triggered = true;
 		}
 
-		public void stopwatchStop(Split split) {
+		public void onStopwatchStop(Split split) {
 			triggered = true;
 		}
 

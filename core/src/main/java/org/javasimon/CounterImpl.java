@@ -57,7 +57,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 			try {
 				return privateSet(val, now);
 			} finally {
-				manager.callback().counterSet(this, val);
+				manager.callback().onCounterSet(this, val);
 			}
 		}
 	}
@@ -94,7 +94,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 				}
 				return this;
 			} finally {
-				manager.callback().counterIncrease(this, 1);
+				manager.callback().onCounterIncrease(this, 1);
 			}
 		}
 	}
@@ -115,7 +115,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 				}
 				return this;
 			} finally {
-				manager.callback().counterDecrease(this, 1);
+				manager.callback().onCounterDecrease(this, 1);
 			}
 		}
 	}
@@ -142,7 +142,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 				incrementSum += inc;
 				return privateSet(counter + inc, now);
 			} finally {
-				manager.callback().counterIncrease(this, inc);
+				manager.callback().onCounterIncrease(this, inc);
 			}
 		}
 	}
@@ -156,7 +156,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 			decrementSum -= dec;
 			return privateSet(counter - dec, now);
 		} finally {
-			manager.callback().counterDecrease(this, dec);
+			manager.callback().onCounterDecrease(this, dec);
 		}
 	}
 

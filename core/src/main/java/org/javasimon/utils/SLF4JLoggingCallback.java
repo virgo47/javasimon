@@ -24,7 +24,7 @@ public final class SLF4JLoggingCallback extends CallbackSkeleton {
 	 *
 	 * @param split started split
 	 */
-	public void stopwatchStart(Split split) {
+	public void onStopwatchStart(Split split) {
 		logger.debug(marker, "SIMON START: " + split.getStopwatch());
 	}
 
@@ -33,7 +33,7 @@ public final class SLF4JLoggingCallback extends CallbackSkeleton {
 	 *
 	 * @param split stopped split
 	 */
-	public void stopwatchStop(Split split) {
+	public void onStopwatchStop(Split split) {
 		logger.debug(marker, "SIMON STOP: " + split.getStopwatch() + " (" + split.runningFor() + ")");
 	}
 
@@ -43,7 +43,7 @@ public final class SLF4JLoggingCallback extends CallbackSkeleton {
 	 * @param warning warning message
 	 * @param cause throwable cause
 	 */
-	public void warning(String warning, Exception cause) {
+	public void onManagerWarning(String warning, Exception cause) {
 		logger.debug(marker, "SIMON WARNING: " + warning, cause);
 	}
 

@@ -55,7 +55,7 @@ public final class EnabledManager implements Manager {
 		} else {
 			((AbstractSimon) simon.getParent()).replaceChild(simon, null);
 		}
-		callback.simonDestroyed(simon);
+		callback.onSimonDestroyed(simon);
 	}
 
 	/**
@@ -66,7 +66,7 @@ public final class EnabledManager implements Manager {
 		allSimons.clear();
 		rootSimon = new UnknownSimon(ROOT_SIMON_NAME, this);
 		allSimons.put(ROOT_SIMON_NAME, rootSimon);
-		callback.clear();
+		callback.onManagerClear();
 	}
 
 	/**
@@ -134,10 +134,10 @@ public final class EnabledManager implements Manager {
 				throw new SimonException("Simon name must match following pattern: '" + SimonUtils.NAME_PATTERN.pattern() + "', used name: " + name);
 			}
 			simon = newSimon(name, simonClass);
-			callback.simonCreated(simon);
+			callback.onSimonCreated(simon);
 		} else if (simon instanceof UnknownSimon) {
 			simon = replaceSimon(simon, simonClass);
-			callback.simonCreated(simon);
+			callback.onSimonCreated(simon);
 		} else {
 			if (!(simonClass.isInstance(simon))) {
 				throw new SimonException("Simon named '" + name + "' already exists and its type is '" + simon.getClass().getName() + "' while requested type is '" + simonClass.getName() + "'.");
@@ -254,7 +254,7 @@ public final class EnabledManager implements Manager {
 	 */
 	@Override
 	public void message(String message) {
-		callback.message(message);
+		callback.onManagerMessage(message);
 	}
 
 	/**
@@ -262,6 +262,6 @@ public final class EnabledManager implements Manager {
 	 */
 	@Override
 	public void warning(String warning, Exception cause) {
-		callback.warning(warning, cause);
+		callback.onManagerWarning(warning, cause);
 	}
 }

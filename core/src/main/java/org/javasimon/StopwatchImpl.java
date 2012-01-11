@@ -51,7 +51,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 			if (enabled) {
 				updateUsages();
 				addSplit(ns);
-				manager.callback().stopwatchAdd(this, ns);
+				manager.callback().onStopwatchAdd(this, ns);
 			}
 			return this;
 		}
@@ -68,7 +68,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 				// using parameter version saves one currentTimeMillis call
 				updateUsages(split.getStart() + splitNs);
 				addSplit(splitNs);
-				manager.callback().stopwatchAdd(this, split);
+				manager.callback().onStopwatchAdd(this, split);
 			}
 			return this;
 		}
@@ -86,7 +86,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 				updateUsages(nowNanos);
 				activeStart();
 				split = new Split(this, nowNanos);
-				manager.callback().stopwatchStart(split);
+				manager.callback().onStopwatchStart(split);
 				return split;
 			}
 			return new Split(this);
@@ -107,7 +107,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 				updateUsages(nowNanos);
 				addSplit(nowNanos - start);
 			} finally {
-				manager.callback().stopwatchStop(split);
+				manager.callback().onStopwatchStop(split);
 			}
 		}
 	}

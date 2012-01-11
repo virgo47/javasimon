@@ -60,67 +60,67 @@ public class CallbackSkeleton implements Callback {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void stopwatchAdd(Stopwatch stopwatch, long ns) {
+	public void onStopwatchAdd(Stopwatch stopwatch, long ns) {
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void stopwatchAdd(Stopwatch stopwatch, Split split) {
+	public void onStopwatchAdd(Stopwatch stopwatch, Split split) {
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void stopwatchStart(Split split) {
+	public void onStopwatchStart(Split split) {
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void stopwatchStop(Split split) {
+	public void onStopwatchStop(Split split) {
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void reset(Simon simon) {
+	public void onSimonReset(Simon simon) {
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void counterDecrease(Counter counter, long dec) {
+	public void onCounterDecrease(Counter counter, long dec) {
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void counterIncrease(Counter counter, long inc) {
+	public void onCounterIncrease(Counter counter, long inc) {
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void counterSet(Counter counter, long val) {
+	public void onCounterSet(Counter counter, long val) {
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void simonCreated(Simon simon) {
+	public void onSimonCreated(Simon simon) {
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void simonDestroyed(Simon simon) {
+	public void onSimonDestroyed(Simon simon) {
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void clear() {
+	public void onManagerClear() {
 	}
 
 	/**
@@ -128,7 +128,7 @@ public class CallbackSkeleton implements Callback {
 	 *
 	 * @param message message text
 	 */
-	public void message(String message) {
+	public void onManagerMessage(String message) {
 		System.out.println("Simon message: " + message);
 	}
 
@@ -138,7 +138,7 @@ public class CallbackSkeleton implements Callback {
 	 * <p/>
 	 * {@inheritDoc}
 	 */
-	public void warning(String warning, Exception cause) {
+	public void onManagerWarning(String warning, Exception cause) {
 		if (warning != null) {
 			System.err.println("Simon warning: " + warning);
 		}

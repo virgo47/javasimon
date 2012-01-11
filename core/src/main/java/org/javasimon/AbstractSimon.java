@@ -147,12 +147,12 @@ abstract class AbstractSimon implements Simon {
 	}
 
 	/**
-	 * Saves the timestamp when the Simon was reset and calls {@link org.javasimon.callback.Callback#reset(Simon)}.
+	 * Saves the timestamp when the Simon was reset and calls {@link org.javasimon.callback.Callback#onSimonReset(Simon)}.
 	 * Called only from synchronized method {@link #reset()}.
 	 */
 	protected void resetCommon() {
 		resetTimestamp = System.currentTimeMillis();
-		manager.callback().reset(this);
+		manager.callback().onSimonReset(this);
 	}
 
 	/**
