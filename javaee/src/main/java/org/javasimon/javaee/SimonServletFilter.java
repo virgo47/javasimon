@@ -70,7 +70,7 @@ public class SimonServletFilter implements Filter {
 	 * {@link #reportRequestOverThreshold(javax.servlet.http.HttpServletRequest, org.javasimon.Split, java.util.List)}.
 	 * Specified by {@link #INIT_PARAM_REPORT_THRESHOLD} ({@value #INIT_PARAM_REPORT_THRESHOLD}) in the {@code web.xml} (in ms,
 	 * converted to ns during servlet init). This is the default value returned by {@link #getThreshold(javax.servlet.http.HttpServletRequest)}
-	 * but it may be completely ignored if method is overrided so. However if the field is {@link null} threshold reporting feature
+	 * but it may be completely ignored if method is overrided so. However if the field is {@code null} threshold reporting feature
 	 * is disabled.
 	 */
 	protected Long reportThreshold;

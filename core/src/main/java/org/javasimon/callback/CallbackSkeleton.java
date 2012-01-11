@@ -9,11 +9,10 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * EmptyCallback implements Callback interface so that it does nothing. Message prints
- * to stdout and warning prints to stderr. Methods for composite callbacks are final and
- * throws unsupported operation, {@link #callbacks()} returns empty list. Should be used
- * only for implementing simple callbacks, most useful when few methods need to be
- * implemented.
+ * Implements {@link Callback} interface so that it does nothing - intended for extension by simple (non-composite) callbacks.
+ * Message prints to stdout and warning prints to stderr, other event methods do nothing. Methods for composite callbacks are
+ * final and throw unsupported operation, {@link #callbacks()} returns empty list. Should be used only for implementing
+ * simple callbacks when just a few methods need to be implemented instead of the whole interface.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
@@ -31,6 +30,7 @@ public class CallbackSkeleton implements Callback {
 	 * Throws UnsupportedOperationException.
 	 *
 	 * @param callback ignored
+	 * @throws UnsupportedOperationException supported only in composite callbacks
 	 */
 	public final void addCallback(Callback callback) {
 		throw new UnsupportedOperationException("Only CompositeCallback implements this method.");
@@ -40,86 +40,110 @@ public class CallbackSkeleton implements Callback {
 	 * Throws UnsupportedOperationException.
 	 *
 	 * @param callback ignored
+	 * @throws UnsupportedOperationException supported only in composite callbacks
 	 */
 	public final void removeCallback(Callback callback) {
 		throw new UnsupportedOperationException("Only CompositeCallback implements this method.");
 	}
 
 	/**
+	 * Throws UnsupportedOperationException.
+	 *
+	 * @throws UnsupportedOperationException supported only in composite callbacks
+	 */
+	@Override
+	public final void removeAllCallbacks() {
+		throw new UnsupportedOperationException("Only CompositeCallback implements this method.");
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void initialize() {
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void cleanup() {
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onStopwatchAdd(Stopwatch stopwatch, long ns) {
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onStopwatchAdd(Stopwatch stopwatch, Split split) {
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onStopwatchStart(Split split) {
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onStopwatchStop(Split split) {
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onSimonReset(Simon simon) {
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onCounterDecrease(Counter counter, long dec) {
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onCounterIncrease(Counter counter, long inc) {
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onCounterSet(Counter counter, long val) {
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onSimonCreated(Simon simon) {
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onSimonDestroyed(Simon simon) {
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onManagerClear() {
 	}
 
@@ -128,6 +152,7 @@ public class CallbackSkeleton implements Callback {
 	 *
 	 * @param message message text
 	 */
+	@Override
 	public void onManagerMessage(String message) {
 		System.out.println("Simon message: " + message);
 	}
@@ -138,6 +163,7 @@ public class CallbackSkeleton implements Callback {
 	 * <p/>
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onManagerWarning(String warning, Exception cause) {
 		if (warning != null) {
 			System.err.println("Simon warning: " + warning);

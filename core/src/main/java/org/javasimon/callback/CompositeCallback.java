@@ -24,6 +24,7 @@ public final class CompositeCallback implements Callback {
 	 *
 	 * @return children list
 	 */
+	@Override
 	public List<Callback> callbacks() {
 		return callbacks;
 	}
@@ -33,6 +34,7 @@ public final class CompositeCallback implements Callback {
 	 *
 	 * @param callback added callback
 	 */
+	@Override
 	public void addCallback(Callback callback) {
 		if (initialized) {
 			callback.initialize();
@@ -41,10 +43,11 @@ public final class CompositeCallback implements Callback {
 	}
 
 	/**
-	 * Removes specified callback from this callback.
+	 * Removes specified callback from this callback, properly cleans up the removed callback.
 	 *
 	 * @param callback removed child-callback
 	 */
+	@Override
 	public void removeCallback(Callback callback) {
 		callbacks.remove(callback);
 		if (initialized) {
@@ -53,15 +56,26 @@ public final class CompositeCallback implements Callback {
 	}
 
 	/**
+	 * Removes specified callback from this callback, properly cleans up all the removed callbacks.
+	 */
+	@Override
+	public void removeAllCallbacks() {
+		for (Callback callback : callbacks) {
+			removeCallback(callback);
+		}
+	}
+
+	/**
 	 * Calls initialize on all children.
 	 */
+	@Override
 	public void initialize() {
 		initialized = true;
-		for (Callback c : callbacks) {
+		for (Callback callback : callbacks) {
 			try {
-				c.initialize();
+				callback.initialize();
 			} catch (Exception e) {
-				onManagerWarning("Initialization error", e);
+				onManagerWarning("Callback initialization error", e);
 			}
 		}
 	}
@@ -69,13 +83,14 @@ public final class CompositeCallback implements Callback {
 	/**
 	 * Calls deactivate on all children.
 	 */
+	@Override
 	public void cleanup() {
 		initialized = false;
-		for (Callback c : callbacks) {
+		for (Callback callback : callbacks) {
 			try {
-				c.cleanup();
+				callback.cleanup();
 			} catch (Exception e) {
-				onManagerWarning("Deactivation error", e);
+				onManagerWarning("Callback cleanup error", e);
 			}
 		}
 	}
@@ -83,99 +98,110 @@ public final class CompositeCallback implements Callback {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onSimonReset(Simon simon) {
-		for (Callback c : callbacks) {
-			c.onSimonReset(simon);
+		for (Callback callback : callbacks) {
+			callback.onSimonReset(simon);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onStopwatchAdd(Stopwatch stopwatch, long ns) {
-		for (Callback c : callbacks) {
-			c.onStopwatchAdd(stopwatch, ns);
+		for (Callback callback : callbacks) {
+			callback.onStopwatchAdd(stopwatch, ns);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onStopwatchAdd(Stopwatch stopwatch, Split split) {
-		for (Callback c : callbacks) {
-			c.onStopwatchAdd(stopwatch, split);
+		for (Callback callback : callbacks) {
+			callback.onStopwatchAdd(stopwatch, split);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onStopwatchStart(Split split) {
-		for (Callback c : callbacks) {
-			c.onStopwatchStart(split);
+		for (Callback callback : callbacks) {
+			callback.onStopwatchStart(split);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onStopwatchStop(Split split) {
-		for (Callback c : callbacks) {
-			c.onStopwatchStop(split);
+		for (Callback callback : callbacks) {
+			callback.onStopwatchStop(split);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onCounterDecrease(Counter counter, long dec) {
-		for (Callback c : callbacks) {
-			c.onCounterDecrease(counter, dec);
+		for (Callback callback : callbacks) {
+			callback.onCounterDecrease(counter, dec);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onCounterIncrease(Counter counter, long inc) {
-		for (Callback c : callbacks) {
-			c.onCounterIncrease(counter, inc);
+		for (Callback callback : callbacks) {
+			callback.onCounterIncrease(counter, inc);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onCounterSet(Counter counter, long val) {
-		for (Callback c : callbacks) {
-			c.onCounterSet(counter, val);
+		for (Callback callback : callbacks) {
+			callback.onCounterSet(counter, val);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onSimonCreated(Simon simon) {
-		for (Callback c : callbacks) {
-			c.onSimonCreated(simon);
+		for (Callback callback : callbacks) {
+			callback.onSimonCreated(simon);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onSimonDestroyed(Simon simon) {
-		for (Callback c : callbacks) {
-			c.onSimonDestroyed(simon);
+		for (Callback callback : callbacks) {
+			callback.onSimonDestroyed(simon);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onManagerClear() {
-		for (Callback c : callbacks) {
-			c.onManagerClear();
+		for (Callback callback : callbacks) {
+			callback.onManagerClear();
 		}
 	}
 
@@ -183,18 +209,20 @@ public final class CompositeCallback implements Callback {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onManagerMessage(String message) {
-		for (Callback c : callbacks) {
-			c.onManagerMessage(message);
+		for (Callback callback : callbacks) {
+			callback.onManagerMessage(message);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onManagerWarning(String warning, Exception cause) {
-		for (Callback c : callbacks) {
-			c.onManagerWarning(warning, cause);
+		for (Callback callback : callbacks) {
+			callback.onManagerWarning(warning, cause);
 		}
 	}
 }

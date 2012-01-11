@@ -100,8 +100,7 @@ public interface Manager {
 
 	/**
 	 * Accesses default composite callback of this manager. Default callback can't be removed or replaced,
-	 * only other callbacks can be added or removed. To remove all callbacks use
-	 * {@link org.javasimon.utils.SimonUtils#removeAllCallbacks(Manager)}.
+	 * only other callbacks can be added or removed.
 	 *
 	 * @return Simon callback
 	 */
