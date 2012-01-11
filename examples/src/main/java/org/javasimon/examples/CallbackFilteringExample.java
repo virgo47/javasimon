@@ -43,8 +43,8 @@ public final class CallbackFilteringExample {
 
 		// we need to remove old callback
 		manager.callback().removeCallback(stdoutCallback);
-		// alternatively you can simply call this util if you want to remove all callbacks
-		SimonUtils.removeAllCallbacks(manager);
+		// alternatively you can call this if you want to remove all callbacks
+		SimonManager.callback().removeAllCallbacks();
 
 		// filter callback is created
 		CompositeFilterCallback filter = new CompositeFilterCallback();

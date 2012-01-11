@@ -4,7 +4,6 @@ import javax.script.ScriptException;
 
 import org.javasimon.callback.*;
 import org.javasimon.utils.LoggingCallback;
-import org.javasimon.utils.SimonUtils;
 import org.testng.annotations.Test;
 import org.testng.Assert;
 import org.javasimon.utils.DebugCallback;
@@ -21,7 +20,7 @@ import java.util.logging.Level;
 public final class ConfigurationTestNG {
 	@Test
 	public void testConfigResource() throws IOException {
-		SimonUtils.removeAllCallbacks(SimonManager.manager());
+		SimonManager.callback().removeAllCallbacks();
 
 		System.setProperty(SimonManager.PROPERTY_CONFIG_RESOURCE_NAME, "org/javasimon/test-config.xml");
 		SimonManager.init(); // this really reads the config resource

@@ -42,6 +42,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public List<Callback> callbacks() {
 		return callback.callbacks();
 	}
@@ -49,6 +50,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void addCallback(Callback callback) {
 		this.callback.addCallback(callback);
 	}
@@ -56,6 +58,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void removeCallback(Callback callback) {
 		this.callback.removeCallback(callback);
 	}
@@ -63,6 +66,15 @@ public final class CompositeFilterCallback implements FilterCallback {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
+	public void removeAllCallbacks() {
+		this.callback.removeAllCallbacks();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public void initialize() {
 		callback.initialize();
 	}
@@ -70,6 +82,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void cleanup() {
 		callback.cleanup();
 	}
@@ -77,6 +90,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onSimonReset(Simon simon) {
 		if (rulesApplyTo(simon, Event.RESET)) {
 			callback.onSimonReset(simon);
@@ -86,6 +100,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onStopwatchAdd(Stopwatch stopwatch, long ns) {
 		if (rulesApplyTo(stopwatch, Event.STOPWATCH_ADD, ns)) {
 			callback.onStopwatchAdd(stopwatch, ns);
@@ -95,6 +110,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onStopwatchAdd(Stopwatch stopwatch, Split split) {
 		if (rulesApplyTo(stopwatch, Event.STOPWATCH_ADD, split.runningFor())) {
 			callback.onStopwatchAdd(stopwatch, split);
@@ -104,6 +120,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onStopwatchStart(Split split) {
 		if (rulesApplyTo(split.getStopwatch(), Event.STOPWATCH_START, split)) {
 			callback.onStopwatchStart(split);
@@ -113,6 +130,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onStopwatchStop(Split split) {
 		if (rulesApplyTo(split.getStopwatch(), Event.STOPWATCH_STOP, split)) {
 			callback.onStopwatchStop(split);
@@ -122,6 +140,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onCounterDecrease(Counter counter, long dec) {
 		if (rulesApplyTo(counter, Event.COUNTER_DECREASE, dec)) {
 			callback.onCounterDecrease(counter, dec);
@@ -131,6 +150,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onCounterIncrease(Counter counter, long inc) {
 		if (rulesApplyTo(counter, Event.COUNTER_INCREASE, inc)) {
 			callback.onCounterIncrease(counter, inc);
@@ -140,6 +160,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onCounterSet(Counter counter, long val) {
 		if (rulesApplyTo(counter, Event.COUNTER_SET, val)) {
 			callback.onCounterSet(counter, val);
@@ -149,6 +170,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onSimonCreated(Simon simon) {
 		if (rulesApplyTo(simon, Event.CREATED)) {
 			callback.onSimonCreated(simon);
@@ -158,6 +180,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onSimonDestroyed(Simon simon) {
 		if (rulesApplyTo(simon, Event.DESTROYED)) {
 			callback.onSimonDestroyed(simon);
@@ -167,6 +190,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onManagerClear() {
 		if (rulesApplyTo(null, Event.CLEAR)) {
 			callback.onManagerClear();
@@ -176,6 +200,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onManagerMessage(String message) {
 		if (rulesApplyTo(null, Event.MESSAGE, message)) {
 			callback.onManagerMessage(message);
@@ -185,6 +210,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void onManagerWarning(String warning, Exception cause) {
 		if (rulesApplyTo(null, Event.WARNING, cause)) {
 			callback.onManagerWarning(warning, cause);
@@ -194,6 +220,7 @@ public final class CompositeFilterCallback implements FilterCallback {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void addRule(FilterRule.Type type, String condition, String pattern, Event... events) {
 		SimonPattern simonPattern = null;
 		if (pattern != null) {

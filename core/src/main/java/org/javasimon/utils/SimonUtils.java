@@ -1,7 +1,6 @@
 package org.javasimon.utils;
 
 import org.javasimon.*;
-import org.javasimon.callback.Callback;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -307,18 +306,6 @@ public final class SimonUtils {
 	 */
 	public static String generateName() {
 		return generatePrivate(null, true);
-	}
-
-	/**
-	 * Removes all callbacks from the specfied Manager.
-	 *
-	 * @param manager specified Simon Manager
-	 */
-	public static void removeAllCallbacks(Manager manager) {
-		Callback rootCallback = manager.callback();
-		for (Callback callback : rootCallback.callbacks()) {
-			rootCallback.removeCallback(callback);
-		}
 	}
 
 	/**

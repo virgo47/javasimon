@@ -42,6 +42,7 @@ public interface Callback {
 	 * Adds another callback as a child to this callback. Implemented in {@link CompositeCallback}.
 	 *
 	 * @param callback added callback
+	 * @throws UnsupportedOperationException thrown if the callback is not composite callback implementation
 	 */
 	void addCallback(Callback callback);
 
@@ -49,8 +50,16 @@ public interface Callback {
 	 * Removes specified callback from this callback. Implemented in {@link CompositeCallback}.
 	 *
 	 * @param callback removed child-callback
+	 * @throws UnsupportedOperationException thrown if the callback is not composite callback implementation
 	 */
 	void removeCallback(Callback callback);
+
+	/**
+	 * Removes all callbacks from this callback. Implemented in {@link CompositeCallback}.
+	 *
+	 * @throws UnsupportedOperationException thrown if the callback is not composite callback implementation
+	 */
+	void removeAllCallbacks();
 
 	/**
 	 * Lifecycle method called when the callback is added to a manager.
