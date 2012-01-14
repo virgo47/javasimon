@@ -17,6 +17,9 @@ $(document).ready(function() {
     $('#filterButton')
         .button({label:"Filter",icons: {primary: "ui-icon-search"}})
         .click(function() { $('#dataTable').dataTable().fnReloadAjax(); return false; });
+    $('#noteButton')
+        .button({label:"Note", icons: {primary: "ui-icon-note"}})
+        .click(function() { toggleNoteColumnVis(); return false; });
     $('#csvButton')
         .button({label:"CSV", icons: {primary: "ui-icon-calculator"}})
         .click(function() {goToUrl('data/table.csv'); return false; });
@@ -59,6 +62,7 @@ $(document).ready(function() {
         },
         "aoColumns": [
             {"sTitle":"Name", "mDataProp": "name","bSearchable": true,"sType":"string","sWidth": "40%"},
+            {"sTitle":"Note", "mDataProp": "note","bSearchable": true,"sType":"string","sWidth": "40%","bVisible":false},
             {"sTitle":"Type", "mDataProp": "type","bSearchable": false,"sType":"string","sWidth": "5%"},
             {"sTitle":"Count", "mDataProp": "counter","bSearchable": false,"sType":"numeric","sWidth": "5%","sClass":"numeric"},
             {"sTitle":"Total", "mDataProp": "total","bSearchable": false,"sType":"numeric","sWidth": "5%","sClass":"numeric" },
@@ -88,6 +92,12 @@ function goToUrl(url) {
     }     
     window.location.href=url+"?pattern="+sPattern+"&type="+sType;
 }
+function toggleNoteColumnVis() {
+	var oDataTable = $('#dataTable').dataTable();     
+	var bNoteColumnVis = oDataTable.fnSettings().aoColumns[1].bVisible;
+	oDataTable.fnSetColumnVis(0,  bNoteColumnVis);
+	oDataTable.fnSetColumnVis(1, !bNoteColumnVis);
+}
         </script>
     </head>
     <body>
@@ -114,6 +124,7 @@ function goToUrl(url) {
             </table>
             <div class="filterButtons fg-toolbar ui-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix">
                 <button id="filterButton" name="filterButton">Filter</button>
+                <button id="noteButton" name="noteButton">Note</button>
                 <span id="exportSpan">Export:</span>
                 <button id="csvButton" name="csvButton">CSV</button>
                 <button id="htmlButton" name="htmlButton">HTML</button>
