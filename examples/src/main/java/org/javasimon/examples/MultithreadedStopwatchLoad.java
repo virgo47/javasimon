@@ -26,6 +26,7 @@ public final class MultithreadedStopwatchLoad extends Thread {
 	 * @throws InterruptedException when sleep is interrupted
 	 */
 	public static void main(String[] args) throws InterruptedException {
+		ExampleUtils.fillManagerWithSimons(100000);
 		StopwatchSample[] results = BenchmarkUtils.run(1, 2,
 			new BenchmarkUtils.Task("1") {
 				@Override

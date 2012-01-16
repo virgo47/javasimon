@@ -420,8 +420,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/gwimon/gwimon.iml" filepath="$PROJECT_DIR$/gwimon/gwimon.iml" />
-      <module fileurl="file://$PROJECT_DIR$/console/javasimon-console.iml" filepath="$PROJECT_DIR$/console/javasimon-console.iml" />
       <module fileurl="file://$PROJECT_DIR$/console/embed/javasimon-console-embed.iml" filepath="$PROJECT_DIR$/console/embed/javasimon-console-embed.iml" />
+      <module fileurl="file://$PROJECT_DIR$/console/javasimon-console-parent.iml" filepath="$PROJECT_DIR$/console/javasimon-console-parent.iml" />
       <module fileurl="file://$PROJECT_DIR$/console/webapp/javasimon-console-webapp.iml" filepath="$PROJECT_DIR$/console/webapp/javasimon-console-webapp.iml" />
       <module fileurl="file://$PROJECT_DIR$/core/javasimon-core.iml" filepath="$PROJECT_DIR$/core/javasimon-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/examples/javasimon-examples.iml" filepath="$PROJECT_DIR$/examples/javasimon-examples.iml" />

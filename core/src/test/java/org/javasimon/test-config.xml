@@ -4,7 +4,7 @@
 		<rule events="stop">
 			<condition>
 				<![CDATA[
-						split > 5000 || split < 10000
+						split > 5000 and split < 10us
 					]]>
 			</condition>
 		</rule>
