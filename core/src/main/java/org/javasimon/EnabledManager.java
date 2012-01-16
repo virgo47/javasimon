@@ -51,7 +51,7 @@ public final class EnabledManager implements Manager {
 		}
 		AbstractSimon simon = allSimons.remove(name);
 		if (simon.getChildren().size() > 0) {
-			replaceSimon(simon, UnknownSimon.class);
+			replaceUnknownSimon(simon, UnknownSimon.class);
 		} else {
 			((AbstractSimon) simon.getParent()).replaceChild(simon, null);
 		}
@@ -120,33 +120,44 @@ public final class EnabledManager implements Manager {
 		return simons;
 	}
 
-	private synchronized Simon getOrCreateSimon(String name, Class<? extends AbstractSimon> simonClass) {
-		// name can be null in case of "anonymous" Simons
-		AbstractSimon simon = null;
-		if (name != null) {
-			if (name.equals(ROOT_SIMON_NAME)) {
-				throw new SimonException("Root Simon cannot be replaced or recreated!");
-			}
-			simon = allSimons.get(name);
+	private Simon getOrCreateSimon(String name, Class<? extends AbstractSimon> simonClass) {
+		if (name == null) {
+			// create an "anonymous" Simon - Manager does not care about it anymore
+			return newSimon(null, simonClass);
 		}
+		if (name.equals(ROOT_SIMON_NAME)) {
+			throw new SimonException("Root Simon cannot be replaced or recreated!");
+		}
+		AbstractSimon simon = allSimons.get(name);
+		if (simon != null && simonClass.isInstance(simon)) {
+			return simon;
+		}
+		return createOrReplaceUnknownSimon(name, simonClass);
+	}
+
+	private synchronized AbstractSimon createOrReplaceUnknownSimon(String name, Class<? extends AbstractSimon> simonClass) {
+		// we will rather check the map in synchronized block before we try to create/replace the Simon
+		AbstractSimon simon = allSimons.get(name);
+		if (simon != null && simonClass.isInstance(simon)) {
+			return simon; // the same return like in non-synchronized getOrCreateSimon - you just never know
+		}
+
 		if (simon == null) {
 			if (name != null && !SimonUtils.checkName(name)) {
 				throw new SimonException("Simon name must match following pattern: '" + SimonUtils.NAME_PATTERN.pattern() + "', used name: " + name);
 			}
 			simon = newSimon(name, simonClass);
-			callback.onSimonCreated(simon);
 		} else if (simon instanceof UnknownSimon) {
-			simon = replaceSimon(simon, simonClass);
-			callback.onSimonCreated(simon);
+			simon = replaceUnknownSimon(simon, simonClass);
 		} else {
-			if (!(simonClass.isInstance(simon))) {
-				throw new SimonException("Simon named '" + name + "' already exists and its type is '" + simon.getClass().getName() + "' while requested type is '" + simonClass.getName() + "'.");
-			}
+			throw new SimonException("Simon named '" + name + "' already exists and its type is '" + simon.getClass().getName() + "' while requested type is '" + simonClass.getName() + "'.");
 		}
+		callback.onSimonCreated(simon);
 		return simon;
 	}
 
-	private AbstractSimon replaceSimon(AbstractSimon simon, Class<? extends AbstractSimon> simonClass) {
+	// called from synchronized method
+	private AbstractSimon replaceUnknownSimon(AbstractSimon simon, Class<? extends AbstractSimon> simonClass) {
 		AbstractSimon newSimon = instantiateSimon(simon.getName(), simonClass);
 		newSimon.enabled = simon.enabled;
 
@@ -163,6 +174,7 @@ public final class EnabledManager implements Manager {
 		return newSimon;
 	}
 
+	// called from synchronized method
 	private AbstractSimon newSimon(String name, Class<? extends AbstractSimon> simonClass) {
 		AbstractSimon simon = instantiateSimon(name, simonClass);
 		if (name != null) {
