@@ -1,5 +1,6 @@
 package org.javasimon.utils;
 
+import org.javasimon.CounterSample;
 import org.javasimon.Sample;
 import org.javasimon.StopwatchSample;
 import org.testng.Assert;
@@ -37,22 +38,45 @@ public class SampleHtmlGeneratorTestNG {
 		List<Sample> samples = new ArrayList<Sample>();
 
 		for (int i = 0; i < count; i++) {
-			final int index = i + 1;
-			StopwatchSample sample = new StopwatchSample();
-			sample.setName("sample" + index);
-			sample.setActive(index);
-			sample.setCounter(2 * index);
-			sample.setMin(5000 * index);
-			sample.setMinTimestamp(5000 * index);
-			sample.setMax(15000 * index);
-			sample.setMaxTimestamp(15000 * index);
-			sample.setMean(10000 * index);
-			sample.setTotal(20000 * index);
-
-			samples.add(sample);
+			createSample(samples, i);
 		}
 
 		return samples.toArray(new Sample[count]);
+	}
+
+	private static void createSample(List<Sample> samples, int i) {
+		final int index = i + 1;
+		Sample sample;
+		if (index % 2 == 0) {
+			sample = createCounterSample(index);
+		} else {
+			sample = createStopwatchSample(index);
+		}
+
+		samples.add(sample);
+	}
+
+	private static Sample createCounterSample(int index) {
+		CounterSample sample = new CounterSample();
+		sample.setName("counter" + index);
+		sample.setCounter(555);
+		sample.setMax(600);
+		sample.setMin(Long.MIN_VALUE);
+		return sample;
+	}
+
+	private static Sample createStopwatchSample(int index) {
+		StopwatchSample sample = new StopwatchSample();
+		sample.setName("sample" + index);
+		sample.setActive(index);
+		sample.setCounter(2 * index);
+		sample.setMin(5000 * index);
+		sample.setMinTimestamp(5000 * index);
+		sample.setMax(15000 * index);
+		sample.setMaxTimestamp(15000 * index);
+		sample.setMean(10000 * index);
+		sample.setTotal(20000 * index);
+		return sample;
 	}
 
 	@SuppressWarnings("ResultOfMethodCallIgnored")
