@@ -132,8 +132,8 @@
 			<src path="jdbc4/src/test/java"/>
 		</javac>
 		<copy todir="build/test">
-			<fileset dir="core/src/test/java" includes="**/*.xml"/>
-			<fileset dir="jdbc4/src/test/java" includes="**/*.xml"/>
+			<fileset dir="core/src/test/resources"/>
+			<fileset dir="jdbc4/src/test/resources"/>
 		</copy>
 		<testng outputdir="${basedir}/build/testout" haltonfailure="true" verbose="2" classpathref="classpath">
 			<xmlfileset dir="build/test">

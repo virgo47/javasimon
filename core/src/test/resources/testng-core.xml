@@ -9,6 +9,7 @@
 			<class name="org.javasimon.SplitTestNG"/>
 			<class name="org.javasimon.ConfigurationTestNG"/>
 			<class name="org.javasimon.utils.UtilsTestNG"/>
+			<class name="org.javasimon.utils.SampleHtmlGeneratorTestNG"/>
 		</classes>
 	</test>
 	<test name="Java Simon JMX Test">
