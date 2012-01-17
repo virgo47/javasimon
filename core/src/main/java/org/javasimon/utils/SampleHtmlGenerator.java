@@ -1,5 +1,6 @@
 package org.javasimon.utils;
 
+import org.javasimon.CounterSample;
 import org.javasimon.Sample;
 import org.javasimon.StopwatchSample;
 
@@ -82,9 +83,13 @@ public class SampleHtmlGenerator {
 			indent(2).append("<td>").append(stopwatchSample.getMeanAsString()).append("</td>").append(lineSeparator);
 			indent(2).append("<td>").append(stopwatchSample.getTotalAsString()).append("</td>").append(lineSeparator);
 		} else {
-			for (int i = 0; i < 6; i++) {
-				indent(2).append("<td>-</td>").append(lineSeparator);
-			}
+			CounterSample counterSample = (CounterSample) sample;
+			indent(2).append("<td>-</td>").append(lineSeparator);
+			indent(2).append("<td>").append(counterSample.getCounter()).append("</td>").append(lineSeparator);
+			indent(2).append("<td>").append(SimonUtils.presentMinMaxCount(counterSample.getMin())).append("</td>").append(lineSeparator);
+			indent(2).append("<td>").append(SimonUtils.presentMinMaxCount(counterSample.getMax())).append("</td>").append(lineSeparator);
+			indent(2).append("<td>-</td>").append(lineSeparator);
+			indent(2).append("<td>-</td>").append(lineSeparator);
 		}
 		indent(1).append("</tr>").append(lineSeparator);
 	}
