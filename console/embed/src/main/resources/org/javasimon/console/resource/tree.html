@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Simon Console</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link  href="resource/css/javasimon.css" rel="stylesheet" type="text/css" />
+        <script src="resource/js/jquery-1.7.1.min.js" type="text/javascript"></script>
+        <script src="resource/js/javasimon-dataTreeTable.js" type="text/javascript"></script>
+        <script type="text/javascript">
+$(document).ready(function() {
+	var eTable=document.getElementById('dataTreeTable');
+	var oDataTreeTable=new javasimon.DataTreeTable(eTable,{
+			aoColumns:[
+				{sTitle:"Count",	sField: "counter",	sClass:"number"},
+				{sTitle:"Total",	sField: "total",	sClass:"number" },
+				{sTitle:"Min",		sField: "min",		sClass:"number" },
+				{sTitle:"Mean",		sField: "mean",		sClass:"number" },
+				{sTitle:"Max",		sField: "max",		sClass:"number" },
+				{sTitle:"Std Dev",	sField: "standardDeviation",sClass:"number" },
+				{sTitle:"Last",		sField: "last",		sClass:"number" },
+				{sTitle:"First Date",	sField: "firstUsage",	sClass:"date" },
+				{sTitle:"Last Date",	sField: "lastUsage",	sClass:"date"  }
+			]
+		}
+	);
+	eTable.oDataTreeTable=oDataTreeTable;
+	oDataTreeTable.fnGetCellValue=function(oNode,oColumn,nColumnIndex) {		
+		var sValue=oNode.oData[oColumn.sField];
+		if (nColumnIndex===0) {
+			if (oNode.oParent==null) {
+				if (sValue==="") {
+					sValue="Root";
+				}
+			} else {
+				var sParentValue=oNode.oParent.oData[oColumn.sField];
+				if (sValue.substring(0,sParentValue.length)===sParentValue) {
+					sValue=sValue.substring(sParentValue.length);
+					if (sValue.charAt(0)==='.') {
+						sValue=sValue.substring(1);
+					}
+				}
+			}		
+		}
+		return sValue;
+	};
+	oDataTreeTable.fnAjaxCallback=function(oData) {
+/* Data for testing purposes 
+		var oData={id:0,name:"",children:[
+			{id:1,name:"Child 1",children:[
+				{id:11,name:"Child 1.1",children:[],counter:1},
+				{id:11,name:"Child 1.2",children:[],counter:4},
+			]},
+			{id:2,name:"Child 2",children:[
+				{id:21,name:"Child 2.1",children:[],counter:2},
+				{id:21,name:"Child 2.2",children:[],counter:5},
+			]},
+		]};
+*/
+		this.fnSetRootData(oData);
+		this.fnAppend();
+	}
+	$.ajax({
+		"url": "data/tree.json",
+		"context": oDataTreeTable,
+		"success": oDataTreeTable.fnAjaxCallback,
+		"dataType": "json",
+		"cache":false
+	});
+} );   
+        </script>
+    </head>
+    <body>
+        <h1><img id="logo" src="resource/images/logo.png" alt="Logo" />Simon Console</h1>
+        <div id="data">
+            <table id="dataTreeTable" class="dataTreeTable">
+                
+            </table>
+        </div>
+    </body>
+</html>

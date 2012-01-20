@@ -28,6 +28,7 @@ span#exportSpan {
 td.numeric {
     text-align: right;
 }
+
 table.flatTable > tbody > tr > td.counter, td.total, td.min, td.mean, td.last, td.max, td.standardDeviation {
     text-align: right;
 }
@@ -46,4 +47,42 @@ table.flatTable {
     border: thin solid black;
     border-collapse: collapse;
     width:  100%;
+}
+
+
+table.dataTreeTable {
+	border: solid 1px black;
+	border-collapse:collapse;
+	width:100%
+}
+table.dataTreeTable > thead {
+	border: solid 1px black;
+	text-align:center;
+	font-weight:bold;
+}
+table.dataTreeTable > thead > tr > td {
+	border-left: solid 1px black;
+}
+table.dataTreeTable > tbody > tr.visible {
+	display: table-row;
+}
+table.dataTreeTable > tbody > tr.hidden {
+	display: none;
+}
+table.dataTreeTable > tbody > tr > td {
+	padding: 0px 2px 0px 2px;
+	border-left: solid 1px black;
+}
+table.dataTreeTable > tbody > tr > td.headCell{
+	width: 40%;
+}
+table.dataTreeTable > tbody > tr > td.headCell > img {
+	vertical-align:middle;
+}
+table.dataTreeTable > tbody > tr > td.number {
+	text-align: right;
+	width: 5%;
+}
+table.dataTreeTable > tbody > tr > td.date {
+	width: 10%;
 }
