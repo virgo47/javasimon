@@ -23,6 +23,10 @@ public class SimonConsoleServlet extends HttpServlet {
 	 */
 	public static final String ROOT_PATH = "/index.html";
 	/**
+	 * Tree page path
+	 */
+	public static final String TREE_PATH = "/tree.html";
+	/**
 	 * URL Prefix.
 	 * Set with init parameters
 	 */
@@ -59,6 +63,8 @@ public class SimonConsoleServlet extends HttpServlet {
 				action = new RedirectAction(request.getContextPath() + urlPrefix + ROOT_PATH, actionContext);
 			} else if (path.equals("/")||path.equals(ROOT_PATH)) {
 				action = createResourceAction(actionContext, ResourceAction.PREFIX + ROOT_PATH);
+			} else if (path.equals(TREE_PATH)) {
+				action = createResourceAction(actionContext, ResourceAction.PREFIX + TREE_PATH);
 			} else if (path.startsWith(ResourceAction.PREFIX)) {
 				action = createResourceAction(actionContext, path);
 			} else if (path.equals(TableJsonAction.PATH)) {
