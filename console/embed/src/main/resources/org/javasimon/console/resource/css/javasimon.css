@@ -86,3 +86,14 @@ table.dataTreeTable > tbody > tr > td.number {
 table.dataTreeTable > tbody > tr > td.date {
 	width: 10%;
 }
+
+/* JQuery UI Start theme fix */
+.ui-button-text-icon-primary .ui-button-text, .ui-button-text-icons .ui-button-text {
+    padding: 0.2em 0.5em 0.2em 1.8em;
+}
+.ui-button-text-only .ui-button-text {
+    padding: 0.2em 0.5em;
+}
+.ui-widget {
+    font-size: 1em;
+}
