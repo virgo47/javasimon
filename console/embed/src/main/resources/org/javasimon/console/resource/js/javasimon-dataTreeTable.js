@@ -1,4 +1,6 @@
-javasimon={};
+"use strict";
+var javasimon=window.javasimon||{};
+window.javasimon=javasimon;
 /**
  * DOM Helper to create and append nodes to DOM tree
  */
@@ -51,13 +53,13 @@ javasimon.ObjectUtil={
 	fnMerge:function (oTarget, oSource, bRecurse) {
 		var tSourceProp,tTargetProp;
 		for (var sProp in oSource) {
-			if (bRecurse && typeof oTarget[sProp]=='object' && typeof oSource[sProp]=='object') {
+			if (bRecurse && typeof oTarget[sProp]==='object' && typeof oSource[sProp]==='object') {
 				tSourceProp=oSource[sProp].constructor;
 				tTargetProp=oTarget[sProp].constructor;
-				if (tSourceProp==tTargetProp) {
-					if (tTargetProp==Object) {						
+				if (tSourceProp===tTargetProp) {
+					if (tTargetProp===Object) {						
 						oTarget[sProp]=this.fnMerge(oTarget[sProp], oSource[sProp], true);
-					} else if (tTargetProp==Array) {
+					} else if (tTargetProp===Array) {
 						oTarget[sProp]=oTarget[sProp].concat(oSource[sProp]);
 					}
 				}
@@ -67,7 +69,7 @@ javasimon.ObjectUtil={
 		}
 		return oTarget;
 	}	
-}
+};
 /**
  * Data Tree Table component main class
  */
@@ -85,13 +87,13 @@ javasimon.DataTreeTable=function(eTable, oSettings) {
 			'lastLeaf':		'resource/images/TreeTableLastLeaf.gif'
 		},
 		aoColumns: [
-			{sField:'name', sClass:'string', sTitle:'Name'},
+			{sField:'name', sClass:'string', sTitle:'Name'}
 		]
 	};
 	if (oSettings) {
 		this.oSettings=javasimon.ObjectUtil.fnMerge(this.oSettings, oSettings, true);	
 	}
-}
+};
 javasimon.DataTreeTable.prototype={
 	fnSetData:function(oParentNode,oParentData) {
 		var aoChildDatas=oParentData.children;
@@ -113,7 +115,7 @@ javasimon.DataTreeTable.prototype={
 					bIsLast: nChildIndex===nLastChildIndex,
 					nDepth:nChildDepth,
 					oData:oChildData					
-				}
+				};
 				oParentNode.aoChildren.push(oChildNode);
 				this.fnSetData(oChildNode,oChildData);
 			}
@@ -122,7 +124,7 @@ javasimon.DataTreeTable.prototype={
 	},
 	fnSetRootData:function(oRootData) {
 		this.oRootNode={
-			sHtmlId:sHtmlId=this.eTable.getAttribute('id')+'_Node',
+			sHtmlId:this.eTable.getAttribute('id')+'_Node',
 			nDepth:0,
 			oData:oRootData,
 			bIsLast:true,
@@ -245,7 +247,6 @@ javasimon.DataTreeTable.prototype={
 		this.fnVisitRootNode(this.fnAppendNode, null);
 	},
 	fnToggleNodeExpanded:function(oNode) {
-		var oDataTreeTable=this;
 		var oContext;
 		if (oNode.bHasChildren) {
 			oNode.bExpanded = !oNode.bExpanded;
@@ -271,7 +272,7 @@ javasimon.DataTreeTable.prototype={
 			if (oNode.sHtmlId===oContext.sHtmlId) {
 				return oNode;
 			}
-		};
+		}
 		return this.fnVisitRootNode(fnTestNodeByHtmlId, {sHtmlId: sHtmlId});
 	}
-}
+};
