@@ -36,12 +36,12 @@ $(document).ready(function() {
         "sAjaxSource": 'data/table.json',
         "fnServerData": function( sUrl, aoData, fnCallback ) {
             var sPattern= $("#patternText").val();
-            if (sPattern == undefined) {
+            if (sPattern === undefined) {
                 sPattern="";
             } 
             aoData.push( { "name": "pattern", "value": sPattern } );
             var sType=$("#typeSelect").val();
-            if (sType == undefined) {
+            if (sType === undefined) {
                 sType="";
             } 
             aoData.push( { "name": "type", "value": sType } );
@@ -49,7 +49,7 @@ $(document).ready(function() {
                 "url": sUrl,
                 "data": aoData,
                 "success": function(json) {
-                    if (json.aaData == undefined) {
+                    if (json.aaData === undefined) {
                         json = {
                             "aaData":json
                         };
@@ -83,11 +83,11 @@ $(document).ready(function() {
 } );   
 function goToUrl(url) {
     var sPattern= $("#patternText").val();
-    if (sPattern != undefined) {
-        lUrlsPattern="";
+    if (sPattern === undefined) {
+        sPattern="";
     } 
     var sType=$("#typeSelect").val();
-    if (sType == undefined) {
+    if (sType === undefined) {
         sType="";
     }     
     window.location.href=url+"?pattern="+sPattern+"&type="+sType;

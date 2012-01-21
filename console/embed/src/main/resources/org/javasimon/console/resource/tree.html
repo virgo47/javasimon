@@ -27,7 +27,7 @@ $(document).ready(function() {
 	oDataTreeTable.fnGetCellValue=function(oNode,oColumn,nColumnIndex) {		
 		var sValue=oNode.oData[oColumn.sField];
 		if (nColumnIndex===0) {
-			if (oNode.oParent==null) {
+			if (oNode.oParent===null) {
 				if (sValue==="") {
 					sValue="Root";
 				}
@@ -58,7 +58,7 @@ $(document).ready(function() {
 */
 		this.fnSetRootData(oData);
 		this.fnAppend();
-	}
+	};
 	$.ajax({
 		"url": "data/tree.json",
 		"context": oDataTreeTable,
