@@ -10,6 +10,10 @@ img#logo {
 h1 {
     vertical-align: middle;
 }
+
+/* -----------------------------------------------------------------------------
+ * DHTML/Ajax List view styling
+ * ---------------------------------------------------------------------------*/
 div#filter {
     margin-bottom: 2em;
 }
@@ -29,6 +33,9 @@ td.numeric {
     text-align: right;
 }
 
+/* -----------------------------------------------------------------------------
+ * Static list view styling
+ * ---------------------------------------------------------------------------*/
 table.flatTable > tbody > tr > td.counter, td.total, td.min, td.mean, td.last, td.max, td.standardDeviation {
     text-align: right;
 }
@@ -50,18 +57,30 @@ table.flatTable {
 }
 
 
+/* -----------------------------------------------------------------------------
+ * DHTML/Ajax Tree view styling
+ * ---------------------------------------------------------------------------*/
 table.dataTreeTable {
-	border: solid 1px black;
-	border-collapse:collapse;
-	width:100%
+/*	border: solid 1px black;
+	border-collapse:collapse;*/
+	border-spacing: 2px 0px;
+	border-top: solid 2px white;
+	border-bottom: solid 2px white;
+	width:100%;
 }
 table.dataTreeTable > thead {
-	border: solid 1px black;
+/*	border: solid 1px black;*/
 	text-align:center;
 	font-weight:bold;
 }
-table.dataTreeTable > thead > tr > td {
+/*table.dataTreeTable > thead > tr > td {
 	border-left: solid 1px black;
+}*/
+table.dataTreeTable > thead > tr > td {
+	background: url("start/images/ui-bg_glass_45_0078ae_1x400.png") repeat-x scroll 50% 50% #0078AE;
+	border: 1px solid #77D5F7;
+	color: #FFFFFF;
+	height: 36px;
 }
 table.dataTreeTable > tbody > tr.visible {
 	display: table-row;
@@ -71,7 +90,8 @@ table.dataTreeTable > tbody > tr.hidden {
 }
 table.dataTreeTable > tbody > tr > td {
 	padding: 0px 2px 0px 2px;
-	border-left: solid 1px black;
+/*	border-left: solid 1px black;*/
+	margin: 0px;
 }
 table.dataTreeTable > tbody > tr > td.headCell{
 	width: 40%;
@@ -87,7 +107,9 @@ table.dataTreeTable > tbody > tr > td.date {
 	width: 10%;
 }
 
-/* JQuery UI Start theme fix */
+/* -----------------------------------------------------------------------------
+ * JQuery UI Start theme fix 
+ * ---------------------------------------------------------------------------*/
 .ui-button-text-icon-primary .ui-button-text, .ui-button-text-icons .ui-button-text {
     padding: 0.2em 0.5em 0.2em 1.8em;
 }
