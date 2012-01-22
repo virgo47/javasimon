@@ -79,6 +79,8 @@ public class SimonConsoleServlet extends HttpServlet {
 				action = new TableCsvAction(actionContext);
 			} else if (path.equals(TreeXmlAction.PATH)) {
 				action = new TreeXmlAction(actionContext);
+			} else if (path.equals(ResetAction.PATH)) {
+				action = new ResetAction(actionContext);
 			} else {
 				throw new ActionException("No action for path " + path);
 			}

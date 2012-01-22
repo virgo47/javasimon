@@ -100,7 +100,7 @@ javasimon.DataTreeTable.prototype={
 		oParentNode.bHasChildren=false;
 		if (aoChildDatas!== undefined) {			
 			var nLastChildIndex=aoChildDatas.length-1;
-			if (nLastChildIndex>0) {
+			if (nLastChildIndex>=0) {
 				oParentNode.aoChildren=[];
 				oParentNode.bHasChildren=true;
 				oParentNode.bExpanded=true;

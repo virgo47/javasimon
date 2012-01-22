@@ -29,7 +29,7 @@ $(document).ready(function() {
 		.button({label:"Reset all", icons: {primary: "ui-icon-trash"}})
 		.click(function() {
 			if (window.confirm("Are you sure you want to reset all monitors?")) {
-				document.oFilterCtrl.fnAjaxPost('data/reset',{}, function() {
+				document.oFilterCtrl.fnAjaxPost('data/reset', function() {
 					document.oDataTable.fnReloadAjax();
 				});
 			}

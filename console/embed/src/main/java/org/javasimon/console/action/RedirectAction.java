@@ -1,9 +1,7 @@
 package org.javasimon.console.action;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletResponse;
 import org.javasimon.console.Action;
 import org.javasimon.console.ActionContext;
 import org.javasimon.console.ActionException;
@@ -33,17 +31,6 @@ public class RedirectAction extends Action{
 	
 	@Override
 	public void execute() throws ServletException, IOException, ActionException {
-		getContext().setContentType("text/html");
-		PrintWriter writer = getContext().getWriter();
-		writer.write(
-			"<html>"
-			+"<head><title>Redirecting...</title></head>"
-			+"<body><a href=\"");
-		writer.write(target);
-		writer.write(
-			"\">Redirecting...</a></body>"
-			+"</html>");
-		getContext().getResponse().setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
-		getContext().getResponse().setHeader("Location", target);
+		getContext().getResponse().sendRedirect(target);
 	}
 }
