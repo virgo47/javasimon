@@ -15,6 +15,14 @@ javasimon.DOMUtil={
 		eParent.appendChild(eChild);
 		return eChild;
 	},
+	fnRemoveChildren:function(eParent) {
+		if (eParent.hasChildNodes()) {
+			var nChildCount=eParent.childNodes.length;
+			for(var i=0;i<nChildCount;i++) {
+				eParent.removeChild(eParent.lastChild);
+			}
+		}
+	},
 	fnSetClasses:function(eParent,asClasses) {
 		var sClasses=asClasses.join(' ');
 		eParent.setAttribute('class',sClasses);
@@ -146,7 +154,9 @@ javasimon.DataTreeTable.prototype={
 		return aoResult;
 	},
 	fnVisitRootNode:function(fnVisitor, oContext) {
-		this.fnVisitNode(this.oRootNode, fnVisitor, oContext);
+		if (this.oRootNode) {
+			this.fnVisitNode(this.oRootNode, fnVisitor, oContext);			
+		}
 	},
 	fnAppendHeader:function() {
 		// New Row
@@ -241,10 +251,16 @@ javasimon.DataTreeTable.prototype={
 			this.fnFillNodeCell(oNode,eCell,aoColumns[i],i);
 		}
 	},
-	fnAppend:function() {
+	fnDrawHeader:function() {
 		this.fnAppendHeader();
-		this.eTableBody=javasimon.DOMUtil.fnAppendChildElement(this.eTable,'tbody');
-		this.fnVisitRootNode(this.fnAppendNode, null);
+	},
+	fnDraw:function() {
+		if (this.eTableBody) {
+			javasimon.DOMUtil.fnRemoveChildren(this.eTableBody);			
+		} else {
+			this.eTableBody=javasimon.DOMUtil.fnAppendChildElement(this.eTable,'tbody');
+		}
+		this.fnVisitRootNode(this.fnAppendNode, null);			
 	},
 	fnToggleNodeExpanded:function(oNode) {
 		var oContext;
