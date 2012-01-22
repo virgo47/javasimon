@@ -75,7 +75,6 @@ $(document).ready(function() {
 			context: this,
 			success: function(oData) {
 /* Data for testing purposes 
-*/
 				var oData={id:0,name:"",children:[
 					{id:1,name:"Child 1",children:[
 						{id:11,name:"Child 1.1",children:[],counter:1},
@@ -86,6 +85,7 @@ $(document).ready(function() {
 						{id:21,name:"Child 2.2",children:[],counter:5},
 					]},
 				]};
+*/
 				oDataTreeTable.fnSetRootData(oData);
 				oDataTreeTable.fnDraw();
 			},
