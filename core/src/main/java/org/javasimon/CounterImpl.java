@@ -63,7 +63,6 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	}
 
 	// must be called from synchronized block
-
 	private Counter privateSet(long val, long now) {
 		updateUsages(now);
 		counter = val;
@@ -135,7 +134,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	/**
 	 * {@inheritDoc}
 	 */
-	public synchronized Counter increase(long inc) {
+	public Counter increase(long inc) {
 		long now = System.currentTimeMillis();
 		synchronized (this) {
 			try {
@@ -152,11 +151,13 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	 */
 	public synchronized Counter decrease(long dec) {
 		long now = System.currentTimeMillis();
-		try {
-			decrementSum -= dec;
-			return privateSet(counter - dec, now);
-		} finally {
-			manager.callback().onCounterDecrease(this, dec);
+		synchronized (this) {
+			try {
+				decrementSum -= dec;
+				return privateSet(counter - dec, now);
+			} finally {
+				manager.callback().onCounterDecrease(this, dec);
+			}
 		}
 	}
 
