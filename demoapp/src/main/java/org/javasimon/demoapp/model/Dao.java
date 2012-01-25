@@ -1,63 +1,76 @@
 package org.javasimon.demoapp.model;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
+
+import javax.sql.DataSource;
 import java.sql.*;
+import java.util.List;
 
 /**
  * DataModel.
  *
  * @author virgo47@gmail.com
  */
+@Repository
 public class Dao {
-	private Connection sqlConnection;
+	private JdbcTemplate jdbcTemplate;
 
-	public Dao(Connection sqlConnection) {
-		this.sqlConnection = sqlConnection;
+	@Autowired
+	public void setDataSource(DataSource dataSource) {
+		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 
 	public Person selectPerson(int id) throws SQLException {
-		try (PreparedStatement statement = sqlConnection.prepareStatement("select * from person where id = ?")) {
-			statement.setInt(1, id);
-			ResultSet resultSet = statement.executeQuery();
-			if (resultSet.next()) {
-				Person person = new Person();
-				person.setId(resultSet.getInt(1));
-				person.setLogin(resultSet.getString(2));
-				person.setName(resultSet.getString(3));
-				person.setAddress(resultSet.getString(4));
-				return person;
-			}
-			return null;
-		}
+		return jdbcTemplate.queryForObject(
+			"select id, login, name, address from person where id = ?", new PersonMapper(), id);
 	}
 
-	public void insertPerson(Person person) throws SQLException {
-		try (PreparedStatement statement = sqlConnection.prepareStatement("insert into person values (?, ?, ?, ?)")) {
-			statement.setNull(1, Types.INTEGER);
-			statement.setString(2, person.getLogin());
-			statement.setString(3, person.getName());
-			statement.setString(4, person.getAddress());
-			statement.execute();
-			ResultSet generatedKeys = statement.getGeneratedKeys();
-			generatedKeys.next();
-			person.setId(generatedKeys.getInt(1));
-		}
+	public List<Person> listPersons() throws SQLException {
+		return jdbcTemplate.query(
+			"select id, login, name, address from person where id = ?", new PersonMapper());
+	}
+
+	public void insertPerson(final Person person) throws SQLException {
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		jdbcTemplate.update(
+			new PreparedStatementCreator() {
+				public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+					PreparedStatement ps = connection.prepareStatement(
+						"insert into person (login, name, address) values (?, ?, ?)", new String[]{"id"});
+					ps.setString(1, person.getLogin());
+					ps.setString(1, person.getName());
+					ps.setString(1, person.getAddress());
+					return ps;
+				}
+			},
+			keyHolder);
+		person.setId(keyHolder.getKey().intValue());
 	}
 
 	public void updatePerson(Person person) throws SQLException {
-		try (PreparedStatement statement = sqlConnection.prepareStatement(
-			"update person set login = ?, name = ?, address = ? where id = ?)")) {
-			statement.setString(1, person.getLogin());
-			statement.setString(2, person.getName());
-			statement.setString(3, person.getAddress());
-			statement.setInt(4, person.getId());
-			statement.execute();
-		}
+		jdbcTemplate.update("update person set login = ?, name = ?, address = ? where id = ?)",
+			person.getLogin(), person.getName(), person.getAddress(), person.getId());
 	}
 
 	public void deletePerson(int id) throws SQLException {
-		try (PreparedStatement statement = sqlConnection.prepareStatement("delete from person where id = ?")) {
-			statement.setInt(1, id);
-			statement.execute();
+		jdbcTemplate.update("delete from person where id = ?", id);
+	}
+
+	private class PersonMapper implements RowMapper<Person> {
+		@Override
+		public Person mapRow(ResultSet resultSet, int i) throws SQLException {
+			Person person = new Person();
+			person.setId(resultSet.getInt(1));
+			person.setLogin(resultSet.getString(2));
+			person.setName(resultSet.getString(3));
+			person.setAddress(resultSet.getString(4));
+			return person;
 		}
 	}
 }
