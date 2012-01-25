@@ -37,35 +37,51 @@ $(document).ready(function() {
 	var eTable=document.getElementById('dataTreeTable');
 	var oDataTreeTable=new javasimon.DataTreeTable(eTable,{
 			aoColumns:[
-				{sTitle:"Counter",	sField: "counter",	sClass:"number"},
-				{sTitle:"Total",	sField: "total",	sClass:"number" },
-				{sTitle:"Min",		sField: "min",		sClass:"number" },
-				{sTitle:"Mean",		sField: "mean",		sClass:"number" },
-				{sTitle:"Max",		sField: "max",		sClass:"number" },
-				{sTitle:"Std Dev",	sField: "standardDeviation",sClass:"number" },
-				{sTitle:"Last",		sField: "last",		sClass:"number" },
-				{sTitle:"First Date",	sField: "firstUsage",	sClass:"date" },
-				{sTitle:"Last Date",	sField: "lastUsage",	sClass:"date"  }
+				{sTitle:"Name",		sField:"name", 		sClass:'string', 
+					oImages: {
+						"unknown":"resource/images/TypeUnknown.png",
+						"counter":"resource/images/TypeCounter.png",
+						"stopwatch":"resource/images/TypeStopwatch.png"
+					},
+					fnRender:function(oNode, eCell, oDataTreeTable) {
+						var sType=oNode.oData["type"];
+						var sImage;
+						if (sType) {
+							sImage=this.oImages[sType.toLowerCase()];
+							if (sImage) {
+								javasimon.DOMUtil.fnAppendChildImage(eCell, sImage);
+							}
+						}
+						// Fix name
+						var sValue=oNode.oData[this.sField];
+						if (oNode.oParent!==null) {
+							var sParentValue=oNode.oParent.oData[this.sField];
+							if (sValue.substring(0,sParentValue.length)===sParentValue) {
+								sValue=sValue.substring(sParentValue.length);
+								if (sValue.charAt(0)==='.') {
+									sValue=sValue.substring(1);
+								}
+							}
+						}		
+						if (sValue==="") {
+							sValue="-";
+						}
+						javasimon.DOMUtil.fnAppendChildText(eCell, sValue);
+					}
+				},
+				{sTitle:"Counter",	sField:"counter",	sClass:"number"},
+				{sTitle:"Total",	sField:"total",		sClass:"number" },
+				{sTitle:"Min",		sField:"min",		sClass:"number" },
+				{sTitle:"Mean",		sField:"mean",		sClass:"number" },
+				{sTitle:"Max",		sField:"max",		sClass:"number" },
+				{sTitle:"Std Dev",	sField:"standardDeviation",sClass:"number" },
+				{sTitle:"Last",		sField:"last",		sClass:"number" },
+				{sTitle:"First Date",	sField:"firstUsage",	sClass:"date" },
+				{sTitle:"Last Date",	sField:"lastUsage",	sClass:"date"  }
 			]
 		}
 	);
 	oDataTreeTable.fnGetCellValue=function(oNode,oColumn,nColumnIndex) {		
-		var sValue=oNode.oData[oColumn.sField];
-		if (nColumnIndex===0) {
-			if (oNode.oParent===null) {
-				if (sValue==="") {
-					sValue="Root";
-				}
-			} else {
-				var sParentValue=oNode.oParent.oData[oColumn.sField];
-				if (sValue.substring(0,sParentValue.length)===sParentValue) {
-					sValue=sValue.substring(sParentValue.length);
-					if (sValue.charAt(0)==='.') {
-						sValue=sValue.substring(1);
-					}
-				}
-			}		
-		}
 		return sValue;
 	};
 	oDataTreeTable.fnReloadAjax=function() {
@@ -75,14 +91,14 @@ $(document).ready(function() {
 			context: this,
 			success: function(oData) {
 /* Data for testing purposes 
-				var oData={id:0,name:"",children:[
-					{id:1,name:"Child 1",children:[
-						{id:11,name:"Child 1.1",children:[],counter:1},
-						{id:11,name:"Child 1.2",children:[],counter:4},
+				var oData={id:0,name:"",type:"unknown",children:[
+					{id:1,name:"Child 1",type:"unknown",children:[
+						{id:11,name:"Child 1.1",type:"stopwatch",children:[],counter:1},
+						{id:11,name:"Child 1.2",type:"counter",children:[],counter:4},
 					]},
-					{id:2,name:"Child 2",children:[
-						{id:21,name:"Child 2.1",children:[],counter:2},
-						{id:21,name:"Child 2.2",children:[],counter:5},
+					{id:2,name:"Child 2",type:"unknown",children:[
+						{id:21,name:"Child 2.1",type:"stopwatch",children:[],counter:2},
+						{id:21,name:"Child 2.2",type:"counter",children:[],counter:5},
 					]},
 				]};
 */

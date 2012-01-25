@@ -15,6 +15,11 @@ javasimon.DOMUtil={
 		eParent.appendChild(eChild);
 		return eChild;
 	},
+	fnAppendChildImage:function(eParent,sSrc) {
+		var eImg=this.fnAppendChildElement(eParent,'img');
+		eImg.setAttribute('src',sSrc);
+		return eImg;
+	},
 	fnRemoveChildren:function(eParent) {
 		if (eParent.hasChildNodes()) {
 			var nChildCount=eParent.childNodes.length;
@@ -94,13 +99,28 @@ javasimon.DataTreeTable=function(eTable, oSettings) {
 			'leaf':			'resource/images/TreeTableLeaf.gif',
 			'lastLeaf':		'resource/images/TreeTableLastLeaf.gif'
 		},
-		aoColumns: [
-			{sField:'name', sClass:'string', sTitle:'Name'}
-		]
+		aoColumns: []
 	};
 	if (oSettings) {
 		this.oSettings=javasimon.ObjectUtil.fnMerge(this.oSettings, oSettings, true);	
 	}
+	// Default cell rendering function
+	function fnRenderDefault(oNode,eCell,oDataTreeTable) {
+		var sFieldValue=oNode.oData[this.sField];
+		if (sFieldValue) {
+			javasimon.DOMUtil.fnAppendChildText(eCell, sFieldValue);
+		}
+		if (this.sClass) {
+			javasimon.DOMUtil.fnAppendClass(eCell, this.sClass);
+		}
+	};
+	var aoColumns=this.oSettings.aoColumns;
+	for(var i=0;i<aoColumns.length;i++) {
+		aoColumns[i].nIndex=i;
+		if (aoColumns[i].fnRender===undefined) {
+			aoColumns[i].fnRender=fnRenderDefault;
+		}
+	}		
 };
 javasimon.DataTreeTable.prototype={
 	fnSetData:function(oParentNode,oParentData) {
@@ -171,9 +191,7 @@ javasimon.DataTreeTable.prototype={
 		}
 	},
 	fnAppendImage:function(eParent,sType) {
-		var eImg=javasimon.DOMUtil.fnAppendChildElement(eParent,'img');
-		eImg.setAttribute('src',this.oSettings.oImages[sType]);
-		return eImg;
+		return javasimon.DOMUtil.fnAppendChildImage(eParent,this.oSettings.oImages[sType]);
 	},
 	fnGetNodePath:function(oNode) {
 		var oCurrentNode=oNode;
@@ -183,18 +201,6 @@ javasimon.DataTreeTable.prototype={
 			oCurrentNode=oCurrentNode.oParent;
 		}
 		return aoNodes.reverse();
-	},
-	fnGetCellValue:function(oNode,oColumn,nColumnIndex) {
-		return oNode.oData[oColumn.sField];
-	},
-	fnFillNodeCell:function(oNode,eCell,oColumn,nColumnIndex) {
-		var sFieldValue=this.fnGetCellValue(oNode,oColumn,nColumnIndex);
-		if (sFieldValue) {
-			javasimon.DOMUtil.fnAppendChildText(eCell, sFieldValue);
-		}
-		if (oColumn.sClass) {
-			javasimon.DOMUtil.fnAppendClass(eCell, oColumn.sClass);
-		}
 	},
 	fnGetImageType:function(oNode) {
 		var sImgType;
@@ -244,11 +250,11 @@ javasimon.DataTreeTable.prototype={
 			oNode.eToggleImage=eImg;
 		} 
 		// Tree node label
-		this.fnFillNodeCell(oNode,eCell,aoColumns[0] ,0);
+		aoColumns[0].fnRender(oNode, eCell, this);
 		// Other columns
 		for(i=1;i<aoColumns.length;i++) {
 			eCell=javasimon.DOMUtil.fnAppendChildElement(eRow,'td');	
-			this.fnFillNodeCell(oNode,eCell,aoColumns[i],i);
+			aoColumns[i].fnRender(oNode, eCell, this);
 		}
 	},
 	fnDrawHeader:function() {
