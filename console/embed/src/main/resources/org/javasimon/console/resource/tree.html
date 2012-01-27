@@ -77,13 +77,28 @@ $(document).ready(function() {
 				{sTitle:"Std Dev",	sField:"standardDeviation",sClass:"number" },
 				{sTitle:"Last",		sField:"last",		sClass:"number" },
 				{sTitle:"First Date",	sField:"firstUsage",	sClass:"date" },
-				{sTitle:"Last Date",	sField:"lastUsage",	sClass:"date"  }
+				{sTitle:"Last Date",	sField:"lastUsage",	sClass:"date"  },
+				{sTitle:"",		sField:"name", 		sClass:'string', 
+					fnRender:function(oNode, eCell, oDataTreeTable) {
+						var sName=oNode.oData[this.sField];
+						var domUtil=javasimon.DOMUtil;
+						var eImg;
+						if (sName) {
+							eImg=domUtil.fnAppendChildElement(eCell, "img");
+							eImg.setAttribute("src","resource/images/Reset.png");
+							eImg.setAttribute("alt","Reset");
+							eImg.onclick=function() {
+								$.post("data/reset", {name:sName}, function() {
+									document.oDataTreeTable.fnReloadAjax();
+								})
+								return false;
+							};
+						}		
+					}
+				},
 			]
 		}
 	);
-	oDataTreeTable.fnGetCellValue=function(oNode,oColumn,nColumnIndex) {		
-		return sValue;
-	};
 	oDataTreeTable.fnReloadAjax=function() {
 		var oDataTreeTable=this;
 		$.ajax({

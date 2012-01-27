@@ -76,9 +76,34 @@ public class ValueFormatter {
 	 * Formats a number (counter,active)
 	 */
 	public String formatNumber(Number n) {
-		return formatNumber(n == null ? null : n.toString());
+		return formatNumber(isValidNumber(n) ? n.toString():null);
 	}
-
+	/**
+	 * Test whether number is not a particular value (Min, Max, Infinity, NaN)
+	 */
+	private boolean isValidNumber(Number n) {
+		if (n == null) {
+			return false;
+		} else if (n instanceof Integer) {
+			Integer i = (Integer) n;
+			return !(i == Integer.MIN_VALUE || i == Integer.MAX_VALUE);
+		} else if (n instanceof Long) {
+			Long l = (Long) n;
+			return !(l == Long.MIN_VALUE || l == Long.MAX_VALUE);
+		} else if (n instanceof Float) {
+			Float f = (Float) n;
+			return !(f == Float.MIN_VALUE || f == Float.MAX_VALUE 
+				|| f == Float.NEGATIVE_INFINITY || f == Float.POSITIVE_INFINITY 
+				|| f == Float.NaN);
+		} else if (n instanceof Double) {
+			Double d = (Double) n;
+			return !(d == Double.MIN_VALUE || d == Double.MAX_VALUE 
+				|| d == Double.NEGATIVE_INFINITY || d == Double.POSITIVE_INFINITY 
+				|| d == Double.NaN);
+		} else {
+			return false;
+		}
+	}
 	/**
 	 * Formats a time (stopwatch values)
 	 */
@@ -94,7 +119,7 @@ public class ValueFormatter {
 	 * Formats a time (stopwatch values)
 	 */
 	public String formatTime(Long l) {
-		String s = (l == null || l <= 0L) ? null : timeFormat.format(l);
+		String s = (isValidNumber(l) && l >=0L) ? timeFormat.format(l):null;
 		return postFormatTime(s);
 	}
 
@@ -102,7 +127,7 @@ public class ValueFormatter {
 	 * Formats a time (stopwatch values)
 	 */
 	public String formatTime(Double l) {
-		String s = l == null ? null : timeFormat.format(l);
+		String s = (isValidNumber(l) && l >=0D)? timeFormat.format(l):null;
 		return postFormatTime(s);
 	}
 	/**
