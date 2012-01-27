@@ -41,9 +41,6 @@ $(document).ready(function() {
 	$('#htmlButton')
 		.button({label:"HTML",icons: {primary: "ui-icon-print"}})
 		.click(function() {document.oFilterCtrl.fnGoToUrl('data/table.html'); return false; });
-	$('#xmlButton')
-		.button({label:"XML",icons: {primary: "ui-icon-script"}})
-		.click(function() {document.oFilterCtrl.fnGoToUrl('data/tree.xml'); return false; });
 	var oDataTable=$('#dataTable').dataTable( {
 		bJQueryUI: true,
 		bProcessing: true,
@@ -64,14 +61,31 @@ $(document).ready(function() {
 					}
 					fnCallback(json);
 				},
-				dataType: "json",
-				cache:false
+				dataType: "json"
 				});
 		},
 		aoColumns: [
 			{sTitle:"Name", mDataProp: "name",bSearchable: true,sType:"string",sWidth: "40%"},
 			{sTitle:"Note", mDataProp: "note",bSearchable: true,sType:"string",sWidth: "40%",bVisible:false},
-			{sTitle:"Type", mDataProp: "type",bSearchable: false,sType:"string",sWidth: "5%"},
+			{sTitle:"Type", mDataProp: "type",bSearchable: false,sType:"string",bUseRendered:false,
+				fnRender:function(oObject) {
+					var sType=oObject.aData[this.mDataProp];
+					var sImage, oImages;
+					var sResult="";
+					if (sType) {
+						oImages={
+							"unknown":"resource/images/TypeUnknown.png",
+							"counter":"resource/images/TypeCounter.png",
+							"stopwatch":"resource/images/TypeStopwatch.png"
+						};
+						sImage=oImages[sType.toLowerCase()];
+						if (sImage) {
+							sResult="<img src=\""+sImage+"\" alt=\""+sType+"\" />";
+						}
+					}
+					return sResult;
+				}
+			},
 			{sTitle:"Count", mDataProp: "counter",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric"},
 			{sTitle:"Total", mDataProp: "total",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric" },
 			{sTitle:"Min", mDataProp: "min",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric" },
@@ -80,7 +94,20 @@ $(document).ready(function() {
 			{sTitle:"Std Dev", mDataProp: "standardDeviation",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric" },
 			{sTitle:"Last", mDataProp: "last",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric" },
 			{sTitle:"First Date", mDataProp: "firstUsage",bSearchable: false,sWidth: "10%",sClass:"numeric" },
-			{sTitle:"Last Date", mDataProp: "lastUsage",bSearchable: false,sWidth: "10%",sClass:"numeric" }
+			{sTitle:"Last Date", mDataProp: "lastUsage",bSearchable: false,sWidth: "10%",sClass:"numeric" },
+			{sTitle:"", mDataProp: "type",sWidth: "5%" ,sType:"string",bUseRendered:false,bSortable:false,
+				fnRender:function(oObject) {
+					var sName=oObject.aData["name"];
+					var sResult="";
+					if (sName) {
+						sResult="<img src=\"resource/images/Reset.png\" "
+							+"alt=\"Reset\" "
+							+"onclick=\"document.oDataTable.fnReset('"+sName+"');return false;\" "
+							+"/>";
+					}
+					return sResult;
+				}
+			}
 		],
 		aaSorting: [[ 3, "desc" ]]
 	} );
@@ -89,6 +116,12 @@ $(document).ready(function() {
 		this.fnSetColumnVis(0,  bNoteColumnVis);
 		this.fnSetColumnVis(1, !bNoteColumnVis);
 	};
+	oDataTable.fnReset=function(sName) {
+		$.post("data/reset", {name:sName}, function() {
+			document.oDataTable.fnReloadAjax();
+		})
+	};
+	
 	document.oDataTable=oDataTable;
 	$(window).bind('resize', function () {
 		document.oDataTable.fnAdjustColumnSizing();
@@ -129,7 +162,6 @@ $(document).ready(function() {
                 <span id="exportSpan">Export:</span>
                 <button id="csvButton" name="csvButton">CSV</button>
                 <button id="htmlButton" name="htmlButton">HTML</button>
-                <button id="xmlButton" name="xmlButton">XML</button>
             </div>
             </form>
         </div>
