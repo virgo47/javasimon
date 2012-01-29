@@ -7,15 +7,10 @@
         <link  href="resource/css/javasimon.css" rel="stylesheet" type="text/css" />
         <script src="resource/js/jquery-1.7.1.min.js" type="text/javascript"></script>
         <script src="resource/js/jquery-ui-1.8.16.custom.min.js" type="text/javascript"></script>
-        <script src="resource/js/javasimon-filter.js" type="text/javascript"></script>
+        <script src="resource/js/javasimon-service.js" type="text/javascript"></script>
         <script src="resource/js/javasimon-dataTreeTable.js" type="text/javascript"></script>
         <script type="text/javascript">
 $(document).ready(function() {
-	var oFilterCtrl=new javasimon.FilterController();
-	oFilterCtrl.fnGetVal=function() {
-		return {};
-	};
-	document.oFilterCtrl=oFilterCtrl;
 	$('#listLink')
 		.button();
 	$('#refreshButton')
@@ -24,16 +19,17 @@ $(document).ready(function() {
 	$('#resetAllButton')
 		.button({label:"Reset all", icons: {primary: "ui-icon-trash"}})
 		.click(function() {
-			if (window.confirm("Are you sure you want to reset all monitors?")) {
-				document.oFilterCtrl.fnAjaxPost('data/reset', function() {
-					document.oDataTreeTable.fnReloadAjax();
-				});
-			}
+			javasimon.ResetService.fnResetAll({}, function() {
+				document.oDataTreeTable.fnReloadAjax();
+			});
 			return false;
 		});
 	$('#xmlButton')
 		.button({label:"XML",icons: {primary: "ui-icon-script"}})
-		.click(function() {document.oFilterCtrl.fnGoToUrl('data/tree.xml'); return false; });
+		.click(function() {
+			javasimon.TreeService.fnGetDataAsXml({});
+			return false; 
+		});
 	var eTable=document.getElementById('dataTreeTable');
 	var oDataTreeTable=new javasimon.DataTreeTable(eTable,{
 			aoColumns:[
@@ -91,7 +87,7 @@ $(document).ready(function() {
 							eImg.setAttribute("src","resource/images/Reset.png");
 							eImg.setAttribute("alt","Reset");
 							eImg.onclick=function() {
-								$.post("data/reset", {name:sName}, function() {
+								javasimon.ResetService.fnResetOne(sName, function() {
 									document.oDataTreeTable.fnReloadAjax();
 								})
 								return false;
@@ -105,11 +101,9 @@ $(document).ready(function() {
 		}
 	);
 	oDataTreeTable.fnReloadAjax=function() {
-		var oDataTreeTable=this;
-		$.ajax({
-			url: "data/tree.json",
-			context: this,
-			success: function(oData) {
+		javasimon.TreeService.fnGetDataAsJson({}, 
+			function(oData) {
+				var oDataTreeTable=document.oDataTreeTable;
 /* Data for testing purposes 
 				var oData={id:0,name:"",type:"unknown",children:[
 					{id:1,name:"Child 1",type:"unknown",children:[
@@ -121,14 +115,10 @@ $(document).ready(function() {
 						{id:21,name:"Child 2.2",type:"counter",children:[],counter:5},
 					]},
 				]};
-*/
+*/	
 				oDataTreeTable.fnSetRootData(oData);
 				oDataTreeTable.fnDraw();
-			},
-			dataType: "json",
-			cache:false
-		});
-		
+			});
 	};
 	oDataTreeTable.fnDrawHeader();
 	oDataTreeTable.fnReloadAjax();
