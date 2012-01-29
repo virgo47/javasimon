@@ -27,12 +27,18 @@ javasimon.FilterController.prototype={
 			sType:sType||""
 		};
 	},
-	fnGoToUrl:function(sUrl) {
-		var oVal=this.fnGetVal();
-		window.location.href=sUrl+"?pattern="+oVal.sPattern+"&type="+oVal.sType;
+	fnExportCsv:function() {
+		javasimon.TableService.fnGetDataAsCsv(this.fnGetVal());
 	},
-	fnAjaxPost:function(sUrl, fnCallback) {
-		var oVal=this.fnGetVal();
-		$.post(sUrl, {pattern:oVal.sPattern, type:oVal.sType}, fnCallback);
+	fnExportHtml:function() {
+		javasimon.TableService.fnGetDataAsHtml(this.fnGetVal());
+	},
+	fnResetAll:function(fnAjaxCallback) {
+		var oFilterVal=this.fnGetVal();
+		var oData={
+			pattern:oFilterVal.sPattern,
+			type:oFilterVal.sType
+		};
+		javasimon.ResetService.fnResetAll(oData, fnAjaxCallback);
 	}
 };
