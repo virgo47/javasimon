@@ -191,7 +191,10 @@ javasimon.DataTreeTable.prototype={
 		}
 	},
 	fnAppendImage:function(eParent,sType) {
-		return javasimon.DOMUtil.fnAppendChildImage(eParent,this.oSettings.oImages[sType]);
+		var domUtil=javasimon.DOMUtil;
+		var eImg=javasimon.DOMUtil.fnAppendChildImage(eParent,this.oSettings.oImages[sType]);
+		domUtil.fnSetClasses(eImg, ["icon"]);
+		return eImg;
 	},
 	fnGetNodePath:function(oNode) {
 		var oCurrentNode=oNode;
