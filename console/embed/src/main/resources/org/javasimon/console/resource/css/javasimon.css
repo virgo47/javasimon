@@ -32,6 +32,16 @@ span#exportSpan {
 td.numeric {
     text-align: right;
 }
+table#dataTable > tbody > tr > td > img.icon {
+	height: 24px;
+	width: 24px;
+	border: none;
+	margin: 0px;
+	vertical-align:middle;	
+}
+table#dataTable > tbody > tr:hover {
+	background-color: #EAF5F7;
+}
 
 /* -----------------------------------------------------------------------------
  * Static list view styling
@@ -82,6 +92,9 @@ table.dataTreeTable > thead > tr > td {
 	color: #FFFFFF;
 	height: 36px;
 }
+table.dataTreeTable > tbody > tr:hover {
+	background-color: #EAF5F7;
+}
 table.dataTreeTable > tbody > tr.visible {
 	display: table-row;
 }
@@ -96,7 +109,12 @@ table.dataTreeTable > tbody > tr > td {
 table.dataTreeTable > tbody > tr > td.headCell{
 	width: 40%;
 }
-table.dataTreeTable > tbody > tr > td.headCell > img {
+table.dataTreeTable > tbody > tr > td.headCell > img.icon,
+table.dataTreeTable > tbody > tr > td.footCell > img.icon {
+	height: 24px;
+	width: 24px;
+	border: none;
+	margin: 0px;
 	vertical-align:middle;
 }
 table.dataTreeTable > tbody > tr > td.number {

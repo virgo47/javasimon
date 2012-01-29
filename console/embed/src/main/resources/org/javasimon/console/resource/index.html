@@ -80,7 +80,9 @@ $(document).ready(function() {
 						};
 						sImage=oImages[sType.toLowerCase()];
 						if (sImage) {
-							sResult="<img src=\""+sImage+"\" alt=\""+sType+"\" />";
+							sResult="<img src=\""+sImage
+								+"\" class=\"icon\" />";
+								+"\" alt=\""+sType+"\" />";
 						}
 					}
 					return sResult;
@@ -95,12 +97,13 @@ $(document).ready(function() {
 			{sTitle:"Last", mDataProp: "last",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric" },
 			{sTitle:"First Date", mDataProp: "firstUsage",bSearchable: false,sWidth: "10%",sClass:"numeric" },
 			{sTitle:"Last Date", mDataProp: "lastUsage",bSearchable: false,sWidth: "10%",sClass:"numeric" },
-			{sTitle:"", mDataProp: "type",sWidth: "5%" ,sType:"string",bUseRendered:false,bSortable:false,
+			{sTitle:"", mDataProp: "type",sWidth: "5%" ,sType:"string",bUseRendered:false,bSortable:false,sClass:"footCell",
 				fnRender:function(oObject) {
 					var sName=oObject.aData["name"];
 					var sResult="";
 					if (sName) {
 						sResult="<img src=\"resource/images/Reset.png\" "
+							+"class=\"icon\" "
 							+"alt=\"Reset\" "
 							+"onclick=\"document.oDataTable.fnReset('"+sName+"');return false;\" "
 							+"/>";

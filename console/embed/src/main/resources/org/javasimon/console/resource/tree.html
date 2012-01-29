@@ -45,11 +45,13 @@ $(document).ready(function() {
 					},
 					fnRender:function(oNode, eCell, oDataTreeTable) {
 						var sType=oNode.oData["type"];
-						var sImage;
+						var domUtil=javasimon.DOMUtil;
+						var sImage, eImg;
 						if (sType) {
 							sImage=this.oImages[sType.toLowerCase()];
 							if (sImage) {
-								javasimon.DOMUtil.fnAppendChildImage(eCell, sImage);
+								eImg=domUtil.fnAppendChildImage(eCell, sImage);
+								domUtil.fnSetClasses(eImg, ["icon"]);
 							}
 						}
 						// Fix name
@@ -66,7 +68,8 @@ $(document).ready(function() {
 						if (sValue==="") {
 							sValue="-";
 						}
-						javasimon.DOMUtil.fnAppendChildText(eCell, sValue);
+						domUtil.fnAppendChildText(eCell, sValue);
+						domUtil.fnAppendClass(eCell, "headCell");
 					}
 				},
 				{sTitle:"Counter",	sField:"counter",	sClass:"number"},
@@ -93,9 +96,11 @@ $(document).ready(function() {
 								})
 								return false;
 							};
+							domUtil.fnSetClasses(eImg, ["icon"]);
 						}		
+						domUtil.fnAppendClass(eCell, "footCell");
 					}
-				},
+				}
 			]
 		}
 	);
