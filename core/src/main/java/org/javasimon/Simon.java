@@ -8,10 +8,10 @@ import java.util.List;
  * It does not contain any real action method - these are in specific interfaces that describes
  * purpose of the particular type of monitor.
  *
+ * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @see Manager
  * @see Counter for Simon counting some events
  * @see Stopwatch for Simon measuring time spans
- * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public interface Simon {
 	/**
@@ -63,8 +63,8 @@ public interface Simon {
 	boolean isEnabled();
 
 	/**
-	 * Resets the Simon, its usages and stat processor - concrete values depend
-	 * on the type and the implementation.
+	 * Resets the Simon values related to the measuring, timestamps and so on - usage timestamps, state, attributes are not affected.
+	 * Timestamp of the last reset can be obtained by the method {@link #getLastReset()}.
 	 *
 	 * @return returns this
 	 */
