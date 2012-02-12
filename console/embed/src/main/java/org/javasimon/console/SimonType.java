@@ -10,22 +10,39 @@ import org.javasimon.Stopwatch;
  * @author gquintana
  */
 public enum SimonType {
+	STOPWATCH(Stopwatch.class), COUNTER(Counter.class), UNKNOWN(Simon.class);
+	/**
+	 * Interface
+	 */
+	private final Class<? extends Simon> type;
 
-	STOPWATCH, COUNTER, UNKNOWN;
+	private SimonType(Class<? extends Simon> type) {
+		this.type = type;
+	}
+
+	public Class<? extends Simon> getType() {
+		return type;
+	}
+	
+	/**
+	 * Get simon type from simon class
+	 * @param type Simon class
+	 * @return Type
+	 */
+	public static SimonType getValueFromType(Class<? extends Simon> type) {
+		for(SimonType simonType:values()) {
+			if (simonType.getType().isAssignableFrom(type)) {
+				return simonType;
+			}
+		}
+		return null;
+	}
 	/**
 	 * Get simon type from simon instance
 	 * @param simon Simon
 	 * @return Type
 	 */
 	public static SimonType getValueFromInstance(Simon simon) {
-		SimonType lType;
-		if (simon instanceof Stopwatch) {
-			lType = SimonType.STOPWATCH;
-		} else if (simon instanceof Counter) {
-			lType = SimonType.COUNTER;
-		} else {
-			lType = SimonType.UNKNOWN;
-		}
-		return lType;
+		return simon==null?null:getValueFromType(simon.getClass());
 	}
 }

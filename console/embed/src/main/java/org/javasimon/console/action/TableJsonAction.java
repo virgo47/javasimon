@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 import org.javasimon.Simon;
 import org.javasimon.console.ActionContext;
 import org.javasimon.console.json.ArrayJS;
-import org.javasimon.console.json.JsonValueFormatter;
+import org.javasimon.console.json.JsonStringifierFactory;
 import org.javasimon.console.json.ObjectJS;
 import org.javasimon.console.json.SimpleJS;
 
@@ -22,7 +22,8 @@ public class TableJsonAction extends AbstractTableAction {
 
 	public TableJsonAction(ActionContext context) {
 		super(context, "application/json");
-		this.valueFormatter = new JsonValueFormatter();
+		this.stringifierFactory = new JsonStringifierFactory();
+		this.numberPattern=JsonStringifierFactory.INTEGER_NUMBER_PATTERN;
 	}
 	/**
 	 * Current array of JSONized Simons 
@@ -56,6 +57,6 @@ public class TableJsonAction extends AbstractTableAction {
 
 	@Override
 	protected void printBodyCell(Column column, Simon s, PrintWriter writer) {
-		simonJS.setAttribute(column.getName(), SimpleJS.createObject(column.getFormattedValue(s), valueFormatter));
+		simonJS.setAttribute(column.getName(), new SimpleJS(column.getValue(s), column.getStringifier(s)));
 	}
 }

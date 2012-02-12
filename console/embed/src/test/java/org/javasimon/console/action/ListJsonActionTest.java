@@ -22,6 +22,7 @@ public class ListJsonActionTest {
     public void testExecute() throws Exception {
         TestActionContext context=new TestActionContext("/data/table.json");
         ListJsonAction action=new ListJsonAction(context);
+	action.readParameters();
         action.execute();
         assertEquals(context.getContentType(),"application/json");
         String json=context.toString();

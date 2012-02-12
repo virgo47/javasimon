@@ -1,7 +1,8 @@
 package org.javasimon.console.action;
 
+import org.javasimon.console.reflect.Getter;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
+import java.util.Iterator;
 import javax.servlet.ServletException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -11,10 +12,10 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import org.javasimon.Counter;
 import org.javasimon.Simon;
-import org.javasimon.Stopwatch;
 import org.javasimon.console.*;
+import org.javasimon.console.text.Stringifier;
+import org.javasimon.console.text.StringifierFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -28,12 +29,15 @@ public abstract class AbstractXmlAction extends Action {
 	protected AbstractXmlAction(ActionContext context) {
 		super(context);
 	}
-	protected final ValueFormatter valueFormatter = new ValueFormatter();
+	protected final StringifierFactory stringifierFactory = new StringifierFactory();
 
 	@Override
 	public void readParameters() {
-		valueFormatter.setTimeFormat(getContext().getParameterAsEnum("timeFormat", TimeFormatType.class, TimeFormatType.MILLISECOND));
-		valueFormatter.setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"));
+		final TimeFormatType timeFormat=getContext().getParameterAsEnum("timeFormat", TimeFormatType.class, TimeFormatType.MILLISECOND);
+		stringifierFactory.init(timeFormat, 
+			StringifierFactory.ISO_DATE_PATTERN,
+			StringifierFactory.READABLE_NUMBER_PATTERN
+			);
 	}
 
 	/**
@@ -43,48 +47,39 @@ public abstract class AbstractXmlAction extends Action {
 	 * @return JSON object
 	 */
 	protected Element createElement(Document document, Simon simon) {
+		// Simon type is used as element name
 		SimonType lType = SimonType.getValueFromInstance(simon);
 		Element element = document.createElement(lType.name().toLowerCase());
-		element.setAttribute("name", simon.getName()); // Only to have the name as first attribute
+		// Only to have the name as first attribute
+		element.setAttribute("name", simon.getName()); 
+		// Export properties using reflection
 		for (Getter getter : Getter.getGetters(simon.getClass())) {
-			String propertyName = getter.getName();
-			Class propertyType = getter.getType();
 			Object propertyValue = getter.get(simon);
-			String formattedPropertyValue = null;
-			if (propertyType.equals(Integer.class) || propertyType.equals(Integer.TYPE)) {
-				formattedPropertyValue = valueFormatter.formatNumber((Integer) propertyValue);
-			} else if (propertyType.equals(Long.class) || propertyType.equals(Long.TYPE)) {
-				formattedPropertyValue = valueFormatter.formatNumber((Long) propertyValue);
-			} else if (propertyType.equals(String.class)) {
-				formattedPropertyValue = valueFormatter.formatString((String) propertyValue);
-			} else if (Enum.class.isAssignableFrom(propertyType)) {
-				formattedPropertyValue = valueFormatter.formatEnum((Enum) propertyValue);
-			}
-			if (formattedPropertyValue != null) {
-				element.setAttribute(propertyName, formattedPropertyValue);
+			if (propertyValue!=null) {
+				Stringifier propertyStringifier=stringifierFactory
+					.getStringifier(getter.getType(), getter.getSubType());
+				if (propertyStringifier!=null) {
+					element.setAttribute( getter.getName(), propertyStringifier.toString(propertyValue));
+				}
 			}
 		}
-		switch (lType) {
-			case STOPWATCH:
-				Stopwatch stopwatch = (Stopwatch) simon;
-				element.setAttribute("total", valueFormatter.formatTime(stopwatch.getTotal()));
-				element.setAttribute("min", valueFormatter.formatTime(stopwatch.getMin()));
-				element.setAttribute("mean", valueFormatter.formatTime(stopwatch.getMean()));
-				element.setAttribute("max", valueFormatter.formatTime(stopwatch.getMax()));
-				element.setAttribute("standardDeviation", valueFormatter.formatTime(stopwatch.getStandardDeviation()));
-				element.setAttribute("last", valueFormatter.formatTime(stopwatch.getLast()));
-				element.setAttribute("maxActiveTimestamp", valueFormatter.formatDate(stopwatch.getMaxActiveTimestamp()));
-				element.setAttribute("minTimestamp", valueFormatter.formatDate(stopwatch.getMinTimestamp()));
-				element.setAttribute("maxTimestamp", valueFormatter.formatDate(stopwatch.getMaxTimestamp()));
-				break;
-			case COUNTER:
-				Counter counter = (Counter) simon;
-				element.setAttribute("minTimestamp", valueFormatter.formatDate(counter.getMinTimestamp()));
-				element.setAttribute("maxTimestamp", valueFormatter.formatDate(counter.getMaxTimestamp()));
-				break;
+		// Export attribute map
+		Iterator<String> attributeNameIter=simon.getAttributeNames();
+		while(attributeNameIter.hasNext()) {
+			String attributeName=attributeNameIter.next();
+			Object attributeValue=simon.getAttribute(attributeName);
+			if (attributeValue!=null) {
+				Stringifier attributeStringifier=stringifierFactory
+					.getStringifier(attributeValue.getClass());
+				if (attributeStringifier!=null) {
+					Element attributeElt = document.createElement("attribute");
+					attributeElt.setAttribute("name", attributeName);
+					attributeElt.setAttribute("value", attributeStringifier.toString(attributeValue));
+					element.appendChild(attributeElt);
+				}
+			}
+			
 		}
-		element.setAttribute("firstUsage", valueFormatter.formatDate(simon.getFirstUsage()));
-		element.setAttribute("lastUsage", valueFormatter.formatDate(simon.getLastUsage()));
 		return element;
 
 	}
