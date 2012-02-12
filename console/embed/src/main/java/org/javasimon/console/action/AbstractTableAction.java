@@ -1,5 +1,6 @@
 package org.javasimon.console.action;
 
+import org.javasimon.console.reflect.Getter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -7,8 +8,9 @@ import java.util.List;
 import javax.servlet.ServletException;
 import org.javasimon.Simon;
 import org.javasimon.SimonManager;
-import org.javasimon.Stopwatch;
 import org.javasimon.console.*;
+import org.javasimon.console.text.Stringifier;
+import org.javasimon.console.text.StringifierFactory;
 
 /**
  * Base class for exporting Simons as tabular data
@@ -33,7 +35,7 @@ public class AbstractTableAction extends Action {
 	/**
 	 * Value formatter
 	 */
-	protected ValueFormatter valueFormatter;
+	protected StringifierFactory stringifierFactory;
 	/**
 	 * Pattern for Simon name filtering
 	 */
@@ -51,29 +53,44 @@ public class AbstractTableAction extends Action {
 	 */
 	protected final String contentType;
 	/**
+	 * Decimal format pattern used for printing doubles
+	 */
+	protected String numberPattern=StringifierFactory.READABLE_NUMBER_PATTERN;
+	/**
 	 * Base constructor initialiszes columns list
 	 */
 	protected AbstractTableAction(ActionContext context, String contentType) {
 		super(context);
 		this.contentType = contentType;
-		columns.add(new StringColumn("Name", "name"));
-		columns.add(new EnumColumn<SimonType>("Type", "type") {
-
+		columns.add(new Column<String>("Name", "name"));
+		columns.add(new Column<SimonType>("Type", "type") {
+			private Stringifier<SimonType> stringifier;
 			@Override
 			public SimonType getValue(Simon simon) {
 				return SimonType.getValueFromInstance(simon);
 			}
+			@Override
+			public String getFormattedValue(Simon simon) {
+				return getStringifier(simon).toString(getValue(simon));
+			}
+			@Override
+			public Stringifier<SimonType> getStringifier(Simon simon) {
+				if (stringifier==null) {
+					stringifier=stringifierFactory.getStringifier(SimonType.class);
+				}
+				return stringifier;
+			}
 		});
-		columns.add(new LongColumn("Counter", "counter"));
-		columns.add(new LongTimeColumn("Total", "total"));
-		columns.add(new LongTimeColumn("Min", "min"));
-		columns.add(new DoubleTimeColumn("Mean", "mean"));
-		columns.add(new LongTimeColumn("Last", "last"));
-		columns.add(new LongTimeColumn("Max", "max"));
-		columns.add(new DoubleTimeColumn("Std Dev", "standardDeviation"));
-		columns.add(new DateColumn("First Use", "firstUsage"));
-		columns.add(new DateColumn("Last Use", "lastUsage"));
-		columns.add(new StringColumn("Note", "note"));
+		columns.add(new Column<Long>("Counter", "counter"));
+		columns.add(new Column<Long>("Total", "total"));
+		columns.add(new Column<Long>("Min", "min"));
+		columns.add(new Column<Long>("Mean", "mean"));
+		columns.add(new Column<Long>("Last", "last"));
+		columns.add(new Column<Long>("Max", "max"));
+		columns.add(new Column<Double>("Std Dev", "standardDeviation"));
+		columns.add(new Column<Long>("First Use", "firstUsage"));
+		columns.add(new Column<Long>("Last Use", "lastUsage"));
+		columns.add(new Column<String>("Note", "note"));
 
 	}
 
@@ -87,7 +104,10 @@ public class AbstractTableAction extends Action {
 
 	@Override
 	public void readParameters() {
-		valueFormatter.setTimeFormat(getContext().getParameterAsEnum("timeFormat", TimeFormatType.class, TimeFormatType.MILLISECOND));
+		TimeFormatType timeFormat=getContext().getParameterAsEnum("timeFormat", TimeFormatType.class, TimeFormatType.MILLISECOND);
+		stringifierFactory.init(timeFormat, 
+			StringifierFactory.READABLE_DATE_PATTERN,
+			numberPattern);
 		pattern = getContext().getParameterAsString("pattern", null);
 		type = getContext().getParameterAsEnum("type", SimonType.class, null);
 	}
@@ -153,9 +173,9 @@ public class AbstractTableAction extends Action {
 		}
 	}
 	/**
-	 * Base class for columns 
+	 * Columns 
 	 */
-	protected abstract class Column<T> {
+	protected class Column<T> {
 		/**
 		 * Column title/header
 		 */
@@ -181,107 +201,35 @@ public class AbstractTableAction extends Action {
 		public String getTitle() {
 			return title;
 		}
+		private Getter<T> getGetter(Simon simon) {
+			return Getter.getGetter(simon.getClass(), name);
+		}
 		/**
 		 * Get raw column value
 		 */
 		public T getValue(Simon simon) {
-			Getter<T> getter = Getter.getGetter(simon.getClass(), name);
+			Getter<T> getter = getGetter(simon);
 			return getter == null ? null : getter.get(simon);
+		}
+		public Stringifier<T> getStringifier(Simon simon) {
+			Getter<T> getter = getGetter(simon);
+			if (getter==null) {
+				return stringifierFactory.getNullStringifier();
+			} else {
+				return stringifierFactory.getStringifier(getter.getType(), getter.getSubType());
+			}			
 		}
 		/**
 		 * Get formatted column value
 		 */
-		public abstract String getFormattedValue(Simon simon);
-	}
-	/**
-	 * String column 
-	 */
-	protected class StringColumn extends Column<String> {
-
-		public StringColumn(String title, String name) {
-			super(title, name);
-		}
-
 		public String getFormattedValue(Simon simon) {
-			return valueFormatter.formatString(getValue(simon));
-		}
-	}
-	/**
-	 * Long column 
-	 */
-	protected class LongColumn extends Column<Long> {
-
-		public LongColumn(String title, String name) {
-			super(title, name);
-		}
-
-		public String getFormattedValue(Simon simon) {
-			return valueFormatter.formatNumber(getValue(simon));
-		}
-	}
-	/**
-	 * Long Time column 
-	 */
-	protected class LongTimeColumn extends Column<Long> {
-
-		public LongTimeColumn(String title, String name) {
-			super(title, name);
-		}
-
-		public String getFormattedValue(Simon simon) {
-			Long value = getValue(simon);
-			String formattedValue;
-			if (simon instanceof Stopwatch) {
-				formattedValue = valueFormatter.formatTime(value);
+			Getter<T> getter = getGetter(simon);
+			if (getter==null) {
+				return stringifierFactory.toString(null);
 			} else {
-				formattedValue = valueFormatter.formatNumber(value);
+				return stringifierFactory.toString(getter.get(simon), getter.getSubType());
 			}
-			return formattedValue;
 		}
 	}
 
-	/**
-	 * Double Time column 
-	 */
-	protected class DoubleTimeColumn extends Column<Double> {
-
-		public DoubleTimeColumn(String title, String name) {
-			super(title, name);
-		}
-
-		public String getFormattedValue(Simon simon) {
-			Double value = getValue(simon);
-			String formattedValue;
-			if (simon instanceof Stopwatch) {
-				formattedValue = valueFormatter.formatTime(value);
-			} else {
-				formattedValue = valueFormatter.formatNumber(value);
-			}
-			return formattedValue;
-		}
-	}
-	/**
-	 * Enum column 
-	 */
-	protected class EnumColumn<T extends Enum<T>> extends Column<T> {
-
-		public EnumColumn(String title, String name) {
-			super(title, name);
-		}
-
-		public String getFormattedValue(Simon simon) {
-			return valueFormatter.formatEnum(getValue(simon));
-		}
-	}
-
-	protected class DateColumn extends Column<Long> {
-
-		public DateColumn(String title, String name) {
-			super(title, name);
-		}
-
-		public String getFormattedValue(Simon simon) {
-			return valueFormatter.formatDate(getValue(simon));
-		}
-	}
 }

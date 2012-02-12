@@ -39,6 +39,7 @@ public class TreeXmlActionTest {
     public void testExecute() throws Exception {
         TestActionContext context=new TestActionContext("/data/tree.xml");
         TreeXmlAction action=new TreeXmlAction(context);
+	action.readParameters();
         action.execute();
         assertEquals(context.getContentType(),"text/xml");
         byte[] bytes=context.toByteArray();

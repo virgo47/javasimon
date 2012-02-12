@@ -45,6 +45,7 @@ public class TreeJsonActionTest {
     public void testExecute() throws Exception {
         TestActionContext context=new TestActionContext("/data/tree.json");
         TreeJsonAction action=new TreeJsonAction(context);
+	action.readParameters();
         action.execute();
         assertEquals(context.getContentType(),"application/json");
         String json=context.toString();

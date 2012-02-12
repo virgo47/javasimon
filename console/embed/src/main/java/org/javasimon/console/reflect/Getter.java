@@ -1,10 +1,14 @@
-package org.javasimon.console;
+package org.javasimon.console.reflect;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+import org.javasimon.console.SimonType;
 
 /**
  * Reflection helper to get Getter methods from given class and use them to get
@@ -23,16 +27,21 @@ public class Getter<T> {
 	 */
 	private final Class<T> type;
 	/**
+	 * Property sub type
+	 */
+	private final String subType;
+	/**
 	 * Property getter method
 	 */
 	private final Method method;
 	/**
 	 * Hidden constructor use factory methods instead
 	 */
-	private Getter(String name, Class<T> type, Method method) {
+	private Getter(String name, Class<T> type, String subType, Method method) {
 		this.name = name;
 		this.type = type;
 		this.method = method;
+		this.subType = subType;
 	}
 	/**
 	 * Getter method
@@ -52,6 +61,13 @@ public class Getter<T> {
 	public Class<T> getType() {
 		return type;
 	}
+	/**
+	 * Property sub type
+	 */
+	public String getSubType() {
+		return subType;
+	}
+	
 	/**
 	 * Get value from source object using getter method
 	 * @param source Source object
@@ -92,6 +108,23 @@ public class Getter<T> {
 		propertyName = propertyName.substring(0, 1).toLowerCase() + propertyName.substring(1);
 		return propertyName;
 	}
+	private static final Properties subTypeProperties=new Properties();
+	static {
+		try {
+			InputStream inputStream = Getter.class.getResourceAsStream("SubTypes.properties");
+			subTypeProperties.load(inputStream);
+		} catch (IOException iOException) {
+			iOException.printStackTrace();
+		}
+	}
+	private static String getSubType(Class type, String propertyName) {
+		SimonType simonType=SimonType.getValueFromType(type);
+		if (simonType==null) {
+			return null;
+		} else {
+			return subTypeProperties.getProperty(simonType.getType().getName()+"."+propertyName);
+		}
+	}
 	/**
 	 * Extract all getters for given class
 	 * @param type Class
@@ -103,7 +136,7 @@ public class Getter<T> {
 			if (isGetterMethod(method)) {
 				String propertyName = getPropertyName(method);
 				Class propertyType = method.getReturnType();
-				getters.add(new Getter(propertyName, propertyType, method));
+				getters.add(new Getter(propertyName, propertyType, getSubType(type, propertyName), method));
 			}
 		}
 		return getters;
@@ -120,7 +153,7 @@ public class Getter<T> {
 				String propertyName = getPropertyName(method);
 				if (name.equals(propertyName)) {
 					Class propertyType = method.getReturnType();
-					return new Getter(propertyName, propertyType, method);
+					return new Getter(propertyName, propertyType, getSubType(type, propertyName), method);
 				}
 			}
 		}

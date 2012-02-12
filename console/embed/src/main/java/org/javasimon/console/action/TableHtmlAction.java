@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import org.javasimon.Simon;
 import org.javasimon.console.ActionContext;
-import org.javasimon.console.ValueFormatter;
+import org.javasimon.console.text.StringifierFactory;
 
 /**
  * Export Simons as a flat static HTML table which can be used for printing.
@@ -20,7 +20,8 @@ public class TableHtmlAction extends AbstractTableAction {
 
 	public TableHtmlAction(ActionContext context) {
 		super(context, "text/html");
-		this.valueFormatter = new ValueFormatter();
+		this.stringifierFactory = new StringifierFactory();
+		this.numberPattern=StringifierFactory.INTEGER_NUMBER_PATTERN;
 	}
 	private Integer index;
 

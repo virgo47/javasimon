@@ -25,7 +25,7 @@ public class TableCsvAction extends AbstractTableAction {
 
 	public TableCsvAction(ActionContext context) {
 		super(context, "text/csv");
-		valueFormatter = new CsvValueFormatter();
+		stringifierFactory = new CsvStringifierFactory();
 	}
 
 	@Override
