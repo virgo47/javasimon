@@ -145,7 +145,10 @@ someStopwatch.addSplit(split.stop()); // you may omit stop(), if you does not us
 	Stopwatch reset();
 
 	/**
-	 * Returns current number of measured splits (concurrently running).
+	 * Returns current number of measured splits (concurrently running). This counter can show more
+	 * splits than is measured at any moment if some splits were "forgotten" (not stopped and garbage
+	 * collected). This does not imply any resource leak, just bad practice of not stopping Splits somewhere
+	 * in the client code.
 	 *
 	 * @return current number of active splits
 	 */
