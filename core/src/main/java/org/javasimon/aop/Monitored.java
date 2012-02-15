@@ -38,8 +38,8 @@ public @interface Monitored {
 	String name() default "";
 
 	/**
-	 * Part added after the name part (which defaults to class name or is specified on the class annotation). This
-	 * paramater is ignored if set on the class annotation or if the name parameter was specified on the method
+	 * Part added after the name part (which defaults to the class name or is specified on the class annotation). This
+	 * paramater is ignored for the class annotation or if the name parameter was specified on the method
 	 * annotation. If not ignored, it is added to the Stopwatch name after the Simon name separator (.).
 	 *
 	 * @return suffix to be added to the name of the monitor

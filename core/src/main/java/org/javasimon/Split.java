@@ -6,7 +6,9 @@ import org.javasimon.utils.SimonUtils;
  * Represents single time split - one Stopwatch measurement. Object is obtained by {@link org.javasimon.Stopwatch#start()}
  * and the measurement is ended using {@link #stop()} method on this object. Split will return 0 as the result
  * if the related Stopwatch was disabled when the Split was obtained. The Split can be stopped in any other thread.
- * Split measures real time (based on {@link System#nanoTime()}), it does not measure CPU time.
+ * Split measures real time (based on {@link System#nanoTime()}), it does not measure CPU time. Split can be garbage collected
+ * and no resource leak occurs if it is not stopped, however Stopwatch's active counter ({@link org.javasimon.Stopwatch#getActive()})
+ * will be stay incremented.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @see Stopwatch
