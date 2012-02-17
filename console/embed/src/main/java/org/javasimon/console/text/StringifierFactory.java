@@ -1,9 +1,10 @@
 package org.javasimon.console.text;
 
 import java.text.*;
-import org.javasimon.console.*;
 import java.util.Date;
 import org.javasimon.SimonState;
+import org.javasimon.console.SimonType;
+import org.javasimon.console.TimeFormatType;
 import org.javasimon.utils.SimonUtils;
 
 /**
@@ -238,6 +239,7 @@ public class StringifierFactory {
 			}
 		}
 	};
+	@SuppressWarnings("unchecked")
 	public <T> Stringifier<T> getNullStringifier() {
 		return compositeStringifier.getNullStringifier();
 	}

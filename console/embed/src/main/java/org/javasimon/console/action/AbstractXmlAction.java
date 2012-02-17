@@ -1,6 +1,5 @@
 package org.javasimon.console.action;
 
-import org.javasimon.console.reflect.Getter;
 import java.io.IOException;
 import java.util.Iterator;
 import javax.servlet.ServletException;
@@ -14,6 +13,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.javasimon.Simon;
 import org.javasimon.console.*;
+import org.javasimon.console.reflect.Getter;
 import org.javasimon.console.text.Stringifier;
 import org.javasimon.console.text.StringifierFactory;
 import org.w3c.dom.Document;
@@ -46,6 +46,7 @@ public abstract class AbstractXmlAction extends Action {
 	 * @param simon Simon
 	 * @return JSON object
 	 */
+	@SuppressWarnings("unchecked")
 	protected Element createElement(Document document, Simon simon) {
 		// Simon type is used as element name
 		SimonType lType = SimonType.getValueFromInstance(simon);

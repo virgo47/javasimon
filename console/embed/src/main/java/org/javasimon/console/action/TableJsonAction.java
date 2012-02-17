@@ -55,7 +55,7 @@ public class TableJsonAction extends AbstractTableAction {
 		simonJS = null;
 	}
 
-	@Override
+	@Override @SuppressWarnings("unchecked")
 	protected void printBodyCell(Column column, Simon s, PrintWriter writer) {
 		simonJS.setAttribute(column.getName(), new SimpleJS(column.getValue(s), column.getStringifier(s)));
 	}

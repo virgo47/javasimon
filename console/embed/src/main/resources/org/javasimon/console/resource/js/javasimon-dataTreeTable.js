@@ -296,6 +296,8 @@ javasimon.DataTreeTable.prototype={
 		function fnTestNodeByHtmlId(oNode, oContext) {
 			if (oNode.sHtmlId===oContext.sHtmlId) {
 				return oNode;
+			} else {
+				return undefined;
 			}
 		}
 		return this.fnVisitRootNode(fnTestNodeByHtmlId, {sHtmlId: sHtmlId});

@@ -32,6 +32,7 @@ public class BaseStringifier<T> implements Stringifier<T> {
 	/**
 	 * Converts null input value to string
 	 */
+	@SuppressWarnings("unchecked")
 	protected final String nullToString() {
 		return nullStringifier.toString(null);
 	}

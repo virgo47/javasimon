@@ -1,27 +1,36 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.javasimon.console.text;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
+ * Dictionnary (Class type,String subType)&rarr;Stringifier
  * @author gquintana
  */
 public class CompositeStringifier implements Stringifier<Object> {
+	/**
+	 * Key of the dictionnary is the couple (Class type,String subType)
+	 * subType can be null
+	 */
 	private static final class StringifierKey {
+		/**
+		 * Type
+		 */
 		private final Class<?> type;
+		/**
+		 * Sub type
+		 */
 		private final String subType;
+		/**
+		 * Constructor
+		 */
 		public StringifierKey(Class<?> type, String subType) {
 			this.type = type;
 			this.subType = subType;
 		}
-		public StringifierKey(Class<?> type) {
-			this(type, null);
-		}
+		/**
+		 * Compares 2 objects including the case one of them is null
+		 */
 		private boolean equalsTo(Object o1, Object o2) {
 			if (o1==o2) {
 				return true;
@@ -33,6 +42,9 @@ public class CompositeStringifier implements Stringifier<Object> {
 				}
 			}
 		}
+		/**
+		 * Generate an hashCode, including the case null object
+		 */
 		private int hashCode(Object o) {
 			return o==null?0:o.hashCode();
 		}
@@ -63,29 +75,75 @@ public class CompositeStringifier implements Stringifier<Object> {
 			return "StringifierKey["+type.getName()+","+subType+"]";
 		}
 	}
+	/**
+	 * Main attribute of this class as it contains the dictionnary
+	 */
 	private final Map<StringifierKey,Stringifier> stringifiers=new HashMap<StringifierKey,Stringifier>();
+	/**
+	 * Null stringifier used to format null values
+	 */
 	private Stringifier nullStringifier;
+	/**
+	 * Default Stringier used when no value is found in the dictionnary
+	 */
 	private Stringifier defaultStringifier;
+	/**
+	 * Adds a stringifier to the dictionnary
+	 * @param type Type (null sub-type)
+	 * @param stringifier Stringifier
+	 */
 	public final <T> void add(Class<? extends T> type, Stringifier<T> stringifier) {
-		stringifiers.put(new StringifierKey(type), stringifier);
+		add(type, null, stringifier);
 	}
+	/**
+	 * Adds a stringifier to the dictionnary
+	 * @param type Type
+	 * @parma subType Sub type
+	 * @param stringifier Stringifier
+	 */
 	public final <T> void add(Class<? extends T> type, String name, Stringifier<T> stringifier) {
 		stringifiers.put(new StringifierKey(type, name), stringifier);
 	}
+	/**
+	 * Look for a stringifier in the dictionnary
+	 * @param type Type (null sub-type)
+	 * @return  Stringifier
+	 */
 	public final <T> Stringifier<T> get(Class<? extends T> type) {
-		return stringifiers.get(new StringifierKey(type));
+		return get(type, null);
 	}
+	/**
+	 * Look for a stringifier in the dictionnary.<ol>
+	 * <li>First look with type+subtype</li>
+	 * <li>If not found, try with type alone</li>
+	 * </ol>
+	 * @param type Type
+	 * @param subType  Sub type
+	 * @return  Stringifier
+	 */
+	@SuppressWarnings("unchecked")
 	public final <T> Stringifier<T> get(Class<? extends T> type, String subType) {
 		Stringifier<T> stringifier=null;
 		if (subType!=null) {
 			stringifier=stringifiers.get(new StringifierKey(type, subType));
 		}
 		if (stringifier==null) {
-			stringifier=get(type);
+			stringifier=stringifiers.get(new StringifierKey(type, null));
 		}
 		return stringifier;
 	}
-	private <T> Stringifier getForInstance(T object, String subType) {
+	/**
+	 * Get stringifier for an instance:<ul>
+	 * <li>If instance is null, return null stringifier</li>
+	 * <li>Else look in the dictionnary with instance's class, if found return it</li>
+	 * <li>Else return default strinfigier</li>
+	 * </ul>
+	 * @param object Object instance
+	 * @param subType
+	 * @return 
+	 */
+	@SuppressWarnings("unchecked")
+	private <T> Stringifier<T> getForInstance(T object, String subType) {
 		Stringifier<T> stringifier;
 		if (object==null) {
 			stringifier=nullStringifier;
@@ -97,9 +155,22 @@ public class CompositeStringifier implements Stringifier<Object> {
 		}
 		return stringifier;
 	}
+	/**
+	 * Converts an object into a String looking for appropriate 
+	 * stringfier among dictionnary
+	 * @param object Object
+	 * @return String representing the object
+	 */
 	public String toString(Object object) {
 		return getForInstance(object, null).toString(object);
 	}
+	/**
+	 * Converts an object into a String looking for appropriate 
+	 * stringfier among dictionnary
+	 * @param object Object
+	 * @param subType Sub type
+	 * @return String representing the object
+	 */
 	public String toString(Object object, String subType) {
 		return getForInstance(object, subType).toString(object);
 	}
