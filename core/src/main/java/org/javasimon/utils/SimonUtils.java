@@ -64,7 +64,7 @@ public final class SimonUtils {
 	 *
 	 * @since 2.3
 	 */
-	public static final String ALLOWED_CHARS = "-_[]ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstvwxyz0123456789.,@$%()<>";
+	public static final String ALLOWED_CHARS = "-_[]ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.,@$%()<>";
 
 	private static final int UNIT_PREFIX_FACTOR = 1000;
 

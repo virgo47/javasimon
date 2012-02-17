@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Simon Servlet filter measuring HTTP request execution times. Non-HTTP usages are not supported.
@@ -99,6 +100,27 @@ public class SimonServletFilter implements Filter {
 	 * Callback that saves all splits in {@link #splitsThreadLocal} if {@link #reportThreshold} is configured.
 	 */
 	private SplitSaverCallback splitSaverCallback;
+	
+	/**
+	 * Pattern used to replace unallowed characters
+	 */
+	private final Pattern unallowedCharsPattern=createUnallowedCharsPattern();
+	/**
+	 * Initializes the pattern used to replace unallowed characters
+	 */	
+	private static Pattern createUnallowedCharsPattern() {
+		String s=SimonUtils.NAME_PATTERN.pattern();
+		// Insert negation ^ after [
+		s=s.replaceFirst("\\[", "[^/");
+		// Remove . (dot) because it will be used for something else
+		s=s.replaceAll("\\.", "");
+		return Pattern.compile(s);
+	}
+	/**
+	 * Pattern used to replace to dot.
+	 * / // /// becomes .
+	 */
+	private static final Pattern toDotPattern=Pattern.compile("/+");
 
 	/**
 	 * Initialization method that processes {@link #INIT_PARAM_PREFIX} and {@link #INIT_PARAM_PUBLISH_MANAGER}
@@ -255,18 +277,16 @@ public class SimonServletFilter implements Filter {
 	 * @return fully qualified name of the Simon
 	 */
 	protected String getSimonName(HttpServletRequest request) {
-		StringBuilder name = new StringBuilder(request.getRequestURI().replaceAll("\\.+", "").replace('/', '.'));
-		for (int i = 0; i < name.length(); i++) {
-			if (name.charAt(i) == '?') {
-				name.delete(i, name.length());
-				break;
-			}
-			if (SimonUtils.ALLOWED_CHARS.indexOf(name.charAt(i)) == -1) {
-				name.deleteCharAt(i);
-				i--;
-			}
+		String name=request.getRequestURI();
+		// Remove starting /
+		if (name.startsWith("/")) {
+			name=name.substring(1);
 		}
-		return name.toString().replaceAll("^\\.+", "").replaceAll("\\.+", ".");
+		// Remove unallowed characters and
+		name=unallowedCharsPattern.matcher(name).replaceAll("");
+		// Replace / and .. by .
+		name=toDotPattern.matcher(name).replaceAll(".");
+		return name;
 	}
 
 	/**
