@@ -67,8 +67,8 @@ Project uses following libraries:
   * TestNG: http://testng.org/ (test only)
     * `testng-5.11-jdk15.jar`
   * Spring (core/aop): http://www.springsource.org/ (Spring integration)
-    * `org.springframework.core-3.0.5.RELEASE.jar`
-    * `org.springframework.aop-3.0.5.RELEASE.jar`
+    * `org.springframework.core-3.1.0.RELEASE.jar`
+    * `org.springframework.aop-3.1.0.RELEASE.jar`
   * AOP alliance: http://aopalliance.sourceforge.net/ (Spring integration)
     * `aopalliance.jar`
   * Commons logging: http://commons.apache.org/logging/ (Spring integration)

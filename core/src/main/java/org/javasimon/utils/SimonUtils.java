@@ -59,6 +59,27 @@ public final class SimonUtils {
 	 */
 	public static final Pattern NAME_PATTERN = Pattern.compile("[-_\\[\\]A-Za-z0-9.,@$%()<>]+");
 
+	private static Pattern createUnallowedCharsPattern() {
+		String s = SimonUtils.NAME_PATTERN.pattern();
+		// Insert negation ^ after [
+		s = s.replaceFirst("\\[", "[^/");
+		// Remove . (dot) because it will be used for something else
+		s = s.replaceAll("\\.", "");
+		return Pattern.compile(s);
+	}
+
+	public static void main(String[] args) {
+		String pattern = createUnallowedCharsPattern().pattern();
+		System.out.println(pattern);
+
+		StringBuilder sb = new StringBuilder(NAME_PATTERN.pattern());
+		sb.insert(1, "^/");
+		sb.deleteCharAt(sb.indexOf("."));
+		String s = sb.toString();
+		System.out.println(s);
+		System.out.println(s.endsWith(pattern));
+	}
+
 	/**
 	 * Allowed Simon name characters.
 	 *
