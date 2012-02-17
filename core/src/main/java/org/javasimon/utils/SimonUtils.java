@@ -153,12 +153,18 @@ public final class SimonUtils {
 
 	private static String formatTime(double time, String unit) {
 		if (time < TEN) {
-			return UNDER_TEN_FORMAT.format(time) + unit;
+			synchronized (UNDER_TEN_FORMAT) {
+				return UNDER_TEN_FORMAT.format(time) + unit;
+			}
 		}
 		if (time < HUNDRED) {
-			return UNDER_HUNDRED_FORMAT.format(time) + unit;
+			synchronized (UNDER_HUNDRED_FORMAT) {
+				return UNDER_HUNDRED_FORMAT.format(time) + unit;
+			}
 		}
-		return DEFAULT_FORMAT.format(time) + unit;
+		synchronized (DEFAULT_FORMAT) {
+			return DEFAULT_FORMAT.format(time) + unit;
+		}
 	}
 
 	/**
@@ -171,7 +177,9 @@ public final class SimonUtils {
 		if (timestamp == 0) {
 			return UNDEF_STRING;
 		}
-		return TIMESTAMP_FORMAT.format(new Date(timestamp));
+		synchronized (TIMESTAMP_FORMAT) {
+			return TIMESTAMP_FORMAT.format(new Date(timestamp));
+		}
 	}
 
 	/**
