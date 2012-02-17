@@ -8,22 +8,22 @@ import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 
 /**
- * Simon EJB Interceptor measuring EJB method execution time.
+ * Simon Interceptor measuring method execution time - can be used in EJB, or CDI in general.
  *
  * @author <a href="mailto:richard.richter@siemens-enterprise.com">Richard "Virgo" Richter</a>
  * @since 2.3
  */
 @SuppressWarnings("UnusedParameters")
-public class SimonEjbInterceptor {
+public class SimonInterceptor {
 	/**
-	 * Default prefix for EJB interceptor Simons if no "prefix" init parameter is used.
+	 * Default prefix for interceptor Simons if no "prefix" init parameter is used.
 	 */
-	public static final String DEFAULT_EJB_INTERCEPTOR_PREFIX = "org.javasimon.ejb";
+	public static final String DEFAULT_INTERCEPTOR_PREFIX = "org.javasimon.business";
 
 	/**
 	 * Simon name prefix - can be overriden in subclasses.
 	 */
-	protected String prefix = DEFAULT_EJB_INTERCEPTOR_PREFIX;
+	protected String prefix = DEFAULT_INTERCEPTOR_PREFIX;
 
 	/**
 	 * Returns Simon name for the specified Invocation context.
@@ -55,7 +55,7 @@ public class SimonEjbInterceptor {
 	/**
 	 * Around invoke method that measures the split for one method invocation.
 	 *
-	 * @param context EJB invocation context
+	 * @param context invocation context
 	 * @return return value from the invocation
 	 * @throws Exception exception thrown from the invocation
 	 */
