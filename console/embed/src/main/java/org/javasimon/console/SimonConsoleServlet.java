@@ -15,6 +15,10 @@ import org.javasimon.console.action.*;
  */
 public class SimonConsoleServlet extends HttpServlet {
 	/**
+	 * Serial version UID since class is Serializable
+	 */
+	public static final long serialVersionUID=1L;
+	/**
 	 * URL Prefix init parameter name
 	 */
 	public static final String URL_PREFIX_INIT_PARAMETER = "url-prefix";

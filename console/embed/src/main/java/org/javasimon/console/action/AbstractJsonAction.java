@@ -9,7 +9,6 @@ import org.javasimon.console.json.JsonStringifierFactory;
 import org.javasimon.console.json.ObjectJS;
 import org.javasimon.console.json.SimpleJS;
 import org.javasimon.console.text.Stringifier;
-import org.javasimon.console.text.StringifierFactory;
 
 /**
  * Base for actions returing data in JSON format
@@ -41,10 +40,11 @@ public abstract class AbstractJsonAction extends Action {
 	protected ObjectJS createObjectJS(Simon simon) {
 		SimonType lType = SimonType.getValueFromInstance(simon);
 		ObjectJS objectJS = ObjectJS.create(simon, jsonStringifierFactory);
-		objectJS.setAttribute("type", new SimpleJS(lType,jsonStringifierFactory.getStringifier(SimonType.class)));
+		objectJS.setAttribute("type", new SimpleJS<SimonType>(lType,jsonStringifierFactory.getStringifier(SimonType.class)));
 		return objectJS;
 
 	}
+	@SuppressWarnings("unchecked")
 	protected final ObjectJS createAttributesObjectJS(Simon simon) {
 		ObjectJS objectJS = new ObjectJS();
 		Iterator<String> attributeNameIter=simon.getAttributeNames();

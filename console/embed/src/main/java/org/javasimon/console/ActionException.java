@@ -6,7 +6,7 @@ package org.javasimon.console;
  * @author gquintana
  */
 public class ActionException extends Exception {
-
+	public static final long serialVersionUID=1;
 	public ActionException(String message, Throwable cause) {
 		super(message, cause);
 	}

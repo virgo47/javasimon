@@ -201,6 +201,12 @@ public class AbstractTableAction extends Action {
 		public String getTitle() {
 			return title;
 		}
+		/**
+		 * Get Getter for given column and row (simon)
+		 * @param simon Simon row
+		 * @return Getter
+		 */
+		@SuppressWarnings("unchecked")
 		private Getter<T> getGetter(Simon simon) {
 			return Getter.getGetter(simon.getClass(), name);
 		}
@@ -211,6 +217,11 @@ public class AbstractTableAction extends Action {
 			Getter<T> getter = getGetter(simon);
 			return getter == null ? null : getter.get(simon);
 		}
+		/**
+		 * Get stringier used for given column and row
+		 * @param simon Row (simon)
+		 * @return Stringifier
+		 */
 		public Stringifier<T> getStringifier(Simon simon) {
 			Getter<T> getter = getGetter(simon);
 			if (getter==null) {

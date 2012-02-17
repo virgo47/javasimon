@@ -2,12 +2,13 @@ package org.javasimon.console.json;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.*;
-import org.javasimon.Simon;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.javasimon.console.reflect.Getter;
 import org.javasimon.console.text.Stringifier;
 import org.javasimon.console.text.StringifierFactory;
-import org.w3c.dom.Element;
 
 /**
  * JavaScript Object
@@ -37,7 +38,7 @@ public class ObjectJS extends AnyJS {
 		}
 	}
 	public <T> void setSimpleAttribute(String name, T value, Stringifier<T> stringifier) {
-		SimpleJS propertyJS = new SimpleJS(value, stringifier);
+		SimpleJS propertyJS = new SimpleJS<T>(value, stringifier);
 		setAttribute(name, propertyJS);
 	}
 	public AnyJS getAttribute(String name) {
@@ -62,7 +63,7 @@ public class ObjectJS extends AnyJS {
 		}
 		writer.write("}");
 	}
-
+	@SuppressWarnings("unchecked")
 	public static ObjectJS create(Object o, StringifierFactory stringifierFactory) {
 		if (o == null) {
 			return null;

@@ -11,7 +11,8 @@ import java.util.Properties;
 import org.javasimon.console.SimonType;
 
 /**
- * Reflection helper to get Getter methods from given class and use them to get
+ * Property getter (in the Java Bean terminalogy) with sub-type management.
+ * Serves as a helper to get Getter methods from given class and use them to get
  * values from given instance
  *
  * @author gquintana
@@ -78,7 +79,9 @@ public class Getter<T> {
 			if (!method.isAccessible()) {
 				method.setAccessible(true);
 			}
-			return (T) method.invoke(source);
+			@SuppressWarnings("unchecked")
+			T value=(T) method.invoke(source);
+			return value;
 		} catch (IllegalAccessException illegalAccessException) {
 			return null;
 		} catch (IllegalArgumentException illegalArgumentException) {
@@ -108,6 +111,9 @@ public class Getter<T> {
 		propertyName = propertyName.substring(0, 1).toLowerCase() + propertyName.substring(1);
 		return propertyName;
 	}
+	/**
+	 * Constains the content of the SubTypes.properties file
+	 */
 	private static final Properties subTypeProperties=new Properties();
 	static {
 		try {
@@ -117,7 +123,14 @@ public class Getter<T> {
 			iOException.printStackTrace();
 		}
 	}
+	/**
+	 * Get subtype for given Class and property
+	 * @param type Parent class
+	 * @param propertyName Property name
+	 * @return Sub type name
+	 */
 	private static String getSubType(Class type, String propertyName) {
+		@SuppressWarnings("unchecked")
 		SimonType simonType=SimonType.getValueFromType(type);
 		if (simonType==null) {
 			return null;
@@ -130,6 +143,7 @@ public class Getter<T> {
 	 * @param type Class
 	 * @return List of getters
 	 */
+	@SuppressWarnings("unchecked")
 	public static List<Getter> getGetters(Class type) {
 		List<Getter> getters = new ArrayList<Getter>();
 		for (Method method : type.getMethods()) {
@@ -147,6 +161,7 @@ public class Getter<T> {
 	 * @param name Property name
 	 * @return Getter or null if not found
 	 */
+	@SuppressWarnings("unchecked")
 	public static Getter getGetter(Class type, String name) {
 		for (Method method : type.getMethods()) {
 			if (isGetterMethod(method)) {
