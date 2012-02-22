@@ -8,7 +8,9 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-	<context:component-scan base-package="org.javasimon.demoapp" />
+	<context:component-scan base-package="org.javasimon.demoapp"/>
+
+	<bean id="wicketApplication" class="org.javasimon.demoapp.web.WicketApplication"/>
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="org.h2.Driver"/>
