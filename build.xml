@@ -15,10 +15,12 @@
 		<pathelement path="${lib.dir}/h2-1.3.154.jar"/>
 		<pathelement path="${lib.dir}/spring-core-3.1.0.RELEASE.jar"/>
 		<pathelement path="${lib.dir}/spring-aop-3.1.0.RELEASE.jar"/>
+		<pathelement path="${lib.dir}/spring-beans-3.1.0.RELEASE.jar"/>
+		<pathelement path="${lib.dir}/spring-web-3.1.0.RELEASE.jar"/>
+		<pathelement path="${lib.dir}/spring-webmvc-3.1.0.RELEASE.jar"/>
 		<pathelement path="${lib.dir}/aspectjrt-1.6.6.jar"/>
 		<pathelement path="${lib.dir}/aopalliance.jar"/>
 		<pathelement path="${lib.dir}/commons-logging-1.1.1.jar"/>
-		<pathelement path="${lib.dir}/stax-api-1.0.1.jar"/>
 		<pathelement path="${lib.dir}/jboss-javaee.jar"/>
 		<pathelement path="${lib.dir}/servlet-api.jar"/>
 		<pathelement path="${lib.dir}/slf4j-api-1.6.2.jar"/>
@@ -89,10 +91,11 @@
 				<include name="h2-1.3.154.jar"/>
 				<include name="spring-core-3.1.0.RELEASE.jar"/>
 				<include name="spring-aop-3.1.0.RELEASE.jar"/>
+				<include name="spring-beans-3.1.0.RELEASE.jar"/>
+				<include name="spring-web-3.1.0.RELEASE.jar"/>
+				<include name="spring-webmvc-3.1.0.RELEASE.jar"/>
 				<include name="aopalliance.jar"/>
 				<include name="commons-logging-1.1.1.jar"/>
-				<include name="stax-api-1.0.1.jar"/>
-				<include name="sjsxp.jar"/>
 				<include name="jboss-javaee.jar"/>
 				<include name="servlet-api.jar"/>
 				<include name="aspectjrt-1.6.6.jar"/>
