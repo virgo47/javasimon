@@ -13,17 +13,17 @@ import org.javasimon.jdbc4.WrapperSupport;
  * the Driver and URL information. For example - it can be used with Spring easily:
  * <pre>{@literal
  * <bean id="dataSource" class="org.javasimon.jdbcx.WrappingSimonDataSource">
- * <property name="dataSource" ref="pooledDataSource"/>
- * <property name="prefix" value="sky.batchpricer.skydb"/>
+ *     <property name="dataSource" ref="pooledDataSource"/>
+ *     <property name="prefix" value="sky.batchpricer.skydb"/>
  * </bean>
  *
  * <bean id="pooledDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
- * <property name="driverClassName" value="my.driver.class.Driver"/>
- * <property name="url" value="${mydb.url}"/>
- * <property name="initialSize" value="0"/>
- * <property name="maxActive" value="5"/>
- * <property name="maxIdle" value="2"/>
- * <property name="validationQuery" value="SELECT 1"/>
+ *     <property name="driverClassName" value="my.driver.class.Driver"/>
+ *     <property name="url" value="${mydb.url}"/>
+ *     <property name="initialSize" value="0"/>
+ *     <property name="maxActive" value="5"/>
+ *     <property name="maxIdle" value="2"/>
+ *     <property name="validationQuery" value="SELECT 1"/>
  * </bean>}</pre>
  *
  * @author Radovan Sninsky
