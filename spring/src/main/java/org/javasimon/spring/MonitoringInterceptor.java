@@ -1,9 +1,9 @@
 package org.javasimon.spring;
 
 import java.io.Serializable;
-
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.javasimon.Manager;
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
 
@@ -14,6 +14,10 @@ import org.javasimon.Split;
  */
 public final class MonitoringInterceptor implements MethodInterceptor, Serializable {
 	/**
+	 * Simon manager used for producing simons
+	 */
+	private Manager manager=SimonManager.manager();
+	/**
 	 * Performs method invocation and wraps it with Stopwatch.
 	 *
 	 * @param invocation method invocation
@@ -23,11 +27,20 @@ public final class MonitoringInterceptor implements MethodInterceptor, Serializa
 	public Object invoke(MethodInvocation invocation) throws Throwable {
 		String monitorName = MonitoredHelper.getMonitorName(invocation);
 
-		Split split = SimonManager.getStopwatch(monitorName).start();
+		Split split = manager.getStopwatch(monitorName).start();
 		try {
 			return invocation.proceed();
 		} finally {
 			split.stop();
 		}
 	}
+
+	public Manager getManager() {
+		return manager;
+	}
+
+	public void setManager(Manager manager) {
+		this.manager = manager;
+	}
+	
 }
