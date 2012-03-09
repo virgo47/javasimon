@@ -22,4 +22,12 @@
 			<class name="org.javasimon.aop.MonitoredAnnotationTest"/>
 		</classes>
 	</test>
+	<test name="Java Simon Callbacks Test">
+		<classes>
+			<class name="org.javasimon.callback.lastsplits.CircularListTest"/>
+			<class name="org.javasimon.callback.lastsplits.LastSplitsCallbackTest"/>
+			<class name="org.javasimon.callback.quantiles.BucketsTest"/>
+			<class name="org.javasimon.callback.calltree.CallTreeTest"/>
+		</classes>
+	</test>
 </suite>
