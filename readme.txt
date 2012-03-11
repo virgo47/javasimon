@@ -2,7 +2,7 @@
 
 = Java Simon - Simple Monitors for Java =
 
-Version: 3.1.1
+Version: 3.2.0
 
 This software is distributed under the terms of the FSF Lesser Gnu Public License:
   * check "lgpl.txt" in the root directory of the project
@@ -66,15 +66,12 @@ Project is hosted on Google Code as "javasimon":
 Project uses following libraries:
   * TestNG: http://testng.org/ (test only)
     * `testng-5.11-jdk15.jar`
-  * Spring (core/aop): http://www.springsource.org/ (Spring integration)
-    * `org.springframework.core-3.1.0.RELEASE.jar`
-    * `org.springframework.aop-3.1.0.RELEASE.jar`
+  * Spring (core/aop/beans/web/webmvc): http://www.springsource.org/ (Spring integration)
+    * `org.springframework.*-3.1.0.RELEASE.jar`
   * AOP alliance: http://aopalliance.sourceforge.net/ (Spring integration)
     * `aopalliance.jar`
   * Commons logging: http://commons.apache.org/logging/ (Spring integration)
     * `commons-logging-1.1.1.jar`
-  * AspectJ: http://www.eclipse.org/aspectj/downloads.php (AspectJ/Spring integration)
-    * `aspectjrt.jar`
   * H2 Database: http://www.h2database.com/ (examples)
     * `h2-1.3.154.jar`
   * Java EE libraries for Java EE module compilation:

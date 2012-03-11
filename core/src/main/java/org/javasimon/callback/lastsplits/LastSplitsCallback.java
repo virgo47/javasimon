@@ -7,50 +7,59 @@ import org.javasimon.callback.CallbackSkeleton;
 
 /**
  * Callback retaining the last N stopwatch splits.
+ *
  * @author gquintana
+ * @since 3.2.0
  */
-public class LastSplitsCallback extends CallbackSkeleton{
+public class LastSplitsCallback extends CallbackSkeleton {
 	/**
 	 * Simon attribute name of the LastSplit object stored
 	 * in Simons
 	 */
 	public static final String ATTR_NAME_LAST_SPLITS = "lastSplits";
+
 	/**
 	 * Number of splits retained in each Simon.
 	 * Default 10
 	 */
 	private final int capacity;
+
 	/**
-	 * Default constructor with a buffer capacity of 10
+	 * Default constructor with a buffer capacity of 10.
 	 */
 	public LastSplitsCallback() {
-		this.capacity=10;
+		this.capacity = 10;
 	}
+
 	/**
 	 * Constructor
+	 *
 	 * @param capacity Buffer capacity
 	 */
 	public LastSplitsCallback(int capacity) {
-		this.capacity=capacity;
+		this.capacity = capacity;
 	}
+
 	/**
 	 * Get the LastSplits object from Simon attributes
+	 *
 	 * @param stopwatch Stopwatch
 	 * @return LastSplits object
 	 */
 	private LastSplits getLastSplits(Stopwatch stopwatch) {
 		return (LastSplits) stopwatch.getAttribute(ATTR_NAME_LAST_SPLITS);
 	}
+
 	/**
 	 * When Stopwatch is created, a Last Splits attributes is added
 	 */
 	@Override
 	public void onSimonCreated(Simon simon) {
 		if (simon instanceof Stopwatch) {
-			Stopwatch stopwatch=(Stopwatch) simon;
+			Stopwatch stopwatch = (Stopwatch) simon;
 			stopwatch.setAttribute(ATTR_NAME_LAST_SPLITS, new LastSplits(capacity));
 		}
-		
+
 	}
 
 	/**
@@ -58,12 +67,12 @@ public class LastSplitsCallback extends CallbackSkeleton{
 	 */
 	@Override
 	public void onStopwatchStop(Split split) {
-		LastSplits lastSplits=getLastSplits(split.getStopwatch());
+		LastSplits lastSplits = getLastSplits(split.getStopwatch());
 		lastSplits.add(split);
 	}
-	
+
 	/**
-	 * When the Stopwatch is reseted, the Last splits attribute as well 
+	 * When the Stopwatch is reseted, the Last splits attribute as well
 	 */
 	@Override
 	public void onSimonReset(Simon simon) {

@@ -1,6 +1,6 @@
 package org.javasimon;
 
-import org.javasimon.callback.Callback;
+import org.javasimon.callback.CompositeCallback;
 
 import java.util.Collection;
 
@@ -104,7 +104,7 @@ public interface Manager {
 	 *
 	 * @return Simon callback
 	 */
-	Callback callback();
+	CompositeCallback callback();
 
 	/**
 	 * Accesses configuration of this manager.

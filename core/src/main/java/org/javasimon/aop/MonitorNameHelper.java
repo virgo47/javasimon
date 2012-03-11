@@ -6,7 +6,7 @@ import java.lang.reflect.Method;
 
 /**
  * Helper to determine the monitor name for the aspect execution. Class, method, class annotation and method annotation
- * is provided from the aspect implementation (AspectJ/AOP), this resolution part is common. For name resolution rules
+ * is provided from the aspect implementation (AOP), this resolution part is common. For name resolution rules
  * see {@link Monitored}. It is up to the user of this helper to provide proper annotation be it from the target class
  * or from the superclass, the same goes for method annotation. This helper does not check "inherited" annotations.
  *

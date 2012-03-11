@@ -4,7 +4,7 @@
 	<groupId>org.javasimon</groupId>
 	<artifactId>javasimon-parent</artifactId>
 	<packaging>pom</packaging>
-	<version>3.1.1-SNAPSHOT</version>
+	<version>3.2.0-SNAPSHOT</version>
 	<name>Java Simon</name>
 	<description>Java Simon - simple monitoring library</description>
 	<url>http://code.google.com/p/javasimon/</url>
@@ -109,12 +109,6 @@
 				<groupId>javax</groupId>
 				<artifactId>javaee-api</artifactId>
 				<version>${version.javaee-api}</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.aspectj</groupId>
-				<artifactId>aspectjrt</artifactId>
-				<version>${version.aspectj}</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>

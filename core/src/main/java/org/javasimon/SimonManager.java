@@ -1,11 +1,14 @@
 package org.javasimon;
 
-import org.javasimon.callback.Callback;
 import org.javasimon.callback.CallbackSkeleton;
+import org.javasimon.callback.CompositeCallback;
 import org.javasimon.utils.SimonUtils;
 
-import java.util.*;
-import java.io.*;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Collection;
 
 /**
  * SimonManager is static utility class providing so called "default {@link org.javasimon.Manager}.
@@ -191,7 +194,7 @@ public final class SimonManager {
 	 *
 	 * @return Simon callback
 	 */
-	public static Callback callback() {
+	public static CompositeCallback callback() {
 		return manager.callback();
 	}
 

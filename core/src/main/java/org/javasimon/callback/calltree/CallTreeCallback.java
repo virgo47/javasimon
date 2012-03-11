@@ -8,18 +8,19 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Callback which logs a call tree when a the main call is bigger than a
- * threshold. 
- * 
+ * threshold.
+ *
  * Call tree looks like this:
  * <pre>
  * org.javasimon.web.Controller.execute 123ms
- *	org.javasimon.business.FirstService.work 75ms, 75%
- *		org.javasimon.data.FirstDAO.findAll 50 ms, 82%
- *		org.javasimon.data.SecondDAO.findByRelation 20ms, 10%, 3
- *	org.javasimon.business.SecodeService.do 10ms, 5%
+ * 	org.javasimon.business.FirstService.work 75ms, 75%
+ * 		org.javasimon.data.FirstDAO.findAll 50 ms, 82%
+ * 		org.javasimon.data.SecondDAO.findByRelation 20ms, 10%, 3
+ * 	org.javasimon.business.SecodeService.do 10ms, 5%
  * </pre>
  *
  * @author gquintana
+ * @since 3.2.0
  */
 public class CallTreeCallback extends CallbackSkeleton {
 
@@ -97,10 +98,10 @@ public class CallTreeCallback extends CallbackSkeleton {
 	@Override
 	public void onStopwatchStart(Split split) {
 		CallTree callTree = getCallTree();
-		if (callTree==null) {
+		if (callTree == null) {
 			// New tree root
 			callTree = initCallTree();
-		} 
+		}
 		callTree.onStopwatchStart(split);
 	}
 

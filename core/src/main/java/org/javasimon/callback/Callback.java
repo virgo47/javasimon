@@ -6,21 +6,16 @@ import org.javasimon.Split;
 import org.javasimon.Stopwatch;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
- * Callback processes various events of the Java Simon API. All methods called on various events are named
- * {@code onEventXY} with type of the source clearly mentioned in the name (Manager, Simon, Stopwatch, Counter).
- * <p/>
- * Callbacks can be structured into the tree using {@link CompositeCallback} implementation (this tree has no
- * correlation with Simon tree in the {@link org.javasimon.Manager}). Partial callbacks can be easily implemented
- * extending the {@link CallbackSkeleton} class that already implements all methods as empty.
- * <p/>
- * Both simple callbacks and composite callbacks implement this single interface, with simple callback expected
- * to throw {@link UnsupportedOperationException} for tree-related operations. {@link CompositeFilterCallback}
- * can be used to filter events passed to the subtree, this class is most likely to be used instead of plain
- * {@link CompositeCallback}.
+ * Callback processes various events of the Java Simon API and is used as an extension point of the API.
+ * Callbacks can be registered with the {@link org.javasimon.Manager} using its {@link CompositeCallback}
+ * that can be obtained by calling {@link org.javasimon.Manager#callback()}. After adding the callback
+ * into the main composite callback (or anywhere lower into the callback tree) by calling
+ * {@link CompositeCallback#addCallback(Callback)} all events are propagated to all Callbacks (unless filtered
+ * using {@link FilterCallback}). Methods called on various events are named {@code onEventXY} with type of the source
+ * clearly mentioned in the name (Manager, Simon, Stopwatch, Counter).
  * <p/>
  * Callbacks can be configured via Manager configuration facility. (Configuration part is still rather WIP.)
  * <p/>
@@ -31,36 +26,6 @@ import java.util.Map;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public interface Callback {
-	/**
-	 * Returns the list of all child-callbacks. Implemented in {@link CompositeCallback}.
-	 *
-	 * @return children list
-	 */
-	List<Callback> callbacks();
-
-	/**
-	 * Adds another callback as a child to this callback. Implemented in {@link CompositeCallback}.
-	 *
-	 * @param callback added callback
-	 * @throws UnsupportedOperationException thrown if the callback is not composite callback implementation
-	 */
-	void addCallback(Callback callback);
-
-	/**
-	 * Removes specified callback from this callback. Implemented in {@link CompositeCallback}.
-	 *
-	 * @param callback removed child-callback
-	 * @throws UnsupportedOperationException thrown if the callback is not composite callback implementation
-	 */
-	void removeCallback(Callback callback);
-
-	/**
-	 * Removes all callbacks from this callback. Implemented in {@link CompositeCallback}.
-	 *
-	 * @throws UnsupportedOperationException thrown if the callback is not composite callback implementation
-	 */
-	void removeAllCallbacks();
-
 	/**
 	 * Lifecycle method called when the callback is added to a manager.
 	 */

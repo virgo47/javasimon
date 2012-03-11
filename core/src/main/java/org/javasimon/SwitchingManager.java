@@ -1,6 +1,6 @@
 package org.javasimon;
 
-import org.javasimon.callback.Callback;
+import org.javasimon.callback.CompositeCallback;
 
 import java.util.Collection;
 
@@ -85,7 +85,7 @@ public final class SwitchingManager implements Manager {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Callback callback() {
+	public CompositeCallback callback() {
 		return manager.callback();
 	}
 

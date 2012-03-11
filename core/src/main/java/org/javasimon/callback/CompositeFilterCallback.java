@@ -24,8 +24,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @see FilterRule
  */
-public final class CompositeFilterCallback implements FilterCallback {
-	private CompositeCallback callback = new CompositeCallback();
+public final class CompositeFilterCallback implements FilterCallback, CompositeCallback {
+	private CompositeCallbackImpl callback = new CompositeCallbackImpl();
 
 	private Map<Event, List<FilterRule>> rules;
 

@@ -24,12 +24,11 @@ public final class ConfigurationTestNG {
 
 		System.setProperty(SimonManager.PROPERTY_CONFIG_RESOURCE_NAME, "org/javasimon/test-config.xml");
 		SimonManager.init(); // this really reads the config resource
-		Callback callback = SimonManager.manager().callback();
-		Assert.assertEquals(callback.getClass(), CompositeCallback.class);
+		CompositeCallback callback = SimonManager.manager().callback();
 		Assert.assertEquals(callback.callbacks().size(), 2);
 		Assert.assertEquals(callback.callbacks().get(0).getClass(), CompositeFilterCallback.class);
 		Assert.assertEquals(callback.callbacks().get(1).getClass(), DebugCallback.class);
-		Callback loggingCallback = callback.callbacks().get(0).callbacks().get(0);
+		Callback loggingCallback = ((CompositeCallback) callback.callbacks().get(0)).callbacks().get(0);
 		Assert.assertEquals(loggingCallback.getClass(), LoggingCallback.class);
 		Assert.assertEquals(((LoggingCallback) loggingCallback).getLevel(), Level.INFO);
 		Assert.assertEquals(((LoggingCallback) loggingCallback).getLogger().getName(), "org.javasimon.test");
