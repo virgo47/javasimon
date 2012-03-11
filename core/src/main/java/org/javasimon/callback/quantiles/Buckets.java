@@ -9,56 +9,56 @@ import java.util.List;
  * List of buckets and quantiles computer.
  * For 100-600 range and 5 bucket count, the following buckets are created:
  * <table>
- *	<tr>
- *		<th>Index</th>
- *		<th>Min</th><th>Max</th>
- *		<th>Samples</th>
- *		<th>Counter</th>
- *	</tr>
- *	<tr>
- *		<td>0</td>
- *		<td>-&infin;</td><td>100</td>
- *		<td>53</td>
- *		<td># (1)</td>
- *	</tr>
- *	<tr>
- *		<td>1</td>
- *		<td>100</td><td>200</td>
- *		<td>128,136</td>
- *		<td>## (2)</td>
- *	</tr>
- *	<tr>
- *		<td>2</td>
- *		<td>200</td><td>300</td>
- *		<td>245,231,264,287,275</td>
- *		<td>###### (5)</td>
- *	</tr>
- *	<tr>
- *		<td>3</td>
- *		<td>300</td><td>400</td>
- *		<td>356,341</td>
- *		<td>## (2)</td>
- *	</tr>
- *	<tr>
- *		<td>4</td>
- *		<td>400</td><td>500</td>
- *		<td>461</td>
- *		<td># (1)</td>
- *	</tr>
- *	<tr>
- *		<td>5</td>
- *		<td>500</td><td>600</td>
- *		<td>801</td>
- *		<td># (1)</td>
- *	</tr>
- *	<tr>
- *		<td>6</td>
- *		<td>600</td><td>+&infin;</td>
- *		<td></td>
- *		<td>(0)</td>
- *	</tr>
+ * <tr>
+ * <th>Index</th>
+ * <th>Min</th><th>Max</th>
+ * <th>Samples</th>
+ * <th>Counter</th>
+ * </tr>
+ * <tr>
+ * <td>0</td>
+ * <td>-&infin;</td><td>100</td>
+ * <td>53</td>
+ * <td># (1)</td>
+ * </tr>
+ * <tr>
+ * <td>1</td>
+ * <td>100</td><td>200</td>
+ * <td>128,136</td>
+ * <td>## (2)</td>
+ * </tr>
+ * <tr>
+ * <td>2</td>
+ * <td>200</td><td>300</td>
+ * <td>245,231,264,287,275</td>
+ * <td>###### (5)</td>
+ * </tr>
+ * <tr>
+ * <td>3</td>
+ * <td>300</td><td>400</td>
+ * <td>356,341</td>
+ * <td>## (2)</td>
+ * </tr>
+ * <tr>
+ * <td>4</td>
+ * <td>400</td><td>500</td>
+ * <td>461</td>
+ * <td># (1)</td>
+ * </tr>
+ * <tr>
+ * <td>5</td>
+ * <td>500</td><td>600</td>
+ * <td>801</td>
+ * <td># (1)</td>
+ * </tr>
+ * <tr>
+ * <td>6</td>
+ * <td>600</td><td>+&infin;</td>
+ * <td></td>
+ * <td>(0)</td>
+ * </tr>
  * </table>
- * For a total of 12 splits in this example, we can deduce that 
+ * For a total of 12 splits in this example, we can deduce that
  * <ul><li>Median (6th sample) is in bucket #2
  * <li>Third quartile (9th sample) is in bucket #3</li>
  * <li>90% percentile (10,8th sample) is in bucket #4 or #5 (but assume #4).</li>
@@ -70,7 +70,9 @@ import java.util.List;
  * <li><em>Not enough buckets</em>: the more buckets are used, the more regular the distribution is and the more memory you'll need as well!</li>
  * <li><em>All samples in one bucket</em>: samples should be evenly distributed on buckets. If all samples go into the same bucket, you should consider changing the min/max/number settings</li>
  * </ul>
+ *
  * @author gquintana
+ * @since 3.2.0
  */
 public class Buckets {
 	/**
@@ -81,35 +83,41 @@ public class Buckets {
 	 * Other buckets are regular ones with constant width
 	 */
 	private final Bucket[] buckets;
+
 	/**
 	 * Number of real buckets (=buckets.length-2)
 	 */
 	private final int bucketNb;
+
 	/**
 	 * Lower bound of all buckets
 	 */
 	private final long min;
+
 	/**
 	 * Upper bound of all buckets
 	 */
 	private final long max;
+
 	/**
 	 * Width of all buckets
 	 */
 	private final long width;
+
 	/**
 	 * Constructor, initializes buckets
+	 *
 	 * @param min Min of all values
 	 * @param max Max of all values
 	 * @param bucketNb Number of buckets
 	 */
 	public Buckets(long min, long max, int bucketNb) {
 		// Check arguments
-		if (bucketNb<3) {
-			throw new IllegalArgumentException("Expected at least 3 buckets: "+bucketNb);
+		if (bucketNb < 3) {
+			throw new IllegalArgumentException("Expected at least 3 buckets: " + bucketNb);
 		}
-		if (min>=max) {
-			throw new IllegalArgumentException("Expected min>max: "+min+"/"+max);
+		if (min >= max) {
+			throw new IllegalArgumentException("Expected min>max: " + min + "/" + max);
 		}
 		// Initialize attributes
 		this.buckets = new Bucket[bucketNb + 2];
@@ -133,59 +141,63 @@ public class Buckets {
 	 * Compute expected count and check used buckets number
 	 */
 	private int checkAndGetTotalCount() throws IllegalStateException {
-		int usedBuckets=0;
-		int totalCount=buckets[0].getCount();
-		for(int i=1;i<=bucketNb; i++) {
-			int bucketCount=buckets[i].getCount();
-			totalCount+=bucketCount;
-			if (bucketCount>0) {
+		int usedBuckets = 0;
+		int totalCount = buckets[0].getCount();
+		for (int i = 1; i <= bucketNb; i++) {
+			int bucketCount = buckets[i].getCount();
+			totalCount += bucketCount;
+			if (bucketCount > 0) {
 				usedBuckets++;
 			}
 		}
-		totalCount+=buckets[bucketNb+1].getCount();
-		if (usedBuckets<3) {
-			throw new IllegalStateException("Only "+usedBuckets+" buckets used, not enough for interpolation, consider reconfiguring min/max/nb");
+		totalCount += buckets[bucketNb + 1].getCount();
+		if (usedBuckets < 3) {
+			throw new IllegalStateException("Only " + usedBuckets + " buckets used, not enough for interpolation, consider reconfiguring min/max/nb");
 		}
 		return totalCount;
 	}
+
 	/**
 	 * Compute given quantile
+	 *
 	 * @param ration Nth quantile: 0.5 is median
 	 * @param totalCount Total count over all buckets
 	 * @return Quantile
 	 * @throws IllegalStateException Buckets are poorly configured and
-	 *	quantile can not be computed
-	 * @throws IllegalArgumentException 
+	 * quantile can not be computed
+	 * @throws IllegalArgumentException
 	 */
 	private double computeQuantile(double ration, int totalCount) throws IllegalStateException, IllegalArgumentException {
-		if(ration<=0.0D || ration>=1.0D) {
-			throw new IllegalArgumentException("Expected ratio between 0 and 1 excluded: "+ration);
+		if (ration <= 0.0D || ration >= 1.0D) {
+			throw new IllegalArgumentException("Expected ratio between 0 and 1 excluded: " + ration);
 		}
-		final double expectedCount=ration*totalCount;
+		final double expectedCount = ration * totalCount;
 		// Search bucket corresponding to expected count
-		double lastCount=0D, newCount;
-		int bucketIndex=0;
-		for(int i=0;i<buckets.length;i++) {
-			newCount=lastCount+buckets[i].getCount();
-			if (expectedCount>=lastCount && expectedCount <= newCount) {
-				bucketIndex=i;
+		double lastCount = 0D, newCount;
+		int bucketIndex = 0;
+		for (int i = 0; i < buckets.length; i++) {
+			newCount = lastCount + buckets[i].getCount();
+			if (expectedCount >= lastCount && expectedCount <= newCount) {
+				bucketIndex = i;
 				break;
 			}
-			lastCount=newCount;
+			lastCount = newCount;
 		}
 		// Check that bucket index is in bounds
-		if (bucketIndex==0) {
+		if (bucketIndex == 0) {
 			throw new IllegalStateException("Quantile out of bounds: decrease min");
-		} else if (bucketIndex==bucketNb+1) {
+		} else if (bucketIndex == bucketNb + 1) {
 			throw new IllegalStateException("Quantile out of bounds: increase max");
-		} 
+		}
 		// Linear interpolation of value
-		final Bucket bucket=buckets[bucketIndex];
-		return bucket.getMin()+(expectedCount-lastCount)*(bucket.getMax()-bucket.getMin())/bucket.getCount();
+		final Bucket bucket = buckets[bucketIndex];
+		return bucket.getMin() + (expectedCount - lastCount) * (bucket.getMax() - bucket.getMin()) / bucket.getCount();
 	}
+
 	/**
 	 * Search bucket where value should be sorted, the bucket whose
 	 * min/max bounds are around the value.
+	 *
 	 * @param value Value
 	 * @return Bucket
 	 */
@@ -199,120 +211,138 @@ public class Buckets {
 			} else {
 				// Linear interpolation
 				int bucketIndex = 1 + (int) ((value - min) * (bucketNb - 1) / (max - min));
-				bucket=buckets[bucketIndex];
+				bucket = buckets[bucketIndex];
 				// As the division above was round at floor, bucket may be the next one
 				if (!bucket.contains(value)) {
 					bucketIndex++;
-					bucket=buckets[bucketIndex];
+					bucket = buckets[bucketIndex];
 				}
 			}
 		}
 		return bucket;
 	}
+
 	/**
 	 * Search the appropriate bucket and add the value in it
+	 *
 	 * @param value Value
 	 */
 	public void addValue(long value) {
-		synchronized(buckets) {
+		synchronized (buckets) {
 			getBucketForValue(value).incrementCount();
 		}
 	}
+
 	/**
 	 * For each value, search the appropriate bucket and add the value in it.
+	 *
 	 * @param values Values
 	 */
 	public void addValues(Collection<Long> values) {
-		synchronized(buckets) {
-			for(Long value:values) {
+		synchronized (buckets) {
+			for (Long value : values) {
 				addValue(value);
 			}
 		}
 	}
+
 	/**
 	 * Compute quantile.
+	 *
 	 * @param ratio Nth quantile, 0.5 is median. Expects values between 0 and 1.
 	 * @return Quantile
 	 */
 	public double getQuantile(double ratio) {
-		synchronized(buckets) {
+		synchronized (buckets) {
 			int totalCount = checkAndGetTotalCount();
 			return computeQuantile(ratio, totalCount);
 		}
 	}
+
 	/**
 	 * Compute median
-	 * @return  Median
+	 *
+	 * @return Median
 	 */
 	public double getMedian() {
 		return getQuantile(0.5D);
 	}
+
 	/**
-	 * Computes first (=0.25), second (=median=0.5) and third (=0.75) quartiles 
-	 * @return 
+	 * Computes first (=0.25), second (=median=0.5) and third (=0.75) quartiles
+	 *
+	 * @return
 	 */
 	public Double[] getQuartiles() {
 		return getQuantiles(0.25D, 0.50D, 0.75D);
 	}
+
 	/**
 	 * Compute many quantiles.
+	 *
 	 * @param ratios Nth quantiles, 0.5 is median. Expects values between 0 and 1.
 	 * @return Quantiles or null, if computation failed
 	 */
-	public Double[] getQuantiles(double ... ratios) {
-		synchronized(buckets) {
-			final Double[] quantiles=new Double[ratios.length];
+	@SuppressWarnings("EmptyCatchBlock")
+	public Double[] getQuantiles(double... ratios) {
+		synchronized (buckets) {
+			final Double[] quantiles = new Double[ratios.length];
 			try {
-				final int totalCount=checkAndGetTotalCount();
+				final int totalCount = checkAndGetTotalCount();
 				for (int i = 0; i < ratios.length; i++) {
 					try {
-						quantiles[i]=computeQuantile(ratios[i], totalCount);
-					} catch(IllegalStateException e) {
+						quantiles[i] = computeQuantile(ratios[i], totalCount);
+					} catch (IllegalStateException e) {
 					}
 				}
-			} catch(IllegalStateException e) {
+			} catch (IllegalStateException e) {
 			}
 			return quantiles;
 		}
 	}
+
 	/**
 	 * String containing: min/max/number configuration and 50%, 75% and 90% quantiles
 	 * if available.
 	 * Warning this method can be expensive as it's doing some computation.
-	 * @return 
+	 *
+	 * @return
 	 */
 	@Override
 	public String toString() {
-		Double[] quantiles=getQuantiles(0.50D, 0.75D, 0.90D);
-		StringBuilder stringBuilder=new StringBuilder("Buckets[");
+		Double[] quantiles = getQuantiles(0.50D, 0.75D, 0.90D);
+		StringBuilder stringBuilder = new StringBuilder("Buckets[");
 		stringBuilder.append("min=").append(min)
 			.append(",max").append(max)
 			.append(",nb=").append(bucketNb)
 			.append(",width=").append(width);
-		if (quantiles[0]!=null) {
+		if (quantiles[0] != null) {
 			stringBuilder.append(",median=").append(quantiles[0]);
 		}
-		if (quantiles[1]!=null) {
+		if (quantiles[1] != null) {
 			stringBuilder.append(",75%=").append(quantiles[1]);
 		}
-		if (quantiles[2]!=null) {
+		if (quantiles[2] != null) {
 			stringBuilder.append(",90%=").append(quantiles[2]);
 		}
 		stringBuilder.append("]");
 		return stringBuilder.toString();
 	}
+
 	/**
 	 * Clear all buckets
 	 */
 	public void clear() {
-		synchronized(buckets) {
-			for(Bucket bucket:buckets) {
+		synchronized (buckets) {
+			for (Bucket bucket : buckets) {
 				bucket.clear();
 			}
 		}
 	}
+
 	/**
 	 * Get the bucket list
+	 *
 	 * @return Buckets
 	 */
 	public List<Bucket> getBuckets() {

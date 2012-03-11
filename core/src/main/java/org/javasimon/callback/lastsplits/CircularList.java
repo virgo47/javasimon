@@ -12,6 +12,7 @@ import java.util.Iterator;
  * class is not thread safe</li> </ul>
  *
  * @author gquintana
+ * @since 3.2.0
  */
 public class CircularList<T> extends AbstractList<T> {
 
@@ -107,22 +108,22 @@ public class CircularList<T> extends AbstractList<T> {
 	@Override
 	public boolean add(T newElement) {
 		elements[lastIndex] = newElement;
-		lastIndex = incrementIndex(lastIndex, 0);	
+		lastIndex = incrementIndex(lastIndex, 0);
 		if (isEmpty()) {
 			// First element
 			firstIndex = 0;
 			size = 1;
 		} else if (isFull()) {
 			// Reuse space
-			firstIndex = lastIndex;			
+			firstIndex = lastIndex;
 		} else {
-			size = incrementIndex(size, elements.length);			
+			size = incrementIndex(size, elements.length);
 		}
 		return true;
 	}
 
 	private boolean isFull() {
-		return size==elements.length;
+		return size == elements.length;
 	}
 
 	/**
@@ -196,7 +197,7 @@ public class CircularList<T> extends AbstractList<T> {
 			return new MainIterator();
 		}
 	}
-	
+
 	/**
 	 * Empty iterator used when the list is empty
 	 */

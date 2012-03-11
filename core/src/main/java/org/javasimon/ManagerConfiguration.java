@@ -1,10 +1,6 @@
 package org.javasimon;
 
-import org.javasimon.callback.Callback;
-import org.javasimon.callback.CompositeCallback;
-import org.javasimon.callback.CompositeFilterCallback;
-import org.javasimon.callback.FilterCallback;
-import org.javasimon.callback.FilterRule;
+import org.javasimon.callback.*;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -36,8 +32,8 @@ import java.lang.reflect.InvocationTargetException;
  * </simon-configuration>}</pre>
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * TODO: This class needs serious rethinking, also manager config itself should be independant from the reading
- * of the config - so it can be set up by Spring for instance
+ *         TODO: This class needs serious rethinking, also manager config itself should be independant from the reading
+ *         of the config - so it can be set up by Spring for instance
  */
 public final class ManagerConfiguration {
 	private Map<SimonPattern, SimonConfiguration> configs;
@@ -101,7 +97,7 @@ public final class ManagerConfiguration {
 		Map<String, String> attrs = processStartElement(xr, "callback");
 		String klass = attrs.get("class");
 		if (klass == null) {
-			klass = CompositeCallback.class.getName();
+			klass = CompositeCallbackImpl.class.getName();
 		}
 		Callback callback;
 		try {
@@ -154,9 +150,9 @@ public final class ManagerConfiguration {
 		}
 		while (true) {
 			if (isStartTag(xr, "callback")) {
-				callback.addCallback(processCallback(xr));
+				((CompositeCallback) callback).addCallback(processCallback(xr));
 			} else if (isStartTag(xr, "filter-callback")) {
-				callback.addCallback(processFilterCallback(xr));
+				((CompositeCallback) callback).addCallback(processFilterCallback(xr));
 			} else {
 				break;
 			}

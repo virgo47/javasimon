@@ -1,6 +1,6 @@
 package org.javasimon;
 
-import org.javasimon.callback.Callback;
+import org.javasimon.callback.CompositeCallback;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -43,7 +43,7 @@ public final class DisabledManager implements Manager {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Callback callback() {
+	public CompositeCallback callback() {
 		return null;
 	}
 

@@ -1,12 +1,12 @@
 package org.javasimon;
 
-import org.javasimon.callback.Callback;
 import org.javasimon.callback.CompositeCallback;
+import org.javasimon.callback.CompositeCallbackImpl;
 import org.javasimon.utils.SimonUtils;
 
-import java.util.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.*;
 
 /**
  * Implements fully functional {@link Manager} in the enabled state. Does not support
@@ -19,7 +19,7 @@ public final class EnabledManager implements Manager {
 
 	private UnknownSimon rootSimon;
 
-	private Callback callback = new CompositeCallback();
+	private CompositeCallback callback = new CompositeCallbackImpl();
 
 	private ManagerConfiguration configuration;
 
@@ -223,7 +223,7 @@ public final class EnabledManager implements Manager {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Callback callback() {
+	public CompositeCallback callback() {
 		return callback;
 	}
 

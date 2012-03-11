@@ -5,57 +5,14 @@ import org.javasimon.Simon;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
 
-import java.util.Collections;
-import java.util.List;
-
 /**
- * Implements {@link Callback} interface so that it does nothing - intended for extension by simple (non-composite) callbacks.
- * Message prints to stdout and warning prints to stderr, other event methods do nothing. Methods for composite callbacks are
- * final and throw unsupported operation, {@link #callbacks()} returns empty list. Should be used only for implementing
- * simple callbacks when just a few methods need to be implemented instead of the whole interface.
+ * Implements {@link Callback} interface so that it does nothing - intended for extension by simple (non-composite)
+ * callbacks. Message prints to stdout and warning prints to stderr, other event methods do nothing. This class is
+ * to be subclassed when just a few methods need to be implemented instead of the whole Callback interface.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public class CallbackSkeleton implements Callback {
-	/**
-	 * Returns empty list.
-	 *
-	 * @return empty list
-	 */
-	public final List<Callback> callbacks() {
-		return Collections.emptyList();
-	}
-
-	/**
-	 * Throws UnsupportedOperationException.
-	 *
-	 * @param callback ignored
-	 * @throws UnsupportedOperationException supported only in composite callbacks
-	 */
-	public final void addCallback(Callback callback) {
-		throw new UnsupportedOperationException("Only CompositeCallback implements this method.");
-	}
-
-	/**
-	 * Throws UnsupportedOperationException.
-	 *
-	 * @param callback ignored
-	 * @throws UnsupportedOperationException supported only in composite callbacks
-	 */
-	public final void removeCallback(Callback callback) {
-		throw new UnsupportedOperationException("Only CompositeCallback implements this method.");
-	}
-
-	/**
-	 * Throws UnsupportedOperationException.
-	 *
-	 * @throws UnsupportedOperationException supported only in composite callbacks
-	 */
-	@Override
-	public final void removeAllCallbacks() {
-		throw new UnsupportedOperationException("Only CompositeCallback implements this method.");
-	}
-
 	/**
 	 * {@inheritDoc}
 	 */

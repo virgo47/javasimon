@@ -2,23 +2,29 @@ package org.javasimon.callback.quantiles;
 
 /**
  * Bucket count the number of samples in the range min-max.
+ *
  * @author gquintana
+ * @since 3.2.0
  */
 public final class Bucket {
 	/**
-	 * Minimal value 
+	 * Minimal value
 	 */
 	private final long min;
+
 	/**
 	 * Maximal value
 	 */
 	private final long max;
+
 	/**
 	 * Number of values in the range min-max
 	 */
 	private int count;
+
 	/**
 	 * Constructor
+	 *
 	 * @param min Min value
 	 * @param max Max value
 	 */
@@ -26,43 +32,54 @@ public final class Bucket {
 		this.min = min;
 		this.max = max;
 	}
+
 	/**
 	 * Get number of values in the range
+	 *
 	 * @return Number of value in the range
 	 */
 	public int getCount() {
 		return count;
 	}
+
 	/**
 	 * Get upper bound of the range
+	 *
 	 * @return Max value
 	 */
 	public long getMax() {
 		return max;
 	}
+
 	/**
 	 * Get lower bound of the range
+	 *
 	 * @return Min value
 	 */
 	public long getMin() {
 		return min;
 	}
+
 	/**
 	 * Check whether value is in the range
+	 *
 	 * @param value Value
 	 * @return true if in range
 	 */
 	public boolean contains(long value) {
-		return (value>=min)&&(value<=max);
+		return (value >= min) && (value <= max);
 	}
+
 	/**
 	 * Increment value number
 	 */
 	public void incrementCount() {
 		count++;
 	}
+
 	/**
 	 * Check if value is in range and increment value number
+	 *
 	 * @param value Value
 	 * @return true if value number increased
 	 */
@@ -74,10 +91,11 @@ public final class Bucket {
 			return false;
 		}
 	}
+
 	/**
 	 * Reset value number
 	 */
 	public void clear() {
-		count=0;
+		count = 0;
 	}
 }

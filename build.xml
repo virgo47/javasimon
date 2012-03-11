@@ -18,7 +18,6 @@
 		<pathelement path="${lib.dir}/spring-beans-3.1.0.RELEASE.jar"/>
 		<pathelement path="${lib.dir}/spring-web-3.1.0.RELEASE.jar"/>
 		<pathelement path="${lib.dir}/spring-webmvc-3.1.0.RELEASE.jar"/>
-		<pathelement path="${lib.dir}/aspectjrt-1.6.6.jar"/>
 		<pathelement path="${lib.dir}/aopalliance.jar"/>
 		<pathelement path="${lib.dir}/commons-logging-1.1.1.jar"/>
 		<pathelement path="${lib.dir}/jboss-javaee.jar"/>
@@ -98,7 +97,6 @@
 				<include name="commons-logging-1.1.1.jar"/>
 				<include name="jboss-javaee.jar"/>
 				<include name="servlet-api.jar"/>
-				<include name="aspectjrt-1.6.6.jar"/>
 				<include name="slf4j-api-1.6.2.jar"/>
 			</zipfileset>
 			<zipfileset prefix="javasimon-${version}/lib" dir="build">
