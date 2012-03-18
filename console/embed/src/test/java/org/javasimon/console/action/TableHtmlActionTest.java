@@ -39,7 +39,7 @@ public class TableHtmlActionTest {
         String html=context.toString();
         assertTrue(html.contains("<td class=\"name\">B</td><td class=\"type\">STOPWATCH</td><td class=\"counter\">2</td><td class=\"total\">300 ms</td><td class=\"min\">100 ms</td><td class=\"mean\">150 ms</td><td class=\"last\">100 ms</td><td class=\"max\">200 ms</td><td class=\"standardDeviation\">50.0 ms</td>"));
         assertTrue(html.contains("<td class=\"name\">A</td><td class=\"type\">STOPWATCH</td><td class=\"counter\">3</td><td class=\"total\">600 ms</td><td class=\"min\">100 ms</td><td class=\"mean\">200 ms</td><td class=\"last\">300 ms</td><td class=\"max\">300 ms</td><td class=\"standardDeviation\">81.6 ms</td>"));
-        assertTrue(html.contains("<td class=\"name\">C</td><td class=\"type\">STOPWATCH</td><td class=\"counter\">1</td><td class=\"total\">300 ms</td><td class=\"min\">300 ms</td><td class=\"mean\">300 ms</td><td class=\"last\">300 ms</td><td class=\"max\">300 ms</td><td class=\"standardDeviation\">0 ns</td>"));
+        assertTrue(html.contains("<td class=\"name\">C</td><td class=\"type\">STOPWATCH</td><td class=\"counter\">1</td><td class=\"total\">300 ms</td><td class=\"min\">300 ms</td><td class=\"mean\">300 ms</td><td class=\"last\">300 ms</td><td class=\"max\">300 ms</td><td class=\"standardDeviation\">0.0 ns</td>"));
         
     }
 }
