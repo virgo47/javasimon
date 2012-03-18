@@ -59,27 +59,6 @@ public final class SimonUtils {
 	 */
 	public static final Pattern NAME_PATTERN = Pattern.compile("[-_\\[\\]A-Za-z0-9.,@$%()<>]+");
 
-	private static Pattern createUnallowedCharsPattern() {
-		String s = SimonUtils.NAME_PATTERN.pattern();
-		// Insert negation ^ after [
-		s = s.replaceFirst("\\[", "[^/");
-		// Remove . (dot) because it will be used for something else
-		s = s.replaceAll("\\.", "");
-		return Pattern.compile(s);
-	}
-
-	public static void main(String[] args) {
-		String pattern = createUnallowedCharsPattern().pattern();
-		System.out.println(pattern);
-
-		StringBuilder sb = new StringBuilder(NAME_PATTERN.pattern());
-		sb.insert(1, "^/");
-		sb.deleteCharAt(sb.indexOf("."));
-		String s = sb.toString();
-		System.out.println(s);
-		System.out.println(s.endsWith(pattern));
-	}
-
 	/**
 	 * Allowed Simon name characters.
 	 *
@@ -132,9 +111,9 @@ public final class SimonUtils {
 		if (nanos == Long.MAX_VALUE) {
 			return UNDEF_STRING;
 		}
-		double time = nanos;
-		return presentOverNanoTime(time);
+		return presentOverNanoTime((double) nanos);
 	}
+
 	/**
 	 * Returns nano-time in human readable form with unit. Number is always from 10 to 9999
 	 * except for seconds that are the biggest unit used.
@@ -148,15 +127,16 @@ public final class SimonUtils {
 		}
 		return presentOverNanoTime(nanos);
 	}
+
 	/**
 	 * @param time time in nanoseconds
 	 * @return human readable time string
 	 */
 	private static String presentOverNanoTime(double time) {
 		if (time < UNIT_PREFIX_FACTOR) {
-			return time + " ns";
+			return ((long) time) + " ns";
 		}
-		
+
 		time /= UNIT_PREFIX_FACTOR;
 		if (time < UNIT_PREFIX_FACTOR) {
 			return formatTime(time, " us");
@@ -188,7 +168,7 @@ public final class SimonUtils {
 	}
 
 	/**
-	 * Returns timestamp in human readable form, yet condensed form "yyMMdd-HHmmss.SSS".
+	 * Returns timestamp in human readable (yet condensed) form "yyMMdd-HHmmss.SSS".
 	 *
 	 * @param timestamp timestamp in millis
 	 * @return timestamp as a human readable string
