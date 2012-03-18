@@ -132,11 +132,31 @@ public final class SimonUtils {
 		if (nanos == Long.MAX_VALUE) {
 			return UNDEF_STRING;
 		}
-		if (nanos < UNIT_PREFIX_FACTOR) {
-			return nanos + " ns";
-		}
-
 		double time = nanos;
+		return presentOverNanoTime(time);
+	}
+	/**
+	 * Returns nano-time in human readable form with unit. Number is always from 10 to 9999
+	 * except for seconds that are the biggest unit used.
+	 *
+	 * @param nanos time in nanoseconds
+	 * @return human readable time string
+	 */
+	public static String presentNanoTime(double nanos) {
+		if (nanos == Double.MAX_VALUE) {
+			return UNDEF_STRING;
+		}
+		return presentOverNanoTime(nanos);
+	}
+	/**
+	 * @param time time in nanoseconds
+	 * @return human readable time string
+	 */
+	private static String presentOverNanoTime(double time) {
+		if (time < UNIT_PREFIX_FACTOR) {
+			return time + " ns";
+		}
+		
 		time /= UNIT_PREFIX_FACTOR;
 		if (time < UNIT_PREFIX_FACTOR) {
 			return formatTime(time, " us");

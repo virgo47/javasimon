@@ -2,9 +2,9 @@ package org.javasimon.callback.calltree;
 
 import org.javasimon.Split;
 import org.javasimon.callback.CallbackSkeleton;
-import org.javasimon.utils.SimonUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.javasimon.callback.logging.LogTemplate;
+import static org.javasimon.callback.logging.LogTemplates.*;
+import org.javasimon.callback.logging.SplitThresholdLogTemplate;
 
 /**
  * Callback which logs a call tree when a the main call is bigger than a
@@ -29,35 +29,60 @@ public class CallTreeCallback extends CallbackSkeleton {
 	 */
 	private final ThreadLocal<CallTree> threadCallTree = new ThreadLocal<CallTree>();
 	/**
-	 * Logger used for printing call tree
+	 * Log template used for printing call tree
 	 */
-	private static final Logger LOGGER = LoggerFactory.getLogger(CallTreeCallback.class);
-	/**
-	 * Duration threshold overwhich call tree is logged
-	 */
-	private long logThreshold = 500;
+	private LogTemplate<Split> callTreeLogTemplate;
 
 	/**
 	 * Default constructor
 	 */
 	public CallTreeCallback() {
+		initLogThreshold(500L);
 	}
-
 	/**
 	 * Constructor with logging duration threshold
 	 *
 	 * @param logThreshold Threshold
 	 */
 	public CallTreeCallback(long logThreshold) {
-		this.logThreshold = logThreshold;
+		initLogThreshold(logThreshold);
+	}
+	/**
+	 * Constructor with log template
+	 *
+	 * @param callTreeLogTemplate Log template
+	 */
+	public CallTreeCallback(LogTemplate<Split> callTreeLogTemplate) {
+		this.callTreeLogTemplate=callTreeLogTemplate;
 	}
 
-	public long getLogThreshold() {
-		return logThreshold;
+	/**
+	 * Configure {@link #callTreeLogTemplate} with a {@link SplitThresholdLogTemplate}.
+	 */
+	private void initLogThreshold(Long threshold) {
+		LogTemplate<Split> toLogger=toSLF4J(getClass().getName(), "debug");
+		if (threshold==null) {
+			callTreeLogTemplate = toLogger;
+		} else {
+			callTreeLogTemplate=whenSplitLongerThanMilliseconds(toLogger, threshold);		
+		}
 	}
-
-	public void setLogThreshold(long logThreshold) {
-		this.logThreshold = logThreshold;
+	/**
+	 * Get log threshold when {@link #callTreeLogTemplate} is a {@link SplitThresholdLogTemplate}.
+	 */
+	public Long getLogThreshold() {
+		Long threshold=null;
+		if (callTreeLogTemplate instanceof SplitThresholdLogTemplate) {
+			threshold=((SplitThresholdLogTemplate) callTreeLogTemplate).getThreshold();
+		}
+		return threshold;
+	}
+	/**
+	 * Set log threshold.
+	 * Configure {@link #callTreeLogTemplate} with a {@link SplitThresholdLogTemplate}.
+	 */
+	public void setLogThreshold(Long logThreshold) {
+		initLogThreshold(logThreshold);
 	}
 
 	/**
@@ -78,7 +103,7 @@ public class CallTreeCallback extends CallbackSkeleton {
 		final CallTree callTree = new CallTree() {
 			@Override
 			protected void onRootStopwatchStop(CallTreeNode rootNode, Split split) {
-				CallTreeCallback.this.onRootStopwatchStop(rootNode, split);
+				CallTreeCallback.this.onRootStopwatchStop(this, split);
 			}
 		};
 		threadCallTree.set(callTree);
@@ -121,10 +146,8 @@ public class CallTreeCallback extends CallbackSkeleton {
 	 * @param rootNode Root tree node
 	 * @param split Final split
 	 */
-	public void onRootStopwatchStop(CallTreeNode rootNode, Split split) {
-		if (rootNode.getTotal() > logThreshold * SimonUtils.NANOS_IN_MILLIS) {
-			LOGGER.warn("Call Tree alert\r\n" + rootNode.toString());
-		}
+	public void onRootStopwatchStop(CallTree callTree, Split split) {
+		callTreeLogTemplate.log(split, callTree);
 		removeCallTree();
 	}
 }
