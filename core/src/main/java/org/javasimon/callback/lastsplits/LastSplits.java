@@ -1,7 +1,10 @@
 package org.javasimon.callback.lastsplits;
 
 import org.javasimon.Split;
-import org.javasimon.utils.SimonUtils;
+import org.javasimon.callback.logging.LogMessageSource;
+import org.javasimon.callback.logging.LogTemplate;
+import static org.javasimon.callback.logging.LogTemplates.disabled;
+import static org.javasimon.utils.SimonUtils.presentNanoTime;
 
 /**
  * Object stored among Stopwatch's attributes in charge of <ul>
@@ -12,12 +15,16 @@ import org.javasimon.utils.SimonUtils;
  * @author gquintana
  * @since 3.2.0
  */
-public class LastSplits {
+public class LastSplits implements LogMessageSource<Split> {
 	/**
 	 * Ring buffer containing splits
 	 */
 	private final CircularList<Split> splits;
 
+	/**
+	 * Log template used to log this list of splits
+	 */
+	private LogTemplate<Split> logTemplate=disabled();
 	/**
 	 * Constructor with ring buffer size
 	 *
@@ -47,6 +54,14 @@ public class LastSplits {
 		}
 	}
 
+	public LogTemplate<Split> getLogTemplate() {
+		return logTemplate;
+	}
+
+	public void setLogTemplate(LogTemplate<Split> logTemplate) {
+		this.logTemplate = logTemplate;
+	}
+	
 	/**
 	 * Get number of splits in the buffer
 	 *
@@ -240,6 +255,24 @@ public class LastSplits {
 	}
 
 	/**
+	 * Transforms split values into a String
+	 * @return Splits presented in a String
+	 */
+	private String getSplitsAsString() {
+		return processFunction(new AbstractSplitFunction<StringBuilder>(new StringBuilder()) {
+			private boolean first=true;
+			@Override
+			public void evaluate(long runningFor) {
+				if (first) {
+					first=false;
+				} else {
+					result.append(',');
+				}
+				result.append(presentNanoTime(runningFor));
+			}
+		}).toString();
+	}
+	/**
 	 * String containing: count, min, mean, max and trend(1ms).
 	 * This method can be expensive, because many computations are done.
 	 *
@@ -249,6 +282,7 @@ public class LastSplits {
 	public String toString() {
 		int count;
 		long min = 0, mean = 0, max = 0, trend = 0;
+		String values=null;
 		// First extract data
 		synchronized (splits) {
 			count = getCount();
@@ -256,23 +290,37 @@ public class LastSplits {
 				min = getMin();
 				mean = getMean().longValue();
 				max = getMax();
-			}
-			if (count > 1) {
-				trend = getTrend().longValue();
+				values=getSplitsAsString();
+				if (count>1) {
+					trend=getTrend().longValue();
+				}
 			}
 		}
 		// Then free lock, and format data
 		StringBuilder stringBuilder = new StringBuilder("LastSplits[size=");
 		stringBuilder.append(count);
 		if (count > 0) {
-			stringBuilder.append(",min=").append(SimonUtils.presentNanoTime(min))
-				.append(",mean=").append(SimonUtils.presentNanoTime(mean))
-				.append(",max=").append(SimonUtils.presentNanoTime(max));
-		}
-		if (count > 1) {
-			stringBuilder.append(",trend=").append(SimonUtils.presentNanoTime(trend));
+			stringBuilder.append(",values=[").append(values).append("]")
+				.append(",min=").append(presentNanoTime(min))
+				.append(",mean=").append(presentNanoTime(mean))
+				.append(",max=").append(presentNanoTime(max));
+			if (count>1) {
+				stringBuilder.append(",trend=").append(presentNanoTime(trend));
+			}
 		}
 		stringBuilder.append("]");
 		return stringBuilder.toString();
+	}
+	/**
+	 * Transform this list of splits into a loggable message
+	 */
+	public String getLogMessage(Split lastSplit) {
+		return lastSplit.getStopwatch().getName()+" "+toString();
+	}
+	/**
+	 * Log eventually this list of splits into log template
+	 */
+	public void log(Split lastSplit) {
+		logTemplate.log(lastSplit, this);
 	}
 }

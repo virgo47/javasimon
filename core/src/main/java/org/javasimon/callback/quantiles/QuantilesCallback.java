@@ -7,7 +7,8 @@ import org.javasimon.Simon;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
 import org.javasimon.callback.CallbackSkeleton;
-
+import org.javasimon.callback.logging.LogTemplate;
+import static org.javasimon.callback.logging.LogTemplates.*;
 /**
  * Callback which stores data to compute quantiles.
  * Quantiles can only be obtained after warmup period, after which buckets are
@@ -58,6 +59,15 @@ public class QuantilesCallback extends CallbackSkeleton {
 	private final int bucketNb;
 
 	/**
+	 * Global flag indicating whether last splits should be logged once in
+	 * a while
+	 */
+	private boolean logEnabled=false;
+	/**
+	 * SLF4J log template shared by all stopwatches
+	 */
+	private final LogTemplate<Split> enabledStopwatchLogTemplate=toSLF4J(getClass().getName(),"debug");
+	/**
 	 * Default constructor
 	 */
 	public QuantilesCallback() {
@@ -99,23 +109,49 @@ public class QuantilesCallback extends CallbackSkeleton {
 		stopwatch.removeAttribute(ATTR_NAME_BUCKETS_VALUES);
 	}
 
+	public boolean isLogEnabled() {
+		return logEnabled;
+	}
+
+	public void setLogEnabled(boolean logEnabled) {
+		this.logEnabled = logEnabled;
+	}
+	
+	/**
+	 * Create log template for given stopwatch.
+	 * This method can be overriden to tune loging strategy.
+	 * By default, when enabled, quantiles are logged at most once per minute
+	 * @param stopwatch Stopwatch
+	 * @return Logger
+	 */
+	protected LogTemplate<Split> createLogTemplate(Stopwatch stopwatch) {
+		LogTemplate<Split> logTemplate;
+		if (logEnabled) {
+			logTemplate=everyNSeconds(enabledStopwatchLogTemplate, 60);
+		} else {
+			logTemplate=disabled();
+		}
+		return logTemplate;
+	}
+	
 	/**
 	 * Create the buckets after warmup time.
 	 * Can be overriden to customize buckets configuration.
 	 * By default buckets are create with:<ul>
-	 * <li>Min: stopwatch min-25% rounded to 0</li>
-	 * <li>Max: stopwatch max+25</li>
+	 * <li>Min: stopwatch min-10% rounded to 0</li>
+	 * <li>Max: stopwatch max+10</li>
 	 * <li>Nb buckets: {@link #bucketNb}
 	 *
 	 * @param stopwatch Stopwatch (containing configuration)
 	 * @return new Buckets objects
 	 */
 	protected Buckets createBuckets(Stopwatch stopwatch) {
-		if (stopwatch.getCounter() > warmupCounter) {
-			long max = (stopwatch.getMax() * 125L) / 100L;
-			long min = Math.max(0, (stopwatch.getMin()) * 75L / 100L);
-			System.out.println("Creating " + bucketNb + " buckets in the range " + min + "-" + max + " for " + stopwatch.getName());
-			return new Buckets(0, max, bucketNb);
+		if (stopwatch.getCounter()>warmupCounter) {
+			long max=(stopwatch.getMax()*115L)/100L;
+			long min=Math.max(0, (stopwatch.getMin())*90L/100L);
+			Buckets buckets=new Buckets(min, max, bucketNb);
+			buckets.setLogTemplate(createLogTemplate(stopwatch));
+			return buckets;
 		} else {
 			return null;
 		}
@@ -170,7 +206,7 @@ public class QuantilesCallback extends CallbackSkeleton {
 			getBucketsValues(stopwatch).add(value);
 		} else {
 			buckets.addValue(value);
-			System.out.println(buckets.toString());
+			buckets.log(split);
 		}
 	}
 
