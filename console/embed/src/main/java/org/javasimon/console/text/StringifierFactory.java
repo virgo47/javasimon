@@ -232,7 +232,7 @@ public class StringifierFactory {
 		@Override
 		protected String doToString(Double d) {
 			if (timeFormatType == TimeFormatType.AUTO) {
-				return stringStringifier.toString(SimonUtils.presentNanoTime(d.longValue()));
+				return stringStringifier.toString(SimonUtils.presentNanoTime(d));
 			} else {
 				Double d2 = timeFormatType.convert(d);
 				return doubleStringifier.toString(d2);
