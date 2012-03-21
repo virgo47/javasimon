@@ -30,7 +30,7 @@ import static org.javasimon.callback.logging.LogTemplates.*;
  * <li>Quantiles can be computed (provided there is enough splits and buckets are propertly configured)</li>
  * </ul>
  * </li></ol>
- *
+ * See {@see Buckets} for buckets configuration.
  * @author gquintana
  * @since 3.2.0
  */

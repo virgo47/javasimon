@@ -8,7 +8,11 @@ import org.javasimon.Split;
 import org.javasimon.utils.SimonUtils;
 
 /**
- * Call tree node
+ * Call tree node is one Simon one for one call level, all splits for this
+ * Simon+Level(+Thread) tuple are kept for later analysis.
+ * Simon name is unique within parent tree node. Said differently a tree node can
+ * not have two children with same name.
+ * 
  *
  * @author gquintana
  * @since 3.2.0

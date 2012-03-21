@@ -9,7 +9,8 @@ import static org.javasimon.callback.logging.LogTemplates.*;
 
 /**
  * Callback retaining the last N stopwatch splits.
- *
+ * Splits can be logged when buffer revolves.
+ * See {@see LastSplits} for more information.
  * @author gquintana
  * @since 3.2.0
  */

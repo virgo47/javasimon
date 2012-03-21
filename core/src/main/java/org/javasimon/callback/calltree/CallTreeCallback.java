@@ -9,6 +9,9 @@ import org.javasimon.callback.logging.SplitThresholdLogTemplate;
 /**
  * Callback which logs a call tree when a the main call is bigger than a
  * threshold.
+ * This callback can give good results only if interceptors/filters have been
+ * placed a different level of the application (web/business/data tiers for 
+ * instance).
  *
  * Call tree looks like this:
  * <pre>
@@ -19,6 +22,7 @@ import org.javasimon.callback.logging.SplitThresholdLogTemplate;
  * 	org.javasimon.business.SecodeService.do 10ms, 5%
  * </pre>
  *
+ * See {@see CallTree} for more information.
  * @author gquintana
  * @since 3.2.0
  */

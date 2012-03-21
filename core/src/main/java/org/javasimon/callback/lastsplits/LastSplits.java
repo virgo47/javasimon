@@ -9,7 +9,8 @@ import static org.javasimon.utils.SimonUtils.presentNanoTime;
 /**
  * Object stored among Stopwatch's attributes in charge of <ul>
  * <li>Managing concurrent access to the inner ring buffer through synchronized blocks</li>
- * <li></li>
+ * <li>Computing som statistics (min, max, mean, trend) based on retained values</li>
+ * <li>Log retained values and statistics
  * </ul>
  *
  * @author gquintana
