@@ -9,6 +9,7 @@ import org.javasimon.Stopwatch;
 import org.javasimon.callback.CallbackSkeleton;
 import org.javasimon.callback.logging.LogTemplate;
 import static org.javasimon.callback.logging.LogTemplates.*;
+import org.javasimon.utils.SimonUtils;
 /**
  * Callback which stores data to compute quantiles.
  * Quantiles can only be obtained after warmup period, after which buckets are
@@ -87,12 +88,17 @@ public class QuantilesCallback extends CallbackSkeleton {
 	}
 
 	/**
-	 * Initialize the bucket values attribute
+	 * Get, and if not exist create,  the bucket values attribute
 	 */
-	private List<Long> initBucketsValues(final Stopwatch stopwatch) {
-		List<Long> values = new ArrayList<Long>((int) warmupCounter);
-		stopwatch.setAttribute(ATTR_NAME_BUCKETS_VALUES, values);
-		return values;
+	private List<Long> getOrCreateBucketsValues(final Stopwatch stopwatch) {
+		synchronized(stopwatch) {
+			List<Long> values = getBucketsValues(stopwatch);
+			if (values==null) {
+				values=new ArrayList<Long>((int) warmupCounter);
+				stopwatch.setAttribute(ATTR_NAME_BUCKETS_VALUES, values);
+			}
+			return values;
+		}
 	}
 
 	/**
@@ -138,18 +144,23 @@ public class QuantilesCallback extends CallbackSkeleton {
 	 * Create the buckets after warmup time.
 	 * Can be overriden to customize buckets configuration.
 	 * By default buckets are create with:<ul>
-	 * <li>Min: stopwatch min-10% rounded to 0</li>
-	 * <li>Max: stopwatch max+10</li>
+	 * <li>Min: stopwatch min-10% rounded to inferior millisecond</li>
+	 * <li>Max: stopwatch max+10 rounded to superior millisecond</li>
 	 * <li>Nb buckets: {@link #bucketNb}
 	 *
 	 * @param stopwatch Stopwatch (containing configuration)
 	 * @return new Buckets objects
 	 */
 	protected Buckets createBuckets(Stopwatch stopwatch) {
-		if (stopwatch.getCounter()>warmupCounter) {
-			long max=(stopwatch.getMax()*115L)/100L;
-			long min=Math.max(0, (stopwatch.getMin())*90L/100L);
-			Buckets buckets=new Buckets(min, max, bucketNb);
+		if (stopwatch.getCounter() > warmupCounter) {
+			// Compute min
+			long min = stopwatch.getMin() * 90L / 100L; // min -10%
+			min = Math.max(0, min); // no negative mins
+			min = (min / SimonUtils.NANOS_IN_MILLIS) * SimonUtils.NANOS_IN_MILLIS; // round to lower millisecond
+			// Compute max
+			long max = (stopwatch.getMax() * 110L) / 100L; // max +10%
+			max = (max / SimonUtils.NANOS_IN_MILLIS+1) * SimonUtils.NANOS_IN_MILLIS; // round to upper millisecond
+			Buckets buckets = new Buckets(min, max, bucketNb);
 			buckets.setLogTemplate(createLogTemplate(stopwatch));
 			return buckets;
 		} else {
@@ -158,16 +169,22 @@ public class QuantilesCallback extends CallbackSkeleton {
 	}
 
 	/**
-	 * Initialize the buckets attribute
+	 * Get, and if not exists create, the buckets attribute
 	 */
-	private Buckets initBuckets(Stopwatch stopwatch) {
-		Buckets buckets = createBuckets(stopwatch);
-		if (buckets != null) {
-			buckets.addValues(getBucketsValues(stopwatch));
-			removeBucketsValues(stopwatch);
-			stopwatch.setAttribute(ATTR_NAME_BUCKETS, buckets);
+	private Buckets getOrCreateBuckets(Stopwatch stopwatch) {
+		synchronized(stopwatch) {
+			Buckets buckets = getBuckets(stopwatch);
+			if (buckets == null) {
+				buckets = createBuckets(stopwatch);
+				if (buckets != null) {
+					// Transform buckets values into buckets
+					buckets.addValues(getBucketsValues(stopwatch));
+					removeBucketsValues(stopwatch);
+					stopwatch.setAttribute(ATTR_NAME_BUCKETS, buckets);
+				}
+			}
+			return buckets;
 		}
-		return buckets;
 	}
 
 	/**
@@ -185,7 +202,7 @@ public class QuantilesCallback extends CallbackSkeleton {
 	public void onSimonCreated(Simon simon) {
 		if (simon instanceof Stopwatch) {
 			Stopwatch stopwatch = (Stopwatch) simon;
-			initBucketsValues(stopwatch);
+			getOrCreateBucketsValues(stopwatch);
 		}
 	}
 
@@ -197,14 +214,13 @@ public class QuantilesCallback extends CallbackSkeleton {
 	@Override
 	public void onStopwatchStop(Split split) {
 		final Stopwatch stopwatch = split.getStopwatch();
-		Buckets buckets = getBuckets(stopwatch);
-		if (buckets == null) {
-			buckets = initBuckets(stopwatch);
-		}
+		Buckets buckets=getOrCreateBuckets(stopwatch);
 		long value = split.runningFor();
 		if (buckets == null) {
-			getBucketsValues(stopwatch).add(value);
+			// Warming up
+			getOrCreateBucketsValues(stopwatch).add(value);
 		} else {
+			// Warm
 			buckets.addValue(value);
 			buckets.log(split);
 		}
@@ -218,15 +234,18 @@ public class QuantilesCallback extends CallbackSkeleton {
 	public void onSimonReset(Simon simon) {
 		if (simon instanceof Stopwatch) {
 			Stopwatch stopwatch = (Stopwatch) simon;
-			List<Long> values = getBucketsValues(stopwatch);
-			if (values != null) {
-				values.clear();
-			}
 			Buckets buckets = getBuckets(stopwatch);
-			if (buckets != null) {
+			if (buckets == null) {
+				// Cold
+				List<Long> values = getBucketsValues(stopwatch);
+				if (values != null) {
+					// Warming up
+					values.clear();
+				}
+			} else {
+				// Warm
 				buckets.clear();
 			}
-			initBucketsValues(stopwatch);
 		}
 	}
 }
