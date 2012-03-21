@@ -11,6 +11,7 @@ public class MonitoredAnnotationTest {
 	@Test
 	public void testMonitorNameClean() throws Exception {
 		Class targetClass = MonitoredClean.class;
+		// TODO - maybe in Spring module only
 //		Assert.assertEquals(new MonitorNameHelper(targetClass, targetClass.getMethod("methodWithoutAnnotation")).getStopwatchName(),
 //			"org.javasimon.aop.MonitoredClean.methodWithoutAnnotation");
 //		Assert.assertEquals(new MonitorNameHelper(targetClass, targetClass.getMethod("methodWithSuffix")).getStopwatchName(),

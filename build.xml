@@ -18,6 +18,7 @@
 		<pathelement path="${lib.dir}/spring-beans-3.1.0.RELEASE.jar"/>
 		<pathelement path="${lib.dir}/spring-web-3.1.0.RELEASE.jar"/>
 		<pathelement path="${lib.dir}/spring-webmvc-3.1.0.RELEASE.jar"/>
+		<pathelement path="${lib.dir}/spring-test-3.1.0.RELEASE.jar"/>
 		<pathelement path="${lib.dir}/aopalliance.jar"/>
 		<pathelement path="${lib.dir}/commons-logging-1.1.1.jar"/>
 		<pathelement path="${lib.dir}/jboss-javaee.jar"/>
@@ -36,6 +37,7 @@
 		<compile-module module="jdbc4"/>
 		<compile-module module="javaee"/>
 		<compile-module module="spring"/>
+		<!-- TODO console modules somehow -->
 	</target>
 
 	<macrodef name="compile-module">
@@ -93,6 +95,7 @@
 				<include name="spring-beans-3.1.0.RELEASE.jar"/>
 				<include name="spring-web-3.1.0.RELEASE.jar"/>
 				<include name="spring-webmvc-3.1.0.RELEASE.jar"/>
+				<include name="spring-test-3.1.0.RELEASE.jar"/>
 				<include name="aopalliance.jar"/>
 				<include name="commons-logging-1.1.1.jar"/>
 				<include name="jboss-javaee.jar"/>
@@ -131,16 +134,15 @@
 		<javac destdir="build/test" debug="${javac.debug}" deprecation="${javac.deprecation}" classpathref="classpath" fork="true">
 			<src path="core/src/test/java"/>
 			<src path="jdbc4/src/test/java"/>
+			<src path="spring/src/test/java"/>
+			<!--<src path="console/embed/src/test/java"/> TODO -->
 		</javac>
 		<copy todir="build/test">
 			<fileset dir="core/src/test/resources"/>
 			<fileset dir="jdbc4/src/test/resources"/>
 		</copy>
 		<testng outputdir="${basedir}/build/testout" haltonfailure="true" verbose="2" classpathref="classpath">
-			<xmlfileset dir="build/test">
-				<include name="testng-core.xml"/>
-				<include name="testng-jdbc4.xml"/>
-			</xmlfileset>
+			<classfileset dir="build/test" includes="**/*.class"/>
 		</testng>
 	</target>
 
