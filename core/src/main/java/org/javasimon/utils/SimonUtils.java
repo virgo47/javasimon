@@ -133,6 +133,10 @@ public final class SimonUtils {
 	 * @return human readable time string
 	 */
 	private static String presentOverNanoTime(double time) {
+		if (time < 1d) {
+			return "0";
+		}
+
 		if (time < UNIT_PREFIX_FACTOR) {
 			return ((long) time) + " ns";
 		}
