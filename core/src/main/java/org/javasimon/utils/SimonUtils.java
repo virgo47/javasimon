@@ -133,7 +133,7 @@ public final class SimonUtils {
 	 * @return human readable time string
 	 */
 	private static String presentOverNanoTime(double time) {
-		if (time < 1d) {
+		if (Math.abs(time) < 1d) {
 			return "0";
 		}
 
