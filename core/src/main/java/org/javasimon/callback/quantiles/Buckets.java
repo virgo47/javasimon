@@ -327,24 +327,56 @@ public class Buckets implements LogMessageSource<Split> {
 	 */
 	@Override
 	public String toString() {
-		Double[] quantiles = getQuantiles(0.50D, 0.75D, 0.90D);
+		return toString(false);
+	}
+	public String toString(boolean bars) {
 		StringBuilder stringBuilder = new StringBuilder("Buckets[");
 		stringBuilder.append("min=").append(presentNanoTime(min))
 			.append(",max=").append(presentNanoTime(max))
 			.append(",nb=").append(bucketNb)
 			.append(",width=").append(presentNanoTime(width))
 			.append("] Quantiles[");
-		
-		if (quantiles[0] != null) {
-			stringBuilder.append("median=").append(presentNanoTime(quantiles[0]));
+		final String eol=System.getProperty("line.separator");
+		final String eoc="\t";
+		synchronized(buckets) {
+			Double[] quantiles = getQuantiles(0.50D, 0.75D, 0.90D);
+			if (quantiles[0] != null) {
+				stringBuilder.append("median=").append(presentNanoTime(quantiles[0]));
+			}
+			if (quantiles[1] != null) {
+				stringBuilder.append(",75%=").append(presentNanoTime(quantiles[1]));
+			}
+			if (quantiles[2] != null) {
+				stringBuilder.append(",90%=").append(presentNanoTime(quantiles[2]));
+			}
+			stringBuilder.append("]");
+			if (bars) {
+				stringBuilder.append(eol);
+				int maxCount=0;
+				final int barMax=10;
+				for(Bucket bucket:buckets) {
+					maxCount = Math.max(maxCount, bucket.getCount());
+				}
+				for(Bucket bucket:buckets) {
+					if (bucket.getMin()!=Long.MIN_VALUE) {
+						stringBuilder.append(presentNanoTime(bucket.getMin()));
+					}
+					stringBuilder.append(eoc);
+					if (bucket.getMax()!=Long.MAX_VALUE) {
+						stringBuilder.append(presentNanoTime(bucket.getMax()));
+					}
+					stringBuilder.append(eoc)
+						.append(bucket.getCount()).append(eoc);
+					if (maxCount>0) {
+						final int barSize=bucket.getCount()*barMax/maxCount;
+						for(int i=0;i<barSize;i++) {
+							stringBuilder.append('#');
+						}
+					}
+					stringBuilder.append(eol);
+				}
+			}
 		}
-		if (quantiles[1] != null) {
-			stringBuilder.append(",75%=").append(presentNanoTime(quantiles[1]));
-		}
-		if (quantiles[2] != null) {
-			stringBuilder.append(",90%=").append(presentNanoTime(quantiles[2]));
-		}
-		stringBuilder.append("]");
 		return stringBuilder.toString();
 	}
 
@@ -372,7 +404,7 @@ public class Buckets implements LogMessageSource<Split> {
 	 * Transform buckets and quantiles into a loggable message
 	 */
 	public String getLogMessage(Split lastSplit) {
-		return lastSplit.getStopwatch().getName()+" "+toString();
+		return lastSplit.getStopwatch().getName()+" "+toString(true);
 	}
 	/**
 	 * Log eventually buckets config and quantiles
