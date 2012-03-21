@@ -44,7 +44,7 @@ public class LogTemplates {
 		return everyNMilliseconds(delegateLogger, period*1000L);
 	}
 	/**
-	 * Concrete log template which logger based on SLF4J.
+	 * Produces a concrete log template which logs messages into a SLF4J Logger.
 	 * @param loggerName Logger name
 	 * @param levelName Level name (info, debug, warn, etc.)
 	 * @param markerName Marker name
@@ -63,7 +63,7 @@ public class LogTemplates {
 		}
 	}
 	/**
-	 * Concrete log template which logger based on SLF4J.
+	 * Produces a concrete log template which logs messages into a SLF4J Logger.
 	 * @param loggerName Logger name
 	 * @param levelName Level name (info, debug, warn, etc.)
 	 * @return Logger
@@ -72,7 +72,7 @@ public class LogTemplates {
 		return toSLF4J(loggerName, levelName, null);
 	}
 	/**
-	 * Concrete log template which logger based on Java Util Logging.
+	 * Produces a concrete log template which logs messages into a Java Util Logging Logger.
 	 * @param loggerName Logger name
 	 * @param level Level (warn, fine, finer, etc.)
 	 * @return Logger
@@ -86,7 +86,16 @@ public class LogTemplates {
 	 * @param threshold Threshold (in nanoseconds), above which logging is enabled
 	 * @return Logger
 	 */
+	public static SplitThresholdLogTemplate whenSplitLongerThanNanoseconds(LogTemplate<Split> delegateLogger, long threshold) {
+		return new SplitThresholdLogTemplate(delegateLogger, threshold);
+	}
+	/**
+	 * Produces a log template which logs something when stopwatch split is longer than threshold.
+	 * @param delegateLogger Concrete log template
+	 * @param threshold Threshold (in milliseconds), above which logging is enabled
+	 * @return Logger
+	 */
 	public static SplitThresholdLogTemplate whenSplitLongerThanMilliseconds(LogTemplate<Split> delegateLogger, long threshold) {
-		return new SplitThresholdLogTemplate(delegateLogger, threshold*SimonUtils.NANOS_IN_MILLIS);
+		return whenSplitLongerThanNanoseconds(delegateLogger, threshold*SimonUtils.NANOS_IN_MILLIS);
 	}
 }
