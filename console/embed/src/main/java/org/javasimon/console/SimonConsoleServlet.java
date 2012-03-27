@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.javasimon.console.action.*;
 
 /**
@@ -17,19 +18,23 @@ public class SimonConsoleServlet extends HttpServlet {
 	/**
 	 * Serial version UID since class is Serializable
 	 */
-	public static final long serialVersionUID=1L;
+	public static final long serialVersionUID = 1L;
+
 	/**
 	 * URL Prefix init parameter name
 	 */
 	public static final String URL_PREFIX_INIT_PARAMETER = "url-prefix";
+
 	/**
 	 * Root page path
 	 */
 	public static final String ROOT_PATH = "/index.html";
+
 	/**
 	 * Tree page path
 	 */
 	public static final String TREE_PATH = "/tree.html";
+
 	/**
 	 * URL Prefix.
 	 * Set with init parameters
@@ -46,6 +51,7 @@ public class SimonConsoleServlet extends HttpServlet {
 			urlPrefix = urlPrefix.trim();
 		}
 	}
+
 	/**
 	 * Processes requests for both HTTP
 	 * <code>GET</code> and
@@ -60,12 +66,12 @@ public class SimonConsoleServlet extends HttpServlet {
 		throws ServletException, IOException {
 		String path = request.getRequestURI().substring(request.getContextPath().length() + urlPrefix.length());
 		ActionContext actionContext = new ActionContext(request, response, path);
-		Action action = null;
+		Action action;
 		try {
 			// Create action corresponding to request path
 			if (path.equals("")) {
 				action = new RedirectAction(request.getContextPath() + urlPrefix + ROOT_PATH, actionContext);
-			} else if (path.equals("/")||path.equals(ROOT_PATH)) {
+			} else if (path.equals("/") || path.equals(ROOT_PATH)) {
 				action = createResourceAction(actionContext, ResourceAction.PREFIX + ROOT_PATH);
 			} else if (path.equals(TREE_PATH)) {
 				action = createResourceAction(actionContext, ResourceAction.PREFIX + TREE_PATH);
@@ -106,11 +112,11 @@ public class SimonConsoleServlet extends HttpServlet {
 
 	private ResourceAction createResourceAction(ActionContext actionContext, String path) {
 		actionContext.setPath(path);
-		ResourceAction resourceAction = new ResourceAction(actionContext);
-		return resourceAction;
+		return new ResourceAction(actionContext);
 	}
 
 	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+
 	/**
 	 * Handles the HTTP
 	 * <code>GET</code> method.
