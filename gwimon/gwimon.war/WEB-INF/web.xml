@@ -27,7 +27,7 @@
 			<param-value>/simon</param-value>
 		</init-param>
 		<init-param>
-			<param-name>report-threshold</param-name>
+			<param-name>report-threshold-ms</param-name>
 			<param-value>4</param-value>
 		</init-param>
 	</filter>
