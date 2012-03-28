@@ -11,7 +11,7 @@
       <properties>
         <property name="jdk5.home" value="c:\progra~1\java\jdk1.5.0_22" />
         <property name="jdk6.home" value="c:\progra~1\java\jdk1.6.0_23" />
-        <property name="lib.home" value="..\lib" />
+        <property name="lib.home" value="lib" />
       </properties>
     </buildFile>
   </component>
@@ -47,6 +47,23 @@
   </component>
   <component name="GradleUISettings2">
     <setting name="root" />
+  </component>
+  <component name="InspectionProjectProfileManager">
+    <profiles>
+      <profile version="1.0" is_locked="false">
+        <option name="myName" value="Project Default" />
+        <option name="myLocal" value="false" />
+        <inspection_tool class="JavadocReference" enabled="true" level="WARNING" enabled_by_default="true" />
+        <inspection_tool class="SpellCheckingInspection" enabled="false" level="TYPO" enabled_by_default="false">
+          <option name="processCode" value="true" />
+          <option name="processLiterals" value="true" />
+          <option name="processComments" value="true" />
+        </inspection_tool>
+      </profile>
+    </profiles>
+    <option name="PROJECT_PROFILE" value="Project Default" />
+    <option name="USE_PROJECT_PROFILE" value="true" />
+    <version value="1.0" />
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_STRING" value="-target 1.5" />
@@ -199,6 +216,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/core/javasimon-core.iml" filepath="$PROJECT_DIR$/core/javasimon-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/core/javasimon-core.iml" filepath="$PROJECT_DIR$/core/javasimon-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/examples/javasimon-examples.iml" filepath="$PROJECT_DIR$/examples/javasimon-examples.iml" />
       <module fileurl="file://$PROJECT_DIR$/javaee/javasimon-javaee.iml" filepath="$PROJECT_DIR$/javaee/javasimon-javaee.iml" />
       <module fileurl="file://$PROJECT_DIR$/jdbc3/javasimon-jdbc3.iml" filepath="$PROJECT_DIR$/jdbc3/javasimon-jdbc3.iml" />
@@ -285,6 +303,32 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/junit/junit/3.8.1/junit-3.8.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.javasimon:javasimon-core:2.5.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/javasimon/javasimon-core/2.5.0/javasimon-core-2.5.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$PROJECT_DIR$/core/pom-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/javasimon/javasimon-core/2.5.0/javasimon-core-2.5.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/core/pom-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/javasimon/javasimon-core/2.5.0/javasimon-core-2.5.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.javasimon:javasimon-jdbc3:2.5.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/javasimon/javasimon-jdbc3/2.5.0/javasimon-jdbc3-2.5.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$PROJECT_DIR$/jdbc3/pom-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/javasimon/javasimon-jdbc3/2.5.0/javasimon-jdbc3-2.5.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/jdbc3/pom-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/javasimon/javasimon-jdbc3/2.5.0/javasimon-jdbc3-2.5.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: org.mvel:mvel2:2.0.19">

@@ -4,7 +4,7 @@
 	<groupId>org.javasimon</groupId>
 	<artifactId>javasimon-parent</artifactId>
 	<packaging>pom</packaging>
-	<version>2.5.0</version>
+	<version>2.5.1-SNAPSHOT</version>
 	<name>javasimon</name>
 	<description>Java Simon - simple monitoring library</description>
 	<url>http://code.google.com/p/javasimon/</url>
@@ -125,17 +125,17 @@
 			<dependency>
 				<groupId>org.javasimon</groupId>
 				<artifactId>javasimon-core</artifactId>
-				<version>2.5.0</version>
+				<version>2.5.1-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>org.javasimon</groupId>
 				<artifactId>javasimon-jdbc3</artifactId>
-				<version>2.5.0</version>
+				<version>2.5.1-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>org.javasimon</groupId>
 				<artifactId>javasimon-jmx</artifactId>
-				<version>2.5.0</version>
+				<version>2.5.1-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>
