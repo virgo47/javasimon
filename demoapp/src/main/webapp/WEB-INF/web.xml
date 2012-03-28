@@ -27,11 +27,6 @@
 		</init-param>
 	</filter>
 
-	<filter-mapping>
-		<filter-name>wicket-filter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-
 	<filter>
 		<filter-name>Simon Filter</filter-name>
 		<filter-class>org.javasimon.javaee.SimonServletFilter</filter-class>
@@ -51,6 +46,11 @@
 
 	<filter-mapping>
 		<filter-name>Simon Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>wicket-filter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
