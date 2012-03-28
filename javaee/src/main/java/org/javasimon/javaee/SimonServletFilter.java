@@ -29,7 +29,7 @@ import java.util.List;
  * <ul>
  * <li>{@link #isMonitored(javax.servlet.http.HttpServletRequest)} - by default always true</li>
  * <li>{@link #getSimonName(javax.servlet.http.HttpServletRequest)}</li>
- * <li>{@link #isOverThreshold(javax.servlet.http.HttpServletRequest, long, java.util.List)} - compares actual request
+ * <li>{@link #shouldBeReported} - compares actual request
  * nano time with {@link #getThreshold(javax.servlet.http.HttpServletRequest)} (which may become unused if this method
  * is overriden)</li>
  * <li>{@link #getThreshold(javax.servlet.http.HttpServletRequest)} - returns threshold configured in {@code web.xml}</li>
@@ -193,7 +193,7 @@ public class SimonServletFilter implements Filter {
 			if (reportThresholdNanos != null) {
 				List<Split> splits = splitsThreadLocal.get();
 				splitsThreadLocal.remove(); // better do this before we call potentially overriden method
-				if (isOverThreshold(request, splitNanoTime, splits)) {
+				if (shouldBeReported(request, splitNanoTime, splits)) {
 					reportRequestOverThreshold(request, split, splits);
 				}
 			}
@@ -228,7 +228,7 @@ public class SimonServletFilter implements Filter {
 	 * @param splits all splits started for the request
 	 * @return {@code true}, if request should be reported as over threshold
 	 */
-	protected boolean isOverThreshold(HttpServletRequest request, long requestNanoTime, List<Split> splits) {
+	protected boolean shouldBeReported(HttpServletRequest request, long requestNanoTime, List<Split> splits) {
 		return requestNanoTime > getThreshold(request);
 	}
 
