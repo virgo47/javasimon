@@ -1,7 +1,6 @@
 package org.javasimon.demoapp.web;
 
 import org.apache.wicket.protocol.http.WebApplication;
-import org.javasimon.demoapp.web.PersonsPage;
 
 /**
  * Main application class of Simon Demo Web application in Wicket/Spring.

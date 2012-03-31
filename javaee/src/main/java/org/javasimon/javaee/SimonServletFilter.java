@@ -91,6 +91,11 @@ public class SimonServletFilter implements Filter {
 	protected Long reportThresholdNanos;
 
 	/**
+	 * URL path that displays Simon tree - it is console-path without the ending slash.
+	 */
+	protected String printTreePath;
+
+	/**
 	 * URL path that displays Simon web console (or null if no console is required).
 	 */
 	protected String consolePath;
@@ -116,8 +121,7 @@ public class SimonServletFilter implements Filter {
 	private SplitSaverCallback splitSaverCallback;
 
 	/**
-	 * Initialization method that processes {@link #INIT_PARAM_PREFIX} and {@link #INIT_PARAM_PUBLISH_MANAGER}
-	 * parameters from {@literal web.xml}.
+	 * Initialization method that processes init parameters from {@code web.xml}.
 	 *
 	 * @param filterConfig filter config object
 	 */
@@ -144,7 +148,8 @@ public class SimonServletFilter implements Filter {
 
 		String consolePath = filterConfig.getInitParameter(INIT_PARAM_SIMON_CONSOLE_PATH);
 		if (consolePath != null) {
-			this.consolePath = FINAL_SLASH_REMOVE.process(consolePath);
+			this.printTreePath = FINAL_SLASH_REMOVE.process(consolePath);
+			this.consolePath = printTreePath + "/";
 		}
 	}
 
@@ -163,7 +168,7 @@ public class SimonServletFilter implements Filter {
 		HttpServletResponse response = (HttpServletResponse) servletResponse;
 
 		String localPath = request.getRequestURI().substring(request.getContextPath().length());
-		if (consolePath != null && localPath.startsWith(consolePath)) {
+		if (consolePath != null && (localPath.equals(printTreePath) || localPath.startsWith(consolePath))) {
 			consolePage(request, response, localPath);
 			return;
 		}
@@ -253,10 +258,12 @@ public class SimonServletFilter implements Filter {
 	 * @param splits list of all splits started for this request
 	 */
 	protected void reportRequestOverThreshold(HttpServletRequest request, Split requestSplit, List<Split> splits) {
-		StringBuilder messageBuilder = new StringBuilder("Web request is too long (" + SimonUtils.presentNanoTime(requestSplit.runningFor()) +
-			") [" + requestSplit.getStopwatch().getNote() + "]");
+		StringBuilder messageBuilder = new StringBuilder(
+			"Web request is too long (" + SimonUtils.presentNanoTime(requestSplit.runningFor()) +
+				") [" + requestSplit.getStopwatch().getNote() + "]");
 		for (Split split : splits) {
-			messageBuilder.append("\n\t" + split.getStopwatch().getName() + ": " + SimonUtils.presentNanoTime(split.runningFor()));
+			messageBuilder.append("\n\t").append(split.getStopwatch().getName()).append(": ").
+				append(SimonUtils.presentNanoTime(split.runningFor()));
 		}
 		manager.message(messageBuilder.toString());
 	}
@@ -266,12 +273,19 @@ public class SimonServletFilter implements Filter {
 		response.setHeader("Cache-Control", "no-cache, no-store, max-age=0, must-revalidate");
 		response.setHeader("Pragma", "no-cache");
 
+		if (localPath.equals(printTreePath)) {
+			printSimonTree(response);
+			return;
+		}
+
 		String subcommand = SLASH_TRIM.process(localPath.substring(consolePath.length()));
 		if (subcommand.isEmpty()) {
 			printSimonTree(response);
 		} else if (subcommand.equalsIgnoreCase("clear")) {
 			manager.clear();
 			response.getOutputStream().println("Simon Manager was cleared");
+		} else if (subcommand.equalsIgnoreCase("help")) {
+			simonHelp(response);
 		} else {
 			response.getOutputStream().println("Invalid command\n");
 			simonHelp(response);
@@ -281,6 +295,7 @@ public class SimonServletFilter implements Filter {
 	private void simonHelp(ServletResponse response) throws IOException {
 		response.getOutputStream().println("Simon Console help - available commands:");
 		response.getOutputStream().println("- clear - clears the manager (removes all Simons)");
+		response.getOutputStream().println("- help - shows this help");
 	}
 
 	private void printSimonTree(ServletResponse response) throws IOException {
