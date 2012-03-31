@@ -28,7 +28,7 @@
 	</filter>
 
 	<filter>
-		<filter-name>Simon Filter</filter-name>
+		<filter-name>simon-filter</filter-name>
 		<filter-class>org.javasimon.javaee.SimonServletFilter</filter-class>
 		<init-param>
 			<param-name>prefix</param-name>
@@ -44,8 +44,22 @@
 		</init-param>
 	</filter>
 
+	<filter>
+		<filter-name>simon-console-filter</filter-name>
+		<filter-class>org.javasimon.console.SimonConsoleFilter</filter-class>
+		<init-param>
+			<param-name>url-prefix</param-name>
+			<param-value>/console-filter</param-value>
+		</init-param>
+	</filter>
+
 	<filter-mapping>
-		<filter-name>Simon Filter</filter-name>
+		<filter-name>simon-console-filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>simon-filter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
@@ -59,13 +73,13 @@
 		<servlet-class>org.javasimon.console.SimonConsoleServlet</servlet-class>
 		<init-param>
 			<param-name>url-prefix</param-name>
-			<param-value>/jsc</param-value>
+			<param-value>/console-servlet</param-value>
 		</init-param>
 	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>SimonConsoleServlet</servlet-name>
-		<url-pattern>/jsc/*</url-pattern>
+		<url-pattern>/console-servlet/*</url-pattern>
 	</servlet-mapping>
 
 </web-app>
