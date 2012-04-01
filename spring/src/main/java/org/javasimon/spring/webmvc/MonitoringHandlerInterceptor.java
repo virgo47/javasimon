@@ -4,16 +4,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.javasimon.Manager;
-import org.javasimon.SimonManager;
 import org.javasimon.Split;
-import org.springframework.web.method.HandlerMethod;
+import org.javasimon.Stopwatch;
+import org.javasimon.source.MonitorSource;
+import org.javasimon.source.StopwatchTemplate;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Spring MVC interceptor monitors time spent in handlers (usually controllers)
- * and views.
- * Spring configuration:
+ * and views. Spring configuration:
  * <pre>{@literal
  * <mvc:interceptors>
  *    <bean class="org.javasimon.spring.webmvc.MonitoringHandlerInterceptor"/>
@@ -25,165 +25,101 @@ import org.springframework.web.servlet.ModelAndView;
  */
 public class MonitoringHandlerInterceptor implements HandlerInterceptor {
 	/**
-	 * Prefix used for Simon names
+	 * Current thread running split, if any.
 	 */
-	private String prefix = "org.javasimon.mvc";
+	private final ThreadLocal<HandlerLocation> threadLocation = new ThreadLocal<HandlerLocation>();
 
 	/**
-	 * Suffix used for Simon names of Controllers
+	 * Stopwatch template.
 	 */
-	private String controllerSuffix = "ctrl";
+	private StopwatchTemplate<HandlerLocation> stopwatchTemplate;
 
 	/**
-	 * Suffix used for Simon names of Views
-	 */
-	private String viewSuffix = "view";
-
-	/**
-	 * Spring MVC request processing step
-	 */
-	public enum Step {
-		CONTROLLER, VIEW
-	}
-
-	/**
-	 * Current thread running split, if any
-	 */
-	private final ThreadLocal<Split> threadSplit = new ThreadLocal<Split>();
-
-	/**
-	 * Simon manager used to get stopwatches
-	 */
-	private Manager manager = SimonManager.manager();
-
-	/**
-	 * Indicates if Controller/View should be monitored.
-	 * Override this method to filter monitored requests.
+	 * Constructor with stopwatch source.
 	 *
-	 * @param request HTTP request
-	 * @param handler Handler
-	 * @param suffix Either ctrl or view
-	 * @return Always true.
+	 * @param stopwatchSource Stopwatch source
 	 */
-	protected boolean isMonitored(HttpServletRequest request, Object handler, ModelAndView modelAndView, Step step) {
-		return true;
+	public MonitoringHandlerInterceptor(MonitorSource<HandlerLocation, Stopwatch> stopwatchSource) {
+		this.stopwatchTemplate = new StopwatchTemplate<HandlerLocation>(stopwatchSource);
 	}
 
 	/**
-	 * Builds Simon name for given controller method and HTTP request
-	 * Override this method to customize monitor names.
+	 * Constructor with simon manager and default stopwatch source.
 	 *
-	 * @param request HTTP request
-	 * @param handler Controller method
-	 * @param suffix Either ctrl or view
+	 * @param manager Manager manager
 	 */
-	protected String getMonitorName(HttpServletRequest request, Object handler, ModelAndView modelAndView, Step step) {
-		StringBuilder stringBuilder = new StringBuilder(prefix).append(".");
-		// Append controller type
-		if (handler instanceof HandlerMethod) {
-			HandlerMethod handlerMethod = (HandlerMethod) handler;
-			stringBuilder.append(handlerMethod.getBeanType().getSimpleName())
-				.append(".").append(handlerMethod.getMethod().getName());
-		} else {
-			stringBuilder.append(handler.getClass().getSimpleName());
-		}
-		// Append step
-		stringBuilder.append(".");
-		switch (step) {
-			case CONTROLLER:
-				stringBuilder.append(controllerSuffix);
-				break;
-			case VIEW:
-				stringBuilder.append(viewSuffix);
-				break;
-		}
-		return stringBuilder.toString();
+	public MonitoringHandlerInterceptor(Manager manager) {
+		this.stopwatchTemplate = new StopwatchTemplate<HandlerLocation>(new HandlerStopwatchSource(manager));
 	}
 
 	/**
-	 * Start stopwatch for given name and thread
+	 * Default constructor: default stopwatch source, default manager.
+	 */
+	public MonitoringHandlerInterceptor() {
+		this.stopwatchTemplate = new StopwatchTemplate<HandlerLocation>(new HandlerStopwatchSource());
+	}
+
+	/**
+	 * Start stopwatch for given name and thread.
 	 *
 	 * @return Running split
 	 */
-	private Split startStopwatch(HttpServletRequest request, Object handler, ModelAndView modelAndView, Step step) {
-		Split split = null;
-		if (isMonitored(request, handler, modelAndView, step)) {
-			split = manager.getStopwatch(getMonitorName(request, handler, modelAndView, step)).start();
-			threadSplit.set(split);
-		}
+	protected final Split startStopwatch(HandlerLocation location) {
+		Split split = stopwatchTemplate.start(location);
+		location.setSplit(split);
 		return split;
 	}
 
 	/**
-	 * Stop current thread stopwatch (if any)
+	 * Stop current thread stopwatch (if any).
 	 *
 	 * @return Stopped split
 	 */
-	protected Split stopStopwatch() {
-		Split split = threadSplit.get();
-		if (split != null) {
-			split.stop();
-			threadSplit.remove();
+	protected final Split stopStopwatch() {
+		HandlerLocation location = threadLocation.get();
+		Split split = null;
+		if (location != null) {
+			split = location.getSplit();
+			stopwatchTemplate.stop(split);
+			location.setSplit(null);
 		}
 		return split;
 	}
 
 	/**
-	 * Invoked before controller
+	 * Invoked before controller.
 	 */
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+		final HandlerLocation location = new HandlerLocation(request, handler, HandlerStep.CONTROLLER);
+		threadLocation.set(location);
+
 		// Start controller stopwatch
-		startStopwatch(request, handler, null, Step.CONTROLLER);
+		startStopwatch(location);
 		return true;
 	}
 
 	/**
-	 * Invoked between controller and view
+	 * Invoked between controller and view.
 	 */
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
 		// Stop controller stopwatch
 		stopStopwatch();
+
+		HandlerLocation location = threadLocation.get();
+		location.setStep(HandlerStep.VIEW);
+
 		// Start view stopwatch
-		startStopwatch(request, handler, modelAndView, Step.VIEW);
+		startStopwatch(location);
 	}
 
 	/**
-	 * Invoked after view
+	 * Invoked after view.
 	 */
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
 		// Stop view stopwatch
 		stopStopwatch();
-	}
 
-	public Manager getManager() {
-		return manager;
-	}
-
-	public void setManager(Manager manager) {
-		this.manager = manager;
-	}
-
-	public String getPrefix() {
-		return prefix;
-	}
-
-	public void setPrefix(String prefix) {
-		this.prefix = prefix;
-	}
-
-	public String getControllerSuffix() {
-		return controllerSuffix;
-	}
-
-	public void setControllerSuffix(String controllerSuffix) {
-		this.controllerSuffix = controllerSuffix;
-	}
-
-	public String getViewSuffix() {
-		return viewSuffix;
-	}
-
-	public void setViewSuffix(String viewSuffix) {
-		this.viewSuffix = viewSuffix;
+		// Remove location
+		threadLocation.remove();
 	}
 }
