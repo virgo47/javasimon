@@ -15,6 +15,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.javasimon.source.DisabledMonitorSource;
+import org.javasimon.source.MonitorSource;
+import org.javasimon.source.StopwatchTemplate;
+
 /**
  * Simon Servlet filter measuring HTTP request execution times. Non-HTTP usages are not supported.
  * Filter provides these functions:
@@ -41,6 +45,29 @@ import java.util.List;
  */
 @SuppressWarnings("UnusedParameters")
 public class SimonServletFilter implements Filter {
+	/**
+	 * FQN of the Stopwatch source class implementing {@link org.javasimon.source.MonitorSource}.
+	 * One can use {@link DisabledMonitorSource} to disabled monitoring.
+	 * Defaults to {@link HttpStopwatchSource}.
+	 */
+	public static final String INIT_PARAM_STOPWATCH_SOURCE_CLASS = "stopwatch-source-class";
+
+	/**
+	 * Name of filter init parameter for Simon name prefix.
+	 */
+	public static final String INIT_PARAM_STOPWATCH_SOURCE_PREFIX = "prefix";
+
+	/**
+	 * Enable/disable caching on Stopwatch resolution.
+	 * <em>Warning: as the cache key is the {@link HttpServletRequest#getRequestURI()},
+	 * this is incompatible with application passing data in their
+	 * request URI, this is often the case of RESTful services.
+	 * For instance "/car/1023/driver" and "/car/3624/driver"
+	 * may point to the same page but with different URLs.</em>
+	 * Defaults to {@code false}.
+	 */
+	public static final String INIT_PARAM_STOPWATCH_SOURCE_CACHE = "stopwatch-source-cache";
+
 	/**
 	 * Default prefix for web filter Simons if no "prefix" init parameter is used.
 	 */
@@ -121,14 +148,65 @@ public class SimonServletFilter implements Filter {
 	private SplitSaverCallback splitSaverCallback;
 
 	/**
-	 * Initialization method that processes init parameters from {@code web.xml}.
+	 * Stopwatch template is invoked before/after each request to start/stop.
+	 */
+	private StopwatchTemplate<HttpServletRequest> stopwatchTemplate;
+
+	/**
+	 * Create and initialize the stopwatch source depending on
+	 * filter init parameter
+	 *
+	 * @param filterConfig Filter configuration
+	 * @return Stopwatch source
+	 */
+	@SuppressWarnings("unchecked")
+	protected MonitorSource<HttpServletRequest, Stopwatch> initStopwatchSource(FilterConfig filterConfig) {
+		MonitorSource<HttpServletRequest, Stopwatch> stopwatchSource;
+		String stopwatchSourceClass = filterConfig.getInitParameter(INIT_PARAM_STOPWATCH_SOURCE_CLASS);
+
+		if (stopwatchSourceClass == null) {
+			stopwatchSource = new HttpStopwatchSource();
+		} else {
+			try {
+				stopwatchSource = (MonitorSource<HttpServletRequest, Stopwatch>)
+					Class.forName(stopwatchSourceClass).newInstance();
+			} catch (ClassNotFoundException classNotFoundException) {
+				throw new IllegalArgumentException("Invalid Stopwatch source class name", classNotFoundException);
+			} catch (InstantiationException instantiationException) {
+				throw new IllegalArgumentException("Invalid Stopwatch source class name", instantiationException);
+			} catch (IllegalAccessException illegalAccessException) {
+				throw new IllegalArgumentException("Invalid Stopwatch source class name", illegalAccessException);
+			}
+		}
+
+		// Inject prefix into HTTP Stopwatch source
+		String simonPrefix = filterConfig.getInitParameter(INIT_PARAM_STOPWATCH_SOURCE_PREFIX);
+		if (simonPrefix != null) {
+			if (stopwatchSource instanceof HttpStopwatchSource) {
+				HttpStopwatchSource httpStopwatchSource = (HttpStopwatchSource) stopwatchSource;
+				httpStopwatchSource.setPrefix(simonPrefix);
+			} else {
+				throw new IllegalArgumentException("Prefix init param is only compatible with HttpStopwatchSource");
+			}
+
+		}
+
+		// Wrap stopwatch source in a cache
+		String cache = filterConfig.getInitParameter(INIT_PARAM_STOPWATCH_SOURCE_CACHE);
+		if (cache != null && Boolean.parseBoolean(cache)) {
+			stopwatchSource = HttpStopwatchSource.newCacheStopwatchSource(stopwatchSource);
+		}
+		return stopwatchSource;
+	}
+
+	/**
+	 * Initialization method that processes {@link #INIT_PARAM_PREFIX} and {@link #INIT_PARAM_PUBLISH_MANAGER}
+	 * parameters from {@literal web.xml}.
 	 *
 	 * @param filterConfig filter config object
 	 */
 	public final void init(FilterConfig filterConfig) {
-		if (filterConfig.getInitParameter(INIT_PARAM_PREFIX) != null) {
-			simonPrefix = filterConfig.getInitParameter(INIT_PARAM_PREFIX);
-		}
+		stopwatchTemplate = new StopwatchTemplate<HttpServletRequest>(initStopwatchSource(filterConfig));
 
 		String publishManager = filterConfig.getInitParameter(INIT_PARAM_PUBLISH_MANAGER);
 		if (publishManager != null) {
@@ -172,34 +250,22 @@ public class SimonServletFilter implements Filter {
 			consolePage(request, response, localPath);
 			return;
 		}
-
-		if (isMonitored(request)) {
-			doFilterWithMonitoring(request, response, filterChain);
-		} else {
-			filterChain.doFilter(request, response);
-		}
-	}
-
-	private void doFilterWithMonitoring(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-		if (reportThresholdNanos != null) {
+		Split split = stopwatchTemplate.start(request);
+		if (split != null && reportThresholdNanos != null) {
 			splitsThreadLocal.set(new ArrayList<Split>());
 		}
 
-		String simonName = getSimonName(request);
-		Stopwatch stopwatch = manager.getStopwatch(simonPrefix + Manager.HIERARCHY_DELIMITER + simonName);
-		if (stopwatch.getNote() == null) {
-			stopwatch.setNote(request.getRequestURI());
-		}
-		Split split = stopwatch.start();
 		try {
 			filterChain.doFilter(request, response);
 		} finally {
-			long splitNanoTime = split.stop().runningFor();
-			if (reportThresholdNanos != null) {
-				List<Split> splits = splitsThreadLocal.get();
-				splitsThreadLocal.remove(); // better do this before we call potentially overriden method
-				if (shouldBeReported(request, splitNanoTime, splits)) {
-					reportRequestOverThreshold(request, split, splits);
+			if (split != null) {
+				long splitNanoTime = split.stop().runningFor();
+				if (reportThresholdNanos != null) {
+					List<Split> splits = splitsThreadLocal.get();
+					splitsThreadLocal.remove(); // better do this before we call potentially overriden method
+					if (shouldBeReported(request, splitNanoTime, splits)) {
+						reportRequestOverThreshold(request, split, splits);
+					}
 				}
 			}
 		}
@@ -311,7 +377,7 @@ public class SimonServletFilter implements Filter {
 	 * @return fully qualified name of the Simon
 	 */
 	protected String getSimonName(HttpServletRequest request) {
-		return DefaultUrlToSimonNameUtil.getSimonName(request);
+		return UrlToSimonNameUtil.getSimonName(request, null);
 	}
 
 	/**

@@ -10,41 +10,40 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author virgo47@gmail.com
  */
-public class DefaultUrlToSimonNameUtil {
-	/**
-	 * Regex replacer for unallowed characters in Simon names.
-	 */
-	private static final Replacer UNALLOWED_CHARS_PATTERN = new Replacer(createUnallowedCharsPattern(), "");
+public class UrlToSimonNameUtil {
 	/**
 	 * Regex replacer for any number of slashes or dots for a single dot.
 	 */
 	private static final Replacer TO_DOT_PATTERN = new Replacer("[/.]+", ".");
 
 	/**
-	 * Initializes the pattern used to remove unallowed characters from the URL.
+	 * Creates new replacer for unallowed characters in the URL.
 	 *
+	 *
+	 * @param replacement replacement string (for every unallowed character)
 	 * @return compiled pattern matching characters to remove from the URL
 	 */
-	private static String createUnallowedCharsPattern() {
+	public static Replacer createUnallowedCharsReplacer(String replacement) {
 		StringBuilder sb = new StringBuilder(SimonUtils.NAME_PATTERN.pattern());
 		sb.insert(1, "^/"); // negates the whole character group ("whatever is not allowed character")
 		sb.deleteCharAt(sb.indexOf(".")); // don't spare dots either (not allowed for URL)
-		return sb.toString();
+		return new Replacer(sb.toString(), replacement);
 	}
 
 	/**
-	 * Returns Simon name for the specified request - by default dots and all non-simon-name compliant characters
-	 * are removed first, then all slashes are switched to dots (repeating slashes make one dot).
+	 * Returns Simon name for the specified request (without prefix) - by default dots and all non-simon-name compliant
+	 * characters are removed first, then all slashes are switched to dots (repeating slashes make one dot).
 	 *
 	 * @param request HTTP servlet request
-	 * @return Simon name for the request URI
+	 * @param unallowedCharacterReplacer replacer for characters that are not allowed in Simon name
+	 * @return local part of the Simon name for the request URI (without prefix)
 	 */
-	public static String getSimonName(HttpServletRequest request) {
+	public static String getSimonName(HttpServletRequest request, Replacer unallowedCharacterReplacer) {
 		String name = request.getRequestURI();
 		if (name.startsWith("/")) {
 			name = name.substring(1);
 		}
-		name = UNALLOWED_CHARS_PATTERN.process(name);
+		name = unallowedCharacterReplacer.process(name);
 		name = TO_DOT_PATTERN.process(name);
 		return name;
 	}

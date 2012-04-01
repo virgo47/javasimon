@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
  */
 public final class Replacer {
 	private final Pattern from;
-	private final String to;
+	private String to;
 	private final boolean repeatUntilUnchanged;
 
 	/**
@@ -44,6 +44,25 @@ public final class Replacer {
 		this.from = Pattern.compile(from);
 		this.to = to;
 		this.repeatUntilUnchanged = repeatUntilUnchanged;
+	}
+
+	/**
+	 * Returns replacement string.
+	 *
+	 * @return replacement string
+	 */
+	public String getTo() {
+		return to;
+	}
+
+	/**
+	 * Sets replacement string - this can be changed anytime with any subsequent {@link #process(String)} calls
+	 * reflecting this change immediatelly.
+	 *
+	 * @param to new replacement string
+	 */
+	public void setTo(String to) {
+		this.to = to;
 	}
 
 	/**

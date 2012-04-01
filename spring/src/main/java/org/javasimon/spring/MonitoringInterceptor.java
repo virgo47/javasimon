@@ -1,11 +1,14 @@
 package org.javasimon.spring;
 
 import java.io.Serializable;
+
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.javasimon.Manager;
-import org.javasimon.SimonManager;
 import org.javasimon.Split;
+import org.javasimon.Stopwatch;
+import org.javasimon.source.MonitorSource;
+import org.javasimon.source.StopwatchTemplate;
 
 /**
  * Method interceptor that measures the duration of the intercepted call with a Stopwatch.
@@ -14,9 +17,35 @@ import org.javasimon.Split;
  */
 public final class MonitoringInterceptor implements MethodInterceptor, Serializable {
 	/**
-	 * Simon manager used for producing simons
+	 * Stopwatch template.
 	 */
-	private Manager manager=SimonManager.manager();
+	private final StopwatchTemplate<MethodInvocation> stopwatchTemplate;
+
+	/**
+	 * Constructor
+	 *
+	 * @param stopwatchSource Provider stopwatch for method invocation
+	 */
+	public MonitoringInterceptor(MonitorSource<MethodInvocation, Stopwatch> stopwatchSource) {
+		this.stopwatchTemplate = new StopwatchTemplate<MethodInvocation>(stopwatchSource);
+	}
+
+	/**
+	 * Constuctor with Manager
+	 * Monitors only methods and classes annotated with @Monitored
+	 */
+	public MonitoringInterceptor(Manager manager) {
+		this(new SpringStopwatchSource(manager).cache());
+	}
+
+	/**
+	 * Default constuctor.
+	 * Monitors only methods and classes annotated with @Monitored
+	 */
+	public MonitoringInterceptor() {
+		this(new SpringStopwatchSource().cache());
+	}
+
 	/**
 	 * Performs method invocation and wraps it with Stopwatch.
 	 *
@@ -25,22 +54,11 @@ public final class MonitoringInterceptor implements MethodInterceptor, Serializa
 	 * @throws Throwable anything thrown by the method
 	 */
 	public Object invoke(MethodInvocation invocation) throws Throwable {
-		String monitorName = MonitoredHelper.getMonitorName(invocation);
-
-		Split split = manager.getStopwatch(monitorName).start();
+		final Split split = stopwatchTemplate.start(invocation);
 		try {
 			return invocation.proceed();
 		} finally {
-			split.stop();
+			stopwatchTemplate.stop(split);
 		}
 	}
-
-	public Manager getManager() {
-		return manager;
-	}
-
-	public void setManager(Manager manager) {
-		this.manager = manager;
-	}
-	
 }
