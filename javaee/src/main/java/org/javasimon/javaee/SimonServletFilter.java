@@ -24,7 +24,7 @@ import org.javasimon.source.StopwatchTemplate;
  * Filter provides these functions:
  * <ul>
  * <li>measures all requests and creates tree of Simons with names derived from URLs</li>
- * <li>checks if the request is not longer then a specified threshold and logs warning (TODO)</li>
+ * <li>checks if the request is not longer then a specified threshold and logs warning</li>
  * <li>provides basic "console" function if config parameter {@link #INIT_PARAM_SIMON_CONSOLE_PATH} is used in {@code web.xml}</li>
  * </ul>
  * <p/>
