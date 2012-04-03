@@ -22,17 +22,16 @@ public final class MonitoringInterceptor implements MethodInterceptor, Serializa
 	private final StopwatchTemplate<MethodInvocation> stopwatchTemplate;
 
 	/**
-	 * Constructor
+	 * Constructor with specified {@link MonitorSource}.
 	 *
-	 * @param stopwatchSource Provider stopwatch for method invocation
+	 * @param stopwatchSource stopwtach provider for method invocation
 	 */
 	public MonitoringInterceptor(MonitorSource<MethodInvocation, Stopwatch> stopwatchSource) {
 		this.stopwatchTemplate = new StopwatchTemplate<MethodInvocation>(stopwatchSource);
 	}
 
 	/**
-	 * Constuctor with Manager
-	 * Monitors only methods and classes annotated with @Monitored
+	 * Constuctor with specified {@link Manager}.
 	 */
 	public MonitoringInterceptor(Manager manager) {
 		this(new SpringStopwatchSource(manager).cache());
@@ -40,7 +39,6 @@ public final class MonitoringInterceptor implements MethodInterceptor, Serializa
 
 	/**
 	 * Default constuctor.
-	 * Monitors only methods and classes annotated with @Monitored
 	 */
 	public MonitoringInterceptor() {
 		this(new SpringStopwatchSource().cache());

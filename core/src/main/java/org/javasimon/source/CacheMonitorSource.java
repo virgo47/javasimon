@@ -8,91 +8,105 @@ import java.util.Map;
 
 /**
  * Monitor source playing the role of cache for delegate monitor source
+ *
  * @param <L> Location/invocation context
  * @param <M> Simon type
  * @param <K> Location key
  * @author gquintana
  */
-public abstract class CacheMonitorSource<L,M extends Simon,K> implements MonitorSource<L, M> {
+public abstract class CacheMonitorSource<L, M extends Simon, K> implements MonitorSource<L, M> {
 	/**
-	 * Real monitor source
+	 * Real monitor source.
 	 */
 	private final MonitorSource<L, M> delegate;
+
 	/**
-	 * Monitor/location information
+	 * Monitor/location information.
 	 */
 	private static class MonitorInformation {
 		private final boolean monitored;
 		private final String name;
+
 		public MonitorInformation(boolean monitored, Simon simon) {
 			this.monitored = monitored;
-			if (simon==null) {
-				name=null;
+			if (simon == null) {
+				name = null;
 			} else {
 				this.name = simon.getName();
 			}
 		}
+
 		public boolean isMonitored() {
 			return monitored;
 		}
+
 		public String getName() {
 			return name;
 		}
+
 		public Simon getMonitor() {
-			if (name==null) {
+			if (name == null) {
 				return null;
 			} else {
 				return SimonManager.getSimon(name);
 			}
 		}
 	}
+
 	/**
-	 * Not monitored monitor information
+	 * Not monitored monitor information.
 	 */
-	private static final MonitorInformation NULL_MONITOR_INFORMATION=new MonitorInformation(false, null);
+	private static final MonitorInformation NULL_MONITOR_INFORMATION = new MonitorInformation(false, null);
+
 	/**
-	 * Map location key &rarr; monitor information
+	 * Map location key &rarr; monitor information.
 	 */
-	private final Map<K,MonitorInformation> monitorInformations=new HashMap<K, MonitorInformation>();
+	private final Map<K, MonitorInformation> monitorInformations = new HashMap<K, MonitorInformation>();
+
 	/**
-	 * Constructor
-	 * @param delegate  Delegate provider monitors for real
+	 * Constructor with real {@link MonitorSource}.
+	 *
+	 * @param delegate Delegate provider monitors for real
 	 */
 	public CacheMonitorSource(MonitorSource<L, M> delegate) {
 		this.delegate = delegate;
 	}
 
 	/**
-	 * Get location for given location
+	 * Get location for given location.
 	 */
 	protected abstract K getLocationKey(L location);
+
 	/**
 	 * Get monitor information for given location.
 	 * First monitor information is looked up in cache.
-	 * Then, when not found, delegate is called
+	 * Then, when not found, delegate is called.
+	 *
 	 * @param location Location
 	 * @return Monitor information
 	 */
 	private MonitorInformation getMonitorInformation(L location) {
-		final K monitorKey=getLocationKey(location);
-		MonitorInformation monitorInformation=monitorInformations.get(monitorKey);
-		if (monitorInformation==null) {
+		final K monitorKey = getLocationKey(location);
+		MonitorInformation monitorInformation = monitorInformations.get(monitorKey);
+		if (monitorInformation == null) {
 			// Not found, let's call delegate
 			if (delegate.isMonitored(location)) {
-				monitorInformation=new MonitorInformation(true, delegate.getMonitor(location));
+				monitorInformation = new MonitorInformation(true, delegate.getMonitor(location));
 			} else {
-				monitorInformation=NULL_MONITOR_INFORMATION;
+				monitorInformation = NULL_MONITOR_INFORMATION;
 			}
 			monitorInformations.put(monitorKey, monitorInformation);
 		}
 		return monitorInformation;
 	}
+
 	/**
 	 * Remove monitor information for given location
 	 */
 	private void removeMonitorInformation(L location) {
 		monitorInformations.remove(getLocationKey(location));
 	}
+
 	/**
 	 * Check whether location should be monitored.
 	 * Response is entirely based on cache
@@ -100,26 +114,27 @@ public abstract class CacheMonitorSource<L,M extends Simon,K> implements Monitor
 	public boolean isMonitored(L location) {
 		return getMonitorInformation(location).isMonitored();
 	}
+
 	@SuppressWarnings("unchecked")
 	private M getMonitorOnce(L location) {
 		return (M) getMonitorInformation(location).getMonitor();
 	}
+
 	/**
 	 * Get Simon for given location.
 	 * Simon is retrieved from name in cache.
+	 *
 	 * @param location Location
 	 * @return
 	 */
 	public M getMonitor(L location) {
-		M monitor=getMonitorOnce(location);
+		M monitor = getMonitorOnce(location);
 		// In case monitor was removed from manager, we retry
-		if (monitor==null) {
+		if (monitor == null) {
 			removeMonitorInformation(location);
-			monitor=getMonitorOnce(location);
+			monitor = getMonitorOnce(location);
 		}
 		return monitor;
 	}
-
-
 
 }
