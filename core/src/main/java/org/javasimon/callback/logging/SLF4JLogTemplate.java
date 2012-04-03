@@ -1,24 +1,32 @@
 package org.javasimon.callback.logging;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
+
 /**
- * Concrete log template using SLF4J {@link Logger}
+ * Concrete log template using SLF4J {@link Logger}.
+ *
  * @author gquintana
+ * @since 3.2
  */
+@SuppressWarnings("UnusedDeclaration")
 public abstract class SLF4JLogTemplate<C> extends LogTemplate<C> {
 	/**
 	 * Logger
 	 */
 	protected final Logger logger;
+
 	/**
 	 * Marker, can be null
 	 */
 	protected final Marker marker;
+
 	/**
-	 * Constructor
-	 * @param logger Logger
+	 * Constructor with {@link Logger} and {@link Marker}.
+	 *
+	 * @param logger logger
 	 * @param marker Marker (can be null)
 	 */
 	protected SLF4JLogTemplate(Logger logger, Marker marker) {
@@ -27,59 +35,46 @@ public abstract class SLF4JLogTemplate<C> extends LogTemplate<C> {
 	}
 
 	/**
-	 * Constructor
-	 * @param loggerName Logger name
-	 * @param levelName Level name
-	 * @param markerName  Marker name (can be null)
+	 * Constructor with logger name and marker name.
+	 *
+	 * @param loggerName logger name
+	 * @param markerName marker name (can be null)
 	 */
 	protected SLF4JLogTemplate(String loggerName, String markerName) {
 		this.logger = LoggerFactory.getLogger(loggerName);
-		this.marker=markerName==null?null:MarkerFactory.getMarker(markerName);
+		this.marker = markerName == null ? null : MarkerFactory.getMarker(markerName);
 	}
-//	/**
-//	 * Init logger methods depending on level name
-//	 * @param levelName Level name
-//	 */
-//	private void initMethods(String levelName) {
-//		levelName=levelName.toLowerCase();
-//		try {
-//			isEnabledMethod = Logger.class.getMethod("is" + Character.toUpperCase(levelName.charAt(0)) + levelName.substring(1) + "Enabled", new Class[]{Marker.class});
-//			if (marker==null) {
-//				logMethod = Logger.class.getMethod(levelName, new Class[]{String.class});								
-//			} else {
-//				logMethod = Logger.class.getMethod(levelName, new Class[]{Marker.class, String.class});				
-//			}
-//		} catch (NoSuchMethodException noSuchMethodException) {
-//			throw new IllegalArgumentException("Invalid level name: "+levelName, noSuchMethodException);
-//		} catch (SecurityException securityException) {
-//			throw new IllegalStateException("Unable to get logger methods", securityException);
-//		}
-//		this.levelName=levelName;
-//	} 
+
 	/**
-	 * Get logger
-	 * @return Logger
+	 * Returns logger.
+	 *
+	 * @return logger
 	 */
 	public Logger getLogger() {
 		return logger;
 	}
+
 	/**
-	 * Marker 
-	 * @return marker 
+	 * Returns marker.
+	 *
+	 * @return marker
 	 */
 	public Marker getMarker() {
 		return marker;
 	}
+
 	/**
-	 * SLF4J Log template with Debug level
+	 * SLF4J Log template with DEBUG level.
 	 */
 	public static class Debug<C> extends SLF4JLogTemplate<C> {
 		public Debug(String loggerName, String markerName) {
 			super(loggerName, markerName);
 		}
+
 		public Debug(Logger logger, Marker marker) {
 			super(logger, marker);
 		}
+
 		/**
 		 * {@inheritDoc }
 		 */
@@ -87,6 +82,7 @@ public abstract class SLF4JLogTemplate<C> extends LogTemplate<C> {
 		protected boolean isEnabled(C context) {
 			return logger.isDebugEnabled(marker);
 		}
+
 		/**
 		 * {@inheritDoc }
 		 */
@@ -95,23 +91,27 @@ public abstract class SLF4JLogTemplate<C> extends LogTemplate<C> {
 			logger.debug(marker, message);
 		}
 	}
+
 	/**
-	 * SLF4J Log template with Info level
+	 * SLF4J Log template with INFO level.
 	 */
 	public static class Info<C> extends SLF4JLogTemplate<C> {
 		public Info(String loggerName, String markerName) {
 			super(loggerName, markerName);
 		}
+
 		public Info(Logger logger, Marker marker) {
 			super(logger, marker);
 		}
+
 		/**
 		 * {@inheritDoc }
-		 */		
+		 */
 		@Override
 		protected boolean isEnabled(C context) {
 			return logger.isInfoEnabled(marker);
 		}
+
 		/**
 		 * {@inheritDoc }
 		 */
@@ -120,16 +120,19 @@ public abstract class SLF4JLogTemplate<C> extends LogTemplate<C> {
 			logger.info(marker, message);
 		}
 	}
+
 	/**
-	 * SLF4J Log template with Warn level
+	 * SLF4J Log template with WARN level.
 	 */
 	public static class Warn<C> extends SLF4JLogTemplate<C> {
 		public Warn(String loggerName, String markerName) {
 			super(loggerName, markerName);
 		}
+
 		public Warn(Logger logger, Marker marker) {
 			super(logger, marker);
 		}
+
 		/**
 		 * {@inheritDoc }
 		 */
@@ -137,6 +140,7 @@ public abstract class SLF4JLogTemplate<C> extends LogTemplate<C> {
 		protected boolean isEnabled(C context) {
 			return logger.isWarnEnabled(marker);
 		}
+
 		/**
 		 * {@inheritDoc }
 		 */

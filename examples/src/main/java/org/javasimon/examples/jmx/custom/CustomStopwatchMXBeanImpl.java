@@ -2,6 +2,7 @@ package org.javasimon.examples.jmx.custom;
 
 import org.javasimon.Stopwatch;
 import org.javasimon.jmx.StopwatchMXBeanImpl;
+import org.javasimon.utils.SimonUtils;
 
 /**
  * Customized Stopwatch JMX bean displaying values in milliseconds.
@@ -14,11 +15,11 @@ public class CustomStopwatchMXBeanImpl extends StopwatchMXBeanImpl implements Cu
 	}
 
 	private double nanosToMillis(double nanos) {
-		return nanos / 1000000d;
+		return nanos / SimonUtils.NANOS_IN_MILLIS;
 	}
 
 	private long nanosToMillis(long nanos) {
-		return nanos / 1000000L;
+		return nanos / SimonUtils.NANOS_IN_MILLIS;
 	}
 
 	@Override

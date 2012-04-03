@@ -24,12 +24,17 @@ public class HttpStopwatchSourceTest {
 
 	@Test
 	public void testGetMonitorName() {
+		httpStopwatchSource.setPrefix(null);
+
 		// Normal
 		assertMonitorName("/foo/bar/quix", "foo.bar.quix");
 		// Unallowed chars
 		assertMonitorName("/foo/+bar/quix.png", "foo._bar.quix_png");
 		// Doubled chars
 		assertMonitorName("/foo//bar/quix..png", "foo.bar.quix_png");
+		assertMonitorName("/foo/++bar/++/quix.png", "foo._bar._.quix_png");
+
+		httpStopwatchSource.setPrefix(""); // should be the same
 		assertMonitorName("/foo/++bar/++/quix.png", "foo._bar._.quix_png");
 
 		httpStopwatchSource.setReplaceUnallowed("");
@@ -39,5 +44,8 @@ public class HttpStopwatchSourceTest {
 		// Doubled chars
 		assertMonitorName("/foo//bar/quix..png", "foo.bar.quixpng");
 		assertMonitorName("/foo/++bar/++/quix.png", "foo.bar.quixpng");
+
+		httpStopwatchSource.setPrefix("testing.prefix");
+		assertMonitorName("/foo/++bar/++/quix.png", "testing.prefix.foo.bar.quixpng");
 	}
 }

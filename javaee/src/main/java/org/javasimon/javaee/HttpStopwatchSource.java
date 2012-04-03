@@ -31,7 +31,7 @@ public class HttpStopwatchSource extends AbstractStopwatchSource<HttpServletRequ
 	public static final String DEFAULT_SIMON_PREFIX = "org.javasimon.web";
 
 	/**
-	 * Simon prefix - protected for subclasses.
+	 * Simon prefix (protected for subclass usage) - can be {@code null}.
 	 */
 	private String prefix = DEFAULT_SIMON_PREFIX;
 
@@ -57,7 +57,7 @@ public class HttpStopwatchSource extends AbstractStopwatchSource<HttpServletRequ
 	}
 
 	/**
-	 * Returns Simon name for the specified HTTP request. By default it contains URI without parameters with
+	 * Returns Simon name for the specified HTTP request with the specified prefix. By default it contains URI without parameters with
 	 * all slashes replaced for dots (slashes then determines position in Simon hierarchy). Method can be
 	 * overriden.
 	 *
@@ -65,7 +65,11 @@ public class HttpStopwatchSource extends AbstractStopwatchSource<HttpServletRequ
 	 * @return fully qualified name of the Simon
 	 */
 	protected String getMonitorName(HttpServletRequest request) {
-		return prefix + Manager.HIERARCHY_DELIMITER + UrlToSimonNameUtil.getSimonName(request, unallowedCharacterReplacer);
+		String localName = UrlToSimonNameUtil.getSimonName(request, unallowedCharacterReplacer);
+		if (prefix == null || prefix.isEmpty()) {
+			return localName;
+		}
+		return prefix + Manager.HIERARCHY_DELIMITER + localName;
 	}
 
 	/**

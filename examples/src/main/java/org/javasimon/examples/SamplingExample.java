@@ -10,6 +10,7 @@ import org.javasimon.Split;
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
+@SuppressWarnings({"InfiniteLoopStatement"})
 public final class SamplingExample {
 	private SamplingExample() {
 	}
@@ -19,7 +20,6 @@ public final class SamplingExample {
 	 *
 	 * @param args command line arguments
 	 */
-	@SuppressWarnings({"InfiniteLoopStatement"})
 	public static void main(String[] args) {
 		// Starts the sampler
 		Sampler sampler = new Sampler();
@@ -41,13 +41,12 @@ public final class SamplingExample {
 		/**
 		 * Method implementing the code of the thread.
 		 */
-		@SuppressWarnings({"InfiniteLoopStatement"})
 		public void run() {
 			while (true) {
 				Stopwatch stopwatch = SimonManager.getStopwatch("sampled-stopwatch");
 				System.out.println("\nstopwatch = " + stopwatch);
 				System.out.println("Stopwatch sample: " + stopwatch.sample());
-				// uncomment this if you want reset - of course commment the line above
+				// uncomment this if you want reset - of course comment the line above
 //				System.out.println("Stopwatch sample: " + stopwatch.sampleAndReset());
 				try {
 					Thread.sleep(10000);
