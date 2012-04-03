@@ -31,8 +31,8 @@ public class UrlToSimonNameUtil {
 	}
 
 	/**
-	 * Returns Simon name for the specified request (without prefix) - by default dots and all non-simon-name compliant
-	 * characters are removed first, then all slashes are switched to dots (repeating slashes make one dot).
+	 * Returns Simon name for the specified request (local name without any configured prefix). By default dots and all non-simon-name
+	 * compliant characters are removed first, then all slashes are switched to dots (repeating slashes make one dot).
 	 *
 	 * @param request HTTP servlet request
 	 * @param unallowedCharacterReplacer replacer for characters that are not allowed in Simon name

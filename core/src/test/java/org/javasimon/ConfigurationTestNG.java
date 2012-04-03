@@ -4,6 +4,7 @@ import javax.script.ScriptException;
 
 import org.javasimon.callback.*;
 import org.javasimon.utils.LoggingCallback;
+import org.javasimon.utils.SimonUtils;
 import org.testng.annotations.Test;
 import org.testng.Assert;
 import org.javasimon.utils.DebugCallback;
@@ -61,7 +62,7 @@ public final class ConfigurationTestNG {
 		Assert.assertFalse(new FilterRule(null, "split < 5 || split > 1000000000us", null).checkCondition(split.getStopwatch(), split));
 		Assert.assertTrue(new FilterRule(null, "split > 100 && split < 10000ms", null).checkCondition(split.getStopwatch(), split));
 		Assert.assertTrue(new FilterRule(null, "value == 1s", null).checkCondition(split.getStopwatch(), 1000000000L));
-		Assert.assertTrue(new FilterRule(null, "value == 1ms", null).checkCondition(split.getStopwatch(), 1000000L));
+		Assert.assertTrue(new FilterRule(null, "value == 1ms", null).checkCondition(split.getStopwatch(), SimonUtils.NANOS_IN_MILLIS));
 		Assert.assertTrue(new FilterRule(null, "value == 1us", null).checkCondition(split.getStopwatch(), 1000L));
 		Assert.assertTrue(new FilterRule(null, "value == 1", null).checkCondition(split.getStopwatch(), 1L));
 	}

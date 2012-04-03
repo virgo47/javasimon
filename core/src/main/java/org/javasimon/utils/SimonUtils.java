@@ -50,6 +50,11 @@ import java.util.regex.Pattern;
 @SuppressWarnings({"UnusedDeclaration"})
 public final class SimonUtils {
 	/**
+	 * Number of milliseconds in one second.
+	 */
+	public static final long MILLIS_IN_SECOND = 1000;
+
+	/**
 	 * Number of nanoseconds in one millisecond.
 	 */
 	public static final long NANOS_IN_MILLIS = 1000000;

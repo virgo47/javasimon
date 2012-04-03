@@ -11,7 +11,8 @@ import java.util.logging.Logger;
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
-public final class LoggingCallback extends CallbackSkeleton {
+@SuppressWarnings("UnusedDeclaration")
+public class LoggingCallback extends CallbackSkeleton {
 	private Logger logger = Logger.getAnonymousLogger();
 	private Level level = Level.FINE;
 
@@ -20,6 +21,7 @@ public final class LoggingCallback extends CallbackSkeleton {
 	 *
 	 * @param split started split
 	 */
+	@Override
 	public void onStopwatchStart(Split split) {
 		logger.log(level, "SIMON START: " + split.getStopwatch());
 	}
@@ -29,6 +31,7 @@ public final class LoggingCallback extends CallbackSkeleton {
 	 *
 	 * @param split stopped split
 	 */
+	@Override
 	public void onStopwatchStop(Split split) {
 		logger.log(level, "SIMON STOP: " + split.getStopwatch() + " (" + split.runningFor() + ")");
 	}
@@ -39,8 +42,19 @@ public final class LoggingCallback extends CallbackSkeleton {
 	 * @param warning warning message
 	 * @param cause throwable cause
 	 */
+	@Override
 	public void onManagerWarning(String warning, Exception cause) {
 		logger.log(level, "SIMON WARNING: " + warning, cause);
+	}
+
+	/**
+	 * Logs the message on a specified log level.
+	 *
+	 * @param message message
+	 */
+	@Override
+	public void onManagerMessage(String message) {
+		logger.log(level, "SIMON MESSAGE: " + message);
 	}
 
 	/**
