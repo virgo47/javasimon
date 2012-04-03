@@ -6,17 +6,20 @@ import org.javasimon.Stopwatch;
 import java.lang.reflect.Method;
 
 /**
- * Base class for stopwatch sources working on method locations
+ * Base class for Stopwatch sources working on method locations.
+ *
  * @author gquintana
  */
 public abstract class AbstractMethodStopwatchSource<T> extends AbstractStopwatchSource<T> {
 	/**
-	 * Default constructor using default simon manager
+	 * Default constructor using default simon manager.
 	 */
 	public AbstractMethodStopwatchSource() {
 	}
+
 	/**
-	 * Constructor using specific simon manager
+	 * Constructor using specific simon manager.
+	 *
 	 * @param manager Simon manager
 	 */
 	public AbstractMethodStopwatchSource(Manager manager) {
@@ -24,20 +27,23 @@ public abstract class AbstractMethodStopwatchSource<T> extends AbstractStopwatch
 	}
 
 	/**
-	 * Get target class from location
+	 * Get target class from location.
+	 *
 	 * @param location Location
 	 * @return Target class
 	 */
 	protected abstract Class<?> getTargetClass(T location);
+
 	/**
-	 * Get target method from location
+	 * Get target method from location.
+	 *
 	 * @param location Location
 	 * @return Target method
 	 */
 	protected abstract Method getTargetMethod(T location);
 
 	/**
-	 * Provide a Stopwatch for given join point
+	 * Returns the Stopwatch for given join point.
 	 */
 	@Override
 	public Stopwatch getMonitor(T location) {
@@ -47,8 +53,9 @@ public abstract class AbstractMethodStopwatchSource<T> extends AbstractStopwatch
 		}
 		return stopwatch;
 	}
+
 	/**
-	 * Wraps given stop watch source in a cache
+	 * Wraps given stopwatch source in a cache.
 	 *
 	 * @param stopwatchSource Stopwatch source
 	 * @return Cached stopwatch source
@@ -61,8 +68,10 @@ public abstract class AbstractMethodStopwatchSource<T> extends AbstractStopwatch
 			}
 		};
 	}
+
 	/**
-	 * Wraps this data source in a cache
+	 * Wraps this data source in a cache.
+	 *
 	 * @return Cache monitor source
 	 */
 	public CacheMonitorSource<T, Stopwatch, Method> cache() {

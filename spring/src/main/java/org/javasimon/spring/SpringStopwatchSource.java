@@ -10,13 +10,13 @@ import org.springframework.core.annotation.AnnotationUtils;
 import java.lang.reflect.Method;
 
 /**
- * Monitor source providing stopwatches from Spring AOP method invocation
+ * Monitor source providing stopwatches from Spring AOP method invocation.
  *
  * @author gquintana
  */
 public class SpringStopwatchSource extends AbstractMethodStopwatchSource<MethodInvocation> {
 	/**
-	 * Constructor
+	 * Constructor with specified {@link Manager}.
 	 *
 	 * @param manager Simon manager used for producing Stopwatches
 	 */
@@ -25,61 +25,69 @@ public class SpringStopwatchSource extends AbstractMethodStopwatchSource<MethodI
 	}
 
 	/**
-	 * Constructor using default Simon manager
+	 * Constructor using default {@link org.javasimon.SimonManager}.
 	 */
 	public SpringStopwatchSource() {
 		super();
 	}
 
 	/**
-	 * Get target class
+	 * Get target class.
 	 */
 	protected final Class<?> getTargetClass(MethodInvocation methodInvocation) {
 		return AopUtils.getTargetClass(methodInvocation.getThis());
 	}
 
 	/**
-	 * Get method being invoked
+	 * Get method being invoked.
 	 *
 	 * @param methodInvocation Method invocation
 	 * @return Method being invoked
 	 */
 	@Override
 	protected Method getTargetMethod(MethodInvocation methodInvocation) {
-		return methodInvocation.getMethod();
+		return AopUtils.getMostSpecificMethod(methodInvocation.getMethod(), getTargetClass(methodInvocation));
 	}
 
 	/**
-	 * Tests whether invoked method or the class (or any superclass) is annotated with {@link org.javasimon.aop.Monitored}.
+	 * By default returns {@code true} because it is expected to be called from {@link MonitoringInterceptor} which means that the method call
+	 * should be monitored. Pointcuts provided enough mechanism to decide whether the method is monitored or not, but this method can be overriden
+	 * if needed.
 	 *
 	 * @param methodInvocation current method invocation
 	 * @return true, if the method invocation should be monitored
 	 */
 	@Override
 	public boolean isMonitored(MethodInvocation methodInvocation) {
-		return AnnotationUtils.findAnnotation(methodInvocation.getMethod(), Monitored.class) != null
-			|| AnnotationUtils.findAnnotation(getTargetClass(methodInvocation), Monitored.class) != null;
+		return true;
 	}
 
 	/**
-	 * Get monitor name for given method invocation
+	 * Returns monitor name for the given method invocation with {@link org.javasimon.aop.Monitored#name()}
+	 * and {@link org.javasimon.aop.Monitored#suffix()} applied as expected.
+	 *
+	 * @param methodInvocation current method invocation
+	 * @return name of the Stopwatch for the invocation
 	 */
 	protected String getMonitorName(MethodInvocation methodInvocation) {
-		Monitored methodAnnotation = AnnotationUtils.findAnnotation(methodInvocation.getMethod(), Monitored.class);
+		Class<?> targetClass = getTargetClass(methodInvocation);
+		Method targetMethod = getTargetMethod(methodInvocation);
+
+		Monitored methodAnnotation = AnnotationUtils.findAnnotation(targetMethod, Monitored.class);
 		if (methodAnnotation != null && methodAnnotation.name() != null && methodAnnotation.name().length() > 0) {
 			return methodAnnotation.name();
 		}
 
 		StringBuilder nameBuilder = new StringBuilder();
-		Monitored classAnnotation = AnnotationUtils.findAnnotation(getTargetClass(methodInvocation), Monitored.class);
+		Monitored classAnnotation = AnnotationUtils.findAnnotation(targetClass, Monitored.class);
 		if (classAnnotation != null && classAnnotation.name() != null && classAnnotation.name().length() > 0) {
 			nameBuilder.append(classAnnotation.name());
 		} else {
-			nameBuilder.append(methodInvocation.getMethod().getDeclaringClass().getName());
+			nameBuilder.append(targetClass.getName());
 		}
 		nameBuilder.append(Manager.HIERARCHY_DELIMITER);
 
-		String suffix = methodInvocation.getMethod().getName();
+		String suffix = targetMethod.getName();
 		if (methodAnnotation != null && methodAnnotation.suffix() != null && methodAnnotation.suffix().length() > 0) {
 			suffix = methodAnnotation.suffix();
 		}

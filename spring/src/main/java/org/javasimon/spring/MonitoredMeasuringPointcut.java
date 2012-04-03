@@ -6,6 +6,7 @@ import org.javasimon.aop.Monitored;
 import org.springframework.aop.ClassFilter;
 import org.springframework.aop.MethodMatcher;
 import org.springframework.aop.Pointcut;
+import org.springframework.aop.support.AopUtils;
 import org.springframework.core.annotation.AnnotationUtils;
 
 /**
@@ -37,14 +38,8 @@ public final class MonitoredMeasuringPointcut implements Pointcut {
 		INSTANCE;
 
 		public boolean matches(Method method, Class targetClass) {
-			if (AnnotationUtils.findAnnotation(targetClass, Monitored.class) != null) {
-				return true;
-			} else if (AnnotationUtils.findAnnotation(method, Monitored.class) != null) {
-				return true;
-			}
-
-			// if nothing matches return false
-			return false;
+			return AnnotationUtils.findAnnotation(targetClass, Monitored.class) != null
+				|| AnnotationUtils.findAnnotation(AopUtils.getMostSpecificMethod(method, targetClass), Monitored.class) != null;
 		}
 
 		public boolean isRuntime() {
