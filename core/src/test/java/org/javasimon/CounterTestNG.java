@@ -52,6 +52,14 @@ public final class CounterTestNG {
 		Assert.assertTrue(counter.getMaxTimestamp() != counter.getLastUsage());
 		Assert.assertTrue(counter.getMaxTimestamp() != counter.getMinTimestamp());
 		Assert.assertEquals(counter.getMinTimestamp(), counter.getLastUsage());
+
+		counter.decrease(55);
+		counter.increase(-3);
+		Assert.assertEquals(counter.getCounter(), -58);
+		Assert.assertEquals(counter.getIncrementSum(), -2);
+		Assert.assertEquals(counter.getDecrementSum(), 56);
+		Assert.assertEquals(counter.getMax(), 1);
+		Assert.assertEquals(counter.getMin(), -58);
 	}
 
 	@Test

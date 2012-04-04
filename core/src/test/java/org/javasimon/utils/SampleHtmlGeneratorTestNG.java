@@ -61,6 +61,8 @@ public class SampleHtmlGeneratorTestNG {
 		sample.setName("counter" + index);
 		sample.setCounter(555);
 		sample.setMax(600);
+		sample.setIncrementSum(1000);
+		sample.setDecrementSum(13);
 		sample.setMin(Long.MIN_VALUE);
 		return sample;
 	}

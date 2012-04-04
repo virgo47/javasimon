@@ -163,6 +163,15 @@ public class CounterSample extends Sample {
 	}
 
 	/**
+	 * Returns the total sum of increments and decrements as a formatted string (+inc/-dec).
+	 *
+	 * @return total sum of increments and decrements as string
+	 */
+	public final String getTotalAsString() {
+		return "+" + SimonUtils.presentMinMaxCount(incrementSum) + "/-" + SimonUtils.presentMinMaxCount(decrementSum);
+	}
+
+	/**
 	 * Returns readable representation of object.
 	 *
 	 * @return string with readable representation of object
