@@ -81,8 +81,7 @@ public final class SimonDataSource extends AbstractSimonDataSource implements Da
 	}
 
 	/**
-	 * <p>Attempts to establish a connection with the data source that
-	 * this <code>DataSource</code> object represents.
+	 * Attempts to establish a connection with the data source that this {@code DataSource} object represents.
 	 *
 	 * @return a connection to the data source
 	 * @throws java.sql.SQLException if a database access error occurs
@@ -93,8 +92,7 @@ public final class SimonDataSource extends AbstractSimonDataSource implements Da
 	}
 
 	/**
-	 * <p>Attempts to establish a connection with the data source that
-	 * this <code>DataSource</code> object represents.
+	 * Attempts to establish a connection with the data source that this {@code DataSource} object represents.
 	 *
 	 * @param user the database user on whose behalf the connection is being made
 	 * @param password the user's password

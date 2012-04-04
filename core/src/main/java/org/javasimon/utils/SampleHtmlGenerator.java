@@ -89,7 +89,7 @@ public class SampleHtmlGenerator {
 			indent(2).append("<td>").append(SimonUtils.presentMinMaxCount(counterSample.getMin())).append("</td>").append(lineSeparator);
 			indent(2).append("<td>").append(SimonUtils.presentMinMaxCount(counterSample.getMax())).append("</td>").append(lineSeparator);
 			indent(2).append("<td>-</td>").append(lineSeparator);
-			indent(2).append("<td>-</td>").append(lineSeparator);
+			indent(2).append("<td>").append(counterSample.getTotalAsString()).append("</td>").append(lineSeparator);
 		}
 		indent(1).append("</tr>").append(lineSeparator);
 	}
