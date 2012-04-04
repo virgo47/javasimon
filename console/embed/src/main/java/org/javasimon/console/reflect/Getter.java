@@ -68,7 +68,7 @@ public class Getter<T> {
 	public String getSubType() {
 		return subType;
 	}
-	
+
 	/**
 	 * Get value from source object using getter method
 	 * @param source Source object
@@ -112,7 +112,7 @@ public class Getter<T> {
 		return propertyName;
 	}
 	/**
-	 * Constains the content of the SubTypes.properties file
+	 * Constains the content of the SubTypes.properties file.
 	 */
 	private static final Properties subTypeProperties=new Properties();
 	static {

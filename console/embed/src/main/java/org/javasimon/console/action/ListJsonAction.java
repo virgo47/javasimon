@@ -2,6 +2,7 @@ package org.javasimon.console.action;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
+
 import org.javasimon.Simon;
 import org.javasimon.SimonManager;
 import org.javasimon.console.*;
@@ -16,13 +17,15 @@ import org.javasimon.console.json.ObjectJS;
  */
 public class ListJsonAction extends AbstractJsonAction {
 
-	public static final String PATH = "/data/lisf.json";
+	public static final String PATH = "/data/list.json";
+
 	/**
-	 * Pattern for Simon name filtering
+	 * Pattern for Simon name filtering.
 	 */
 	private String pattern;
+
 	/**
-	 * Type for Simon type filtering
+	 * Type for Simon type filtering.
 	 */
 	private SimonType type;
 

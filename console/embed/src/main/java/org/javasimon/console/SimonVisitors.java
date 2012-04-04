@@ -5,28 +5,29 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
 import org.javasimon.Manager;
 import org.javasimon.Simon;
 
 /**
- * Helper class to navigate throuch Simons
+ * Helper class to navigate through Simons.
  *
  * @author gquintana
  */
 public class SimonVisitors {
 
 	/**
-	 * Hidden constructor
+	 * Hidden constructor.
 	 */
 	private SimonVisitors() {
 	}
 
 	/**
-	 * Visit simons as a list. 
+	 * Visit simons as a list.
 	 * Calls {@link  Manager#getSimons(java.lang.String) } method
 	 * then simons are sorted by name and filtered by type
-	 * finally the visitor is called on each of them
-	 * 
+	 * finally the visitor is called on each of them.
+	 *
 	 * @param manager Simon manager
 	 * @param pattern Pattern
 	 * @param type Type
@@ -51,7 +52,7 @@ public class SimonVisitors {
 	}
 
 	/**
-	 * Visit simons as a tree
+	 * Visit simons as a tree.
 	 * Calls {@link  Manager#getRootSimon() } method
 	 * finally the visitor is recursively called on each of them
 	 *
@@ -62,8 +63,9 @@ public class SimonVisitors {
 	public static void visitTree(Manager manager, SimonVisitor visitor) throws IOException {
 		visitTree(manager.getRootSimon(), visitor);
 	}
+
 	/**
-	 * Visit simons as a tree
+	 * Visit simons as a tree.
 	 * Calls The visitor is recursively called on each of them
 	 *
 	 * @param simon Parent simon
