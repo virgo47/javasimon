@@ -8,7 +8,7 @@ import org.javasimon.console.text.StringifierFactory;
 
 /**
  * Export Simons as a flat static HTML table which can be used for printing.
- * Each row as an odd/even CSS class
+ * Each row as an odd/even CSS class.
  * Each cell as a CSS class corresponding to property name
  * Only a subset (definined in {@link AbstractTableAction#columns}) of attributes are exported.
  *

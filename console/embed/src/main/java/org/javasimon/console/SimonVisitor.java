@@ -4,7 +4,7 @@ import java.io.IOException;
 import org.javasimon.Simon;
 
 /**
- * Callback interface used when visiting Simon manager and it simons
+ * Callback interface used when visiting Simon manager and it Simons.
  *
  * @see SimonVisitors
  * @author gquintana

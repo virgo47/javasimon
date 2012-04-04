@@ -82,15 +82,15 @@ $(document).ready(function() {
 					return sResult;
 				}
 			},
-			{sTitle:"Count", mDataProp: "counter",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric"},
-			{sTitle:"Total", mDataProp: "total",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric" },
-			{sTitle:"Min", mDataProp: "min",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric" },
-			{sTitle:"Mean", mDataProp: "mean",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric" },
-			{sTitle:"Max", mDataProp: "max",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric" },
+			{sTitle:"Count", mDataProp: "counter",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric",asSorting: ["desc","asc" ] },
+			{sTitle:"Total", mDataProp: "total",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric",asSorting: ["desc","asc" ] },
+			{sTitle:"Min", mDataProp: "min",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric",asSorting: ["desc","asc" ] },
+			{sTitle:"Mean", mDataProp: "mean",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric",asSorting: ["desc","asc" ] },
+			{sTitle:"Max", mDataProp: "max",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric",asSorting: ["desc","asc" ] },
 			{sTitle:"Std Dev", mDataProp: "standardDeviation",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric" },
-			{sTitle:"Last", mDataProp: "last",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric" },
+			{sTitle:"Last", mDataProp: "last",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric",asSorting: ["desc","asc" ] },
 			{sTitle:"First Date", mDataProp: "firstUsage",bSearchable: false,sWidth: "10%",sClass:"numeric" },
-			{sTitle:"Last Date", mDataProp: "lastUsage",bSearchable: false,sWidth: "10%",sClass:"numeric" },
+			{sTitle:"Last Date", mDataProp: "lastUsage",bSearchable: false,sWidth: "10%",sClass:"numeric",asSorting: ["desc","asc" ] },
 			{sTitle:"", mDataProp: "type",sWidth: "5%" ,sType:"string",bUseRendered:false,bSortable:false,sClass:"footCell",
 				fnRender:function(oObject) {
 					var sName=oObject.aData["name"];
@@ -118,12 +118,12 @@ $(document).ready(function() {
 			document.oDataTable.fnReloadAjax();
 		})
 	};
-	
+
 	document.oDataTable=oDataTable;
 	$(window).bind('resize', function () {
 		document.oDataTable.fnAdjustColumnSizing();
 	} );
-} );   
+} );
 
         </script>
     </head>
@@ -164,7 +164,7 @@ $(document).ready(function() {
         </div>
         <div id="data">
             <table id="dataTable">
-                
+
             </table>
         </div>
     </body>

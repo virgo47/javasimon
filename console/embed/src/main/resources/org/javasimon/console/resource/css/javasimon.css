@@ -32,15 +32,19 @@ span#exportSpan {
 td.numeric {
     text-align: right;
 }
+
+table#dataTable > tbody > tr.even {
+    background-color: #eef8ff;
+}
 table#dataTable > tbody > tr > td > img.icon {
 	height: 24px;
 	width: 24px;
 	border: none;
 	margin: 0px;
-	vertical-align:middle;	
+	vertical-align:middle;
 }
 table#dataTable > tbody > tr:hover {
-	background-color: #EAF5F7;
+	background-color: #E0F0F7;
 }
 
 /* -----------------------------------------------------------------------------
@@ -49,8 +53,8 @@ table#dataTable > tbody > tr:hover {
 table.flatTable > tbody > tr > td.counter, td.total, td.min, td.mean, td.last, td.max, td.standardDeviation {
     text-align: right;
 }
-table.flatTable > tbody > tr.odd {
-    background-color: lightgrey;
+table.flatTable > tbody > tr.even {
+    background-color: #eef8ff;
 }
 table.flatTable td {
     border-left:  solid black thin;
@@ -93,7 +97,7 @@ table.dataTreeTable > thead > tr > td {
 	height: 36px;
 }
 table.dataTreeTable > tbody > tr:hover {
-	background-color: #EAF5F7;
+	background-color: #E0F0F7;
 }
 table.dataTreeTable > tbody > tr.visible {
 	display: table-row;
@@ -126,7 +130,7 @@ table.dataTreeTable > tbody > tr > td.date {
 }
 
 /* -----------------------------------------------------------------------------
- * JQuery UI Start theme fix 
+ * JQuery UI Start theme fix
  * ---------------------------------------------------------------------------*/
 .ui-button-text-icon-primary .ui-button-text, .ui-button-text-icons .ui-button-text {
     padding: 0.2em 0.5em 0.2em 1.8em;
