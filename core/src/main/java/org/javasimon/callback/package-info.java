@@ -11,7 +11,7 @@
  * It is not recommended to mix composite callbacks with functionality, generally it should not be necessary to implement
  * composite callbacks in addition to the following two provided implementations:
  * <ul>
- *     <li>{@link CompositeCallbackImpl} delegates all events to all sub-callbacks
+ *     <li>{@link org.javasimon.callback.CompositeCallbackImpl} delegates all events to all sub-callbacks
  *     (used in {@link org.javasimon.EnabledManager} for instance);</li>
  *     <li>{@link org.javasimon.callback.CompositeFilterCallback} allows to filter events that should be propagated to the sub-callbacks,
  *     filter rules can be added using

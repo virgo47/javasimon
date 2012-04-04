@@ -12,7 +12,7 @@
 	<!-- used for testng or examples -->
 	<path id="classpath">
 		<pathelement path="${lib.dir}/${testng.jar}"/>
-		<pathelement path="${lib.dir}/h2-1.3.154.jar"/>
+		<pathelement path="${lib.dir}/h2-1.3.163.jar"/>
 		<pathelement path="${lib.dir}/spring-core-3.1.0.RELEASE.jar"/>
 		<pathelement path="${lib.dir}/spring-aop-3.1.0.RELEASE.jar"/>
 		<pathelement path="${lib.dir}/spring-beans-3.1.0.RELEASE.jar"/>
@@ -89,7 +89,7 @@
 			</zipfileset>
 			<zipfileset prefix="javasimon-${version}/lib" dir="${lib.dir}">
 				<include name="${testng.jar}"/>
-				<include name="h2-1.3.154.jar"/>
+				<include name="h2-1.3.163.jar"/>
 				<include name="spring-core-3.1.0.RELEASE.jar"/>
 				<include name="spring-aop-3.1.0.RELEASE.jar"/>
 				<include name="spring-beans-3.1.0.RELEASE.jar"/>
