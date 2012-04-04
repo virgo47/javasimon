@@ -43,7 +43,7 @@ long maxSplit = stopwatch.getMax();
 long minSplit = stopwatch.getMin();
 }}}
 
-You can use convenient utility to print the results (note ns/us/ms/s unit after the number:
+You can use convenient utility to print the results (note ns/us/ms/s unit after the number):
 {{{
 System.out.println("Total time: " + SimonUtils.presentNanoTime(totalNanos));
 }}}
@@ -58,22 +58,24 @@ Project is hosted on Google Code as "javasimon":
   * Homepage: http://www.javasimon.org
   * Project page: http://code.google.com/p/javasimon/
   * Download: http://code.google.com/p/javasimon/downloads/list
-  * Javadoc API: http://javasimon.googlecode.com/svn/javadoc/api-3.0/index.html
+  * Javadoc API: http://javasimon.googlecode.com/svn/javadoc/api-3.2/index.html
   * Source browser: http://code.google.com/p/javasimon/source/browse/
   * Issue tracker: http://code.google.com/p/javasimon/issues/list
   * Ohloh page: http://www.ohloh.net/p/javasimon
 
-Project uses following libraries:
+Project uses following libraries (for Ant build, check dependencies in POMs for Maven build):
   * TestNG: http://testng.org/ (test only)
-    * `testng-5.11-jdk15.jar`
-  * Spring (core/aop/beans/web/webmvc): http://www.springsource.org/ (Spring integration)
+    * `testng-6.3.1.jar`
+  * Spring (core/aop/beans/web/webmvc/test/...): http://www.springsource.org/ (Spring integration)
     * `org.springframework.*-3.1.0.RELEASE.jar`
   * AOP alliance: http://aopalliance.sourceforge.net/ (Spring integration)
     * `aopalliance.jar`
   * Commons logging: http://commons.apache.org/logging/ (Spring integration)
     * `commons-logging-1.1.1.jar`
+  * SLF4J logging: http://www.slf4j.org/ (logging callback in core module, may not be required during runtime)
+    * `slf4j-api-1.6.2.jar`
   * H2 Database: http://www.h2database.com/ (examples)
-    * `h2-1.3.154.jar`
+    * `h2-1.3.163.jar`
   * Java EE libraries for Java EE module compilation:
     * `servlet-api.jar`
     * `jboss-javaee.jar`
