@@ -30,7 +30,7 @@ public final class CallbackFilteringExample {
 				System.out.println("Starting " + split.getStopwatch().getName());
 			}
 
-			public void onStopwatchStop(Split split) {
+			public void onStopwatchStop(Split split, StopwatchSample sample) {
 				System.out.println("Stopped " + split.getStopwatch().getName() + " (" + SimonUtils.presentNanoTime(split.runningFor()) + ")");
 			}
 		};

@@ -47,14 +47,17 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	 */
 	@Override
 	public Stopwatch addTime(long ns) {
+		StopwatchSample sample;
 		synchronized (this) {
-			if (enabled) {
-				updateUsages();
-				addSplit(ns);
-				manager.callback().onStopwatchAdd(this, ns);
+			if (!enabled) {
+				return this;
 			}
-			return this;
+			updateUsages();
+			addSplit(ns);
+			sample = sample();
 		}
+		manager.callback().onStopwatchAdd(this, ns, sample);
+		return this;
 	}
 
 	/**
@@ -62,16 +65,19 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	 */
 	@Override
 	public Stopwatch addSplit(Split split) {
+		long splitNs = split.runningFor();
+		StopwatchSample sample;
 		synchronized (this) {
-			if (enabled) {
-				long splitNs = split.runningFor();
-				// using parameter version saves one currentTimeMillis call
-				updateUsages(split.getStart() + splitNs);
-				addSplit(splitNs);
-				manager.callback().onStopwatchAdd(this, split);
+			if (!enabled) {
+				return this;
 			}
-			return this;
+			// using parameter version saves one currentTimeMillis call
+			updateUsages(split.getStart() + splitNs);
+			addSplit(splitNs);
+			sample = sample();
 		}
+		manager.callback().onStopwatchAdd(this, split, sample);
+		return this;
 	}
 
 	/**
@@ -80,17 +86,17 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	@Override
 	public Split start() {
 		long nowNanos = System.nanoTime();
+		Split split;
 		synchronized (this) {
-			if (enabled) {
-				Split split;
-				updateUsages(nowNanos);
-				activeStart();
-				split = new Split(this, nowNanos);
-				manager.callback().onStopwatchStart(split);
-				return split;
+			if (!enabled) {
+				return new Split(this);
 			}
-			return new Split(this);
+			updateUsages(nowNanos);
+			activeStart();
+			split = new Split(this, nowNanos);
 		}
+		manager.callback().onStopwatchStart(split);
+		return split;
 	}
 
 	/**
@@ -101,15 +107,14 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	 * @param nowNanos current nano time
 	 */
 	void stop(Split split, long start, long nowNanos) {
+		StopwatchSample sample;
 		synchronized (this) {
-			try {
-				active--;
-				updateUsages(nowNanos);
-				addSplit(nowNanos - start);
-			} finally {
-				manager.callback().onStopwatchStop(split);
-			}
+			active--;
+			updateUsages(nowNanos);
+			addSplit(nowNanos - start);
+			sample = sample();
 		}
+		manager.callback().onStopwatchStop(split, sample);
 	}
 
 	// Uses last usage, hence it must be placed after usages update

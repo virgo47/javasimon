@@ -1,5 +1,6 @@
 package org.javasimon.testapp;
 
+import org.javasimon.StopwatchSample;
 import org.javasimon.callback.CallbackSkeleton;
 import org.javasimon.Split;
 
@@ -54,8 +55,9 @@ public final class SplitCumulatorCallback extends CallbackSkeleton {
 	 * If split of the controller Stopwatch is stopped results are printed (without that split).
 	 *
 	 * @param split stopped split that is going to be accumulated
+	 * @param sample
 	 */
-	public void onStopwatchStop(Split split) {
+	public void onStopwatchStop(Split split, StopwatchSample sample) {
 		List<Split> splitList = splits.get();
 		if (controller != null && split.getStopwatch().getName().equals(controller)) {
 			System.out.println("Splits: " + getSplits());

@@ -75,7 +75,7 @@ public final class ConfigurationTestNG {
 			triggered = true;
 		}
 
-		public void onStopwatchStop(Split split) {
+		public void onStopwatchStop(Split split, StopwatchSample sample) {
 			triggered = true;
 		}
 

@@ -3,6 +3,7 @@ package org.javasimon.callback.lastsplits;
 import org.javasimon.Simon;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
+import org.javasimon.StopwatchSample;
 import org.javasimon.callback.CallbackSkeleton;
 import org.javasimon.callback.logging.LogTemplate;
 
@@ -82,7 +83,7 @@ public class LastSplitsCallback extends CallbackSkeleton {
 	 * When a Splits is stopped, it is added to the stopwatch a Last Splits attribute.
 	 */
 	@Override
-	public void onStopwatchStop(Split split) {
+	public void onStopwatchStop(Split split, StopwatchSample sample) {
 		LastSplits lastSplits = getLastSplits(split.getStopwatch());
 		lastSplits.add(split);
 		lastSplits.log(split);
