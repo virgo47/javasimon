@@ -1,9 +1,11 @@
 package org.javasimon.callback;
 
 import org.javasimon.Counter;
+import org.javasimon.CounterSample;
 import org.javasimon.Simon;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
+import org.javasimon.StopwatchSample;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -47,11 +49,13 @@ public interface Callback {
 
 	/**
 	 * Stopwatch stop event. This action is executed after the split time is calculated and does not
-	 * affect the measuring.
+	 * affect the measuring. {@link StopwatchSample} valid for the moment after the stop is provided
+	 * because the callback is executed out of synchronized block.
 	 *
 	 * @param split stopped Split
+	 * @param sample stopwatch sampled after the stop
 	 */
-	void onStopwatchStop(Split split);
+	void onStopwatchStop(Split split, StopwatchSample sample);
 
 	/**
 	 * Simon reset event.
@@ -61,45 +65,55 @@ public interface Callback {
 	void onSimonReset(Simon simon);
 
 	/**
-	 * Stopwatch add time event.
+	 * Stopwatch add time event. {@link StopwatchSample} valid for the moment after the add is provided
+	 * because the callback is executed out of synchronized block.
 	 *
 	 * @param stopwatch modified Stopwatch
 	 * @param ns added split time in ns
+	 * @param sample stopwatch sampled after the add
 	 */
-	void onStopwatchAdd(Stopwatch stopwatch, long ns);
+	void onStopwatchAdd(Stopwatch stopwatch, long ns, StopwatchSample sample);
 
 	/**
-	 * Stopwatch add split event.
+	 * Stopwatch add split event. {@link StopwatchSample} valid for the moment after the add is provided
+	 * because the callback is executed out of synchronized block.
 	 *
 	 * @param stopwatch modified Stopwatch
 	 * @param split added split object
+	 * @param sample stopwatch sampled after the add
 	 * @since 3.1
 	 */
-	void onStopwatchAdd(Stopwatch stopwatch, Split split);
+	void onStopwatchAdd(Stopwatch stopwatch, Split split, StopwatchSample sample);
 
 	/**
-	 * Counter decrease event.
+	 * Counter decrease event. {@link CounterSample} valid for the moment after the operation is provided
+	 * because the callback is executed out of synchronized block.
 	 *
 	 * @param counter modified Counter
 	 * @param dec decrement amount
+	 * @param sample counter sampled after the operation
 	 */
-	void onCounterDecrease(Counter counter, long dec);
+	void onCounterDecrease(Counter counter, long dec, CounterSample sample);
 
 	/**
-	 * Counter increase event.
+	 * Counter increase event. {@link CounterSample} valid for the moment after the operation is provided
+	 * because the callback is executed out of synchronized block.
 	 *
 	 * @param counter modified Counter
 	 * @param inc increment amount
+	 * @param sample counter sampled after the operation
 	 */
-	void onCounterIncrease(Counter counter, long inc);
+	void onCounterIncrease(Counter counter, long inc, CounterSample sample);
 
 	/**
-	 * Counter set event.
+	 * Counter set event. {@link CounterSample} valid for the moment after the operation is provided
+	 * because the callback is executed out of synchronized block.
 	 *
 	 * @param counter modified Counter
 	 * @param val new value
+	 * @param sample counter sampled after the operation
 	 */
-	void onCounterSet(Counter counter, long val);
+	void onCounterSet(Counter counter, long val, CounterSample sample);
 
 	/**
 	 * Simon created event is called when Simon is successfully created by the Manager.

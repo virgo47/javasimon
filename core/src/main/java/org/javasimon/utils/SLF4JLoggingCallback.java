@@ -1,5 +1,6 @@
 package org.javasimon.utils;
 
+import org.javasimon.StopwatchSample;
 import org.javasimon.callback.CallbackSkeleton;
 import org.javasimon.Split;
 
@@ -34,9 +35,10 @@ public class SLF4JLoggingCallback extends CallbackSkeleton {
 	 * Logs Simon stop on a specified log marker.
 	 *
 	 * @param split stopped split
+	 * @param sample
 	 */
 	@Override
-	public void onStopwatchStop(Split split) {
+	public void onStopwatchStop(Split split, StopwatchSample sample) {
 		logger.debug(marker, "SIMON STOP: " + split.getStopwatch() + " (" + split.runningFor() + ")");
 	}
 

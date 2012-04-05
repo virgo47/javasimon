@@ -1,5 +1,6 @@
 package org.javasimon.utils;
 
+import org.javasimon.StopwatchSample;
 import org.javasimon.callback.CallbackSkeleton;
 import org.javasimon.Split;
 
@@ -22,8 +23,9 @@ public final class DebugCallback extends CallbackSkeleton {
 	 * Prints split at the stop of the split.
 	 *
 	 * @param split stopped split
+	 * @param sample
 	 */
-	public void onStopwatchStop(Split split) {
+	public void onStopwatchStop(Split split, StopwatchSample sample) {
 		System.out.println("Stop split: " + split);
 	}
 }

@@ -1,6 +1,7 @@
 package org.javasimon.examples;
 
 import org.javasimon.SimonManager;
+import org.javasimon.StopwatchSample;
 import org.javasimon.callback.CallbackSkeleton;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
@@ -23,7 +24,7 @@ public final class CallbackExample {
 				System.out.println("\nStopwatch " + split.getStopwatch().getName() + " has just been started.");
 			}
 
-			public void onStopwatchStop(Split split) {
+			public void onStopwatchStop(Split split, StopwatchSample sample) {
 				System.out.println("Stopwatch " + split.getStopwatch().getName()
 					+ " has just been stopped (" + SimonUtils.presentNanoTime(split.runningFor()) + ").");
 			}

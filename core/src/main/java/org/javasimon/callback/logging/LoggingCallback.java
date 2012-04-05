@@ -3,6 +3,7 @@ package org.javasimon.callback.logging;
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
+import org.javasimon.StopwatchSample;
 import org.javasimon.callback.CallbackSkeleton;
 import static org.javasimon.callback.logging.LogTemplates.toSLF4J;
 import org.javasimon.utils.SimonUtils;
@@ -85,9 +86,10 @@ public class LoggingCallback extends CallbackSkeleton {
 	 * {@inheritDoc  }
 	 * Split and stopwatch are logger to log template is enabled.
 	 * @param split Split
+	 * @param sample
 	 */
 	@Override
-	public void onStopwatchStop(Split split) {
+	public void onStopwatchStop(Split split, StopwatchSample sample) {
 		getStopwatchLogTemplate(split.getStopwatch()).log(split, stopwatchLogMessageSource);
 	}
 	/**

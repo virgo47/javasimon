@@ -1,9 +1,11 @@
 package org.javasimon.callback;
 
 import org.javasimon.Counter;
+import org.javasimon.CounterSample;
 import org.javasimon.Simon;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
+import org.javasimon.StopwatchSample;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -109,9 +111,9 @@ public final class CompositeCallbackImpl implements CompositeCallback {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void onStopwatchAdd(Stopwatch stopwatch, long ns) {
+	public void onStopwatchAdd(Stopwatch stopwatch, long ns, StopwatchSample sample) {
 		for (Callback callback : callbacks) {
-			callback.onStopwatchAdd(stopwatch, ns);
+			callback.onStopwatchAdd(stopwatch, ns, sample);
 		}
 	}
 
@@ -119,9 +121,9 @@ public final class CompositeCallbackImpl implements CompositeCallback {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void onStopwatchAdd(Stopwatch stopwatch, Split split) {
+	public void onStopwatchAdd(Stopwatch stopwatch, Split split, StopwatchSample sample) {
 		for (Callback callback : callbacks) {
-			callback.onStopwatchAdd(stopwatch, split);
+			callback.onStopwatchAdd(stopwatch, split, sample);
 		}
 	}
 
@@ -139,9 +141,9 @@ public final class CompositeCallbackImpl implements CompositeCallback {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void onStopwatchStop(Split split) {
+	public void onStopwatchStop(Split split, StopwatchSample sample) {
 		for (Callback callback : callbacks) {
-			callback.onStopwatchStop(split);
+			callback.onStopwatchStop(split, null);
 		}
 	}
 
@@ -149,9 +151,9 @@ public final class CompositeCallbackImpl implements CompositeCallback {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void onCounterDecrease(Counter counter, long dec) {
+	public void onCounterDecrease(Counter counter, long dec, CounterSample sample) {
 		for (Callback callback : callbacks) {
-			callback.onCounterDecrease(counter, dec);
+			callback.onCounterDecrease(counter, dec, sample);
 		}
 	}
 
@@ -159,9 +161,9 @@ public final class CompositeCallbackImpl implements CompositeCallback {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void onCounterIncrease(Counter counter, long inc) {
+	public void onCounterIncrease(Counter counter, long inc, CounterSample sample) {
 		for (Callback callback : callbacks) {
-			callback.onCounterIncrease(counter, inc);
+			callback.onCounterIncrease(counter, inc, sample);
 		}
 	}
 
@@ -169,9 +171,9 @@ public final class CompositeCallbackImpl implements CompositeCallback {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void onCounterSet(Counter counter, long val) {
+	public void onCounterSet(Counter counter, long val, CounterSample sample) {
 		for (Callback callback : callbacks) {
-			callback.onCounterSet(counter, val);
+			callback.onCounterSet(counter, val, sample);
 		}
 	}
 

@@ -6,6 +6,7 @@ import java.util.List;
 import org.javasimon.Simon;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
+import org.javasimon.StopwatchSample;
 import org.javasimon.callback.CallbackSkeleton;
 import org.javasimon.callback.logging.LogTemplate;
 import static org.javasimon.callback.logging.LogTemplates.*;
@@ -212,7 +213,7 @@ public class QuantilesCallback extends CallbackSkeleton {
 	 * value is added to value list.
 	 */
 	@Override
-	public void onStopwatchStop(Split split) {
+	public void onStopwatchStop(Split split, StopwatchSample sample) {
 		final Stopwatch stopwatch = split.getStopwatch();
 		Buckets buckets=getOrCreateBuckets(stopwatch);
 		long value = split.runningFor();

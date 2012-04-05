@@ -1,6 +1,7 @@
 package org.javasimon.callback.calltree;
 
 import org.javasimon.Split;
+import org.javasimon.StopwatchSample;
 import org.javasimon.callback.CallbackSkeleton;
 import org.javasimon.callback.logging.LogTemplate;
 
@@ -144,7 +145,7 @@ public class CallTreeCallback extends CallbackSkeleton {
 	 * {@inheritDoc }
 	 */
 	@Override
-	public void onStopwatchStop(Split split) {
+	public void onStopwatchStop(Split split, StopwatchSample sample) {
 		getCallTree().onStopwatchStop(split);
 	}
 

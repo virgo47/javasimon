@@ -1,6 +1,7 @@
 package org.javasimon.utils;
 
 import org.javasimon.Split;
+import org.javasimon.StopwatchSample;
 import org.javasimon.callback.CallbackSkeleton;
 
 import java.util.logging.Level;
@@ -30,9 +31,10 @@ public class LoggingCallback extends CallbackSkeleton {
 	 * Logs Simon stop on a specified log level.
 	 *
 	 * @param split stopped split
+	 * @param sample
 	 */
 	@Override
-	public void onStopwatchStop(Split split) {
+	public void onStopwatchStop(Split split, StopwatchSample sample) {
 		logger.log(level, "SIMON STOP: " + split.getStopwatch() + " (" + split.runningFor() + ")");
 	}
 

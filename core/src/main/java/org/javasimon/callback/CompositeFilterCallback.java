@@ -101,9 +101,9 @@ public final class CompositeFilterCallback implements FilterCallback, CompositeC
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void onStopwatchAdd(Stopwatch stopwatch, long ns) {
+	public void onStopwatchAdd(Stopwatch stopwatch, long ns, StopwatchSample sample) {
 		if (rulesApplyTo(stopwatch, Event.STOPWATCH_ADD, ns)) {
-			callback.onStopwatchAdd(stopwatch, ns);
+			callback.onStopwatchAdd(stopwatch, ns, sample);
 		}
 	}
 
@@ -111,9 +111,9 @@ public final class CompositeFilterCallback implements FilterCallback, CompositeC
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void onStopwatchAdd(Stopwatch stopwatch, Split split) {
+	public void onStopwatchAdd(Stopwatch stopwatch, Split split, StopwatchSample sample) {
 		if (rulesApplyTo(stopwatch, Event.STOPWATCH_ADD, split.runningFor())) {
-			callback.onStopwatchAdd(stopwatch, split);
+			callback.onStopwatchAdd(stopwatch, split, sample);
 		}
 	}
 
@@ -131,9 +131,9 @@ public final class CompositeFilterCallback implements FilterCallback, CompositeC
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void onStopwatchStop(Split split) {
+	public void onStopwatchStop(Split split, StopwatchSample sample) {
 		if (rulesApplyTo(split.getStopwatch(), Event.STOPWATCH_STOP, split)) {
-			callback.onStopwatchStop(split);
+			callback.onStopwatchStop(split, null);
 		}
 	}
 
@@ -141,9 +141,9 @@ public final class CompositeFilterCallback implements FilterCallback, CompositeC
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void onCounterDecrease(Counter counter, long dec) {
+	public void onCounterDecrease(Counter counter, long dec, CounterSample sample) {
 		if (rulesApplyTo(counter, Event.COUNTER_DECREASE, dec)) {
-			callback.onCounterDecrease(counter, dec);
+			callback.onCounterDecrease(counter, dec, sample);
 		}
 	}
 
@@ -151,9 +151,9 @@ public final class CompositeFilterCallback implements FilterCallback, CompositeC
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void onCounterIncrease(Counter counter, long inc) {
+	public void onCounterIncrease(Counter counter, long inc, CounterSample sample) {
 		if (rulesApplyTo(counter, Event.COUNTER_INCREASE, inc)) {
-			callback.onCounterIncrease(counter, inc);
+			callback.onCounterIncrease(counter, inc, sample);
 		}
 	}
 
@@ -161,9 +161,9 @@ public final class CompositeFilterCallback implements FilterCallback, CompositeC
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void onCounterSet(Counter counter, long val) {
+	public void onCounterSet(Counter counter, long val, CounterSample sample) {
 		if (rulesApplyTo(counter, Event.COUNTER_SET, val)) {
-			callback.onCounterSet(counter, val);
+			callback.onCounterSet(counter, val, sample);
 		}
 	}
 
