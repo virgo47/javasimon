@@ -15,14 +15,11 @@ import javax.servlet.http.HttpServletRequest;
  * Can be overriden to customize monitored HTTP Requests and their
  * related Simon name.
  *
- * To select which HTTP Request should be monitored (by default everything is
- * monitored), can override {@link #isMonitored} method:
- * <code>
- * String uri = request.getRequestURI().toLowerCase();
- * return !(uri.endsWith(".css") || uri.endsWith(".png") || uri.endsWith(".gif") || uri.endsWith(".jpg") || uri.endsWith(".js"));
- * </code>
+ * To select which HTTP Request should be monitored method {@link #isMonitored} can be overriden. Default implementation monitors everything except for
+ * typical resource-like requests (images, JS/CSS, ...).
  *
  * @author gquintana
+ * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public class HttpStopwatchSource extends AbstractStopwatchSource<HttpServletRequest> {
 	/**
@@ -70,6 +67,19 @@ public class HttpStopwatchSource extends AbstractStopwatchSource<HttpServletRequ
 			return localName;
 		}
 		return prefix + Manager.HIERARCHY_DELIMITER + localName;
+	}
+
+	/**
+	 * Indicates whether the HTTP Request should be monitored - method is intended for override.
+	 * Default behavior ignores URIs ending with .css, .png, .gif, .jpg and .js (ignores casing).
+	 *
+	 * @param httpServletRequest HTTP Request
+	 * @return true to enable request monitoring, false either
+	 */
+	@Override
+	public boolean isMonitored(HttpServletRequest httpServletRequest) {
+		String uri = httpServletRequest.getRequestURI().toLowerCase();
+		return !(uri.endsWith(".css") || uri.endsWith(".png") || uri.endsWith(".gif") || uri.endsWith(".jpg") || uri.endsWith(".js"));
 	}
 
 	/**
