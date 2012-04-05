@@ -31,16 +31,20 @@ import org.javasimon.source.StopwatchTemplate;
  * All constants are public and fields protected for easy extension of the class. Following protected methods
  * are provided to override the default function:
  * <ul>
- * <li>{@link #isMonitored(javax.servlet.http.HttpServletRequest)} - by default always true</li>
- * <li>{@link #getSimonName(javax.servlet.http.HttpServletRequest)}</li>
- * <li>{@link #shouldBeReported} - compares actual request
- * nano time with {@link #getThreshold(javax.servlet.http.HttpServletRequest)} (which may become unused if this method
- * is overriden)</li>
+ * <li>{@link #shouldBeReported} - compares actual request nano time with {@link #getThreshold(javax.servlet.http.HttpServletRequest)}
+ * (which may become unused if this method is overriden)</li>
  * <li>{@link #getThreshold(javax.servlet.http.HttpServletRequest)} - returns threshold configured in {@code web.xml}</li>
  * <li>{@link #reportRequestOverThreshold(javax.servlet.http.HttpServletRequest, org.javasimon.Split, java.util.List)}</li>
+ * <li>{@link HttpStopwatchSource} can be subclassed and specified using init parameter {@link #INIT_PARAM_STOPWATCH_SOURCE_CLASS}, specifically
+ * following methods are intended for override:
+ * <ul>
+ * <li>{@link HttpStopwatchSource#isMonitored(javax.servlet.http.HttpServletRequest)} - true except for request with typical resource suffixes
+ * ({@code .gif}, {@code .jpg}, {@code .css}, etc.)</li>
+ * <li>{@link HttpStopwatchSource#getMonitorName(javax.servlet.http.HttpServletRequest)}</li>
+ * </ul></li>
  * </ul>
  *
- * @author Richard Richter
+ * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @since 2.3
  */
 @SuppressWarnings("UnusedParameters")
@@ -272,23 +276,6 @@ public class SimonServletFilter implements Filter {
 	}
 
 	/**
-	 * Indicates whether the HTTP Request should be monitored - method is intended for override.
-	 * Default behavior always returns true.
-	 * <p/>
-	 * Example of overriding code:
-	 * <code>
-	 * String uri = request.getRequestURI().toLowerCase();
-	 * return !(uri.endsWith(".css") || uri.endsWith(".png") || uri.endsWith(".gif") || uri.endsWith(".jpg") || uri.endsWith(".js"));
-	 * </code>
-	 *
-	 * @param request HTTP Request
-	 * @return true to enable Simon, false either
-	 */
-	protected boolean isMonitored(HttpServletRequest request) {
-		return true;
-	}
-
-	/**
 	 * Determines whether the request is over the threshold - with all incoming parameters this method can be
 	 * very flexible. Default implementation just compares the actual requestNanoTime with
 	 * {@link #getThreshold(javax.servlet.http.HttpServletRequest)} (which by default returns value configured
@@ -366,18 +353,6 @@ public class SimonServletFilter implements Filter {
 
 	private void printSimonTree(ServletResponse response) throws IOException {
 		response.getOutputStream().println(SimonUtils.simonTreeString(manager.getRootSimon()));
-	}
-
-	/**
-	 * Returns Simon name for the specified HTTP request. By default it contains URI without parameters with
-	 * all slashes replaced for dots (slashes then determines position in Simon hierarchy). Method can be
-	 * overriden.
-	 *
-	 * @param request HTTP request
-	 * @return fully qualified name of the Simon
-	 */
-	protected String getSimonName(HttpServletRequest request) {
-		return UrlToSimonNameUtil.getSimonName(request, null);
 	}
 
 	/**

@@ -41,8 +41,6 @@ public abstract class AbstractStopwatchSource<T> implements MonitorSource<T, Sto
 	}
 
 	/**
-	 * {@inheritDoc }
-	 *
 	 * @return always true
 	 */
 	public boolean isMonitored(T location) {
