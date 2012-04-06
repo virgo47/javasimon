@@ -61,7 +61,7 @@ public final class SwitchingManager implements Manager {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Collection<Simon> getSimons(String pattern) {
+	public Collection<Simon> getSimons(SimonPattern pattern) {
 		return manager.getSimons(pattern);
 	}
 

@@ -198,17 +198,6 @@ abstract class AbstractSimon implements Simon {
 	}
 
 	/**
-	 * Returns name and state of the Simon as a human readable string.
-	 *
-	 * @return name and state of the Simon
-	 */
-	@Override
-	public synchronized String toString() {
-		return " [" + name + " " + state +
-			(getNote() != null && getNote().length() != 0 ? " \"" + getNote() + "\"]" : "]");
-	}
-
-	/**
 	 * Replaces one of the children for a new one (unknown to concrete). Used only internally.
 	 *
 	 * @param simon original Simon (unknown)
@@ -283,5 +272,16 @@ abstract class AbstractSimon implements Simon {
 		sample.setFirstUsage(firstUsage);
 		sample.setLastUsage(lastUsage);
 		sample.setLastReset(resetTimestamp);
+	}
+
+	/**
+	 * Returns name and state of the Simon as a human readable string.
+	 *
+	 * @return name and state of the Simon
+	 */
+	@Override
+	public synchronized String toString() {
+		return " [" + name + " " + state +
+			(getNote() != null && getNote().length() != 0 ? " \"" + getNote() + "\"]" : "]");
 	}
 }

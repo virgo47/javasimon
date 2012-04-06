@@ -191,4 +191,14 @@ public class CounterSample extends Sample {
 		finishWithUsagesAndNote(sb);
 		return sb.toString();
 	}
+
+	/**
+	 * Equivalent to {@link org.javasimon.CounterImpl#toString()} without state.
+	 */
+	public String counterToString() {
+		return "Simon Counter: counter=" + counter +
+			", max=" + SimonUtils.presentMinMaxCount(max) +
+			", min=" + SimonUtils.presentMinMaxCount(min) +
+			simonToString();
+	}
 }

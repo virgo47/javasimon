@@ -5,7 +5,9 @@ import org.javasimon.Split;
 import org.javasimon.Stopwatch;
 import org.javasimon.StopwatchSample;
 import org.javasimon.callback.CallbackSkeleton;
+
 import static org.javasimon.callback.logging.LogTemplates.toSLF4J;
+
 import org.javasimon.utils.SimonUtils;
 
 /**
@@ -19,47 +21,55 @@ import org.javasimon.utils.SimonUtils;
  */
 public class LoggingCallback extends CallbackSkeleton {
 	/**
-	 * Log template used for Stopwatch splits
+	 * Log template used for Stopwatch splits.
 	 */
 	private final LogTemplate<Split> stopwatchLogTemplate;
+
 	/**
-	 * Split to string converter
+	 * Split to string converter.
 	 */
-	private final LogMessageSource<Split> stopwatchLogMessageSource=new LogMessageSource<Split>() {
+	private final LogMessageSource<Split> stopwatchLogMessageSource = new LogMessageSource<Split>() {
 		public String getLogMessage(Split split) {
-			return "Split " + SimonUtils.presentNanoTime(split.runningFor()) +" in Stopwatch "+split.getStopwatch();
+			return "Split " + SimonUtils.presentNanoTime(split.runningFor()) + " in Stopwatch " + split.getStopwatch();
 		}
 	};
+
 	/**
-	 * Log template used for manager
+	 * Log template used for manager.
 	 */
 	private final LogTemplate<String> managerLogTemplate;
+
 	/**
-	 * String to string (no-op) converter
+	 * String to string (no-op) converter.
 	 */
-	private final LogMessageSource<String> managerLogMessageSource=new LogMessageSource<String>() {
+	private final LogMessageSource<String> managerLogMessageSource = new LogMessageSource<String>() {
 		public String getLogMessage(String message) {
 			return message;
 		}
 	};
+
 	/**
-	 * Constructor wich can be used to customize log templates
+	 * Constructor wich can be used to customize log templates.
+	 *
 	 * @param stopwatchLogTemplate Logger used for Stopwatch splits
 	 * @param managerLogTemplate Logger used for manager
 	 */
-	public LoggingCallback(LogTemplate stopwatchLogTemplate, LogTemplate managerLogTemplate) {
+	public LoggingCallback(LogTemplate<Split> stopwatchLogTemplate, LogTemplate<String> managerLogTemplate) {
 		this.stopwatchLogTemplate = stopwatchLogTemplate;
 		this.managerLogTemplate = managerLogTemplate;
 	}
+
 	/**
-	 * Default constructor logging everything to SLF4J
+	 * Default constructor logging everything to SLF4J.
 	 */
 	public LoggingCallback() {
 		this.stopwatchLogTemplate = toSLF4J(Stopwatch.class.getName(), "debug");
 		this.managerLogTemplate = toSLF4J(SimonManager.class.getName(), "info");
 	}
+
 	/**
-	 * Get log template used  for manage warnings
+	 * Get log template used  for manage warnings.
+	 *
 	 * @return Logger
 	 */
 	public LogTemplate<String> getManagerLogTemplate() {
@@ -67,24 +77,30 @@ public class LoggingCallback extends CallbackSkeleton {
 	}
 
 	/**
-	 * Get log template used  for stopwatch splits
+	 * Get log template used  for stopwatch splits.
+	 *
 	 * @return Logger
 	 */
 	public LogTemplate<Split> getStopwatchLogTemplate() {
 		return stopwatchLogTemplate;
 	}
+
 	/**
-	 * Get log template for stopwatch, defaults to {@link #stopwatchLogTemplate}
-	 * This method can be overriden to get a specific log template per stopwatch
+	 * Get log template for stopwatch, defaults to {@link #stopwatchLogTemplate}.
+	 * This method can be overriden to get a specific log template per stopwatch.
+	 *
 	 * @param stopwatch Stopwatch
 	 * @return Logger
 	 */
+	@SuppressWarnings("UnusedParameters")
 	protected LogTemplate<Split> getStopwatchLogTemplate(Stopwatch stopwatch) {
 		return stopwatchLogTemplate;
 	}
+
 	/**
 	 * {@inheritDoc  }
 	 * Split and stopwatch are logger to log template is enabled.
+	 *
 	 * @param split Split
 	 * @param sample
 	 */
@@ -92,6 +108,7 @@ public class LoggingCallback extends CallbackSkeleton {
 	public void onStopwatchStop(Split split, StopwatchSample sample) {
 		getStopwatchLogTemplate(split.getStopwatch()).log(split, stopwatchLogMessageSource);
 	}
+
 	/**
 	 * {@inheritDoc }
 	 */

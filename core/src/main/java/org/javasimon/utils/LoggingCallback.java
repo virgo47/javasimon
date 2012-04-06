@@ -19,23 +19,18 @@ public class LoggingCallback extends CallbackSkeleton {
 
 	/**
 	 * Logs Simon start on a sprecified log level.
-	 *
-	 * @param split started split
 	 */
 	@Override
-	public void onStopwatchStart(Split split) {
-		logger.log(level, "SIMON START: " + split.getStopwatch());
+	public void onStopwatchStart(Split split, StopwatchSample sample) {
+		logger.log(level, "SIMON START: " + sample.stopwatchToString());
 	}
 
 	/**
 	 * Logs Simon stop on a specified log level.
-	 *
-	 * @param split stopped split
-	 * @param sample
 	 */
 	@Override
 	public void onStopwatchStop(Split split, StopwatchSample sample) {
-		logger.log(level, "SIMON STOP: " + split.getStopwatch() + " (" + split.runningFor() + ")");
+		logger.log(level, "SIMON STOP: " + sample.stopwatchToString() + " (" + split.runningFor() + ")");
 	}
 
 	/**

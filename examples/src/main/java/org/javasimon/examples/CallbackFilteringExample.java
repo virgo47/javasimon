@@ -26,7 +26,7 @@ public final class CallbackFilteringExample {
 
 		// simple callback printing actions to the stdout is created and installed
 		Callback stdoutCallback = new CallbackSkeleton() {
-			public void onStopwatchStart(Split split) {
+			public void onStopwatchStart(Split split, StopwatchSample sample) {
 				System.out.println("Starting " + split.getStopwatch().getName());
 			}
 

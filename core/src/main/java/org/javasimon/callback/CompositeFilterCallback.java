@@ -121,9 +121,9 @@ public final class CompositeFilterCallback implements FilterCallback, CompositeC
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void onStopwatchStart(Split split) {
+	public void onStopwatchStart(Split split, StopwatchSample sample) {
 		if (rulesApplyTo(split.getStopwatch(), Event.STOPWATCH_START, split)) {
-			callback.onStopwatchStart(split);
+			callback.onStopwatchStart(split, sample);
 		}
 	}
 
@@ -133,7 +133,7 @@ public final class CompositeFilterCallback implements FilterCallback, CompositeC
 	@Override
 	public void onStopwatchStop(Split split, StopwatchSample sample) {
 		if (rulesApplyTo(split.getStopwatch(), Event.STOPWATCH_STOP, split)) {
-			callback.onStopwatchStop(split, null);
+			callback.onStopwatchStop(split, sample);
 		}
 	}
 
@@ -222,10 +222,7 @@ public final class CompositeFilterCallback implements FilterCallback, CompositeC
 	 */
 	@Override
 	public void addRule(FilterRule.Type type, String condition, String pattern, Event... events) {
-		SimonPattern simonPattern = null;
-		if (pattern != null) {
-			simonPattern = new SimonPattern(pattern);
-		}
+		SimonPattern simonPattern = SimonPattern.create(pattern);
 		FilterRule rule = new FilterRule(type, condition, simonPattern);
 		for (Event event : events) {
 			if (event != null) {

@@ -177,7 +177,7 @@ public final class SimonManager {
 	 * @see SimonPattern to find out more about possible patterns
 	 * @since 3.1
 	 */
-	public static Collection<Simon> getSimons(String pattern) {
+	public static Collection<Simon> getSimons(SimonPattern pattern) {
 		return manager.getSimons(pattern);
 	}
 

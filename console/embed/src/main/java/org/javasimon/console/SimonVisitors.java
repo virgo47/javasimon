@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.javasimon.Manager;
 import org.javasimon.Simon;
+import org.javasimon.SimonPattern;
 
 /**
  * Helper class to navigate through Simons.
@@ -24,8 +25,8 @@ public class SimonVisitors {
 
 	/**
 	 * Visit simons as a list.
-	 * Calls {@link  Manager#getSimons(java.lang.String) } method
-	 * then simons are sorted by name and filtered by type
+	 * Calls {@link  Manager#getSimons(org.javasimon.SimonPattern)} method
+	 * then Simons are sorted by name and filtered by type
 	 * finally the visitor is called on each of them.
 	 *
 	 * @param manager Simon manager
@@ -35,7 +36,7 @@ public class SimonVisitors {
 	 * @throws IOException
 	 */
 	public static void visitList(Manager manager, String pattern, SimonType type, SimonVisitor visitor) throws IOException {
-		List<Simon> simons = new ArrayList<Simon>(manager.getSimons(pattern));
+		List<Simon> simons = new ArrayList<Simon>(manager.getSimons(SimonPattern.create(pattern)));
 		Collections.sort(simons, new Comparator<Simon>() {
 
 			public int compare(Simon s1, Simon s2) {

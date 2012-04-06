@@ -145,7 +145,7 @@ public final class ManagerTestNG {
 		final Queue<String> messages = new LinkedList<String>();
 		SimonManager.callback().removeAllCallbacks();
 		SimonManager.callback().addCallback(new CallbackSkeleton() {
-			public void onStopwatchStart(Split split) {
+			public void onStopwatchStart(Split split, StopwatchSample sample) {
 				messages.add("start");
 			}
 

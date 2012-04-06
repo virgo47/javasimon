@@ -13,8 +13,6 @@ import java.util.ArrayList;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public final class SplitCumulatorCallback extends CallbackSkeleton {
-	public static final int MAX_SPLITS = 100;
-
 	private final ThreadLocal<List<Split>> splits = new ThreadLocal<List<Split>>();
 
 	private String controller;
@@ -43,8 +41,10 @@ public final class SplitCumulatorCallback extends CallbackSkeleton {
 	 * If controller is set this method "orders splits".
 	 *
 	 * @param split used to check the name
+	 * @param sample
 	 */
-	public void onStopwatchStart(Split split) {
+	@Override
+	public void onStopwatchStart(Split split, StopwatchSample sample) {
 		if (controller != null && split.getStopwatch().getName().equals(controller)) {
 			orderSplits();
 		}
@@ -57,6 +57,7 @@ public final class SplitCumulatorCallback extends CallbackSkeleton {
 	 * @param split stopped split that is going to be accumulated
 	 * @param sample
 	 */
+	@Override
 	public void onStopwatchStop(Split split, StopwatchSample sample) {
 		List<Split> splitList = splits.get();
 		if (controller != null && split.getStopwatch().getName().equals(controller)) {

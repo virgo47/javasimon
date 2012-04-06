@@ -100,7 +100,7 @@ public final class DisabledManager implements Manager {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Collection<Simon> getSimons(String pattern) {
+	public Collection<Simon> getSimons(SimonPattern pattern) {
 		return Collections.emptyList();
 	}
 
