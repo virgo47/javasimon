@@ -1,6 +1,5 @@
 package org.javasimon.examples.jdbc;
 
-import org.javasimon.jdbc4.*;
 import org.javasimon.jdbc4.Driver;
 import org.javasimon.utils.SimonUtils;
 import org.javasimon.*;
@@ -66,7 +65,7 @@ public final class Complex extends Simple {
 	private void printMonitoringInfo() {
 //		System.out.println("Simon monitor hierarchy:\n" + SimonUtils.simonTreeString(SimonManager.getRootSimon()));
 		System.out.println(SimonUtils.simonTreeString(SimonManager.getSimon(org.javasimon.jdbc4.Driver.DEFAULT_PREFIX)));
-		Collection<Simon> simons = SimonManager.getSimons(Driver.DEFAULT_PREFIX + ".sql.select.*");
+		Collection<Simon> simons = SimonManager.getSimons(new SimonPattern(Driver.DEFAULT_PREFIX + ".sql.select.*"));
 		System.out.println("simons = " + simons);
 
 //		Simon jdbcSimon = SimonManager.getSimon(org.javasimon.jdbc4.Driver.DEFAULT_PREFIX);
@@ -87,21 +86,8 @@ public final class Complex extends Simple {
 			StopwatchSample sws = SimonManager.getStopwatch(jdbcSimon.getName() + ".conn").sample();
 			Counter cc = SimonManager.getCounter(jdbcSimon.getName() + ".conn.commits");
 			Counter cr = SimonManager.getCounter(jdbcSimon.getName() + ".conn.rollbacks");
-			StringBuilder sb = new StringBuilder(512).append("Connection info:").append('\n')
-				.append("  act: ").append(sws.getActive()).append('\n')
-				.append("  max act: ").append(sws.getMaxActive()).append('\n')
-				.append("  max act ts: ").append(SimonUtils.presentTimestamp(sws.getMaxActiveTimestamp())).append('\n')
-				.append("  opn: ").append(sws.getCounter()).append('\n')
-				.append("  cls: ").append(sws.getCounter() - sws.getActive()).append('\n')
-				.append("  min: ").append(SimonUtils.presentNanoTime(sws.getMin()))
-				.append(", avg: ").append(SimonUtils.presentNanoTime((long) sws.getMean()))
-				.append(", max: ").append(SimonUtils.presentNanoTime(sws.getMax())).append('\n')
-				.append("  max ts: ").append(SimonUtils.presentTimestamp(sws.getMaxTimestamp())).append('\n')
-				.append("  comm: ").append(cc != null ? cc.sample().getCounter() : 0).append('\n')
-				.append("  roll: ").append(cr != null ? cr.sample().getCounter() : 0)
-				.append('\n');
-
-			return sb.toString();
+			return "Connection info:\n  act: " + sws.getActive() + "\n  max act: " + sws.getMaxActive() + '\n' + "  max act ts: " + SimonUtils.presentTimestamp(sws.getMaxActiveTimestamp()) +
+				"\n  opn: " + sws.getCounter() + '\n' + "  cls: " + (sws.getCounter() - sws.getActive()) + '\n' + "  min: " + SimonUtils.presentNanoTime(sws.getMin()) + ", avg: " + SimonUtils.presentNanoTime((long) sws.getMean()) + ", max: " + SimonUtils.presentNanoTime(sws.getMax()) + '\n' + "  max ts: " + SimonUtils.presentTimestamp(sws.getMaxTimestamp()) + '\n' + "  comm: " + (cc != null ? cc.sample().getCounter() : 0) + '\n' + "  roll: " + (cr != null ? cr.sample().getCounter() : 0) + '\n';
 		}
 		return null;
 	}
@@ -117,19 +103,12 @@ public final class Complex extends Simple {
 	private String printJdbcStatementInfo(Simon jdbcSimon) {
 		if (SimonManager.getSimon(jdbcSimon.getName() + ".stmt") != null) {
 			StopwatchSample sws = SimonManager.getStopwatch(jdbcSimon.getName() + ".stmt").sample();
-			StringBuilder sb = new StringBuilder(512).append("Statement info:").append('\n')
-				.append("  act: ").append(sws.getActive()).append('\n')
-				.append("  max act: ").append(sws.getMaxActive()).append('\n')
-				.append("  max act ts: ").append(SimonUtils.presentTimestamp(sws.getMaxActiveTimestamp())).append('\n')
-				.append("  opn: ").append(sws.getCounter()).append('\n')
-				.append("  cls: ").append(sws.getCounter() - sws.getActive()).append('\n')
-				.append("  min: ").append(SimonUtils.presentNanoTime(sws.getMin()))
-				.append(", avg: ").append(SimonUtils.presentNanoTime((long) sws.getMean()))
-				.append(", max: ").append(SimonUtils.presentNanoTime(sws.getMax())).append('\n')
-				.append("  max ts: ").append(SimonUtils.presentTimestamp(sws.getMaxTimestamp()))
-				.append('\n');
 
-			return sb.toString();
+			return "Statement info:\n  act: " + sws.getActive() + "\n  max act: " + sws.getMaxActive() +
+				"\n  max act ts: " + SimonUtils.presentTimestamp(sws.getMaxActiveTimestamp()) +
+				"\n  opn: " + sws.getCounter() + "\n  cls: " + (sws.getCounter() - sws.getActive()) +
+				"\n  min: " + SimonUtils.presentNanoTime(sws.getMin()) + ", avg: " + SimonUtils.presentNanoTime((long) sws.getMean()) +
+				", max: " + SimonUtils.presentNanoTime(sws.getMax()) + "\n  max ts: " + SimonUtils.presentTimestamp(sws.getMaxTimestamp()) + '\n';
 		}
 		return null;
 	}

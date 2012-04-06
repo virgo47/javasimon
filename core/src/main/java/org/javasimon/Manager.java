@@ -81,9 +81,9 @@ public interface Manager {
 	 * @param pattern Simon name pattern (see {@link SimonPattern}
 	 * @return collection of all Simons matching the pattern
 	 * @see SimonPattern to find out more about possible patterns
-	 * @since 3.1
+	 * @since 3.2
 	 */
-	Collection<Simon> getSimons(String pattern);
+	Collection<Simon> getSimons(SimonPattern pattern);
 
 	/**
 	 * Removes Simon from the Manager. If Simon has some children it will be replaced

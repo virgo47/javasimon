@@ -12,18 +12,13 @@ import org.javasimon.Split;
 public final class DebugCallback extends CallbackSkeleton {
 	/**
 	 * Prints split at the start of the split.
-	 *
-	 * @param split started split
 	 */
-	public void onStopwatchStart(Split split) {
+	public void onStopwatchStart(Split split, StopwatchSample sample) {
 		System.out.println("Start split: " + split);
 	}
 
 	/**
 	 * Prints split at the stop of the split.
-	 *
-	 * @param split stopped split
-	 * @param sample
 	 */
 	public void onStopwatchStop(Split split, StopwatchSample sample) {
 		System.out.println("Stop split: " + split);

@@ -145,4 +145,11 @@ public abstract class Sample {
 		sb.append(", note=").append(getNote());
 		sb.append("}");
 	}
+
+	/**
+	 * Similar to {@link org.javasimon.AbstractSimon#toString()} except for the state missing in the output.
+	 */
+	public synchronized String simonToString() {
+		return " [" + name + (getNote() != null && getNote().length() != 0 ? " \"" + getNote() + "\"]" : "]");
+	}
 }

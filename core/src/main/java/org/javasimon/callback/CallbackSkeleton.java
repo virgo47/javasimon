@@ -47,7 +47,7 @@ public class CallbackSkeleton implements Callback {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void onStopwatchStart(Split split) {
+	public void onStopwatchStart(Split split, StopwatchSample sample) {
 	}
 
 	/**

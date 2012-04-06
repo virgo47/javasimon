@@ -71,10 +71,12 @@ public final class ConfigurationTestNG {
 	class MyCallback extends CallbackSkeleton {
 		private boolean triggered;
 
-		public void onStopwatchStart(Split split) {
+		@Override
+		public void onStopwatchStart(Split split, StopwatchSample sample) {
 			triggered = true;
 		}
 
+		@Override
 		public void onStopwatchStop(Split split, StopwatchSample sample) {
 			triggered = true;
 		}

@@ -41,11 +41,14 @@ public interface Callback {
 	void cleanup();
 
 	/**
-	 * Stopwatch start event. <b>Duration of this processing is included into the split time!</b>
+	 * Stopwatch start event. <b>Duration of all callbacks is included into the split time!</b>
+	 * {@link StopwatchSample} valid for the moment after the start is provided because the callback
+	 * is executed out of synchronized block.
 	 *
 	 * @param split started Split
+	 * @param sample stopwatch sampled after the start
 	 */
-	void onStopwatchStart(Split split);
+	void onStopwatchStart(Split split, StopwatchSample sample);
 
 	/**
 	 * Stopwatch stop event. This action is executed after the split time is calculated and does not

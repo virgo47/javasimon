@@ -10,6 +10,7 @@ import org.javasimon.utils.SimonUtils;
  * <li>{@code something*} - matches if tested name starts with {@code something}
  * <li>{@code *something*} - matches if tested name contains {@code something} anywhere
  * <li>{@code something*else} - matches if tested name starts with {@code something} and ends with {@code else}
+ * <li>anything else will throw {@link SimonException} with the message about invalid Simon pattern
  * </ul>
  * Without wildcard exact match is required. Every wildcarded pattern always matches with the same string
  * without wildcards (in other words - wildcards matches with nothing as well).
@@ -42,7 +43,20 @@ public final class SimonPattern {
 	 */
 	private String middle;
 
-	private static final String INVALID_PATTERN = "Invalid configuration pattern: ";
+	private static final String INVALID_PATTERN = "Invalid Simon pattern: ";
+
+	/**
+	 * Factory method that creates Simon name pattern - or returns {@code null} if parameter is {@code null}.
+	 *
+	 * @param pattern Simon name pattern as string
+	 * @return Simon name pattern or {@code null} if pattern parameter is {@code null}
+	 */
+	public static SimonPattern create(String pattern) {
+		if (pattern == null) {
+			return null;
+		}
+		return new SimonPattern(pattern);
+	}
 
 	/**
 	 * Creates Simon name pattern used to match config file entries.

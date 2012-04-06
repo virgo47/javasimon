@@ -20,7 +20,7 @@ public final class CallbackExample {
 	 */
 	public static void main(String[] args) {
 		SimonManager.callback().addCallback(new CallbackSkeleton() {
-			public void onStopwatchStart(Split split) {
+			public void onStopwatchStart(Split split, StopwatchSample sample) {
 				System.out.println("\nStopwatch " + split.getStopwatch().getName() + " has just been started.");
 			}
 

@@ -10,8 +10,7 @@ import static org.javasimon.callback.logging.LogTemplates.*;
 import org.javasimon.callback.logging.SplitThresholdLogTemplate;
 
 /**
- * Callback which logs a call tree when a the main call is bigger than a
- * threshold.
+ * Callback which logs the call tree when the main call is bigger than specified threshold.
  * This callback can give good results only if interceptors/filters have been
  * placed a different level of the application (web/business/data tiers for
  * instance).
@@ -30,25 +29,25 @@ import org.javasimon.callback.logging.SplitThresholdLogTemplate;
  * @since 3.2.0
  */
 public class CallTreeCallback extends CallbackSkeleton {
-
 	/**
-	 * Call tree of current thread
+	 * Call tree of current thread.
 	 */
 	private final ThreadLocal<CallTree> threadCallTree = new ThreadLocal<CallTree>();
+
 	/**
-	 * Log template used for printing call tree
+	 * Log template used for printing call tree.
 	 */
 	private LogTemplate<Split> callTreeLogTemplate;
 
 	/**
-	 * Default constructor
+	 * Default constructor.
 	 */
 	public CallTreeCallback() {
 		initLogThreshold(500L);
 	}
 
 	/**
-	 * Constructor with logging duration threshold
+	 * Constructor with logging duration threshold.
 	 *
 	 * @param logThreshold Threshold
 	 */
@@ -57,7 +56,7 @@ public class CallTreeCallback extends CallbackSkeleton {
 	}
 
 	/**
-	 * Constructor with log template
+	 * Constructor with log template.
 	 *
 	 * @param callTreeLogTemplate Log template
 	 */
@@ -97,7 +96,7 @@ public class CallTreeCallback extends CallbackSkeleton {
 	}
 
 	/**
-	 * Get call tree for current thread
+	 * Get call tree for current thread.
 	 *
 	 * @return Thread call tree
 	 */
@@ -106,7 +105,7 @@ public class CallTreeCallback extends CallbackSkeleton {
 	}
 
 	/**
-	 * Initialize the call tree for current thread
+	 * Initialize the call tree for current thread.
 	 *
 	 * @return Created call tree
 	 */
@@ -122,7 +121,7 @@ public class CallTreeCallback extends CallbackSkeleton {
 	}
 
 	/**
-	 * Remove call tree for current thread
+	 * Remove call tree for current thread.
 	 */
 	private void removeCallTree() {
 		threadCallTree.remove();
@@ -132,7 +131,7 @@ public class CallTreeCallback extends CallbackSkeleton {
 	 * {@inheritDoc }
 	 */
 	@Override
-	public void onStopwatchStart(Split split) {
+	public void onStopwatchStart(Split split, StopwatchSample sample) {
 		CallTree callTree = getCallTree();
 		if (callTree == null) {
 			// New tree root

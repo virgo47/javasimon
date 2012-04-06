@@ -30,10 +30,10 @@ public class LastSplitsCallback extends CallbackSkeleton {
 	private final int capacity;
 
 	/**
-	 * Global flag indicating whether last splits should be logged once in
-	 * a while
+	 * Global flag indicating whether last splits should be logged once in a while.
 	 */
 	private boolean logEnabled = false;
+
 	/**
 	 * SLF4J log template shared by all stopwatches.
 	 */

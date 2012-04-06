@@ -377,4 +377,16 @@ public class StopwatchSample extends Sample {
 		finishWithUsagesAndNote(sb);
 		return sb.toString();
 	}
+
+	/**
+	 * Equivalent to {@link org.javasimon.StopwatchImpl#toString()} without state.
+	 */
+	public String stopwatchToString() {
+		return "Simon Stopwatch: total " + SimonUtils.presentNanoTime(total) +
+			", counter " + counter +
+			", max " + SimonUtils.presentNanoTime(max) +
+			", min " + SimonUtils.presentNanoTime(min) +
+			", mean " + SimonUtils.presentNanoTime((long) mean) +
+			simonToString();
+	}
 }
