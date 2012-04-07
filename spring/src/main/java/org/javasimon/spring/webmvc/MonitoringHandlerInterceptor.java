@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.javasimon.Manager;
+import org.javasimon.SimonManager;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
 import org.javasimon.source.MonitorSource;
@@ -56,7 +57,7 @@ public class MonitoringHandlerInterceptor implements HandlerInterceptor {
 	 * Default constructor: default stopwatch source, default manager.
 	 */
 	public MonitoringHandlerInterceptor() {
-		this.stopwatchTemplate = new StopwatchTemplate<HandlerLocation>(new HandlerStopwatchSource());
+		this.stopwatchTemplate = new StopwatchTemplate<HandlerLocation>(new HandlerStopwatchSource(SimonManager.manager()));
 	}
 
 	/**

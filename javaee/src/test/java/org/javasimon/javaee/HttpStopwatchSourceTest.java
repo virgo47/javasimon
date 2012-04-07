@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import static org.testng.Assert.*;
 
+import org.javasimon.SimonManager;
 import org.testng.annotations.*;
 
 import static org.mockito.Mockito.*;
@@ -14,7 +15,7 @@ import static org.mockito.Mockito.*;
  * @author gquintana
  */
 public class HttpStopwatchSourceTest {
-	private HttpStopwatchSource httpStopwatchSource = new HttpStopwatchSource();
+	private HttpStopwatchSource httpStopwatchSource = new HttpStopwatchSource(SimonManager.manager());
 
 	private void assertMonitorName(String actualURI, String expectedName) {
 		HttpServletRequest httpRequest = mock(HttpServletRequest.class);

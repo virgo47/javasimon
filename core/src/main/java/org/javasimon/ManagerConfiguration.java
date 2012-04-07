@@ -32,9 +32,9 @@ import java.lang.reflect.InvocationTargetException;
  * </simon-configuration>}</pre>
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- *         TODO: This class needs serious rethinking, also manager config itself should be independant from the reading
- *         of the config - so it can be set up by Spring for instance
  */
+// TODO: This class needs serious rethinking, also manager config itself should be independant from the reading
+// of the config - so it can be set up by Spring for instance
 public final class ManagerConfiguration {
 	private Map<SimonPattern, SimonConfiguration> configs;
 

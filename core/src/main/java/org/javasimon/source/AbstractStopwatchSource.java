@@ -1,7 +1,6 @@
 package org.javasimon.source;
 
 import org.javasimon.Manager;
-import org.javasimon.SimonManager;
 import org.javasimon.Stopwatch;
 
 /**
@@ -22,13 +21,6 @@ public abstract class AbstractStopwatchSource<T> implements MonitorSource<T, Sto
 	 */
 	public AbstractStopwatchSource(Manager manager) {
 		this.manager = manager;
-	}
-
-	/**
-	 * Constructor using default {@link SimonManager}.
-	 */
-	public AbstractStopwatchSource() {
-		this.manager = SimonManager.manager();
 	}
 
 	/**

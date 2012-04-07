@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.javasimon.Manager;
+import org.javasimon.SimonManager;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
 import org.javasimon.source.MonitorSource;
@@ -38,10 +39,10 @@ public final class MonitoringInterceptor implements MethodInterceptor, Serializa
 	}
 
 	/**
-	 * Default constuctor.
+	 * Default constuctor using {@link SimonManager#manager}.
 	 */
 	public MonitoringInterceptor() {
-		this(new SpringStopwatchSource().cache());
+		this(new SpringStopwatchSource(SimonManager.manager()).cache());
 	}
 
 	/**
