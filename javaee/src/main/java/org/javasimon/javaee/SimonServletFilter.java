@@ -58,11 +58,6 @@ public class SimonServletFilter implements Filter {
 	public static final String INIT_PARAM_STOPWATCH_SOURCE_CLASS = "stopwatch-source-class";
 
 	/**
-	 * Name of filter init parameter for Simon name prefix.
-	 */
-	public static final String INIT_PARAM_STOPWATCH_SOURCE_PREFIX = "prefix";
-
-	/**
 	 * Enable/disable caching on Stopwatch resolution.
 	 * <em>Warning: as the cache key is the {@link HttpServletRequest#getRequestURI()},
 	 * this is incompatible with application passing data in their
@@ -74,21 +69,15 @@ public class SimonServletFilter implements Filter {
 	public static final String INIT_PARAM_STOPWATCH_SOURCE_CACHE = "stopwatch-source-cache";
 
 	/**
-	 * Default prefix for web filter Simons if no "prefix" init parameter is used.
-	 */
-	public static final String DEFAULT_SIMON_PREFIX = "org.javasimon.web";
-
-	/**
 	 * Name of filter init parameter for Simon name prefix.
 	 */
 	public static final String INIT_PARAM_PREFIX = "prefix";
 
 	/**
-	 * Name of filter init parameter determining the attribute name under which
-	 * Simon Manager is to be published in servlet context attributes. If this
-	 * parameter is not used the manager is not published.
+	 * Servlet Context attribute name where manager is searched for (possibly configured by {@code SimonWebConfigurationBean} or
+	 * any other way). If there is no manager found, {@link SimonManager} is assigned to internal {@link #manager} variable.
 	 */
-	public static final String INIT_PARAM_PUBLISH_MANAGER = "manager-attribute-name";
+	public static final String MANAGER_SERVLET_CTX_ATTRIBUTE = "manager-servlet-ctx-attribute";
 
 	/**
 	 * Name of filter init parameter that sets the value of threshold in milliseconds for maximal
@@ -106,11 +95,6 @@ public class SimonServletFilter implements Filter {
 	private static Replacer FINAL_SLASH_REMOVE = new Replacer("/*$", "");
 
 	private static Replacer SLASH_TRIM = new Replacer("^/*(.*?)/*$", "$1");
-
-	/**
-	 * Simon prefix - protected for subclasses.
-	 */
-	protected String simonPrefix = DEFAULT_SIMON_PREFIX;
 
 	/**
 	 * Threshold in ns - any reqest longer than this will be reported by
@@ -134,8 +118,6 @@ public class SimonServletFilter implements Filter {
 
 	/**
 	 * Simon Manager used by the filter - protected for the subclass.
-	 * <p/>
-	 * TODO: not configurable yet, but at least class uses this field and not the SM class.
 	 */
 	protected Manager manager = SimonManager.manager();
 
@@ -170,7 +152,7 @@ public class SimonServletFilter implements Filter {
 		String stopwatchSourceClass = filterConfig.getInitParameter(INIT_PARAM_STOPWATCH_SOURCE_CLASS);
 
 		if (stopwatchSourceClass == null) {
-			stopwatchSource = new HttpStopwatchSource();
+			stopwatchSource = new HttpStopwatchSource(manager);
 		} else {
 			try {
 				stopwatchSource = (MonitorSource<HttpServletRequest, Stopwatch>)
@@ -185,7 +167,7 @@ public class SimonServletFilter implements Filter {
 		}
 
 		// Inject prefix into HTTP Stopwatch source
-		String simonPrefix = filterConfig.getInitParameter(INIT_PARAM_STOPWATCH_SOURCE_PREFIX);
+		String simonPrefix = filterConfig.getInitParameter(INIT_PARAM_PREFIX);
 		if (simonPrefix != null) {
 			if (stopwatchSource instanceof HttpStopwatchSource) {
 				HttpStopwatchSource httpStopwatchSource = (HttpStopwatchSource) stopwatchSource;
@@ -193,7 +175,6 @@ public class SimonServletFilter implements Filter {
 			} else {
 				throw new IllegalArgumentException("Prefix init param is only compatible with HttpStopwatchSource");
 			}
-
 		}
 
 		// Wrap stopwatch source in a cache
@@ -205,18 +186,18 @@ public class SimonServletFilter implements Filter {
 	}
 
 	/**
-	 * Initialization method that processes {@link #INIT_PARAM_PREFIX} and {@link #INIT_PARAM_PUBLISH_MANAGER}
-	 * parameters from {@literal web.xml}.
+	 * Initialization method that processes various init parameters from {@literal web.xml} and sets manager, if
+	 * {@link #MANAGER_SERVLET_CTX_ATTRIBUTE} servlet context attribute is not {@code null}.
 	 *
 	 * @param filterConfig filter config object
 	 */
 	public final void init(FilterConfig filterConfig) {
-		stopwatchTemplate = new StopwatchTemplate<HttpServletRequest>(initStopwatchSource(filterConfig));
-
-		String publishManager = filterConfig.getInitParameter(INIT_PARAM_PUBLISH_MANAGER);
-		if (publishManager != null) {
-			filterConfig.getServletContext().setAttribute(publishManager, manager);
+		Object managerObject = filterConfig.getServletContext().getAttribute(MANAGER_SERVLET_CTX_ATTRIBUTE);
+		if (managerObject != null && managerObject instanceof Manager) {
+			manager = (Manager) managerObject;
 		}
+
+		stopwatchTemplate = new StopwatchTemplate<HttpServletRequest>(initStopwatchSource(filterConfig));
 
 		String reportTreshold = filterConfig.getInitParameter(INIT_PARAM_REPORT_THRESHOLD_MS);
 		if (reportTreshold != null) {

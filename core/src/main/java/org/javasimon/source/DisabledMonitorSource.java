@@ -1,38 +1,49 @@
 package org.javasimon.source;
 
+import org.javasimon.Manager;
 import org.javasimon.Simon;
 
 /**
- * Disabled monitor source
+ * Disabled monitor source.
+ *
  * @author gquintana
  */
 public class DisabledMonitorSource<L, M extends Simon> implements MonitorSource<L, M> {
 	/**
-	 * Singleton constructor is not hidden for reflection purpose
+	 * Singleton constructor is not hidden for reflection purpose.
 	 */
 	public DisabledMonitorSource() {
 	}
+
 	/**
-	 * Always return null
+	 * Always returns null.
 	 */
 	public M getMonitor(L location) {
 		return null;
 	}
+
 	/**
-	 * Always return false
+	 * Always returns false.
 	 */
 	public boolean isMonitored(L location) {
 		return false;
 	}
+
 	/**
-	 * Singleton instance
+	 * Singleton instance.
 	 */
-	private static final DisabledMonitorSource INSTANCE=new DisabledMonitorSource();
+	private static final DisabledMonitorSource INSTANCE = new DisabledMonitorSource();
+
 	/**
-	 * Returns a singleton instance
+	 * Returns a singleton instance.
 	 */
 	@SuppressWarnings("unchecked")
 	public static <L, M extends Simon> DisabledMonitorSource<L, M> get() {
-		return (DisabledMonitorSource<L, M>)INSTANCE;
+		return (DisabledMonitorSource<L, M>) INSTANCE;
+	}
+
+	@Override
+	public Manager getManager() {
+		return null;
 	}
 }

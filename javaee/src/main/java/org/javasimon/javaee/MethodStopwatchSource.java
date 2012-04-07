@@ -24,6 +24,10 @@ public class MethodStopwatchSource extends AbstractMethodStopwatchSource<Invocat
 	 */
 	protected String prefix = DEFAULT_PREFIX;
 
+	public MethodStopwatchSource(Manager manager) {
+		super(manager);
+	}
+
 	public String getPrefix() {
 		return prefix;
 	}

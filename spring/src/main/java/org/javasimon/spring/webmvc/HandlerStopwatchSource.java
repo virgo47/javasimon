@@ -25,11 +25,8 @@ public class HandlerStopwatchSource extends AbstractStopwatchSource<HandlerLocat
 	 */
 	private static final String VIEW_SUFFIX = "view";
 
-	public HandlerStopwatchSource() {
-	}
-
-	public HandlerStopwatchSource(Manager mngr) {
-		super(mngr);
+	public HandlerStopwatchSource(Manager manager) {
+		super(manager);
 	}
 
 	@Override

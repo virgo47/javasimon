@@ -32,6 +32,15 @@ public class HttpStopwatchSource extends AbstractStopwatchSource<HttpServletRequ
 	 */
 	private String prefix = DEFAULT_SIMON_PREFIX;
 
+	/**
+	 * String used as replacement for unallowed characters - defaults to '_'.
+	 */
+	private Replacer unallowedCharacterReplacer = UrlToSimonNameUtil.createUnallowedCharsReplacer("_");
+
+	public HttpStopwatchSource(Manager manager) {
+		super(manager);
+	}
+
 	public String getPrefix() {
 		return prefix;
 	}
@@ -39,11 +48,6 @@ public class HttpStopwatchSource extends AbstractStopwatchSource<HttpServletRequ
 	public void setPrefix(String prefix) {
 		this.prefix = prefix;
 	}
-
-	/**
-	 * String used as replacement for unallowed characters - defaults to '_'.
-	 */
-	private Replacer unallowedCharacterReplacer = UrlToSimonNameUtil.createUnallowedCharsReplacer("_");
 
 	public String getReplaceUnallowed() {
 		return unallowedCharacterReplacer.getTo();

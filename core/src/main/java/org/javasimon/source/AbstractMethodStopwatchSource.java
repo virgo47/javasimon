@@ -12,12 +12,6 @@ import java.lang.reflect.Method;
  */
 public abstract class AbstractMethodStopwatchSource<T> extends AbstractStopwatchSource<T> {
 	/**
-	 * Default constructor using default simon manager.
-	 */
-	public AbstractMethodStopwatchSource() {
-	}
-
-	/**
 	 * Constructor using specific simon manager.
 	 *
 	 * @param manager Simon manager

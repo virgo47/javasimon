@@ -25,13 +25,6 @@ public class SpringStopwatchSource extends AbstractMethodStopwatchSource<MethodI
 	}
 
 	/**
-	 * Constructor using default {@link org.javasimon.SimonManager}.
-	 */
-	public SpringStopwatchSource() {
-		super();
-	}
-
-	/**
 	 * Get target class.
 	 */
 	protected final Class<?> getTargetClass(MethodInvocation methodInvocation) {

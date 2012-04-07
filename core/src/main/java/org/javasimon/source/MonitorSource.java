@@ -1,5 +1,6 @@
 package org.javasimon.source;
 
+import org.javasimon.Manager;
 import org.javasimon.Simon;
 
 /**
@@ -19,10 +20,17 @@ public interface MonitorSource<L, M extends Simon> {
 	boolean isMonitored(L location);
 
 	/**
-	 * Get monitor for given location.
+	 * Returns the monitor for given location.
 	 *
 	 * @param location Location
 	 * @return Monitor
 	 */
 	M getMonitor(L location);
+
+	/**
+	 * Returns the {@link Manager} used as a real source of monitors.
+	 *
+	 * @return Manager to get the monitors from
+	 */
+	Manager getManager();
 }

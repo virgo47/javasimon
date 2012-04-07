@@ -1,13 +1,13 @@
 package org.javasimon.source;
 
+import org.javasimon.Manager;
 import org.javasimon.Simon;
-import org.javasimon.SimonManager;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Monitor source playing the role of cache for delegate monitor source
+ * Monitor source playing the role of cache for delegate monitor source.
  *
  * @param <L> Location/invocation context
  * @param <M> Simon type
@@ -44,11 +44,11 @@ public abstract class CacheMonitorSource<L, M extends Simon, K> implements Monit
 			return name;
 		}
 
-		public Simon getMonitor() {
+		public Simon getMonitor(Manager manager) {
 			if (name == null) {
 				return null;
 			} else {
-				return SimonManager.getSimon(name);
+				return manager.getSimon(name);
 			}
 		}
 	}
@@ -101,7 +101,7 @@ public abstract class CacheMonitorSource<L, M extends Simon, K> implements Monit
 	}
 
 	/**
-	 * Remove monitor information for given location
+	 * Remove monitor information for given location.
 	 */
 	private void removeMonitorInformation(L location) {
 		monitorInformations.remove(getLocationKey(location));
@@ -111,13 +111,14 @@ public abstract class CacheMonitorSource<L, M extends Simon, K> implements Monit
 	 * Check whether location should be monitored.
 	 * Response is entirely based on cache
 	 */
+	@Override
 	public boolean isMonitored(L location) {
 		return getMonitorInformation(location).isMonitored();
 	}
 
 	@SuppressWarnings("unchecked")
 	private M getMonitorOnce(L location) {
-		return (M) getMonitorInformation(location).getMonitor();
+		return (M) getMonitorInformation(location).getMonitor(getManager());
 	}
 
 	/**
@@ -127,6 +128,7 @@ public abstract class CacheMonitorSource<L, M extends Simon, K> implements Monit
 	 * @param location Location
 	 * @return
 	 */
+	@Override
 	public M getMonitor(L location) {
 		M monitor = getMonitorOnce(location);
 		// In case monitor was removed from manager, we retry
@@ -137,4 +139,8 @@ public abstract class CacheMonitorSource<L, M extends Simon, K> implements Monit
 		return monitor;
 	}
 
+	@Override
+	public Manager getManager() {
+		return delegate.getManager();
+	}
 }
