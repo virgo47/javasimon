@@ -1,5 +1,6 @@
 package org.javasimon.console;
 
+import org.javasimon.Counter;
 import org.javasimon.SimonManager;
 import org.javasimon.Stopwatch;
 import org.javasimon.utils.SimonUtils;
@@ -32,6 +33,13 @@ public class SimonData {
 		addTime("A", 200);
 		addTime("A", 300);
 		addTime("B", 100);
+		addCounter("X", 1L);
+		addCounter("X", 4L);
+		addCounter("X", 2L);
+	}
+	private static void addCounter(String name, long value) {
+		Counter counter = SimonManager.manager().getCounter(name);
+		counter.set(value);
 	}
 
 	public static void initialize() {

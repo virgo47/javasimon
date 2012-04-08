@@ -28,7 +28,7 @@ public class TableJsonActionTest {
 
 	@Test
 	public void testExecute() throws Exception {
-		TestActionContext context = new TestActionContext("/data/uglytable.json");
+		TestActionContext context = new TestActionContext("/data/table.json");
 		TableJsonAction action = new TableJsonAction(context);
 		action.readParameters();
 		action.execute();
@@ -37,6 +37,7 @@ public class TableJsonActionTest {
 		assertTrue(json.contains("{\"name\":\"A\",\"type\":\"STOPWATCH\",\"counter\":3,\"total\":600,\"min\":100,\"mean\":200,\"last\":300,\"max\":300,\"standardDeviation\":82"));
 		assertTrue(json.contains("{\"name\":\"B\",\"type\":\"STOPWATCH\",\"counter\":2,\"total\":300,\"min\":100,\"mean\":150,\"last\":100,\"max\":200,\"standardDeviation\":50"));
 		assertTrue(json.contains("{\"name\":\"C\",\"type\":\"STOPWATCH\",\"counter\":1,\"total\":300,\"min\":300,\"mean\":300,\"last\":300,\"max\":300,\"standardDeviation\":0"));
+		assertTrue(json.contains("{\"name\":\"X\",\"type\":\"COUNTER\",\"counter\":2,\"total\":\"\",\"min\":1,\"mean\":\"\",\"last\":\"\",\"max\":4"));
 		// Test JSON format with an external library
 		JSONTokener jsonTokener = new JSONTokener(json);
 		Set<String> names = new HashSet<String>();
