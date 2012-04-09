@@ -51,7 +51,7 @@ public class ResetAction extends Action {
 				visitor.visit(simon);
 			}
 		} else {
-			SimonVisitors.visitList(SimonManager.manager(), pattern, type, visitor);
+			SimonVisitors.visitList(getContext().getManager(), pattern, type, visitor);
 		}
 		getContext().getWriter().print("{count:"+visitor.getCount()+"}");
 	}

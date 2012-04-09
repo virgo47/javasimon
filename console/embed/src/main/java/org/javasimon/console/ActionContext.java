@@ -5,6 +5,8 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.javasimon.Manager;
+import org.javasimon.SimonManager;
 
 /**
  * Action context wraps both HTTP request and response to make unit testing
@@ -26,7 +28,10 @@ public class ActionContext {
 	 * Request Path
 	 */
 	private String path;
-
+	/**
+	 * Simon manager to use.
+	 */
+	private Manager manager = SimonManager.manager();
 	/**
 	 * Constructor
 	 *
@@ -75,6 +80,16 @@ public class ActionContext {
 	 */
 	public PrintWriter getWriter() throws IOException {
 		return getResponse().getWriter();
+	}
+	/**
+	 * Get Simon manager
+	 */
+	public Manager getManager() {
+		return manager;
+	}
+
+	public void setManager(Manager manager) {
+		this.manager = manager;
 	}
 
 	protected String getParameter(String name) {

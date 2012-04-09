@@ -3,7 +3,6 @@ package org.javasimon.console.action;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import org.javasimon.Simon;
-import org.javasimon.SimonManager;
 import org.javasimon.console.ActionContext;
 import org.javasimon.console.ActionException;
 import org.javasimon.console.json.ArrayJS;
@@ -18,9 +17,19 @@ import org.javasimon.console.json.ObjectJS;
 public class TreeJsonAction extends AbstractJsonAction {
 
 	public static final String PATH = "/data/tree.json";
-
+	/**
+	 * Name of the simon from where to start.
+	 * {@code null} means root.
+	 */
+	private String name;
 	public TreeJsonAction(ActionContext context) {
 		super(context);
+	}
+
+	@Override
+	public void readParameters() {
+		super.readParameters();
+		name = getContext().getParameterAsString("name", null);
 	}
 
 	@Override
@@ -38,7 +47,8 @@ public class TreeJsonAction extends AbstractJsonAction {
 	@Override
 	public void execute() throws ServletException, IOException, ActionException {
 		getContext().setContentType("application/json");
-		ObjectJS simonRootJS = createObjectJS(SimonManager.manager().getRootSimon());
+		Simon simon = name == null ? getContext().getManager().getRootSimon() : getContext().getManager().getSimon(name);
+		ObjectJS simonRootJS = createObjectJS(simon);
 		simonRootJS.write(getContext().getWriter());
 	}
 }

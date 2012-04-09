@@ -8,7 +8,6 @@ import java.util.List;
 import javax.servlet.ServletException;
 import org.javasimon.Sample;
 import org.javasimon.Simon;
-import org.javasimon.SimonManager;
 import org.javasimon.console.*;
 import org.javasimon.console.text.Stringifier;
 import org.javasimon.console.text.StringifierFactory;
@@ -129,7 +128,7 @@ public class AbstractTableAction extends Action {
 	}
 
 	protected void printBody(PrintWriter writer) throws IOException {
-		SimonVisitors.visitList(SimonManager.manager(), pattern, type, new SimonVisitorImpl(writer));
+		SimonVisitors.visitList(getContext().getManager(), pattern, type, new SimonVisitorImpl(writer));
 	}
 
 	protected void printBodyRow(Simon simon, PrintWriter writer) throws IOException {

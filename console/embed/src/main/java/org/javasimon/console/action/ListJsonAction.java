@@ -4,7 +4,6 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 
 import org.javasimon.Simon;
-import org.javasimon.SimonManager;
 import org.javasimon.console.*;
 import org.javasimon.console.json.ArrayJS;
 import org.javasimon.console.json.ObjectJS;
@@ -52,7 +51,7 @@ public class ListJsonAction extends AbstractJsonAction {
 	public void execute() throws ServletException, IOException, ActionException {
 		getContext().setContentType("application/json");
 		ArrayJS arrayJS = new ArrayJS();
-		SimonVisitors.visitList(SimonManager.manager(), pattern, type, new SimonVisitorImpl(arrayJS));
+		SimonVisitors.visitList(getContext().getManager(), pattern, type, new SimonVisitorImpl(arrayJS));
 		arrayJS.write(getContext().getWriter());
 	}
 
