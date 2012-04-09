@@ -11,6 +11,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import org.javasimon.Sample;
 import org.javasimon.Simon;
 import org.javasimon.console.*;
 import org.javasimon.console.reflect.Getter;
@@ -49,13 +50,14 @@ public abstract class AbstractXmlAction extends Action {
 	@SuppressWarnings("unchecked")
 	protected Element createElement(Document document, Simon simon) {
 		// Simon type is used as element name
-		SimonType lType = SimonType.getValueFromInstance(simon);
+		Sample sample=simon.sample();
+		SimonType lType = SimonType.getValueFromInstance(sample);
 		Element element = document.createElement(lType.name().toLowerCase());
 		// Only to have the name as first attribute
-		element.setAttribute("name", simon.getName()); 
+		element.setAttribute("name", sample.getName()); 
 		// Export properties using reflection
-		for (Getter getter : Getter.getGetters(simon.getClass())) {
-			Object propertyValue = getter.get(simon);
+		for (Getter getter : Getter.getGetters(sample.getClass())) {
+			Object propertyValue = getter.get(sample);
 			if (propertyValue!=null) {
 				Stringifier propertyStringifier=stringifierFactory
 					.getStringifier(getter.getType(), getter.getSubType());

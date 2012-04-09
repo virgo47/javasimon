@@ -3,6 +3,7 @@ package org.javasimon.console.action;
 import java.io.IOException;
 import java.util.Iterator;
 import javax.servlet.ServletException;
+import org.javasimon.Sample;
 import org.javasimon.Simon;
 import org.javasimon.console.*;
 import org.javasimon.console.json.JsonStringifierFactory;
@@ -38,8 +39,9 @@ public abstract class AbstractJsonAction extends Action {
 	 * @return JSON object
 	 */
 	protected ObjectJS createObjectJS(Simon simon) {
-		SimonType lType = SimonType.getValueFromInstance(simon);
-		ObjectJS objectJS = ObjectJS.create(simon, jsonStringifierFactory);
+		Sample sample=simon.sample();
+		SimonType lType = SimonType.getValueFromInstance(sample);
+		ObjectJS objectJS = ObjectJS.create(sample, jsonStringifierFactory);
 		objectJS.setAttribute("type", new SimpleJS<SimonType>(lType,jsonStringifierFactory.getStringifier(SimonType.class)));
 		return objectJS;
 

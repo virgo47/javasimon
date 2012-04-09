@@ -2,7 +2,7 @@ package org.javasimon.console.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import org.javasimon.Simon;
+import org.javasimon.Sample;
 import org.javasimon.console.ActionContext;
 import org.javasimon.console.text.StringifierFactory;
 
@@ -58,9 +58,9 @@ public class TableHtmlAction extends AbstractTableAction {
 	}
 
 	@Override
-	protected void printBodyRow(Simon simon, PrintWriter writer) throws IOException {
+	protected void printBodyRow(Sample sample, PrintWriter writer) throws IOException {
 		writer.write("<tr id=\"" + index + "\" class=\"" + (index % 2 == 0 ? "even" : "odd") + "\">");
-		super.printBodyRow(simon, writer);
+		super.printBodyRow(sample, writer);
 		index++;
 		writer.write("</tr>");
 	}
