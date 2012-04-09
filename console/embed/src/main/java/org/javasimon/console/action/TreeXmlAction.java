@@ -1,7 +1,6 @@
 package org.javasimon.console.action;
 
 import org.javasimon.Simon;
-import org.javasimon.SimonManager;
 import org.javasimon.console.ActionContext;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -15,9 +14,20 @@ import org.w3c.dom.Element;
 public class TreeXmlAction extends AbstractXmlAction {
 
 	public static final String PATH = "/data/tree.xml";
+	/**
+	 * Name of the simon from where to start.
+	 * {@code null} means root.
+	 */
+	private String name;
 
 	public TreeXmlAction(ActionContext context) {
 		super(context);
+	}
+
+	@Override
+	public void readParameters() {
+		super.readParameters();
+		name = getContext().getParameterAsString("name", null);
 	}
 
 	@Override
@@ -32,7 +42,8 @@ public class TreeXmlAction extends AbstractXmlAction {
 
 	@Override
 	protected void fillDocument(Document document) {
-		Element rootElement = createElement(document, SimonManager.manager().getRootSimon());
+		Simon simon = name == null ? getContext().getManager().getRootSimon() : getContext().getManager().getSimon(name);
+		Element rootElement = createElement(document, simon);
 		document.appendChild(rootElement);
 	}
 }

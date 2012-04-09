@@ -6,6 +6,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import org.javasimon.Manager;
+import org.javasimon.SimonManager;
 
 /**
  * Common part processing the request for {@link SimonConsoleServlet} or {@link SimonConsoleFilter}.
@@ -28,6 +30,11 @@ class SimonConsoleRequestProcessor {
 	 */
 	private String urlPrefix;
 
+	/**
+	 * Simon manager to use.
+	 */
+	private Manager manager = SimonManager.manager();
+
 	SimonConsoleRequestProcessor(String urlPrefix) {
 		if (urlPrefix == null) {
 			this.urlPrefix = "";
@@ -48,6 +55,7 @@ class SimonConsoleRequestProcessor {
 		throws ServletException, IOException {
 		String path = request.getRequestURI().substring(request.getContextPath().length() + urlPrefix.length());
 		ActionContext actionContext = new ActionContext(request, response, path);
+		actionContext.setManager(manager);
 		Action action;
 		try {
 			// Create action corresponding to request path

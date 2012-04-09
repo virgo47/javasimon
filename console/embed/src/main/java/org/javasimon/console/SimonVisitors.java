@@ -61,8 +61,9 @@ public class SimonVisitors {
 	 * @param visitor Visitor
 	 * @throws IOException
 	 */
-	public static void visitTree(Manager manager, SimonVisitor visitor) throws IOException {
-		visitTree(manager.getRootSimon(), visitor);
+	public static void visitTree(Manager manager, String rootName, SimonVisitor visitor) throws IOException {
+		Simon root = rootName == null ? manager.getRootSimon() : manager.getSimon(rootName);
+		visitTree(root, visitor);
 	}
 
 	/**
