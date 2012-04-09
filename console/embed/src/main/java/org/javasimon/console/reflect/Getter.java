@@ -132,6 +132,9 @@ public class Getter<T> {
 	private static String getSubType(Class type, String propertyName) {
 		@SuppressWarnings("unchecked")
 		SimonType simonType=SimonType.getValueFromType(type);
+		if (simonType == null) {
+			simonType = SimonType.getValueFromSampleType(type);
+		}
 		if (simonType==null) {
 			return null;
 		} else {

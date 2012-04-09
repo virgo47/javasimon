@@ -2,6 +2,7 @@ package org.javasimon.console.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import org.javasimon.Sample;
 import org.javasimon.Simon;
 import org.javasimon.console.ActionContext;
 import org.javasimon.console.json.ArrayJS;
@@ -48,15 +49,15 @@ public class TableJsonAction extends AbstractTableAction {
 	}
 
 	@Override
-	protected void printBodyRow(Simon simon, PrintWriter writer) throws IOException {
+	protected void printBodyRow(Sample sample, PrintWriter writer) throws IOException {
 		simonJS = new ObjectJS();
 		simonsJS.addElement(simonJS);
-		super.printBodyRow(simon, writer);
+		super.printBodyRow(sample, writer);
 		simonJS = null;
 	}
 
 	@Override @SuppressWarnings("unchecked")
-	protected void printBodyCell(Column column, Simon s, PrintWriter writer) {
-		simonJS.setAttribute(column.getName(), new SimpleJS(column.getValue(s), column.getStringifier(s)));
+	protected void printBodyCell(Column column, Sample sample, PrintWriter writer) {
+		simonJS.setAttribute(column.getName(), new SimpleJS(column.getValue(sample), column.getStringifier(sample)));
 	}
 }

@@ -2,6 +2,7 @@ package org.javasimon.console.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import org.javasimon.Sample;
 import org.javasimon.Simon;
 import org.javasimon.console.ActionContext;
 
@@ -35,8 +36,8 @@ public class TableCsvAction extends AbstractTableAction {
 	}
 
 	@Override
-	protected void printBodyRow(Simon simon, PrintWriter writer) throws IOException {
-		super.printBodyRow(simon, writer);
+	protected void printBodyRow(Sample sample, PrintWriter writer) throws IOException {
+		super.printBodyRow(sample, writer);
 		printEndOfLine(writer);
 	}
 

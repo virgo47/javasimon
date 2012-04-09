@@ -27,15 +27,20 @@ final class UnknownSimon extends AbstractSimon {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Sample sample() {
-		return null;
+	public synchronized Sample sample() {
+		UnknownSample sample=new UnknownSample();
+		sampleCommon(sample);
+		return sample;
+		
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public Sample sampleAndReset() {
-		return null;
+	public synchronized Sample sampleAndReset() {
+		Sample sample=sample();
+		reset();
+		return sample;
 	}
 
 	/**

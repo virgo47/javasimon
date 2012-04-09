@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
+import org.javasimon.Sample;
 import org.javasimon.Simon;
 import org.javasimon.SimonManager;
 import org.javasimon.console.*;
@@ -66,15 +67,15 @@ public class AbstractTableAction extends Action {
 		columns.add(new Column<SimonType>("Type", "type") {
 			private Stringifier<SimonType> stringifier;
 			@Override
-			public SimonType getValue(Simon simon) {
-				return SimonType.getValueFromInstance(simon);
+			public SimonType getValue(Object object) {
+				return SimonType.getValueFromInstance((Sample) object);
 			}
 			@Override
-			public String getFormattedValue(Simon simon) {
-				return getStringifier(simon).toString(getValue(simon));
+			public String getFormattedValue(Object object) {
+				return getStringifier(object).toString(getValue(object));
 			}
 			@Override
-			public Stringifier<SimonType> getStringifier(Simon simon) {
+			public Stringifier<SimonType> getStringifier(Object object) {
 				if (stringifier==null) {
 					stringifier=stringifierFactory.getStringifier(SimonType.class);
 				}
@@ -132,13 +133,16 @@ public class AbstractTableAction extends Action {
 	}
 
 	protected void printBodyRow(Simon simon, PrintWriter writer) throws IOException {
+		printBodyRow(simon.sample(), writer);
+	}
+	protected void printBodyRow(Sample sample, PrintWriter writer) throws IOException {
 		for (Column column : columns) {
-			printBodyCell(column, simon, writer);
+			printBodyCell(column, sample, writer);
 		}
 	}
 
-	protected void printBodyCell(Column c, Simon s, PrintWriter writer) {
-		printCell(c, c.getFormattedValue(s), writer);
+	protected void printBodyCell(Column c, Sample sample, PrintWriter writer) {
+		printCell(c, c.getFormattedValue(sample), writer);
 	}
 
 	protected void printCell(Column c, String s, PrintWriter writer) {
@@ -203,27 +207,27 @@ public class AbstractTableAction extends Action {
 		}
 		/**
 		 * Get Getter for given column and row (simon)
-		 * @param simon Simon row
+		 * @param object Simon row
 		 * @return Getter
 		 */
 		@SuppressWarnings("unchecked")
-		private Getter<T> getGetter(Simon simon) {
-			return Getter.getGetter(simon.getClass(), name);
+		private Getter<T> getGetter(Object object) {
+			return Getter.getGetter(object.getClass(), name);
 		}
 		/**
 		 * Get raw column value
 		 */
-		public T getValue(Simon simon) {
-			Getter<T> getter = getGetter(simon);
-			return getter == null ? null : getter.get(simon);
+		public T getValue(Object object) {
+			Getter<T> getter = getGetter(object);
+			return getter == null ? null : getter.get(object);
 		}
 		/**
 		 * Get stringier used for given column and row
-		 * @param simon Row (simon)
+		 * @param object Row (simon)
 		 * @return Stringifier
 		 */
-		public Stringifier<T> getStringifier(Simon simon) {
-			Getter<T> getter = getGetter(simon);
+		public Stringifier<T> getStringifier(Object object) {
+			Getter<T> getter = getGetter(object);
 			if (getter==null) {
 				return stringifierFactory.getNullStringifier();
 			} else {
@@ -233,12 +237,12 @@ public class AbstractTableAction extends Action {
 		/**
 		 * Get formatted column value
 		 */
-		public String getFormattedValue(Simon simon) {
-			Getter<T> getter = getGetter(simon);
+		public String getFormattedValue(Object object) {
+			Getter<T> getter = getGetter(object);
 			if (getter==null) {
 				return stringifierFactory.toString(null);
 			} else {
-				return stringifierFactory.toString(getter.get(simon), getter.getSubType());
+				return stringifierFactory.toString(getter.get(object), getter.getSubType());
 			}
 		}
 	}
