@@ -64,6 +64,9 @@ public class StringifierFactory {
 		
 		// String
 		final Stringifier<String> stringStringifier = registerStringStringifier(nullStringifier);
+
+		// Disabled String
+		compositeStringifier.add(String.class, "None", NoneStringifier.getInstance());
 		
 		// Integer
 		final Stringifier<Integer> integerStringifier = new BaseStringifier<Integer>(nullStringifier) {
@@ -244,10 +247,10 @@ public class StringifierFactory {
 		return compositeStringifier.getNullStringifier();
 	}
 	public <T> Stringifier<T> getStringifier(Class<? extends T> type) {
-		return compositeStringifier.get(type);
+		return compositeStringifier.getForType(type);
 	}
 	public <T> Stringifier<T> getStringifier(Class<? extends T> type, String subType) {
-		return compositeStringifier.get(type, subType);
+		return compositeStringifier.getForType(type, subType);
 	}
 	public <T> String toString(T value) {
 		return compositeStringifier.toString(value);
