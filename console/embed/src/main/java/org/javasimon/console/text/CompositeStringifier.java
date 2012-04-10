@@ -119,9 +119,9 @@ public class CompositeStringifier implements Stringifier<Object> {
 	 * @param type Type (null sub-type)
 	 * @return Stringifier
 	 */
-//	public final <T> Stringifier<T> getForType(Class<? extends T> type) {
-//		return getForType(type, null);
-//	}
+	public final <T> Stringifier<T> getForType(Class<? extends T> type) {
+		return getForType(type, null);
+	}
 
 	/**
 	 * Look for a stringifier in the dictionnary.<ol>
@@ -134,8 +134,7 @@ public class CompositeStringifier implements Stringifier<Object> {
 	 * @return Stringifier
 	 */
 	@SuppressWarnings("unchecked")
-//	private <T> Stringifier<T> get(Class<? extends T> type, String subType) {
-	public <T> Stringifier<T> get(Class<? extends T> type, String subType) {
+	private <T> Stringifier<T> get(Class<? extends T> type, String subType) {
 		Stringifier<T> stringifier = null;
 		if (subType != null) {
 			stringifier = stringifiers.get(new StringifierKey(type, subType));
@@ -144,11 +143,6 @@ public class CompositeStringifier implements Stringifier<Object> {
 			stringifier = stringifiers.get(new StringifierKey(type, null));
 		}
 		return stringifier;
-	}
-
-	// remove this one
-	public final <T> Stringifier<T> get(Class<? extends T> type) {
-		return stringifiers.get(new StringifierKey(type, null));
 	}
 
 	/**
@@ -161,10 +155,10 @@ public class CompositeStringifier implements Stringifier<Object> {
 	 * @param subType Sub type
 	 * @return Stringifier
 	 */
-//	@SuppressWarnings("unchecked")
-//	public final <T> Stringifier<T> getForType(Class<? extends T> type, String subType) {
-//		return NoneStringifier.checkInstance(get(type, subType));
-//	}
+	@SuppressWarnings("unchecked")
+	public final <T> Stringifier<T> getForType(Class<? extends T> type, String subType) {
+		return NoneStringifier.checkInstance(get(type, subType));
+	}
 
 	/**
 	 * Get stringifier for an instance:<ul>
@@ -188,8 +182,7 @@ public class CompositeStringifier implements Stringifier<Object> {
 				stringifier = defaultStringifier;
 			}
 		}
-		return stringifier;
-//		return NoneStringifier.checkInstance(stringifier);
+		return NoneStringifier.checkInstance(stringifier);
 	}
 
 	/**

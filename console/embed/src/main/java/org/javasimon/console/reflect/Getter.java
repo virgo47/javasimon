@@ -131,15 +131,32 @@ public class Getter<T> {
 	 */
 	private static String getSubType(Class type, String propertyName) {
 		@SuppressWarnings("unchecked")
-		SimonType simonType=SimonType.getValueFromType(type);
-		if (simonType == null) {
-			simonType = SimonType.getValueFromSampleType(type);
-		}
-		if (simonType==null) {
+		Class normalizedType=normalizeType(type);
+		if (normalizedType==null) {
 			return null;
 		} else {
-			return subTypeProperties.getProperty(simonType.getType().getName()+"."+propertyName);
+			return subTypeProperties.getProperty(normalizedType.getName()+"."+propertyName);
 		}
+	}
+	/**
+	 * Get the main interface of the type
+	 * @param type Implementation class
+	 * @return Main interface class
+	 */
+	private static Class normalizeType(Class type) {
+		SimonType simonType=SimonType.getValueFromType(type);
+		Class normalizedType;
+		if (simonType == null) {
+			simonType = SimonType.getValueFromSampleType(type);
+			if (simonType == null) {
+				normalizedType = null;
+			} else {
+				normalizedType = simonType.getSampleType();
+			}
+		} else {
+			normalizedType = simonType.getType();
+		}
+		return normalizedType;
 	}
 	/**
 	 * Extract all getters for given class

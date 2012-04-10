@@ -1,13 +1,14 @@
 package org.javasimon.console.text;
 
 /**
- * Basic value formatter. Handle null value delegating to a null Stringifier
+ * Basic value formatter. 
+ * Handles null value delegating to a null Stringifier.
  * @param <T> Input type
  * @author gquintana
  */
 public class BaseStringifier<T> implements Stringifier<T> {
 	/**
-	 * Stringifier to handle null values
+	 * Stringifier to handle null values.
 	 */
 	private final Stringifier nullStringifier;
 	/**
