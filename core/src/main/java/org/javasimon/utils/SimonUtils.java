@@ -71,22 +71,32 @@ public final class SimonUtils {
 	 */
 	public static final String ALLOWED_CHARS = "-_[]ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.,@$%()<>";
 
+	/**
+	 * Name of the attribute where manager is searched for in an appropriate context - used for Spring/JavaEE/console integration.
+	 * While the name can be used in any context supporting named attributes, it is primarily aimed for ServletContext. Manager can
+	 * be shared in ServletContext by {@code SimonWebConfigurationBean} (Spring module) and then picked up by {@code SimonServletFilter}
+	 * (JavaEE module) and {@code SimonConsoleFilter} (Embeddable console). If no manager is found in the attribute of the context,
+	 * it is expected that components will use default {@link org.javasimon.SimonManager} instead.
+	 *
+	 * @since 3.2
+	 */
+	public static final String MANAGER_SERVLET_CTX_ATTRIBUTE = "manager-servlet-ctx-attribute";
+
 	private static final int UNIT_PREFIX_FACTOR = 1000;
 
 	private static final SimpleDateFormat TIMESTAMP_FORMAT = new SimpleDateFormat("yyMMdd-HHmmss.SSS");
 
 	private static final DecimalFormatSymbols DECIMAL_FORMAT_SYMBOLS = new DecimalFormatSymbols(Locale.US);
-
 	private static final int TEN = 10;
-	private static final DecimalFormat UNDER_TEN_FORMAT = new DecimalFormat("0.00", DECIMAL_FORMAT_SYMBOLS);
 
+	private static final DecimalFormat UNDER_TEN_FORMAT = new DecimalFormat("0.00", DECIMAL_FORMAT_SYMBOLS);
 	private static final int HUNDRED = 100;
+
 	private static final DecimalFormat UNDER_HUNDRED_FORMAT = new DecimalFormat("00.0", DECIMAL_FORMAT_SYMBOLS);
 
 	private static final DecimalFormat DEFAULT_FORMAT = new DecimalFormat("000", DECIMAL_FORMAT_SYMBOLS);
 
 	private static final String UNDEF_STRING = "undef";
-
 	private static final int CLIENT_CODE_STACK_INDEX;
 
 	static {
@@ -380,5 +390,26 @@ public final class SimonUtils {
 		} finally {
 			split.stop();
 		}
+	}
+
+	private static final String SHRINKED_STRING = "...";
+
+	/**
+	 * Shrinks the middle of the input string if it is too long, so it does not exceed limitTo.
+	 *
+	 * @since 3.2
+	 */
+	public static String compact(String input, int limitTo) {
+		if (input == null || input.length() <= limitTo) {
+			return input;
+		}
+
+		int headLength = limitTo / 2;
+		int tailLength = limitTo - SHRINKED_STRING.length() - headLength;
+		if (tailLength < 0) {
+			tailLength = 1;
+		}
+
+		return input.substring(0, headLength) + SHRINKED_STRING + input.substring(input.length() - tailLength);
 	}
 }

@@ -108,4 +108,12 @@ class SimonConsoleRequestProcessor {
 	public String getUrlPrefix() {
 		return urlPrefix;
 	}
+
+	public Manager getManager() {
+		return manager;
+	}
+
+	public void setManager(Manager manager) {
+		this.manager = manager;
+	}
 }

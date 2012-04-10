@@ -9,7 +9,7 @@ import org.testng.Assert;
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
-public final class UtilsTestNG {
+public final class SimonUtilsTest {
 	@DataProvider(name = "test-data-utils")
 	public Object[][] testDataUtilsProvider() {
 		return new Object[][]{
@@ -29,5 +29,15 @@ public final class UtilsTestNG {
 	@Test(dataProvider = "test-data-utils")
 	public void testUtilPresentNanoTime(long ns, String nsString) throws InterruptedException {
 		Assert.assertEquals(SimonUtils.presentNanoTime(ns), nsString);
+	}
+
+	@Test
+	public void testStringCompact() {
+		Assert.assertEquals(SimonUtils.compact("asdfadfasd;a 345tw", 4), "as...w");
+		Assert.assertEquals(SimonUtils.compact("asdfadfasd;a 345tw", 7), "asd...w");
+		Assert.assertEquals(SimonUtils.compact("asdfadfasd;a 345tw", 12), "asdfad...5tw");
+		Assert.assertEquals(SimonUtils.compact("asdfadfasd;a 345tw", 17), "asdfadfa... 345tw");
+		Assert.assertEquals(SimonUtils.compact("asdfadfasd;a 345tw", 18), "asdfadfasd;a 345tw");
+		Assert.assertEquals(SimonUtils.compact("asdfadfasd;a 345tw", 30), "asdfadfasd;a 345tw");
 	}
 }

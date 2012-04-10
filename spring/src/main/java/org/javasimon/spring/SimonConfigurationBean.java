@@ -17,7 +17,7 @@ import org.springframework.beans.factory.InitializingBean;
  */
 public class SimonConfigurationBean implements InitializingBean {
 	private Manager simonManager = SimonManager.manager();
-	private String resourcePath;
+	private String configurationPath;
 
 	public Manager getSimonManager() {
 		return simonManager;
@@ -37,19 +37,21 @@ public class SimonConfigurationBean implements InitializingBean {
 	/**
 	 * Loads configuration for the manager from the specified resource path.
 	 *
-	 * @param resourcePath resource path to the configuration XML
+	 * @param configurationPath resource path to the configuration XML
 	 * @throws IOException thrown if the resource is not found or the configuration XML is not well formed
 	 */
-	public void setConfiguration(String resourcePath) throws IOException {
-		this.resourcePath = resourcePath;
+	public void setConfiguration(String configurationPath) throws IOException {
+		this.configurationPath = configurationPath;
 	}
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		InputStream is = getClass().getClassLoader().getResourceAsStream(resourcePath);
-		if (is == null) {
-			throw new FileNotFoundException(resourcePath);
+		if (configurationPath != null) {
+			InputStream is = getClass().getClassLoader().getResourceAsStream(configurationPath);
+			if (is == null) {
+				throw new FileNotFoundException(configurationPath);
+			}
+			simonManager.configuration().readConfig(new InputStreamReader(is));
 		}
-		simonManager.configuration().readConfig(new InputStreamReader(is));
 	}
 }

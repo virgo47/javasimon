@@ -2,20 +2,18 @@ package org.javasimon.spring;
 
 import javax.servlet.ServletContext;
 
+import org.javasimon.utils.SimonUtils;
 import org.springframework.web.context.ServletContextAware;
 
 /**
- * Bean TODO.
+ * {@link SimonConfigurationBean} with extended function - just pushes configured manager to the {@link ServletContext} attribute
+ * {@link SimonUtils#MANAGER_SERVLET_CTX_ATTRIBUTE}.
  *
  * @author <a href="mailto:richard.richter@posam.sk">Richard "Virgo" Richter</a>
  */
 public class SimonWebConfigurationBean extends SimonConfigurationBean implements ServletContextAware {
-	// the same like in SimonServletFilter
-	public static final String MANAGER_SERVLET_CTX_ATTRIBUTE = "manager-servlet-ctx-attribute";
-
 	@Override
 	public void setServletContext(ServletContext servletContext) {
-		System.out.println("Setting the manager to SC attribute");
-		servletContext.setAttribute(MANAGER_SERVLET_CTX_ATTRIBUTE, getSimonManager());
+		servletContext.setAttribute(SimonUtils.MANAGER_SERVLET_CTX_ATTRIBUTE, getSimonManager());
 	}
 }

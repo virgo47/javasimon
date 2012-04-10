@@ -35,7 +35,7 @@ public class HttpStopwatchSource extends AbstractStopwatchSource<HttpServletRequ
 	/**
 	 * String used as replacement for unallowed characters - defaults to '_'.
 	 */
-	private Replacer unallowedCharacterReplacer = UrlToSimonNameUtil.createUnallowedCharsReplacer("_");
+	private Replacer unallowedCharacterReplacer = SimonServletFilterUtils.createUnallowedCharsReplacer("_");
 
 	public HttpStopwatchSource(Manager manager) {
 		super(manager);
@@ -66,7 +66,7 @@ public class HttpStopwatchSource extends AbstractStopwatchSource<HttpServletRequ
 	 * @return fully qualified name of the Simon
 	 */
 	protected String getMonitorName(HttpServletRequest request) {
-		String localName = UrlToSimonNameUtil.getSimonName(request, unallowedCharacterReplacer);
+		String localName = SimonServletFilterUtils.getSimonName(request, unallowedCharacterReplacer);
 		if (prefix == null || prefix.isEmpty()) {
 			return localName;
 		}
