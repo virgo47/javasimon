@@ -4,23 +4,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Dictionnary (Class type,String subType)&rarr;Stringifier
+ * Dictionary (Class type,String subType)&rarr;Stringifier.
  *
  * @author gquintana
  */
 public class CompositeStringifier implements Stringifier<Object> {
 	/**
-	 * Key of the dictionnary is the couple (Class type,String subType)
+	 * Key of the dictionary is the couple (Class type,String subType).
 	 * subType can be null
 	 */
 	private static final class StringifierKey {
-		/**
-		 * Type
-		 */
+
 		private final Class<?> type;
-		/**
-		 * Sub type
-		 */
 		private final String subType;
 
 		/**
@@ -32,7 +27,7 @@ public class CompositeStringifier implements Stringifier<Object> {
 		}
 
 		/**
-		 * Compares 2 objects including the case one of them is null
+		 * Compares 2 objects including the case one of them is null.
 		 */
 		private boolean equalsTo(Object o1, Object o2) {
 			if (o1 == o2) {
@@ -62,10 +57,8 @@ public class CompositeStringifier implements Stringifier<Object> {
 				return false;
 			}
 			final StringifierKey other = (StringifierKey) obj;
-			if (!equalsTo(this.type, other.type)) {
-				return false;
-			}
-			return equalsTo(this.subType, other.subType);
+
+			return equalsTo(this.type, other.type) && equalsTo(this.subType, other.subType);
 		}
 
 		@Override
@@ -103,11 +96,10 @@ public class CompositeStringifier implements Stringifier<Object> {
 	}
 
 	/**
-	 * Adds a stringifier to the dictionnary
+	 * Adds a stringifier to the dictionnary.
 	 *
 	 * @param type Type
 	 * @param stringifier Stringifier
-	 * @parma subType Sub type
 	 */
 	public final <T> void add(Class<? extends T> type, String name, Stringifier<T> stringifier) {
 		stringifiers.put(new StringifierKey(type, name), stringifier);
@@ -124,7 +116,7 @@ public class CompositeStringifier implements Stringifier<Object> {
 	}
 
 	/**
-	 * Look for a stringifier in the dictionnary.<ol>
+	 * Look for a stringifier in the dictionary.<ol>
 	 * <li>First look with type+subtype</li>
 	 * <li>If not found, try with type alone</li>
 	 * </ol>
@@ -146,7 +138,7 @@ public class CompositeStringifier implements Stringifier<Object> {
 	}
 
 	/**
-	 * Look for a stringifier in the dictionnary.<ol>
+	 * Look for a stringifier in the dictionary.<ol>
 	 * <li>First look with type+subtype</li>
 	 * <li>If not found, try with type alone</li>
 	 * </ol>
@@ -161,15 +153,14 @@ public class CompositeStringifier implements Stringifier<Object> {
 	}
 
 	/**
-	 * Get stringifier for an instance:<ul>
+	 * Get stringifier for an instance:
+	 * <ul>
 	 * <li>If instance is null, return null stringifier</li>
-	 * <li>Else look in the dictionnary with instance's class, if found return it</li>
+	 * <li>Else look in the dictionary with instance's class, if found return it</li>
 	 * <li>Else return default strinfigier</li>
 	 * </ul>
 	 *
 	 * @param object Object instance
-	 * @param subType
-	 * @return
 	 */
 	@SuppressWarnings("unchecked")
 	private <T> Stringifier<T> getForInstance(T object, String subType) {
@@ -187,7 +178,7 @@ public class CompositeStringifier implements Stringifier<Object> {
 
 	/**
 	 * Converts an object into a String looking for appropriate
-	 * stringfier among dictionnary
+	 * stringfier among dictionary
 	 *
 	 * @param object Object
 	 * @return String representing the object
@@ -198,7 +189,7 @@ public class CompositeStringifier implements Stringifier<Object> {
 
 	/**
 	 * Converts an object into a String looking for appropriate
-	 * stringfier among dictionnary
+	 * stringfier among dictionary
 	 *
 	 * @param object Object
 	 * @param subType Sub type
