@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.javasimon.Manager;
+import org.javasimon.utils.SimonUtils;
+
 /**
  * Front controller servlet of Simon Web console.
  *
@@ -27,6 +30,9 @@ public class SimonConsoleServlet extends HttpServlet {
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
+
+		pickUpSharedManagerIfExists(config);
+
 		String urlPrefix = config.getInitParameter(URL_PREFIX_INIT_PARAMETER);
 		if (urlPrefix == null) {
 			urlPrefix = "";
@@ -36,6 +42,12 @@ public class SimonConsoleServlet extends HttpServlet {
 		requestProcessor = new SimonConsoleRequestProcessor(urlPrefix);
 	}
 
+	private void pickUpSharedManagerIfExists(ServletConfig config) {
+		Object managerObject = config.getServletContext().getAttribute(SimonUtils.MANAGER_SERVLET_CTX_ATTRIBUTE);
+		if (managerObject != null && managerObject instanceof Manager) {
+			requestProcessor.setManager((Manager) managerObject);
+		}
+	}
 
 	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 

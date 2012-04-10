@@ -143,7 +143,7 @@ public abstract class Sample {
 		sb.append(", lastUsage=").append(SimonUtils.presentTimestamp(getLastUsage()));
 		sb.append(", lastReset=").append(SimonUtils.presentTimestamp(getLastReset()));
 		sb.append(", note=").append(getNote());
-		sb.append("}");
+		sb.append('}');
 	}
 
 	/**

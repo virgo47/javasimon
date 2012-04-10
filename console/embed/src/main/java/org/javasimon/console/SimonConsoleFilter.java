@@ -5,6 +5,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import org.javasimon.Manager;
+import org.javasimon.utils.SimonUtils;
+
 /**
  * Simon Console filter does the same as {@link SimonConsoleServlet} and provides just an alternative way
  * to include embeddable console in your applications. Putting this filter before the Simon Servlet filter is also
@@ -21,6 +24,15 @@ public class SimonConsoleFilter implements Filter {
 	public final void init(FilterConfig filterConfig) {
 		requestProcessor = new SimonConsoleRequestProcessor(
 			filterConfig.getInitParameter(SimonConsoleServlet.URL_PREFIX_INIT_PARAMETER));
+
+		pickUpSharedManagerIfExists(filterConfig);
+	}
+
+	private void pickUpSharedManagerIfExists(FilterConfig filterConfig) {
+		Object managerObject = filterConfig.getServletContext().getAttribute(SimonUtils.MANAGER_SERVLET_CTX_ATTRIBUTE);
+		if (managerObject != null && managerObject instanceof Manager) {
+			requestProcessor.setManager((Manager) managerObject);
+		}
 	}
 
 	/**

@@ -66,7 +66,7 @@ public class StringifierFactory {
 		final Stringifier<String> stringStringifier = registerStringStringifier(nullStringifier);
 
 		// Disabled String
-		compositeStringifier.add(String.class, "None", NoneStringifier.getInstance());
+//		compositeStringifier.add(String.class, "None", NoneStringifier.getInstance());
 		
 		// Integer
 		final Stringifier<Integer> integerStringifier = new BaseStringifier<Integer>(nullStringifier) {
@@ -148,7 +148,8 @@ public class StringifierFactory {
 		protected String doToString(Date d) {
 			return stringStringifier.toString(dateFormat.format(d));
 		}
-	};
+	}
+
 	protected static class NumberStringifier<T extends Number> extends BaseStringifier<T> {
 		private final NumberFormat numberFormat;
 		public NumberStringifier(Stringifier nullStringifier, String numberPattern) {
@@ -163,7 +164,7 @@ public class StringifierFactory {
 		protected String doToString(T n) {
 			return numberFormat.format(n.doubleValue());
 		}
-	};
+	}
 
 	protected static class LongDateStringifier extends BaseStringifier<Long> {
 
@@ -212,7 +213,7 @@ public class StringifierFactory {
 				return longStringifier.toString(l2);
 			}
 		}
-	};
+	}
 
 	protected static class DoubleTimeStringifier extends BaseStringifier<Double> {
 
@@ -241,16 +242,19 @@ public class StringifierFactory {
 				return doubleStringifier.toString(d2);
 			}
 		}
-	};
+	}
+
 	@SuppressWarnings("unchecked")
 	public <T> Stringifier<T> getNullStringifier() {
 		return compositeStringifier.getNullStringifier();
 	}
 	public <T> Stringifier<T> getStringifier(Class<? extends T> type) {
-		return compositeStringifier.getForType(type);
+		return compositeStringifier.get(type);
+//		return compositeStringifier.getForType(type);
 	}
 	public <T> Stringifier<T> getStringifier(Class<? extends T> type, String subType) {
-		return compositeStringifier.getForType(type, subType);
+		return compositeStringifier.get(type, subType);
+//		return compositeStringifier.getForType(type, subType);
 	}
 	public <T> String toString(T value) {
 		return compositeStringifier.toString(value);

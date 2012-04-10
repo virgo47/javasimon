@@ -3,7 +3,6 @@ package org.javasimon.javaee;
 import org.javasimon.Manager;
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
-import org.javasimon.Stopwatch;
 import org.javasimon.StopwatchSample;
 import org.javasimon.callback.CallbackSkeleton;
 import org.javasimon.utils.Replacer;
@@ -17,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.javasimon.source.DisabledMonitorSource;
-import org.javasimon.source.MonitorSource;
 import org.javasimon.source.StopwatchTemplate;
 
 /**
@@ -30,12 +28,12 @@ import org.javasimon.source.StopwatchTemplate;
  * </ul>
  * <p/>
  * All constants are public and fields protected for easy extension of the class. Following protected methods
- * are provided to override the default function:
+ * and classes are provided to override the default function:
  * <ul>
  * <li>{@link #shouldBeReported} - compares actual request nano time with {@link #getThreshold(javax.servlet.http.HttpServletRequest)}
  * (which may become unused if this method is overriden)</li>
  * <li>{@link #getThreshold(javax.servlet.http.HttpServletRequest)} - returns threshold configured in {@code web.xml}</li>
- * <li>{@link #reportRequestOverThreshold(javax.servlet.http.HttpServletRequest, org.javasimon.Split, java.util.List)}</li>
+ * <li>{@link RequestReporter} can be implemented and specified using init parameter {@link #INIT_PARAM_REQUEST_REPORTER_CLASS}</li>
  * <li>{@link HttpStopwatchSource} can be subclassed and specified using init parameter {@link #INIT_PARAM_STOPWATCH_SOURCE_CLASS}, specifically
  * following methods are intended for override:
  * <ul>
@@ -50,6 +48,24 @@ import org.javasimon.source.StopwatchTemplate;
  */
 @SuppressWarnings("UnusedParameters")
 public class SimonServletFilter implements Filter {
+	/**
+	 * Name of filter init parameter for Simon name prefix.
+	 */
+	public static final String INIT_PARAM_PREFIX = "prefix";
+
+	/**
+	 * Name of filter init parameter that sets the value of threshold in milliseconds for maximal
+	 * request duration beyond which all splits will be dumped to log. The actual threshold can be
+	 * further customized overriding {@link #getThreshold(javax.servlet.http.HttpServletRequest)} method,
+	 * but this parameter has to be set to non-null value to enable threshold reporting feature (0 for instance).
+	 */
+	public static final String INIT_PARAM_REPORT_THRESHOLD_MS = "report-threshold-ms";
+
+	/**
+	 * Name of filter init parameter that sets relative ULR path that will provide Simon console page.
+	 */
+	public static final String INIT_PARAM_SIMON_CONSOLE_PATH = "console-path";
+
 	/**
 	 * FQN of the Stopwatch source class implementing {@link org.javasimon.source.MonitorSource}.
 	 * One can use {@link DisabledMonitorSource} to disabled monitoring.
@@ -69,36 +85,18 @@ public class SimonServletFilter implements Filter {
 	public static final String INIT_PARAM_STOPWATCH_SOURCE_CACHE = "stopwatch-source-cache";
 
 	/**
-	 * Name of filter init parameter for Simon name prefix.
+	 * FQN of the {@link RequestReporter} implementation that is used to report requests
+	 * that {@link #shouldBeReported(javax.servlet.http.HttpServletRequest, long, java.util.List)}.
+	 * Default is {@link org.javasimon.javaee.DefaultRequestReporter}.
 	 */
-	public static final String INIT_PARAM_PREFIX = "prefix";
-
-	/**
-	 * Servlet Context attribute name where manager is searched for (possibly configured by {@code SimonWebConfigurationBean} or
-	 * any other way). If there is no manager found, {@link SimonManager} is assigned to internal {@link #manager} variable.
-	 */
-	public static final String MANAGER_SERVLET_CTX_ATTRIBUTE = "manager-servlet-ctx-attribute";
-
-	/**
-	 * Name of filter init parameter that sets the value of threshold in milliseconds for maximal
-	 * request duration beyond which all splits will be dumped to log. The actual threshold can be
-	 * further customized overriding {@link #getThreshold(javax.servlet.http.HttpServletRequest)} method,
-	 * but this parameter has to be set to non-null value to enable threshold reporting feature (0 for instance).
-	 */
-	public static final String INIT_PARAM_REPORT_THRESHOLD_MS = "report-threshold-ms";
-
-	/**
-	 * Name of filter init parameter that sets relative ULR path that will provide Simon console page.
-	 */
-	public static final String INIT_PARAM_SIMON_CONSOLE_PATH = "console-path";
+	public static final String INIT_PARAM_REQUEST_REPORTER_CLASS = "request-reporter-class";
 
 	private static Replacer FINAL_SLASH_REMOVE = new Replacer("/*$", "");
 
 	private static Replacer SLASH_TRIM = new Replacer("^/*(.*?)/*$", "$1");
 
 	/**
-	 * Threshold in ns - any reqest longer than this will be reported by
-	 * {@link #reportRequestOverThreshold(javax.servlet.http.HttpServletRequest, org.javasimon.Split, java.util.List)}.
+	 * Threshold in ns - any reqest longer than this will be reported by current {@link #requestReporter} instance.
 	 * Specified by {@link #INIT_PARAM_REPORT_THRESHOLD_MS} ({@value #INIT_PARAM_REPORT_THRESHOLD_MS}) in the {@code web.xml} (in ms,
 	 * converted to ns during servlet init). This is the default value returned by {@link #getThreshold(javax.servlet.http.HttpServletRequest)}
 	 * but it may be completely ignored if method is overrided so. However if the field is {@code null} threshold reporting feature
@@ -117,9 +115,9 @@ public class SimonServletFilter implements Filter {
 	protected String consolePath;
 
 	/**
-	 * Simon Manager used by the filter - protected for the subclass.
+	 * Simon Manager used by the filter.
 	 */
-	protected Manager manager = SimonManager.manager();
+	private Manager manager = SimonManager.manager();
 
 	/**
 	 * Thread local list of splits used to cummulate all splits for the request.
@@ -140,64 +138,24 @@ public class SimonServletFilter implements Filter {
 	private StopwatchTemplate<HttpServletRequest> stopwatchTemplate;
 
 	/**
-	 * Create and initialize the stopwatch source depending on
-	 * filter init parameter
-	 *
-	 * @param filterConfig Filter configuration
-	 * @return Stopwatch source
+	 * Object responsible for reporting the request over threshold (if {@link #shouldBeReported(javax.servlet.http.HttpServletRequest, long, java.util.List)}
+	 * returns true).
 	 */
-	@SuppressWarnings("unchecked")
-	protected MonitorSource<HttpServletRequest, Stopwatch> initStopwatchSource(FilterConfig filterConfig) {
-		MonitorSource<HttpServletRequest, Stopwatch> stopwatchSource;
-		String stopwatchSourceClass = filterConfig.getInitParameter(INIT_PARAM_STOPWATCH_SOURCE_CLASS);
-
-		if (stopwatchSourceClass == null) {
-			stopwatchSource = new HttpStopwatchSource(manager);
-		} else {
-			try {
-				stopwatchSource = (MonitorSource<HttpServletRequest, Stopwatch>)
-					Class.forName(stopwatchSourceClass).newInstance();
-			} catch (ClassNotFoundException classNotFoundException) {
-				throw new IllegalArgumentException("Invalid Stopwatch source class name", classNotFoundException);
-			} catch (InstantiationException instantiationException) {
-				throw new IllegalArgumentException("Invalid Stopwatch source class name", instantiationException);
-			} catch (IllegalAccessException illegalAccessException) {
-				throw new IllegalArgumentException("Invalid Stopwatch source class name", illegalAccessException);
-			}
-		}
-
-		// Inject prefix into HTTP Stopwatch source
-		String simonPrefix = filterConfig.getInitParameter(INIT_PARAM_PREFIX);
-		if (simonPrefix != null) {
-			if (stopwatchSource instanceof HttpStopwatchSource) {
-				HttpStopwatchSource httpStopwatchSource = (HttpStopwatchSource) stopwatchSource;
-				httpStopwatchSource.setPrefix(simonPrefix);
-			} else {
-				throw new IllegalArgumentException("Prefix init param is only compatible with HttpStopwatchSource");
-			}
-		}
-
-		// Wrap stopwatch source in a cache
-		String cache = filterConfig.getInitParameter(INIT_PARAM_STOPWATCH_SOURCE_CACHE);
-		if (cache != null && Boolean.parseBoolean(cache)) {
-			stopwatchSource = HttpStopwatchSource.newCacheStopwatchSource(stopwatchSource);
-		}
-		return stopwatchSource;
-	}
+	private RequestReporter requestReporter;
 
 	/**
 	 * Initialization method that processes various init parameters from {@literal web.xml} and sets manager, if
-	 * {@link #MANAGER_SERVLET_CTX_ATTRIBUTE} servlet context attribute is not {@code null}.
+	 * {@link org.javasimon.utils.SimonUtils#MANAGER_SERVLET_CTX_ATTRIBUTE} servlet context attribute is not {@code null}.
 	 *
 	 * @param filterConfig filter config object
 	 */
 	public final void init(FilterConfig filterConfig) {
-		Object managerObject = filterConfig.getServletContext().getAttribute(MANAGER_SERVLET_CTX_ATTRIBUTE);
-		if (managerObject != null && managerObject instanceof Manager) {
-			manager = (Manager) managerObject;
-		}
+		pickUpSharedManagerIfExists(filterConfig);
 
-		stopwatchTemplate = new StopwatchTemplate<HttpServletRequest>(initStopwatchSource(filterConfig));
+		stopwatchTemplate = new StopwatchTemplate<HttpServletRequest>(SimonServletFilterUtils.initStopwatchSource(filterConfig, manager));
+
+		requestReporter = SimonServletFilterUtils.initRequestReporter(filterConfig);
+		requestReporter.setSimonServletFilter(this);
 
 		String reportTreshold = filterConfig.getInitParameter(INIT_PARAM_REPORT_THRESHOLD_MS);
 		if (reportTreshold != null) {
@@ -214,6 +172,13 @@ public class SimonServletFilter implements Filter {
 		if (consolePath != null) {
 			this.printTreePath = FINAL_SLASH_REMOVE.process(consolePath);
 			this.consolePath = printTreePath + "/";
+		}
+	}
+
+	private void pickUpSharedManagerIfExists(FilterConfig filterConfig) {
+		Object managerObject = filterConfig.getServletContext().getAttribute(SimonUtils.MANAGER_SERVLET_CTX_ATTRIBUTE);
+		if (managerObject != null && managerObject instanceof Manager) {
+			manager = (Manager) managerObject;
 		}
 	}
 
@@ -236,6 +201,11 @@ public class SimonServletFilter implements Filter {
 			consolePage(request, response, localPath);
 			return;
 		}
+
+		doFilterWithMonitoring(filterChain, request, response);
+	}
+
+	private void doFilterWithMonitoring(FilterChain filterChain, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		Split split = stopwatchTemplate.start(request);
 		if (split != null && reportThresholdNanos != null) {
 			splitsThreadLocal.set(new ArrayList<Split>());
@@ -250,7 +220,7 @@ public class SimonServletFilter implements Filter {
 					List<Split> splits = splitsThreadLocal.get();
 					splitsThreadLocal.remove(); // better do this before we call potentially overriden method
 					if (shouldBeReported(request, splitNanoTime, splits)) {
-						reportRequestOverThreshold(request, split, splits);
+						requestReporter.reportRequest(request, split, splits);
 					}
 				}
 			}
@@ -282,25 +252,6 @@ public class SimonServletFilter implements Filter {
 	 */
 	protected long getThreshold(HttpServletRequest request) {
 		return reportThresholdNanos;
-	}
-
-	/**
-	 * Reports request that exceeds the threshold - method is intended for override.
-	 * Default behavior reports over {@link Manager#message(String)}.
-	 *
-	 * @param request offending HTTP request
-	 * @param requestSplit split measuring the offending request
-	 * @param splits list of all splits started for this request
-	 */
-	protected void reportRequestOverThreshold(HttpServletRequest request, Split requestSplit, List<Split> splits) {
-		StringBuilder messageBuilder = new StringBuilder(
-			"Web request is too long (" + SimonUtils.presentNanoTime(requestSplit.runningFor()) +
-				") [" + requestSplit.getStopwatch().getNote() + "]");
-		for (Split split : splits) {
-			messageBuilder.append("\n\t").append(split.getStopwatch().getName()).append(": ").
-				append(SimonUtils.presentNanoTime(split.runningFor()));
-		}
-		manager.message(messageBuilder.toString());
 	}
 
 	private void consolePage(HttpServletRequest request, HttpServletResponse response, String localPath) throws IOException {
@@ -335,6 +286,10 @@ public class SimonServletFilter implements Filter {
 
 	private void printSimonTree(ServletResponse response) throws IOException {
 		response.getOutputStream().println(SimonUtils.simonTreeString(manager.getRootSimon()));
+	}
+
+	public Manager getManager() {
+		return manager;
 	}
 
 	/**
