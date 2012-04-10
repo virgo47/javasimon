@@ -17,9 +17,6 @@ import org.javasimon.SimonPattern;
  */
 public class SimonVisitors {
 
-	/**
-	 * Hidden constructor.
-	 */
 	private SimonVisitors() {
 	}
 
@@ -38,10 +35,8 @@ public class SimonVisitors {
 	public static void visitList(Manager manager, String pattern, SimonType type, SimonVisitor visitor) throws IOException {
 		List<Simon> simons = new ArrayList<Simon>(manager.getSimons(SimonPattern.create(pattern)));
 		Collections.sort(simons, new Comparator<Simon>() {
-
 			public int compare(Simon s1, Simon s2) {
 				return s1.getName().compareTo(s2.getName());
-
 			}
 		});
 		for (Simon simon : simons) {
@@ -53,9 +48,7 @@ public class SimonVisitors {
 	}
 
 	/**
-	 * Visit simons as a tree.
-	 * Calls {@link  Manager#getRootSimon() } method
-	 * finally the visitor is recursively called on each of them
+	 * Visit Simons recursively as a tree starting from the specified name or root Simon if the name is {@code null}.
 	 *
 	 * @param manager Simon manager
 	 * @param visitor Visitor
@@ -67,8 +60,7 @@ public class SimonVisitors {
 	}
 
 	/**
-	 * Visit simons as a tree.
-	 * Calls The visitor is recursively called on each of them
+	 * Visit Simons recursively as a tree starting from the specified Simon.
 	 *
 	 * @param simon Parent simon
 	 * @param visitor Visitor

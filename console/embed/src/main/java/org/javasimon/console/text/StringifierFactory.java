@@ -8,7 +8,7 @@ import org.javasimon.console.TimeFormatType;
 import org.javasimon.utils.SimonUtils;
 
 /**
- * Base helper class to format values of attributes of simons. 
+ * Base helper class to format values of attributes of simons.
  * This class is in charge of initializing the dictionnary contained
  * in {@link CompositeStringifier}.
  * This class can be overriden to export differently JSON, CSV formats
@@ -25,7 +25,7 @@ public class StringifierFactory {
 	 */
 	public static final String TIME_SUBTYPE = "Time";
 	/**
-	 * Value used to identify None (=disabled=hidden) sub type. 
+	 * Value used to identify None (=disabled=hidden) sub type.
 	 * @see NoneStringifier
 	 */
 	public static final String NONE_SUBTYPE = "None";
@@ -70,7 +70,7 @@ public class StringifierFactory {
 	}
 	/**
 	 * Register a stringifier for String values.
-	 * Method aimed at being overriden. 
+	 * Method aimed at being overriden.
 	 */
 	protected Stringifier<String> registerStringStringifier(Stringifier nullStringifier) {
 		Stringifier<String> stringStringifier=new BaseStringifier<String>(nullStringifier) {
@@ -100,21 +100,21 @@ public class StringifierFactory {
 	}
 	/**
 	 * Register a stringifier for various types and subtypes
-	 * Method aimed at being overriden. 
+	 * Method aimed at being overriden.
 	 */
 	public void init(TimeFormatType timeFormat, String datePattern, String numberPattern) {
 		// Null
 		final Stringifier nullStringifier=registerNullStringifier();
-		
+
 		// Default
 		compositeStringifier.setDefaultStringifier(new BaseStringifier(nullStringifier));
-		
+
 		// String
 		final Stringifier<String> stringStringifier = registerStringStringifier(nullStringifier);
 
 		// Disabled String
 		compositeStringifier.add(String.class, NONE_SUBTYPE, NoneStringifier.getInstance());
-		
+
 		// Integer
 		final Stringifier<Integer> integerStringifier = new BaseStringifier<Integer>(nullStringifier) {
 
@@ -125,7 +125,7 @@ public class StringifierFactory {
 		};
 		compositeStringifier.add(Integer.class, integerStringifier);
 		compositeStringifier.add(Integer.TYPE, integerStringifier);
-		
+
 		// Long
 		final Stringifier<Long> longStringifier = new BaseStringifier<Long>(nullStringifier) {
 			@Override
@@ -134,7 +134,7 @@ public class StringifierFactory {
 			}
 		};
 		registerLongStringifier(null, longStringifier);
-		
+
 		// Float
 		final Stringifier<Float> floatStringifier = new NumberStringifier<Float>(nullStringifier, numberPattern) {
 			@Override
@@ -146,7 +146,7 @@ public class StringifierFactory {
 		};
 		compositeStringifier.add(Float.class, floatStringifier);
 		compositeStringifier.add(Float.TYPE, floatStringifier);
-		
+
 		// Double
 		final Stringifier<Double> doubleStringifier = new NumberStringifier<Double>(nullStringifier, numberPattern) {
 			@Override
@@ -157,7 +157,7 @@ public class StringifierFactory {
 			}
 		};
 		registerDoubleStringifier(null, doubleStringifier);
-		
+
 		// Enum
 		final Stringifier<Enum> enumStringifier = new BaseStringifier<Enum>(nullStringifier) {
 			@Override
@@ -168,21 +168,22 @@ public class StringifierFactory {
 		compositeStringifier.add(Enum.class, enumStringifier);
 		compositeStringifier.add(SimonType.class, enumStringifier);
 		compositeStringifier.add(SimonState.class, enumStringifier);
-		
+
 		// Date
 		final Stringifier<java.util.Date> dateStringifier = new DateStringifier(nullStringifier, stringStringifier, datePattern);
 		compositeStringifier.add(Date.class, dateStringifier);
 		final LongDateStringifier longDateStringifier = new LongDateStringifier(nullStringifier, dateStringifier);
 		registerLongStringifier(DATE_SUBTYPE, longDateStringifier);
-		
+
 		// Time
 		final LongTimeStringifier longTimeStringifier = new LongTimeStringifier(nullStringifier, longStringifier, stringStringifier, timeFormat);
 		registerLongStringifier(TIME_SUBTYPE, longTimeStringifier);
 		final DoubleTimeStringifier doubleTimeStringifier = new DoubleTimeStringifier(nullStringifier, doubleStringifier, stringStringifier, timeFormat);
 		registerDoubleStringifier(TIME_SUBTYPE, doubleTimeStringifier);
 	}
+
 	/**
-	 * Stringifier implementation for {@link Date} type
+	 * Stringifier implementation for {@link Date} type.
 	 */
 	protected static class DateStringifier extends BaseStringifier<Date> {
 		private final DateFormat dateFormat;
@@ -199,7 +200,7 @@ public class StringifierFactory {
 	}
 
 	/**
-	 * Stringifier implementation for {@link Number} type
+	 * Stringifier implementation for {@link Number} type.
 	 */
 	protected static class NumberStringifier<T extends Number> extends BaseStringifier<T> {
 		private final NumberFormat numberFormat;
@@ -216,8 +217,9 @@ public class StringifierFactory {
 			return numberFormat.format(n.doubleValue());
 		}
 	}
+
 	/**
-	 * Stringifier implementation for {@link Long} type reprensenting a timestamp
+	 * Stringifier implementation for {@link Long} type reprensenting a timestamp.
 	 */
 	protected static class LongDateStringifier extends BaseStringifier<Long> {
 
@@ -240,7 +242,7 @@ public class StringifierFactory {
 	}
 
 	/**
-	 * Stringifier implementation for {@link Long} type reprensenting a duration
+	 * Stringifier implementation for {@link Long} type reprensenting a duration.
 	 */
 	protected static class LongTimeStringifier extends BaseStringifier<Long> {
 
@@ -272,7 +274,7 @@ public class StringifierFactory {
 	}
 
 	/**
-	 * Stringifier implementation for {@link Double} type reprensenting a duration
+	 * Stringifier implementation for {@link Double} type reprensenting a duration.
 	 */
 	protected static class DoubleTimeStringifier extends BaseStringifier<Double> {
 
@@ -302,33 +304,38 @@ public class StringifierFactory {
 			}
 		}
 	}
+
 	/**
-	 * Get the stringifier for null values
+	 * Get the stringifier for null values.
 	 */
 	@SuppressWarnings("unchecked")
 	public <T> Stringifier<T> getNullStringifier() {
 		return compositeStringifier.getNullStringifier();
 	}
+
 	/**
-	 * Get the stringifier for given type
+	 * Get the stringifier for given type.
 	 */
 	public <T> Stringifier<T> getStringifier(Class<? extends T> type) {
 		return compositeStringifier.getForType(type);
 	}
+
 	/**
-	 * Get the stringifier for given type and sub type
+	 * Get the stringifier for given type and sub type.
 	 */
 	public <T> Stringifier<T> getStringifier(Class<? extends T> type, String subType) {
 		return compositeStringifier.getForType(type, subType);
 	}
+
 	/**
-	 * Get the stringifier for given instance and use it to format value
+	 * Get the stringifier for given instance and use it to format value.
 	 */
 	public <T> String toString(T value) {
 		return compositeStringifier.toString(value);
 	}
+
 	/**
-	 * Get the stringifier for given instance and subtype and use it to format value
+	 * Get the stringifier for given instance and subtype and use it to format value.
 	 */
 	public <T> String toString(T value, String subType) {
 		return compositeStringifier.toString(value, subType);
