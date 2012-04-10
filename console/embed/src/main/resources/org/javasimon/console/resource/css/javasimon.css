@@ -7,6 +7,9 @@ img#logo {
     vertical-align: middle;
     width: 55px;
 }
+img.clickable:hover {
+	cursor: pointer;
+}
 h1 {
     vertical-align: middle;
 }

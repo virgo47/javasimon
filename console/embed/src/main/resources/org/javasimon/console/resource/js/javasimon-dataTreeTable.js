@@ -250,6 +250,7 @@ javasimon.DataTreeTable.prototype={
 				oDataTreeTable.fnToggleNodeExpanded(oNode);
 				return false;
 			};
+			javasimon.DOMUtil.fnAppendClass(eImg, 'clickable');
 			oNode.eToggleImage=eImg;
 		} 
 		// Tree node label
