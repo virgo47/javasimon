@@ -131,7 +131,7 @@ public class CallTreeCallback extends CallbackSkeleton {
 	 * {@inheritDoc }
 	 */
 	@Override
-	public void onStopwatchStart(Split split, StopwatchSample sample) {
+	public void onStopwatchStart(Split split) {
 		CallTree callTree = getCallTree();
 		if (callTree == null) {
 			// New tree root

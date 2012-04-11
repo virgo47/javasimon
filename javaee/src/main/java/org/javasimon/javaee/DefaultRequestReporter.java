@@ -41,6 +41,25 @@ public class DefaultRequestReporter implements RequestReporter {
 
 	private void displaySplitDetails(Split requestSplit, List<Split> splits, StringBuilder messageBuilder) {
 		Map<String, StopwatchInfo> stopwatchInfos = new HashMap<String, StopwatchInfo>();
+
+		processSplitsAndDisplaySignificantOnes(requestSplit, splits, messageBuilder, stopwatchInfos);
+		displayStopwatchSplitDistribution(messageBuilder, stopwatchInfos);
+	}
+
+	private void displayStopwatchSplitDistribution(StringBuilder messageBuilder, Map<String, StopwatchInfo> stopwatchInfos) {
+		messageBuilder.append("\nStopwatch/Split count/total/max for this request (sorted by total descending):");
+		Set<StopwatchInfo> sortedInfos = new TreeSet<StopwatchInfo>(stopwatchInfos.values());
+		for (StopwatchInfo info : sortedInfos) {
+			messageBuilder.append("\n\t").append(info.stopwatch.getName()).append(": ").append(info.splits.size()).
+				append("x, total: ").append(SimonUtils.presentNanoTime(info.total)).
+				append(", max: ").append(SimonUtils.presentNanoTime(info.maxSplit.runningFor()));
+			if (info.stopwatch.getNote() != null) {
+				messageBuilder.append(", note: ").append(SimonUtils.compact(info.stopwatch.getNote(), NOTE_OUTPUT_MAX_LEN));
+			}
+		}
+	}
+
+	private void processSplitsAndDisplaySignificantOnes(Split requestSplit, List<Split> splits, StringBuilder messageBuilder, Map<String, StopwatchInfo> stopwatchInfos) {
 		for (Split split : splits) {
 			StopwatchInfo stopwatchInfo = stopwatchInfos.get(split.getStopwatch().getName());
 			if (stopwatchInfo == null) {
@@ -52,17 +71,6 @@ public class DefaultRequestReporter implements RequestReporter {
 			if (isSignificantSplit(split, requestSplit)) {
 				messageBuilder.append("\n\t").append(split.getStopwatch().getName()).append(": ").
 					append(SimonUtils.presentNanoTime(split.runningFor()));
-			}
-		}
-
-		messageBuilder.append("\nStopwatch/Split count/total/max for this request (sorted by total descending):");
-		Set<StopwatchInfo> sortedInfos = new TreeSet<StopwatchInfo>(stopwatchInfos.values());
-		for (StopwatchInfo info : sortedInfos) {
-			messageBuilder.append("\n\t").append(info.stopwatch.getName()).append(": ").append(info.splits.size()).
-				append("x, total: ").append(SimonUtils.presentNanoTime(info.total)).
-				append(", max: ").append(SimonUtils.presentNanoTime(info.maxSplit.runningFor()));
-			if (info.stopwatch.getNote() != null) {
-				messageBuilder.append(", note: ").append(SimonUtils.compact(info.stopwatch.getNote(), NOTE_OUTPUT_MAX_LEN));
 			}
 		}
 	}
@@ -94,10 +102,11 @@ public class DefaultRequestReporter implements RequestReporter {
 
 		public void addSplit(Split split) {
 			splits.add(split);
-			if (maxSplit == null || split.runningFor() > maxSplit.runningFor()) {
+			long runningFor = split.runningFor();
+			if (maxSplit == null || runningFor > maxSplit.runningFor()) {
 				maxSplit = split;
 			}
-			total += split.runningFor();
+			total += runningFor;
 		}
 	}
 }

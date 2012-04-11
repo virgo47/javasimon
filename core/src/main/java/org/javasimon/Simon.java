@@ -64,7 +64,7 @@ public interface Simon {
 
 	/**
 	 * Resets the Simon values related to the measuring, timestamps and so on - usage timestamps, state, attributes are not affected.
-	 * Timestamp of the last reset can be obtained by the method {@link #getLastReset()}.
+	 * Timestamp of the last reset can be obtained by the method {@link #getLastReset()}. Reset is perfomed even for disabled Simons.
 	 *
 	 * @return returns this
 	 */

@@ -131,9 +131,9 @@ public final class CompositeCallbackImpl implements CompositeCallback {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void onStopwatchStart(Split split, StopwatchSample sample) {
+	public void onStopwatchStart(Split split) {
 		for (Callback callback : callbacks) {
-			callback.onStopwatchStart(split, sample);
+			callback.onStopwatchStart(split);
 		}
 	}
 

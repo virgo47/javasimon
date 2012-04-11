@@ -121,9 +121,9 @@ public final class CompositeFilterCallback implements FilterCallback, CompositeC
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void onStopwatchStart(Split split, StopwatchSample sample) {
+	public void onStopwatchStart(Split split) {
 		if (rulesApplyTo(split.getStopwatch(), Event.STOPWATCH_START, split)) {
-			callback.onStopwatchStart(split, sample);
+			callback.onStopwatchStart(split);
 		}
 	}
 
