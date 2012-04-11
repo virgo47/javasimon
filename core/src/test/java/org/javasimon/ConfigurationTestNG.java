@@ -72,7 +72,7 @@ public final class ConfigurationTestNG {
 		private boolean triggered;
 
 		@Override
-		public void onStopwatchStart(Split split, StopwatchSample sample) {
+		public void onStopwatchStart(Split split) {
 			triggered = true;
 		}
 

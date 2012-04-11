@@ -3,7 +3,6 @@ package org.javasimon.javaee;
 import org.javasimon.Manager;
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
-import org.javasimon.StopwatchSample;
 import org.javasimon.callback.CallbackSkeleton;
 import org.javasimon.utils.Replacer;
 import org.javasimon.utils.SimonUtils;
@@ -303,7 +302,7 @@ public class SimonServletFilter implements Filter {
 
 	private class SplitSaverCallback extends CallbackSkeleton {
 		@Override
-		public void onStopwatchStart(Split split, StopwatchSample sample) {
+		public void onStopwatchStart(Split split) {
 			List<Split> splits = splitsThreadLocal.get();
 			if (splits != null) {
 				splits.add(split);

@@ -46,9 +46,9 @@ public interface Callback {
 	 * is executed out of synchronized block.
 	 *
 	 * @param split started Split
-	 * @param sample stopwatch sampled after the start
+	 *
 	 */
-	void onStopwatchStart(Split split, StopwatchSample sample);
+	void onStopwatchStart(Split split);
 
 	/**
 	 * Stopwatch stop event. This action is executed after the split time is calculated and does not

@@ -25,11 +25,11 @@ public class SLF4JLoggingCallback extends CallbackSkeleton {
 	 * Logs Simon start on a sprecified log marker.
 	 *
 	 * @param split started split
-	 * @param sample
+	 *
 	 */
 	@Override
-	public void onStopwatchStart(Split split, StopwatchSample sample) {
-		logger.debug(marker, "SIMON START: " + sample.stopwatchToString());
+	public void onStopwatchStart(Split split) {
+		logger.debug(marker, "SIMON START: " + split.getStopwatch());
 	}
 
 	/**

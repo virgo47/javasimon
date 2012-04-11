@@ -13,7 +13,7 @@ public final class DebugCallback extends CallbackSkeleton {
 	/**
 	 * Prints split at the start of the split.
 	 */
-	public void onStopwatchStart(Split split, StopwatchSample sample) {
+	public void onStopwatchStart(Split split) {
 		System.out.println("Start split: " + split);
 	}
 

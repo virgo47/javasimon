@@ -52,11 +52,19 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	 * {@inheritDoc}
 	 */
 	public Counter set(long val) {
+		synchronized (this) {
+			if (!enabled) {
+				return this;
+			}
+		}
+
 		long now = System.currentTimeMillis();
-		CounterSample sample;
+		CounterSample sample = null;
 		synchronized (this) {
 			privateSet(val, now);
-			sample = sample();
+			if (!manager.callback().callbacks().isEmpty()) {
+				sample = sample();
+			}
 		}
 		manager.callback().onCounterSet(this, val, sample);
 		return this;
@@ -80,8 +88,14 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	 * {@inheritDoc}
 	 */
 	public Counter increase() {
+		synchronized (this) {
+			if (!enabled) {
+				return this;
+			}
+		}
+
 		long now = System.currentTimeMillis();
-		CounterSample sample;
+		CounterSample sample = null;
 		synchronized (this) {
 			updateUsages(now);
 			counter++;
@@ -90,7 +104,9 @@ final class CounterImpl extends AbstractSimon implements Counter {
 				max = counter;
 				maxTimestamp = getLastUsage();
 			}
-			sample = sample();
+			if (!manager.callback().callbacks().isEmpty()) {
+				sample = sample();
+			}
 		}
 		manager.callback().onCounterIncrease(this, 1, sample);
 		return this;
@@ -100,8 +116,14 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	 * {@inheritDoc}
 	 */
 	public Counter decrease() {
+		synchronized (this) {
+			if (!enabled) {
+				return this;
+			}
+		}
+
 		long now = System.currentTimeMillis();
-		CounterSample sample;
+		CounterSample sample = null;
 		synchronized (this) {
 			updateUsages(now);
 			counter--;
@@ -110,7 +132,9 @@ final class CounterImpl extends AbstractSimon implements Counter {
 				min = counter;
 				minTimestamp = getLastUsage();
 			}
-			sample = sample();
+			if (!manager.callback().callbacks().isEmpty()) {
+				sample = sample();
+			}
 		}
 		manager.callback().onCounterDecrease(this, 1, sample);
 		return this;
@@ -132,6 +156,12 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	 * {@inheritDoc}
 	 */
 	public Counter increase(long inc) {
+		synchronized (this) {
+			if (!enabled) {
+				return this;
+			}
+		}
+
 		long now = System.currentTimeMillis();
 		CounterSample sample;
 		synchronized (this) {
@@ -147,6 +177,12 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	 * {@inheritDoc}
 	 */
 	public synchronized Counter decrease(long dec) {
+		synchronized (this) {
+			if (!enabled) {
+				return this;
+			}
+		}
+
 		long now = System.currentTimeMillis();
 		CounterSample sample;
 		synchronized (this) {
@@ -236,14 +272,14 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	/**
 	 * {@inheritDoc}
 	 */
-	public long getIncrementSum() {
+	public synchronized long getIncrementSum() {
 		return incrementSum;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public long getDecrementSum() {
+	public synchronized long getDecrementSum() {
 		return decrementSum;
 	}
 
@@ -254,7 +290,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	 * @see AbstractSimon#toString()
 	 */
 	@Override
-	public String toString() {
+	public synchronized String toString() {
 		return "Simon Counter: counter=" + counter +
 			", max=" + SimonUtils.presentMinMaxCount(max) +
 			", min=" + SimonUtils.presentMinMaxCount(min) +

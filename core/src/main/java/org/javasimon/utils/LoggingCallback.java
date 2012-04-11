@@ -21,8 +21,8 @@ public class LoggingCallback extends CallbackSkeleton {
 	 * Logs Simon start on a sprecified log level.
 	 */
 	@Override
-	public void onStopwatchStart(Split split, StopwatchSample sample) {
-		logger.log(level, "SIMON START: " + sample.stopwatchToString());
+	public void onStopwatchStart(Split split) {
+		logger.log(level, "SIMON START: " + split.getStopwatch());
 	}
 
 	/**

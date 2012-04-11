@@ -41,10 +41,10 @@ public final class SplitCumulatorCallback extends CallbackSkeleton {
 	 * If controller is set this method "orders splits".
 	 *
 	 * @param split used to check the name
-	 * @param sample
+	 *
 	 */
 	@Override
-	public void onStopwatchStart(Split split, StopwatchSample sample) {
+	public void onStopwatchStart(Split split) {
 		if (controller != null && split.getStopwatch().getName().equals(controller)) {
 			orderSplits();
 		}
@@ -55,7 +55,6 @@ public final class SplitCumulatorCallback extends CallbackSkeleton {
 	 * If split of the controller Stopwatch is stopped results are printed (without that split).
 	 *
 	 * @param split stopped split that is going to be accumulated
-	 * @param sample
 	 */
 	@Override
 	public void onStopwatchStop(Split split, StopwatchSample sample) {
