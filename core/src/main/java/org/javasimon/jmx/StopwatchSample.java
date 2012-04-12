@@ -2,6 +2,8 @@ package org.javasimon.jmx;
 
 import java.beans.ConstructorProperties;
 
+import org.javasimon.utils.SimonUtils;
+
 /**
  * Value object for retrieving data from Stopwatch Simon. Basically, it's
  * {@link org.javasimon.StopwatchSample} with added JMX capabilities to be return as object via
@@ -75,27 +77,126 @@ public final class StopwatchSample extends org.javasimon.StopwatchSample {
 	 * Framework constructor for Simon MBean implementation to initialize all properties
 	 * by sample obtained from Simon.
 	 *
-	 * @param s sample object obtained from Stopwatch Simon
+	 * @param sample sample object obtained from Stopwatch Simon
 	 */
-	public StopwatchSample(org.javasimon.StopwatchSample s) {
-		setMean(s.getMean());
-		setStandardDeviation(s.getStandardDeviation());
-		setVariance(s.getVariance());
-		setVarianceN(s.getVarianceN());
-		setNote(s.getNote());
-		setFirstUsage(s.getFirstUsage());
-		setLastUsage(s.getLastUsage());
-		setLastReset(s.getLastReset());
+	public StopwatchSample(org.javasimon.StopwatchSample sample) {
+		setMean(sample.getMean());
+		setStandardDeviation(sample.getStandardDeviation());
+		setVariance(sample.getVariance());
+		setVarianceN(sample.getVarianceN());
+		setNote(sample.getNote());
+		setFirstUsage(sample.getFirstUsage());
+		setLastUsage(sample.getLastUsage());
+		setLastReset(sample.getLastReset());
 
-		setCounter(s.getCounter());
-		setTotal(s.getTotal());
-		setMin(s.getMin());
-		setMax(s.getMax());
-		setMinTimestamp(s.getMinTimestamp());
-		setMaxTimestamp(s.getMaxTimestamp());
-		setActive(s.getActive());
-		setMaxActive(s.getMaxActive());
-		setMaxActiveTimestamp(s.getMaxActiveTimestamp());
-		setLast(s.getLast());
+		setCounter(sample.getCounter());
+		setTotal(sample.getTotal());
+		setMin(sample.getMin());
+		setMax(sample.getMax());
+		setMinTimestamp(sample.getMinTimestamp());
+		setMaxTimestamp(sample.getMaxTimestamp());
+		setActive(sample.getActive());
+		setMaxActive(sample.getMaxActive());
+		setMaxActiveTimestamp(sample.getMaxActiveTimestamp());
+		setLast(sample.getLast());
+	}
+
+	/**
+	 * Returns the value of the last measured split in ns as a formatted string.
+	 *
+	 * @return last measured split in ns as string
+	 */
+	public final String getLastAsString() {
+		return SimonUtils.presentNanoTime(getLast());
+	}
+
+	/**
+	 * Returns the total sum of all split times in nanoseconds as a formatted string.
+	 *
+	 * @return total time of the stopwatch in nanoseconds as string
+	 */
+	public final String getTotalAsString() {
+		return SimonUtils.presentNanoTime(getTotal());
+	}
+
+	/**
+	 * Returns minimal time split value in nanoseconds as a formatted string.
+	 *
+	 * @return minimal time split in nanoseconds as string
+	 */
+	public final String getMinAsString() {
+		return SimonUtils.presentMinMaxSplit(getMin());
+	}
+
+	/**
+	 * Returns maximal time split value in nanoseconds as a formatted string.
+	 *
+	 * @return maximal time split in nanoseconds as string
+	 */
+	public final String getMaxAsString() {
+		return SimonUtils.presentMinMaxSplit(getMax());
+	}
+
+	/**
+	 * Returns ms timestamp when the min value was measured as a formatted string.
+	 *
+	 * @return ms timestamp of the min value measurement as string
+	 */
+	public final String getMinTimestampAsString() {
+		return SimonUtils.presentTimestamp(getMinTimestamp());
+	}
+
+	/**
+	 * Returns ms timestamp when the max value was measured as a formatted string.
+	 *
+	 * @return ms timestamp of the max value measurement as string
+	 */
+	public final String getMaxTimestampAsString() {
+		return SimonUtils.presentTimestamp(getMaxTimestamp());
+	}
+
+	/**
+	 * Returns ms timestamp when the last peek of the active split count occured as a formatted string.
+	 *
+	 * @return ms timestamp of the last peek of the active split count as string
+	 */
+	public final String getMaxActiveTimestampAsString() {
+		return SimonUtils.presentTimestamp(getMaxActiveTimestamp());
+	}
+
+	/**
+	 * Returns mean value (average) of all measured values as a formatted string (ns).
+	 *
+	 * @return mean value as string
+	 */
+	public final String getMeanAsString() {
+		return SimonUtils.presentNanoTime((long) getMean());
+	}
+
+	/**
+	 * Timestamp of the first usage from the sampled Simon as a formatted string.
+	 *
+	 * @return Simon's first usage timestamp as string
+	 */
+	public String getFirstUsageAsString() {
+		return SimonUtils.presentTimestamp(getFirstUsage());
+	}
+
+	/**
+	 * Timestamp of the last usage from the sampled Simon as a formatted string.
+	 *
+	 * @return Simon's last usage timestamp as string
+	 */
+	public String getLastUsageAsString() {
+		return SimonUtils.presentTimestamp(getLastUsage());
+	}
+
+	/**
+	 * Timestamp of the last reset from the sampled Simon as a formatted string.
+	 *
+	 * @return Simon's last reset timestamp as string
+	 */
+	public String getLastResetAsString() {
+		return SimonUtils.presentTimestamp(getLastReset());
 	}
 }

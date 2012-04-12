@@ -4,6 +4,7 @@ package org.javasimon;
  * Sample produced by {@link UnknownSimon}s.
  *
  * @author gquintana
+ * @since 3.2
  */
 public class UnknownSample extends Sample {
 

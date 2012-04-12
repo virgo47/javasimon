@@ -2,6 +2,8 @@ package org.javasimon.jmx;
 
 import java.beans.ConstructorProperties;
 
+import org.javasimon.utils.SimonUtils;
+
 /**
  * Value object for retrieving data from Counter Simon. Basically, it's
  * {@link org.javasimon.CounterSample} with added JMX capabilities to be return as object via
@@ -74,5 +76,50 @@ public final class CounterSample extends org.javasimon.CounterSample {
 		setMaxTimestamp(sample.getMaxTimestamp());
 		setIncrementSum(sample.getIncrementSum());
 		setDecrementSum(sample.getDecrementSum());
+	}
+
+	/**
+	 * Timestamp of the first usage from the sampled Simon as a formatted string.
+	 *
+	 * @return Simon's first usage timestamp as string
+	 */
+	public String getFirstUsageAsString() {
+		return SimonUtils.presentTimestamp(getFirstUsage());
+	}
+
+	/**
+	 * Timestamp of the last usage from the sampled Simon as a formatted string.
+	 *
+	 * @return Simon's last usage timestamp as string
+	 */
+	public String getLastUsageAsString() {
+		return SimonUtils.presentTimestamp(getLastUsage());
+	}
+
+	/**
+	 * Timestamp of the last reset from the sampled Simon as a formatted string.
+	 *
+	 * @return Simon's last reset timestamp as string
+	 */
+	public String getLastResetAsString() {
+		return SimonUtils.presentTimestamp(getLastReset());
+	}
+
+	/**
+	 * Returns ms timestamp when the min value was measured as a formatted string.
+	 *
+	 * @return ms timestamp of the min value measurement as string
+	 */
+	public final String getMinTimestampAsString() {
+		return SimonUtils.presentTimestamp(getMinTimestamp());
+	}
+
+	/**
+	 * Returns ms timestamp when the max value was measured as a formatted string.
+	 *
+	 * @return ms timestamp of the max value measurement as string
+	 */
+	public final String getMaxTimestampAsString() {
+		return SimonUtils.presentTimestamp(getMaxTimestamp());
 	}
 }

@@ -14,7 +14,8 @@ import java.io.IOException;
 import java.lang.management.ManagementFactory;
 
 /**
- * Trieda SimpleMonitoredApp.
+ * Application that can be monitored through JMX.
+ * TODO: rework and make it work with MonitoringClient somehow
  *
  * @author Radovan Sninsky
  * @since 2.0
@@ -123,6 +124,7 @@ public class MonitoredApplication {
 	private static void waitForEnterPressed() {
 		try {
 			System.out.println("\nPress <Enter> to continue...");
+			//noinspection ResultOfMethodCallIgnored
 			System.in.read();
 		} catch (IOException e) { /* do nothing */ }
 	}
@@ -136,7 +138,7 @@ public class MonitoredApplication {
 	public static void main(String[] args) throws Exception {
 		Split main = SimonManager.getStopwatch("org.javasimon.examples.jmx.main").start();
 		Class.forName("org.h2.Driver");
-		Class.forName("org.javasimon.jdbc.Driver");
+		Class.forName("org.javasimon.jdbc4.Driver");
 
 		MonitoredApplication s = new MonitoredApplication();
 		s.setUp();

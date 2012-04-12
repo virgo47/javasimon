@@ -11,10 +11,7 @@ import javax.management.*;
 import java.lang.management.ManagementFactory;
 
 /**
- * This example shows simplest possible way how to retrieve data from javasimons
- * through jmx. Of course, this is not real apllication of javasimon jmx feature
- * becouse whole game is played in same playground - virtual machine, but it's
- * useful for studying purposes. Code is also commented
+ * This example shows simplest possible way how to retrieve data from Simon through JMX.
  *
  * @author Radovan Sninsky
  * @since 2.0

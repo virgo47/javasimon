@@ -66,15 +66,6 @@ public abstract class Sample {
 	}
 
 	/**
-	 * Timestamp of the first usage from the sampled Simon as a formatted string.
-	 *
-	 * @return Simon's first usage timestamp as string
-	 */
-	public String getFirstUsageAsString() {
-		return SimonUtils.presentTimestamp(firstUsage);
-	}
-
-	/**
 	 * Sets the timestamp of the first usage from the sampled Simon.
 	 *
 	 * @param firstUsage Simon's first usage timestamp
@@ -93,15 +84,6 @@ public abstract class Sample {
 	}
 
 	/**
-	 * Timestamp of the last usage from the sampled Simon as a formatted string.
-	 *
-	 * @return Simon's last usage timestamp as string
-	 */
-	public String getLastUsageAsString() {
-		return SimonUtils.presentTimestamp(lastUsage);
-	}
-
-	/**
 	 * Sets the timestamp of the last usage from the sampled Simon.
 	 *
 	 * @param lastUsage Simon's last usage timestamp
@@ -117,15 +99,6 @@ public abstract class Sample {
 	 */
 	public long getLastReset() {
 		return lastReset;
-	}
-
-	/**
-	 * Timestamp of the last reset from the sampled Simon as a formatted string.
-	 *
-	 * @return Simon's last reset timestamp as string
-	 */
-	public String getLastResetAsString() {
-		return SimonUtils.presentTimestamp(lastReset);
 	}
 
 	/**
