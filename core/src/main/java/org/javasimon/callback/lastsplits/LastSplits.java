@@ -14,7 +14,7 @@ import static org.javasimon.utils.SimonUtils.presentNanoTime;
  * </ul>
  *
  * @author gquintana
- * @since 3.2.0
+ * @since 3.2
  */
 public class LastSplits implements LogMessageSource<Split> {
 	/**

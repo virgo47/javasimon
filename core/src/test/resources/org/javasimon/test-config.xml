@@ -14,7 +14,7 @@
 			<set property="level" value="INFO"/>
 		</callback>
 	</filter-callback>
-	<callback class="org.javasimon.utils.DebugCallback"/>
+	<callback class="org.javasimon.utils.SystemDebugCallback"/>
 
 	<simon pattern="org.javasimon.test.*" state="disabled"/>
 </simon-configuration>

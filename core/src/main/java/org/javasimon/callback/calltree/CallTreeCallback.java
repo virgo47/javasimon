@@ -26,7 +26,7 @@ import org.javasimon.callback.logging.SplitThresholdLogTemplate;
  *
  * @author gquintana
  * @see CallTree
- * @since 3.2.0
+ * @since 3.2
  */
 public class CallTreeCallback extends CallbackSkeleton {
 	/**

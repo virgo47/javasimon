@@ -38,7 +38,7 @@ import org.javasimon.utils.SimonUtils;
  * See {@see Buckets} for buckets configuration.
  *
  * @author gquintana
- * @since 3.2.0
+ * @since 3.2
  */
 public class QuantilesCallback extends CallbackSkeleton {
 	/**

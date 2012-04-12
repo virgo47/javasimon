@@ -1,8 +1,8 @@
 package org.javasimon.callback.logging;
 
 /**
- * Log template which logs something every N invocations of the {@link #isLoggingEnabled}
- * method
+ * Log template that logs something every N invocations of the {@link #isEnabled(Object)} method.
+ *
  * @author gquintana
  */
 public class CounterLogTemplate<C> extends DelegateLogTemplate<C> {
@@ -14,8 +14,10 @@ public class CounterLogTemplate<C> extends DelegateLogTemplate<C> {
 	 * Counter value
 	 */
 	private int counter;
+
 	/**
 	 * Constructor
+	 *
 	 * @param delegate Concrete log template
 	 * @param counterMax Logging period
 	 */
@@ -24,35 +26,42 @@ public class CounterLogTemplate<C> extends DelegateLogTemplate<C> {
 		this.counterMax = counterMax;
 		this.counter = 1;
 	}
+
 	/**
 	 * Get counter max value, corresponding to logging period
+	 *
 	 * @return Counter max
 	 */
 	public int getCounterMax() {
 		return counterMax;
 	}
+
 	/**
 	 * Get counter value
+	 *
 	 * @return Counter
 	 */
 	public int getCounter() {
 		return counter;
 	}
+
 	/**
 	 * Increment counter
+	 *
 	 * @return true if counter looped and returned to 0
 	 */
 	private boolean incrementCounter() {
-		boolean loop=(counter>=counterMax);
-		counter=loop?1:counter+1;
+		boolean loop = (counter >= counterMax);
+		counter = loop ? 1 : counter + 1;
 		return loop;
 	}
+
 	/**
 	 * {@inheritDoc }
 	 */
 	@Override
 	public boolean isEnabled(C context) {
-		return super.isEnabled(context)&&incrementCounter();
+		return super.isEnabled(context) && incrementCounter();
 	}
 
 	/**

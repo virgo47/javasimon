@@ -5,9 +5,9 @@ import javax.script.ScriptException;
 import org.javasimon.callback.*;
 import org.javasimon.utils.LoggingCallback;
 import org.javasimon.utils.SimonUtils;
+import org.javasimon.utils.SystemDebugCallback;
 import org.testng.annotations.Test;
 import org.testng.Assert;
-import org.javasimon.utils.DebugCallback;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -28,7 +28,7 @@ public final class ConfigurationTestNG {
 		CompositeCallback callback = SimonManager.manager().callback();
 		Assert.assertEquals(callback.callbacks().size(), 2);
 		Assert.assertEquals(callback.callbacks().get(0).getClass(), CompositeFilterCallback.class);
-		Assert.assertEquals(callback.callbacks().get(1).getClass(), DebugCallback.class);
+		Assert.assertEquals(callback.callbacks().get(1).getClass(), SystemDebugCallback.class);
 		Callback loggingCallback = ((CompositeCallback) callback.callbacks().get(0)).callbacks().get(0);
 		Assert.assertEquals(loggingCallback.getClass(), LoggingCallback.class);
 		Assert.assertEquals(((LoggingCallback) loggingCallback).getLevel(), Level.INFO);

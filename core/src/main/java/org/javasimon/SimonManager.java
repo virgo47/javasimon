@@ -1,14 +1,15 @@
 package org.javasimon;
 
-import org.javasimon.callback.CallbackSkeleton;
-import org.javasimon.callback.CompositeCallback;
-import org.javasimon.utils.SimonUtils;
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Collection;
+
+import org.javasimon.callback.Callback;
+import org.javasimon.callback.CompositeCallback;
+import org.javasimon.utils.SimonUtils;
+import org.javasimon.utils.SystemDebugCallback;
 
 /**
  * SimonManager is static utility class providing so called "default {@link org.javasimon.Manager}.
@@ -57,8 +58,8 @@ public final class SimonManager {
 	 * if configuration resource or file is not found. This method does NOT clear the manager
 	 * itself, only the configuration is reloaded. Method also preserves Callback setup.
 	 */
-	public static void init() {
-		CallbackSkeleton tempraryCallback = new CallbackSkeleton();
+	static void init() {
+		Callback tempraryCallback = new SystemDebugCallback();
 		manager.callback().addCallback(tempraryCallback); // just for reporting warnings, will be removed
 		try {
 			manager.configuration().clear();

@@ -9,8 +9,7 @@ import org.javasimon.StopwatchSample;
 
 /**
  * Implements {@link Callback} interface so that it does nothing - intended for extension by simple (non-composite)
- * callbacks. Message prints to stdout and warning prints to stderr, other event methods do nothing. This class is
- * to be subclassed when just a few methods need to be implemented instead of the whole Callback interface.
+ * callbacks. This class is to be subclassed when just a few methods need to be implemented instead of the whole Callback interface.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
@@ -107,28 +106,16 @@ public class CallbackSkeleton implements Callback {
 	}
 
 	/**
-	 * Prints the message to the standard output.
-	 *
-	 * @param message message text
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void onManagerMessage(String message) {
-		System.out.println("Simon message: " + message);
 	}
 
 	/**
-	 * Warning and stack trace are print out to the error output. Either cause or warning
-	 * (or both) should be provided otherwise the method does nothing.
-	 * <p/>
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void onManagerWarning(String warning, Exception cause) {
-		if (warning != null) {
-			System.err.println("Simon warning: " + warning);
-		}
-		if (cause != null) {
-			cause.printStackTrace();
-		}
 	}
 }

@@ -12,7 +12,7 @@ import java.util.Iterator;
  * class is not thread safe</li> </ul>
  *
  * @author gquintana
- * @since 3.2.0
+ * @since 3.2
  */
 public class CircularList<T> extends AbstractList<T> {
 
