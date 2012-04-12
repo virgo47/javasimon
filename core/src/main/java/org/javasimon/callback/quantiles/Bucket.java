@@ -4,7 +4,7 @@ package org.javasimon.callback.quantiles;
  * Bucket count the number of samples in the range min-max.
  *
  * @author gquintana
- * @since 3.2.0
+ * @since 3.2
  */
 public final class Bucket {
 	/**

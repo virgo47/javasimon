@@ -1,6 +1,6 @@
 /**
- * {@link org.javasimon.callback.logging.LoggingCallback} is able to log stopwatch splits ans statistics once
- * in while (N per millisecond, every N split, when split is longer than N ms, etc.)
+ * {@link org.javasimon.callback.logging.LoggingCallback} is able to log stopwatch splits and statistics once
+ * in a while (N per millisecond, every N split, when split is longer than N ms, etc.)
  * and to various outputs (SLF4J, JUL).
  * These logging strategies are called log templates inherit from {@link org.javasimon.callback.logging.LogTemplate} and
  * are produced by {@link org.javasimon.callback.logging.LogTemplates} (factory class):

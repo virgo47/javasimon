@@ -9,7 +9,7 @@ import org.javasimon.callback.logging.LogMessageSource;
  * Call tree contains the root call tree node and the current call stack.
  *
  * @author gquintana
- * @since 3.2.0
+ * @since 3.2
  */
 public class CallTree implements LogMessageSource<Split> {
         /**

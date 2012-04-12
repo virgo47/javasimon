@@ -1,17 +1,23 @@
 package org.javasimon;
 
-import org.javasimon.callback.*;
-
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
-import java.io.*;
-import java.util.Map;
+import java.io.IOException;
+import java.io.Reader;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.ArrayList;
-import java.lang.reflect.Method;
-import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
+
+import org.javasimon.callback.Callback;
+import org.javasimon.callback.CompositeCallback;
+import org.javasimon.callback.CompositeCallbackImpl;
+import org.javasimon.callback.CompositeFilterCallback;
+import org.javasimon.callback.FilterCallback;
+import org.javasimon.callback.FilterRule;
 
 /**
  * Holds configuration for one Simon Manager. Configuration is read from the stream

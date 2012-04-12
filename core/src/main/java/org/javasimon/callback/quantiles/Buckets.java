@@ -4,9 +4,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+
 import org.javasimon.Split;
 import org.javasimon.callback.logging.LogMessageSource;
 import org.javasimon.callback.logging.LogTemplate;
+
 import static org.javasimon.callback.logging.LogTemplates.disabled;
 import static org.javasimon.utils.SimonUtils.presentNanoTime;
 
@@ -77,7 +79,7 @@ import static org.javasimon.utils.SimonUtils.presentNanoTime;
  * </ul>
  *
  * @author gquintana
- * @since 3.2.0
+ * @since 3.2
  */
 public class Buckets implements LogMessageSource<Split> {
 	/**
@@ -90,31 +92,32 @@ public class Buckets implements LogMessageSource<Split> {
 	private final Bucket[] buckets;
 
 	/**
-	 * Number of real buckets (=buckets.length-2)
+	 * Number of real buckets (=buckets.length-2).
 	 */
 	private final int bucketNb;
 
 	/**
-	 * Lower bound of all buckets
+	 * Lower bound of all buckets.
 	 */
 	private final long min;
 
 	/**
-	 * Upper bound of all buckets
+	 * Upper bound of all buckets.
 	 */
 	private final long max;
 
 	/**
-	 * Width of all buckets
+	 * Width of all buckets.
 	 */
 	private final long width;
 
 	/**
-	 * Log template used to log quantiles
+	 * Log template used to log quantiles.
 	 */
-	private LogTemplate<Split> logTemplate=disabled();
+	private LogTemplate<Split> logTemplate = disabled();
+
 	/**
-	 * Constructor, initializes buckets
+	 * Constructor, initializes buckets.
 	 *
 	 * @param min Min of all values
 	 * @param max Max of all values
@@ -147,7 +150,7 @@ public class Buckets implements LogMessageSource<Split> {
 	}
 
 	/**
-	 * Compute expected count and check used buckets number
+	 * Computes expected count and check used buckets number.
 	 */
 	private int checkAndGetTotalCount() throws IllegalStateException {
 		int usedBuckets = 0;
@@ -167,7 +170,7 @@ public class Buckets implements LogMessageSource<Split> {
 	}
 
 	/**
-	 * Compute given quantile
+	 * Computes given quantile.
 	 *
 	 * @param ration Nth quantile: 0.5 is median
 	 * @param totalCount Total count over all buckets
@@ -204,11 +207,7 @@ public class Buckets implements LogMessageSource<Split> {
 	}
 
 	/**
-	 * Search bucket where value should be sorted, the bucket whose
-	 * min/max bounds are around the value.
-	 *
-	 * @param value Value
-	 * @return Bucket
+	 * Returns bucket where value should be sorted, the bucket whose min/max bounds are around the value.
 	 */
 	private Bucket getBucketForValue(long value) {
 		Bucket bucket;
@@ -232,9 +231,7 @@ public class Buckets implements LogMessageSource<Split> {
 	}
 
 	/**
-	 * Search the appropriate bucket and add the value in it
-	 *
-	 * @param value Value
+	 * Searches the appropriate bucket and add the value in it.
 	 */
 	public void addValue(long value) {
 		synchronized (buckets) {
@@ -244,8 +241,6 @@ public class Buckets implements LogMessageSource<Split> {
 
 	/**
 	 * For each value, search the appropriate bucket and add the value in it.
-	 *
-	 * @param values Values
 	 */
 	public void addValues(Collection<Long> values) {
 		synchronized (buckets) {
@@ -256,10 +251,10 @@ public class Buckets implements LogMessageSource<Split> {
 	}
 
 	/**
-	 * Compute quantile.
+	 * Computes quantile.
 	 *
 	 * @param ratio Nth quantile, 0.5 is median. Expects values between 0 and 1.
-	 * @return Quantile
+	 * @return quantile
 	 */
 	public double getQuantile(double ratio) {
 		synchronized (buckets) {
@@ -269,7 +264,7 @@ public class Buckets implements LogMessageSource<Split> {
 	}
 
 	/**
-	 * Compute median
+	 * Computes median.
 	 *
 	 * @return Median
 	 */
@@ -278,19 +273,17 @@ public class Buckets implements LogMessageSource<Split> {
 	}
 
 	/**
-	 * Computes first (=0.25), second (=median=0.5) and third (=0.75) quartiles
-	 *
-	 * @return
+	 * Computes first (=0.25), second (=median=0.5) and third (=0.75) quartiles.
 	 */
 	public Double[] getQuartiles() {
 		return getQuantiles(0.25D, 0.50D, 0.75D);
 	}
 
 	/**
-	 * Compute many quantiles.
+	 * Computes many quantiles.
 	 *
 	 * @param ratios Nth quantiles, 0.5 is median. Expects values between 0 and 1.
-	 * @return Quantiles or null, if computation failed
+	 * @return quantiles or {@code null}, if computation failed
 	 */
 	@SuppressWarnings("EmptyCatchBlock")
 	public Double[] getQuantiles(double... ratios) {
@@ -317,28 +310,26 @@ public class Buckets implements LogMessageSource<Split> {
 	public void setLogTemplate(LogTemplate<Split> logTemplate) {
 		this.logTemplate = logTemplate;
 	}
-	
+
 	/**
-	 * String containing: min/max/number configuration and 50%, 75% and 90% quantiles
-	 * if available.
-	 * Warning this method can be expensive as it's doing some computation.
-	 *
-	 * @return
+	 * String containing: min/max/number configuration and 50%, 75% and 90% quantiles if available.
+	 * Warning this method can be expensive as it is performing computation.
 	 */
 	@Override
 	public String toString() {
 		return toString(false);
 	}
-	public String toString(boolean bars) {
+
+	private String toString(boolean bars) {
 		StringBuilder stringBuilder = new StringBuilder("Buckets[");
 		stringBuilder.append("min=").append(presentNanoTime(min))
 			.append(",max=").append(presentNanoTime(max))
 			.append(",nb=").append(bucketNb)
 			.append(",width=").append(presentNanoTime(width))
 			.append("] Quantiles[");
-		final String eol=System.getProperty("line.separator");
-		final String eoc="\t";
-		synchronized(buckets) {
+		final String eol = System.getProperty("line.separator");
+		final String eoc = "\t";
+		synchronized (buckets) {
 			Double[] quantiles = getQuantiles(0.50D, 0.75D, 0.90D);
 			if (quantiles[0] != null) {
 				stringBuilder.append("median=").append(presentNanoTime(quantiles[0]));
@@ -352,24 +343,24 @@ public class Buckets implements LogMessageSource<Split> {
 			stringBuilder.append("]");
 			if (bars) {
 				stringBuilder.append(eol);
-				int maxCount=0;
-				final int barMax=10;
-				for(Bucket bucket:buckets) {
+				int maxCount = 0;
+				final int barMax = 10;
+				for (Bucket bucket : buckets) {
 					maxCount = Math.max(maxCount, bucket.getCount());
 				}
-				for(Bucket bucket:buckets) {
-					if (bucket.getMin()!=Long.MIN_VALUE) {
+				for (Bucket bucket : buckets) {
+					if (bucket.getMin() != Long.MIN_VALUE) {
 						stringBuilder.append(presentNanoTime(bucket.getMin()));
 					}
 					stringBuilder.append(eoc);
-					if (bucket.getMax()!=Long.MAX_VALUE) {
+					if (bucket.getMax() != Long.MAX_VALUE) {
 						stringBuilder.append(presentNanoTime(bucket.getMax()));
 					}
 					stringBuilder.append(eoc)
 						.append(bucket.getCount()).append(eoc);
-					if (maxCount>0) {
-						final int barSize=bucket.getCount()*barMax/maxCount;
-						for(int i=0;i<barSize;i++) {
+					if (maxCount > 0) {
+						final int barSize = bucket.getCount() * barMax / maxCount;
+						for (int i = 0; i < barSize; i++) {
 							stringBuilder.append('#');
 						}
 					}
@@ -381,7 +372,7 @@ public class Buckets implements LogMessageSource<Split> {
 	}
 
 	/**
-	 * Clear all buckets
+	 * Clears all buckets.
 	 */
 	public void clear() {
 		synchronized (buckets) {
@@ -392,22 +383,23 @@ public class Buckets implements LogMessageSource<Split> {
 	}
 
 	/**
-	 * Get the bucket list
+	 * Returns the bucket list.
 	 *
-	 * @return Buckets
+	 * @return list of buckets
 	 */
 	public List<Bucket> getBuckets() {
 		return Collections.unmodifiableList(Arrays.asList(buckets));
 	}
-	
+
 	/**
-	 * Transform buckets and quantiles into a loggable message
+	 * Transforms buckets and quantiles into a loggable message.
 	 */
 	public String getLogMessage(Split lastSplit) {
-		return lastSplit.getStopwatch().getName()+" "+toString(true);
+		return lastSplit.getStopwatch().getName() + " " + toString(true);
 	}
+
 	/**
-	 * Log eventually buckets config and quantiles
+	 * Logs eventually buckets config and quantiles.
 	 */
 	public void log(Split lastSplit) {
 		logTemplate.log(lastSplit, this);

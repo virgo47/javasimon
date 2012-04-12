@@ -11,7 +11,7 @@ import java.util.List;
  * Callback tree has no correlation with Simon tree in the {@link org.javasimon.Manager}).
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @since 3.2.0
+ * @since 3.2
  */
 public interface CompositeCallback extends Callback {
 	/**

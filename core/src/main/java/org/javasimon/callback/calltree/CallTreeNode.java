@@ -15,7 +15,7 @@ import org.javasimon.utils.SimonUtils;
  * 
  *
  * @author gquintana
- * @since 3.2.0
+ * @since 3.2
  */
 public class CallTreeNode {
 	/**

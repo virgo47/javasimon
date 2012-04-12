@@ -15,7 +15,7 @@ import static org.javasimon.callback.logging.LogTemplates.*;
  *
  * @author gquintana
  * @see LastSplits
- * @since 3.2.0
+ * @since 3.2
  */
 public class LastSplitsCallback extends CallbackSkeleton {
 	/**

@@ -247,7 +247,7 @@ public class SimonServletFilter implements Filter {
 	 *
 	 * @param request HTTP Request
 	 * @return threshold in ns for current request
-	 * @since 3.2.0
+	 * @since 3.2
 	 */
 	protected long getThreshold(HttpServletRequest request) {
 		return reportThresholdNanos;
