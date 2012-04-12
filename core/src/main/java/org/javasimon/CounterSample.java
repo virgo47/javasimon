@@ -80,15 +80,6 @@ public class CounterSample extends Sample {
 	}
 
 	/**
-	 * Returns ms timestamp when the min value was measured as a formatted string.
-	 *
-	 * @return ms timestamp of the min value measurement as string
-	 */
-	public final String getMinTimestampAsString() {
-		return SimonUtils.presentTimestamp(minTimestamp);
-	}
-
-	/**
 	 * Sets ms timestamp when the min value was reached.
 	 *
 	 * @param minTimestamp ms timestamp when the min value was reached
@@ -104,15 +95,6 @@ public class CounterSample extends Sample {
 	 */
 	public final long getMaxTimestamp() {
 		return maxTimestamp;
-	}
-
-	/**
-	 * Returns ms timestamp when the max value was measured as a formatted string.
-	 *
-	 * @return ms timestamp of the max value measurement as string
-	 */
-	public final String getMaxTimestampAsString() {
-		return SimonUtils.presentTimestamp(maxTimestamp);
 	}
 
 	/**

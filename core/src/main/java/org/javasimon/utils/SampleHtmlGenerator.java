@@ -78,10 +78,10 @@ public class SampleHtmlGenerator {
 
 			indent(2).append("<td>").append(stopwatchSample.getActive()).append("</td>").append(lineSeparator);
 			indent(2).append("<td>").append(stopwatchSample.getCounter()).append("</td>").append(lineSeparator);
-			indent(2).append("<td>").append(stopwatchSample.getMinAsString()).append("</td>").append(lineSeparator);
-			indent(2).append("<td>").append(stopwatchSample.getMaxAsString()).append("</td>").append(lineSeparator);
-			indent(2).append("<td>").append(stopwatchSample.getMeanAsString()).append("</td>").append(lineSeparator);
-			indent(2).append("<td>").append(stopwatchSample.getTotalAsString()).append("</td>").append(lineSeparator);
+			indent(2).append("<td>").append(SimonUtils.presentMinMaxSplit(stopwatchSample.getMin())).append("</td>").append(lineSeparator);
+			indent(2).append("<td>").append(SimonUtils.presentMinMaxSplit(stopwatchSample.getMax())).append("</td>").append(lineSeparator);
+			indent(2).append("<td>").append(SimonUtils.presentNanoTime(stopwatchSample.getMean())).append("</td>").append(lineSeparator);
+			indent(2).append("<td>").append(SimonUtils.presentNanoTime(stopwatchSample.getTotal())).append("</td>").append(lineSeparator);
 		} else {
 			CounterSample counterSample = (CounterSample) sample;
 			indent(2).append("<td>-</td>").append(lineSeparator);
@@ -89,7 +89,8 @@ public class SampleHtmlGenerator {
 			indent(2).append("<td>").append(SimonUtils.presentMinMaxCount(counterSample.getMin())).append("</td>").append(lineSeparator);
 			indent(2).append("<td>").append(SimonUtils.presentMinMaxCount(counterSample.getMax())).append("</td>").append(lineSeparator);
 			indent(2).append("<td>-</td>").append(lineSeparator);
-			indent(2).append("<td>").append(counterSample.getTotalAsString()).append("</td>").append(lineSeparator);
+			indent(2).append("<td>").append("+").append(SimonUtils.presentMinMaxCount(counterSample.getIncrementSum())).
+				append("/-").append(SimonUtils.presentMinMaxCount(counterSample.getDecrementSum())).append("</td>").append(lineSeparator);
 		}
 		indent(1).append("</tr>").append(lineSeparator);
 	}
