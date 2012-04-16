@@ -11,6 +11,30 @@
 		<artifactId>javasimon-parent</artifactId>
 		<version>3.2.0-SNAPSHOT</version>
 	</parent>
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>javasimon-parent</artifactId>
+			<version>${project.version}</version>
+			<classifier>javadoc</classifier>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>javasimon-parent</artifactId>
+			<version>${project.version}</version>
+			<classifier>sources</classifier>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>javasimon-javaee</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>javasimon-spring</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
 	<!-- To generate distribution run: mvn -Pdist package on root project -->
 	<profiles>
 		<profile>

@@ -14,6 +14,7 @@
 			</excludes>
 			<useAllReactorProjects>true</useAllReactorProjects>
 			<includeSubModules>true</includeSubModules>
+<!--
 			<sources>
 				<includeModuleDirectory>false</includeModuleDirectory>
 				<fileSets>
@@ -24,6 +25,7 @@
 					</fileSet>
 				</fileSets>
 			</sources>
+			-->
 			<binaries>
 				<outputDirectory>lib</outputDirectory>
 				<unpack>false</unpack>
@@ -38,13 +40,19 @@
 			</binaries>
 		</moduleSet>
 	</moduleSets>
-	<!-- Cant' figure out why this doesn't work -->
-	<fileSets>
-		<fileSet>
-			<outputDirectory>javadoc</outputDirectory>
+	<dependencySets>
+		<dependencySet>
+			<outputDirectory></outputDirectory>
+			<outputFileNameMapping>javasimon-all-${artifact.version}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
 			<includes>
-				<include>../target/site/apidocs/**/*</include>
+				<include>org.javasimon:javasimon-parent:*</include>
 			</includes>
-		</fileSet>
-	</fileSets>
+		</dependencySet>
+		<dependencySet>
+			<outputDirectory>lib/deps</outputDirectory>
+			<excludes>
+				<exclude>org.javasimon:*</exclude>
+			</excludes>
+		</dependencySet>
+	</dependencySets>
 </assembly>
