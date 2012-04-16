@@ -457,6 +457,7 @@
       <module fileurl="file://$PROJECT_DIR$/console/javasimon-console-parent.iml" filepath="$PROJECT_DIR$/console/javasimon-console-parent.iml" />
       <module fileurl="file://$PROJECT_DIR$/console/webapp/javasimon-console-webapp.iml" filepath="$PROJECT_DIR$/console/webapp/javasimon-console-webapp.iml" />
       <module fileurl="file://$PROJECT_DIR$/core/javasimon-core.iml" filepath="$PROJECT_DIR$/core/javasimon-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dist/javasimon-dist.iml" filepath="$PROJECT_DIR$/dist/javasimon-dist.iml" />
       <module fileurl="file://$PROJECT_DIR$/examples/javasimon-examples.iml" filepath="$PROJECT_DIR$/examples/javasimon-examples.iml" />
       <module fileurl="file://$PROJECT_DIR$/javaee/javasimon-javaee.iml" filepath="$PROJECT_DIR$/javaee/javasimon-javaee.iml" />
       <module fileurl="file://$PROJECT_DIR$/jdbc4/javasimon-jdbc4.iml" filepath="$PROJECT_DIR$/jdbc4/javasimon-jdbc4.iml" />
