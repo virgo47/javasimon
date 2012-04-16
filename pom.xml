@@ -180,22 +180,54 @@
 			<build>
 				<plugins>
 					<plugin>
+						<artifactId>maven-source-plugin</artifactId>
+						<version>2.1.2</version>
+						<executions>
+							<execution>
+								<id>all-sources</id>
+								<goals>
+									<goal>aggregate</goal>
+								</goals>
+								<phase>package</phase>
+								<configuration>
+									<finalName>javasimon-all-${project.version}</finalName>
+									<attach>true</attach>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
 						<artifactId>maven-javadoc-plugin</artifactId>
 						<version>2.8.1</version>
 						<executions>
-						  <execution>
-							<id>dist-aggregate</id>
-							<goals>
-							  <goal>aggregate</goal>
-							</goals>
-							<phase>package</phase>
-							<configuration>
-								<!-- These resources are usually in src/main/javadoc instead of docs/api -->
-								<javadocDirectory>docs/api</javadocDirectory>
-								<stylesheetfile>docs/api/stylesheet.css</stylesheetfile>
-								<docfilessubdirs>true</docfilessubdirs>
-							</configuration>
-						  </execution>
+							<execution>
+								<id>all-javadoc</id>
+								<goals>
+									<goal>aggregate-jar</goal>
+								</goals>
+								<phase>package</phase>
+								<configuration>
+									<excludePackageNames>
+										other,
+										org.javasimon.examples.jdbc,
+										org.javasimon.examples.jdbc.h2,
+										org.javasimon.examples.jmx.custom,
+										org.javasimon.testapp,
+										org.javasimon.testapp.*
+									</excludePackageNames>
+									<!-- These resources are usually in src/main/javadoc instead of docs/api -->
+									<javadocDirectory>docs/api</javadocDirectory>
+									<stylesheetfile>docs/api/stylesheet.css</stylesheetfile>
+									<docfilessubdirs>true</docfilessubdirs>
+									<show>protected</show>
+									<linksource>true</linksource>
+									<doctitle>Java Simon API</doctitle>
+									<windowtitle>Java Simon API</windowtitle>
+									<header>&lt;table&gt;&lt;tr&gt;&lt;td style='valign: middle;'&gt;&lt;span style='font-weight: bold; margin-right: 16px;'&gt;Java Simon ${version}&lt;/span&gt;&lt;/td&gt;&lt;td&gt;&lt;div class='logo'/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</header>
+									<finalName>javasimon-all-${project.version}</finalName>
+									<attach>true</attach>
+								</configuration>
+							</execution>
 						</executions>
 					</plugin>
 				</plugins>
