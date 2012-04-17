@@ -23,7 +23,7 @@ public final class SqlNormalizer {
 	private static final Replacer[] FIRST_REPLACERS;
 	private static final Replacer[] SECOND_REPLACERS;
 
-	private static final Replacer FUNCTION_REPLACER = new Replacer("([-(=<>!+*/,]+\\s?)\\w+\\([^()]*\\)", "$1?", true);
+	private static final Replacer FUNCTION_REPLACER = new Replacer("([-(=<>!+*/,]+\\s?)\\w+\\([^()]*\\)", "$1?", Replacer.Modificator.REPEAT_UNTIL_UNCHANGED);
 
 	private static final Replacer TYPE_SELECTOR = new Replacer("^\\W*(\\w+)\\W.*", "$1");
 
