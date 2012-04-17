@@ -14,8 +14,9 @@
 			</excludes>
 			<useAllReactorProjects>true</useAllReactorProjects>
 			<includeSubModules>true</includeSubModules>
-<!--
+			<!-- Sources are included below as a Jar file
 			<sources>
+				< ! - - source files - - >
 				<includeModuleDirectory>false</includeModuleDirectory>
 				<fileSets>
 					<fileSet>
@@ -27,6 +28,7 @@
 			</sources>
 			-->
 			<binaries>
+				<!-- binary Jar and dependencies -->
 				<outputDirectory>lib</outputDirectory>
 				<unpack>false</unpack>
 				<dependencySets>
@@ -40,19 +42,22 @@
 			</binaries>
 		</moduleSet>
 	</moduleSets>
-	<dependencySets>
-		<dependencySet>
+	<fileSets>
+		<fileSet>
+			<!-- readme.txt and lgpl.txt -->
 			<outputDirectory></outputDirectory>
-			<outputFileNameMapping>javasimon-all-${artifact.version}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
+			<directory>..</directory>
 			<includes>
-				<include>org.javasimon:javasimon-parent:*</include>
+				<include>*.txt</include>
 			</includes>
-		</dependencySet>
-		<dependencySet>
-			<outputDirectory>lib/deps</outputDirectory>
-			<excludes>
-				<exclude>org.javasimon:*</exclude>
-			</excludes>
-		</dependencySet>
-	</dependencySets>
+		</fileSet>
+		<fileSet>
+			<!-- javadoc.jar and sources.jar -->
+			<outputDirectory></outputDirectory>
+			<directory>../target</directory>
+			<includes>
+				<include>*.jar</include>
+			</includes>
+		</fileSet>
+	</fileSets>
 </assembly>

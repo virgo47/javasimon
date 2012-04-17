@@ -22,7 +22,6 @@
 		<module>spring</module>
 		<module>console</module>
 		<module>examples</module>
-		<!--<module>dist</module>-->
 	</modules>
 
 	<properties>
@@ -177,6 +176,15 @@
 	<profiles>
 		<profile>
 			<id>dist</id>
+			<modules>
+				<module>core</module>
+				<module>jdbc4</module>
+				<module>javaee</module>
+				<module>spring</module>
+				<module>console</module>
+				<module>examples</module>
+				<module>dist</module>
+			</modules>
 			<build>
 				<plugins>
 					<plugin>
@@ -207,17 +215,13 @@
 								</goals>
 								<phase>package</phase>
 								<configuration>
-									<excludePackageNames>
-										other,
-										org.javasimon.examples.jdbc,
-										org.javasimon.examples.jdbc.h2,
-										org.javasimon.examples.jmx.custom,
-										org.javasimon.testapp,
-										org.javasimon.testapp.*
-									</excludePackageNames>
-									<!-- These resources are usually in src/main/javadoc instead of docs/api -->
+									<excludePackageNames>other,org.javasimon.examples.jdbc,org.javasimon.examples.jdbc.h2,org.javasimon.examples.jmx.custom,org.javasimon.testapp,org.javasimon.testapp.*</excludePackageNames>
+									<!-- Begin: 
+									These resources are usually in src/main/javadoc instead of docs/api -->
 									<javadocDirectory>docs/api</javadocDirectory>
 									<stylesheetfile>docs/api/stylesheet.css</stylesheetfile>
+									<overview>overview.html</overview>
+									<!-- End -->
 									<docfilessubdirs>true</docfilessubdirs>
 									<show>protected</show>
 									<linksource>true</linksource>
