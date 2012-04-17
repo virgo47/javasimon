@@ -49,4 +49,13 @@ public class HttpStopwatchSourceTest {
 		httpStopwatchSource.setPrefix("testing.prefix");
 		assertMonitorName("/foo/++bar/++/quix.png", "testing.prefix.foo.bar.quixpng");
 	}
+
+	@Test
+	public void testJSessionIdRemove() {
+		httpStopwatchSource.setPrefix(null);
+		httpStopwatchSource.setReplaceUnallowed("_");
+
+		assertMonitorName("/foo/bar/quix?jsessionId=234523;44", "foo.bar.quix_44");
+		assertMonitorName("/foo/+bar/;JSESSIONID=2345245DDD72345{}?bubu&res=quix.png", "foo._bar._bubu_res_quix_png");
+	}
 }

@@ -29,7 +29,8 @@ public class SimonServletFilterUtils {
 	 */
 	public static Replacer createUnallowedCharsReplacer(String replacement) {
 		StringBuilder sb = new StringBuilder(SimonUtils.NAME_PATTERN.pattern());
-		sb.insert(1, "^/"); // negates the whole character group ("whatever is not allowed character")
+		sb.insert(1, '^'); // negates the whole character group ("whatever is not allowed character")
+		sb.insert(3, '/'); // adds / *behind* -
 		sb.deleteCharAt(sb.indexOf(".")); // don't spare dots either (not allowed for URL)
 		return new Replacer(sb.toString(), replacement);
 	}
@@ -38,16 +39,16 @@ public class SimonServletFilterUtils {
 	 * Returns Simon name for the specified request (local name without any configured prefix). By default dots and all non-simon-name
 	 * compliant characters are removed first, then all slashes are switched to dots (repeating slashes make one dot).
 	 *
-	 * @param request HTTP servlet request
+	 *
+	 * @param uri request URI
 	 * @param unallowedCharacterReplacer replacer for characters that are not allowed in Simon name
 	 * @return local part of the Simon name for the request URI (without prefix)
 	 */
-	public static String getSimonName(HttpServletRequest request, Replacer unallowedCharacterReplacer) {
-		String name = request.getRequestURI();
-		if (name.startsWith("/")) {
-			name = name.substring(1);
+	public static String getSimonName(String uri, Replacer unallowedCharacterReplacer) {
+		if (uri.startsWith("/")) {
+			uri = uri.substring(1);
 		}
-		name = unallowedCharacterReplacer.process(name);
+		String name = unallowedCharacterReplacer.process(uri);
 		name = TO_DOT_PATTERN.process(name);
 		return name;
 	}
