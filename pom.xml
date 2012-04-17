@@ -22,7 +22,7 @@
 		<module>spring</module>
 		<module>console</module>
 		<module>examples</module>
-		<module>dist</module>
+		<!--<module>dist</module>-->
 	</modules>
 
 	<properties>
