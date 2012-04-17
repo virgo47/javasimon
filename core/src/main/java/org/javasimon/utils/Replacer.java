@@ -1,5 +1,6 @@
 package org.javasimon.utils;
 
+import java.util.Arrays;
 import java.util.regex.Pattern;
 
 /**
@@ -7,43 +8,46 @@ import java.util.regex.Pattern;
  * string with all {@code from} replaced with {@code to}. Using the replacer should be faster
  * because the regex is compiled only once. {@link java.util.regex.Pattern#matcher(CharSequence)}
  * and {@link java.util.regex.Matcher#replaceAll(String)} is used internally, hence {@code to}
- * parameter is not a plain string and can reference matched group from the {@code from} String.
- * Object allows to specify replace operation that should be re-applied while the replacement
- * causes any change - use {@link #Replacer(String, String, boolean)} with last parameter
- * {@code repeatUntilUnchanged} set to {@code true}.
+ * parameter is regex as well and can reference matched group from the {@code from} String.
+ * <p/>
+ * Behavior can be further modified by {@link Modificator}s.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public final class Replacer {
 	private final Pattern from;
 	private String to;
-	private final boolean repeatUntilUnchanged;
+	private boolean repeatUntilUnchanged;
+	private boolean ignoreCase;
+	private Modificator[] modificators;
 
 	/**
 	 * Creates the replacer with from->to regex specification.
 	 *
 	 * @param from replaced regex
 	 * @param to replacement string
+	 * @param modificators list of modificators of the behavior or pattern treatment
 	 */
-	public Replacer(final String from, final String to) {
-		this(from, to, false);
+	public Replacer(final String from, final String to, Modificator... modificators) {
+		processModificators(modificators);
+
+		this.from = ignoreCase ? Pattern.compile(from, Pattern.CASE_INSENSITIVE) : Pattern.compile(from);
+		this.to = to;
+		this.modificators = modificators;
 	}
 
-	/**
-	 * Creates the replacer with from->to regex specification. UntilUnchanged set to true
-	 * enforces repetitive replacer application until there is no other change to perform.
-	 * Attention should be paid to provide from/to combination that converges to the final
-	 * result otherwise the process method may trigger infinite loop and/or excessive
-	 * memory consumption.
-	 *
-	 * @param from replaced regex
-	 * @param to replacement string
-	 * @param repeatUntilUnchanged if true, replacement is re-applied while it changes the result
-	 */
-	public Replacer(final String from, final String to, final boolean repeatUntilUnchanged) {
-		this.from = Pattern.compile(from);
-		this.to = to;
-		this.repeatUntilUnchanged = repeatUntilUnchanged;
+	private void processModificators(Modificator... modificators) {
+		for (Modificator modificator : modificators) {
+			switch (modificator) {
+				case IGNORE_CASE:
+					ignoreCase = true;
+					break;
+				case REPEAT_UNTIL_UNCHANGED:
+					repeatUntilUnchanged = true;
+					break;
+				default:
+			}
+		}
 	}
 
 	/**
@@ -85,6 +89,24 @@ public final class Replacer {
 	}
 
 	/**
+	 * Flags for modifying the default replacer behavior.
+	 */
+	public enum Modificator {
+		/**
+		 * Enforces repetitive replacer application until there is no other change to perform.
+		 * Attention should be paid to provide from/to combination that converges to the final
+		 * result otherwise the process method may trigger infinite loop and/or excessive
+		 * memory consumption.
+		 */
+		REPEAT_UNTIL_UNCHANGED,
+
+		/**
+		 * Applies {@link Pattern#CASE_INSENSITIVE} flag to the pattern.
+		 */
+		IGNORE_CASE
+	}
+
+	/**
 	 * Returns from, to and untilUnchanged fields as a human readable string.
 	 *
 	 * @return internal details of the replacer as a string
@@ -94,7 +116,7 @@ public final class Replacer {
 		return "Replacer{" +
 			"from='" + from.pattern() + '\'' +
 			", to='" + to + '\'' +
-			", untilUnchanged=" + repeatUntilUnchanged +
+			", mods=" + Arrays.toString(modificators) +
 			'}';
 	}
 }
