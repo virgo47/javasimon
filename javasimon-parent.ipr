@@ -217,6 +217,7 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/console/pom.xml" />
         <option value="$PROJECT_DIR$/demoapp/pom.xml" />
+        <option value="$PROJECT_DIR$/dist/pom.xml" />
       </list>
     </option>
     <option name="activeProfiles">

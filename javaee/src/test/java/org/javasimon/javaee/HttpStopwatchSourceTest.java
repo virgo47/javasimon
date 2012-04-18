@@ -10,7 +10,7 @@ import org.testng.annotations.*;
 import static org.mockito.Mockito.*;
 
 /**
- * Unit test for {@link org.javasimon.javaee.HttpStopwatchSource}
+ * Unit test for {@link org.javasimon.javaee.HttpStopwatchSource}.
  *
  * @author gquintana
  */
