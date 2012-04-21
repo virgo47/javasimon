@@ -1,7 +1,6 @@
 /**
- * {@link org.javasimon.callback.quantiles.QuantilesCallback} sorts split
- * results in categories (called {@link org.javasimon.callback.quantiles.Bucket}s)
- * corresponding to times ranges and can then compute
- * quantiles approximations or draw distribution diagrams.
+ * {@link org.javasimon.callback.quantiles.QuantilesCallback} sorts splits to categories
+ * ({@link org.javasimon.callback.quantiles.Bucket}s) based on time ranges. This can be used to
+ * compute quantile approximations or to draw distribution charts.
  */
 package org.javasimon.callback.quantiles;

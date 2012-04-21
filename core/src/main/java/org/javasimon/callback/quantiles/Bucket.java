@@ -8,25 +8,25 @@ package org.javasimon.callback.quantiles;
  */
 public final class Bucket {
 	/**
-	 * Minimal value
+	 * Minimal value.
 	 */
 	private final long min;
 
 	/**
-	 * Maximal value
+	 * Maximal value.
 	 */
 	private final long max;
 
 	/**
-	 * Number of values in the range min-max
+	 * Number of values in the range min-max.
 	 */
 	private int count;
 
 	/**
-	 * Constructor
+	 * Constructor with min/max value specified.
 	 *
-	 * @param min Min value
-	 * @param max Max value
+	 * @param min min value
+	 * @param max max value
 	 */
 	public Bucket(long min, long max) {
 		this.min = min;
@@ -34,34 +34,34 @@ public final class Bucket {
 	}
 
 	/**
-	 * Get number of values in the range
+	 * Get number of values in the range.
 	 *
-	 * @return Number of value in the range
+	 * @return number of value in the range
 	 */
 	public int getCount() {
 		return count;
 	}
 
 	/**
-	 * Get upper bound of the range
+	 * Get upper bound of the range.
 	 *
-	 * @return Max value
+	 * @return max value
 	 */
 	public long getMax() {
 		return max;
 	}
 
 	/**
-	 * Get lower bound of the range
+	 * Get lower bound of the range.
 	 *
-	 * @return Min value
+	 * @return min value
 	 */
 	public long getMin() {
 		return min;
 	}
 
 	/**
-	 * Check whether value is in the range
+	 * Check whether value is in the range.
 	 *
 	 * @param value Value
 	 * @return true if in range
@@ -78,10 +78,10 @@ public final class Bucket {
 	}
 
 	/**
-	 * Check if value is in range and increment value number
+	 * Check if value is in range and increment value number.
 	 *
-	 * @param value Value
-	 * @return true if value number increased
+	 * @param value added value
+	 * @return true if value is in bucket range (count was increased)
 	 */
 	public boolean addValue(long value) {
 		if (contains(value)) {
@@ -93,7 +93,7 @@ public final class Bucket {
 	}
 
 	/**
-	 * Reset value number
+	 * Resets value number.
 	 */
 	public void clear() {
 		count = 0;

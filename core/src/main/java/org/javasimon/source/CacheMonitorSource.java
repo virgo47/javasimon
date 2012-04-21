@@ -122,11 +122,11 @@ public abstract class CacheMonitorSource<L, M extends Simon, K> implements Monit
 	}
 
 	/**
-	 * Get Simon for given location.
+	 * Get Simon for the specified location.
 	 * Simon is retrieved from name in cache.
 	 *
 	 * @param location Location
-	 * @return
+	 * @return Simon for the specified location
 	 */
 	@Override
 	public M getMonitor(L location) {
