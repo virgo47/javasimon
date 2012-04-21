@@ -1,5 +1,5 @@
 /**
- * JMX cabalities for Simons. Package provides two ways of working with Simons via JMX:
+ * JMX capabilities for Simons. Package provides two ways of working with Simons via JMX:
  * <ul>
  *     <li>generic single-point Simon MBean;</li>
  *     <li>MX Bean for every Simon (using {@link org.javasimon.jmx.JmxRegisterCallback}.</li>

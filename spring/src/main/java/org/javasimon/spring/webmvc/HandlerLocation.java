@@ -8,35 +8,35 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Location used by stopwatch source for MVC Handler interceptor.
  * Basically, represents a Controller method invocation.
+ *
  * @author gquintana
  */
 public class HandlerLocation {
 	/**
-	 * HTTP Servlet Request
+	 * HTTP Servlet Request.
 	 */
 	private final HttpServletRequest request;
+
 	/**
-	 * Handler (controller method invocation)
+	 * Handler (controller method invocation).
 	 */
 	private final Object handler;
+
 	/**
-	 * Request processing step: controller processing org view rendering
+	 * Request processing step: controller processing org view rendering.
 	 */
 	private HandlerStep step;
+
 	/**
-	 * View (and Model, null when step is not VIEW
+	 * View (and Model, null when step is not VIEW.
 	 */
 	private ModelAndView modelAndView;
+
 	/**
-	 * Currently running split
+	 * Currently running split.
 	 */
 	private Split split;
-	/**
-	 * Constructor
-	 * @param request
-	 * @param handler
-	 * @param step
-	 */
+
 	public HandlerLocation(HttpServletRequest request, Object handler, HandlerStep step) {
 		this.request = request;
 		this.handler = handler;
