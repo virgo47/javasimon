@@ -54,6 +54,10 @@ body, dd, dl, dt, td, table, th, tr, li, ol, ul, p, br, a, input, form, textarea
 	text-decoration: none;
 }
 
+li {
+	margin: 5px;
+}
+
 a {
 	text-decoration: none;
 	color: #1122aa;
