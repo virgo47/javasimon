@@ -46,6 +46,9 @@ javasimon.TableService={
 		if (oParam.sPattern) {
 			lsUrl = lsUrl + "type=" + oParam.sType;
 		}
+		if (oParam.sTimeFormat) {
+			lsUrl = lsUrl + "timeFormat=" + oParam.sTimeFormat;
+		}
 		window.location.href=lsUrl;
 	},
 	fnGetDataAsCsv:function(oParam) {

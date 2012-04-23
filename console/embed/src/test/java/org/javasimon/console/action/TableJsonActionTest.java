@@ -2,6 +2,7 @@ package org.javasimon.console.action;
 
 import java.util.HashSet;
 import java.util.Set;
+import org.javasimon.SimonManager;
 
 import org.javasimon.console.SimonData;
 import org.javasimon.console.TestActionContext;
@@ -57,5 +58,15 @@ public class TableJsonActionTest {
 			}
 		}
 		assertTrue(names.isEmpty());
+	}
+	@Test
+	public void testReset() throws Exception {
+		SimonManager.getSimon("B").reset();
+		TestActionContext context = new TestActionContext("/data/table.json");
+		TableJsonAction action = new TableJsonAction(context);
+		action.readParameters();
+		action.execute();
+		String json = context.toString();
+		assertTrue(json.contains("{\"name\":\"B\",\"type\":\"STOPWATCH\",\"counter\":0,\"total\":0,\"min\":\"\",\"mean\":0,\"last\":100,\"max\":0,\"standardDeviation\":0"));
 	}
 }

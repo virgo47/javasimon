@@ -232,7 +232,7 @@ public class StringifierFactory {
 
 		@Override
 		protected boolean isValid(Long object) {
-			return super.isValid(object) && object > 0L;
+			return super.isValid(object) && object > 0L && object < Long.MAX_VALUE;
 		}
 
 		@Override
@@ -259,7 +259,7 @@ public class StringifierFactory {
 
 		@Override
 		protected boolean isValid(Long object) {
-			return super.isValid(object) && object >= 0L;
+			return super.isValid(object) && object >= 0L && object < Long.MAX_VALUE;
 		}
 
 		@Override
@@ -291,7 +291,7 @@ public class StringifierFactory {
 
 		@Override
 		protected boolean isValid(Double object) {
-			return super.isValid(object) && object >= 0D;
+			return super.isValid(object) && object >= 0D && object < Double.MAX_VALUE && object != Double.NaN;
 		}
 
 		@Override
