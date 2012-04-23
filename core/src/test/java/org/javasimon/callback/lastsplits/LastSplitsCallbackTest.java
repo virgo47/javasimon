@@ -1,10 +1,10 @@
 package org.javasimon.callback.lastsplits;
 
-import org.javasimon.SimonManager;
+import org.javasimon.EnabledManager;
+import org.javasimon.Manager;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
 import org.javasimon.utils.SimonUtils;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -15,8 +15,10 @@ import static org.testng.Assert.assertTrue;
  * @author gquintana
  */
 public class LastSplitsCallbackTest {
+	private Manager manager = new EnabledManager();
+
 	private Stopwatch getStopwatch() {
-		return SimonManager.getStopwatch(getClass().getName() + ".stopwatch");
+		return manager.getStopwatch(getClass().getName() + ".stopwatch");
 	}
 
 	private LastSplits getLastSplits() {
@@ -36,13 +38,8 @@ public class LastSplitsCallbackTest {
 	private static LastSplitsCallback lastSplitsCallback = new LastSplitsCallback(5);
 
 	@BeforeClass
-	public static void addCallcack() {
-		SimonManager.manager().callback().addCallback(lastSplitsCallback);
-	}
-
-	@AfterClass
-	public static void removeCallcack() {
-		SimonManager.manager().callback().removeCallback(lastSplitsCallback);
+	public void addCallcack() {
+		manager.callback().addCallback(lastSplitsCallback);
 	}
 
 	@BeforeMethod

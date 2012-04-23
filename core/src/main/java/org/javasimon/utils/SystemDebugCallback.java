@@ -18,7 +18,7 @@ public final class SystemDebugCallback extends CallbackSkeleton {
 
 	@Override
 	public void onSimonReset(Simon simon) {
-		System.out.println("Simon reset: " + simon);
+		out("Simon reset: " + simon);
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public final class SystemDebugCallback extends CallbackSkeleton {
 
 	@Override
 	public void onStopwatchStop(Split split, StopwatchSample sample) {
-		System.out.println("Stopwatch stop (" + split + "): " + sample.stopwatchToString());
+		out("Stopwatch stop (" + split + "): " + sample.stopwatchToString());
 	}
 
 	@Override
@@ -89,9 +89,10 @@ public final class SystemDebugCallback extends CallbackSkeleton {
 	@Override
 	public void onManagerWarning(String warning, Exception cause) {
 		if (warning != null) {
-			System.err.println("Simon warning: " + warning);
+			System.err.println(DEBUG_PREFIX + "Simon warning: " + warning);
 		}
 		if (cause != null) {
+			System.err.print(DEBUG_PREFIX);
 			cause.printStackTrace();
 		}
 	}
