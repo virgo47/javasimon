@@ -93,14 +93,19 @@ jdbc(+): Unknown Simon:  [org.javasimon.jdbc INHERIT]
 	<li>
 		{@link org.javasimon.javaee.SimonServletFilter} measures HTTP requests and provides simple way how to
 		display tree of all Simons or reset the Manager. Filter can also report long requets along with all splits
-		collected during the request. Additionally embeddable (servlet/filter) or standalone (war)
-		<b>web console</b> is provided that can show all Simons in table or tree, sort them, filter them, etc.
+		collected during the request.
+	</li>
+	<li>
+		Embeddable (servlet/filter) or standalone (war)	<b>web console</b> is provided that can show all Simons
+		in the table or tree, sort them, filter them, etc.
 	</li>
 	<li>
 		Spring integration (package {@link org.javasimon.spring}) helps monitor calls to beans - poitcut can be configured
 		in Spring config or application can be scanned for {@link org.javasimon.aop.Monitored} annotations (Spring AOP).
-		Annotation can be also used	to further configure Stopwatch names. Spring Web MVC integration is provided in
-		{@link org.javasimon.spring.webmvc}.
+		Annotation can be also used	to further configure Stopwatch names.
+	</li>
+	<li>
+		Spring Web MVC integration is provided in {@link org.javasimon.spring.webmvc}.
 	</li>
 	<li>
 		JDBC4 proxy driver is provided ({@link org.javasimon.jdbc4.Driver}) - monitors virtually all JDBC API calls.
@@ -112,7 +117,7 @@ jdbc(+): Unknown Simon:  [org.javasimon.jdbc INHERIT]
 </ul>
 
 <p>
-	In addition to this Simon provides JMX support (see {@link org.javasimon.jmx}) or simple EJB intercpetor.
+	In addition to this Simon provides JMX support (see {@link org.javasimon.jmx}) or simple EJB/CDI intercpetor.
 </p>
 <p>
 	It is also very easy to hook onto Simon events (create/destroy of the Simon, measuring, start/stop, ...) using
