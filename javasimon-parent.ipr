@@ -920,6 +920,50 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1-sources.jar!/" />
       </SOURCES>
     </library>
+    <library name="Maven: org.javasimon:javasimon-console-embed:3.2.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/javasimon/javasimon-console-embed/3.2.0/javasimon-console-embed-3.2.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/javasimon/javasimon-console-embed/3.2.0/javasimon-console-embed-3.2.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/javasimon/javasimon-console-embed/3.2.0/javasimon-console-embed-3.2.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.javasimon:javasimon-core:3.2.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/javasimon/javasimon-core/3.2.0/javasimon-core-3.2.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/javasimon/javasimon-core/3.2.0/javasimon-core-3.2.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/javasimon/javasimon-core/3.2.0/javasimon-core-3.2.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.javasimon:javasimon-javaee:3.2.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/javasimon/javasimon-javaee/3.2.0/javasimon-javaee-3.2.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/javasimon/javasimon-javaee/3.2.0/javasimon-javaee-3.2.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/javasimon/javasimon-javaee/3.2.0/javasimon-javaee-3.2.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.javasimon:javasimon-jdbc4:3.2.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/javasimon/javasimon-jdbc4/3.2.0/javasimon-jdbc4-3.2.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/javasimon/javasimon-jdbc4/3.2.0/javasimon-jdbc4-3.2.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/javasimon/javasimon-jdbc4/3.2.0/javasimon-jdbc4-3.2.0-sources.jar!/" />
+      </SOURCES>
+    </library>
     <library name="Maven: org.json:json:20090211">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/org/json/json/20090211/json-20090211.jar!/" />
