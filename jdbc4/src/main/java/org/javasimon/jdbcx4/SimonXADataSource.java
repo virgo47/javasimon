@@ -21,7 +21,7 @@ public final class SimonXADataSource extends AbstractSimonDataSource implements 
 	private XADataSource datasource() throws SQLException {
 		if (ds == null) {
 			if (realDataSourceClassName == null || realDataSourceClassName.length() == 0) {
-				throw new SQLException("Property realdatasourceclassname is not set");
+				throw new SQLException("Property realDataSourceClassName is not set");
 			}
 			Object o;
 			try {
@@ -47,7 +47,7 @@ public final class SimonXADataSource extends AbstractSimonDataSource implements 
 				}
 				ds.setLoginTimeout(loginTimeout);
 			} else {
-				throw new SQLException("Class in realdatasourceclassname is not a XADataSource");
+				throw new SQLException("Class in realDataSourceClassName is not a XADataSource");
 			}
 		}
 		return ds;
