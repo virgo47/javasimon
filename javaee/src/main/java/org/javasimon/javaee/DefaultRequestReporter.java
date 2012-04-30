@@ -14,7 +14,13 @@ import org.javasimon.utils.SimonUtils;
 
 /**
  * Reports significant splits (longer than 5% of the request) and list of all used stopwatches with their split counts.
- * Result is reported through {@link org.javasimon.Manager#message(String)}.
+ * Report is sent through {@link org.javasimon.Manager#message(String)}. Following aspects of the class can be overriden:
+ * <ul>
+ * <li>Where the report goes - override {@link #reportMessage(String)},</li>
+ * <li>what is significant split - override {@link #isSignificantSplit(org.javasimon.Split, org.javasimon.Split)},</li>
+ * <li>whether stopwatch info (from stopwatch distribution part) should be included -
+ * override {@link #shouldBeAddedStopwatchInfo(org.javasimon.javaee.DefaultRequestReporter.StopwatchInfo)}.</li>
+ * </ul>
  *
  * @author <a href="mailto:richard.richter@posam.sk">Richard "Virgo" Richter</a>
  */
@@ -36,27 +42,24 @@ public class DefaultRequestReporter implements RequestReporter {
 			displaySplitDetails(requestSplit, splits, messageBuilder);
 		}
 
-		simonServletFilter.getManager().message(messageBuilder.toString());
+		reportMessage(messageBuilder.toString());
+	}
+
+	/**
+	 * Reports the prepared message through the method {@link org.javasimon.Manager#message(String)} - can be overriden
+	 * to emit the message to log/console/etc.
+	 *
+	 * @param message prepared message with report
+	 */
+	protected void reportMessage(String message) {
+		simonServletFilter.getManager().message(message);
 	}
 
 	private void displaySplitDetails(Split requestSplit, List<Split> splits, StringBuilder messageBuilder) {
 		Map<String, StopwatchInfo> stopwatchInfos = new HashMap<String, StopwatchInfo>();
 
 		processSplitsAndDisplaySignificantOnes(requestSplit, splits, messageBuilder, stopwatchInfos);
-		displayStopwatchSplitDistribution(messageBuilder, stopwatchInfos);
-	}
-
-	private void displayStopwatchSplitDistribution(StringBuilder messageBuilder, Map<String, StopwatchInfo> stopwatchInfos) {
-		messageBuilder.append("\nStopwatch/Split count/total/max for this request (sorted by total descending):");
-		Set<StopwatchInfo> sortedInfos = new TreeSet<StopwatchInfo>(stopwatchInfos.values());
-		for (StopwatchInfo info : sortedInfos) {
-			messageBuilder.append("\n\t").append(info.stopwatch.getName()).append(": ").append(info.splits.size()).
-				append("x, total: ").append(SimonUtils.presentNanoTime(info.total)).
-				append(", max: ").append(SimonUtils.presentNanoTime(info.maxSplit.runningFor()));
-			if (info.stopwatch.getNote() != null) {
-				messageBuilder.append(", note: ").append(SimonUtils.compact(info.stopwatch.getNote(), NOTE_OUTPUT_MAX_LEN));
-			}
-		}
+		addStopwatchSplitDistribution(messageBuilder, stopwatchInfos);
 	}
 
 	private void processSplitsAndDisplaySignificantOnes(Split requestSplit, List<Split> splits, StringBuilder messageBuilder, Map<String, StopwatchInfo> stopwatchInfos) {
@@ -75,17 +78,56 @@ public class DefaultRequestReporter implements RequestReporter {
 		}
 	}
 
+	/**
+	 * Can be overriden to decide whether {@link Split} is considered significant to be reported in the first part of the output.
+	 * By default all Splits with time over 5% of total request time are significant. This includes overlapping splits too, so more than
+	 * 20 splits can be reported.
+	 *
+	 * @param split tested Split
+	 * @param requestSplit Split for the whole HTTP request
+	 * @return true, if tested Split is singificant
+	 */
+	protected boolean isSignificantSplit(Split split, Split requestSplit) {
+		return split.runningFor() > (requestSplit.runningFor() / 20); // is more than 5%
+	}
+
+	private void addStopwatchSplitDistribution(StringBuilder messageBuilder, Map<String, StopwatchInfo> stopwatchInfos) {
+		messageBuilder.append("\nStopwatch/Split count/total/max for this request (sorted by total descending):");
+		Set<StopwatchInfo> sortedInfos = new TreeSet<StopwatchInfo>(stopwatchInfos.values());
+		for (StopwatchInfo info : sortedInfos) {
+			if (shouldBeAddedStopwatchInfo(info)) {
+				addStopwatchInfo(messageBuilder, info);
+			}
+		}
+	}
+
+	/**
+	 * Decides whether stopwatch info should be included in the report - by default all are included.
+	 *
+	 * @param info stopwatch info contains list of all splits, max split and total time of splits for the reported request
+	 * @return true, if the stopatch info should be reported
+	 */
+	@SuppressWarnings("UnusedParameters")
+	protected boolean shouldBeAddedStopwatchInfo(StopwatchInfo info) {
+		return true;
+	}
+
+	private void addStopwatchInfo(StringBuilder messageBuilder, StopwatchInfo info) {
+		messageBuilder.append("\n\t").append(info.stopwatch.getName()).append(": ").append(info.splits.size()).
+			append("x, total: ").append(SimonUtils.presentNanoTime(info.total)).
+			append(", max: ").append(SimonUtils.presentNanoTime(info.maxSplit.runningFor()));
+		if (info.stopwatch.getNote() != null) {
+			messageBuilder.append(", note: ").append(SimonUtils.compact(info.stopwatch.getNote(), NOTE_OUTPUT_MAX_LEN));
+		}
+	}
+
 	@Override
 	public void setSimonServletFilter(SimonServletFilter simonServletFilter) {
 		this.simonServletFilter = simonServletFilter;
 	}
 
-	private boolean isSignificantSplit(Split split, Split requestSplit) {
-		return split.runningFor() > (requestSplit.runningFor() / 20); // is more than 5%
-	}
-
 	// naturally sorted by total time descending
-	class StopwatchInfo implements Comparable<StopwatchInfo> {
+	protected class StopwatchInfo implements Comparable<StopwatchInfo> {
 		Stopwatch stopwatch;
 		List<Split> splits = new ArrayList<Split>();
 		Split maxSplit;
