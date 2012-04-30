@@ -89,6 +89,7 @@ public abstract class AbstractXmlAction extends Action {
 
 	@Override
 	public void execute() throws ServletException, IOException, ActionException {
+		dontCache();
 		getContext().setContentType("text/xml");
 		try {
 			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();

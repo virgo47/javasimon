@@ -69,6 +69,7 @@ public abstract class AbstractJsonAction extends Action {
 
 	@Override
 	public void execute() throws ServletException, IOException, ActionException {
+		dontCache();
 		getContext().setContentType("application/json");
 	}
 }

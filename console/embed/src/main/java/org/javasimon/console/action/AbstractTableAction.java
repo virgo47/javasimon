@@ -151,6 +151,7 @@ public class AbstractTableAction extends Action {
 	}
 
 	public void execute() throws ServletException, IOException, ActionException {
+		dontCache();
 		PrintWriter writer = null;
 		try {
 			getContext().setContentType(contentType);

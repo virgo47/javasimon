@@ -33,4 +33,10 @@ public abstract class Action {
 	 * Execute action
 	 */
 	public abstract void execute() throws ServletException, IOException, ActionException;
+
+	// mainly for IE8
+	protected void dontCache() {
+		getContext().getResponse().setHeader("Cache-Control", "no-cache, no-store, max-age=0, must-revalidate");
+		getContext().getResponse().setHeader("Pragma", "no-cache");
+	}
 }
