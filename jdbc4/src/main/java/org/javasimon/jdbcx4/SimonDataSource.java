@@ -46,7 +46,7 @@ public final class SimonDataSource extends AbstractSimonDataSource implements Da
 	private DataSource datasource() throws SQLException {
 		if (ds == null) {
 			if (realDataSourceClassName == null || realDataSourceClassName.length() == 0) {
-				throw new SQLException("Property realdatasourceclassname is not set");
+				throw new SQLException("Property realDataSourceClassName is not set");
 			}
 			Object o;
 			try {
@@ -74,7 +74,7 @@ public final class SimonDataSource extends AbstractSimonDataSource implements Da
 				ds.setLoginTimeout(loginTimeout);
 				wrapperSupport = new WrapperSupport<DataSource>(ds, DataSource.class);
 			} else {
-				throw new SQLException("Class in realdatasourceclassname is not a DataSource");
+				throw new SQLException("Class in realDataSourceClassName is not a DataSource");
 			}
 		}
 		return ds;
