@@ -13,7 +13,12 @@ img.clickable:hover {
 h1 {
     vertical-align: middle;
 }
-
+.error {
+	background-color: rgb(255,63,63);
+}
+div.hidden {
+	display: none;
+}
 /* -----------------------------------------------------------------------------
  * DHTML/Ajax List view styling
  * ---------------------------------------------------------------------------*/
