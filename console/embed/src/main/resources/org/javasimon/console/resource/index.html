@@ -14,7 +14,7 @@
         <script src="resource/js/javasimon-service.js" type="text/javascript"></script>
         <script type="text/javascript">
 $(document).ready(function() {
-	var oFilterCtrl=new javasimon.FilterController($('#patternText'),$('#typeSelect'),$('#timeFormatSelect'));
+	var oFilterCtrl=new javasimon.FilterController($('#patternText'),$('#patternHelp'),$('#typeSelect'),$('#timeFormatSelect'));
 	oFilterCtrl.fnSetValFromUrlParams();
 	document.oFilterCtrl=oFilterCtrl;
 
@@ -48,18 +48,20 @@ $(document).ready(function() {
 		aLengthMenu: [[25, 50, 100, -1], [25, 50, 100, "All"]],
 		sAjaxSource: 'data/table.json',
 		fnServerData: function( sUrl, aoData, fnCallback ) {
-			var oVal=document.oFilterCtrl.fnGetVal();
-			aoData.push( { name: "pattern", value: oVal.sPattern } );
-			aoData.push( { name: "type", value: oVal.sType } );
-			aoData.push( { name: "timeFormat", value: oVal.sTimeFormat} );
-			javasimon.TableService.fnGetDataAsJson(aoData, function(json) {
-				if (json.aaData === undefined) {
-					json = {
-						"aaData":json
-					};
-				}
-				fnCallback(json);
-			});
+			if (document.oFilterCtrl.fnValidate()) {
+				var oVal=document.oFilterCtrl.fnGetVal();
+				aoData.push( { name: "pattern", value: oVal.sPattern } );
+				aoData.push( { name: "type", value: oVal.sType } );
+				aoData.push( { name: "timeFormat", value: oVal.sTimeFormat} );
+				javasimon.TableService.fnGetDataAsJson(aoData, function(json) {
+					if (json.aaData === undefined) {
+						json = {
+							"aaData":json
+						};
+					}
+					fnCallback(json);
+				});
+			}
 		},
 		aoColumns: [
 			{sTitle:"Name", mDataProp: "name",bSearchable: true,sType:"string",sWidth: "40%"},
@@ -141,7 +143,16 @@ $(document).ready(function() {
             <table>
                 <tr>
                     <td>Pattern</td>
-                    <td colspan="3"><input id="patternText" name="pattern" type="text" size="64"/></td>
+                    <td colspan="3">
+			    <input id="patternText" name="pattern" type="text" size="64"/>
+			    <div id="patternHelp" class="hidden">Allowed patterns: 
+				    <ul>
+					    <li><em>*abcd</em> end with abcd,</li>
+					    <li><em>abcd*</em> start with abcd,</li>
+					    <li><em>*abcd*</em> contains abcd,</li>
+					    <li><em>ab*cd</em> start with ab and end with cd</li>
+				    </ul>
+			    </div></td>
                 </tr>
                 <tr>
                     <td>Type</td>
@@ -157,7 +168,6 @@ $(document).ready(function() {
                     <td>
                         <select id="timeFormatSelect" name="type">
                             <option value=""></option>
-                            <option value="AUTO">Auto</option>
                             <option value="SECOND">s</option>
                             <option value="MILLISECOND">ms</option>
                             <option value="MICROSECOND">&micro;s</option>
