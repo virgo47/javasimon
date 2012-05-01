@@ -1,6 +1,7 @@
 package org.javasimon.console.action;
 
 import java.io.IOException;
+import java.util.Set;
 import javax.servlet.ServletException;
 import org.javasimon.Simon;
 import org.javasimon.SimonManager;
@@ -21,9 +22,9 @@ public class ResetAction extends Action {
 	 */
 	private String pattern;
 	/**
-	 * Type for Simon type filtering
+	 * Types for Simon type filtering
 	 */
-	private SimonType type;
+	private Set<SimonType> types;
 	/**
 	 * Name for Simon type filtering
 	 */
@@ -37,7 +38,7 @@ public class ResetAction extends Action {
 	public void readParameters() {
 		pattern = getContext().getParameterAsString("pattern", null);
 		name = getContext().getParameterAsString("name", null);
-		type = getContext().getParameterAsEnum("type", SimonType.class, null);
+		types = getContext().getParametersAsEnums("type", SimonType.class, null);
 	}
 
 	@Override
@@ -51,7 +52,7 @@ public class ResetAction extends Action {
 				visitor.visit(simon);
 			}
 		} else {
-			SimonVisitors.visitList(getContext().getManager(), pattern, type, visitor);
+			SimonVisitors.visitList(getContext().getManager(), pattern, types, visitor);
 		}
 		getContext().getWriter().print("{count:"+visitor.getCount()+"}");
 	}

@@ -4,32 +4,64 @@ window.javasimon=javasimon;
 /**
  * Filter controller
  */
-javasimon.FilterController=function(oPatternText, oPatternHelp, oTypeSelect, oTimeFormatSelect) {
+javasimon.FilterController=function(
+		oPatternText, oPatternHelp, 
+		oStopwatchTypeCheck,oCounterTypeCheck,oUnknownTypeCheck,
+		oTimeFormatSelect) {
 	this.oPatternText=oPatternText;
 	this.oPatternHelp=oPatternHelp;
-	this.oTypeSelect=oTypeSelect;
+	this.oStopwatchTypeCheck=oStopwatchTypeCheck;
+	this.oCounterTypeCheck=oCounterTypeCheck;
+	this.oUnknownTypeCheck=oUnknownTypeCheck;
+	this.oTypeChecks=[oStopwatchTypeCheck,oCounterTypeCheck,oUnknownTypeCheck];
 	this.oTimeFormatSelect=oTimeFormatSelect;
 };
 javasimon.FilterController.prototype={
 	fnSetValFromUrlParams:function() {
+		var type=$(document).getUrlParam('type');
+		var types;
+		if (!type) {
+			types=undefined;
+		} else if (typeof type=="string") {
+			types=[type];
+		} else {
+			types=type;
+		}
 		this.fnSetVal({
 			sPattern:$(document).getUrlParam('pattern'),
-			sType:$(document).getUrlParam('type'),  
+			asTypes:types,  
 			sTimeFormat:$(document).getUrlParam('timeFormat')  
 		});
 	},
 	fnSetVal:function(oVal) {
 		this.oPatternText.val(oVal.sPattern||"");
-		this.oTypeSelect.val(oVal.sType||"");
+		if (oVal.asTypes) {
+			this.fnSetTypeChecks(oVal.asTypes);
+		} else {
+			this.fnResetTypeChecks();
+		}
 		this.oTimeFormatSelect.val(oVal.sTimeFormat||"");
+	},
+	fnSetTypeChecks:function(asTypes) {
+		for(var i=0;i<this.oTypeChecks.length;i++) {
+			this.oTypeChecks[i].attr("checked",$.inArray(this.oTypeChecks[i].val(), asTypes)>=0);
+		}
+	},
+	fnResetTypeChecks:function() {
+		this.fnSetTypeChecks(["STOPWATCH","COUNTER"]);
 	},
 	fnGetVal:function() {
 		var sPattern=this.oPatternText.val();
-		var sType=this.oTypeSelect.val();
+		var asTypes=[];
+		for(var i=0;i<this.oTypeChecks.length;i++) {
+			if (this.oTypeChecks[i].attr("checked")) {
+				asTypes.push(this.oTypeChecks[i].val());
+			}
+		}
 		var sTimeFormat=this.oTimeFormatSelect.val();
 		return {
 			sPattern:sPattern||"",
-			sType:sType||"",
+			asTypes:asTypes,
 			sTimeFormat:sTimeFormat||""
 		};
 	},
@@ -42,6 +74,7 @@ javasimon.FilterController.prototype={
 		var bPatternValid=!sPattern // Empty or undefined is OK
 			||this.arePattern[0].test(sPattern) // Starting and/or ending with *
 			||this.arePattern[1].test(sPattern); // Containing single *
+		var bTypeValid=false;
 		if (bPatternValid) {
 			// Valid pattern
 			$(this.oPatternText).removeClass("error");
@@ -50,6 +83,13 @@ javasimon.FilterController.prototype={
 			// Invalid pattern
 			$(this.oPatternText).addClass("error");
 			$(this.oPatternHelp).removeClass("hidden");
+		}
+		// At least one type
+		for(var i=0; i<this.oTypeChecks.length && !bTypeValid; i++) {
+			bTypeValid=this.oTypeChecks[i].attr("checked");
+		}		
+		if (!bTypeValid) {
+			this.fnResetTypeChecks();
 		}
 		return bPatternValid;
 	},

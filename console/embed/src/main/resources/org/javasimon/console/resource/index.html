@@ -14,7 +14,10 @@
         <script src="resource/js/javasimon-service.js" type="text/javascript"></script>
         <script type="text/javascript">
 $(document).ready(function() {
-	var oFilterCtrl=new javasimon.FilterController($('#patternText'),$('#patternHelp'),$('#typeSelect'),$('#timeFormatSelect'));
+	var oFilterCtrl=new javasimon.FilterController(
+		$('#patternText'),$('#patternHelp'),
+		$('#stopwatchTypeCheck'),$('#counterTypeCheck'),$('#unknownTypeCheck'),
+		$('#timeFormatSelect'));
 	oFilterCtrl.fnSetValFromUrlParams();
 	document.oFilterCtrl=oFilterCtrl;
 
@@ -51,7 +54,9 @@ $(document).ready(function() {
 			if (document.oFilterCtrl.fnValidate()) {
 				var oVal=document.oFilterCtrl.fnGetVal();
 				aoData.push( { name: "pattern", value: oVal.sPattern } );
-				aoData.push( { name: "type", value: oVal.sType } );
+				for(var i=0; i<oVal.asTypes.length; i++) {
+					aoData.push( { name: "type", value: oVal.asTypes[i] } );
+				}
 				aoData.push( { name: "timeFormat", value: oVal.sTimeFormat} );
 				javasimon.TableService.fnGetDataAsJson(aoData, function(json) {
 					if (json.aaData === undefined) {
@@ -157,12 +162,9 @@ $(document).ready(function() {
                 <tr>
                     <td>Type</td>
                     <td>
-                        <select id="typeSelect" name="type">
-                            <option value=""></option>
-                            <option value="stopwatch">Stopwatch</option>
-                            <option value="counter">Counter</option>
-                            <option value="unknown">Unknown</option>
-                        </select>
+			    <input type="checkbox" id="stopwatchTypeCheck" name="type" value="STOPWATCH" />Stopwatch
+			    <input type="checkbox" id="counterTypeCheck" name="type" value="COUNTER" />Counter
+			    <input type="checkbox" id="unknownTypeCheck" name="type" value="UNKNOWN" />Group
                     </td>
                     <td>Time format</td>
                     <td>

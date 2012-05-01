@@ -1,10 +1,7 @@
 package org.javasimon.console;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 import org.javasimon.Manager;
 import org.javasimon.Simon;
@@ -32,7 +29,7 @@ public class SimonVisitors {
 	 * @param visitor Visitor
 	 * @throws IOException
 	 */
-	public static void visitList(Manager manager, String pattern, SimonType type, SimonVisitor visitor) throws IOException {
+	public static void visitList(Manager manager, String pattern, Set<SimonType> types, SimonVisitor visitor) throws IOException {
 		List<Simon> simons = new ArrayList<Simon>(manager.getSimons(SimonPattern.create(pattern)));
 		Collections.sort(simons, new Comparator<Simon>() {
 			public int compare(Simon s1, Simon s2) {
@@ -41,7 +38,7 @@ public class SimonVisitors {
 		});
 		for (Simon simon : simons) {
 			SimonType lType = SimonType.getValueFromInstance(simon);
-			if (type == null || type == lType) {
+			if (types == null || types.contains(lType)) {
 				visitor.visit(simon);
 			}
 		}

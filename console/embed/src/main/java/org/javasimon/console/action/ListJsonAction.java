@@ -1,6 +1,7 @@
 package org.javasimon.console.action;
 
 import java.io.IOException;
+import java.util.Set;
 import javax.servlet.ServletException;
 
 import org.javasimon.Simon;
@@ -24,9 +25,9 @@ public class ListJsonAction extends AbstractJsonAction {
 	private String pattern;
 
 	/**
-	 * Type for Simon type filtering.
+	 * Types for Simon type filtering.
 	 */
-	private SimonType type;
+	private Set<SimonType> types;
 
 	public ListJsonAction(ActionContext context) {
 		super(context);
@@ -44,14 +45,14 @@ public class ListJsonAction extends AbstractJsonAction {
 	public void readParameters() {
 		super.readParameters();
 		pattern = getContext().getParameterAsString("pattern", null);
-		type = getContext().getParameterAsEnum("type", SimonType.class, null);
+		types = getContext().getParametersAsEnums("type", SimonType.class, null);
 	}
 
 	@Override
 	public void execute() throws ServletException, IOException, ActionException {
 		getContext().setContentType("application/json");
 		ArrayJS arrayJS = new ArrayJS();
-		SimonVisitors.visitList(getContext().getManager(), pattern, type, new SimonVisitorImpl(arrayJS));
+		SimonVisitors.visitList(getContext().getManager(), pattern, types, new SimonVisitorImpl(arrayJS));
 		arrayJS.write(getContext().getWriter());
 	}
 

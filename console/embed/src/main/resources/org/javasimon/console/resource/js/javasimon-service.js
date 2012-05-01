@@ -39,15 +39,17 @@ javasimon.ResetService={
 javasimon.TableService={
 	sUrl:"data/table",
 	fnGetDataAsXxx:function(sExt, oParam) {
-		var lsUrl=this.sUrl+"."+sExt+"?";
+		var lsUrl=this.sUrl+"."+sExt+"?_";
 		if (oParam.sPattern) {
-			lsUrl = lsUrl + "pattern=" + oParam.sPattern;
+			lsUrl = lsUrl + "&pattern=" + oParam.sPattern;
 		}
-		if (oParam.sPattern) {
-			lsUrl = lsUrl + "type=" + oParam.sType;
+		if (oParam.asTypes) {
+			for(var i=0; i<oParam.asTypes.length; i++) {
+				lsUrl = lsUrl + "&type=" + oParam.asTypes[i];				
+			}
 		}
 		if (oParam.sTimeFormat) {
-			lsUrl = lsUrl + "timeFormat=" + oParam.sTimeFormat;
+			lsUrl = lsUrl + "&timeFormat=" + oParam.sTimeFormat;
 		}
 		window.location.href=lsUrl;
 	},
