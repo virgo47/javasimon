@@ -4,7 +4,9 @@ import org.javasimon.console.reflect.Getter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 import javax.servlet.ServletException;
 import org.javasimon.Sample;
 import org.javasimon.Simon;
@@ -41,9 +43,9 @@ public class AbstractTableAction extends Action {
 	 */
 	private String pattern;
 	/**
-	 * Type for Simon type filtering
+	 * Types for Simon type filtering
 	 */
-	private SimonType type;
+	private Set<SimonType> types;
 	/**
 	 * Column list in response
 	 */
@@ -109,7 +111,7 @@ public class AbstractTableAction extends Action {
 			StringifierFactory.READABLE_DATE_PATTERN,
 			numberPattern);
 		pattern = getContext().getParameterAsString("pattern", null);
-		type = getContext().getParameterAsEnum("type", SimonType.class, null);
+		types = getContext().getParametersAsEnums("type", SimonType.class, null);
 	}
 
 	protected void printTable(PrintWriter writer) throws IOException {
@@ -128,7 +130,7 @@ public class AbstractTableAction extends Action {
 	}
 
 	protected void printBody(PrintWriter writer) throws IOException {
-		SimonVisitors.visitList(getContext().getManager(), pattern, type, new SimonVisitorImpl(writer));
+		SimonVisitors.visitList(getContext().getManager(), pattern, types, new SimonVisitorImpl(writer));
 	}
 
 	protected void printBodyRow(Simon simon, PrintWriter writer) throws IOException {

@@ -3,6 +3,9 @@ package org.javasimon.console;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.EnumSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.javasimon.Manager;
@@ -95,7 +98,27 @@ public class ActionContext {
 	protected String getParameter(String name) {
 		return getRequest().getParameter(name);
 	}
-
+	protected String[] getParameters(String name) {
+		return getRequest().getParameterValues(name);
+	}
+	/**
+	 * Transform empty string (only white spaces) into null, handles null.
+	 */
+	private static String blankToNull(String value) {
+		if (value != null) {
+			value = value.trim();
+			if (value.equals("")) {
+				value = null;
+			}
+		}
+		return value;
+	}
+	/**
+	 * Returns default value when value is null.
+	 */
+	private static <T> T defaultValue(T value, T defaultValue) {
+		return value==null?defaultValue:value;
+	}
 	/**
 	 * Get request parameter as a String
 	 *
@@ -104,17 +127,14 @@ public class ActionContext {
 	 * @return Parameter value
 	 */
 	public String getParameterAsString(String name, String defaultValue) {
-		String value = getParameter(name);
-		if (value != null) {
-			value = value.trim();
-			if (value.equals("")) {
-				value = null;
-			}
-		}
-		if (value == null) {
-			value = defaultValue;
-		}
-		return value;
+		return defaultValue(blankToNull(getParameter(name)), defaultValue);
+	}
+	/**
+	 * Transform a string into an enum (using its name which is supposed to be
+	 * uppercase, handles null values.
+	 */
+	private static <T extends Enum<T>> T stringToEnum(String value, Class<T> type) {
+		return value==null?null:Enum.valueOf(type, value.toUpperCase());
 	}
 
 	/**
@@ -126,7 +146,27 @@ public class ActionContext {
 	 * @return Parameter value
 	 */
 	public <T extends Enum<T>> T getParameterAsEnum(String name, Class<T> type, T defaultValue) {
-		String value = getParameterAsString(name, null);
-		return (value == null) ? defaultValue : Enum.valueOf(type, value.toUpperCase());
+		return defaultValue(stringToEnum(blankToNull(getParameter(name)), type), defaultValue);
+	}
+
+	/**
+	 * Get multiple request parameters as Enums.
+	 * @param name Parameter name
+	 * @return Parameter values as an Enum Set.
+	 */
+	public <T extends Enum<T>> EnumSet<T> getParametersAsEnums(String name, Class<T> type, EnumSet<T> defaultValue) {
+		String[] enumNames=getParameters(name);
+		if (enumNames==null) {
+			return defaultValue;
+		} else {
+			Collection<T> enums=new ArrayList<T>();
+			for(String enumName:enumNames) {
+				T enumValue=stringToEnum(blankToNull(enumName), type);
+				if (enumValue!=null) {
+					enums.add(enumValue);
+				}
+			}
+			return enums.isEmpty()?defaultValue:EnumSet.copyOf(enums);
+		}
 	}
 }
