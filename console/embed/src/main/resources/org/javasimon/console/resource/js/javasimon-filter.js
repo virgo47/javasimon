@@ -21,16 +21,20 @@ javasimon.FilterController.prototype={
 		var type=$(document).getUrlParam('type');
 		var types;
 		if (!type) {
-			types=undefined;
+			types=javasimon.SettingsService.get("asTypes");
 		} else if (typeof type=="string") {
 			types=[type];
 		} else {
 			types=type;
 		}
+		var timeFormat=$(document).getUrlParam('timeFormat');
+		if (!timeFormat) {
+			timeFormat=javasimon.SettingsService.get("sTimeFormat");
+		}
 		this.fnSetVal({
 			sPattern:$(document).getUrlParam('pattern'),
 			asTypes:types,  
-			sTimeFormat:$(document).getUrlParam('timeFormat')  
+			sTimeFormat:  timeFormat
 		});
 	},
 	fnSetVal:function(oVal) {
@@ -93,24 +97,35 @@ javasimon.FilterController.prototype={
 		}
 		return bPatternValid;
 	},
-	fnExportCsv:function() {
+	fnWithVal:function(oCallbackContext, fnCallback) {
+		var oVal;
 		if (this.fnValidate()) {
-			javasimon.TableService.fnGetDataAsCsv(this.fnGetVal());
+			oVal=this.fnGetVal();
+			fnCallback.call(oCallbackContext, oVal);
+			javasimon.SettingsService.set(oVal);
+			javasimon.SettingsService.save(document);
 		}
+	},
+	fnExportCsv:function() {
+		this.fnWithVal(
+			this, function(oVal){
+				javasimon.TableService.fnGetDataAsCsv(oVal)
+			});
 	},
 	fnExportHtml:function() {
-		if (this.fnValidate()) {
-			javasimon.TableService.fnGetDataAsHtml(this.fnGetVal());
-		}
+		this.fnWithVal(
+			this, function(oVal){
+				javasimon.TableService.fnGetDataAsHtml(oVal)
+			});
 	},
 	fnResetAll:function(fnAjaxCallback) {
-		if (this.fnValidate()) {
-			var oFilterVal=this.fnGetVal();
-			var oData={
-				pattern:oFilterVal.sPattern,
-				type:oFilterVal.sType
-			};
-			javasimon.ResetService.fnResetAll(oData, fnAjaxCallback);
-		}
+		this.fnWithVal(
+			this, function(oVal){
+				var oData={
+					pattern:oVal.sPattern,
+					type:oVal.sType
+				};
+				javasimon.ResetService.fnResetAll(oData, fnAjaxCallback);
+			});
 	}
 };

@@ -1,91 +1,230 @@
 "use strict";
 var javasimon=window.javasimon||{};
 window.javasimon=javasimon;
-/**
- * Service to reset Simons through Ajax HTTP requests
- */
-javasimon.ResetService={
-	sUrl:"data/reset",
+(function(ns) {
 	/**
-	 * Reset one or more Simons. A confirmation dialog appears before.
-	 * @param oData {object} Filter
-	 * @param fnAjaxCallback {function} Callback
-	 */
-	fnResetAll: function(oData, fnAjaxCallback) {
-		if (window.confirm("Are you sure you want to reset all monitors?")) {
-			this.fnReset(oData, fnAjaxCallback);
-		}		
-	},
-	/**
-	 * Reset one Simons. 
-	 * @param sName {string} Simon name
-	 * @param fnAjaxCallback {function} Callback
-	 */
-	fnResetOne: function(sName, fnAjaxCallback) {
-		this.fnReset({name:sName}, fnAjaxCallback);
-	},
-	/**
-	 * Reset one or more Simons. 
-	 * @param oData {object} Filter
-	 * @param fnAjaxCallback {function} Callback
-	 */
-	fnReset: function(oData, fnAjaxCallback) {
-		$.post(this.sUrl, oData, fnAjaxCallback);
-	}
-};
-/**
- * Service to get Simon data as flat list through Ajax HTTP requests
- */
-javasimon.TableService={
-	sUrl:"data/table",
-	fnGetDataAsXxx:function(sExt, oParam) {
-		var lsUrl=this.sUrl+"."+sExt+"?_";
-		if (oParam.sPattern) {
-			lsUrl = lsUrl + "&pattern=" + oParam.sPattern;
+	* Service to reset Simons through Ajax HTTP requests
+	*/
+	ns.ResetService={
+		sUrl:"data/reset",
+		/**
+		* Reset one or more Simons. A confirmation dialog appears before.
+		* @param oData {object} Filter
+		* @param fnAjaxCallback {function} Callback
+		*/
+		fnResetAll: function(oData, fnAjaxCallback) {
+			if (window.confirm("Are you sure you want to reset all monitors?")) {
+				this.fnReset(oData, fnAjaxCallback);
+			}		
+		},
+		/**
+		* Reset one Simons. 
+		* @param sName {string} Simon name
+		* @param fnAjaxCallback {function} Callback
+		*/
+		fnResetOne: function(sName, fnAjaxCallback) {
+			this.fnReset({name:sName}, fnAjaxCallback);
+		},
+		/**
+		* Reset one or more Simons. 
+		* @param oData {object} Filter
+		* @param fnAjaxCallback {function} Callback
+		*/
+		fnReset: function(oData, fnAjaxCallback) {
+			$.post(this.sUrl, oData, fnAjaxCallback);
 		}
-		if (oParam.asTypes) {
-			for(var i=0; i<oParam.asTypes.length; i++) {
-				lsUrl = lsUrl + "&type=" + oParam.asTypes[i];				
+	};
+	/**
+	* Service to get Simon data as flat list through Ajax HTTP requests
+	*/
+	ns.TableService={
+		sUrl:"data/table",
+		fnGetDataAsXxx:function(sExt, oParam) {
+			var lsUrl=this.sUrl+"."+sExt+"?_";
+			if (oParam.sPattern) {
+				lsUrl = lsUrl + "&pattern=" + oParam.sPattern;
+			}
+			if (oParam.asTypes) {
+				for(var i=0; i<oParam.asTypes.length; i++) {
+					lsUrl = lsUrl + "&type=" + oParam.asTypes[i];				
+				}
+			}
+			if (oParam.sTimeFormat) {
+				lsUrl = lsUrl + "&timeFormat=" + oParam.sTimeFormat;
+			}
+			window.location.href=lsUrl;
+		},
+		fnGetDataAsCsv:function(oParam) {
+			this.fnGetDataAsXxx("csv", oParam);
+		},
+		fnGetDataAsHtml:function(oParam) {
+			this.fnGetDataAsXxx("html", oParam);
+		},
+		fnGetDataAsJson:function(oParam, fnAjaxCallback) {
+			$.ajax( {
+				url: this.sUrl+".json",
+				data: oParam,
+				success: fnAjaxCallback,
+				dataType: "json"
+			});
+		}
+	};
+	/**
+	* Service to get Simon hierchical, tree-style model through Ajax HTTP requests
+	*/
+	ns.TreeService={
+		sUrl:"data/tree",
+		fnGetDataAsXxx:function(sExt, oParam) {
+			var lsUrl=this.sUrl+"."+sExt+"?";
+			window.location.href=lsUrl;
+		},
+		fnGetDataAsXml:function(oParam) {
+			this.fnGetDataAsXxx("xml", oParam);
+		},
+		fnGetDataAsJson:function(oParam, fnAjaxCallback) {
+			$.ajax( {
+				url: this.sUrl+".json",
+				data: oParam,
+				success: fnAjaxCallback,
+				dataType: "json"
+			});
+		}
+	};
+	/**
+	* Service to store/load settings as cookies
+	*/
+	ns.SettingsService={
+		sVersion:"3.2",
+		/**
+		* Object representing settings
+		*/
+		oSettings: {
+			asTypes: ["STOPWATCH","COUNTER"],
+			sTimeFormat:"MILLISECOND",
+			iDataTableLength:25
+		},
+		asConstants:[
+			["STOPWATCH",	"S"],
+			["COUNTER",	"C"],
+			["UNKNOWN",	"U"],
+			["NANOSECOND",	"NS"],
+			["MICROSECOND", "US"],
+			["MILLISECOND", "MS"],
+			["SECOND",	" S"]
+		],
+		getConstant:function(sIn, sOut) {
+			for(var i=0;i<this.asConstants.length;i++) {
+				if        (sIn  && sIn ===this.asConstants[i][0]) {
+					// Forward
+					return this.asConstants[i][1];
+				} else if (sOut && sOut===this.asConstants[i][1]) {
+					// Backward
+					return this.asConstants[i][0];
+				}
+			}
+			return undefined;
+		},
+		/**
+		* Load settings from a cookie
+		*/
+		load:function(oDocument) {
+			// Read cookie
+			if (!oDocument.cookie) {
+				return;
+			}
+			var sCookieValue;
+			var asCookieValueParts=oDocument.cookie.split(";");
+			for(var i=0; i<asCookieValueParts.length && !sCookieValue; i++) {
+				var iPrefixPos=asCookieValueParts[i].indexOf("JSimon=");
+				if (iPrefixPos>=0) {
+					sCookieValue=asCookieValueParts[i].substring(iPrefixPos+7, asCookieValueParts[i].length);
+				}
+			}
+			if (!sCookieValue) {
+				return;
+			}
+			// Parse cookie value
+			var asTypes=[];
+			var sType, sTimeFormat, iDataTableLength;
+			if (sCookieValue) {
+				var asCookieValue=sCookieValue.split(",");
+				// Version
+				if (asCookieValue.length>=4 && asCookieValue[0]===this.sVersion) {
+					// Types
+					for(var i=0;i<asCookieValue[1].length;i++) {
+						sType=this.getConstant(undefined, asCookieValue[1].charAt(i));
+						if (sType) {
+							asTypes.push(sType);
+						}
+					}
+					if (asTypes.length>0) {
+						this.oSettings.asTypes=asTypes;				
+					}
+					// Time format
+					sTimeFormat=this.getConstant(undefined, asCookieValue[2]);
+					if (sTimeFormat) {
+						this.oSettings.sTimeFormat=sTimeFormat;
+					}
+					// Data table length
+					iDataTableLength=asCookieValue[3];
+					if (iDataTableLength) {
+						this.oSettings.iDataTableLength=iDataTableLength;
+					}
+				}
+			}
+		},
+		/**
+		* Save settings into a cookie
+		*/
+		save:function(oDocument) {
+			var sCookieValuePart;
+			// Version
+			var sCookieValue=this.sVersion;
+			// Expiration date J+30
+			var dCookieExpire = new Date();
+			dCookieExpire.setTime(dCookieExpire.getTime()+(30*24*60*60*1000));
+			// Type
+			sCookieValue=sCookieValue+",";
+			for(var i=0;i<this.oSettings.asTypes.length;i++) {
+				sCookieValuePart=this.getConstant(this.oSettings.asTypes[i], undefined);
+				if (sCookieValuePart) {
+					sCookieValue=sCookieValue+sCookieValuePart;
+				}
+			}
+			// Time format
+			sCookieValue=sCookieValue+",";
+			sCookieValuePart=this.getConstant(this.oSettings.sTimeFormat, undefined);
+			if (sCookieValuePart) {
+				sCookieValue=sCookieValue+sCookieValuePart;			
+			}
+			// Data table length
+			sCookieValue=sCookieValue+",";
+			if (this.oSettings.iDataTableLength) {
+				sCookieValue=sCookieValue+this.oSettings.iDataTableLength;
+			}
+			// Write cookie
+			oDocument.cookie = "JSimon="+sCookieValue+"; expires="+dCookieExpire.toGMTString()+"; path=/";
+		},
+		/**
+		* Set some settings
+		*/
+		set:function(oSettings) {
+			for(var sProp in oSettings) {
+				if (this.oSettings[sProp]) {
+					this.oSettings[sProp]=oSettings[sProp];
+				}
+			}
+		},
+		/**
+		* Get settings
+		*/
+		get:function(sName) {
+			if (sName) {
+				return this.oSettings[sName];
+			} else {
+				return this.oSettings;
 			}
 		}
-		if (oParam.sTimeFormat) {
-			lsUrl = lsUrl + "&timeFormat=" + oParam.sTimeFormat;
-		}
-		window.location.href=lsUrl;
-	},
-	fnGetDataAsCsv:function(oParam) {
-		this.fnGetDataAsXxx("csv", oParam);
-	},
-	fnGetDataAsHtml:function(oParam) {
-		this.fnGetDataAsXxx("html", oParam);
-	},
-	fnGetDataAsJson:function(oParam, fnAjaxCallback) {
-		$.ajax( {
-			url: this.sUrl+".json",
-			data: oParam,
-			success: fnAjaxCallback,
-			dataType: "json"
-		});
-	}
-};
-/**
- * Service to get Simon hierchical, tree-style model through Ajax HTTP requests
- */
-javasimon.TreeService={
-	sUrl:"data/tree",
-	fnGetDataAsXxx:function(sExt, oParam) {
-		var lsUrl=this.sUrl+"."+sExt+"?";
-		window.location.href=lsUrl;
-	},
-	fnGetDataAsXml:function(oParam) {
-		this.fnGetDataAsXxx("xml", oParam);
-	},
-	fnGetDataAsJson:function(oParam, fnAjaxCallback) {
-		$.ajax( {
-			url: this.sUrl+".json",
-			data: oParam,
-			success: fnAjaxCallback,
-			dataType: "json"
-		});
-	}
-};
+	};
+	ns.SettingsService.load(document);
+})(javasimon);

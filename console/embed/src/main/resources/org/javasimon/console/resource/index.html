@@ -47,26 +47,26 @@ $(document).ready(function() {
 		bJQueryUI: true,
 		bProcessing: true,
 		bAutoWidth:false,
-		iDisplayLength: 25,
+		iDisplayLength: javasimon.SettingsService.get("iDataTableLength"),
 		aLengthMenu: [[25, 50, 100, -1], [25, 50, 100, "All"]],
 		sAjaxSource: 'data/table.json',
 		fnServerData: function( sUrl, aoData, fnCallback ) {
-			if (document.oFilterCtrl.fnValidate()) {
-				var oVal=document.oFilterCtrl.fnGetVal();
-				aoData.push( { name: "pattern", value: oVal.sPattern } );
-				for(var i=0; i<oVal.asTypes.length; i++) {
-					aoData.push( { name: "type", value: oVal.asTypes[i] } );
-				}
-				aoData.push( { name: "timeFormat", value: oVal.sTimeFormat} );
-				javasimon.TableService.fnGetDataAsJson(aoData, function(json) {
-					if (json.aaData === undefined) {
-						json = {
-							"aaData":json
-						};
+			document.oFilterCtrl.fnWithVal(
+				this, function(oVal) {
+					aoData.push( { name: "pattern", value: oVal.sPattern } );
+					for(var i=0; i<oVal.asTypes.length; i++) {
+						aoData.push( { name: "type", value: oVal.asTypes[i] } );
 					}
-					fnCallback(json);
-				});
-			}
+					aoData.push( { name: "timeFormat", value: oVal.sTimeFormat} );
+					javasimon.TableService.fnGetDataAsJson(aoData, function(json) {
+						if (!json.aaData) {
+							json = {aaData:json};
+						}
+						fnCallback(json);
+					});
+					// Couldn't find the how to get display length from data table
+					//oVal.iDataTableLength=this.oInstance.dataTableSettings._displayLength;
+				})
 		},
 		aoColumns: [
 			{sTitle:"Name", mDataProp: "name",bSearchable: true,sType:"string",sWidth: "40%"},
@@ -169,7 +169,6 @@ $(document).ready(function() {
                     <td>Time format</td>
                     <td>
                         <select id="timeFormatSelect" name="type">
-                            <option value=""></option>
                             <option value="SECOND">s</option>
                             <option value="MILLISECOND">ms</option>
                             <option value="MICROSECOND">&micro;s</option>
