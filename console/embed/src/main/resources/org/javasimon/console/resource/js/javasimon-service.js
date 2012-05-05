@@ -15,10 +15,10 @@ window.javasimon=javasimon;
 		fnResetAll: function(oData, fnAjaxCallback) {
 			if (window.confirm("Are you sure you want to reset all monitors?")) {
 				this.fnReset(oData, fnAjaxCallback);
-			}		
+			}
 		},
 		/**
-		* Reset one Simons. 
+		* Reset one Simons.
 		* @param sName {string} Simon name
 		* @param fnAjaxCallback {function} Callback
 		*/
@@ -26,7 +26,7 @@ window.javasimon=javasimon;
 			this.fnReset({name:sName}, fnAjaxCallback);
 		},
 		/**
-		* Reset one or more Simons. 
+		* Reset one or more Simons.
 		* @param oData {object} Filter
 		* @param fnAjaxCallback {function} Callback
 		*/
@@ -44,12 +44,12 @@ window.javasimon=javasimon;
 		* @param fnAjaxCallback {function} Callback
 		*/
 		fnClearAll: function(fnAjaxCallback) {
-			if (window.confirm("Are you sure you want to clear all monitors?")) {
+			if (window.confirm("Are you sure you want to clear the Manager? This will delete all the monitors.")) {
 				this.fnClear(fnAjaxCallback);
-			}		
+			}
 		},
 		/**
-		* Clear all Simons. 
+		* Clear all Simons.
 		* @param fnAjaxCallback {function} Callback
 		*/
 		fnClear: function(fnAjaxCallback) {
@@ -68,7 +68,7 @@ window.javasimon=javasimon;
 			}
 			if (oParam.asTypes) {
 				for(var i=0; i<oParam.asTypes.length; i++) {
-					lsUrl = lsUrl + "&type=" + oParam.asTypes[i];				
+					lsUrl = lsUrl + "&type=" + oParam.asTypes[i];
 				}
 			}
 			if (oParam.sTimeFormat) {
@@ -180,7 +180,7 @@ window.javasimon=javasimon;
 						}
 					}
 					if (asTypes.length>0) {
-						this.oSettings.asTypes=asTypes;				
+						this.oSettings.asTypes=asTypes;
 					}
 					// Time format
 					sTimeFormat=this.getConstant(undefined, asCookieValue[2]);
@@ -217,7 +217,7 @@ window.javasimon=javasimon;
 			sCookieValue=sCookieValue+",";
 			sCookieValuePart=this.getConstant(this.oSettings.sTimeFormat, undefined);
 			if (sCookieValuePart) {
-				sCookieValue=sCookieValue+sCookieValuePart;			
+				sCookieValue=sCookieValue+sCookieValuePart;
 			}
 			// Data table length
 			sCookieValue=sCookieValue+",";
