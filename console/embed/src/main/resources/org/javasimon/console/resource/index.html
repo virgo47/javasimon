@@ -38,7 +38,7 @@ $(document).ready(function() {
 			return false;
 		});
 	$('#clearAllButton')
-		.button({label:"Clear all", icons: {primary: "ui-icon-minus"}})
+		.button({label:"Clear all", icons: {primary: "ui-icon-circle-minus"}})
 		.click(function() {
 			javasimon.ClearService.fnClearAll(function() {
 				document.oDataTable.fnReloadAjax();
@@ -59,7 +59,7 @@ $(document).ready(function() {
 		iDisplayLength: javasimon.SettingsService.get("iDataTableLength"),
 		aLengthMenu: [[25, 50, 100, -1], [25, 50, 100, "All"]],
 		// Save parameter in cookie
-		bStateSave:true, 
+		bStateSave:true,
 		fnCookieCallback: function(sName, oData, sExpires, sPath) {
 			javasimon.SettingsService.set({iDataTableLength:oData.iLength});
 			return javasimon.SettingsService.save(document);
@@ -110,10 +110,10 @@ $(document).ready(function() {
 			{sTitle:"Min", mDataProp: "min",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric",asSorting: ["desc","asc" ] },
 			{sTitle:"Mean", mDataProp: "mean",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric",asSorting: ["desc","asc" ] },
 			{sTitle:"Max", mDataProp: "max",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric",asSorting: ["desc","asc" ] },
-			{sTitle:"Std Dev", mDataProp: "standardDeviation",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric" },
-			{sTitle:"Last", mDataProp: "last",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric",asSorting: ["desc","asc" ] },
-			{sTitle:"First Date", mDataProp: "firstUsage",bSearchable: false,sWidth: "10%",sClass:"numeric" },
-			{sTitle:"Last Date", mDataProp: "lastUsage",bSearchable: false,sWidth: "10%",sClass:"numeric",asSorting: ["desc","asc" ] },
+			{sTitle:"Std Dev", mDataProp: "standardDeviation",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric",asSorting: ["desc","asc" ] },
+			{sTitle:"Last Split", mDataProp: "last",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric",asSorting: ["desc","asc" ] },
+			{sTitle:"First Usage", mDataProp: "firstUsage",bSearchable: false,sWidth: "10%",sClass:"numeric" },
+			{sTitle:"Last Usage", mDataProp: "lastUsage",bSearchable: false,sWidth: "10%",sClass:"numeric",asSorting: ["desc","asc" ] },
 			{sTitle:"", mDataProp: "type",sWidth: "5%" ,sType:"string",bUseRendered:false,bSortable:false,sClass:"footCell",
 				fnRender:function(oObject) {
 					var sName=oObject.aData["name"];
@@ -121,6 +121,7 @@ $(document).ready(function() {
 					if (sName) {
 						sResult="<img src=\"resource/images/Reset.png\" "
 							+"class=\"icon clickable\" "
+							+"title=\"Reset Simon values\" "
 							+"alt=\"Reset\" "
 							+"onclick=\"document.oDataTable.fnReset('"+sName+"');return false;\" "
 							+"/>";
@@ -129,7 +130,7 @@ $(document).ready(function() {
 				}
 			}
 		],
-		aaSorting: [[ 3, "desc" ]]
+		aaSorting: [[ 0, "asc" ]]
 	} );
 	oDataTable.fnToggleNoteColumnVis=function() {
 		var bNoteColumnVis = this.fnSettings().aoColumns[1].bVisible;
@@ -163,7 +164,7 @@ $(document).ready(function() {
                     <td>Pattern</td>
                     <td colspan="3">
 			    <input id="patternText" name="pattern" type="text" size="64"/>
-			    <div id="patternHelp" class="hidden">Allowed patterns: 
+			    <div id="patternHelp" class="hidden">Allowed patterns:
 				    <ul>
 					    <li><em>*abcd</em> end with abcd,</li>
 					    <li><em>abcd*</em> start with abcd,</li>

@@ -11,6 +11,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
 import org.javasimon.Sample;
 import org.javasimon.Simon;
 import org.javasimon.console.*;
@@ -30,15 +31,16 @@ public abstract class AbstractXmlAction extends Action {
 	protected AbstractXmlAction(ActionContext context) {
 		super(context);
 	}
+
 	protected final StringifierFactory stringifierFactory = new StringifierFactory();
 
 	@Override
 	public void readParameters() {
-		final TimeFormatType timeFormat=getContext().getParameterAsEnum("timeFormat", TimeFormatType.class, TimeFormatType.MILLISECOND);
-		stringifierFactory.init(timeFormat, 
+		final TimeFormatType timeFormat = getContext().getParameterAsEnum("timeFormat", TimeFormatType.class, TimeFormatType.MILLISECOND);
+		stringifierFactory.init(timeFormat,
 			StringifierFactory.ISO_DATE_PATTERN,
 			StringifierFactory.READABLE_NUMBER_PATTERN
-			);
+		);
 	}
 
 	/**
@@ -50,38 +52,38 @@ public abstract class AbstractXmlAction extends Action {
 	@SuppressWarnings("unchecked")
 	protected Element createElement(Document document, Simon simon) {
 		// Simon type is used as element name
-		Sample sample=simon.sample();
+		Sample sample = simon.sample();
 		SimonType lType = SimonType.getValueFromInstance(sample);
 		Element element = document.createElement(lType.name().toLowerCase());
 		// Only to have the name as first attribute
-		element.setAttribute("name", sample.getName()); 
+		element.setAttribute("name", sample.getName());
 		// Export properties using reflection
 		for (Getter getter : Getter.getGetters(sample.getClass())) {
 			Object propertyValue = getter.get(sample);
-			if (propertyValue!=null) {
-				Stringifier propertyStringifier=stringifierFactory
+			if (propertyValue != null) {
+				Stringifier propertyStringifier = stringifierFactory
 					.getStringifier(getter.getType(), getter.getSubType());
-				if (propertyStringifier!=null) {
-					element.setAttribute( getter.getName(), propertyStringifier.toString(propertyValue));
+				if (propertyStringifier != null) {
+					element.setAttribute(getter.getName(), propertyStringifier.toString(propertyValue));
 				}
 			}
 		}
 		// Export attribute map
-		Iterator<String> attributeNameIter=simon.getAttributeNames();
-		while(attributeNameIter.hasNext()) {
-			String attributeName=attributeNameIter.next();
-			Object attributeValue=simon.getAttribute(attributeName);
-			if (attributeValue!=null) {
-				Stringifier attributeStringifier=stringifierFactory
+		Iterator<String> attributeNameIter = simon.getAttributeNames();
+		while (attributeNameIter.hasNext()) {
+			String attributeName = attributeNameIter.next();
+			Object attributeValue = simon.getAttribute(attributeName);
+			if (attributeValue != null) {
+				Stringifier attributeStringifier = stringifierFactory
 					.getStringifier(attributeValue.getClass());
-				if (attributeStringifier!=null) {
+				if (attributeStringifier != null) {
 					Element attributeElt = document.createElement("attribute");
 					attributeElt.setAttribute("name", attributeName);
 					attributeElt.setAttribute("value", attributeStringifier.toString(attributeValue));
 					element.appendChild(attributeElt);
 				}
 			}
-			
+
 		}
 		return element;
 
