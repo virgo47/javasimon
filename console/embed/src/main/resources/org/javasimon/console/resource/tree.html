@@ -25,7 +25,7 @@ $(document).ready(function() {
 			return false;
 		});
 	$('#clearAllButton')
-		.button({label:"Clear all", icons: {primary: "ui-icon-minus"}})
+		.button({label:"Clear all", icons: {primary: "ui-icon-circle-minus"}})
 		.click(function() {
 			javasimon.ClearService.fnClearAll(function() {
 				document.oDataTreeTable.fnReloadAjax();
@@ -36,12 +36,12 @@ $(document).ready(function() {
 		.button({label:"XML",icons: {primary: "ui-icon-script"}})
 		.click(function() {
 			javasimon.TreeService.fnGetDataAsXml({});
-			return false; 
+			return false;
 		});
 	var eTable=document.getElementById('dataTreeTable');
 	var oDataTreeTable=new javasimon.DataTreeTable(eTable,{
 			aoColumns:[
-				{sTitle:"Name",		sField:"name", 		sClass:'string', 
+				{sTitle:"Name",		sField:"name", 		sClass:'string',
 					oImages: {
 						"unknown":"resource/images/TypeUnknown.png",
 						"counter":"resource/images/TypeCounter.png",
@@ -68,7 +68,7 @@ $(document).ready(function() {
 									sValue=sValue.substring(1);
 								}
 							}
-						}		
+						}
 						if (sValue==="") {
 							sValue="-";
 						}
@@ -85,7 +85,7 @@ $(document).ready(function() {
 				{sTitle:"Last",		sField:"last",		sClass:"number" },
 				{sTitle:"First Date",	sField:"firstUsage",	sClass:"date" },
 				{sTitle:"Last Date",	sField:"lastUsage",	sClass:"date"  },
-				{sTitle:"",		sField:"name", 		sClass:'string', 
+				{sTitle:"",		sField:"name", 		sClass:'string',
 					fnRender:function(oNode, eCell, oDataTreeTable) {
 						var sName=oNode.oData[this.sField];
 						var domUtil=javasimon.DOMUtil;
@@ -93,7 +93,8 @@ $(document).ready(function() {
 						if (sName) {
 							eImg=domUtil.fnAppendChildElement(eCell, "img");
 							eImg.setAttribute("src","resource/images/Reset.png");
-							eImg.setAttribute("alt","Reset");
+	                        eImg.setAttribute("alt","Reset");
+	                        eImg.setAttribute("title","Reset Simon values");
 							eImg.onclick=function() {
 								javasimon.ResetService.fnResetOne(sName, function() {
 									document.oDataTreeTable.fnReloadAjax();
@@ -101,7 +102,7 @@ $(document).ready(function() {
 								return false;
 							};
 							domUtil.fnSetClasses(eImg, ["icon","clickable"]);
-						}		
+						}
 						domUtil.fnAppendClass(eCell, "footCell");
 					}
 				}
@@ -109,10 +110,10 @@ $(document).ready(function() {
 		}
 	);
 	oDataTreeTable.fnReloadAjax=function() {
-		javasimon.TreeService.fnGetDataAsJson({}, 
+		javasimon.TreeService.fnGetDataAsJson({},
 			function(oData) {
 				var oDataTreeTable=document.oDataTreeTable;
-/* Data for testing purposes 
+/* Data for testing purposes
 				var oData={id:0,name:"",type:"unknown",children:[
 					{id:1,name:"Child 1",type:"unknown",children:[
 						{id:11,name:"Child 1.1",type:"stopwatch",children:[],counter:1},
@@ -123,7 +124,7 @@ $(document).ready(function() {
 						{id:21,name:"Child 2.2",type:"counter",children:[],counter:5},
 					]},
 				]};
-*/	
+*/
 				oDataTreeTable.fnSetRootData(oData);
 				oDataTreeTable.fnDraw();
 			});
@@ -131,7 +132,7 @@ $(document).ready(function() {
 	oDataTreeTable.fnDrawHeader();
 	oDataTreeTable.fnReloadAjax();
 	document.oDataTreeTable=oDataTreeTable;
-} );   
+} );
         </script>
     </head>
     <body>
@@ -151,7 +152,7 @@ $(document).ready(function() {
 	    <div id="data">
 		    <div class="fg-toolbar ui-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix" style="height:20px;"></div>
 		    <table id="dataTreeTable" class="dataTreeTable">
-			    
+
 		    </table>
 		    <div class="fg-toolbar ui-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix" style="height:20px;"></div>
 	    </div>
