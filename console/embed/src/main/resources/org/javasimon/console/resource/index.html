@@ -37,6 +37,14 @@ $(document).ready(function() {
 			});
 			return false;
 		});
+	$('#clearAllButton')
+		.button({label:"Clear all", icons: {primary: "ui-icon-minus"}})
+		.click(function() {
+			javasimon.ClearService.fnClearAll(function() {
+				document.oDataTable.fnReloadAjax();
+			});
+			return false;
+		});
 	$('#csvButton')
 		.button({label:"CSV", icons: {primary: "ui-icon-calculator"}})
 		.click(function() {document.oFilterCtrl.fnExportCsv(); return false; });
@@ -181,6 +189,7 @@ $(document).ready(function() {
                 <button id="filterButton" name="filterButton">Filter</button>
                 <button id="noteButton" name="noteButton">Note</button>
                 <button id="resetAllButton" name="resetAllButton">Reset all</button>
+                <button id="clearAllButton" name="clearAllButton">Clear all</button>
                 <span id="exportSpan">Export:</span>
                 <button id="csvButton" name="csvButton">CSV</button>
                 <button id="htmlButton" name="htmlButton">HTML</button>

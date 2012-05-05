@@ -35,6 +35,28 @@ window.javasimon=javasimon;
 		}
 	};
 	/**
+	* Service to clear Simons through Ajax HTTP requests
+	*/
+	ns.ClearService={
+		sUrl:"data/clear",
+		/**
+		* Clear all simons. A confirmation dialog appears before.
+		* @param fnAjaxCallback {function} Callback
+		*/
+		fnClearAll: function(fnAjaxCallback) {
+			if (window.confirm("Are you sure you want to clear all monitors?")) {
+				this.fnClear(fnAjaxCallback);
+			}		
+		},
+		/**
+		* Clear all Simons. 
+		* @param fnAjaxCallback {function} Callback
+		*/
+		fnClear: function(fnAjaxCallback) {
+			$.post(this.sUrl, {}, fnAjaxCallback);
+		}
+	};
+	/**
 	* Service to get Simon data as flat list through Ajax HTTP requests
 	*/
 	ns.TableService={
