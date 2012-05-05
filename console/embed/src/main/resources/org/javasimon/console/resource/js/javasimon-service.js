@@ -225,7 +225,9 @@ window.javasimon=javasimon;
 				sCookieValue=sCookieValue+this.oSettings.iDataTableLength;
 			}
 			// Write cookie
-			oDocument.cookie = "JSimon="+sCookieValue+"; expires="+dCookieExpire.toGMTString()+"; path=/";
+			sCookieValue = "JSimon="+sCookieValue+"; expires="+dCookieExpire.toGMTString()+"; path=/";
+			oDocument.cookie=sCookieValue;
+			return sCookieValue;
 		},
 		/**
 		* Set some settings

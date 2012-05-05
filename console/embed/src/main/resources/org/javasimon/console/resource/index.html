@@ -55,8 +55,15 @@ $(document).ready(function() {
 		bJQueryUI: true,
 		bProcessing: true,
 		bAutoWidth:false,
+		// Length menu
 		iDisplayLength: javasimon.SettingsService.get("iDataTableLength"),
 		aLengthMenu: [[25, 50, 100, -1], [25, 50, 100, "All"]],
+		// Save parameter in cookie
+		bStateSave:true, 
+		fnCookieCallback: function(sName, oData, sExpires, sPath) {
+			javasimon.SettingsService.set({iDataTableLength:oData.iLength});
+			return javasimon.SettingsService.save(document);
+		},
 		sAjaxSource: 'data/table.json',
 		fnServerData: function( sUrl, aoData, fnCallback ) {
 			document.oFilterCtrl.fnWithVal(
@@ -72,8 +79,6 @@ $(document).ready(function() {
 						}
 						fnCallback(json);
 					});
-					// Couldn't find the how to get display length from data table
-					//oVal.iDataTableLength=this.oInstance.dataTableSettings._displayLength;
 				})
 		},
 		aoColumns: [
