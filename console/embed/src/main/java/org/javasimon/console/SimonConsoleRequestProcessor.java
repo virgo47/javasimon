@@ -1,13 +1,12 @@
 package org.javasimon.console;
 
-import org.javasimon.console.action.*;
-
+import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import org.javasimon.Manager;
 import org.javasimon.SimonManager;
+import org.javasimon.console.action.*;
 
 /**
  * Common part processing the request for {@link SimonConsoleServlet} or {@link SimonConsoleFilter}.
@@ -81,6 +80,8 @@ class SimonConsoleRequestProcessor {
 				action = new TreeXmlAction(actionContext);
 			} else if (path.equals(ResetAction.PATH)) {
 				action = new ResetAction(actionContext);
+			} else if (path.equals(ClearAction.PATH)) {
+				action = new ClearAction(actionContext);
 			} else {
 				throw new ActionException("No action for path " + path);
 			}

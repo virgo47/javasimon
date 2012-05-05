@@ -24,6 +24,14 @@ $(document).ready(function() {
 			});
 			return false;
 		});
+	$('#clearAllButton')
+		.button({label:"Clear all", icons: {primary: "ui-icon-minus"}})
+		.click(function() {
+			javasimon.ClearService.fnClearAll(function() {
+				document.oDataTreeTable.fnReloadAjax();
+			});
+			return false;
+		});
 	$('#xmlButton')
 		.button({label:"XML",icons: {primary: "ui-icon-script"}})
 		.click(function() {
@@ -135,6 +143,7 @@ $(document).ready(function() {
 		    <div class="filterButtons fg-toolbar ui-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-corner-bl ui-corner-br ui-helper-clearfix">
 			    <button id="refreshButton" name="refreshButton">Refresh</button>
 			    <button id="resetAllButton" name="resetAllButton">Reset all</button>
+			    <button id="clearAllButton" name="clearAllButton">Clear all</button>
 			    <span id="exportSpan">Export:</span>
 			    <button id="xmlButton" name="xmlButton">XML</button>
 		    </div>
