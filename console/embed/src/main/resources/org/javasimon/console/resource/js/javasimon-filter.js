@@ -6,15 +6,25 @@ window.javasimon=javasimon;
  */
 javasimon.FilterController=function(
 		oPatternText, oPatternHelp, 
-		oStopwatchTypeCheck,oCounterTypeCheck,oUnknownTypeCheck,
+		oStopwatchTypeCheck,oCounterTypeCheck,oUnknownTypeCheck,oTypeChecks,
 		oTimeFormatSelect) {
 	this.oPatternText=oPatternText;
+	var ctrl=this;
+	var fnFilterFunc=function() {
+		ctrl.fnFilter();
+	}
+	$(this.oPatternText).blur(fnFilterFunc);
 	this.oPatternHelp=oPatternHelp;
 	this.oStopwatchTypeCheck=oStopwatchTypeCheck;
 	this.oCounterTypeCheck=oCounterTypeCheck;
 	this.oUnknownTypeCheck=oUnknownTypeCheck;
-	this.oTypeChecks=[oStopwatchTypeCheck,oCounterTypeCheck,oUnknownTypeCheck];
+	this.oTypeChecks=oTypeChecks;
+	this.aoTypeChecks=[oStopwatchTypeCheck,oCounterTypeCheck,oUnknownTypeCheck];
+	for(var i=0;i<this.aoTypeChecks.length;i++) {
+		$(this.aoTypeChecks[i]).change(fnFilterFunc);
+	}
 	this.oTimeFormatSelect=oTimeFormatSelect;
+	$(this.oTimeFormatSelect).change(fnFilterFunc);
 };
 javasimon.FilterController.prototype={
 	fnSetValFromUrlParams:function() {
@@ -46,9 +56,12 @@ javasimon.FilterController.prototype={
 		}
 		this.oTimeFormatSelect.val(oVal.sTimeFormat||"");
 	},
+	fnIsTypeChecked:function(iTypeIndex) {
+		return ($(this.aoTypeChecks[iTypeIndex]).attr("checked")==="checked");
+	},
 	fnSetTypeChecks:function(asTypes) {
-		for(var i=0;i<this.oTypeChecks.length;i++) {
-			this.oTypeChecks[i].attr("checked",$.inArray(this.oTypeChecks[i].val(), asTypes)>=0);
+		for(var i=0;i<this.aoTypeChecks.length;i++) {
+			this.aoTypeChecks[i].attr("checked",($.inArray(this.aoTypeChecks[i].val(), asTypes)<0)?undefined:"checked");
 		}
 	},
 	fnResetTypeChecks:function() {
@@ -57,9 +70,9 @@ javasimon.FilterController.prototype={
 	fnGetVal:function() {
 		var sPattern=this.oPatternText.val();
 		var asTypes=[];
-		for(var i=0;i<this.oTypeChecks.length;i++) {
-			if (this.oTypeChecks[i].attr("checked")) {
-				asTypes.push(this.oTypeChecks[i].val());
+		for(var i=0;i<this.aoTypeChecks.length;i++) {
+			if (this.fnIsTypeChecked(i)) {
+				asTypes.push(this.aoTypeChecks[i].val());
 			}
 		}
 		var sTimeFormat=this.oTimeFormatSelect.val();
@@ -73,29 +86,28 @@ javasimon.FilterController.prototype={
 		new RegExp("^[\\*]?[-_\\[\\]A-Za-z0-9.,@$%()<>]+[\\*]?$"),
 		new RegExp("^[-_\\[\\]A-Za-z0-9.,@$%()<>]+[\\*]?[-_\\[\\]A-Za-z0-9.,@$%()<>]+$")
 	],
+	fnSetElementClass: function(oElement, sClass, bEnabled) {
+		if (bEnabled) {
+			$(oElement).addClass(sClass);
+		} else {
+			$(oElement).removeClass(sClass);
+		}
+	},
 	fnValidate:function() {
+		// Check pattern
 		var sPattern=this.oPatternText.val();
 		var bPatternValid=!sPattern // Empty or undefined is OK
 			||this.arePattern[0].test(sPattern) // Starting and/or ending with *
 			||this.arePattern[1].test(sPattern); // Containing single *
+		this.fnSetElementClass(this.oPatternText, "error", !bPatternValid);
+		this.fnSetElementClass(this.oPatternHelp, "hidden", bPatternValid);
+		// Check type
 		var bTypeValid=false;
-		if (bPatternValid) {
-			// Valid pattern
-			$(this.oPatternText).removeClass("error");
-			$(this.oPatternHelp).addClass("hidden");
-		} else {
-			// Invalid pattern
-			$(this.oPatternText).addClass("error");
-			$(this.oPatternHelp).removeClass("hidden");
-		}
-		// At least one type
-		for(var i=0; i<this.oTypeChecks.length && !bTypeValid; i++) {
-			bTypeValid=this.oTypeChecks[i].attr("checked");
+		for(var i=0; i<this.aoTypeChecks.length; i++) {
+			bTypeValid = bTypeValid || this.fnIsTypeChecked(i);
 		}		
-		if (!bTypeValid) {
-			this.fnResetTypeChecks();
-		}
-		return bPatternValid;
+		this.fnSetElementClass(this.oTypeChecks, "error", !bTypeValid);
+		return bPatternValid&&bTypeValid;
 	},
 	fnWithVal:function(oCallbackContext, fnCallback) {
 		var oVal;
@@ -105,6 +117,12 @@ javasimon.FilterController.prototype={
 			javasimon.SettingsService.set(oVal);
 			javasimon.SettingsService.save(document);
 		}
+	},
+	fnFilter:function() {
+		this.fnWithVal(
+			this, function(oVal){
+				this.oDataTable.fnReloadAjax();
+			});
 	},
 	fnExportCsv:function() {
 		this.fnWithVal(
