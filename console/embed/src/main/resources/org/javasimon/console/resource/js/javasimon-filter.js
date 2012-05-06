@@ -5,7 +5,7 @@ window.javasimon=javasimon;
  * Filter controller
  */
 javasimon.FilterController=function(
-		oPatternText, oPatternHelp, 
+		oPatternText, oPatternHelp,
 		oStopwatchTypeCheck,oCounterTypeCheck,oUnknownTypeCheck,oTypeChecks,
 		oTimeFormatSelect) {
 	this.oPatternText=oPatternText;
@@ -43,7 +43,7 @@ javasimon.FilterController.prototype={
 		}
 		this.fnSetVal({
 			sPattern:$(document).getUrlParam('pattern'),
-			asTypes:types,  
+			asTypes:types,
 			sTimeFormat:  timeFormat
 		});
 	},
@@ -83,8 +83,8 @@ javasimon.FilterController.prototype={
 		};
 	},
 	arePattern:[
-		new RegExp("^[\\*]?[-_\\[\\]A-Za-z0-9.,@$%()<>]+[\\*]?$"),
-		new RegExp("^[-_\\[\\]A-Za-z0-9.,@$%()<>]+[\\*]?[-_\\[\\]A-Za-z0-9.,@$%()<>]+$")
+		new RegExp("^\\*?[-_\\[\\]A-Za-z0-9.,@$%()<>]+\\*?$"),
+		new RegExp("^[-_\\[\\]A-Za-z0-9.,@$%()<>]?\\*?[-_\\[\\]A-Za-z0-9.,@$%()<>]?$")
 	],
 	fnSetElementClass: function(oElement, sClass, bEnabled) {
 		if (bEnabled) {
@@ -105,7 +105,7 @@ javasimon.FilterController.prototype={
 		var bTypeValid=false;
 		for(var i=0; i<this.aoTypeChecks.length; i++) {
 			bTypeValid = bTypeValid || this.fnIsTypeChecked(i);
-		}		
+		}
 		this.fnSetElementClass(this.oTypeChecks, "error", !bTypeValid);
 		return bPatternValid&&bTypeValid;
 	},
