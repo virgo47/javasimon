@@ -169,10 +169,12 @@ $(document).ready(function() {
 			    <input id="patternText" name="pattern" type="text" size="64"/>
 			    <div id="patternHelp" class="hidden">Allowed patterns:
 				    <ul>
-					    <li><em>*abcd</em> end with abcd,</li>
-					    <li><em>abcd*</em> start with abcd,</li>
-					    <li><em>*abcd*</em> contains abcd,</li>
-					    <li><em>ab*cd</em> start with ab and end with cd</li>
+					    <li><em>abcd</em> must match exactly abcd,</li>
+					    <li><em>*</em> matches anything (the same like empty pattern),</li>
+					    <li><em>*abcd</em> must end with abcd,</li>
+					    <li><em>abcd*</em> must start with abcd,</li>
+					    <li><em>*abcd*</em> must contains abcd,</li>
+					    <li><em>ab*cd</em> must start with ab and end with cd</li>
 				    </ul>
 			    </div></td>
                 </tr>

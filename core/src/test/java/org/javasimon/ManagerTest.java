@@ -1,4 +1,4 @@
-package org.javasimon;
+ package org.javasimon;
 
 import org.javasimon.callback.CallbackSkeleton;
 import org.testng.annotations.Test;
@@ -14,7 +14,7 @@ import java.util.LinkedList;
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
-public final class ManagerTestNG {
+public final class ManagerTest {
 	private static final int FRESH_MANAGER_SIMON_LIST_SIZE = 1;
 	private static final int SIMON_COUNT_AFTER_COUNTER_ADDED = 5;
 

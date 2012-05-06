@@ -13,7 +13,7 @@ import java.util.Arrays;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @since 2.4
  */
-public final class SqlNormalizerTestNG {
+public final class SqlNormalizerTest {
 	@DataProvider(name = "dp1")
 	public Object[][] createTestData() {
 		return new Object[][] {

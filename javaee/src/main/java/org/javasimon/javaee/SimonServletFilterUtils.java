@@ -21,24 +21,20 @@ public class SimonServletFilterUtils {
 	private static final Replacer TO_DOT_PATTERN = new Replacer("[/.]+", ".");
 
 	/**
-	 * Creates new replacer for unallowed characters in the URL.
-	 *
+	 * Creates new replacer for unallowed characters in the URL. This inverts character group for name pattern
+	 * ({@link SimonUtils#NAME_PATTERN_CHAR_CLASS_CONTENT}) and replaces its dot with slash too (dots are to be
+	 * replaced, slashs preserved in this step of URL processing).
 	 *
 	 * @param replacement replacement string (for every unallowed character)
 	 * @return compiled pattern matching characters to remove from the URL
 	 */
 	public static Replacer createUnallowedCharsReplacer(String replacement) {
-		StringBuilder sb = new StringBuilder(SimonUtils.NAME_PATTERN.pattern());
-		sb.insert(1, '^'); // negates the whole character group ("whatever is not allowed character")
-		sb.insert(3, '/'); // adds / *behind* -
-		sb.deleteCharAt(sb.indexOf(".")); // don't spare dots either (not allowed for URL)
-		return new Replacer(sb.toString(), replacement);
+		return new Replacer("[^" + SimonUtils.NAME_PATTERN_CHAR_CLASS_CONTENT.replace('.', '/') + "]+", replacement);
 	}
 
 	/**
 	 * Returns Simon name for the specified request (local name without any configured prefix). By default dots and all non-simon-name
 	 * compliant characters are removed first, then all slashes are switched to dots (repeating slashes make one dot).
-	 *
 	 *
 	 * @param uri request URI
 	 * @param unallowedCharacterReplacer replacer for characters that are not allowed in Simon name

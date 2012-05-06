@@ -14,11 +14,11 @@ import java.io.StringReader;
 import java.util.logging.Level;
 
 /**
- * ConfigurationTestNG tests the configuration facility.
+ * Tests for the configuration facility (callbacks, {@link ManagerConfiguration}).
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
-public final class ConfigurationTestNG {
+public final class ConfigurationTest {
 	@Test
 	public void testConfigResource() throws IOException {
 		SimonManager.callback().removeAllCallbacks();

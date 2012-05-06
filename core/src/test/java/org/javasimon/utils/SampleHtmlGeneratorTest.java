@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Unit test of {@link SampleHtmlGenerator}.
  */
-public class SampleHtmlGeneratorTestNG {
+public class SampleHtmlGeneratorTest {
 	@Test
 	public void testSamplesToHtmlTable() throws Exception {
 		SampleHtmlGenerator.setLineSeparator("\r\n"); // in case it runs on Unix/Linux
@@ -83,7 +83,7 @@ public class SampleHtmlGeneratorTestNG {
 
 	@SuppressWarnings("ResultOfMethodCallIgnored")
 	private static String resourceAsString(String resourceName) throws IOException, URISyntaxException {
-		File file = new File(SampleHtmlGeneratorTestNG.class.getResource(resourceName).toURI());
+		File file = new File(SampleHtmlGeneratorTest.class.getResource(resourceName).toURI());
 		byte[] buffer = new byte[(int) file.length()];
 		FileInputStream f = new FileInputStream(file);
 		f.read(buffer);

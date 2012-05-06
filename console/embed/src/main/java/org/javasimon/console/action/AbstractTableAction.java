@@ -1,13 +1,14 @@
 package org.javasimon.console.action;
 
 import org.javasimon.console.reflect.Getter;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 import javax.servlet.ServletException;
+
 import org.javasimon.Sample;
 import org.javasimon.Simon;
 import org.javasimon.console.*;
@@ -18,16 +19,16 @@ import org.javasimon.console.text.StringifierFactory;
  * Base class for exporting Simons as tabular data
  * The following methods a called during rendering and can be overriden
  * <ul>
- *	<li>{@link #printTable }: <ul>
- *		<li>{@link #printHeaderRow}: <ul>
- *			<li>{@link #printHeaderCell} : {@link #printCell} </li> 
- *		</ul></li>
- *		<li>{@link #printBody}: <ul>
- *			<li>{@link #printBodyRow}: <ul>
- *				<li>{@link #printBodyCell} : {@link #printCell} </li> 
- *			</ul></li>
- *		</ul></li>
- *	</ul></li>
+ * <li>{@link #printTable }: <ul>
+ * <li>{@link #printHeaderRow}: <ul>
+ * <li>{@link #printHeaderCell} : {@link #printCell} </li>
+ * </ul></li>
+ * <li>{@link #printBody}: <ul>
+ * <li>{@link #printBodyRow}: <ul>
+ * <li>{@link #printBodyCell} : {@link #printCell} </li>
+ * </ul></li>
+ * </ul></li>
+ * </ul></li>
  * </ul>
  *
  * @author gquintana
@@ -38,26 +39,32 @@ public class AbstractTableAction extends Action {
 	 * Value formatter
 	 */
 	protected StringifierFactory stringifierFactory;
+
 	/**
 	 * Pattern for Simon name filtering
 	 */
 	private String pattern;
+
 	/**
 	 * Types for Simon type filtering
 	 */
 	private Set<SimonType> types;
+
 	/**
 	 * Column list in response
 	 */
 	private List<Column> columns = new ArrayList<Column>();
+
 	/**
 	 * Content type of response
 	 */
 	protected final String contentType;
+
 	/**
 	 * Decimal format pattern used for printing doubles
 	 */
-	protected String numberPattern=StringifierFactory.READABLE_NUMBER_PATTERN;
+	protected String numberPattern = StringifierFactory.READABLE_NUMBER_PATTERN;
+
 	/**
 	 * Base constructor initialiszes columns list
 	 */
@@ -67,18 +74,21 @@ public class AbstractTableAction extends Action {
 		columns.add(new Column<String>("Name", "name"));
 		columns.add(new Column<SimonType>("Type", "type") {
 			private Stringifier<SimonType> stringifier;
+
 			@Override
 			public SimonType getValue(Object object) {
 				return SimonType.getValueFromInstance((Sample) object);
 			}
+
 			@Override
 			public String getFormattedValue(Object object) {
 				return getStringifier(object).toString(getValue(object));
 			}
+
 			@Override
 			public Stringifier<SimonType> getStringifier(Object object) {
-				if (stringifier==null) {
-					stringifier=stringifierFactory.getStringifier(SimonType.class);
+				if (stringifier == null) {
+					stringifier = stringifierFactory.getStringifier(SimonType.class);
 				}
 				return stringifier;
 			}
@@ -106,8 +116,8 @@ public class AbstractTableAction extends Action {
 
 	@Override
 	public void readParameters() {
-		TimeFormatType timeFormat=getContext().getParameterAsEnum("timeFormat", TimeFormatType.class, TimeFormatType.MILLISECOND);
-		stringifierFactory.init(timeFormat, 
+		TimeFormatType timeFormat = getContext().getParameterAsEnum("timeFormat", TimeFormatType.class, TimeFormatType.MILLISECOND);
+		stringifierFactory.init(timeFormat,
 			StringifierFactory.READABLE_DATE_PATTERN,
 			numberPattern);
 		pattern = getContext().getParameterAsString("pattern", null);
@@ -136,6 +146,7 @@ public class AbstractTableAction extends Action {
 	protected void printBodyRow(Simon simon, PrintWriter writer) throws IOException {
 		printBodyRow(simon.sample(), writer);
 	}
+
 	protected void printBodyRow(Sample sample, PrintWriter writer) throws IOException {
 		for (Column column : columns) {
 			printBodyCell(column, sample, writer);
@@ -178,8 +189,9 @@ public class AbstractTableAction extends Action {
 			printBodyRow(simon, writer);
 		}
 	}
+
 	/**
-	 * Columns 
+	 * Columns
 	 */
 	protected class Column<T> {
 		/**
@@ -195,20 +207,24 @@ public class AbstractTableAction extends Action {
 			this.title = title;
 			this.name = name;
 		}
+
 		/**
 		 * Get column property name
 		 */
 		public String getName() {
 			return name;
 		}
+
 		/**
 		 * Get column property title/header
 		 */
 		public String getTitle() {
 			return title;
 		}
+
 		/**
 		 * Get Getter for given column and row (simon)
+		 *
 		 * @param object Simon row
 		 * @return Getter
 		 */
@@ -216,6 +232,7 @@ public class AbstractTableAction extends Action {
 		private Getter<T> getGetter(Object object) {
 			return Getter.getGetter(object.getClass(), name);
 		}
+
 		/**
 		 * Get raw column value
 		 */
@@ -223,25 +240,28 @@ public class AbstractTableAction extends Action {
 			Getter<T> getter = getGetter(object);
 			return getter == null ? null : getter.get(object);
 		}
+
 		/**
 		 * Get stringier used for given column and row
+		 *
 		 * @param object Row (simon)
 		 * @return Stringifier
 		 */
 		public Stringifier<T> getStringifier(Object object) {
 			Getter<T> getter = getGetter(object);
-			if (getter==null) {
+			if (getter == null) {
 				return stringifierFactory.getNullStringifier();
 			} else {
 				return stringifierFactory.getStringifier(getter.getType(), getter.getSubType());
-			}			
+			}
 		}
+
 		/**
 		 * Get formatted column value
 		 */
 		public String getFormattedValue(Object object) {
 			Getter<T> getter = getGetter(object);
-			if (getter==null) {
+			if (getter == null) {
 				return stringifierFactory.toString(null);
 			} else {
 				return stringifierFactory.toString(getter.get(object), getter.getSubType());
