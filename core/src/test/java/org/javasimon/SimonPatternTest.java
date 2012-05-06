@@ -92,4 +92,9 @@ public final class SimonPatternTest {
 		Assert.assertFalse(simonPattern.matches(""));
 		Assert.assertFalse(simonPattern.matches("something.else"));
 	}
+
+	@Test(expectedExceptions = SimonException.class, expectedExceptionsMessageRegExp = "Invalid Simon pattern: \\*\\*")
+	public void testDoubleWildcard() {
+		SimonPattern.create("**");
+	}
 }
