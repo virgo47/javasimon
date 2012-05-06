@@ -63,7 +63,7 @@ javasimon.DOMUtil={
 	}
 };
 javasimon.ObjectUtil={
-	fnMerge:function (oTarget, oSource, bRecurse) {
+	fnMerge:function(oTarget, oSource, bRecurse) {
 		var tSourceProp,tTargetProp;
 		for (var sProp in oSource) {
 			if (bRecurse && typeof oTarget[sProp]==='object' && typeof oSource[sProp]==='object') {
@@ -105,7 +105,7 @@ javasimon.DataTreeTable=function(eTable, oSettings) {
 		this.oSettings=javasimon.ObjectUtil.fnMerge(this.oSettings, oSettings, true);	
 	}
 	// Default cell rendering function
-	function fnRenderDefault(oNode,eCell,oDataTreeTable) {
+	var fnRenderDefault =function(oNode,eCell,oDataTreeTable) {
 		var sFieldValue=oNode.oData[this.sField];
 		if (sFieldValue) {
 			javasimon.DOMUtil.fnAppendChildText(eCell, sFieldValue);
@@ -294,7 +294,7 @@ javasimon.DataTreeTable.prototype={
 		}
 	},
 	fnFindNodeByHtmlId:function(sHtmlId) {
-		function fnTestNodeByHtmlId(oNode, oContext) {
+		var fnTestNodeByHtmlId=function(oNode, oContext) {
 			if (oNode.sHtmlId===oContext.sHtmlId) {
 				return oNode;
 			} else {

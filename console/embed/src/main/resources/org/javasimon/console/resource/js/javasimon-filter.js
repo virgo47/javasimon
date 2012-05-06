@@ -12,7 +12,7 @@ javasimon.FilterController=function(
 	var ctrl=this;
 	var fnFilterFunc=function() {
 		ctrl.fnFilter();
-	}
+	};
 	$(this.oPatternText).blur(fnFilterFunc);
 	this.oPatternHelp=oPatternHelp;
 	this.oStopwatchTypeCheck=oStopwatchTypeCheck;
