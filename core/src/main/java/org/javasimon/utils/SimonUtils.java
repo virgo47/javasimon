@@ -60,9 +60,14 @@ public final class SimonUtils {
 	public static final long NANOS_IN_MILLIS = 1000000;
 
 	/**
+	 * Regex character class content for {@link #NAME_PATTERN}.
+	 */
+	public static final String NAME_PATTERN_CHAR_CLASS_CONTENT = "-_\\[\\]A-Za-z0-9.,@$%()<>";
+
+	/**
 	 * Regex pattern for Simon names.
 	 */
-	public static final Pattern NAME_PATTERN = Pattern.compile("[-_\\[\\]A-Za-z0-9.,@$%()<>]+");
+	public static final Pattern NAME_PATTERN = Pattern.compile("[" + NAME_PATTERN_CHAR_CLASS_CONTENT + "]*");
 
 	/**
 	 * Allowed Simon name characters.

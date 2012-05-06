@@ -5,11 +5,11 @@ import org.testng.annotations.Test;
 import org.testng.Assert;
 
 /**
- * CounterTestNG.
+ * Tests for {@link Counter}.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
-public final class CounterTestNG {
+public final class CounterTest {
 	private static final String COUNTER_NAME = "org.javasimon.test-counter";
 
 	@BeforeMethod

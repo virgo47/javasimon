@@ -7,11 +7,11 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
- * StopwatchTest.
+ * Tests for common {@link Simon} interface functionality.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
-public final class SimonTestNG {
+public final class SimonTest {
 	private static final String STOPWATCH_NAME = "org.javasimon.test-stopwatch";
 
 	@BeforeMethod

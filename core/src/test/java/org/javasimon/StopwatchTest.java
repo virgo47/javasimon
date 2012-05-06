@@ -5,11 +5,11 @@ import org.testng.annotations.Test;
 import org.testng.Assert;
 
 /**
- * StopwatchTest.
+ * Tests for {@link Stopwatch}.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
-public final class StopwatchTestNG {
+public final class StopwatchTest {
 	private static final String STOPWATCH_NAME = "org.javasimon.test-stopwatch";
 
 	@BeforeMethod

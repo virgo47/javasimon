@@ -5,12 +5,12 @@ import org.testng.annotations.Test;
 import org.testng.annotations.DataProvider;
 
 /**
- * UrlTestNG.
+ * Tests for JDBC real URL detection.
  *
  * @author Radovan Sninsky
  * @since 2.4
  */
-public class UrlTestNG {
+public class UrlTest {
 
 	@DataProvider(name = "dp1")
 	public Object[][] createTestData() {

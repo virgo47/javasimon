@@ -3,7 +3,6 @@ package org.javasimon.console.action;
 import java.io.IOException;
 import java.io.PrintWriter;
 import org.javasimon.Sample;
-import org.javasimon.Simon;
 import org.javasimon.console.ActionContext;
 
 /**
@@ -14,11 +13,13 @@ import org.javasimon.console.ActionContext;
 public class TableCsvAction extends AbstractTableAction {
 
 	public static final String PATH = "/data/table.csv";
+
 	/**
 	 * Column separator (defaults to comma).
-	 * Excel uses semi-comma (hence they should have a called this format SCSV ;-) )
+	 * Excel uses semicolon (hence they should have called this format SCSV ;-) )
 	 */
 	private String columnSeparator=",";
+
 	/**
 	 * Row separator (defaults to CRLF).
 	 */

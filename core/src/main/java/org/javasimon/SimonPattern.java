@@ -6,6 +6,9 @@ import org.javasimon.utils.SimonUtils;
  * Matches Simon name patterns from configuration. Patterns can contain wildcard (*) that
  * can be placed in following fashions:
  * <ul>
+ * <li>empty string matches only {@link Manager#ROOT_SIMON_NAME} (root Simon)
+ * <li>{@code *} - matches anything
+ * <li>{@code something} - matches exactly {@code something}
  * <li>{@code *something} - matches if tested name ends with {@code something}
  * <li>{@code something*} - matches if tested name starts with {@code something}
  * <li>{@code *something*} - matches if tested name contains {@code something} anywhere
