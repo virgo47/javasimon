@@ -24,9 +24,11 @@ $(document).ready(function() {
 
 	$('#treeLink')
 		.button();
+	$('#filterForm')
+		.submit(function() {document.oFilterCtrl.fnFilter(); return false; });
 	$('#filterButton')
 		.button({label:"Refresh",icons: {primary: "ui-icon-search"}})
-		.click(function() {document.oFilterCtrl.fnFilter(); });
+		.click(function() {document.oFilterCtrl.fnFilter(); return false; });
 	$('#noteButton')
 		.button({label:"Name/Note", icons: {primary: "ui-icon-note"}})
 		.click(function() {document.oDataTable.fnToggleNoteColumnVis(); return false; });
@@ -74,10 +76,12 @@ $(document).ready(function() {
 			}
 			aoData.push( { name: "timeFormat", value: oVal.sTimeFormat} );
 			javasimon.TableService.fnGetDataAsJson(aoData, function(json) {
-				if (!json.aaData) {
-					json = {aaData:json};
+				if (json) {
+					if (!json.aaData) {
+						json = {aaData:json};
+					}
+					fnCallback(json);
 				}
-				fnCallback(json);
 			});
 		},
 		aoColumns: [
