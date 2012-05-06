@@ -81,7 +81,7 @@ public final class SimonPattern {
 			middle = ""; // everything contains this
 			return;
 		}
-		if (pattern.startsWith(WILDCARD_STAR) && pattern.endsWith(WILDCARD_STAR)) {
+		if (pattern.startsWith(WILDCARD_STAR) && pattern.endsWith(WILDCARD_STAR) && pattern.length() > 2) {
 			middle = pattern.substring(1, pattern.length() - 2);
 			if (!SimonUtils.checkName(middle)) {
 				throw new SimonException(INVALID_PATTERN + pattern);
