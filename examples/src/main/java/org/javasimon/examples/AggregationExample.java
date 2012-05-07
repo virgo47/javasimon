@@ -10,11 +10,11 @@ import java.util.Random;
  * Example shows how to aggregate results from multiple Stopwatch. This feature is not exactly
  * built-in and this example shows how to work around it using the hierarchy.
  *
- * TODO: Should be supported by API in 3.1 or 3.2 version.
+ * TODO: Should be supported by API in 3.3 or later version (not so simple to make it right and easy).
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
-public class AggregationExample {
+public final class AggregationExample {
 	private static final String STOPWATCH_PARENT = "org.javasimon.examples.aggregation";
 	private static final int STOPWATCH_COUNT = 4;
 
