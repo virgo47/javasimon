@@ -14,18 +14,18 @@ import static org.testng.Assert.*;
 import org.testng.annotations.Test;
 
 /**
- * Unit test for {@link MonitoringHandlerInterceptor}
+ * Unit test for {@link MonitoringHandlerInterceptor}.
  *
  * @author gquintana
  */
 public class MonitoringHandlerInterceptorTest {
 	/**
-	 * Tested object
+	 * Tested interceptor.
 	 */
 	private final MonitoringHandlerInterceptor interceptor = new MonitoringHandlerInterceptor();
 
 	/**
-	 * Simulate the Spring MVC Controller view flow
+	 * Simulate the Spring MVC Controller view flow.
 	 *
 	 * @param requestURI Request URI
 	 * @param handler Handler
@@ -47,7 +47,7 @@ public class MonitoringHandlerInterceptorTest {
 	}
 
 	/**
-	 * Test MVC Interceptor with old school Controller
+	 * Test MVC Interceptor with old school Controller.
 	 */
 	@Test
 	public void testRequestWithHandlerMethod() throws Exception {
@@ -65,7 +65,7 @@ public class MonitoringHandlerInterceptorTest {
 	}
 
 	/**
-	 * Test MVC Interceptor with @RequestMapping method handler
+	 * Test MVC Interceptor with @RequestMapping method handler.
 	 */
 	@Test
 	public void testRequestWithHandlerObject() throws InterruptedException {

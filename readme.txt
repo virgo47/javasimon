@@ -2,7 +2,7 @@
 
 = Java Simon - Simple Monitors for Java =
 
-Version: 3.2.0
+Version: 3.2.1
 
 This software is distributed under the terms of the FSF Lesser Gnu Public License:
   * check "lgpl.txt" in the root directory of the project
@@ -65,20 +65,20 @@ Project is hosted on Google Code as "javasimon":
 
 Project uses following libraries (for Ant build, check dependencies in POMs for Maven build):
   * TestNG: http://testng.org/ (test only)
-    * `testng-6.3.1.jar`
+    * `testng-6.5.2.jar`
+    * `jcommander-1.12.jar`
   * Spring (core/aop/beans/web/webmvc/test/...): http://www.springsource.org/ (Spring integration)
-    * `org.springframework.*-3.1.0.RELEASE.jar`
-  * AOP alliance: http://aopalliance.sourceforge.net/ (Spring integration)
-    * `aopalliance.jar`
-  * Commons logging: http://commons.apache.org/logging/ (Spring integration)
+    * `org.springframework.*-3.1.1.RELEASE.jar`
+    * `aopalliance-1.0.jar`
     * `commons-logging-1.1.1.jar`
   * SLF4J logging: http://www.slf4j.org/ (logging callback in core module, may not be required during runtime)
-    * `slf4j-api-1.6.2.jar`
+    * `slf4j-api-1.6.4.jar`
   * H2 Database: http://www.h2database.com/ (examples)
-    * `h2-1.3.163.jar`
+    * `h2-1.3.166.jar`
   * Java EE libraries for Java EE module compilation:
-    * `servlet-api.jar`
-    * `jboss-javaee.jar`
+    * `servlet-api-2.5.jar`
+    * `javaee-api-6.0.jar`
+    * `geronimo-servlet_3.0_spec-1.0.jar` (this one is needed for test run)
 
 == Java Simon name ==
 
