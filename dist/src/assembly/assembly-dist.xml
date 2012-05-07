@@ -9,9 +9,6 @@
 	</formats>
 	<moduleSets>
 		<moduleSet>
-			<excludes>
-				<exclude>gwimon</exclude>
-			</excludes>
 			<useAllReactorProjects>true</useAllReactorProjects>
 			<includeSubModules>true</includeSubModules>
 			<!-- Sources are included below as a Jar file
