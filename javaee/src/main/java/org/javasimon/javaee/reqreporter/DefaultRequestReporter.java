@@ -1,4 +1,4 @@
-package org.javasimon.javaee;
+package org.javasimon.javaee.reqreporter;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -10,6 +10,7 @@ import java.util.TreeSet;
 
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
+import org.javasimon.javaee.SimonServletFilter;
 import org.javasimon.utils.SimonUtils;
 
 /**
@@ -19,7 +20,7 @@ import org.javasimon.utils.SimonUtils;
  * <li>Where the report goes - override {@link #reportMessage(String)},</li>
  * <li>what is significant split - override {@link #isSignificantSplit(org.javasimon.Split, org.javasimon.Split)},</li>
  * <li>whether stopwatch info (from stopwatch distribution part) should be included -
- * override {@link #shouldBeAddedStopwatchInfo(org.javasimon.javaee.DefaultRequestReporter.StopwatchInfo)}.</li>
+ * override {@link #shouldBeAddedStopwatchInfo(DefaultRequestReporter.StopwatchInfo)}.</li>
  * </ul>
  *
  * @author <a href="mailto:richard.richter@posam.sk">Richard "Virgo" Richter</a>
@@ -39,7 +40,7 @@ public class DefaultRequestReporter implements RequestReporter {
 				") [" + requestSplit.getStopwatch().getNote() + "]");
 
 		if (splits.size() > 0) {
-			displaySplitDetails(requestSplit, splits, messageBuilder);
+			buildSplitDetails(requestSplit, splits, messageBuilder);
 		}
 
 		reportMessage(messageBuilder.toString());
@@ -55,14 +56,14 @@ public class DefaultRequestReporter implements RequestReporter {
 		simonServletFilter.getManager().message(message);
 	}
 
-	private void displaySplitDetails(Split requestSplit, List<Split> splits, StringBuilder messageBuilder) {
+	private void buildSplitDetails(Split requestSplit, List<Split> splits, StringBuilder messageBuilder) {
 		Map<String, StopwatchInfo> stopwatchInfos = new HashMap<String, StopwatchInfo>();
 
-		processSplitsAndDisplaySignificantOnes(requestSplit, splits, messageBuilder, stopwatchInfos);
+		processSplitsAndAddSignificantOnes(requestSplit, splits, messageBuilder, stopwatchInfos);
 		addStopwatchSplitDistribution(messageBuilder, stopwatchInfos);
 	}
 
-	private void processSplitsAndDisplaySignificantOnes(Split requestSplit, List<Split> splits, StringBuilder messageBuilder, Map<String, StopwatchInfo> stopwatchInfos) {
+	private void processSplitsAndAddSignificantOnes(Split requestSplit, List<Split> splits, StringBuilder messageBuilder, Map<String, StopwatchInfo> stopwatchInfos) {
 		for (Split split : splits) {
 			StopwatchInfo stopwatchInfo = stopwatchInfos.get(split.getStopwatch().getName());
 			if (stopwatchInfo == null) {

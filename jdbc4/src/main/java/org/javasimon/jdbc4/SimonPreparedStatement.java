@@ -47,7 +47,7 @@ public class SimonPreparedStatement extends SimonStatement implements PreparedSt
 	 *
 	 * @return Simon stopwatch object or null if sql is null or empty
 	 */
-	protected final Split prepare() {
+	private Split prepare() {
 		if (sql != null && !sql.equals("")) {
 			sqlNormalizer = new SqlNormalizer(sql);
 			sqlCmdLabel = prefix + ".sql." + sqlNormalizer.getType();
@@ -65,11 +65,11 @@ public class SimonPreparedStatement extends SimonStatement implements PreparedSt
 	 */
 	@Override
 	public final ResultSet executeQuery() throws SQLException {
-		Split s = prepare();
+		Split split = prepare();
 		try {
-			return new SimonResultSet(stmt.executeQuery(), this, prefix, s.getStopwatch().getName());
+			return new SimonResultSet(stmt.executeQuery(), this, prefix, split.getStopwatch().getName());
 		} finally {
-			finish(s);
+			finish(split);
 		}
 	}
 
@@ -81,11 +81,11 @@ public class SimonPreparedStatement extends SimonStatement implements PreparedSt
 	 */
 	@Override
 	public final int executeUpdate() throws SQLException {
-		Split s = prepare();
+		Split split = prepare();
 		try {
 			return stmt.executeUpdate();
 		} finally {
-			finish(s);
+			finish(split);
 		}
 	}
 
@@ -98,11 +98,11 @@ public class SimonPreparedStatement extends SimonStatement implements PreparedSt
 	 */
 	@Override
 	public final boolean execute() throws SQLException {
-		Split s = prepare();
+		Split split = prepare();
 		try {
 			return stmt.execute();
 		} finally {
-			finish(s);
+			finish(split);
 		}
 	}
 
@@ -117,8 +117,6 @@ public class SimonPreparedStatement extends SimonStatement implements PreparedSt
 
 		stmt.addBatch();
 	}
-
-/////////////////// Not interesting methods for monitoring
 
 	/**
 	 * {@inheritDoc}

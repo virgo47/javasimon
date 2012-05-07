@@ -41,6 +41,11 @@ td.numeric {
     text-align: right;
 }
 
+div.dataTables_length, div.dataTables_filter {
+	float: left;
+	margin: 4px 24px 4px 4px;
+}
+
 table#dataTable > tbody > tr.even {
     background-color: #eef8ff;
 }
