@@ -137,8 +137,8 @@ $(document).ready(function() {
 	} );
 	oDataTable.fnToggleNoteColumnVis=function() {
 		var bNoteColumnVis = this.fnSettings().aoColumns[1].bVisible;
-		this.fnSetColumnVis(0,  bNoteColumnVis);
-		this.fnSetColumnVis(1, !bNoteColumnVis);
+		this.fnSetColumnVis(0,  bNoteColumnVis, false);
+		this.fnSetColumnVis(1, !bNoteColumnVis, true);
 	};
 	oDataTable.fnReset=function(sName) {
 		javasimon.ResetService.fnResetOne(sName, function() {
