@@ -1,9 +1,11 @@
 package org.javasimon.examples;
 
 import org.javasimon.SimonManager;
-import org.javasimon.utils.SimonUtils;
 import org.javasimon.Stopwatch;
-import org.javasimon.Split;
+import org.javasimon.StopwatchSample;
+import org.javasimon.utils.BenchmarkUtils;
+import org.javasimon.utils.GoogleChartImageGenerator;
+import org.javasimon.utils.SimonUtils;
 
 /**
  * Compares time to obtain the Simon from the Manager with start/stop method calls.
@@ -29,59 +31,47 @@ public final class ManagerVsStopwatchComparison {
 	 * @param args command line arguments
 	 */
 	public static void main(String[] args) {
-		String name = NAME;
-		for (int i = 0; i < 100000; i++) {
-			name = Long.toHexString((long) (Math.random() * Long.MAX_VALUE));
-			SimonManager.getStopwatch(name);
-		}
-		System.out.println("Manager initialized");
+		ExampleUtils.fillManagerWithSimons(100000);
+		StopwatchSample[] results = BenchmarkUtils.run(2, 5,
+			new BenchmarkUtils.Task("getStopwatch") {
+				@Override
+				public void perform() throws Exception {
+					for (int i = 0; i < LOOP; i++) {
+						SimonManager.getStopwatch(NAME);
+					}
+				}
+			},
+			new BenchmarkUtils.Task("start-stop") {
+				@Override
+				public void perform() throws Exception {
+					Stopwatch stopwatch = SimonManager.getStopwatch(NAME).reset();
+					for (int i = 0; i < LOOP; i++) {
+						stopwatch.start().stop();
+					}
+				}
+			},
+			new BenchmarkUtils.Task("get-start-stop") {
+				@Override
+				public void perform() throws Exception {
+					SimonManager.getStopwatch(NAME).reset();
+					for (int i = 0; i < LOOP; i++) {
+						SimonManager.getStopwatch(NAME).start().stop();
+					}
+				}
+			},
+			new BenchmarkUtils.Task("clear-get-start-stop") {
+				@Override
+				public void perform() throws Exception {
+					SimonManager.clear(); // has to be recreated (only once though) + all other 100k simons are gone
+					SimonManager.getStopwatch(NAME).reset();
+					for (int i = 0; i < LOOP; i++) {
+						SimonManager.getStopwatch(NAME).start().stop();
+					}
+				}
+			}
+		);
 
-		// warmup
-		Stopwatch tested = SimonManager.getStopwatch(name);
-		getStartStopTest(name);
-		System.out.println("Warm-up complete");
-
-		Stopwatch stopwatch = SimonManager.getStopwatch(null);
-		Split split = stopwatch.start();
-		getStopwatchTest(name);
-		System.out.println("\ngetStopwatch: " + SimonUtils.presentNanoTime(split.stop().runningFor()));
-
-		tested.reset();
-		split = stopwatch.reset().start();
-		startStopTest(tested);
-		System.out.println("\nstart/stop: " + SimonUtils.presentNanoTime(split.stop().runningFor()));
-		System.out.println("Stopwatch: " + tested);
-
-		tested.reset();
-		split = stopwatch.reset().start();
-		getStartStopTest(name);
-		System.out.println("\nget+start/stop: " + SimonUtils.presentNanoTime(split.stop().runningFor()));
-		System.out.println("Stopwatch: " + tested);
-
-		SimonManager.clear();
-		tested = SimonManager.getStopwatch(name); // after clear you have to get it from SM again to recreate it
-		tested.reset();
-		split = stopwatch.reset().start();
-		getStartStopTest(name);
-		System.out.println("\nget+start/stop after SM clear: " + SimonUtils.presentNanoTime(split.stop().runningFor()));
-		System.out.println("Stopwatch: " + tested);
-	}
-
-	private static void getStopwatchTest(String name) {
-		for (int i = 0; i < LOOP; i++) {
-			SimonManager.getStopwatch(name);
-		}
-	}
-
-	private static void startStopTest(Stopwatch stopwatch) {
-		for (int i = 0; i < LOOP; i++) {
-			stopwatch.start().stop();
-		}
-	}
-
-	private static void getStartStopTest(String name) {
-		for (int i = 0; i < LOOP; i++) {
-			SimonManager.getStopwatch(name).start().stop();
-		}
+		System.out.println("\nGoogle Chart avg:\n" + GoogleChartImageGenerator.barChart(
+			results, "10M-loop duration", SimonUtils.NANOS_IN_MILLIS, "ms", false));
 	}
 }
