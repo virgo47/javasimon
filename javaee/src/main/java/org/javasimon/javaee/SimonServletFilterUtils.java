@@ -2,6 +2,8 @@ package org.javasimon.javaee;
 
 import org.javasimon.Manager;
 import org.javasimon.Stopwatch;
+import org.javasimon.javaee.reqreporter.DefaultRequestReporter;
+import org.javasimon.javaee.reqreporter.RequestReporter;
 import org.javasimon.source.MonitorSource;
 import org.javasimon.utils.Replacer;
 import org.javasimon.utils.SimonUtils;

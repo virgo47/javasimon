@@ -4,6 +4,7 @@ import org.javasimon.Manager;
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
 import org.javasimon.callback.CallbackSkeleton;
+import org.javasimon.javaee.reqreporter.RequestReporter;
 import org.javasimon.utils.Replacer;
 import org.javasimon.utils.SimonUtils;
 
@@ -32,7 +33,7 @@ import org.javasimon.source.StopwatchTemplate;
  * <li>{@link #shouldBeReported} - compares actual request nano time with {@link #getThreshold(javax.servlet.http.HttpServletRequest)}
  * (which may become unused if this method is overriden)</li>
  * <li>{@link #getThreshold(javax.servlet.http.HttpServletRequest)} - returns threshold configured in {@code web.xml}</li>
- * <li>{@link RequestReporter} can be implemented and specified using init parameter {@link #INIT_PARAM_REQUEST_REPORTER_CLASS}</li>
+ * <li>{@link org.javasimon.javaee.reqreporter.RequestReporter} can be implemented and specified using init parameter {@link #INIT_PARAM_REQUEST_REPORTER_CLASS}</li>
  * <li>{@link HttpStopwatchSource} can be subclassed and specified using init parameter {@link #INIT_PARAM_STOPWATCH_SOURCE_CLASS}, specifically
  * following methods are intended for override:
  * <ul>
@@ -84,9 +85,9 @@ public class SimonServletFilter implements Filter {
 	public static final String INIT_PARAM_STOPWATCH_SOURCE_CACHE = "stopwatch-source-cache";
 
 	/**
-	 * FQN of the {@link RequestReporter} implementation that is used to report requests
+	 * FQN of the {@link org.javasimon.javaee.reqreporter.RequestReporter} implementation that is used to report requests
 	 * that {@link #shouldBeReported(javax.servlet.http.HttpServletRequest, long, java.util.List)}.
-	 * Default is {@link org.javasimon.javaee.DefaultRequestReporter}.
+	 * Default is {@link org.javasimon.javaee.reqreporter.DefaultRequestReporter}.
 	 */
 	public static final String INIT_PARAM_REQUEST_REPORTER_CLASS = "request-reporter-class";
 
