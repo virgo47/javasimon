@@ -49,7 +49,7 @@ public class TableCsvActionTest {
 	@Test
 	public void testExecuteType() throws Exception {
 		TestActionContext context = new TestActionContext("/data/table.csv");
-		context.setParameter("type", "COUNTER");
+		context.setParameters("type", "COUNTER");
 		TableCsvAction action = new TableCsvAction(context);
 		action.readParameters();
 		action.execute();

@@ -11,26 +11,35 @@ import static org.mockito.Mockito.*;
 /**
  * Action context for unit testing.
  *
+ *
  * @author gquintana
  */
 public class TestActionContext extends ActionContext {
 	private StringWriter stringWriter;
 	private PrintWriter printWriter;
 	private ByteArrayOutputStream byteArrayOutputStream;
-	private Map<String, String> parameters = new HashMap<String, String>();
+	private Map<String, Object> parameters = new HashMap<String, Object>();
 	private String contentType;
-
 	public TestActionContext(String path) {
 		super(mock(HttpServletRequest.class), mock(HttpServletResponse.class), path);
 	}
 
 	@Override
 	public String getParameter(String name) {
-		return parameters.get(name);
+		return (String) parameters.get(name);
 	}
 
 	public void setParameter(String name, String value) {
 		parameters.put(name, value);
+	}
+
+	@Override
+	protected String[] getParameters(String name) {
+		return (String[]) parameters.get(name);
+	}
+
+	public void setParameters(String name, String... values) {
+		parameters.put(name, values);
 	}
 
 	private void initWriter() {
