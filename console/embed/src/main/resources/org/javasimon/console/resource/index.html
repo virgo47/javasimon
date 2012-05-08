@@ -31,7 +31,7 @@ $(document).ready(function() {
 		.click(function() {document.oFilterCtrl.fnFilter(); return false; });
 	$('#noteButton')
 		.button({label:"Name/Note", icons: {primary: "ui-icon-note"}})
-		.click(function() {document.oDataTable.fnToggleNoteColumnVis(); return false; });
+		.click(function() {document.oFilterCtrl.fnToggleNoteColumnVis(); return false; });
 	$('#resetAllButton')
 		.button({label:"Reset All", icons: {primary: "ui-icon-trash"}})
 		.click(function() {
@@ -65,7 +65,8 @@ $(document).ready(function() {
 		bStateSave:true,
 		fnCookieCallback: function(sName, oData, sExpires, sPath) {
 			javasimon.SettingsService.set({iDataTableLength:oData.iLength});
-			return javasimon.SettingsService.save(document);
+			javasimon.SettingsService.save(document);
+			return sName + "="+JSON.stringify(oData)+"; expires=" + sExpires +"; path=" + sPath;
 		},
 		sAjaxSource: 'data/table.json',
 		fnServerData: function( sUrl, aoData, fnCallback ) {
@@ -135,11 +136,6 @@ $(document).ready(function() {
 		],
 		aaSorting: [[ 0, "asc" ]]
 	} );
-	oDataTable.fnToggleNoteColumnVis=function() {
-		var bNoteColumnVis = this.fnSettings().aoColumns[1].bVisible;
-		this.fnSetColumnVis(0,  bNoteColumnVis, false);
-		this.fnSetColumnVis(1, !bNoteColumnVis, true);
-	};
 	oDataTable.fnReset=function(sName) {
 		javasimon.ResetService.fnResetOne(sName, function() {
 			document.oDataTable.fnReloadAjax();
