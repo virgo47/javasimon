@@ -12,6 +12,8 @@ img.clickable:hover {
 }
 h1 {
     vertical-align: middle;
+    margin-top: 0.2em;
+    margin-bottom: 0.5em;
 }
 .error {
 	background-color: rgb(255,63,63);
@@ -22,11 +24,8 @@ div.hidden {
 /* -----------------------------------------------------------------------------
  * DHTML/Ajax List view styling
  * ---------------------------------------------------------------------------*/
-div#filter {
-    margin-bottom: 2em;
-}
-div.filterTitle {
-    padding: 0.5em;
+div#filterPanel {
+    margin-bottom: 1em;
 }
 div.filterButtons {
     padding-left: 0.5em;
@@ -136,10 +135,10 @@ table.dataTreeTable > tbody > tr > td.footCell > img.icon {
 }
 table.dataTreeTable > tbody > tr > td.number {
 	text-align: right;
-	width: 5%;
+	width: 75px;
 }
 table.dataTreeTable > tbody > tr > td.date {
-	width: 10%;
+	width: 200px;
 }
 
 /* -----------------------------------------------------------------------------
@@ -153,4 +152,10 @@ table.dataTreeTable > tbody > tr > td.date {
 }
 .ui-widget {
     font-size: 1em;
+}
+.ui-tabs .ui-tabs-panel {
+    background: none repeat scroll 0 0 transparent;
+    border-width: 0;
+    display: block;
+    padding: 0.5em;
 }
