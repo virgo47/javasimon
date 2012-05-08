@@ -7,13 +7,14 @@
         <link  href="resource/css/javasimon.css" rel="stylesheet" type="text/css" />
         <script src="resource/js/jquery-1.7.2.js" type="text/javascript"></script>
         <script src="resource/js/jquery-ui-1.8.20.js" type="text/javascript"></script>
-        <script src="resource/js/jquery-dataTables-1.8.2.js" type="text/javascript"></script>
+        <script src="resource/js/jquery-dataTables-1.9.1.js" type="text/javascript"></script>
         <script src="resource/js/jquery-dataTables-reloadAjax.js" type="text/javascript"></script>
         <script src="resource/js/jquery-getUrlParam.js" type="text/javascript"></script>
         <script src="resource/js/javasimon-filter.js" type="text/javascript"></script>
         <script src="resource/js/javasimon-service.js" type="text/javascript"></script>
         <script type="text/javascript">
 $(document).ready(function() {
+	javasimon.SettingsService.load();
 	var oFilterCtrl=new javasimon.FilterController(
 		$('#patternText'),
 		$('#patternHelp'),
@@ -63,10 +64,9 @@ $(document).ready(function() {
 		aLengthMenu: [[25, 50, 100, -1], [25, 50, 100, "All"]],
 		// Save parameter in cookie
 		bStateSave:true,
-		fnCookieCallback: function(sName, oData, sExpires, sPath) {
+		fnStateSave: function (oSettings, oData) {
 			javasimon.SettingsService.set({iDataTableLength:oData.iLength});
-			javasimon.SettingsService.save(document);
-			return sName + "="+JSON.stringify(oData)+"; expires=" + sExpires +"; path=" + sPath;
+			javasimon.SettingsService.save();
 		},
 		sAjaxSource: 'data/table.json',
 		fnServerData: function( sUrl, aoData, fnCallback ) {
