@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.javasimon.console.reflect.Getter;
+import org.javasimon.console.reflect.GetterFactory;
 import org.javasimon.console.text.Stringifier;
 import org.javasimon.console.text.StringifierFactory;
 
@@ -70,7 +71,7 @@ public class ObjectJS extends AnyJS {
 		} else {
 			ObjectJS objectJS = new ObjectJS();
 			// Export properties using reflection
-			for (Getter getter : Getter.getGetters(o.getClass())) {
+			for (Getter getter : GetterFactory.getGetters(o.getClass())) {
 				String propertyName = getter.getName();
 				Stringifier propertyStringifier=stringifierFactory.getStringifier( getter.getType(), getter.getSubType());
 				if (propertyStringifier!=null) {

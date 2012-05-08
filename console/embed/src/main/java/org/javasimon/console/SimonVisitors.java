@@ -37,7 +37,7 @@ public class SimonVisitors {
 			}
 		});
 		for (Simon simon : simons) {
-			SimonType lType = SimonType.getValueFromInstance(simon);
+			SimonType lType = SimonTypeFactory.getValueFromInstance(simon);
 			if (types == null || types.contains(lType)) {
 				visitor.visit(simon);
 			}
