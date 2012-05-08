@@ -151,6 +151,7 @@ window.javasimon=javasimon;
 		*/
 		load:function(oDocument) {
 			// Read cookie
+			oDocument = oDocument || document;
 			if (!oDocument.cookie) {
 				return;
 			}
@@ -199,6 +200,7 @@ window.javasimon=javasimon;
 		* Save settings into a cookie
 		*/
 		save:function(oDocument) {
+			oDocument = oDocument || document;
 			var sCookieValuePart;
 			// Version
 			var sCookieValue=this.sVersion;
