@@ -22,7 +22,7 @@ public class JettyMain {
 			server.setHandler(context);
 			// Servlet
 			SimonData.initialize();
-			addSimons("Z",3);
+			addSimons("Z",4);
 			ServletHolder servletHolder=new ServletHolder(new SimonConsoleServlet());
 			servletHolder.setInitParameter("console-path", "");
 			context.addServlet(servletHolder, "/*");

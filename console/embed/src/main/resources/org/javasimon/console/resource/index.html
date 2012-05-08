@@ -146,69 +146,74 @@ $(document).ready(function() {
 	$(window).bind('resize', function () {
 		document.oDataTable.fnAdjustColumnSizing();
 	} );
+	$("#mainTabs").tabs({selected:0});
 } );
 
         </script>
     </head>
     <body>
         <h1><img id="logo" src="resource/images/logo.png" alt="Logo" />Simon Console</h1>
-	<div class="filterButtons fg-toolbar ui-toolbar">
-		<a id="treeLink" href="tree.html">Tree view</a>
-	</div>
-        <div id="filter">
-            <div class="filterTitle fg-toolbar ui-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix">Filtering</div>
-            <form id="filterForm">
-            <table>
-                <tr>
-                    <td>Pattern</td>
-                    <td colspan="3">
-			    <input id="patternText" name="pattern" type="text" size="64"/>
-			    <div id="patternHelp" class="hidden">Allowed patterns:
-				    <ul>
-					    <li><em>abcd</em> must match exactly abcd,</li>
-					    <li><em>*</em> matches anything (the same like empty pattern),</li>
-					    <li><em>*abcd</em> must end with abcd,</li>
-					    <li><em>abcd*</em> must start with abcd,</li>
-					    <li><em>*abcd*</em> must contains abcd,</li>
-					    <li><em>ab*cd</em> must start with ab and end with cd</li>
-				    </ul>
-			    </div></td>
-                </tr>
-                <tr>
-                    <td>Type</td>
-                    <td>
-			    <div id="typeChecks">
-				<input type="checkbox" id="stopwatchTypeCheck" name="type" value="STOPWATCH" />Stopwatch
-				<input type="checkbox" id="counterTypeCheck" name="type" value="COUNTER" />Counter
-				<input type="checkbox" id="unknownTypeCheck" name="type" value="UNKNOWN" />Group
-			    </div>
-                    </td>
-                    <td>Time format</td>
-                    <td>
-                        <select id="timeFormatSelect" name="type">
-                            <option value="SECOND">s</option>
-                            <option value="MILLISECOND">ms</option>
-                            <option value="MICROSECOND">&micro;s</option>
-                            <option value="NANOSECOND">ns</option>
-                        </select>
-                    </td>
-                </tr>
-            </table>
-            <div class="filterButtons ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix">
-                <button id="filterButton" name="filterButton">Refresh</button>
-                <button id="noteButton" name="noteButton">Name/Note</button>
-                <button id="resetAllButton" name="resetAllButton">Reset All</button>
-                <button id="clearAllButton" name="clearAllButton">Clear All</button>
-                <span id="exportSpan">Export:</span>
-                <button id="csvButton" name="csvButton">CSV</button>
-                <button id="htmlButton" name="htmlButton">HTML</button>
-            </div>
-            </form>
-        </div>
-        <div id="data">
-            <table id="dataTable">
+	<div id="mainTabs">
+		<ul>
+			<li><a href="#listView" onclick="document.location.href='index.html';return false;">List View</a></li>
+			<li><a href="#treeView" onclick="document.location.href='tree.html';return false;">Tree View</a></li>
+		</ul>
+		<div id="listView">
+			<div id="filterPanel" class="ui-widget-content ui-corner-all">
+				<form id="filterForm">
+					<table>
+						<tr>
+							<td>Pattern</td>
+							<td colspan="3">
+								<input id="patternText" name="pattern" type="text" size="64"/>
+								<div id="patternHelp" class="hidden">Allowed patterns:
+									<ul>
+										<li><em>abcd</em> must match exactly abcd,</li>
+										<li><em>*</em> matches anything (the same like empty pattern),</li>
+										<li><em>*abcd</em> must end with abcd,</li>
+										<li><em>abcd*</em> must start with abcd,</li>
+										<li><em>*abcd*</em> must contains abcd,</li>
+										<li><em>ab*cd</em> must start with ab and end with cd</li>
+									</ul>
+								</div></td>
+						</tr>
+						<tr>
+							<td>Type</td>
+							<td>
+								<div id="typeChecks">
+									<input type="checkbox" id="stopwatchTypeCheck" name="type" value="STOPWATCH" />Stopwatch
+									<input type="checkbox" id="counterTypeCheck" name="type" value="COUNTER" />Counter
+									<input type="checkbox" id="unknownTypeCheck" name="type" value="UNKNOWN" />Group
+								</div>
+							</td>
+							<td>Time format</td>
+							<td>
+								<select id="timeFormatSelect" name="type">
+									<option value="SECOND">s</option>
+									<option value="MILLISECOND">ms</option>
+									<option value="MICROSECOND">&micro;s</option>
+									<option value="NANOSECOND">ns</option>
+								</select>
+							</td>
+						</tr>
+					</table>
+					<div class="filterButtons ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix">
+						<button id="filterButton" name="filterButton">Refresh</button>
+						<button id="noteButton" name="noteButton">Name/Note</button>
+						<button id="resetAllButton" name="resetAllButton">Reset All</button>
+						<button id="clearAllButton" name="clearAllButton">Clear All</button>
+						<span id="exportSpan">Export:</span>
+						<button id="csvButton" name="csvButton">CSV</button>
+						<button id="htmlButton" name="htmlButton">HTML</button>
+					</div>
+				</form>
+			</div>
+			<div id="dataTablePanel">
+				<table id="dataTable">
 
-            </table>
+				</table>
+			</div>
+		</div>
         </div>
     </body>
 </html>
