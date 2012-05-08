@@ -40,7 +40,7 @@ public abstract class AbstractJsonAction extends Action {
 	 */
 	protected ObjectJS createObjectJS(Simon simon) {
 		Sample sample=simon.sample();
-		SimonType lType = SimonType.getValueFromInstance(sample);
+		SimonType lType = SimonTypeFactory.getValueFromInstance(sample);
 		ObjectJS objectJS = ObjectJS.create(sample, jsonStringifierFactory);
 		objectJS.setAttribute("type", new SimpleJS<SimonType>(lType,jsonStringifierFactory.getStringifier(SimonType.class)));
 		return objectJS;

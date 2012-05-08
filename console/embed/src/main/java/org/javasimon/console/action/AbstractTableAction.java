@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import org.javasimon.Sample;
 import org.javasimon.Simon;
 import org.javasimon.console.*;
+import org.javasimon.console.reflect.GetterFactory;
 import org.javasimon.console.text.Stringifier;
 import org.javasimon.console.text.StringifierFactory;
 
@@ -77,7 +78,7 @@ public class AbstractTableAction extends Action {
 
 			@Override
 			public SimonType getValue(Object object) {
-				return SimonType.getValueFromInstance((Sample) object);
+				return SimonTypeFactory.getValueFromInstance((Sample) object);
 			}
 
 			@Override
@@ -230,7 +231,7 @@ public class AbstractTableAction extends Action {
 		 */
 		@SuppressWarnings("unchecked")
 		private Getter<T> getGetter(Object object) {
-			return Getter.getGetter(object.getClass(), name);
+			return GetterFactory.getGetter(object.getClass(), name);
 		}
 
 		/**

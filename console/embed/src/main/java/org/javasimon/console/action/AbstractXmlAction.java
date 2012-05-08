@@ -16,6 +16,7 @@ import org.javasimon.Sample;
 import org.javasimon.Simon;
 import org.javasimon.console.*;
 import org.javasimon.console.reflect.Getter;
+import org.javasimon.console.reflect.GetterFactory;
 import org.javasimon.console.text.Stringifier;
 import org.javasimon.console.text.StringifierFactory;
 import org.w3c.dom.Document;
@@ -53,12 +54,12 @@ public abstract class AbstractXmlAction extends Action {
 	protected Element createElement(Document document, Simon simon) {
 		// Simon type is used as element name
 		Sample sample = simon.sample();
-		SimonType lType = SimonType.getValueFromInstance(sample);
+		SimonType lType = SimonTypeFactory.getValueFromInstance(sample);
 		Element element = document.createElement(lType.name().toLowerCase());
 		// Only to have the name as first attribute
 		element.setAttribute("name", sample.getName());
 		// Export properties using reflection
-		for (Getter getter : Getter.getGetters(sample.getClass())) {
+		for (Getter getter : GetterFactory.getGetters(sample.getClass())) {
 			Object propertyValue = getter.get(sample);
 			if (propertyValue != null) {
 				Stringifier propertyStringifier = stringifierFactory

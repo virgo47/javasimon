@@ -54,6 +54,6 @@ public class ObjectJSTest {
 		Foo foo = new Foo(123L, "Hello");
 		ObjectJS fooJS = ObjectJS.create(foo, stringifierFactory);
 		String json = fooJS.toString();
-		assertEquals(json, "{\"bar\":123,\"baz\":\"Hello\"}");
+		assertEquals(json, "{\"baz\":\"Hello\",\"bar\":123}");
 	}
 }
