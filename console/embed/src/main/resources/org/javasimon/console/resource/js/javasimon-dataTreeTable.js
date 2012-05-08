@@ -28,38 +28,41 @@ javasimon.DOMUtil={
 			}
 		}
 	},
-	fnSetClasses:function(eParent,asClasses) {
-		var sClasses=asClasses.join(' ');
-		eParent.setAttribute('class',sClasses);
+	fnSetClass:function(eParent,sClass) {
+		eParent.setAttribute('class',sClass);
 	},
-	fnGetClasses:function(eParent) {
-		var sClasses=eParent.getAttribute('class');
+	fnGetClass:function(eParent) {
+		return eParent.getAttribute('class');
+	},
+	fnAppendClass:function(eParent,sClass) {
+		var sClasses=this.fnGetClass(eParent);
+		if (sClasses) {
+			sClasses=sClasses+" "+sClass;
+		} else {
+			sClasses=sClass;
+		}
+		this.fnSetClass(eParent, sClasses);
+	},
+	fnReplaceClass:function(eParent,sOldClass,sNewClass) {
+		var sClasses=this.fnGetClass(eParent);
 		var asClasses;
 		if (sClasses) {
 			asClasses=sClasses.split(/\s+/);
-		} else {
-			asClasses=[];
-		}
-		return asClasses;
-	},
-	fnAppendClass:function(eParent,sClass) {
-		var asClasses=this.fnGetClasses(eParent);
-		asClasses.push(sClass);
-		this.fnSetClasses(eParent, asClasses);
-	},
-	fnReplaceClass:function(eParent,sOldClass,sNewClass) {
-		var asClasses=this.fnGetClasses(eParent);
-		var bFound=false;
-		for(var i=0;i<asClasses.length;i++) {
-			if (asClasses[i]===sOldClass) {
-				asClasses[i]=sNewClass;
-				bFound=true;
+			var bFound=false;
+			for(var i=0;i<asClasses.length;i++) {
+				if (asClasses[i]===sOldClass) {
+					asClasses[i]=sNewClass;
+					bFound=true;
+				}
 			}
+			if (!bFound) {
+				asClasses.push(sNewClass);
+			}
+			sClasses=asClasses.join(' ');
+		} else {
+			sClasses=sNewClass;
 		}
-		if (!bFound) {
-			asClasses.push(sNewClass);
-		}
-		this.fnSetClasses(eParent, asClasses);
+		this.fnSetClass(eParent, sClasses);
 	}
 };
 javasimon.ObjectUtil={
@@ -193,7 +196,7 @@ javasimon.DataTreeTable.prototype={
 	fnAppendImage:function(eParent,sType) {
 		var domUtil=javasimon.DOMUtil;
 		var eImg=javasimon.DOMUtil.fnAppendChildImage(eParent,this.oSettings.oImages[sType]);
-		domUtil.fnSetClasses(eImg, ["icon"]);
+		domUtil.fnSetClass(eImg, "icon");
 		return eImg;
 	},
 	fnGetNodePath:function(oNode) {

@@ -55,7 +55,7 @@ $(document).ready(function() {
 							sImage=this.oImages[sType.toLowerCase()];
 							if (sImage) {
 								eImg=domUtil.fnAppendChildImage(eCell, sImage);
-								domUtil.fnSetClasses(eImg, ["icon"]);
+								domUtil.fnSetClass(eImg, "icon");
 							}
 						}
 						// Fix name
@@ -101,7 +101,7 @@ $(document).ready(function() {
 								})
 								return false;
 							};
-							domUtil.fnSetClasses(eImg, ["icon","clickable"]);
+							domUtil.fnSetClass(eImg, "icon clickable");
 						}
 						domUtil.fnAppendClass(eCell, "footCell");
 					}
