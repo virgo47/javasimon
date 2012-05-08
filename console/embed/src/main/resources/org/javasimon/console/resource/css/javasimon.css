@@ -1,5 +1,6 @@
 body {
     font-family: "Trebuchet MS",Tahoma,Verdana,Arial,sans-serif;
+	font-size: 90%;
 }
 img#logo {
     height: 55px;
@@ -36,8 +37,11 @@ span#exportSpan {
     padding-left: 250px;
     display: inline-block;
 }
-td.numeric {
+
+td.numeric, td.date {
     text-align: right;
+    padding: 0 2px;
+    white-space: nowrap;
 }
 
 div.dataTables_length, div.dataTables_filter {
