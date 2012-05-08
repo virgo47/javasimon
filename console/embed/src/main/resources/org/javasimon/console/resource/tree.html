@@ -76,15 +76,15 @@ $(document).ready(function() {
 						domUtil.fnAppendClass(eCell, "headCell");
 					}
 				},
-				{sTitle:"Counter",	sField:"counter",	sClass:"number"},
+				{sTitle:"Count",	sField:"counter",	sClass:"number"},
 				{sTitle:"Total",	sField:"total",		sClass:"number" },
 				{sTitle:"Min",		sField:"min",		sClass:"number" },
 				{sTitle:"Mean",		sField:"mean",		sClass:"number" },
 				{sTitle:"Max",		sField:"max",		sClass:"number" },
-				{sTitle:"Std Dev",	sField:"standardDeviation",sClass:"number" },
-				{sTitle:"Last Split",	sField:"last",		sClass:"number" },
-				{sTitle:"First Usage",	sField:"firstUsage",	sClass:"date" },
-				{sTitle:"Last Usage",	sField:"lastUsage",	sClass:"date"  },
+				{sTitle:"StdDev",	sField:"standardDeviation",sClass:"number" },
+				{sTitle:"Last",	sField:"last",		sClass:"number" },
+				{sTitle:"First Use",	sField:"firstUsage",	sClass:"date" },
+				{sTitle:"Last Use",	sField:"lastUsage",	sClass:"date"  },
 				{sTitle:"",		sField:"name", 		sClass:'string',
 					fnRender:function(oNode, eCell, oDataTreeTable) {
 						var sName=oNode.oData[this.sField];
