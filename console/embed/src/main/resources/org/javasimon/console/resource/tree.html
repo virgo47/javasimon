@@ -82,9 +82,9 @@ $(document).ready(function() {
 				{sTitle:"Mean",		sField:"mean",		sClass:"number" },
 				{sTitle:"Max",		sField:"max",		sClass:"number" },
 				{sTitle:"Std Dev",	sField:"standardDeviation",sClass:"number" },
-				{sTitle:"Last",		sField:"last",		sClass:"number" },
-				{sTitle:"First Date",	sField:"firstUsage",	sClass:"date" },
-				{sTitle:"Last Date",	sField:"lastUsage",	sClass:"date"  },
+				{sTitle:"Last Split",	sField:"last",		sClass:"number" },
+				{sTitle:"First Usage",	sField:"firstUsage",	sClass:"date" },
+				{sTitle:"Last Usage",	sField:"lastUsage",	sClass:"date"  },
 				{sTitle:"",		sField:"name", 		sClass:'string',
 					fnRender:function(oNode, eCell, oDataTreeTable) {
 						var sName=oNode.oData[this.sField];
@@ -110,7 +110,7 @@ $(document).ready(function() {
 		}
 	);
 	oDataTreeTable.fnReloadAjax=function() {
-		javasimon.TreeService.fnGetDataAsJson({},
+		javasimon.TreeService.fnGetDataAsJson({timeFormat:javasimon.SettingsService.get('sTimeFormat')},
 			function(oData) {
 				var oDataTreeTable=document.oDataTreeTable;
 /* Data for testing purposes
