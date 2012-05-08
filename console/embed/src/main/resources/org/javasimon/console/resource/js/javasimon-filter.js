@@ -149,7 +149,7 @@ javasimon.FilterController.prototype={
 	},
 	fnToggleNoteColumnVis:function() {
 		this.bNoteColumnVis = !this.bNoteColumnVis;
-		this.oDataTable.fnSetColumnVis(0,  this.bNoteColumnVis, false);
-		this.oDataTable.fnSetColumnVis(1, !this.bNoteColumnVis, true);
+		this.oDataTable.fnSetColumnVis(0, !this.bNoteColumnVis, false);
+		this.oDataTable.fnSetColumnVis(1,  this.bNoteColumnVis, true);
 	}
 };
