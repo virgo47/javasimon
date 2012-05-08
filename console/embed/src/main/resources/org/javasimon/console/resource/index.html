@@ -86,8 +86,8 @@ $(document).ready(function() {
 			});
 		},
 		aoColumns: [
-			{sTitle:"Name", mDataProp: "name",bSearchable: true,sType:"string",sWidth: "40%"},
-			{sTitle:"Note", mDataProp: "note",bSearchable: true,sType:"string",sWidth: "40%",bVisible:false},
+			{sTitle:"Name", mDataProp: "name",bSearchable: true,sType:"string",sClass:'dataString',sWidth: "40%"},
+			{sTitle:"Note", mDataProp: "note",bSearchable: true,sType:"string",sClass:'dataString',sWidth: "40%",bVisible:false},
 			{sTitle:"Type", mDataProp: "type",bSearchable: false,sType:"string",bUseRendered:false,
 				fnRender:function(oObject) {
 					var sType=oObject.aData[this.mDataProp];
@@ -114,10 +114,10 @@ $(document).ready(function() {
 			{sTitle:"Min", mDataProp: "min",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric",asSorting: ["desc","asc" ] },
 			{sTitle:"Mean", mDataProp: "mean",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric",asSorting: ["desc","asc" ] },
 			{sTitle:"Max", mDataProp: "max",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric",asSorting: ["desc","asc" ] },
-			{sTitle:"Std Dev", mDataProp: "standardDeviation",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric",asSorting: ["desc","asc" ] },
-			{sTitle:"Last Split", mDataProp: "last",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric",asSorting: ["desc","asc" ] },
-			{sTitle:"First Usage", mDataProp: "firstUsage",bSearchable: false,sWidth: "10%",sClass:"numeric" },
-			{sTitle:"Last Usage", mDataProp: "lastUsage",bSearchable: false,sWidth: "10%",sClass:"numeric",asSorting: ["desc","asc" ] },
+			{sTitle:"StdDev", mDataProp: "standardDeviation",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric",asSorting: ["desc","asc" ] },
+			{sTitle:"Last", mDataProp: "last",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric",asSorting: ["desc","asc" ] },
+			{sTitle:"First Use", mDataProp: "firstUsage",bSearchable: false,sWidth: "10%",sClass:"numeric" },
+			{sTitle:"Last Use", mDataProp: "lastUsage",bSearchable: false,sWidth: "10%",sClass:"numeric",asSorting: ["desc","asc" ] },
 			{sTitle:"", mDataProp: "type",sWidth: "1px" ,sType:"string",bUseRendered:false,bSortable:false,sClass:"footCell",
 				fnRender:function(oObject) {
 					var sName=oObject.aData["name"];

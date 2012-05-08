@@ -43,12 +43,23 @@ td.numeric, td.date {
     padding: 0 2px;
     white-space: nowrap;
 }
+/* this should go to div in td probably :-(
+td.dataString {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+*/
 
 div.dataTables_length, div.dataTables_filter {
 	float: left;
 	margin: 4px 24px 4px 4px;
 }
 
+table.dataTable > thead > tr > th {
+	text-align: center;
+	padding: 0 3px;
+}
 table#dataTable > tbody > tr.even {
     background-color: #eef8ff;
 }
@@ -98,14 +109,10 @@ table.dataTreeTable {
 	border-bottom: solid 2px white;
 	width:100%;
 }
-table.dataTreeTable > thead {
-/*	border: solid 1px black;*/
-	text-align:center;
-	font-weight:bold;
+table.dataTreeTable > thead > tr > td {
+	text-align: center;
+	padding: 0 3px;
 }
-/*table.dataTreeTable > thead > tr > td {
-	border-left: solid 1px black;
-}*/
 table.dataTreeTable > thead > tr > td {
 	background: url("start/images/ui-bg_glass_45_0078ae_1x400.png") repeat-x scroll 50% 50% #0078AE;
 	border: 1px solid #77D5F7;
