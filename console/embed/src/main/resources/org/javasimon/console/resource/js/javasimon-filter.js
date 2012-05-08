@@ -25,6 +25,7 @@ javasimon.FilterController=function(
 	}
 	this.oTimeFormatSelect=oTimeFormatSelect;
 	$(this.oTimeFormatSelect).change(fnFilterFunc);
+	this.bNoteColumnVis = false;
 };
 javasimon.FilterController.prototype={
 	fnSetValFromUrlParams:function() {
@@ -145,5 +146,10 @@ javasimon.FilterController.prototype={
 				};
 				javasimon.ResetService.fnResetAll(oData, fnAjaxCallback);
 			});
+	},
+	fnToggleNoteColumnVis:function() {
+		this.bNoteColumnVis = !this.bNoteColumnVis;
+		this.oDataTable.fnSetColumnVis(0,  this.bNoteColumnVis, false);
+		this.oDataTable.fnSetColumnVis(1, !this.bNoteColumnVis, true);
 	}
 };
