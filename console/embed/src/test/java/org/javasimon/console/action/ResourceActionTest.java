@@ -16,7 +16,7 @@ public class ResourceActionTest {
 	@Test
 	public void testExecute() throws Exception {
 		TestActionContext context = new TestActionContext("/resource/index.html");
-		ResourceAction action = new ResourceAction(context);
+		ResourceAction action = new ResourceAction(context,"/index.html");
 		action.execute();
 		assertEquals(context.getContentType(), "text/html");
 		assertTrue(context.toByteArray().length > 128);

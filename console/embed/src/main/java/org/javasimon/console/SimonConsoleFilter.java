@@ -24,7 +24,7 @@ public class SimonConsoleFilter implements Filter {
 	public final void init(FilterConfig filterConfig) {
 		requestProcessor = new SimonConsoleRequestProcessor(
 			filterConfig.getInitParameter(SimonConsoleServlet.URL_PREFIX_INIT_PARAMETER));
-
+		requestProcessor.initActionBindings();
 		pickUpSharedManagerIfExists(filterConfig);
 	}
 
