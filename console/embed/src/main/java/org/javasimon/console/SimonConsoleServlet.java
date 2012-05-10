@@ -40,6 +40,7 @@ public class SimonConsoleServlet extends HttpServlet {
 			urlPrefix = urlPrefix.trim();
 		}
 		requestProcessor = new SimonConsoleRequestProcessor(urlPrefix);
+		requestProcessor.initActionBindings();
 	}
 
 	private void pickUpSharedManagerIfExists(ServletConfig config) {

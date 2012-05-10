@@ -28,22 +28,33 @@ public class ResourceAction extends Action {
 		CONTENT_TYPES.put("css", "text/css");
 		CONTENT_TYPES.put("js", "text/javascript");
 	}
-
-	public ResourceAction(ActionContext context) {
+	/**
+	 * Relative path of the resource to return
+	 */
+	private final String resourcePath;
+	/**
+	 * Constructor
+	 * @param context Action context
+	 * @param resourcePath Local path of the resource
+	 */
+	public ResourceAction(ActionContext context, String resourcePath) {
 		super(context);
+		if (resourcePath.startsWith("/")) {
+			this.resourcePath=resourcePath;
+		} else {
+			this.resourcePath="/"+resourcePath;
+		}
 	}
 
 	@Override
 	public void execute() throws ServletException, IOException, ActionException {
 		InputStream resourceIStream = null;
 		try {
-			String resourceName = getContext().getPath().substring(1);
-			String resourcePath = "/org/javasimon/console/" + resourceName;
-			resourceIStream = getClass().getResourceAsStream(resourcePath);
+			resourceIStream = getClass().getResourceAsStream("/org/javasimon/console/resource" + resourcePath);
 			if (resourceIStream == null) {
-				throw new ActionException("Resource " + resourceName + " not found");
+				throw new ActionException("Resource " + resourcePath + " not found");
 			}
-			String extension = resourceName.substring(resourceName.lastIndexOf('.') + 1).toLowerCase();
+			String extension = resourcePath.substring(resourcePath.lastIndexOf('.') + 1).toLowerCase();
 			String contentType = CONTENT_TYPES.get(extension);
 			if (contentType != null) {
 				getContext().setContentType(contentType);

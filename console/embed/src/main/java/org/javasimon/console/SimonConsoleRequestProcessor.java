@@ -1,6 +1,8 @@
 package org.javasimon.console;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +14,7 @@ import org.javasimon.console.action.*;
  * Common part processing the request for {@link SimonConsoleServlet} or {@link SimonConsoleFilter}.
  *
  * @author virgo47@gmail.com
+ * @author gquintana
  */
 class SimonConsoleRequestProcessor {
 	/**
@@ -33,7 +36,12 @@ class SimonConsoleRequestProcessor {
 	 * Simon manager to use.
 	 */
 	private Manager manager = SimonManager.manager();
-
+	
+	/**
+	 * List of action bindings.
+	 */
+	private final List<ActionBinding> actionBindings=new ArrayList<ActionBinding>();
+	
 	SimonConsoleRequestProcessor(String urlPrefix) {
 		if (urlPrefix == null) {
 			this.urlPrefix = "";
@@ -41,7 +49,83 @@ class SimonConsoleRequestProcessor {
 			this.urlPrefix = urlPrefix.trim();
 		}
 	}
-
+	/**
+	 * Add an action binding to the {@link #actionBindings} list.
+	 * @param actionBinding Action binding to add
+	 */
+	public final void addActionBinding(ActionBinding actionBinding) {
+		this.actionBindings.add(actionBinding);
+	}
+	/**
+	 * Add a simple action binding to the {@link #actionBindings} list.
+	 * @param actionPath Path of the action
+	 * @param actionClass Class of the action
+	 */
+	public final <T> void addSimpleActionBinding(String actionPath, Class<T> actionClass) {
+		this.addActionBinding(new SimpleActionBinding(actionPath, actionClass));
+	}
+	/**
+	 * Add a resource action binding to the {@link #actionBindings} list.
+	 * @param actionPath Path of the action
+	 * @param resourcePath Path of a resource located under 
+	 */
+	public void addResourceActionBinding(final String actionPath, final String resourcePath) {
+		this.addActionBinding(new ActionBinding() {
+			public boolean supports(ActionContext actionContext) {
+				return actionContext.getPath().equals(actionPath);
+			}
+			public Action create(ActionContext actionContext) {
+				return new ResourceAction(actionContext, resourcePath);
+			}
+		});
+	}
+	/**
+	 * Find an acttion binding for the given action context
+	 * @return  Found Action binding , null if any.
+	 */
+	protected final ActionBinding findActionBinding(ActionContext actionContext) {
+		for(ActionBinding actionBinding:this.actionBindings) {
+			if (actionBinding.supports(actionContext)) {
+				return actionBinding;
+			}
+		}
+		return null;
+	}
+	protected void initActionBindings() {
+		// /console is redirected to /console/index.html
+		addActionBinding(new ActionBinding<Action>() {
+			public boolean supports(ActionContext actionContext) {
+				return actionContext.getPath().isEmpty();
+			}
+			public Action create(ActionContext actionContext) {
+				return new RedirectAction(actionContext.getRequest().getContextPath() + urlPrefix + ROOT_PATH, actionContext);
+			}
+		});
+		// /console/ and /console/index.html load resource/index.html
+		addResourceActionBinding("/", ROOT_PATH);
+		addResourceActionBinding(ROOT_PATH, ROOT_PATH);
+		// /console/tree.html loads resource/tree.html
+		addResourceActionBinding(TREE_PATH, TREE_PATH);
+		// /resource/* loads resource/*
+		addActionBinding(new ActionBinding<Action>() {
+			private final String pathPrefix="/resource";
+			public boolean supports(ActionContext actionContext) {
+				return actionContext.getPath().startsWith(pathPrefix);
+			}
+			public Action create(ActionContext actionContext) {
+				return new ResourceAction(actionContext, actionContext.getPath().substring(pathPrefix.length()));
+			}
+		});
+		addSimpleActionBinding(TableJsonAction.PATH, TableJsonAction.class);
+		addSimpleActionBinding(ListJsonAction.PATH,  ListJsonAction.class);
+		addSimpleActionBinding(TreeJsonAction.PATH,  TreeJsonAction.class);
+		addSimpleActionBinding(TableJsonAction.PATH, TableJsonAction.class);
+		addSimpleActionBinding(TableHtmlAction.PATH, TableHtmlAction.class);
+		addSimpleActionBinding(TableCsvAction.PATH,  TableCsvAction.class);
+		addSimpleActionBinding(TreeXmlAction.PATH,   TreeXmlAction.class);
+		addSimpleActionBinding(ResetAction.PATH,     ResetAction.class);
+		addSimpleActionBinding(ClearAction.PATH,     ClearAction.class);		
+	}
 	/**
 	 * Processes requests for both HTTP {@code GET} and {@code POST} methods.
 	 *
@@ -55,35 +139,23 @@ class SimonConsoleRequestProcessor {
 		String path = request.getRequestURI().substring(request.getContextPath().length() + urlPrefix.length());
 		ActionContext actionContext = new ActionContext(request, response, path);
 		actionContext.setManager(manager);
-		Action action;
+		processContext(actionContext);
+	}
+	/**
+	 * Process an HTTP request.
+	 * @param actionContext Action context (wrapping HTTP request and response)
+	 */
+	protected void processContext(ActionContext actionContext) throws ServletException, IOException {
+		Action action=null;
 		try {
-			// Create action corresponding to request path
-			if (path.equals("")) {
-				action = new RedirectAction(request.getContextPath() + urlPrefix + ROOT_PATH, actionContext);
-			} else if (path.equals("/") || path.equals(ROOT_PATH)) {
-				action = createResourceAction(actionContext, ResourceAction.PREFIX + ROOT_PATH);
-			} else if (path.equals(TREE_PATH)) {
-				action = createResourceAction(actionContext, ResourceAction.PREFIX + TREE_PATH);
-			} else if (path.startsWith(ResourceAction.PREFIX)) {
-				action = createResourceAction(actionContext, path);
-			} else if (path.equals(TableJsonAction.PATH)) {
-				action = new TableJsonAction(actionContext);
-			} else if (path.equals(ListJsonAction.PATH)) {
-				action = new ListJsonAction(actionContext);
-			} else if (path.equals(TreeJsonAction.PATH)) {
-				action = new TreeJsonAction(actionContext);
-			} else if (path.equals(TableHtmlAction.PATH)) {
-				action = new TableHtmlAction(actionContext);
-			} else if (path.equals(TableCsvAction.PATH)) {
-				action = new TableCsvAction(actionContext);
-			} else if (path.equals(TreeXmlAction.PATH)) {
-				action = new TreeXmlAction(actionContext);
-			} else if (path.equals(ResetAction.PATH)) {
-				action = new ResetAction(actionContext);
-			} else if (path.equals(ClearAction.PATH)) {
-				action = new ClearAction(actionContext);
-			} else {
-				throw new ActionException("No action for path " + path);
+			// Find action binding
+			ActionBinding actionBinding=findActionBinding(actionContext);
+			// Create action
+			if (actionBinding!=null) {
+				action=actionBinding.create(actionContext);
+			}
+			if (action==null) {
+				throw new ActionException("No action bound to path " + actionContext.getPath());
 			}
 			// Read request parameters
 			action.readParameters();
@@ -100,12 +172,6 @@ class SimonConsoleRequestProcessor {
 			}
 		}
 	}
-
-	private ResourceAction createResourceAction(ActionContext actionContext, String path) {
-		actionContext.setPath(path);
-		return new ResourceAction(actionContext);
-	}
-
 	public String getUrlPrefix() {
 		return urlPrefix;
 	}
