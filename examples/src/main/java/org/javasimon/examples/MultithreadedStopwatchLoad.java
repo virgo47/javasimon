@@ -34,6 +34,12 @@ public final class MultithreadedStopwatchLoad extends Thread {
 					new MultithreadedTester(1).execute();
 				}
 			},
+			new BenchmarkUtils.Task("2") {
+				@Override
+				public void perform() throws Exception {
+					new MultithreadedTester(2).execute();
+				}
+			},
 			new BenchmarkUtils.Task("10") {
 				@Override
 				public void perform() throws Exception {
@@ -46,16 +52,10 @@ public final class MultithreadedStopwatchLoad extends Thread {
 					new MultithreadedTester(100).execute();
 				}
 			},
-			new BenchmarkUtils.Task("500") {
+			new BenchmarkUtils.Task("1000") {
 				@Override
 				public void perform() throws Exception {
-					new MultithreadedTester(500).execute();
-				}
-			},
-			new BenchmarkUtils.Task("2500") {
-				@Override
-				public void perform() throws Exception {
-					new MultithreadedTester(2500).execute();
+					new MultithreadedTester(1000).execute();
 				}
 			}
 		);
