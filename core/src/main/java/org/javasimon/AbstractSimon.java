@@ -18,7 +18,7 @@ abstract class AbstractSimon implements Simon {
 	/**
 	 * Simon's effective state.
 	 */
-	protected boolean enabled;
+	protected volatile boolean enabled;
 
 	/**
 	 * Timestamp of the first usage.
@@ -142,7 +142,7 @@ abstract class AbstractSimon implements Simon {
 	/**
 	 * {@inheritDoc}
 	 */
-	public synchronized boolean isEnabled() {
+	public boolean isEnabled() {
 		return enabled;
 	}
 

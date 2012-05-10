@@ -52,10 +52,8 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	 * {@inheritDoc}
 	 */
 	public Counter set(long val) {
-		synchronized (this) {
-			if (!enabled) {
-				return this;
-			}
+		if (!enabled) {
+			return this;
 		}
 
 		long now = System.currentTimeMillis();
@@ -88,10 +86,8 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	 * {@inheritDoc}
 	 */
 	public Counter increase() {
-		synchronized (this) {
-			if (!enabled) {
-				return this;
-			}
+		if (!enabled) {
+			return this;
 		}
 
 		long now = System.currentTimeMillis();
@@ -116,10 +112,8 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	 * {@inheritDoc}
 	 */
 	public Counter decrease() {
-		synchronized (this) {
-			if (!enabled) {
-				return this;
-			}
+		if (!enabled) {
+			return this;
 		}
 
 		long now = System.currentTimeMillis();
@@ -156,10 +150,8 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	 * {@inheritDoc}
 	 */
 	public Counter increase(long inc) {
-		synchronized (this) {
-			if (!enabled) {
-				return this;
-			}
+		if (!enabled) {
+			return this;
 		}
 
 		long now = System.currentTimeMillis();
@@ -177,10 +169,8 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	 * {@inheritDoc}
 	 */
 	public synchronized Counter decrease(long dec) {
-		synchronized (this) {
-			if (!enabled) {
-				return this;
-			}
+		if (!enabled) {
+			return this;
 		}
 
 		long now = System.currentTimeMillis();
