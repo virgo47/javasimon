@@ -51,7 +51,6 @@ public final class Split {
 	 */
 	Split(Stopwatch stopwatch, long start) {
 		assert start > 0 : "start ns value should not be 0 in this constructor!";
-		assert stopwatch.isEnabled() : "stopwatch must be enabled in this constructor!";
 
 		this.stopwatch = stopwatch;
 		this.start = start;

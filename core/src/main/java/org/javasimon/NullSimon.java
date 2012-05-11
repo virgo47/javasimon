@@ -192,6 +192,8 @@ final class NullStopwatch extends NullSimon implements Stopwatch {
 	 */
 	static final NullStopwatch INSTANCE = new NullStopwatch();
 
+	private static final Split DISABLED_SPLIT = new Split(INSTANCE);
+
 	private NullStopwatch() {
 	}
 
@@ -264,7 +266,7 @@ final class NullStopwatch extends NullSimon implements Stopwatch {
 	 */
 	@Override
 	public Split start() {
-		return new Split(this);
+		return DISABLED_SPLIT;
 	}
 
 	/**
