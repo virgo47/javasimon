@@ -43,7 +43,7 @@ public class TableCsvAction extends AbstractTableAction {
 	}
 
 	@Override
-	protected void printCell(Column column, String s, PrintWriter writer) {
+	protected void printCell(Column column, String s, PrintWriter writer) throws IOException {
 		super.printCell(column, s, writer);
 		writer.write(columnSeparator);
 	}

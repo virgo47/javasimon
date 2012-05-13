@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import org.javasimon.Sample;
 import org.javasimon.console.ActionContext;
+import org.javasimon.console.SimonType;
 import org.javasimon.console.text.StringifierFactory;
 
 /**
@@ -11,66 +12,89 @@ import org.javasimon.console.text.StringifierFactory;
  * Each row as an odd/even CSS class.
  * Each cell as a CSS class corresponding to property name
  * Only a subset (definined in {@link AbstractTableAction#columns}) of attributes are exported.
+ * Path: http://.../data/table.html?pattern=SimonPattern&type=STOPWATCH&type=COUNTER&timeFormat=MILLISECOND
  *
  * @author gquintana
  */
 public class TableHtmlAction extends AbstractTableAction {
-
+	/**
+	 * Path to display Flat HTML table
+	 */
 	public static final String PATH = "/data/table.html";
-
+	/**
+	 * Constructor.
+	 */
 	public TableHtmlAction(ActionContext context) {
 		super(context, "text/html");
 		this.stringifierFactory = new StringifierFactory();
 		this.numberPattern=StringifierFactory.INTEGER_NUMBER_PATTERN;
 	}
+	/**
+	 * Row index
+	 */
 	private Integer index;
-
+	/**
+	 * HTML Builder
+	 */
+	private HtmlBuilder htmlBuilder;
+	/**
+	 * {@inheritDoc }
+	 */
 	@Override
 	protected void printTable(PrintWriter writer) throws IOException {
-		writer.write("<html>");
-		writer.write("<head>");
-		writer.write("<title>Simon Console: Table</title>");
-		writer.write("<link  href=\"../resource/css/javasimon.css\" rel=\"stylesheet\" type=\"text/css\" />");
-		writer.write("</head>");
-		writer.write("<body>");
-		writer.write("<h1><img id=\"logo\" src=\"../resource/images/logo.png\" alt=\"Logo\" />Simon Console: Table</h1>");
-		writer.write("<table class=\"flatTable\">");
+		htmlBuilder=new HtmlBuilder(writer);
+		htmlBuilder.header("List View")
+			.begin("table", "flatTable", "flatTable");
 		super.printTable(writer);
-		writer.write("</table>");
-		writer.write("</body>");
-		writer.write("</html>");
+		htmlBuilder.end("table").footer();
 	}
 
+	/**
+	 * {@inheritDoc }
+	 */
 	@Override
 	protected void printHeaderRow(PrintWriter writer) throws IOException {
-		writer.write("<thead><tr>");
+		htmlBuilder.begin("thead").begin("tr");
 		super.printHeaderRow(writer);
-		writer.write("</tr></thead>");
+		htmlBuilder.end("tr").end("thead");
 	}
 
+	/**
+	 * {@inheritDoc }
+	 */
 	@Override
 	protected void printBody(PrintWriter writer) throws IOException {
-		writer.write("<tbody>");
+		htmlBuilder.begin("tbody");
 		index = 0;
 		super.printBody(writer);
 		index = null;
-		writer.write("</tbody>");
+		htmlBuilder.end("tbody");
 	}
 
+	/**
+	 * {@inheritDoc }
+	 */
 	@Override
 	protected void printBodyRow(Sample sample, PrintWriter writer) throws IOException {
-		writer.write("<tr id=\"" + index + "\" class=\"" + (index % 2 == 0 ? "even" : "odd") + "\">");
+		htmlBuilder.begin("tr",Integer.toString(index), index % 2 == 0 ? "even" : "odd");
 		super.printBodyRow(sample, writer);
 		index++;
-		writer.write("</tr>");
+		htmlBuilder.end("tr");
 	}
 
+	/**
+	 * {@inheritDoc }
+	 */
 	@Override
-	protected void printCell(Column column, String s, PrintWriter writer) {
-		writer.write("<td class=\"");
-		writer.write(column.getName());
-		writer.write("\">");
+	protected void printCell(Column column, String s, PrintWriter writer) throws IOException {
+		htmlBuilder.begin("td",null, column.getName());
+		if (column.getName().equals("type")) {
+			try {
+				htmlBuilder.simonTypeImg(SimonType.valueOf(s), "../../");
+			} catch(IllegalArgumentException illegalArgumentException) {
+			}
+		}
 		super.printCell(column, s, writer);
-		writer.write("</td>");
+		htmlBuilder.end("td");
 	}
 }
