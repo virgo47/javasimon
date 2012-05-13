@@ -170,3 +170,33 @@ table.dataTreeTable > tbody > tr > td.date {
     display: block;
     padding: 0.5em;
 }
+
+/* -----------------------------------------------------------------------------
+ * Static detail view styling
+ * ---------------------------------------------------------------------------*/
+div.sectionPanel {
+	margin-bottom: 1em;
+	border:solid 1px black;
+	width:1300px;
+}
+table.sectionTable {
+	width:100%;
+}
+table.sectionTable > tbody > tr > td > img.icon {
+	height: 24px;
+	width: 24px;
+	border: none;
+	margin: 0px;
+	vertical-align:middle;
+}
+table.sectionTable > tbody > tr > td.label {
+	width:175px;
+	text-align: right;
+	font-weight: bold;
+	padding-left: 1em;
+	padding-right:0.5em;
+}
+table.sectionTable > tbody > tr > td.value {
+	padding-left: 0.5em;
+	padding-right:1em;
+}

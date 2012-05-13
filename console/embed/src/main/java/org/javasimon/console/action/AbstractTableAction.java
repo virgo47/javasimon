@@ -136,7 +136,7 @@ public class AbstractTableAction extends Action {
 		}
 	}
 
-	protected void printHeaderCell(Column c, PrintWriter writer) {
+	protected void printHeaderCell(Column c, PrintWriter writer) throws IOException {
 		printCell(c, c.getTitle(), writer);
 	}
 
@@ -154,11 +154,11 @@ public class AbstractTableAction extends Action {
 		}
 	}
 
-	protected void printBodyCell(Column c, Sample sample, PrintWriter writer) {
+	protected void printBodyCell(Column c, Sample sample, PrintWriter writer) throws IOException{
 		printCell(c, c.getFormattedValue(sample), writer);
 	}
 
-	protected void printCell(Column c, String s, PrintWriter writer) {
+	protected void printCell(Column c, String s, PrintWriter writer) throws IOException {
 		if (s != null) {
 			writer.write(s);
 		}

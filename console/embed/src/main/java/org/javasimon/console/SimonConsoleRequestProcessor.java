@@ -125,6 +125,7 @@ class SimonConsoleRequestProcessor {
 		addSimpleActionBinding(TreeXmlAction.PATH,   TreeXmlAction.class);
 		addSimpleActionBinding(ResetAction.PATH,     ResetAction.class);
 		addSimpleActionBinding(ClearAction.PATH,     ClearAction.class);		
+		addSimpleActionBinding(DetailHtmlAction.PATH,DetailHtmlAction.class);		
 	}
 	/**
 	 * Processes requests for both HTTP {@code GET} and {@code POST} methods.
