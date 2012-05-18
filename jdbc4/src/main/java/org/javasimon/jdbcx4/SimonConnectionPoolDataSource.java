@@ -27,7 +27,7 @@ public final class SimonConnectionPoolDataSource extends AbstractSimonDataSource
 			try {
 				o = Class.forName(realDataSourceClassName).newInstance();
 			} catch (Exception e) {
-				throw new SQLException(e.getMessage());
+				throw new SQLException(e);
 			}
 			if (o instanceof ConnectionPoolDataSource) {
 				ds = (ConnectionPoolDataSource) o;
@@ -43,7 +43,7 @@ public final class SimonConnectionPoolDataSource extends AbstractSimonDataSource
 						}
 					}
 				} catch (Exception e) {
-					throw new SQLException(e.getMessage());
+					throw new SQLException(e);
 				}
 				ds.setLoginTimeout(loginTimeout);
 			} else {
