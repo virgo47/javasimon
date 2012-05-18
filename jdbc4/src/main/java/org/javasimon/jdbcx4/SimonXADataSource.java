@@ -27,7 +27,7 @@ public final class SimonXADataSource extends AbstractSimonDataSource implements 
 			try {
 				o = Class.forName(realDataSourceClassName).newInstance();
 			} catch (Exception e) {
-				throw new SQLException(e.getMessage());
+				throw new SQLException(e);
 			}
 			if (o instanceof XADataSource) {
 				ds = (XADataSource) o;
@@ -43,7 +43,7 @@ public final class SimonXADataSource extends AbstractSimonDataSource implements 
 						}
 					}
 				} catch (Exception e) {
-					throw new SQLException(e.getMessage());
+					throw new SQLException(e);
 				}
 				ds.setLoginTimeout(loginTimeout);
 			} else {

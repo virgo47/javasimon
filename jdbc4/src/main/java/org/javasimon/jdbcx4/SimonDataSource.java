@@ -52,7 +52,7 @@ public final class SimonDataSource extends AbstractSimonDataSource implements Da
 			try {
 				o = Class.forName(realDataSourceClassName).newInstance();
 			} catch (Exception e) {
-				throw new SQLException(e.getMessage());
+				throw new SQLException(e);
 			}
 			if (o instanceof DataSource) {
 				ds = (DataSource) o;
@@ -68,7 +68,7 @@ public final class SimonDataSource extends AbstractSimonDataSource implements Da
 						}
 					}
 				} catch (Exception e) {
-					throw new SQLException(e.getMessage());
+					throw new SQLException(e);
 				}
 				ds.setLogWriter(logWriter);
 				ds.setLoginTimeout(loginTimeout);
