@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Simon Console: Tree</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link  href="resource/css/start/jquery-ui-1.8.20.css" rel="stylesheet" type="text/css" />
+        <link  href="resource/css/javasimon.css" rel="stylesheet" type="text/css" />
+        <script src="resource/js/jquery-1.7.2.js" type="text/javascript"></script>
+        <script src="resource/js/jquery-ui-1.8.20.js" type="text/javascript"></script>
+        <script src="resource/js/jquery-getUrlParam.js" type="text/javascript"></script>
+        <script src="resource/js/javasimon-service.js" type="text/javascript"></script>
+        <script src="resource/js/javasimon-util.js" type="text/javascript"></script>
+        <script src="resource/js/javasimon-detailView.js" type="text/javascript"></script>
+        <script type="text/javascript">
+$(document).ready(function() {
+	var oDetailViewCtrl=new javasimon.DetailView(document.getElementById('dataPanel'));
+	document.oDetailViewCtrl=oDetailViewCtrl;
+	$('#refreshButton')
+		.button({label:"Refresh",icons: {primary: "ui-icon-search"}})
+		.click(function() {document.oDetailViewCtrl.fnReloadAjax(); return false; });
+	$('#resetButton')
+		.button({label:"Reset", icons: {primary: "ui-icon-trash"}})
+		.click(function() {
+			javasimon.ResetService.fnResetOne(document.oDetailViewCtrl.oSimon.name, function() {
+				document.oDetailViewCtrl.fnReloadAjax();
+			});
+			return false;
+		});
+	$('#htmlButton')
+		.button({label:"HTML",icons: {primary: "ui-icon-print"}})
+		.click(function() {
+			document.location.href='data/detail.html?name='+this.oSimon.name;
+			return false;
+		});
+	oDetailViewCtrl.fnLoadAjax=function(sName) {
+		javasimon.DetailService.fnGetDataAsJson({
+			name:sName,
+			timeFormat:javasimon.SettingsService.get('sTimeFormat')},
+			function(oData) {
+				document.oDetailViewCtrl.fnSetData(oData);
+			});
+	};
+	oDetailViewCtrl.fnReloadAjax=function() {
+		this.fnLoadAjax(this.oSimon.name);
+	}
+	oDetailViewCtrl.fnLoadAjax($(document).getUrlParam("name"));
+	document.oDetailViewCtrl=oDetailViewCtrl;
+	$("#mainTabs").tabs({selected:2});
+} );
+        </script>
+    </head>
+    <body>
+	    <h1><img id="logo" src="resource/images/logo.png" alt="Logo" />Simon Console</h1>
+	    <div id="mainTabs">
+		    <ul>
+			    <li><a href="#listView" onclick="document.location.href='index.html';return false;">List View</a></li>
+			    <li><a href="#treeView" onclick="document.location.href='tree.html';return false;">Tree View</a></li>
+			    <li><a href="#detailView" onclick="document.location.href='detail.html';return false;">Detail View</a></li>
+		    </ul>
+		    <div id="detailView">
+			    <div id="filterPanel">
+				    <div class="filterButtons fg-toolbar ui-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-corner-bl ui-corner-br ui-helper-clearfix">
+					    <button id="refreshButton" name="refreshButton">Refresh</button>
+					    <button id="resetButton" name="resetButton">Reset</button>
+					    <span id="exportSpan">Export:</span>
+					    <button id="htmlButton" name="htmlButton">HTML</button>
+				    </div>
+			    </div>
+			    <div id="dataPanel">
+			    </div>
+		    </div>
+	    </div>
+    </body>
+</html>

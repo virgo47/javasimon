@@ -8,6 +8,7 @@
         <script src="resource/js/jquery-1.7.2.js" type="text/javascript"></script>
         <script src="resource/js/jquery-ui-1.8.20.js" type="text/javascript"></script>
         <script src="resource/js/javasimon-service.js" type="text/javascript"></script>
+        <script src="resource/js/javasimon-util.js" type="text/javascript"></script>
         <script src="resource/js/javasimon-dataTreeTable.js" type="text/javascript"></script>
         <script type="text/javascript">
 $(document).ready(function() {
@@ -42,22 +43,11 @@ $(document).ready(function() {
 	var oDataTreeTable=new javasimon.DataTreeTable(eTable,{
 			aoColumns:[
 				{sTitle:"Name",		sField:"name", 		sClass:'string',
-					oImages: {
-						"unknown":"resource/images/TypeUnknown.png",
-						"counter":"resource/images/TypeCounter.png",
-						"stopwatch":"resource/images/TypeStopwatch.png"
-					},
 					fnRender:function(oNode, eCell, oDataTreeTable) {
+						// Append Simon type icon
 						var sType=oNode.oData["type"];
 						var domUtil=javasimon.DOMUtil;
-						var sImage, eImg;
-						if (sType) {
-							sImage=this.oImages[sType.toLowerCase()];
-							if (sImage) {
-								eImg=domUtil.fnAppendChildImage(eCell, sImage);
-								domUtil.fnSetClass(eImg, "icon");
-							}
-						}
+						domUtil.fnAppendSimonTypeImage(eCell, sType);
 						// Fix name
 						var sValue=oNode.oData[this.sField];
 						if (oNode.oParent!==null) {
@@ -72,6 +62,7 @@ $(document).ready(function() {
 						if (sValue==="") {
 							sValue="-";
 						}
+						// Append Simon name
 						domUtil.fnAppendChildText(eCell, sValue);
 						domUtil.fnAppendClass(eCell, "headCell");
 					}
@@ -91,17 +82,28 @@ $(document).ready(function() {
 						var domUtil=javasimon.DOMUtil;
 						var eImg;
 						if (sName) {
-							eImg=domUtil.fnAppendChildElement(eCell, "img");
-							eImg.setAttribute("src","resource/images/Reset.png");
-	                        eImg.setAttribute("alt","Reset");
-	                        eImg.setAttribute("title","Reset Simon values");
+							eImg=domUtil.fnAppendChildElement(eCell, "img", {
+								src:"resource/images/Reset.png",
+								alt:"Reset",
+								title:"Reset Simon values",
+								"class":"icon clickable"
+							});
 							eImg.onclick=function() {
 								javasimon.ResetService.fnResetOne(sName, function() {
 									document.oDataTreeTable.fnReloadAjax();
-								})
+								});
 								return false;
 							};
-							domUtil.fnSetClass(eImg, "icon clickable");
+							eImg=domUtil.fnAppendChildElement(eCell, "img", {
+								src:"resource/images/ToDo.png",
+								alt:"Detail",
+								title:"View Simon detail",
+								"class":"icon clickable"
+							});
+							eImg.onclick=function() {
+								document.location.href="detail.html?name="+sName;
+								return false;
+							};
 						}
 						domUtil.fnAppendClass(eCell, "footCell");
 					}
