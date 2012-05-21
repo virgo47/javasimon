@@ -113,6 +113,24 @@ window.javasimon=javasimon;
 		}
 	};
 	/**
+	* Service to get Simon detailed model through Ajax HTTP requests
+	*/
+	ns.DetailService={
+		sUrl:"data/detail",
+		fnGetDataAsXxx:function(sExt, oParam) {
+			var lsUrl=this.sUrl+"."+sExt+"?";
+			window.location.href=lsUrl;
+		},
+		fnGetDataAsJson:function(oParam, fnAjaxCallback) {
+			$.ajax( {
+				url: this.sUrl+".json",
+				data: oParam,
+				success: fnAjaxCallback,
+				dataType: "json"
+			});
+		}
+	};
+	/**
 	* Service to store/load settings as cookies
 	*/
 	ns.SettingsService={

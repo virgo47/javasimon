@@ -28,6 +28,11 @@ class SimonConsoleRequestProcessor {
 	public static final String TREE_PATH = "/tree.html";
 
 	/**
+	 * Tree page path.
+	 */
+	public static final String DETAIL_PATH = "/detail.html";
+
+	/**
 	 * URL Prefix - set by init parameters in {@code web.xml} (for filter or servlet).
 	 */
 	private String urlPrefix;
@@ -106,6 +111,7 @@ class SimonConsoleRequestProcessor {
 		addResourceActionBinding(ROOT_PATH, ROOT_PATH);
 		// /console/tree.html loads resource/tree.html
 		addResourceActionBinding(TREE_PATH, TREE_PATH);
+		addResourceActionBinding(DETAIL_PATH, DETAIL_PATH);
 		// /resource/* loads resource/*
 		addActionBinding(new ActionBinding<Action>() {
 			private final String pathPrefix="/resource";
@@ -126,6 +132,7 @@ class SimonConsoleRequestProcessor {
 		addSimpleActionBinding(ResetAction.PATH,     ResetAction.class);
 		addSimpleActionBinding(ClearAction.PATH,     ClearAction.class);		
 		addSimpleActionBinding(DetailHtmlAction.PATH,DetailHtmlAction.class);		
+		addSimpleActionBinding(DetailJsonAction.PATH,DetailJsonAction.class);		
 	}
 	/**
 	 * Processes requests for both HTTP {@code GET} and {@code POST} methods.

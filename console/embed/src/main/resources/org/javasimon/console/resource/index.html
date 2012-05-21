@@ -129,6 +129,12 @@ $(document).ready(function() {
 							+"alt=\"Reset\" "
 							+"onclick=\"document.oDataTable.fnReset('"+sName+"');return false;\" "
 							+"/>";
+						sResult=sResult+"<img src=\"resource/images/ToDo.png\" "
+							+"class=\"icon clickable\" "
+							+"title=\"View Simon detail\" "
+							+"alt=\"Detail\" "
+							+"onclick=\"document.location.href='detail.html?name="+sName+"';return false;\" "
+							+"/>";
 					}
 					return sResult;
 				}
@@ -161,10 +167,10 @@ $(document).ready(function() {
 		<div id="listView">
 			<div id="filterPanel" class="ui-widget-content ui-corner-all">
 				<form id="filterForm">
-					<table>
+					<table class="formTable">
 						<tr>
-							<td>Pattern</td>
-							<td colspan="3">
+							<td class="label">Pattern</td>
+							<td class="value" colspan="3">
 								<input id="patternText" name="pattern" type="text" size="64"/>
 								<div id="patternHelp" class="hidden">Allowed patterns:
 									<ul>
@@ -178,16 +184,16 @@ $(document).ready(function() {
 								</div></td>
 						</tr>
 						<tr>
-							<td>Type</td>
-							<td>
+							<td class="label">Type</td>
+							<td class="value">
 								<div id="typeChecks">
 									<input type="checkbox" id="stopwatchTypeCheck" name="type" value="STOPWATCH" />Stopwatch
 									<input type="checkbox" id="counterTypeCheck" name="type" value="COUNTER" />Counter
 									<input type="checkbox" id="unknownTypeCheck" name="type" value="UNKNOWN" />Group
 								</div>
 							</td>
-							<td>Time format</td>
-							<td>
+							<td class="label">Time format</td>
+							<td class="value">
 								<select id="timeFormatSelect" name="type">
 									<option value="SECOND">s</option>
 									<option value="MILLISECOND">ms</option>
