@@ -23,11 +23,13 @@ public class JettyMain {
 			// Servlet
 			SimonData.initialize();
 			addSimons("Z",4);
-			ServletHolder servletHolder=new ServletHolder(new SimonConsoleServlet());
+			final SimonConsoleServlet simonConsoleServlet = new SimonConsoleServlet();
+			ServletHolder servletHolder=new ServletHolder(simonConsoleServlet);
 			servletHolder.setInitParameter("console-path", "");
 			context.addServlet(servletHolder, "/*");
 			// Start server thread
 			server.start();
+			simonConsoleServlet.getRequestProcessor().getPluginManager().addPlugin(new DummyDetailPlugin());
 			server.join();
 		} catch (Exception exception) {
 			exception.printStackTrace();

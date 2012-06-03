@@ -47,12 +47,18 @@ class SimonConsoleRequestProcessor {
 	 */
 	private final List<ActionBinding> actionBindings=new ArrayList<ActionBinding>();
 	
-	SimonConsoleRequestProcessor(String urlPrefix) {
+	/**
+	 * Plugin manager.
+	 */
+	private final SimonConsolePluginManager pluginManager=new SimonConsolePluginManager();
+	
+	public SimonConsoleRequestProcessor(String urlPrefix) {
 		if (urlPrefix == null) {
 			this.urlPrefix = "";
 		} else {
 			this.urlPrefix = urlPrefix.trim();
 		}
+		pluginManager.addPlugin(QuantilesDetailPlugin.class);
 	}
 	/**
 	 * Add an action binding to the {@link #actionBindings} list.
@@ -133,6 +139,10 @@ class SimonConsoleRequestProcessor {
 		addSimpleActionBinding(ClearAction.PATH,     ClearAction.class);		
 		addSimpleActionBinding(DetailHtmlAction.PATH,DetailHtmlAction.class);		
 		addSimpleActionBinding(DetailJsonAction.PATH,DetailJsonAction.class);		
+		addSimpleActionBinding(PluginsJsonAction.PATH,PluginsJsonAction.class);		
+		for(ActionBinding actionBinding:pluginManager.getActionBindings()) {
+			addActionBinding(actionBinding);
+		}
 	}
 	/**
 	 * Processes requests for both HTTP {@code GET} and {@code POST} methods.
@@ -147,6 +157,7 @@ class SimonConsoleRequestProcessor {
 		String path = request.getRequestURI().substring(request.getContextPath().length() + urlPrefix.length());
 		ActionContext actionContext = new ActionContext(request, response, path);
 		actionContext.setManager(manager);
+		actionContext.setPluginManager(pluginManager);
 		processContext(actionContext);
 	}
 	/**
@@ -191,4 +202,9 @@ class SimonConsoleRequestProcessor {
 	public void setManager(Manager manager) {
 		this.manager = manager;
 	}
+
+	public SimonConsolePluginManager getPluginManager() {
+		return pluginManager;
+	}
+	
 }

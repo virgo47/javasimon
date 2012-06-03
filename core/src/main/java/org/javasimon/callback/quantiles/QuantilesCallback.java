@@ -199,8 +199,16 @@ public class QuantilesCallback extends CallbackSkeleton {
 	/**
 	 * Get the buckets attribute.
 	 */
-	private Buckets getBuckets(Stopwatch stopwatch) {
+	private static Buckets getBuckets(Stopwatch stopwatch) {
 		return (Buckets) stopwatch.getAttribute(ATTR_NAME_BUCKETS);
+	}
+
+	/**
+	 * Get the buckets attribute and sample them
+	 */
+	public static BucketsSample sampleBuckets(Stopwatch stopwatch) {
+		final Buckets buckets=getBuckets(stopwatch);
+		return buckets==null?null:buckets.sample();
 	}
 
 	/**

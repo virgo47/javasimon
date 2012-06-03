@@ -1,7 +1,9 @@
 package org.javasimon.console.action;
 
+import org.javasimon.console.html.HtmlBuilder;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Collections;
 import org.javasimon.Sample;
 import org.javasimon.console.ActionContext;
 import org.javasimon.console.SimonType;
@@ -43,7 +45,7 @@ public class TableHtmlAction extends AbstractTableAction {
 	@Override
 	protected void printTable(PrintWriter writer) throws IOException {
 		htmlBuilder=new HtmlBuilder(writer);
-		htmlBuilder.header("List View")
+		htmlBuilder.header("List View", Collections.emptyList())
 			.begin("table", "flatTable", "flatTable");
 		super.printTable(writer);
 		htmlBuilder.end("table").footer();

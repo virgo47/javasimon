@@ -310,7 +310,20 @@ public class Buckets implements LogMessageSource<Split> {
 	public void setLogTemplate(LogTemplate<Split> logTemplate) {
 		this.logTemplate = logTemplate;
 	}
-
+	/**
+	 * Sample buckets and quantiles state
+	 * @return 
+	 */
+	public BucketsSample sample() {
+		synchronized (buckets) {
+			BucketSample[] bucketSamples=new BucketSample[buckets.length];
+			for (int i = 0; i < buckets.length; i++) {
+				bucketSamples[i]=buckets[i].sample();
+			}
+			Double[] quantiles = getQuantiles(0.50D, 0.90D);
+			return new BucketsSample(bucketSamples, quantiles[0], quantiles[1]);
+		}		
+	}
 	/**
 	 * String containing: min/max/number configuration and 50%, 75% and 90% quantiles if available.
 	 * Warning this method can be expensive as it is performing computation.
@@ -329,43 +342,38 @@ public class Buckets implements LogMessageSource<Split> {
 			.append("] Quantiles[");
 		final String eol = System.getProperty("line.separator");
 		final String eoc = "\t";
-		synchronized (buckets) {
-			Double[] quantiles = getQuantiles(0.50D, 0.75D, 0.90D);
-			if (quantiles[0] != null) {
-				stringBuilder.append("median=").append(presentNanoTime(quantiles[0]));
+		BucketsSample bucketsSample=sample();
+		if (bucketsSample.getMedian() != null) {
+			stringBuilder.append("median=").append(presentNanoTime(bucketsSample.getMedian()));
+		}
+		if (bucketsSample.getPercentile90() != null) {
+			stringBuilder.append(",90%=").append(presentNanoTime(bucketsSample.getPercentile90()));
+		}
+		stringBuilder.append("]");
+		if (bars) {
+			stringBuilder.append(eol);
+			int maxCount = 0;
+			final int barMax = 10;
+			for (BucketSample bucketSample : bucketsSample.getBuckets()) {
+				maxCount = Math.max(maxCount, bucketSample.getCount());
 			}
-			if (quantiles[1] != null) {
-				stringBuilder.append(",75%=").append(presentNanoTime(quantiles[1]));
-			}
-			if (quantiles[2] != null) {
-				stringBuilder.append(",90%=").append(presentNanoTime(quantiles[2]));
-			}
-			stringBuilder.append("]");
-			if (bars) {
+			for (BucketSample bucketSample : bucketsSample.getBuckets()) {
+				if (bucketSample.getMin() != Long.MIN_VALUE) {
+					stringBuilder.append(presentNanoTime(bucketSample.getMin()));
+				}
+				stringBuilder.append(eoc);
+				if (bucketSample.getMax() != Long.MAX_VALUE) {
+					stringBuilder.append(presentNanoTime(bucketSample.getMax()));
+				}
+				stringBuilder.append(eoc)
+					.append(bucketSample.getCount()).append(eoc);
+				if (maxCount > 0) {
+					final int barSize = bucketSample.getCount() * barMax / maxCount;
+					for (int i = 0; i < barSize; i++) {
+						stringBuilder.append('#');
+					}
+				}
 				stringBuilder.append(eol);
-				int maxCount = 0;
-				final int barMax = 10;
-				for (Bucket bucket : buckets) {
-					maxCount = Math.max(maxCount, bucket.getCount());
-				}
-				for (Bucket bucket : buckets) {
-					if (bucket.getMin() != Long.MIN_VALUE) {
-						stringBuilder.append(presentNanoTime(bucket.getMin()));
-					}
-					stringBuilder.append(eoc);
-					if (bucket.getMax() != Long.MAX_VALUE) {
-						stringBuilder.append(presentNanoTime(bucket.getMax()));
-					}
-					stringBuilder.append(eoc)
-						.append(bucket.getCount()).append(eoc);
-					if (maxCount > 0) {
-						final int barSize = bucket.getCount() * barMax / maxCount;
-						for (int i = 0; i < barSize; i++) {
-							stringBuilder.append('#');
-						}
-					}
-					stringBuilder.append(eol);
-				}
 			}
 		}
 		return stringBuilder.toString();

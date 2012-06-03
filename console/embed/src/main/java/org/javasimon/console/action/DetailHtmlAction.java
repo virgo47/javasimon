@@ -1,7 +1,6 @@
 package org.javasimon.console.action;
 
 import java.io.IOException;
-import java.io.Writer;
 import javax.servlet.ServletException;
 import org.javasimon.Simon;
 import org.javasimon.console.*;
@@ -42,43 +41,6 @@ public class DetailHtmlAction extends Action {
 			StringifierFactory.READABLE_DATE_PATTERN,
 			StringifierFactory.READABLE_NUMBER_PATTERN);
 	}
-	private static class LocalHtmlBuilder extends HtmlBuilder<LocalHtmlBuilder> {
-		public LocalHtmlBuilder(Writer writer, StringifierFactory stringifierFactory) {
-			super(writer, stringifierFactory);
-		}
-		public LocalHtmlBuilder beginSection(String id) throws IOException {
-			return begin("div",id,"sectionPanel").begin("table",null,"sectionTable");
-		}
-		public LocalHtmlBuilder endSection() throws IOException {
-			return end("table").end("div");
-		}
-		public LocalHtmlBuilder beginRow() throws IOException {
-			return begin("tr");
-		}
-		public LocalHtmlBuilder endRow() throws IOException {
-			return end("tr");
-		}
-		public LocalHtmlBuilder labelCell(String propertyLabel) throws IOException {
-			return begin("td class=\"label\"").text(propertyLabel).end("td");
-		}
-		public LocalHtmlBuilder beginValueCell() throws IOException {
-			return beginValueCell("");
-		}
-		public LocalHtmlBuilder beginValueCell(String extraAttrs) throws IOException {
-			return begin("td class=\"value\""+extraAttrs);
-		}
-		public LocalHtmlBuilder endValueCell() throws IOException {
-			return end("td");
-		}
-		public LocalHtmlBuilder simonProperty(Simon simon, String propertyLabel, String propertyName) throws IOException {
-			return labelCell(propertyLabel)
-				.beginValueCell().simonProperty(simon, propertyName).endValueCell();
-		}
-		public LocalHtmlBuilder simonProperty(Simon simon, String propertyLabel, String propertyName, Integer colSpan) throws IOException {
-			return labelCell(propertyLabel)
-				.beginValueCell(" colspan=\""+colSpan+"\"").simonProperty(simon, propertyName).endValueCell();
-		}
-	}
 	@Override
 	public void execute() throws ServletException, IOException, ActionException {
 		// Check arguments
@@ -91,11 +53,11 @@ public class DetailHtmlAction extends Action {
 		}
 		getContext().setContentType("text/html");
 		SimonType simonType=SimonTypeFactory.getValueFromInstance(simon);
-		LocalHtmlBuilder htmlBuilder=new LocalHtmlBuilder(getContext().getWriter(), stringifierFactory);
+		DetailHtmlBuilder htmlBuilder=new DetailHtmlBuilder(getContext().getWriter(), stringifierFactory);
 		// Page header
-		htmlBuilder.header("Detail View")
+		htmlBuilder.header("Detail View", DetailPlugin.getResources(getContext(), DetailPlugin.class))
 		// Common Simon section
-		.beginSection("simonPanel")
+		.beginSection("simonPanel", "Simon")
 			.beginRow()
 				.simonProperty(simon, "Name", "name", 5)
 			.endRow()
@@ -117,7 +79,7 @@ public class DetailHtmlAction extends Action {
 		// Specific Stopwatch/Counter section
 		switch(simonType) {
 			case STOPWATCH:
-				htmlBuilder.beginSection("stopwatchPanel")
+				htmlBuilder.beginSection("stopwatchPanel", "Stopwatch")
 					.beginRow()
 						.simonProperty(simon, "Counter", "counter")
 						.simonProperty(simon, "Total", "total")
@@ -145,7 +107,7 @@ public class DetailHtmlAction extends Action {
 				.endSection();
 				break;
 			case COUNTER:
-				htmlBuilder.beginSection("counterPanel")
+				htmlBuilder.beginSection("counterPanel", "Counter")
 					.beginRow()
 						.simonProperty(simon, "Counter", "counter")
 					.endRow()
@@ -163,6 +125,12 @@ public class DetailHtmlAction extends Action {
 					.endRow()
 				.endSection();
 				break;
+		}
+		// Plugins
+		for(DetailPlugin plugin:getContext().getPluginManager().getPluginsByType(DetailPlugin.class)) {
+			htmlBuilder.beginSection(plugin.getId()+"Panel", plugin.getLabel());
+			plugin.executeHtml(getContext(), htmlBuilder, stringifierFactory, simon);
+			htmlBuilder.endSection();
 		}
 		// Page footer
 		htmlBuilder.footer();

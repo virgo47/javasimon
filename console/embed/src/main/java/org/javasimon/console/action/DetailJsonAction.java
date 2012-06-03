@@ -5,7 +5,11 @@ import javax.servlet.ServletException;
 import org.javasimon.Simon;
 import org.javasimon.console.ActionContext;
 import org.javasimon.console.ActionException;
+import org.javasimon.console.SimonConsolePlugin;
+import org.javasimon.console.html.HtmlResource;
+import org.javasimon.console.json.ArrayJS;
 import org.javasimon.console.json.ObjectJS;
+import org.javasimon.console.text.Stringifier;
 
 /**
  * Export one Simons as a JSON object for display in detail view.
@@ -42,7 +46,18 @@ public class DetailJsonAction extends AbstractJsonAction {
 			throw new ActionException("Simon \""+name+"\" not found");
 		}
 		getContext().setContentType("application/json");
-		ObjectJS simonRootJS = createObjectJS(simon);
-		simonRootJS.write(getContext().getWriter());
+		ObjectJS simonJS = createObjectJS(simon);
+		// Plugins
+		ArrayJS pluginsJS=new ArrayJS();
+		for(DetailPlugin plugin:getContext().getPluginManager().getPluginsByType(DetailPlugin.class)) {
+			ObjectJS pluginJS=plugin.toJson(jsonStringifierFactory);
+			final ObjectJS pluginDataJS = plugin.executeJson(getContext(), jsonStringifierFactory, simon);
+			if (pluginDataJS!=null) {
+				pluginJS.setAttribute("data", pluginDataJS);
+			}
+			pluginsJS.addElement(pluginJS);
+		}
+		simonJS.setAttribute("plugins", pluginsJS);
+		simonJS.write(getContext().getWriter());
 	}
 }

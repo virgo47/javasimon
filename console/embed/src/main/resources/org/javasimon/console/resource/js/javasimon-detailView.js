@@ -115,12 +115,27 @@ window.javasimon=javasimon;
 			this.fnAppendSimonLabelValueCell(row, "Increment Sum", "incrementSum");
 			this.fnAppendSimonLabelValueCell(row, "Decrement Sum", "decrementSum");
 		},
+		fnRenderPluginDiv:function(oPlugin) {
+			// Section Title
+			var sPluginId=oPlugin.id,
+				section=this.fnAppendSection(sPluginId + "Section"),
+				row;
+			domUtil.fnAppendChildText(section.eTitle, oPlugin.label);
+			// Table
+			row=this.fnAppendRow(section.eTableBody);
+			
+		},
 		fnRender: function() {
 			this.fnRenderSimonDiv();
 			if (this.oSimon.type==="STOPWATCH") {
 				this.fnRenderStopwatchDiv();
 			} else if (this.oSimon.type==="COUNTER") {
 				this.fnRenderCounterDiv();
+			}
+			if (this.oSimon.plugins) {
+				for(var i=0;i<this.oSimon.plugins.length;i++) {
+					this.fnRenderPluginDiv(this.oSimon.plugins[i]);
+				}
 			}
 		},
 		fnSetData:function(oSimon) {

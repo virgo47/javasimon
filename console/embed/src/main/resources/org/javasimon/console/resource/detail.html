@@ -29,7 +29,7 @@ $(document).ready(function() {
 	$('#htmlButton')
 		.button({label:"HTML",icons: {primary: "ui-icon-print"}})
 		.click(function() {
-			document.location.href='data/detail.html?name='+this.oSimon.name;
+			document.location.href='data/detail.html?name='+document.oDetailViewCtrl.oSimon.name;
 			return false;
 		});
 	oDetailViewCtrl.fnLoadAjax=function(sName) {
