@@ -1,4 +1,4 @@
-package org.javasimon.console.action;
+package org.javasimon.console.html;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -119,14 +119,36 @@ public class HtmlBuilder<T extends HtmlBuilder> {
 		return (T) this;
 	}
 	/**
+	 * Add a CSS StyleSheet link
+	 */
+	private T cssResource(String path) throws IOException{
+		return (T) write("<link  href=\"../resource/").write(path).write("\" rel=\"stylesheet\" type=\"text/css\" />");
+	}
+	private T resources(Iterable<HtmlResource> resources) throws IOException {
+		// Write CSS Resources
+		cssResource("css/javasimon.css");
+		for(HtmlResource resource:resources) {
+			if (resource.getType()==HtmlResourceType.CSS) {
+				cssResource(resource.getPath());
+			}
+		}
+		// Write JavaScript Resources
+		for(HtmlResource resource:resources) {
+			if (resource.getType()==HtmlResourceType.JS) {
+				write("<script src=\"../resource/").write(resource.getPath()).write("\" type=\"text/javascript\"></script>");
+			}
+		}
+		return (T) this;
+	}
+	/**
 	 * Page header.
 	 * @param title Page title
 	 */
-	public T header(String title) throws IOException {
+	public T header(String title, Iterable<HtmlResource> resources) throws IOException {
 		return (T) begin("html")
 			.begin("head")
 				.begin("title").text("Simon Console: ").text(title).end("title")
-				.write("<link  href=\"../resource/css/javasimon.css\" rel=\"stylesheet\" type=\"text/css\" />")
+				.resources(resources)
 			.end("head")
 			.begin("body")
 				.begin("h1")

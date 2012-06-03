@@ -48,6 +48,39 @@ javasimon.DOMUtil={
 			}
 		}
 	},
+	fnGetHead:function() {
+		return document.getElementsByTagName("head")[0];
+	},
+	/**
+	 * List of CSS resources path to avoid duplications
+	 */
+	asCSSResources:[],
+	/**
+	 * Add a CSS StyleSheet resource reference to document head.
+	 */
+	fnAppendCSSResource:function(sPath) {
+		var linkElt;
+		if (this.asCSSResources.indexOf(sPath)<0) {
+			linkElt=this.fnAppendChildElement(this.fnGetHead(), "link", {href:sPath, rel:"stylesheet", type:"text/javascript"});
+			this.asCSSResources.push(sPath);
+		}
+		return linkElt;
+	},
+	/**
+	 * List of JS resources path to avoid duplications
+	 */
+	asJSResources:[],
+	/**
+	 * Add a JavaScript resource reference to document head.
+	 */
+	fnAppendJSResource:function(sPath) {
+		var scriptElt;
+		if (this.asJSResources.indexOf(sPath)<0) {
+			scriptElt=this.fnAppendChildElement(this.fnGetHead(), "script", {script:sPath, type:"text/javascript"});
+			this.asJResources.push(sPath)
+		}
+		return scriptElt;
+	},
 	fnSetClass:function(eParent,sClass) {
 		eParent.setAttribute('class',sClass);
 	},

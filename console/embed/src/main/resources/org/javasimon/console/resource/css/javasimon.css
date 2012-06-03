@@ -196,6 +196,11 @@ div.sectionPanel {
 	border:solid 1px black;
 	width:1300px;
 }
+div.sectionPanel > div.title {
+	height: 2em;
+	font-weight: bold;
+	font-size: 110%;
+}
 table.sectionTable > tbody > tr > td > img.icon {
 	height: 24px;
 	width: 24px;

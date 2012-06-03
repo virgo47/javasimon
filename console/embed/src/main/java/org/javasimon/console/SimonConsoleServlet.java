@@ -34,6 +34,10 @@ public class SimonConsoleServlet extends HttpServlet {
 		pickUpSharedManagerIfExists(config);
 
 		String urlPrefix = config.getInitParameter(URL_PREFIX_INIT_PARAMETER);
+		initRequestProcessor(urlPrefix);
+	}
+
+	public void initRequestProcessor(String urlPrefix) {
 		if (urlPrefix == null) {
 			urlPrefix = "";
 		} else {
@@ -41,6 +45,10 @@ public class SimonConsoleServlet extends HttpServlet {
 		}
 		requestProcessor = new SimonConsoleRequestProcessor(urlPrefix);
 		requestProcessor.initActionBindings();
+	}
+
+	public SimonConsoleRequestProcessor getRequestProcessor() {
+		return requestProcessor;
 	}
 
 	private void pickUpSharedManagerIfExists(ServletConfig config) {

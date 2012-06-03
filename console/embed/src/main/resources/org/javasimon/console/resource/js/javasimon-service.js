@@ -271,4 +271,18 @@ window.javasimon=javasimon;
 		}
 	};
 	ns.SettingsService.load(document);
+	/**
+	* Service to get Simon plugins through Ajax HTTP requests
+	*/
+	ns.PluginService={
+		sUrl:"data/plugins.json",
+		fnGetDataAsJson:function(oParam, fnAjaxCallback) {
+			$.ajax( {
+				url: this.sUrl,
+				data: oParam,
+				success: fnAjaxCallback,
+				dataType: "json"
+			});
+		}
+	};
 })(javasimon);

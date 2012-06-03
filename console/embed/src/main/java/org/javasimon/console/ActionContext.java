@@ -36,6 +36,10 @@ public class ActionContext {
 	 */
 	private Manager manager = SimonManager.manager();
 	/**
+	 * Simon console plugin manager.
+	 */
+	private SimonConsolePluginManager pluginManager;
+	/**
 	 * Constructor
 	 *
 	 * @param request
@@ -169,4 +173,13 @@ public class ActionContext {
 			return enums.isEmpty()?defaultValue:EnumSet.copyOf(enums);
 		}
 	}
+
+	public SimonConsolePluginManager getPluginManager() {
+		return pluginManager;
+	}
+
+	public void setPluginManager(SimonConsolePluginManager pluginManager) {
+		this.pluginManager = pluginManager;
+	}
+	
 }
