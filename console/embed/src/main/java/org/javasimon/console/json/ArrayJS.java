@@ -3,7 +3,10 @@ package org.javasimon.console.json;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import org.javasimon.callback.quantiles.BucketSample;
+import org.javasimon.console.text.StringifierFactory;
 
 /**
  * JavaScript Array
@@ -18,6 +21,9 @@ public class ArrayJS extends AnyJS {
 
 	public ArrayJS() {
 		this.elements = new ArrayList<AnyJS>();
+	}
+	public ArrayJS(int size) {
+		this.elements = new ArrayList<AnyJS>(size);
 	}
 
 	public ArrayJS(List<AnyJS> elements) {
@@ -50,5 +56,37 @@ public class ArrayJS extends AnyJS {
 			element.write(writer);
 		}
 		writer.write("]");
+	}
+	/**
+	 * Create an JSON Array of JSON objects from a collection of Java Objects
+	 * @param objects Java Objects
+	 * @param stringifierFactory JSON Stringifier converter
+	 * @return Array of JSON Objects
+	 */
+	public static ArrayJS create(Collection<?> objects, StringifierFactory stringifierFactory) {
+		if (objects==null) {
+			return null;
+		}
+		ArrayJS arrayJS = new ArrayJS(objects.size());
+		for (Object object : objects) {
+			arrayJS.addElement(ObjectJS.create(object, stringifierFactory));
+		}
+		return arrayJS;
+	}
+	/**
+	 * Create an JSON Array of JSON objects from a collection of Java Objects
+	 * @param objects Java Objects
+	 * @param stringifierFactory JSON Stringifier converter
+	 * @return Array of JSON Objects
+	 */
+	public static ArrayJS create(Object[] objects, StringifierFactory stringifierFactory) {
+		if (objects==null) {
+			return null;
+		}
+		ArrayJS arrayJS = new ArrayJS(objects.length);
+		for (Object object : objects) {
+			arrayJS.addElement(ObjectJS.create(object, stringifierFactory));
+		}
+		return arrayJS;
 	}
 }

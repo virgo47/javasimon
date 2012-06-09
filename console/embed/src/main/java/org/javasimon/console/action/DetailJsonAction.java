@@ -5,11 +5,8 @@ import javax.servlet.ServletException;
 import org.javasimon.Simon;
 import org.javasimon.console.ActionContext;
 import org.javasimon.console.ActionException;
-import org.javasimon.console.SimonConsolePlugin;
-import org.javasimon.console.html.HtmlResource;
 import org.javasimon.console.json.ArrayJS;
 import org.javasimon.console.json.ObjectJS;
-import org.javasimon.console.text.Stringifier;
 
 /**
  * Export one Simons as a JSON object for display in detail view.

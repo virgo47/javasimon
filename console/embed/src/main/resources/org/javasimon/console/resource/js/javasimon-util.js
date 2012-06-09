@@ -8,7 +8,9 @@ javasimon.DOMUtil={
 	fnAppendChildElement:function(eParent, sName, oAttributes) {
 		var eChild=document.createElement(sName);
 		this.fnSetAttributes(eChild, oAttributes);
-		eParent.appendChild(eChild);
+		if (eParent) {
+			eParent.appendChild(eChild);
+		}
 		return eChild;
 	},
 	fnSetAttributes:function(eNode, oAttributes) {
@@ -61,7 +63,7 @@ javasimon.DOMUtil={
 	fnAppendCSSResource:function(sPath) {
 		var linkElt;
 		if (this.asCSSResources.indexOf(sPath)<0) {
-			linkElt=this.fnAppendChildElement(this.fnGetHead(), "link", {href:sPath, rel:"stylesheet", type:"text/javascript"});
+			linkElt=this.fnAppendChildElement(this.fnGetHead(), "link", {type:"text/css", rel:"stylesheet", href:sPath});
 			this.asCSSResources.push(sPath);
 		}
 		return linkElt;
@@ -76,8 +78,8 @@ javasimon.DOMUtil={
 	fnAppendJSResource:function(sPath) {
 		var scriptElt;
 		if (this.asJSResources.indexOf(sPath)<0) {
-			scriptElt=this.fnAppendChildElement(this.fnGetHead(), "script", {script:sPath, type:"text/javascript"});
-			this.asJResources.push(sPath)
+			scriptElt=this.fnAppendChildElement(this.fnGetHead(), "script", {type:"text/javascript",src:sPath});
+			this.asJSResources.push(sPath);
 		}
 		return scriptElt;
 	},

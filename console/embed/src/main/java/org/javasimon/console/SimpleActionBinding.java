@@ -70,11 +70,6 @@ public class SimpleActionBinding<T extends Action> implements ActionBinding<T> {
 				default:
 					throw new IllegalStateException("Invalid argument number in action constructor: "+actionConstructorParams.length);
 			}
-			if (actionConstructorParams.length == 1 && actionConstructorParams[0].equals(ActionContext.class)) {
-				action = actionConstructor.newInstance(actionContext);
-			} else {
-				
-			}
 			return action;
 		} catch (InstantiationException instantiationException) {
 			throw new IllegalStateException("Failed to create action", instantiationException);

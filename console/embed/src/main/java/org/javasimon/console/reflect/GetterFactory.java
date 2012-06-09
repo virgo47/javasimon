@@ -2,11 +2,12 @@ package org.javasimon.console.reflect;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.*;
-import org.javasimon.console.SimonType;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 import org.javasimon.console.SimonTypeFactory;
 
 /**

@@ -5,6 +5,7 @@ import java.util.Date;
 import org.javasimon.SimonState;
 import org.javasimon.console.SimonType;
 import org.javasimon.console.TimeFormatType;
+import org.javasimon.console.html.HtmlResourceType;
 import org.javasimon.utils.SimonUtils;
 
 /**
@@ -168,6 +169,7 @@ public class StringifierFactory {
 		compositeStringifier.add(Enum.class, enumStringifier);
 		compositeStringifier.add(SimonType.class, enumStringifier);
 		compositeStringifier.add(SimonState.class, enumStringifier);
+		compositeStringifier.add(HtmlResourceType.class, enumStringifier);
 
 		// Date
 		final Stringifier<java.util.Date> dateStringifier = new DateStringifier(nullStringifier, stringStringifier, datePattern);
