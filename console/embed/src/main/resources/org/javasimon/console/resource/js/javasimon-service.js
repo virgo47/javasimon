@@ -1,11 +1,14 @@
 "use strict";
 var javasimon=window.javasimon||{};
 window.javasimon=javasimon;
-(function(ns) {
+(function($, tns) {
+	tns.fnDefaultAjaxErrorCallback=function(content) {
+		window.alert("Server request failed:" +content);
+	};
 	/**
 	* Service to reset Simons through Ajax HTTP requests
 	*/
-	ns.ResetService={
+	tns.ResetService={
 		sUrl:"data/reset",
 		/**
 		* Reset one or more Simons. A confirmation dialog appears before.
@@ -31,13 +34,13 @@ window.javasimon=javasimon;
 		* @param fnAjaxCallback {function} Callback
 		*/
 		fnReset: function(oData, fnAjaxCallback) {
-			$.post(this.sUrl, oData, fnAjaxCallback);
+			$.post(this.sUrl, oData, fnAjaxCallback, tns.fnDefaultAjaxErrorCallback);
 		}
 	};
 	/**
 	* Service to clear Simons through Ajax HTTP requests
 	*/
-	ns.ClearService={
+	tns.ClearService={
 		sUrl:"data/clear",
 		/**
 		* Clear all simons. A confirmation dialog appears before.
@@ -53,13 +56,13 @@ window.javasimon=javasimon;
 		* @param fnAjaxCallback {function} Callback
 		*/
 		fnClear: function(fnAjaxCallback) {
-			$.post(this.sUrl, {}, fnAjaxCallback);
+			$.post(this.sUrl, {}, fnAjaxCallback, tns.fnDefaultAjaxErrorCallback);
 		}
 	};
 	/**
 	* Service to get Simon data as flat list through Ajax HTTP requests
 	*/
-	ns.TableService={
+	tns.TableService={
 		sUrl:"data/table",
 		fnGetDataAsXxx:function(sExt, oParam) {
 			var lsUrl=this.sUrl+"."+sExt+"?_";
@@ -87,6 +90,7 @@ window.javasimon=javasimon;
 				url: this.sUrl+".json",
 				data: oParam,
 				success: fnAjaxCallback,
+				error: tns.fnDefaultAjaxErrorCallback,
 				dataType: "json"
 			});
 		}
@@ -94,7 +98,7 @@ window.javasimon=javasimon;
 	/**
 	* Service to get Simon hierchical, tree-style model through Ajax HTTP requests
 	*/
-	ns.TreeService={
+	tns.TreeService={
 		sUrl:"data/tree",
 		fnGetDataAsXxx:function(sExt, oParam) {
 			var lsUrl=this.sUrl+"."+sExt+"?";
@@ -108,6 +112,7 @@ window.javasimon=javasimon;
 				url: this.sUrl+".json",
 				data: oParam,
 				success: fnAjaxCallback,
+				error: tns.fnDefaultAjaxErrorCallback,
 				dataType: "json"
 			});
 		}
@@ -115,7 +120,7 @@ window.javasimon=javasimon;
 	/**
 	* Service to get Simon detailed model through Ajax HTTP requests
 	*/
-	ns.DetailService={
+	tns.DetailService={
 		sUrl:"data/detail",
 		fnGetDataAsXxx:function(sExt, oParam) {
 			var lsUrl=this.sUrl+"."+sExt+"?";
@@ -126,6 +131,7 @@ window.javasimon=javasimon;
 				url: this.sUrl+".json",
 				data: oParam,
 				success: fnAjaxCallback,
+				error: tns.fnDefaultAjaxErrorCallback,
 				dataType: "json"
 			});
 		}
@@ -133,7 +139,7 @@ window.javasimon=javasimon;
 	/**
 	* Service to store/load settings as cookies
 	*/
-	ns.SettingsService={
+	tns.SettingsService={
 		sVersion:"3.2",
 		/**
 		* Object representing settings
@@ -270,19 +276,20 @@ window.javasimon=javasimon;
 			}
 		}
 	};
-	ns.SettingsService.load(document);
+	tns.SettingsService.load(document);
 	/**
 	* Service to get Simon plugins through Ajax HTTP requests
 	*/
-	ns.PluginService={
+	tns.PluginService={
 		sUrl:"data/plugins.json",
 		fnGetDataAsJson:function(oParam, fnAjaxCallback) {
 			$.ajax( {
 				url: this.sUrl,
 				data: oParam,
 				success: fnAjaxCallback,
+				error: tns.fnDefaultAjaxErrorCallback,
 				dataType: "json"
 			});
 		}
 	};
-})(javasimon);
+})(jQuery, javasimon);

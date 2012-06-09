@@ -5,7 +5,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.javasimon.SimonManager;
-import org.javasimon.Split;
+import org.javasimon.callback.quantiles.QuantilesCallback;
 
 /**
  * Main using Jetty to test Simon Console.
@@ -21,6 +21,7 @@ public class JettyMain {
 			context.setContextPath("/");
 			server.setHandler(context);
 			// Servlet
+			SimonManager.callback().addCallback(new QuantilesCallback(5, 5));
 			SimonData.initialize();
 			addSimons("Z",4);
 			final SimonConsoleServlet simonConsoleServlet = new SimonConsoleServlet();

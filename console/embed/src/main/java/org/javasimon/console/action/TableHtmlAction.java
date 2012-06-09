@@ -94,6 +94,7 @@ public class TableHtmlAction extends AbstractTableAction {
 			try {
 				htmlBuilder.simonTypeImg(SimonType.valueOf(s), "../../");
 			} catch(IllegalArgumentException illegalArgumentException) {
+				// Else unknown type: non image
 			}
 		}
 		super.printCell(column, s, writer);

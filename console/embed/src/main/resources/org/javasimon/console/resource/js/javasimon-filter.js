@@ -9,8 +9,8 @@ javasimon.FilterController=function(
 		oStopwatchTypeCheck,oCounterTypeCheck,oUnknownTypeCheck,oTypeChecks,
 		oTimeFormatSelect) {
 	this.oPatternText=oPatternText;
-	var ctrl=this;
-	var fnFilterFunc=function() {
+	var ctrl=this,
+		fnFilterFunc=function() {
 		ctrl.fnFilter();
 	};
 	$(this.oPatternText).blur(fnFilterFunc);

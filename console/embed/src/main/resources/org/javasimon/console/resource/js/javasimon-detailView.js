@@ -1,7 +1,7 @@
 "use strict";
 var javasimon=window.javasimon||{};
 window.javasimon=javasimon;
-(function(domUtil, tns) {
+(function(domUtil, pluginService, tns) {
 	/**
 	* Detail View
 	*/
@@ -11,6 +11,41 @@ window.javasimon=javasimon;
 		};
 		if (oSettings) {
 			this.oSettings=javasimon.ObjectUtil.fnMerge(this.oSettings, oSettings, true);	
+		}
+	};
+	tns.DetailViewService={
+		oPluginRenderers:{},
+		fnLoadPlugins:function(fnCallback) {
+			var self=this;
+			pluginService.fnGetDataAsJson(
+				{type:"org.javasimon.console.action.DetailPlugin"},
+				function(aoPlugins){
+					for(var i=0;i<aoPlugins.length;i++) {
+						self.fnAddPluginResources(aoPlugins[i]);
+					}
+					if (fnCallback) {
+						fnCallback(aoPlugins)
+					}
+				}
+			);
+		},
+		fnAddPluginResources:function(oPlugin) {
+			var oResource, sResourcePath;
+			for(var i=0;i<oPlugin.resources.length;i++) {
+				oResource=oPlugin.resources[i];
+				sResourcePath="resource/"+oResource.path;
+				switch(oResource.type) {
+					case "JS":
+						domUtil.fnAppendJSResource(sResourcePath);
+						break;
+					case "CSS":
+						domUtil.fnAppendCSSResource(sResourcePath);
+						break;
+				}
+			}
+		},
+		fnAddPluginRenderer:function(sName, fnPluginRenderer) {
+			this.oPluginRenderers[sName]=fnPluginRenderer;
 		}
 	};
 	tns.DetailView.prototype={
@@ -23,9 +58,7 @@ window.javasimon=javasimon;
 		},
 		fnAppendCell:function(eRow, sClass, sText, nColSpan) {
 			var eCell=domUtil.fnAppendChildElement(eRow, "td", {"class":sClass});
-			if (sText) {
-				domUtil.fnAppendChildText(eCell, sText);			
-			}
+			domUtil.fnAppendChildText(eCell, sText?sText:" ");			
 			if (nColSpan) {
 				eCell.setAttribute("colspan",nColSpan);
 			}
@@ -37,9 +70,12 @@ window.javasimon=javasimon;
 		fnAppendValueCell:function(eRow, sValue, nColSpan) {
 			return this.fnAppendCell(eRow, "value", sValue, nColSpan);
 		},
-		fnAppendSimonLabelValueCell:function(eRow, sLabel, sAttr, nColSpan) {
+		fnAppendLabelValueCell:function(eRow, sLabel, sValue, nColSpan) {
 			this.fnAppendLabelCell(eRow, sLabel);
-			this.fnAppendValueCell(eRow, this.oSimon[sAttr], nColSpan);
+			this.fnAppendValueCell(eRow, sValue, nColSpan);
+		},
+		fnAppendSimonLabelValueCell:function(eRow, sLabel, sAttr, nColSpan) {
+			this.fnAppendLabelValueCell(eRow, sLabel, this.oSimon[sAttr], nColSpan);
 		},
 		fnAppendRow:function(eTable) {
 			return domUtil.fnAppendChildElement(eTable, "tr");
@@ -119,11 +155,15 @@ window.javasimon=javasimon;
 			// Section Title
 			var sPluginId=oPlugin.id,
 				section=this.fnAppendSection(sPluginId + "Section"),
-				row;
+				fnRenderer;
 			domUtil.fnAppendChildText(section.eTitle, oPlugin.label);
 			// Table
-			row=this.fnAppendRow(section.eTableBody);
-			
+			console.log("Trying to render "+sPluginId);
+			fnRenderer=tns.DetailViewService.oPluginRenderers[sPluginId];
+			if (fnRenderer) {
+				console.log("Rendering "+sPluginId);
+				fnRenderer.call(this, section.eTableBody, oPlugin.data);
+			}
 		},
 		fnRender: function() {
 			this.fnRenderSimonDiv();
@@ -144,4 +184,4 @@ window.javasimon=javasimon;
 			this.fnRender();
 		}
 	};
-}(javasimon.DOMUtil, javasimon));
+}(javasimon.DOMUtil, javasimon.PluginService, javasimon));

@@ -4,10 +4,7 @@ import java.io.IOException;
 import org.javasimon.Simon;
 import org.javasimon.console.ActionContext;
 import org.javasimon.console.SimonConsolePlugin;
-import org.javasimon.console.html.HtmlBuilder;
-import org.javasimon.console.html.HtmlResource;
 import org.javasimon.console.json.ObjectJS;
-import org.javasimon.console.text.Stringifier;
 import org.javasimon.console.text.StringifierFactory;
 
 /**
@@ -18,6 +15,14 @@ public abstract class DetailPlugin extends SimonConsolePlugin{
 
 	protected DetailPlugin(String id, String label) {
 		super(id, label);
+	}
+	/**
+	 * Indicates this plugin applies to this kind of Simon
+	 * @param simon Simon
+	 * @return {@code true} if plugin can be executed
+	 */
+	public boolean supports(Simon simon) {
+		return true;
 	}
 	/**
 	 * Callback for flat HTML rendering.
