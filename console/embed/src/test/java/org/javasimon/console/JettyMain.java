@@ -5,6 +5,8 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.javasimon.SimonManager;
+import org.javasimon.Split;
+import org.javasimon.Stopwatch;
 import org.javasimon.callback.quantiles.QuantilesCallback;
 
 /**
@@ -38,16 +40,37 @@ public class JettyMain {
 	}
 	private static final Random random=new Random();
 	private static void addSimons(String prefix,int depth)  {
-		for(int i=0;i<3+random.nextInt(3);i++) {
-			if (depth==0) {
-				long simonTime=random.nextInt(100*100000);
-				System.out.println("Stopwatch "+prefix+" "+simonTime);
-				SimonManager.getStopwatch(prefix).addTime(simonTime);
-			} else {
-				char c=(char)('A'+i);
-				String simonName=prefix+"."+new String(new char[]{c});
-				addSimons(simonName, depth-1);
+		if (depth==0) {
+			addStopwatches(prefix);
+		} else {
+			addGroups(prefix,depth);
+		}
+	}
+
+	private static void addStopwatches(String name) {
+		final int splits = 8+random.nextInt(4);
+		final Stopwatch stopwatch = SimonManager.getStopwatch(name);
+		System.out.print(name+" "+splits+" ");
+		for(int i=0;i<splits;i++) {
+			long simonTime=random.nextInt(100);
+			System.out.print(simonTime+",");
+//			stopwatch.addTime(simonTime);
+			Split split=stopwatch.start();
+			try {
+				Thread.sleep(simonTime);
+			} catch (InterruptedException interruptedException) {
+			} finally {
+				split.stop();
 			}
+		}
+		System.out.println("");
+	}
+	private static void addGroups(String namePrefix, int depth) {
+		final int sibblings = 1+random.nextInt(3);
+		for(int i=0;i<sibblings;i++) {
+			char c=(char)('A'+i);
+			String name=namePrefix+"."+new String(new char[]{c});
+			addSimons(name, depth-1);
 		}
 	}
 }

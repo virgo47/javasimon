@@ -105,7 +105,7 @@ public class SimonTypeFactory {
 		if (simonType == null) {
 			simonType = SimonTypeFactory.getValueFromSampleType(type);
 			if (simonType == null) {
-				normalizedType = null;
+				normalizedType = type;
 			} else {
 				normalizedType = simonType.getSampleType();
 			}
