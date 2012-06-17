@@ -110,7 +110,6 @@ window.javasimon=javasimon;
 			}
 		},
 		fnAppendImage:function(eParent,sType) {
-			var domUtil=domUtil;
 			var eImg=domUtil.fnAppendChildImage(eParent,this.oSettings.oImages[sType]);
 			domUtil.fnSetClass(eImg, "icon");
 			return eImg;

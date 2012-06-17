@@ -114,6 +114,7 @@ public class QuantilesCallback extends CallbackSkeleton {
 		return (List<Long>) stopwatch.getAttribute(ATTR_NAME_BUCKETS_VALUES);
 	}
 
+
 	/**
 	 * Remove the bucket values attribute (after warmup).
 	 */
@@ -221,14 +222,14 @@ public class QuantilesCallback extends CallbackSkeleton {
 			getOrCreateBucketsValues(stopwatch);
 		}
 	}
-
 	/**
-	 * When a Splits is stopped, if buckets has been initialized value
+	 * Method called when there is a new split on a Stopwatch, either
+	 * {@link #onStopwatchStop} or {@link #onStopwatchAdd}.
+	 * When a new Split is ready, if buckets has been initialized value
 	 * is added to appropriate bucket. Else if stopwatch is warming up
 	 * value is added to value list.
 	 */
-	@Override
-	public void onStopwatchStop(Split split, StopwatchSample sample) {
+	private void onStopwatchSplit(Split split) {
 		final Stopwatch stopwatch = split.getStopwatch();
 		Buckets buckets = getOrCreateBuckets(stopwatch);
 		long value = split.runningFor();
@@ -239,6 +240,38 @@ public class QuantilesCallback extends CallbackSkeleton {
 			// Warm
 			buckets.addValue(value);
 			buckets.log(split);
+		}
+	}
+
+	/**
+	 * When a Split is stopped, if buckets has been initialized value
+	 * is added to appropriate bucket. Else if stopwatch is warming up
+	 * value is added to value list.
+	 */
+	@Override
+	public void onStopwatchStop(Split split, StopwatchSample sample) {
+		onStopwatchSplit(split);
+	}
+
+	/**
+	 * When a Split is a, if buckets has been initialized value
+	 * is added to appropriate bucket. Else if stopwatch is warming up
+	 * value is added to value list.
+	 */
+	@Override
+	public void onStopwatchAdd(Stopwatch stopwatch, Split split, StopwatchSample sample) {
+		onStopwatchSplit(split);
+	}
+
+	@Override
+	public void onStopwatchAdd(Stopwatch stopwatch, long value, StopwatchSample sample) {
+		Buckets buckets = getOrCreateBuckets(stopwatch);
+		if (buckets == null) {
+			// Warming up
+			getOrCreateBucketsValues(stopwatch).add(value);
+		} else {
+			// Warm
+			buckets.addValue(value);
 		}
 	}
 
