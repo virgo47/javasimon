@@ -163,6 +163,14 @@ public class HtmlBuilder<T extends HtmlBuilder> {
 		return (T) end("body").end("html");
 	}
 	/**
+	 * Write value using appropriate stringifier
+	 * @param value Typed value
+	 * @param subType Sub type
+	 */
+	public <X> T value(X value, String subType) throws IOException {
+		return text(stringifierFactory.toString(value, subType));
+	}
+	/**
 	 * Write Simon property (using Java Bean convention).
 	 * @param simon Simon
 	 * @param propertyName Property name
@@ -170,7 +178,7 @@ public class HtmlBuilder<T extends HtmlBuilder> {
 	public T simonProperty(Simon simon, String propertyName) throws IOException {
 		Getter getter=GetterFactory.getGetter(simon.getClass(), propertyName);
 		if (getter!=null) {
-			text(stringifierFactory.toString(getter.get(simon), getter.getSubType()));
+			value(getter.get(simon), getter.getSubType());
 		}
 		return (T) this;
 	}

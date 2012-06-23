@@ -63,7 +63,6 @@ public class QuantilesDetailPlugin extends DetailPlugin {
 			.labelCell("Message").valueCell(" colspan=\"3\"", message)
 			.endRow();
 	}
-
 	@Override
 	public DetailHtmlBuilder executeHtml(ActionContext context, DetailHtmlBuilder htmlBuilder, StringifierFactory htmlStringifierFactory, Simon simon) throws IOException {
 		if (isQuantilesCallbackRegistered(context)) {
@@ -77,6 +76,21 @@ public class QuantilesDetailPlugin extends DetailPlugin {
 					.labelCell("90%")
 					.valueCell(htmlStringifierFactory.toString(bucketsSample.getPercentile90(), "Time"))
 					.endRow();
+				htmlBuilder.beginRow().labelCell("Distribution").beginValueCell();
+				htmlBuilder.begin("table")
+					.beginRow().labelCell("Min").labelCell("Max").labelCell("Counter").endRow();				
+				Integer maxCount = bucketsSample.getMaxCount();
+				for(BucketSample bucketSample:bucketsSample.getBuckets()) {
+					final int count = bucketSample.getCount();
+					final int barSize = count > 0 && maxCount > 0 ? count * 200 / maxCount : 0;
+					htmlBuilder.beginRow()
+						.beginValueCell().value(bucketSample.getMin(),"Time").endValueCell()
+						.beginValueCell().value(bucketSample.getMax(),"Time").endValueCell()
+						.beginValueCell().write("<div class=\"bar\" style=\"width:").write(Integer.toString(barSize)).write("px\">&nbsp;").end("div").value(count, null).endValueCell()
+					.endRow();				
+				}
+				htmlBuilder.end("table");
+				htmlBuilder.endValueCell().endRow();
 			}
 		} else {
 			htmlMessage(htmlBuilder, NO_CALLBACK_MESSAGE);

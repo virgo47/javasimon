@@ -4,7 +4,8 @@ if (javasimon) {
 	(function(domUtil, detailViewService) {
 		detailViewService.fnAddPluginRenderer("quantiles",function(eTableBody, oQuantiles) {
 			var row=this.fnAppendRow(eTableBody),
-				i,subTable,subRow, subTableSection, oBucket;
+				i,subTable,subRow, subTableSection, oBucket, 
+				eBucketCell,nBucketWidth;
 			if (oQuantiles.message) {
 				this.fnAppendLabelValueCell(row,"Message", oQuantiles.message, 3);
 			}
@@ -23,12 +24,19 @@ if (javasimon) {
 			this.fnAppendLabelCell(subRow, "Count");
 			subTableSection=domUtil.fnAppendChildElement(subTable, "tbody");
 			if (oQuantiles.buckets) {
-				for(i=0; i<oQuantiles.buckets.length; i++) {
+				for(i=oQuantiles.buckets.length-1; i>=0; i--) {
 					oBucket=oQuantiles.buckets[i];
 					subRow=this.fnAppendRow(subTableSection);
 					this.fnAppendCell(subRow, null, oBucket.min);
 					this.fnAppendCell(subRow, null, oBucket.max);
-					this.fnAppendCell(subRow, null, oBucket.count);
+					eBucketCell=this.fnAppendCell(subRow, null, null);
+					if (oBucket.count) {
+						if (oQuantiles.maxCount) {
+							nBucketWidth = oBucket.count > 0 && oQuantiles.maxCount > 0 ? Math.round(oBucket.count * 200 / oQuantiles.maxCount) : 0;
+							domUtil.fnAppendChildText(domUtil.fnAppendChildElement(eBucketCell,"div",{"class":"ui-widget-header ui-corner-right bar",style:"width:"+nBucketWidth+"px;"}),".");
+						}
+						domUtil.fnAppendChildText(eBucketCell,oBucket.count);
+					}
 				}
 			}
 
