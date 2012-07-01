@@ -153,8 +153,8 @@ table.dataTreeTable > tbody > tr > td {
 table.dataTreeTable > tbody > tr > td.headCell{
 	width: 40%;
 }
-table.dataTreeTable > tbody > tr > td.headCell > img.icon,
-table.dataTreeTable > tbody > tr > td.footCell > img.icon {
+table.dataTreeTable > tbody > tr > td.headCell img.icon,
+table.dataTreeTable > tbody > tr > td.footCell img.icon {
 	height: 24px;
 	width: 24px;
 	border: none;

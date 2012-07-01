@@ -86,7 +86,13 @@ $(document).ready(function() {
 			});
 		},
 		aoColumns: [
-			{sTitle:"Name", mDataProp: "name",bSearchable: true,sType:"string",sClass:'dataString',sWidth: "40%"},
+			{sTitle:"Name", mDataProp: "name",bSearchable: true,sType:"string",sClass:'dataString',sWidth: "40%",bUseRendered:false,
+				fnRender:function(oObject) {
+					var sName=oObject.aData[this.mDataProp]
+						sResult="<a href='detail.html?name="+encodeURIComponent(sName)+"'>"+sName+"</a>";
+					return sResult;
+				}
+			},
 			{sTitle:"Note", mDataProp: "note",bSearchable: true,sType:"string",sClass:'dataString',sWidth: "40%",bVisible:false},
 			{sTitle:"Type", mDataProp: "type",bSearchable: false,sType:"string",bUseRendered:false,
 				fnRender:function(oObject) {
@@ -117,28 +123,7 @@ $(document).ready(function() {
 			{sTitle:"StdDev", mDataProp: "standardDeviation",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric",asSorting: ["desc","asc" ] },
 			{sTitle:"Last", mDataProp: "last",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric",asSorting: ["desc","asc" ] },
 			{sTitle:"First Use", mDataProp: "firstUsage",bSearchable: false,sWidth: "10%",sClass:"numeric" },
-			{sTitle:"Last Use", mDataProp: "lastUsage",bSearchable: false,sWidth: "10%",sClass:"numeric",asSorting: ["desc","asc" ] },
-			{sTitle:"", mDataProp: "type",sWidth: "1px" ,sType:"string",bUseRendered:false,bSortable:false,sClass:"footCell",
-				fnRender:function(oObject) {
-					var sName=oObject.aData["name"];
-					var sResult="";
-					if (sName) {
-						sResult="<img src=\"resource/images/Reset.png\" "
-							+"class=\"icon clickable\" "
-							+"title=\"Reset Simon values\" "
-							+"alt=\"Reset\" "
-							+"onclick=\"document.oDataTable.fnReset('"+sName+"');return false;\" "
-							+"/>";
-						sResult=sResult+"<img src=\"resource/images/ToDo.png\" "
-							+"class=\"icon clickable\" "
-							+"title=\"View Simon detail\" "
-							+"alt=\"Detail\" "
-							+"onclick=\"document.location.href='detail.html?name="+sName+"';return false;\" "
-							+"/>";
-					}
-					return sResult;
-				}
-			}
+			{sTitle:"Last Use", mDataProp: "lastUsage",bSearchable: false,sWidth: "10%",sClass:"numeric",asSorting: ["desc","asc" ] }
 		],
 		aaSorting: [[ 0, "asc" ]]
 	} );
