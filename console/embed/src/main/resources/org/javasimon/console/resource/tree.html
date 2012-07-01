@@ -45,11 +45,13 @@ $(document).ready(function() {
 				{sTitle:"Name",		sField:"name", 		sClass:'string',
 					fnRender:function(oNode, eCell, oDataTreeTable) {
 						// Append Simon type icon
-						var sType=oNode.oData["type"];
-						var domUtil=javasimon.DOMUtil;
-						domUtil.fnAppendSimonTypeImage(eCell, sType);
+						var sType=oNode.oData["type"],
+							sValue=oNode.oData[this.sField],
+							domUtil=javasimon.DOMUtil, eLink;
+						// Append Link
+						eLink=domUtil.fnAppendChildElement(eCell,"a",{href:"detail.html?name="+encodeURIComponent(sValue)});
+						domUtil.fnAppendSimonTypeImage(eLink, sType);
 						// Fix name
-						var sValue=oNode.oData[this.sField];
 						if (oNode.oParent!==null) {
 							var sParentValue=oNode.oParent.oData[this.sField];
 							if (sValue.substring(0,sParentValue.length)===sParentValue) {
@@ -62,8 +64,9 @@ $(document).ready(function() {
 						if (sValue==="") {
 							sValue="-";
 						}
+						sValue=" "+sValue+" ";
 						// Append Simon name
-						domUtil.fnAppendChildText(eCell, sValue);
+						domUtil.fnAppendChildText(eLink, sValue);
 						domUtil.fnAppendClass(eCell, "headCell");
 					}
 				},
@@ -75,39 +78,7 @@ $(document).ready(function() {
 				{sTitle:"StdDev",	sField:"standardDeviation",sClass:"number" },
 				{sTitle:"Last",	sField:"last",		sClass:"number" },
 				{sTitle:"First Use",	sField:"firstUsage",	sClass:"date" },
-				{sTitle:"Last Use",	sField:"lastUsage",	sClass:"date"  },
-				{sTitle:"",		sField:"name", 		sClass:'string',
-					fnRender:function(oNode, eCell, oDataTreeTable) {
-						var sName=oNode.oData[this.sField];
-						var domUtil=javasimon.DOMUtil;
-						var eImg;
-						if (sName) {
-							eImg=domUtil.fnAppendChildElement(eCell, "img", {
-								src:"resource/images/Reset.png",
-								alt:"Reset",
-								title:"Reset Simon values",
-								"class":"icon clickable"
-							});
-							eImg.onclick=function() {
-								javasimon.ResetService.fnResetOne(sName, function() {
-									document.oDataTreeTable.fnReloadAjax();
-								});
-								return false;
-							};
-							eImg=domUtil.fnAppendChildElement(eCell, "img", {
-								src:"resource/images/ToDo.png",
-								alt:"Detail",
-								title:"View Simon detail",
-								"class":"icon clickable"
-							});
-							eImg.onclick=function() {
-								document.location.href="detail.html?name="+sName;
-								return false;
-							};
-						}
-						domUtil.fnAppendClass(eCell, "footCell");
-					}
-				}
+				{sTitle:"Last Use",	sField:"lastUsage",	sClass:"date"  }
 			]
 		}
 	);
@@ -115,18 +86,6 @@ $(document).ready(function() {
 		javasimon.TreeService.fnGetDataAsJson({timeFormat:javasimon.SettingsService.get('sTimeFormat')},
 			function(oData) {
 				var oDataTreeTable=document.oDataTreeTable;
-/* Data for testing purposes
-				var oData={id:0,name:"",type:"unknown",children:[
-					{id:1,name:"Child 1",type:"unknown",children:[
-						{id:11,name:"Child 1.1",type:"stopwatch",children:[],counter:1},
-						{id:11,name:"Child 1.2",type:"counter",children:[],counter:4},
-					]},
-					{id:2,name:"Child 2",type:"unknown",children:[
-						{id:21,name:"Child 2.1",type:"stopwatch",children:[],counter:2},
-						{id:21,name:"Child 2.2",type:"counter",children:[],counter:5},
-					]},
-				]};
-*/
 				oDataTreeTable.fnSetRootData(oData);
 				oDataTreeTable.fnDraw();
 			});
