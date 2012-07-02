@@ -25,7 +25,7 @@ public class CallTreeTest {
 	/**
 	 * Call tree under test
 	 */
-	private CallTree callTree = new CallTree() {
+	private CallTree callTree = new CallTree(null) {
 		@Override
 		public void onRootStopwatchStart(CallTreeNode rootNode, Split split) {
 			CallTreeTest.this.rootTreeNode = rootNode;

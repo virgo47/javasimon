@@ -1,4 +1,4 @@
-package org.javasimon.console.action;
+package org.javasimon.console.plugin;
 
 import java.io.IOException;
 import org.javasimon.Simon;
@@ -8,6 +8,8 @@ import org.javasimon.callback.quantiles.BucketsSample;
 import org.javasimon.callback.quantiles.QuantilesCallback;
 import org.javasimon.console.ActionContext;
 import org.javasimon.console.SimonCallbacks;
+import org.javasimon.console.action.DetailHtmlBuilder;
+import org.javasimon.console.action.DetailPlugin;
 import org.javasimon.console.html.HtmlResourceType;
 import org.javasimon.console.json.ArrayJS;
 import org.javasimon.console.json.ObjectJS;
