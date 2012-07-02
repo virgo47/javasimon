@@ -82,6 +82,19 @@ public class SimonConsolePluginManager {
 		}
 	}
 	/**
+	 * Register plugins
+	 * @param pluginTypeNames Comma separated list for plugin classes
+	 */
+	public void addPlugins(String pluginTypeNames) {
+		String[] pluginTypeNameList=pluginTypeNames.split(",");
+		for(String pluginTypeName:pluginTypeNameList) {
+			pluginTypeName=pluginTypeName.trim();
+			if (!pluginTypeName.equals("")) {
+				addPlugin(pluginTypeName);
+			}
+		}
+	}
+	/**
 	 * Return plugin, filtered by plugin Id.
 	 */
 	public boolean removePluginById(String id) {

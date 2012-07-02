@@ -6,7 +6,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.javasimon.Manager;
 import org.javasimon.utils.SimonUtils;
 
@@ -25,6 +24,10 @@ public class SimonConsoleServlet extends HttpServlet {
 	 * URL Prefix init parameter name.
 	 */
 	public static final String URL_PREFIX_INIT_PARAMETER = "url-prefix";
+	/**
+	 * Plugin classes init parameter name.
+	 */
+	public static final String PLUGIN_CLASSES_INIT_PARAMETER = "plugin-classes";
 	private SimonConsoleRequestProcessor requestProcessor;
 
 	@Override
@@ -35,6 +38,11 @@ public class SimonConsoleServlet extends HttpServlet {
 
 		String urlPrefix = config.getInitParameter(URL_PREFIX_INIT_PARAMETER);
 		initRequestProcessor(urlPrefix);
+		
+		String pluginClasses = config.getInitParameter(PLUGIN_CLASSES_INIT_PARAMETER);
+		if (pluginClasses!=null) {
+			requestProcessor.getPluginManager().addPlugins(pluginClasses);
+		}
 	}
 
 	public void initRequestProcessor(String urlPrefix) {

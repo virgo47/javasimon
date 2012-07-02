@@ -7,7 +7,10 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
+import org.javasimon.callback.calltree.CallTreeCallback;
 import org.javasimon.callback.quantiles.QuantilesCallback;
+import org.javasimon.console.plugin.CallTreeDetailPlugin;
+import org.javasimon.console.plugin.QuantilesDetailPlugin;
 
 /**
  * Main using Jetty to test Simon Console.
@@ -24,11 +27,13 @@ public class JettyMain {
 			server.setHandler(context);
 			// Servlet
 			SimonManager.callback().addCallback(new QuantilesCallback(5, 5));
+			SimonManager.callback().addCallback(new CallTreeCallback(50));
 			SimonData.initialize();
 			addSimons("Z",4);
 			final SimonConsoleServlet simonConsoleServlet = new SimonConsoleServlet();
 			ServletHolder servletHolder=new ServletHolder(simonConsoleServlet);
 			servletHolder.setInitParameter("console-path", "");
+			servletHolder.setInitParameter("plugin-classes", QuantilesDetailPlugin.class.getName()+","+CallTreeDetailPlugin.class.getName());
 			context.addServlet(servletHolder, "/*");
 			// Start server thread
 			server.start();

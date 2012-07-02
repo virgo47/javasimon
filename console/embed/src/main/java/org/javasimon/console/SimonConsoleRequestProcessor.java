@@ -58,7 +58,6 @@ class SimonConsoleRequestProcessor {
 		} else {
 			this.urlPrefix = urlPrefix.trim();
 		}
-		pluginManager.addPlugin(QuantilesDetailPlugin.class);
 	}
 	/**
 	 * Add an action binding to the {@link #actionBindings} list.

@@ -1,6 +1,7 @@
 package org.javasimon.callback.calltree;
 
 import org.javasimon.Split;
+import org.javasimon.Stopwatch;
 import org.javasimon.StopwatchSample;
 import org.javasimon.callback.CallbackSkeleton;
 import org.javasimon.callback.logging.LogTemplate;
@@ -38,7 +39,14 @@ public class CallTreeCallback extends CallbackSkeleton {
 	 * Log template used for printing call tree.
 	 */
 	private LogTemplate<Split> callTreeLogTemplate;
-
+	/**
+	 * Simon attribute name used to store last significant call tree
+	 */
+	public static final String ATTR_NAME_LAST="lastCallTree";
+	/**
+	 * Duration threshold used to trigger logging and remembering
+	 */
+	private Long logThreshold;
 	/**
 	 * Default constructor.
 	 */
@@ -49,10 +57,10 @@ public class CallTreeCallback extends CallbackSkeleton {
 	/**
 	 * Constructor with logging duration threshold.
 	 *
-	 * @param logThreshold Threshold
+	 * @param threshol Threshold
 	 */
-	public CallTreeCallback(long logThreshold) {
-		initLogThreshold(logThreshold);
+	public CallTreeCallback(long threshold) {
+		initLogThreshold(threshold);
 	}
 
 	/**
@@ -68,7 +76,8 @@ public class CallTreeCallback extends CallbackSkeleton {
 	 * Configure {@link #callTreeLogTemplate} with a {@link SplitThresholdLogTemplate}.
 	 */
 	private void initLogThreshold(Long threshold) {
-		LogTemplate<Split> toLogger = toSLF4J(getClass().getName(), "debug");
+		this.logThreshold = threshold;
+		final LogTemplate<Split> toLogger = toSLF4J(getClass().getName(), "debug");
 		if (threshold == null) {
 			callTreeLogTemplate = toLogger;
 		} else {
@@ -80,11 +89,7 @@ public class CallTreeCallback extends CallbackSkeleton {
 	 * Get log threshold when {@link #callTreeLogTemplate} is a {@link SplitThresholdLogTemplate}.
 	 */
 	public Long getLogThreshold() {
-		Long threshold = null;
-		if (callTreeLogTemplate instanceof SplitThresholdLogTemplate) {
-			threshold = ((SplitThresholdLogTemplate) callTreeLogTemplate).getThreshold();
-		}
-		return threshold;
+		return logThreshold;
 	}
 
 	/**
@@ -110,7 +115,7 @@ public class CallTreeCallback extends CallbackSkeleton {
 	 * @return Created call tree
 	 */
 	private CallTree initCallTree() {
-		final CallTree callTree = new CallTree() {
+		final CallTree callTree = new CallTree(logThreshold) {
 			@Override
 			protected void onRootStopwatchStop(CallTreeNode rootNode, Split split) {
 				CallTreeCallback.this.onRootStopwatchStop(this, split);
@@ -157,6 +162,17 @@ public class CallTreeCallback extends CallbackSkeleton {
 	 */
 	public void onRootStopwatchStop(CallTree callTree, Split split) {
 		callTreeLogTemplate.log(split, callTree);
+		if (logThreshold!=null && split.runningFor()>logThreshold) {
+			split.getStopwatch().setAttribute(ATTR_NAME_LAST, callTree);
+		}
 		removeCallTree();
+	}
+	/**
+	 *  Get last call tree stored in stopwatch attributes
+	 * @param stopwatch Stopwatch
+	 * @return Last call tree or {@code null} if any
+	 */
+	public static CallTree getLastCallTree(Stopwatch stopwatch) {
+		return (CallTree) stopwatch.getAttribute(ATTR_NAME_LAST);
 	}
 }

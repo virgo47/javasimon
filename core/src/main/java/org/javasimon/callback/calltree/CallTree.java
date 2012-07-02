@@ -1,7 +1,6 @@
 package org.javasimon.callback.calltree;
 
 import java.util.LinkedList;
-
 import org.javasimon.Split;
 import org.javasimon.callback.logging.LogMessageSource;
 
@@ -12,6 +11,10 @@ import org.javasimon.callback.logging.LogMessageSource;
  * @since 3.2
  */
 public class CallTree implements LogMessageSource<Split> {
+	/**
+	 * Log threshold
+	 */
+	private final Long logThreshold;
         /**
          * Call stack is the path (made of tree nodes) from root tree node
          * to current tree node
@@ -21,6 +24,14 @@ public class CallTree implements LogMessageSource<Split> {
 	 * Root call tree node
 	 */
 	private CallTreeNode rootNode;
+	/**
+	 * Main constructor
+	 * @param logThreshold  Log threshold
+	 */
+	public CallTree(Long logThreshold) {
+		this.logThreshold = logThreshold;
+	}
+	
         /**
          * When stopwatch is started, a new tree node is added to parent
          * tree node and pushed on the call stack. 
@@ -81,7 +92,16 @@ public class CallTree implements LogMessageSource<Split> {
 	 * Transform this call tree into a loggable message
 	 */
 	public String getLogMessage(Split context) {
+		context.getStopwatch().setAttribute(CallTreeCallback.ATTR_NAME_LAST, this);
 		return "Call Tree:\r\n" + rootNode.toString();
+	}
+
+	public Long getLogThreshold() {
+		return logThreshold;
+	}
+
+	public CallTreeNode getRootNode() {
+		return rootNode;
 	}
 	
 }

@@ -3,7 +3,6 @@ package org.javasimon.callback.calltree;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.*;
-
 import org.javasimon.Split;
 import org.javasimon.utils.SimonUtils;
 
@@ -33,7 +32,10 @@ public class CallTreeNode {
 	 * Child tree nodes
 	 */
 	private Map<String, CallTreeNode> children;
-
+	/**
+	 * Parent tree node. {@code null} for root tree node.
+	 */
+	private CallTreeNode parent;
 	/**
 	 * Main constructor
 	 *
@@ -84,7 +86,19 @@ public class CallTreeNode {
 		}
 		return total;
 	}
-
+	/**
+	 * Get the part of time spent in this node compared to parent
+	 * @return Percent time
+	 */
+	public Integer getPercent() {
+		Integer percent;
+		if (parent==null) {
+			percent=null;
+		} else {
+			percent=(int) (getTotal()*100L/getParent().getTotal());
+		}
+		return percent;
+	}
 	/**
 	 * Add a child to this tree node
 	 *
@@ -97,6 +111,7 @@ public class CallTreeNode {
 		}
 		CallTreeNode child = new CallTreeNode(name);
 		children.put(name, child);
+		child.parent=this;
 		return child;
 	}
 
@@ -131,6 +146,13 @@ public class CallTreeNode {
 			child = addChild(name);
 		}
 		return child;
+	}
+	/**
+	 * Get parent tree node
+	 * @return Parent tree node
+	 */
+	public CallTreeNode getParent() {
+		return parent;
 	}
 
 	/**
