@@ -15,6 +15,7 @@ window.javasimon=javasimon;
 	};
 	tns.DetailViewService={
 		oPluginRenderers:{},
+		aoDelayedRenderings:[],
 		fnLoadPlugins:function(fnCallback) {
 			var self=this;
 			pluginService.fnGetDataAsJson(
@@ -45,7 +46,31 @@ window.javasimon=javasimon;
 			}
 		},
 		fnAddPluginRenderer:function(sName, fnPluginRenderer) {
+			console.log("Registered renderer "+sName);
 			this.oPluginRenderers[sName]=fnPluginRenderer;
+		},
+		fnRunDelayedRendering:function() {
+			var fnRenderer, missingRenderer=false, oDelayedRendering, self=this;
+			for(var i=0;i<this.aoDelayedRenderings.length;i++) {
+				oDelayedRendering=this.aoDelayedRenderings[i];
+				if (oDelayedRendering.attempts>0) {
+					console.log("Trying to render "+oDelayedRendering.id);
+					fnRenderer=this.oPluginRenderers[oDelayedRendering.id];
+					if (fnRenderer) {
+						console.log("Rendering "+oDelayedRendering.id);
+						oDelayedRendering.attempts=-1;
+						fnRenderer.call(
+							oDelayedRendering.view, 
+							oDelayedRendering.tableBody, oDelayedRendering.data);
+					} else {
+						oDelayedRendering.attempts--;
+						missingRenderer=true;
+					}					
+				}
+			}
+			if (missingRenderer) {
+				window.setTimeout(function(){self.fnRunDelayedRendering();}, 10000);
+			}
 		}
 	};
 	tns.DetailView.prototype={
@@ -154,16 +179,16 @@ window.javasimon=javasimon;
 		fnRenderPluginDiv:function(oPlugin) {
 			// Section Title
 			var sPluginId=oPlugin.id,
-				section=this.fnAppendSection(sPluginId + "Section"),
-				fnRenderer;
+				section=this.fnAppendSection(sPluginId + "Section");
 			domUtil.fnAppendChildText(section.eTitle, oPlugin.label);
 			// Table
-			console.log("Trying to render "+sPluginId);
-			fnRenderer=tns.DetailViewService.oPluginRenderers[sPluginId];
-			if (fnRenderer) {
-				console.log("Rendering "+sPluginId);
-				fnRenderer.call(this, section.eTableBody, oPlugin.data);
-			}
+			tns.DetailViewService.aoDelayedRenderings.push({
+				id:sPluginId,
+				view:this,
+				tableBody:section.eTableBody,
+				data:oPlugin.data,
+				attempts:6
+			});
 		},
 		fnRender: function() {
 			this.fnRenderSimonDiv();
@@ -176,6 +201,7 @@ window.javasimon=javasimon;
 				for(var i=0;i<this.oSimon.plugins.length;i++) {
 					this.fnRenderPluginDiv(this.oSimon.plugins[i]);
 				}
+				tns.DetailViewService.fnRunDelayedRendering();
 			}
 		},
 		fnSetData:function(oSimon) {

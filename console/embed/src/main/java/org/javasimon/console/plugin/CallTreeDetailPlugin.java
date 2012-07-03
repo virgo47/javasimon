@@ -32,7 +32,8 @@ public class CallTreeDetailPlugin extends DetailPlugin {
 
 	public CallTreeDetailPlugin() {
 		super("callTree", "Call Tree");
-		addResource("js/javasimon-callTreePlugin.js", HtmlResourceType.JS);
+		addResource("js/javasimon-callTreePlugin.js",	HtmlResourceType.JS);
+		addResource("js/javasimon-dataTreeTable.js",	HtmlResourceType.JS);
 	}
 
 	/**
@@ -73,11 +74,13 @@ public class CallTreeDetailPlugin extends DetailPlugin {
 			.text(node.getName()).text(":&nbsp;");
 		if (node.getParent()!=null) {
 			htmlBuilder
-				.text(htmlStringifierFactory.toString(node.getPercent())).text("%");
+				.text(htmlStringifierFactory.toString(node.getPercent())).text("%")
+				.text(", ");
 		}
 		htmlBuilder
-			.text("Total ").text(htmlStringifierFactory.toString(node.getTotal(), "Time"))
-			.text("Count ").text(htmlStringifierFactory.toString(node.getCounter()));
+			.text("total&nbsp;").text(htmlStringifierFactory.toString(node.getTotal(), "Time"))
+			.text(", ")
+			.text("count&nbsp;").text(htmlStringifierFactory.toString(node.getCounter()));
 		if (!node.getChildren().isEmpty()) {
 			htmlBuilder.begin("ul");
 			for(CallTreeNode childNode:node.getChildren()) {
@@ -124,13 +127,13 @@ public class CallTreeDetailPlugin extends DetailPlugin {
 	 * Generate a JSON call tree node object
 	 */
 	private ObjectJS jsonTreeNode(CallTreeNode node, StringifierFactory jsonStringifierFactory) {
-		ObjectJS nodeJS = ObjectJS.create(node, jsonStringifierFactory);
+		final ObjectJS nodeJS = ObjectJS.create(node, jsonStringifierFactory);
 		if (!node.getChildren().isEmpty()) {
-			ArrayJS childNodesJS=new ArrayJS(node.getChildren().size());
+			final ArrayJS childNodesJS=new ArrayJS(node.getChildren().size());
 			for(CallTreeNode childNode:node.getChildren()) {
 				childNodesJS.addElement(jsonTreeNode(childNode, jsonStringifierFactory));
 			}
-			nodeJS.setAttribute("children", nodeJS);
+			nodeJS.setAttribute("children", childNodesJS);
 		}
 		return nodeJS;
 	}
