@@ -30,6 +30,7 @@ public class JettyMain {
 			SimonManager.callback().addCallback(new CallTreeCallback(50));
 			SimonData.initialize();
 			addSimons("Z",4);
+			addStackedSimons();
 			final SimonConsoleServlet simonConsoleServlet = new SimonConsoleServlet();
 			ServletHolder servletHolder=new ServletHolder(simonConsoleServlet);
 			servletHolder.setInitParameter("console-path", "");
@@ -51,19 +52,26 @@ public class JettyMain {
 			addGroups(prefix,depth);
 		}
 	}
-
+	/**
+	 * Wait random time 
+	 * @return Waited random time
+	 */
+	private static long randomWait() {
+		final long waitTime=random.nextInt(100);
+		try {
+			Thread.sleep(waitTime);
+		} catch (InterruptedException interruptedException) {
+		}
+		return waitTime;
+	}
 	private static void addStopwatches(String name) {
 		final int splits = 8+random.nextInt(4);
 		final Stopwatch stopwatch = SimonManager.getStopwatch(name);
 		System.out.print(name+" "+splits+" ");
 		for(int i=0;i<splits;i++) {
-			long simonTime=random.nextInt(100);
-			System.out.print(simonTime+",");
-//			stopwatch.addTime(simonTime);
 			Split split=stopwatch.start();
 			try {
-				Thread.sleep(simonTime);
-			} catch (InterruptedException interruptedException) {
+				System.out.print(randomWait()+",");
 			} finally {
 				split.stop();
 			}
@@ -77,5 +85,23 @@ public class JettyMain {
 			String name=namePrefix+"."+new String(new char[]{c});
 			addSimons(name, depth-1);
 		}
+	}
+	/**
+	 * Stacked stopwatches to test call tree
+	 */
+	private static void addStackedSimons() {
+		Split splitA=SimonManager.getStopwatch("Y.A").start();
+		Split splitB=SimonManager.getStopwatch("Y.B").start();
+		for(int i=0;i<3;i++) {
+			Split splitC=SimonManager.getStopwatch("Y.C").start();
+			randomWait();
+			splitC.stop();
+		}
+		splitB.stop();
+		Split splitD=SimonManager.getStopwatch("Y.D").start();
+		randomWait();
+		randomWait();
+		splitD.stop();
+		splitA.stop();
 	}
 }

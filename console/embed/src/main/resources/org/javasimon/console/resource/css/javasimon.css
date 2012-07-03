@@ -211,6 +211,7 @@ table.sectionTable > tbody > tr > td > img.icon {
 table.sectionTable > tbody > tr > td.label {
 	width:180px;
 	font-weight: bold;
+	vertical-align: top;
 }
 div.bar {
 	background-color: silver;
@@ -229,4 +230,8 @@ div.detailViewSection > div.title {
 div.detailViewSection > table.formTable > tbody > tr > td.label {
 	width:200px;
 	font-weight: bold;
+	vertical-align: top;
+}
+table#callDataTreeTable > thead > tr > td {
+	height: 24px;
 }
