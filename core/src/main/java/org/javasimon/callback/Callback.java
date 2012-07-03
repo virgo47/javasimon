@@ -148,8 +148,8 @@ public interface Callback {
 	/**
 	 * Warning event containing warning and/or cause.
 	 *
-	 * @param warning arbitrary warning message
-	 * @param cause exception causing this warning
+	 * @param warning arbitrary warning message - can be {@code null}, unless concrete implementation states otherwise
+	 * @param cause exception causing this warning - can be {@code null}, unless concrete implementation states otherwise
 	 */
 	void onManagerWarning(String warning, Exception cause);
 
