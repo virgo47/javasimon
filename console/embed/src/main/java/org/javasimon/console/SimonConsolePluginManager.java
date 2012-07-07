@@ -76,6 +76,8 @@ public class SimonConsolePluginManager {
 			Class<?> pluginType = Class.forName(pluginTypeName);
 			if (SimonConsolePlugin.class.isAssignableFrom(pluginType)) {
 				addPlugin((Class<? extends SimonConsolePlugin>) pluginType);
+			} else {
+				throw new IllegalArgumentException("Invalid plugin type "+pluginTypeName);
 			}
 		} catch (ClassNotFoundException classNotFoundException) {
 			throw new IllegalArgumentException("Invalid plugin type "+pluginTypeName, classNotFoundException);

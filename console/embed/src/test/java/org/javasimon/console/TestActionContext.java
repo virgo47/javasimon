@@ -22,6 +22,7 @@ public class TestActionContext extends ActionContext {
 	private String contentType;
 	public TestActionContext(String path) {
 		super(mock(HttpServletRequest.class), mock(HttpServletResponse.class), path);
+		setPluginManager(new SimonConsolePluginManager());
 	}
 
 	@Override
