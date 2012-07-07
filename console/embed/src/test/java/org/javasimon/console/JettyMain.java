@@ -1,5 +1,6 @@
 package org.javasimon.console;
 
+import org.javasimon.console.plugin.DummyDetailPlugin;
 import java.util.Random;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
