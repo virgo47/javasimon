@@ -32,7 +32,6 @@ public class InsertBatchAction implements Action {
 		this.conn = conn;
 	}
 
-
 	/**
 	 * Inserts batch.
 	 *
