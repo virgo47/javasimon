@@ -4,7 +4,9 @@ import org.javasimon.Manager;
 import org.javasimon.Simon;
 
 /**
- * Interface implemented by monitor providers
+ * Monitor source provides monitors (Simons) for a specific name. This mechanism enables
+ * caching of monitors for "locations" that do not change but may be expensive to transform to
+ * Simon names, for instance.
  *
  * @param <L> Location/invocation context
  * @param <M> Simon type

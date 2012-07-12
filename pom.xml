@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.javasimon</groupId>
 	<artifactId>javasimon-parent</artifactId>
@@ -100,12 +101,12 @@
 			</plugin>
 		</plugins>
 		<pluginManagement>
-		  <plugins>
-			<plugin>
-			  <artifactId>maven-assembly-plugin</artifactId>
-			  <version>2.3</version>
-			</plugin>
-		  </plugins>
+			<plugins>
+				<plugin>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>2.3</version>
+				</plugin>
+			</plugins>
 		</pluginManagement>
 	</build>
 
@@ -148,10 +149,22 @@
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-test</artifactId>
+				<version>${version.spring}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
 				<groupId>org.testng</groupId>
 				<artifactId>testng</artifactId>
 				<version>${version.testng}</version>
 				<scope>test</scope>
+				<exclusions>
+					<exclusion>
+						<groupId>junit</groupId>
+						<artifactId>junit</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>com.h2database</groupId>
@@ -215,7 +228,9 @@
 								</goals>
 								<phase>package</phase>
 								<configuration>
-									<excludePackageNames>other,org.javasimon.examples.jdbc,org.javasimon.examples.jdbc.h2,org.javasimon.examples.jmx.custom,org.javasimon.testapp,org.javasimon.testapp.*</excludePackageNames>
+									<excludePackageNames>
+										other,org.javasimon.examples.jdbc,org.javasimon.examples.jdbc.h2,org.javasimon.examples.jmx.custom,org.javasimon.testapp,org.javasimon.testapp.*
+									</excludePackageNames>
 									<!-- Begin: 
 									These resources are usually in src/main/javadoc instead of docs/api -->
 									<javadocDirectory>docs/api</javadocDirectory>
@@ -227,7 +242,9 @@
 									<linksource>true</linksource>
 									<doctitle>Java Simon API</doctitle>
 									<windowtitle>Java Simon API</windowtitle>
-									<header>&lt;table&gt;&lt;tr&gt;&lt;td style='valign: middle;'&gt;&lt;span style='font-weight: bold; margin-right: 16px;'&gt;Java Simon ${project.version}&lt;/span&gt;&lt;/td&gt;&lt;td&gt;&lt;div class='logo'/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</header>
+									<header>&lt;table&gt;&lt;tr&gt;&lt;td style='valign: middle;'&gt;&lt;span style='font-weight: bold; margin-right: 16px;'&gt;Java
+										Simon ${project.version}&lt;/span&gt;&lt;/td&gt;&lt;td&gt;&lt;div
+										class='logo'/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</header>
 									<finalName>javasimon-all-${project.version}</finalName>
 									<attach>true</attach>
 								</configuration>

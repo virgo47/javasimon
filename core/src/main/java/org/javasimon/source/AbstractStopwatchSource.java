@@ -24,17 +24,18 @@ public abstract class AbstractStopwatchSource<T> implements MonitorSource<T, Sto
 	}
 
 	/**
-	 * Get used Simon manager.
-	 *
-	 * @return Simon manager
+	 * {@inheritDoc}
 	 */
+	@Override
 	public Manager getManager() {
 		return manager;
 	}
 
 	/**
+	 * Default implementation returns always true.
 	 * @return always true
 	 */
+	@Override
 	public boolean isMonitored(T location) {
 		return true;
 	}
@@ -50,6 +51,7 @@ public abstract class AbstractStopwatchSource<T> implements MonitorSource<T, Sto
 	 * @param location Location
 	 * @return Stopwatch
 	 */
+	@Override
 	public Stopwatch getMonitor(T location) {
 		return manager.getStopwatch(getMonitorName(location));
 	}
