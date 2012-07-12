@@ -2,6 +2,8 @@ package org.javasimon.console;
 
 import org.javasimon.console.plugin.DummyDetailPlugin;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -10,8 +12,10 @@ import org.javasimon.Split;
 import org.javasimon.Stopwatch;
 import org.javasimon.callback.calltree.CallTreeCallback;
 import org.javasimon.callback.quantiles.QuantilesCallback;
+import org.javasimon.callback.timeline.TimelineCallback;
 import org.javasimon.console.plugin.CallTreeDetailPlugin;
 import org.javasimon.console.plugin.QuantilesDetailPlugin;
+import org.javasimon.console.plugin.TimelineDetailPlugin;
 
 /**
  * Main using Jetty to test Simon Console.
@@ -29,13 +33,27 @@ public class JettyMain {
 			// Servlet
 			SimonManager.callback().addCallback(new QuantilesCallback(5, 5));
 			SimonManager.callback().addCallback(new CallTreeCallback(50));
+			SimonManager.callback().addCallback(new TimelineCallback(10, 60000L));
 			SimonData.initialize();
+			Timer timer=new Timer();
+			timer.schedule(new TimerTask(){
+				@Override
+				public void run() {
+					Split split=SimonManager.getStopwatch("TL").start();
+					long wait=randomWait();
+					split.stop();
+					System.out.println("TL "+wait);
+				}
+			}, 0, 10000L);
 			addSimons("Z",4);
 			addStackedSimons();
 			final SimonConsoleServlet simonConsoleServlet = new SimonConsoleServlet();
 			ServletHolder servletHolder=new ServletHolder(simonConsoleServlet);
 			servletHolder.setInitParameter("console-path", "");
-			servletHolder.setInitParameter("plugin-classes", QuantilesDetailPlugin.class.getName()+","+CallTreeDetailPlugin.class.getName());
+			servletHolder.setInitParameter("plugin-classes", 
+					QuantilesDetailPlugin.class.getName()
+					+","+CallTreeDetailPlugin.class.getName()
+					+","+TimelineDetailPlugin.class.getName());
 			context.addServlet(servletHolder, "/*");
 			// Start server thread
 			server.start();
