@@ -10,6 +10,7 @@ import org.javasimon.utils.SimonUtils;
 
 import javax.servlet.FilterConfig;
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * Various supporting utility methods for {@link SimonServletFilter}.
@@ -52,33 +53,34 @@ public class SimonServletFilterUtils {
 	}
 
 	/**
-	 * Create and initialize the stopwatch source depending on
-	 * filter init parameter
+	 * Create and initialize the stopwatch source depending on the filter init parameters. Both
+	 * monitor source class ({@link SimonServletFilter#INIT_PARAM_STOPWATCH_SOURCE_CLASS} and whether
+	 * to cache results ({@link SimonServletFilter#INIT_PARAM_STOPWATCH_SOURCE_CACHE}) can be adjusted.
 	 *
 	 * @param filterConfig Filter configuration
 	 * @return Stopwatch source
 	 */
-	@SuppressWarnings("unchecked")
 	protected static MonitorSource<HttpServletRequest, Stopwatch> initStopwatchSource(FilterConfig filterConfig, Manager manager) {
-		MonitorSource<HttpServletRequest, Stopwatch> stopwatchSource;
 		String stopwatchSourceClass = filterConfig.getInitParameter(SimonServletFilter.INIT_PARAM_STOPWATCH_SOURCE_CLASS);
+		MonitorSource<HttpServletRequest, Stopwatch> stopwatchSource = createMonitorSource(stopwatchSourceClass, manager);
 
+		injectSimonPrefixIntoMonitorSource(filterConfig, stopwatchSource);
+
+		String cache = filterConfig.getInitParameter(SimonServletFilter.INIT_PARAM_STOPWATCH_SOURCE_CACHE);
+		stopwatchSource = wrapMonitorSourceWithCacheIfNeeded(stopwatchSource, cache);
+
+		return stopwatchSource;
+	}
+
+	private static MonitorSource<HttpServletRequest, Stopwatch> createMonitorSource(String stopwatchSourceClass, Manager manager) {
 		if (stopwatchSourceClass == null) {
-			stopwatchSource = new HttpStopwatchSource(manager);
+			return new HttpStopwatchSource(manager);
 		} else {
-			try {
-				stopwatchSource = (MonitorSource<HttpServletRequest, Stopwatch>)
-					Class.forName(stopwatchSourceClass).newInstance();
-			} catch (ClassNotFoundException classNotFoundException) {
-				throw new IllegalArgumentException("Invalid Stopwatch source class name", classNotFoundException);
-			} catch (InstantiationException instantiationException) {
-				throw new IllegalArgumentException("Invalid Stopwatch source class name", instantiationException);
-			} catch (IllegalAccessException illegalAccessException) {
-				throw new IllegalArgumentException("Invalid Stopwatch source class name", illegalAccessException);
-			}
+			return createMonitorForSourceSpecifiedClass(stopwatchSourceClass, manager);
 		}
+	}
 
-		// Inject prefix into HTTP Stopwatch source
+	private static void injectSimonPrefixIntoMonitorSource(FilterConfig filterConfig, MonitorSource<HttpServletRequest, Stopwatch> stopwatchSource) {
 		String simonPrefix = filterConfig.getInitParameter(SimonServletFilter.INIT_PARAM_PREFIX);
 		if (simonPrefix != null) {
 			if (stopwatchSource instanceof HttpStopwatchSource) {
@@ -88,11 +90,49 @@ public class SimonServletFilterUtils {
 				throw new IllegalArgumentException("Prefix init param is only compatible with HttpStopwatchSource");
 			}
 		}
+	}
 
-		// Wrap stopwatch source in a cache
-		String cache = filterConfig.getInitParameter(SimonServletFilter.INIT_PARAM_STOPWATCH_SOURCE_CACHE);
+	private static MonitorSource<HttpServletRequest, Stopwatch> wrapMonitorSourceWithCacheIfNeeded(MonitorSource<HttpServletRequest, Stopwatch> stopwatchSource, String cache) {
 		if (cache != null && Boolean.parseBoolean(cache)) {
 			stopwatchSource = HttpStopwatchSource.newCacheStopwatchSource(stopwatchSource);
+		}
+		return stopwatchSource;
+	}
+
+	private static MonitorSource<HttpServletRequest, Stopwatch> createMonitorForSourceSpecifiedClass(String stopwatchSourceClass, Manager manager) {
+		try {
+			Class<?> monitorClass = Class.forName(stopwatchSourceClass);
+			return  monitorSourceNewInstance(manager, monitorClass);
+		} catch (ClassNotFoundException e) {
+			throw new IllegalArgumentException("Invalid Stopwatch source class name", e);
+		} catch (ClassCastException e) {
+			throw new IllegalArgumentException("Invalid Stopwatch source class name", e);
+		} catch (InstantiationException e) {
+			throw new IllegalArgumentException("Invalid Stopwatch source class name", e);
+		} catch (IllegalAccessException e) {
+			throw new IllegalArgumentException("Invalid Stopwatch source class name", e);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private static MonitorSource<HttpServletRequest, Stopwatch> monitorSourceNewInstance(Manager manager, Class<?> monitorClass) throws InstantiationException, IllegalAccessException {
+		MonitorSource<HttpServletRequest, Stopwatch> stopwatchSource = null;
+		try {
+			stopwatchSource = (MonitorSource<HttpServletRequest, Stopwatch>) monitorClass.getConstructor(Manager.class).newInstance(manager);
+		} catch (NoSuchMethodException e) {
+			// safe to ignore here - we'll try default constructor + setter
+		} catch (InvocationTargetException e) {
+			// safe to ignore here
+		}
+		if (stopwatchSource == null) {
+			stopwatchSource = (MonitorSource<HttpServletRequest, Stopwatch>) monitorClass.newInstance();
+			try {
+				monitorClass.getMethod("setManager", Manager.class).invoke(stopwatchSource, manager);
+			} catch (NoSuchMethodException e) {
+				throw new IllegalArgumentException("Stopwatch source class must have public constructor or public setter with Manager argument (used class " + monitorClass.getName() + ")", e);
+			} catch (InvocationTargetException e) {
+				throw new IllegalArgumentException("Stopwatch source class must have public constructor or public setter with Manager argument (used class " + monitorClass.getName() + ")", e);
+			}
 		}
 		return stopwatchSource;
 	}
@@ -101,15 +141,13 @@ public class SimonServletFilterUtils {
 	 * Returns RequestReporter for the class specified for context parameter {@link SimonServletFilter#INIT_PARAM_REQUEST_REPORTER_CLASS}.
 	 */
 	public static RequestReporter initRequestReporter(FilterConfig filterConfig) {
-		RequestReporter reporter;
-
 		String className = filterConfig.getInitParameter(SimonServletFilter.INIT_PARAM_REQUEST_REPORTER_CLASS);
 
 		if (className == null) {
-			reporter = new DefaultRequestReporter();
+			return new DefaultRequestReporter();
 		} else {
 			try {
-				reporter = (RequestReporter) Class.forName(className).newInstance();
+				return (RequestReporter) Class.forName(className).newInstance();
 			} catch (ClassNotFoundException classNotFoundException) {
 				throw new IllegalArgumentException("Invalid Request reporter class name", classNotFoundException);
 			} catch (InstantiationException instantiationException) {
@@ -118,7 +156,5 @@ public class SimonServletFilterUtils {
 				throw new IllegalArgumentException("Invalid Request reporter class name", illegalAccessException);
 			}
 		}
-
-		return reporter;
 	}
 }
