@@ -239,7 +239,8 @@ public final class SimonManager {
 	}
 
 	/**
-	 * Converts nano timer value into millis timestamp compatible with {@link System#currentTimeMillis()}.
+	 * Converts nano timer value into millis timestamp compatible with {@link System#currentTimeMillis()}. Method does not
+	 * just divide nanos by one million, but also works with remembered values for milli- and nano-timers at one particular moment.
 	 *
 	 * @param nanos nano timer value
 	 * @return ms timestamp
