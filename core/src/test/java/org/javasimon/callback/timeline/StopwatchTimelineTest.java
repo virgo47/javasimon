@@ -11,7 +11,7 @@ import static org.testng.Assert.*;
  * @author gerald
  */
 public class StopwatchTimelineTest {
-//	@Test
+	@Test
 	public void testAddSplit() {
 		// 10 ranges of 5 minutes
 		StopwatchTimeline timeline = new StopwatchTimeline(10, 5 * 60 * 1000);
@@ -34,6 +34,9 @@ public class StopwatchTimelineTest {
 		timeline.addSplit(createSplit(createTimestamp(2012, 7, 12, 21, 54, 22), 250));
 		// Date is ready, let's check the result
 		StopwatchTimeRange[] timeRanges = timeline.sample().getTimeRanges();
+		for(StopwatchTimeRange timeRange:timeRanges) {
+			System.out.println(timeRange.toString());
+		}
 		assertEquals(timeRanges.length, 3);
 		assertEquals(timeRanges[0].getCounter(), 5);
 		assertEquals(timeRanges[1].getCounter(), 2);

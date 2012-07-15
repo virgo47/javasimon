@@ -44,8 +44,10 @@ public class StopwatchTimeRange extends TimeRange {
 
 	/**
 	 * Add stopwatch split information.
+	 * @param timestampInMs When the split started, expressed in milliseconds
+	 * @param durationInNs How long the split was, expressed in nanoseconds
 	 */
-	public synchronized void addSplit(long timestampInMs, long durationInNs) {
+	public void addSplit(long timestampInMs, long durationInNs) {
 		last = durationInNs;
 		total += durationInNs;
 		squareTotal += durationInNs * durationInNs;
@@ -58,23 +60,6 @@ public class StopwatchTimeRange extends TimeRange {
 		counter++;
 		lastTimestamp = timestampInMs;
 	}
-
-	/* TODO: review, but I'd drop them
-	 * Add stopwatch split.
-	 *
-	 * @param split Split
-	void addSplit(Split split, long timestampMs) {
-		addSplit(timestampMs, split.runningFor());
-	}
-
-	 * TODO: this is broken (I fixed it in org.javasimon.callback.timeline.StopwatchTimeline.addSplit already), nanos can't be converted to timestamp this way
-	 * Add stopwatch split.
-	 *
-	 * @param split Split
-	public void addSplit(Split split) {
-		addSplit(split.getStart() / SimonUtils.NANOS_IN_MILLIS, split.runningFor());
-	}
-	 */
 
 	public long getLast() {
 		return last;
@@ -95,15 +80,25 @@ public class StopwatchTimeRange extends TimeRange {
 	public long getCounter() {
 		return counter;
 	}
-
+	/**
+	 * Compute mean/average using total and counter
+	 */
 	private double computeMean() {
 		return ((double) total) / ((double) counter);
 	}
 
+	/**
+	 * Compute mean/average.
+	 * @return mean/average duration.
+	 */
 	public Double getMean() {
 		return counter == 0 ? null : computeMean();
 	}
 
+	/**
+	 * Compute variance.
+	 * @return variance
+	 */
 	public Double getVariance() {
 		if (counter == 0) {
 			return null;
@@ -114,7 +109,10 @@ public class StopwatchTimeRange extends TimeRange {
 			return squareMean - meanSquare;
 		}
 	}
-
+	/**
+	 * Compute standard deviation.
+	 * @return Standard deviation
+	 */
 	public Double getStandardDeviation() {
 		final Double variance = getVariance();
 		return variance == null ? null : Math.sqrt(variance);
@@ -124,6 +122,7 @@ public class StopwatchTimeRange extends TimeRange {
 	protected StringBuilder toStringBuilder(StringBuilder stringBuilder) {
 		return super.toStringBuilder(stringBuilder)
 			.append(" counter=").append(counter)
+			.append(" total=").append(total)
 			.append(" min=").append(SimonUtils.presentNanoTime(min))
 			.append(" mean=").append(SimonUtils.presentNanoTime(getMean()))
 			.append(" last=").append(SimonUtils.presentNanoTime(getLast()))
