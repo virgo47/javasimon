@@ -39,6 +39,7 @@ public class TimeUtil {
 	public static Split createSplit(long start, long total) {
 		Split split = new Split();
 		setField(split, "start", start * SimonUtils.NANOS_IN_MILLIS);
+		setField(split, "running", false);
 		setField(split, "total", total);
 		return split;
 	}

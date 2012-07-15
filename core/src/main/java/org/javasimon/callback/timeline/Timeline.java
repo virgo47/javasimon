@@ -24,7 +24,9 @@ public abstract class Timeline<TR extends TimeRange> {
 	private TR lastTimeRange;
 
 	/**
-	 * Main constructor
+	 * Main constructor.
+	 * @param capacity Number of time ranges
+	 * @param timeRangeWidth Width of each time range
 	 */
 	protected Timeline(int capacity, long timeRangeWidth) {
 		this.timeRanges = new CircularList<TR>(capacity);
@@ -46,7 +48,7 @@ public abstract class Timeline<TR extends TimeRange> {
 	 * @param timestamp
 	 * @return
 	 */
-	protected TR getOrCreateTimeRange(long timestamp) {
+	protected final TR getOrCreateTimeRange(long timestamp) {
 		TR timeRange;
 		if (lastTimeRange == null || timestamp > lastTimeRange.getEndTimestamp()) {
 			// New time range
