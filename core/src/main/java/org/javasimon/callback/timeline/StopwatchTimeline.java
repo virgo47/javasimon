@@ -38,9 +38,7 @@ public final class StopwatchTimeline extends Timeline<StopwatchTimeRange> {
 	 * @param split Split
 	 */
 	public void addSplit(Split split) {
-		// TODO[gerald] review and remove if invalid
-//		final long timestamp = SimonManager.millisForNano(split.getStart());
-		final long timestamp = split.getStart() / SimonUtils.NANOS_IN_MILLIS;
+		final long timestamp = SimonManager.millisForNano(split.getStart());
 		StopwatchTimeRange timeRange;
 		synchronized (this) {
 			timeRange = getOrCreateTimeRange(timestamp);
