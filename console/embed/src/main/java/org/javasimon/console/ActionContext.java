@@ -134,11 +134,28 @@ public class ActionContext {
 		return defaultValue(blankToNull(getParameter(name)), defaultValue);
 	}
 	/**
+	 * Transform a string into an boolean.
+	 */
+	private static Boolean stringToBoolean(String value) {
+		final String s=blankToNull(value);
+		return s==null?null:Boolean.valueOf(s);
+	}
+	/**
+	 * Get request paramter as a Boolean
+	 * @param name Parameter name
+	 * @param defaultValue Parameter default value
+	 * @return 
+	 */
+	public boolean getParameterAsBoolean(String name, Boolean defaultValue) {
+		return defaultValue(stringToBoolean(getParameter(name)), defaultValue);
+	}
+	/**
 	 * Transform a string into an enum (using its name which is supposed to be
 	 * uppercase, handles null values.
 	 */
 	private static <T extends Enum<T>> T stringToEnum(String value, Class<T> type) {
-		return value==null?null:Enum.valueOf(type, value.toUpperCase());
+		final String s=blankToNull(value);
+		return value==null?null:Enum.valueOf(type, s.toUpperCase());
 	}
 
 	/**
@@ -150,7 +167,7 @@ public class ActionContext {
 	 * @return Parameter value
 	 */
 	public <T extends Enum<T>> T getParameterAsEnum(String name, Class<T> type, T defaultValue) {
-		return defaultValue(stringToEnum(blankToNull(getParameter(name)), type), defaultValue);
+		return defaultValue(stringToEnum(getParameter(name), type), defaultValue);
 	}
 
 	/**
@@ -181,5 +198,6 @@ public class ActionContext {
 	public void setPluginManager(SimonConsolePluginManager pluginManager) {
 		this.pluginManager = pluginManager;
 	}
+
 	
 }

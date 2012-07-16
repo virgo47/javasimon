@@ -21,8 +21,15 @@ public abstract class AbstractJsonAction extends Action {
 	protected AbstractJsonAction(ActionContext context) {
 		super(context);
 	}
+	/**
+	 * Type converter Object &rarr; JSON String
+	 */
 	protected final JsonStringifierFactory jsonStringifierFactory=new JsonStringifierFactory();
-
+	/**
+	 * Flag indicating  if simons should be reset during sampling
+	 */
+	protected boolean reset;
+	
 	@Override
 	public void readParameters() {
 		TimeFormatType timeFormat=getContext().getParameterAsEnum("timeFormat", TimeFormatType.class, TimeFormatType.MILLISECOND);
@@ -30,6 +37,7 @@ public abstract class AbstractJsonAction extends Action {
 			JsonStringifierFactory.READABLE_DATE_PATTERN,// Should be ISO
 			JsonStringifierFactory.INTEGER_NUMBER_PATTERN
 			);
+		reset=getContext().getParameterAsBoolean("reset", Boolean.FALSE);
 	}
 
 	/**
@@ -39,7 +47,7 @@ public abstract class AbstractJsonAction extends Action {
 	 * @return JSON object
 	 */
 	protected ObjectJS createObjectJS(Simon simon) {
-		Sample sample=simon.sample();
+		Sample sample=reset?simon.sampleAndReset():simon.sample();
 		SimonType lType = SimonTypeFactory.getValueFromInstance(sample);
 		ObjectJS objectJS = ObjectJS.create(sample, jsonStringifierFactory);
 		objectJS.setAttribute("type", new SimpleJS<SimonType>(lType,jsonStringifierFactory.getStringifier(SimonType.class)));
