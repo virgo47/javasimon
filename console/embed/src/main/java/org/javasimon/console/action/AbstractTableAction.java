@@ -65,6 +65,11 @@ public class AbstractTableAction extends Action {
 	 * Decimal format pattern used for printing doubles
 	 */
 	protected String numberPattern = StringifierFactory.READABLE_NUMBER_PATTERN;
+	
+	/**
+	 * Flag indicating  if simons should be reset during sampling
+	 */
+	protected boolean reset;
 
 	/**
 	 * Base constructor initialiszes columns list
@@ -123,6 +128,7 @@ public class AbstractTableAction extends Action {
 			numberPattern);
 		pattern = getContext().getParameterAsString("pattern", null);
 		types = getContext().getParametersAsEnums("type", SimonType.class, null);
+		reset = getContext().getParameterAsBoolean("reset", Boolean.FALSE);
 	}
 
 	protected void printTable(PrintWriter writer) throws IOException {
@@ -145,7 +151,8 @@ public class AbstractTableAction extends Action {
 	}
 
 	protected void printBodyRow(Simon simon, PrintWriter writer) throws IOException {
-		printBodyRow(simon.sample(), writer);
+		final Sample sample = reset ? simon.sampleAndReset() : simon.sample();
+		printBodyRow(sample, writer);
 	}
 
 	protected void printBodyRow(Sample sample, PrintWriter writer) throws IOException {
