@@ -8,7 +8,6 @@ import java.util.Collection;
 
 import org.javasimon.callback.Callback;
 import org.javasimon.callback.CompositeCallback;
-import org.javasimon.utils.SimonUtils;
 import org.javasimon.utils.SystemDebugCallback;
 
 /**
@@ -37,10 +36,6 @@ public final class SimonManager {
 	 */
 	public static final String PROPERTY_CONFIG_RESOURCE_NAME = "javasimon.config.resource";
 
-	private static final long INIT_NANOS;
-
-	private static final long INIT_MILLIS;
-
 	private static Manager manager = new SwitchingManager();
 
 	/**
@@ -48,9 +43,6 @@ public final class SimonManager {
 	 */
 	static {
 		init();
-		// for conversion between nano and millis - see method millisForNano(long)
-		INIT_NANOS = System.nanoTime();
-		INIT_MILLIS = System.currentTimeMillis();
 	}
 
 	/**
@@ -238,15 +230,4 @@ public final class SimonManager {
 		manager.warning(warning, cause);
 	}
 
-	/**
-	 * Converts nano timer value into millis timestamp compatible with {@link System#currentTimeMillis()}. Method does not
-	 * just divide nanos by one million, but also works with remembered values for milli- and nano-timers at one particular moment.
-	 *
-	 * @param nanos nano timer value
-	 * @return ms timestamp
-	 * @since 3.1
-	 */
-	public static long millisForNano(long nanos) {
-		return INIT_MILLIS + (nanos - INIT_NANOS) / SimonUtils.NANOS_IN_MILLIS;
-	}
 }

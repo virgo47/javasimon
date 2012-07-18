@@ -87,18 +87,30 @@ public final class SimonUtils {
 	 */
 	public static final String MANAGER_SERVLET_CTX_ATTRIBUTE = "manager-servlet-ctx-attribute";
 
-	private static final int UNIT_PREFIX_FACTOR = 1000;
+	/**
+	 * Value of {@link System#nanoTime()} at a particular time, when {@link #INIT_MILLIS} is initialized as well.
+	 * Used in {@link #millisForNano(long)}.
+	 *
+	 * @since 3.3
+	 */
+
+	public static final long INIT_NANOS;
+	/**
+	 * Value of {@link System#nanoTime()} at a particular time, when {@link #INIT_MILLIS} is initialized as well.
+	 * Used in {@link #millisForNano(long)}.
+	 *
+	 * @since 3.3
+	 */
+	public static final long INIT_MILLIS;
 
 	private static final SimpleDateFormat TIMESTAMP_FORMAT = new SimpleDateFormat("yyMMdd-HHmmss.SSS");
 
+	private static final int UNIT_PREFIX_FACTOR = 1000;
 	private static final DecimalFormatSymbols DECIMAL_FORMAT_SYMBOLS = new DecimalFormatSymbols(Locale.US);
 	private static final int TEN = 10;
-
 	private static final DecimalFormat UNDER_TEN_FORMAT = new DecimalFormat("0.00", DECIMAL_FORMAT_SYMBOLS);
 	private static final int HUNDRED = 100;
-
 	private static final DecimalFormat UNDER_HUNDRED_FORMAT = new DecimalFormat("00.0", DECIMAL_FORMAT_SYMBOLS);
-
 	private static final DecimalFormat DEFAULT_FORMAT = new DecimalFormat("000", DECIMAL_FORMAT_SYMBOLS);
 
 	private static final String UNDEF_STRING = "undef";
@@ -114,6 +126,10 @@ public final class SimonUtils {
 			}
 		}
 		CLIENT_CODE_STACK_INDEX = i;
+
+		// for conversion between nano and millis - see method millisForNano(long)
+		INIT_NANOS = System.nanoTime();
+		INIT_MILLIS = System.currentTimeMillis();
 	}
 
 	private SimonUtils() {
@@ -416,5 +432,17 @@ public final class SimonUtils {
 		}
 
 		return input.substring(0, headLength) + SHRINKED_STRING + input.substring(input.length() - tailLength);
+	}
+
+	/**
+	 * Converts nano timer value into millis timestamp compatible with {@link System#currentTimeMillis()}. Method does not
+	 * just divide nanos by one million, but also works with remembered values for milli- and nano-timers at one particular moment.
+	 *
+	 * @param nanos nano timer value
+	 * @return ms timestamp
+	 * @since 3.3 (moved from SimonManager where it was since 3.1)
+	 */
+	public static long millisForNano(long nanos) {
+		return INIT_MILLIS + (nanos - INIT_NANOS) / NANOS_IN_MILLIS;
 	}
 }

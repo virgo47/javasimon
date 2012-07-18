@@ -143,7 +143,7 @@ public final class Split {
 	}
 
 	/**
-	 * Returns start nano timer value - can be converted to ms timestamp using {@link SimonManager#millisForNano(long)}.
+	 * Returns start nano timer value - can be converted to ms timestamp using {@link org.javasimon.utils.SimonUtils#millisForNano(long)}.
 	 * Returns 0 if the split is not enabled (started for disabled Stopwatch).
 	 *
 	 * @return nano timer value when the Split was started or 0 if the split is not enabled
