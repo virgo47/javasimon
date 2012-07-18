@@ -338,7 +338,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	 * @param nowNanos current value of nano timer
 	 */
 	private void updateUsages(long nowNanos) {
-		lastUsage = SimonManager.millisForNano(nowNanos);
+		lastUsage = SimonUtils.millisForNano(nowNanos);
 		if (firstUsage == 0) {
 			firstUsage = lastUsage;
 		}

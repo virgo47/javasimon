@@ -2,7 +2,6 @@ package org.javasimon.callback.timeline;
 
 import java.lang.reflect.Field;
 import java.util.Calendar;
-import org.javasimon.SimonManager;
 
 import org.javasimon.Split;
 import org.javasimon.utils.SimonUtils;
@@ -22,10 +21,9 @@ public class TimeUtil {
 		calendar.set(Calendar.SECOND, seconds);
 		return calendar.getTimeInMillis();
 	}
+
 	public static long millisToNano(long millis) {
-		long initMillis=(Long) getStaticField(SimonManager.class, "INIT_MILLIS");
-		long initNanos=(Long) getStaticField(SimonManager.class, "INIT_NANOS");
-		return initNanos + (millis - initMillis) * SimonUtils.NANOS_IN_MILLIS;
+		return SimonUtils.INIT_NANOS + (millis - SimonUtils.INIT_MILLIS) * SimonUtils.NANOS_IN_MILLIS;
 	}
 
 	private static void setField(Object object, String fieldName, Object fieldValue) {
@@ -33,15 +31,6 @@ public class TimeUtil {
 			Field field = object.getClass().getDeclaredField(fieldName);
 			field.setAccessible(true);
 			field.set(object, fieldValue);
-		} catch (Exception ex) {
-			throw new IllegalStateException(ex);
-		}
-	}
-	private static Object getStaticField(Class clazz, String fieldName) {
-		try {
-			Field field = clazz.getDeclaredField(fieldName);
-			field.setAccessible(true);
-			return field.get(clazz);
 		} catch (Exception ex) {
 			throw new IllegalStateException(ex);
 		}

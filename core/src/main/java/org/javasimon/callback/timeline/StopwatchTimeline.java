@@ -1,6 +1,5 @@
 package org.javasimon.callback.timeline;
 
-import org.javasimon.SimonManager;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
 import org.javasimon.utils.SimonUtils;
@@ -38,7 +37,7 @@ public final class StopwatchTimeline extends Timeline<StopwatchTimeRange> {
 	 * @param split Split
 	 */
 	public void addSplit(Split split) {
-		final long timestamp = SimonManager.millisForNano(split.getStart());
+		final long timestamp = SimonUtils.millisForNano(split.getStart());
 		StopwatchTimeRange timeRange;
 		synchronized (this) {
 			timeRange = getOrCreateTimeRange(timestamp);
