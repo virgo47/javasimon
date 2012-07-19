@@ -13,7 +13,7 @@ public abstract class Timeline<TR extends TimeRange> {
 	/**
 	 * List of time ranges
 	 */
-	protected final List<TR> timeRanges;
+	protected final CircularList<TR> timeRanges;
 	/**
 	 * Time range width in milliseconds
 	 */

@@ -122,7 +122,7 @@ public class StopwatchTimeRange extends TimeRange {
 	protected StringBuilder toStringBuilder(StringBuilder stringBuilder) {
 		return super.toStringBuilder(stringBuilder)
 			.append(" counter=").append(counter)
-			.append(" total=").append(total)
+			.append(" total=").append(SimonUtils.presentNanoTime(total))
 			.append(" min=").append(SimonUtils.presentNanoTime(min))
 			.append(" mean=").append(SimonUtils.presentNanoTime(getMean()))
 			.append(" last=").append(SimonUtils.presentNanoTime(getLast()))

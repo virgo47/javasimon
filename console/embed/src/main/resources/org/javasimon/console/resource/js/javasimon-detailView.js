@@ -34,7 +34,11 @@ window.javasimon=javasimon;
 			var oResource, sResourcePath;
 			for(var i=0;i<oPlugin.resources.length;i++) {
 				oResource=oPlugin.resources[i];
-				sResourcePath="resource/"+oResource.path;
+				if (/^https?:\/\/.*/.test(oResource.path)) {
+					sResourcePath=oResource.path;
+				} else {
+					sResourcePath="resource/"+oResource.path;
+				}				
 				switch(oResource.type) {
 					case "JS":
 						domUtil.fnAppendJSResource(sResourcePath);
