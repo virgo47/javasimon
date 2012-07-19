@@ -38,8 +38,10 @@ public class TimelineDetailPlugin extends DetailPlugin {
 	public TimelineDetailPlugin(String pluginId, String pluginTitle, String attributeName) {
 		super(pluginId, pluginTitle);
 		this.attributeName = attributeName;
-		addResource("js/javasimon-timelinePlugin.js", HtmlResourceType.JS);
+		// Google Chart
+		addResource("https://www.google.com/jsapi", HtmlResourceType.JS);
 		addResource("js/jquery-dataTables-1.9.1.js", HtmlResourceType.JS);
+		addResource("js/javasimon-timelinePlugin.js", HtmlResourceType.JS);
 		addResource("css/javasimon-timelinePlugin.css", HtmlResourceType.CSS);
 	}
 	public TimelineDetailPlugin() {

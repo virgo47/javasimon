@@ -4,6 +4,8 @@ import org.javasimon.console.plugin.DummyDetailPlugin;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -16,12 +18,14 @@ import org.javasimon.callback.timeline.TimelineCallback;
 import org.javasimon.console.plugin.CallTreeDetailPlugin;
 import org.javasimon.console.plugin.QuantilesDetailPlugin;
 import org.javasimon.console.plugin.TimelineDetailPlugin;
+import org.javasimon.utils.SimonUtils;
 
 /**
  * Main using Jetty to test Simon Console.
  * @author gquintana
  */
 public class JettyMain {
+	private static Lock lock=new ReentrantLock();
 	public static void main(String[] args) {
 		try {
 			// Server
@@ -39,10 +43,12 @@ public class JettyMain {
 			timer.schedule(new TimerTask(){
 				@Override
 				public void run() {
-					Split split=SimonManager.getStopwatch("TL").start();
-					long wait=randomWait();
-					split.stop();
-					System.out.println("TL "+wait);
+					try {
+						lock.lock();
+						System.out.println("TL "+addRandomStopwatchSplit(null));
+					} finally {
+						lock.unlock();
+					}
 				}
 			}, 0, 10000L);
 			addSimons("Z",4);
@@ -71,34 +77,49 @@ public class JettyMain {
 			addGroups(prefix,depth);
 		}
 	}
+	private static int randomInt(int min, int max) {
+		return min+random.nextInt(max-min);
+	}
 	/**
 	 * Wait random time 
 	 * @return Waited random time
 	 */
 	private static long randomWait() {
-		final long waitTime=random.nextInt(100);
+		final long waitTime=randomInt(50, 100);
 		try {
 			Thread.sleep(waitTime);
 		} catch (InterruptedException interruptedException) {
 		}
 		return waitTime;
 	}
-	private static void addStopwatches(String name) {
-		final int splits = 8+random.nextInt(4);
-		final Stopwatch stopwatch = SimonManager.getStopwatch(name);
-		System.out.print(name+" "+splits+" ");
-		for(int i=0;i<splits;i++) {
-			Split split=stopwatch.start();
-			try {
-				System.out.print(randomWait()+",");
-			} finally {
-				split.stop();
-			}
+	private static long addRandomStopwatchSplit(Stopwatch stopwatch) {
+		Split split=stopwatch.start();
+		try {
+			randomWait();
+		} finally {
+			split.stop();
 		}
-		System.out.println("");
+		return split.runningFor()/SimonUtils.NANOS_IN_MILLIS;
+	}
+	private static void addRandomStopwatchSplits(final Stopwatch stopwatch, final int splits) {
+		for(int i=0;i<splits;i++) {
+			System.out.print(addRandomStopwatchSplit(stopwatch));
+		}
+	}
+	private static void addStopwatches(String name) {
+		final int splits = randomInt(4,8);
+		final Stopwatch stopwatch = SimonManager.getStopwatch(name);
+		try {
+			lock.lock();
+			System.out.print(name+" "+splits+": ");
+			addRandomStopwatchSplits(stopwatch, splits);
+			System.out.println();
+		} finally {
+			lock.unlock();
+		}
 	}
 	private static void addGroups(String namePrefix, int depth) {
-		final int sibblings = 1+random.nextInt(3);
+		final int sibblings = randomInt(1,3);
 		for(int i=0;i<sibblings;i++) {
 			char c=(char)('A'+i);
 			String name=namePrefix+"."+new String(new char[]{c});
@@ -111,11 +132,7 @@ public class JettyMain {
 	private static void addStackedSimons() {
 		Split splitA=SimonManager.getStopwatch("Y.A").start();
 		Split splitB=SimonManager.getStopwatch("Y.B").start();
-		for(int i=0;i<3;i++) {
-			Split splitC=SimonManager.getStopwatch("Y.C").start();
-			randomWait();
-			splitC.stop();
-		}
+		addRandomStopwatchSplits(SimonManager.getStopwatch("Y.C"), 3);
 		splitB.stop();
 		Split splitD=SimonManager.getStopwatch("Y.D").start();
 		randomWait();
@@ -123,4 +140,5 @@ public class JettyMain {
 		splitD.stop();
 		splitA.stop();
 	}
+
 }

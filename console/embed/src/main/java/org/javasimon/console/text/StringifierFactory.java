@@ -182,6 +182,16 @@ public class StringifierFactory {
 		registerLongStringifier(TIME_SUBTYPE, longTimeStringifier);
 		final DoubleTimeStringifier doubleTimeStringifier = new DoubleTimeStringifier(nullStringifier, doubleStringifier, stringStringifier, timeFormat);
 		registerDoubleStringifier(TIME_SUBTYPE, doubleTimeStringifier);
+
+		// Boolean
+		final Stringifier<Boolean> booleanStringifier = new BaseStringifier<Boolean>(nullStringifier) {
+			@Override
+			protected String doToString(Boolean b) {
+				return stringStringifier.toString(b.toString());
+			}
+		};
+		compositeStringifier.add(Boolean.class, booleanStringifier);
+		compositeStringifier.add(Boolean.TYPE,  booleanStringifier);
 	}
 
 	/**

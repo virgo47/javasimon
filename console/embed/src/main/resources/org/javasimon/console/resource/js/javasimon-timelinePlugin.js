@@ -4,7 +4,7 @@ if (javasimon) {
 	(function(domUtil, detailViewService) {
 		detailViewService.fnAddPluginRenderer("timeline",function(eTableBody, oTimeline) {
 			var row=this.fnAppendRow(eTableBody),
-				subTable, oDataTable;
+				subTable, oDataTable, googleChartDiv;
 			if (oTimeline.message) {
 				this.fnAppendLabelValueCell(row,"Message", oTimeline.message, 3);
 			}
@@ -14,7 +14,7 @@ if (javasimon) {
 			this.fnAppendLabelValueCell(row, "Width", oTimeline.width);
 
 			row=this.fnAppendRow(eTableBody);
-			this.fnAppendLabelCell(row,"Evolution");
+			this.fnAppendLabelCell(row,"Table");
 			subTable=domUtil.fnAppendChildElement(this.fnAppendValueCell(row, " ", 3),"table");
 			oDataTable=$(subTable).dataTable( {
 				bJQueryUI: true,
@@ -35,6 +35,33 @@ if (javasimon) {
 				aaSorting: [[ 0, "asc" ]]
 			});
 			oDataTable.fnAddData(oTimeline.timeRanges);
+			
+			if (google) {
+				row=this.fnAppendRow(eTableBody);
+				this.fnAppendLabelCell(row,"Chart");
+				googleChartDiv=domUtil.fnAppendChildElement(this.fnAppendValueCell(row, " ", 3),"div",{style:"width: 800px; height: 400px;"});
+				google.load("visualization", "1.0", {packages:["corechart"],
+					callback:function() {
+					// Prepare data for Google Chart
+					var googleData=[], googleChart,
+						aTimeRanges=oTimeline.timeRanges;
+					googleData.push(["Timestamp","Min","Mean","Max"]);
+					for(var i=0;i<aTimeRanges.length;i++) {
+						googleData.push([
+							aTimeRanges[i].startTimestamp,
+							aTimeRanges[i].min,
+							aTimeRanges[i].mean,
+							aTimeRanges[i].max
+						]);
+					}
+					// Configure Google Chart
+					googleChart=new google.visualization.LineChart(googleChartDiv);
+					googleChart.draw(
+						google.visualization.arrayToDataTable(googleData), 
+						{colors: ['#80B646', '#49A4CB', '#C93B3B']});
+				}});
+			}
+			
 		});
 	}(javasimon.DOMUtil, javasimon.DetailViewService));
 }

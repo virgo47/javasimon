@@ -5,6 +5,7 @@ import java.util.Iterator;
 import javax.servlet.ServletException;
 import org.javasimon.Sample;
 import org.javasimon.Simon;
+import org.javasimon.SimonState;
 import org.javasimon.console.*;
 import org.javasimon.console.json.JsonStringifierFactory;
 import org.javasimon.console.json.ObjectJS;
@@ -39,7 +40,9 @@ public abstract class AbstractJsonAction extends Action {
 			);
 		reset=getContext().getParameterAsBoolean("reset", Boolean.FALSE);
 	}
-
+	private <T> void addAttribute(ObjectJS objectJS, String name, Class<T> type, T value) {
+		objectJS.setAttribute(name, new SimpleJS<T>(value,jsonStringifierFactory.getStringifier(type)));
+	}
 	/**
 	 * Transforms a Simon into a JSON object
 	 *
@@ -50,7 +53,9 @@ public abstract class AbstractJsonAction extends Action {
 		Sample sample=reset?simon.sampleAndReset():simon.sample();
 		SimonType lType = SimonTypeFactory.getValueFromInstance(sample);
 		ObjectJS objectJS = ObjectJS.create(sample, jsonStringifierFactory);
-		objectJS.setAttribute("type", new SimpleJS<SimonType>(lType,jsonStringifierFactory.getStringifier(SimonType.class)));
+		addAttribute(objectJS, "type",		SimonType.class,	lType);
+		addAttribute(objectJS, "enabled",	Boolean.class,		simon.isEnabled());
+		addAttribute(objectJS, "state",		SimonState.class,	simon.getState());
 		return objectJS;
 
 	}
