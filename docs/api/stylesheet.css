@@ -1,44 +1,4 @@
-/* Javadoc style sheet */
-
-/* Define colors, fonts and other style attributes here to override the defaults */
-
-/* Page background color */
-body { background-color: #FFFFFF }
-
-/* Headings */
-h1 {
-	font-size: 180%
-}
-
-/* Table colors */
-.TableHeadingColor     { background: #8899ff }
-.TableSubHeadingColor  { background: #ddddff }
-.TableRowColor         { background: #ffffff }
-.TableRowColor:hover   { background: #ffeeee }
-
-/* Font used in left-hand frame lists */
-.FrameTitleFont   { font-size: 100%; font-family: Helvetica, Arial, sans-serif }
-.FrameHeadingFont { font-size:  90%; font-family: Helvetica, Arial, sans-serif }
-.FrameItemFont    { font-size:  90%; font-family: Helvetica, Arial, sans-serif }
-
-/* Navigation bar fonts and colors */
-.NavBarCell1 {
-	background-color:#ffccbb;
-	font-family: Arial, Helvetica, sans-serif; color:#000000;
-}
-
-.NavBarCell1Rev {
-	background-color: #ff4444;
-	font-family: Arial, Helvetica, sans-serif; color:#FFFFFF;
-}
-
-.NavBarCell2 {
-	font-family: Arial, Helvetica, sans-serif; background-color:#FFFFFF;
-}
-
-.NavBarCell3 {
-	font-family: Arial, Helvetica, sans-serif; background-color:#FFFFFF;
-}
+/* Javadoc stylesheet */
 
 body, dd, dl, dt, td, table, th, tr, li, ol, ul, p, br, a, input, form, textarea, select {
 	font-family: verdana,arial,helvetica,sans-serif;
@@ -54,20 +14,67 @@ body, dd, dl, dt, td, table, th, tr, li, ol, ul, p, br, a, input, form, textarea
 	text-decoration: none;
 }
 
+code, pre, tt {
+	font-family: consolas, monospace;
+	font-size: 13px;
+}
+
+body {
+	background-color: #FFFFFF;
+}
+
+/* Headings */
+h1 {
+	font-size: 180%
+}
+
+/* Table colors */
+.TableHeadingColor     { background: #aabbff }
+.TableSubHeadingColor  { background: #ddddff }
+.TableRowColor         { background: #ffffff }
+.TableRowColor:hover   { background: #ffeeee }
+
+/* Font used in left-hand frame lists */
+.FrameTitleFont { font-size: 100%; }
+.FrameHeadingFont, .FrameItemFont {
+	font-size: 90%;
+}
+
+/* Navigation bar fonts and colors */
+.NavBarCell1 {
+	background-color:#ffeeee;
+	color:#000000;
+}
+
+.NavBarCell1Rev {
+	background-color: #ffbbbb;
+    font-weight: bold;
+}
+
+.NavBarCell2 {
+	background-color:#FFFFFF;
+}
+
+.NavBarCell3 {
+	background-color:#FFFFFF;
+}
+
 li {
 	margin: 5px;
 }
 
 a {
 	text-decoration: none;
-	color: #1122aa;
+	color: #1122cc;
 }
 
 a:hover {
-	color: #112244;
-	border-bottom-width: 1px;
-	border-bottom-style: dotted;
-	border-bottom-color: -moz-use-text-color;
+	background-color: #ffcccc;
+	border-radius: 4px;
+}
+
+a:hover>code {
+	background-color: #ffcccc;
 }
 
 th font b {
@@ -81,8 +88,11 @@ pre {
 	padding: 5px;
 	border-style: solid;
 	border-width: 1px;
-	border-color: #CCCCCC;
+	border-color: #888888;
 	background-color: #F4F4F4;
+	border-radius: 4px;
+    overflow-x: auto;
+	line-height: 140%;
 }
 
 div.logo {
@@ -95,10 +105,18 @@ div.logo {
 
 code {
 	font-weight: bold;
-	color: #442211;
+	background-color: #FFF8F8;
+	border: thin solid #FFAAAA;
+	border-radius: 4px;
+	padding: 0 2px;
 }
 
 a code {
 	font-weight: bold;
 	color: #1122aa;
+}
+
+table code {
+	background-color: transparent;
+    border: none;
 }
