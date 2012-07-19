@@ -12,15 +12,11 @@ import java.lang.reflect.Proxy;
 /**
  * Stopwatch proxy is an invocation handler which can generate proxies.
  * Sample usage:
- * <code>
- * MonitoredInterface monitoredProxy=StopwatchProxy.newProxy(monitoredImplementation, MonitoredInterface.class);
- * </code>
+ * <pre>
+ * MonitoredInterface monitoredProxy=StopwatchProxy.newProxy(monitoredImplementation, MonitoredInterface.class);</pre>
  * or
- * <code>
- * MonitoredInterface monitoredProxy=StopwatchProxy.newProxy(monitoredImplementation, MonitoredInterface.class,
- * new CustomProxyStopwatchSource<MonitoredInterface>()
- * );
- * </code>
+ * <pre>
+ * MonitoredInterface monitoredProxy=StopwatchProxy.newProxy(monitoredImplementation, MonitoredInterface.class, new CustomProxyStopwatchSource<MonitoredInterface>());</pre>
  */
 public class StopwatchProxy<T> implements InvocationHandler {
 	/**
