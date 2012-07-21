@@ -277,19 +277,4 @@ window.javasimon=javasimon;
 		}
 	};
 	tns.SettingsService.load(document);
-	/**
-	* Service to get Simon plugins through Ajax HTTP requests
-	*/
-	tns.PluginService={
-		sUrl:"data/plugins.json",
-		fnGetDataAsJson:function(oParam, fnAjaxCallback) {
-			$.ajax( {
-				url: this.sUrl,
-				data: oParam,
-				success: fnAjaxCallback,
-				error: tns.fnDefaultAjaxErrorCallback,
-				dataType: "json"
-			});
-		}
-	};
 })(jQuery, javasimon);

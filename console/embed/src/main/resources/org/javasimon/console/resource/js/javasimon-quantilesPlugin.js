@@ -1,8 +1,8 @@
 "use strict";
 var javasimon=window.javasimon;
 if (javasimon) {
-	(function(domUtil, detailViewService) {
-		detailViewService.fnAddPluginRenderer("quantiles",function(eTableBody, oQuantiles) {
+	(function(domUtil, viewPluginMgr) {
+		viewPluginMgr.fnAddPluginRenderer("quantiles",function(eTableBody, oQuantiles) {
 			var row=this.fnAppendRow(eTableBody),
 				i,subTable,subRow, subTableSection, oBucket, 
 				eBucketCell,nBucketWidth;
@@ -41,6 +41,6 @@ if (javasimon) {
 			}
 
 		});
-	}(javasimon.DOMUtil, javasimon.DetailViewService));
+	}(javasimon.DOMUtil, javasimon.ViewPluginManager));
 }
 
