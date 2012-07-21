@@ -10,10 +10,12 @@
         <script src="resource/js/jquery-getUrlParam.js" type="text/javascript"></script>
         <script src="resource/js/javasimon-service.js" type="text/javascript"></script>
         <script src="resource/js/javasimon-util.js" type="text/javascript"></script>
+        <script src="resource/js/javasimon-plugin.js" type="text/javascript"></script>
         <script src="resource/js/javasimon-detailView.js" type="text/javascript"></script>
         <script type="text/javascript">
 $(document).ready(function() {
-	javasimon.DetailViewService.fnLoadPlugins(function(aoPlugins){
+	javasimon.ViewPluginManager.fnLoadPlugins(
+		"org.javasimon.console.action.DetailPlugin",function(aoPlugins){
 		var oDetailViewCtrl=new javasimon.DetailView(document.getElementById('dataPanel'));
 		document.oDetailViewCtrl=oDetailViewCtrl;
 		$('#refreshButton')

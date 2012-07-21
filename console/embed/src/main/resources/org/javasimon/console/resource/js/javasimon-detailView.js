@@ -13,70 +13,6 @@ window.javasimon=javasimon;
 			this.oSettings=javasimon.ObjectUtil.fnMerge(this.oSettings, oSettings, true);	
 		}
 	};
-	tns.DetailViewService={
-		oPluginRenderers:{},
-		aoDelayedRenderings:[],
-		fnLoadPlugins:function(fnCallback) {
-			var self=this;
-			pluginService.fnGetDataAsJson(
-				{type:"org.javasimon.console.action.DetailPlugin"},
-				function(aoPlugins){
-					for(var i=0;i<aoPlugins.length;i++) {
-						self.fnAddPluginResources(aoPlugins[i]);
-					}
-					if (fnCallback) {
-						fnCallback(aoPlugins)
-					}
-				}
-			);
-		},
-		fnAddPluginResources:function(oPlugin) {
-			var oResource, sResourcePath;
-			for(var i=0;i<oPlugin.resources.length;i++) {
-				oResource=oPlugin.resources[i];
-				if (/^https?:\/\/.*/.test(oResource.path)) {
-					sResourcePath=oResource.path;
-				} else {
-					sResourcePath="resource/"+oResource.path;
-				}				
-				switch(oResource.type) {
-					case "JS":
-						domUtil.fnAppendJSResource(sResourcePath);
-						break;
-					case "CSS":
-						domUtil.fnAppendCSSResource(sResourcePath);
-						break;
-				}
-			}
-		},
-		fnAddPluginRenderer:function(sName, fnPluginRenderer) {
-			console.log("Registered renderer "+sName);
-			this.oPluginRenderers[sName]=fnPluginRenderer;
-		},
-		fnRunDelayedRendering:function() {
-			var fnRenderer, missingRenderer=false, oDelayedRendering, self=this;
-			for(var i=0;i<this.aoDelayedRenderings.length;i++) {
-				oDelayedRendering=this.aoDelayedRenderings[i];
-				if (oDelayedRendering.attempts>0) {
-					console.log("Trying to render "+oDelayedRendering.id);
-					fnRenderer=this.oPluginRenderers[oDelayedRendering.id];
-					if (fnRenderer) {
-						console.log("Rendering "+oDelayedRendering.id);
-						oDelayedRendering.attempts=-1;
-						fnRenderer.call(
-							oDelayedRendering.view, 
-							oDelayedRendering.tableBody, oDelayedRendering.data);
-					} else {
-						oDelayedRendering.attempts--;
-						missingRenderer=true;
-					}					
-				}
-			}
-			if (missingRenderer) {
-				window.setTimeout(function(){self.fnRunDelayedRendering();}, 10000);
-			}
-		}
-	};
 	tns.DetailView.prototype={
 		fnAppendSection:function(sId) {
 			var eSectionDiv=domUtil.fnAppendChildElement(this.eDiv, "div", {id:sId, "class":"detailViewSection ui-widget-content ui-corner-all"}),
@@ -186,13 +122,11 @@ window.javasimon=javasimon;
 				section=this.fnAppendSection(sPluginId + "Section");
 			domUtil.fnAppendChildText(section.eTitle, oPlugin.label);
 			// Table
-			tns.DetailViewService.aoDelayedRenderings.push({
-				id:sPluginId,
-				view:this,
-				tableBody:section.eTableBody,
-				data:oPlugin.data,
-				attempts:6
-			});
+			tns.ViewPluginManager.fnAddPluginData(
+				oPlugin,
+				this,
+				section.eTableBody
+			);
 		},
 		fnRender: function() {
 			this.fnRenderSimonDiv();
@@ -205,7 +139,6 @@ window.javasimon=javasimon;
 				for(var i=0;i<this.oSimon.plugins.length;i++) {
 					this.fnRenderPluginDiv(this.oSimon.plugins[i]);
 				}
-				tns.DetailViewService.fnRunDelayedRendering();
 			}
 		},
 		fnSetData:function(oSimon) {

@@ -1,8 +1,8 @@
 "use strict";
 var javasimon=window.javasimon;
 if (javasimon) {
-	(function(domUtil, detailViewService) {
-		detailViewService.fnAddPluginRenderer("callTree",function(eTableBody, oCallTree) {
+	(function(domUtil, viewPluginMgr) {
+		viewPluginMgr.fnAddPluginRenderer("callTree",function(eTableBody, oCallTree) {
 			var row, eTreeTable,oDataTreeTable;
 			if (oCallTree.message) {
 				row=this.fnAppendRow(eTableBody);
@@ -35,6 +35,6 @@ if (javasimon) {
 				oDataTreeTable.fnDraw();
 			}
 		});
-	}(javasimon.DOMUtil, javasimon.DetailViewService));
+	}(javasimon.DOMUtil, javasimon.ViewPluginManager));
 }
 

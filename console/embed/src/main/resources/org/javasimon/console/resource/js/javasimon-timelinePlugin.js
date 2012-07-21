@@ -1,8 +1,8 @@
 "use strict";
 var javasimon=window.javasimon;
 if (javasimon) {
-	(function(domUtil, detailViewService) {
-		detailViewService.fnAddPluginRenderer("timeline",function(eTableBody, oTimeline) {
+	(function(domUtil, viewPluginMgr) {
+		viewPluginMgr.fnAddPluginRenderer("timeline",function(eTableBody, oTimeline) {
 			var row=this.fnAppendRow(eTableBody),
 				subTable, oDataTable, googleChartDiv;
 			if (oTimeline.message) {
@@ -63,6 +63,6 @@ if (javasimon) {
 			}
 			
 		});
-	}(javasimon.DOMUtil, javasimon.DetailViewService));
+	}(javasimon.DOMUtil, javasimon.ViewPluginManager));
 }
 
