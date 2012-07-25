@@ -128,9 +128,11 @@ public class DetailHtmlAction extends Action {
 		}
 		// Plugins
 		for(DetailPlugin plugin:getContext().getPluginManager().getPluginsByType(DetailPlugin.class)) {
-			htmlBuilder.beginSection(plugin.getId()+"Panel", plugin.getLabel());
-			plugin.executeHtml(getContext(), htmlBuilder, stringifierFactory, simon);
-			htmlBuilder.endSection();
+			if (plugin.supports(simon)) {
+				htmlBuilder.beginSection(plugin.getId()+"Panel", plugin.getLabel());
+				plugin.executeHtml(getContext(), htmlBuilder, stringifierFactory, simon);
+				htmlBuilder.endSection();
+			}
 		}
 		// Page footer
 		htmlBuilder.footer();
