@@ -18,7 +18,7 @@
 
 	<modules>
 		<module>core</module>
-		<module>jdbc4</module>
+<!--		<module>jdbc4</module>-->
 		<module>javaee</module>
 		<module>spring</module>
 		<module>console</module>
@@ -165,6 +165,12 @@
 						<artifactId>junit</artifactId>
 					</exclusion>
 				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-core</artifactId>
+				<version>1.9.0</version>
+				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>com.h2database</groupId>

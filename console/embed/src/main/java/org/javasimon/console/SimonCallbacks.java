@@ -1,7 +1,10 @@
 package org.javasimon.console;
 
+import java.util.Iterator;
 import org.javasimon.Manager;
 import org.javasimon.callback.Callback;
+import org.javasimon.callback.CompositeCallback;
+import org.javasimon.proxy.Delegating;
 
 /**
  * Simon callback helper class
@@ -16,11 +19,31 @@ public class SimonCallbacks {
 	 * @return Callback or null if not any
 	 */
 	public static <T extends Callback> T getCallbackByType(Manager manager,Class<T> callbackType) {
-		for(Callback callback:manager.callback().callbacks()) {
+		return getCallbackByType(manager.callback().callbacks(), callbackType);
+	}
+	/**
+	 * Search callback by type in list of callbacks
+	 * @param callbacks List of callback
+	 * @param callbackType Callback type
+	 * @return Callback matching type
+	 */
+	private static <T extends Callback> T getCallbackByType(Iterable<Callback> callbacks, Class<T> callbackType) {
+		T foundCallback=null;
+		Iterator<Callback> callbackIterator=callbacks.iterator();
+		while(foundCallback==null && callbackIterator.hasNext()) {
+			Callback callback=callbackIterator.next();
+			// Remove callback wrappers
+			while((callback instanceof Delegating)&&(!callbackType.isInstance(callback))) {
+				callback=((Delegating<Callback>) callback).getDelegate();
+			}
 			if (callbackType.isInstance(callback)) {
-				return callbackType.cast(callback);
+				// Callback found
+				foundCallback=callbackType.cast(callback);
+			} else if (callback instanceof CompositeCallback) {
+				// Visit the composite callback
+				foundCallback=getCallbackByType(((CompositeCallback)callback).callbacks(), callbackType);
 			}
 		}
-		return null;
+		return foundCallback;
 	}
 }
