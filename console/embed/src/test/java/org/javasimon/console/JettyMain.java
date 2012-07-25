@@ -1,6 +1,5 @@
 package org.javasimon.console;
 
-import org.javasimon.console.plugin.DummyDetailPlugin;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -12,10 +11,14 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
+import org.javasimon.callback.CompositeCallback;
+import org.javasimon.callback.CompositeCallbackImpl;
+import org.javasimon.callback.async.AsyncCallbackProxyFactory;
 import org.javasimon.callback.calltree.CallTreeCallback;
 import org.javasimon.callback.quantiles.QuantilesCallback;
 import org.javasimon.callback.timeline.TimelineCallback;
 import org.javasimon.console.plugin.CallTreeDetailPlugin;
+import org.javasimon.console.plugin.DummyDetailPlugin;
 import org.javasimon.console.plugin.QuantilesDetailPlugin;
 import org.javasimon.console.plugin.TimelineDetailPlugin;
 import org.javasimon.utils.SimonUtils;
@@ -35,17 +38,20 @@ public class JettyMain {
 			context.setContextPath("/");
 			server.setHandler(context);
 			// Servlet
-			SimonManager.callback().addCallback(new QuantilesCallback(5, 5));
-			SimonManager.callback().addCallback(new CallTreeCallback(50));
-			SimonManager.callback().addCallback(new TimelineCallback(10, 60000L));
+			CompositeCallback compositeCallback=new CompositeCallbackImpl();
+			compositeCallback.addCallback(new QuantilesCallback(5, 5));
+			compositeCallback.addCallback(new CallTreeCallback(50));
+			compositeCallback.addCallback(new TimelineCallback(10, 60000L));
+			SimonManager.callback().addCallback(new AsyncCallbackProxyFactory(compositeCallback).newProxy());
 			SimonData.initialize();
 			Timer timer=new Timer();
 			timer.schedule(new TimerTask(){
+				final Stopwatch tlStopwatch=SimonManager.getStopwatch("TL");
 				@Override
 				public void run() {
 					try {
 						lock.lock();
-						System.out.println("TL "+addRandomStopwatchSplit(null));
+						System.out.println("TL "+addRandomStopwatchSplit(tlStopwatch));
 					} finally {
 						lock.unlock();
 					}
@@ -103,7 +109,7 @@ public class JettyMain {
 	}
 	private static void addRandomStopwatchSplits(final Stopwatch stopwatch, final int splits) {
 		for(int i=0;i<splits;i++) {
-			System.out.print(addRandomStopwatchSplit(stopwatch));
+			System.out.print(addRandomStopwatchSplit(stopwatch)+",");
 		}
 	}
 	private static void addStopwatches(String name) {

@@ -11,7 +11,7 @@ import java.lang.reflect.Method;
  *
  * @author gquintana
  */
-public class ProxyStopwatchSource<T> extends AbstractMethodStopwatchSource<ProxyMethodInvocation<T>> {
+public class ProxyStopwatchSource<T> extends AbstractMethodStopwatchSource<DelegatingMethodInvocation<T>> {
 	/**
 	 * Prefix used for simon name
 	 */
@@ -34,19 +34,19 @@ public class ProxyStopwatchSource<T> extends AbstractMethodStopwatchSource<Proxy
 	}
 
 	@Override
-	protected String getMonitorName(ProxyMethodInvocation<T> location) {
+	protected String getMonitorName(DelegatingMethodInvocation<T> location) {
 		final String className = getTargetClass(location).getSimpleName();
 		final String methodName = location.getMethod().getName();
 		return prefix + Manager.HIERARCHY_DELIMITER + className + Manager.HIERARCHY_DELIMITER + methodName;
 	}
 
 	@Override
-	protected final Class<?> getTargetClass(ProxyMethodInvocation<T> location) {
-		return location.getTarget().getClass();
+	protected final Class<?> getTargetClass(DelegatingMethodInvocation<T> location) {
+		return location.getDelegate().getClass();
 	}
 
 	@Override
-	protected final Method getTargetMethod(ProxyMethodInvocation<T> location) {
+	protected final Method getTargetMethod(DelegatingMethodInvocation<T> location) {
 		return location.getMethod();
 	}
 }

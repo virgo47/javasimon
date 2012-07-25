@@ -42,9 +42,14 @@ public class StopwatchProxyTest {
 	}
 
 	private MonitoredImplementation monitoredTarget = new MonitoredImplementation();
-	private MonitorSource<ProxyMethodInvocation<MonitoredInterface>, Stopwatch> disabledStopwatchSource
+	private MonitorSource<DelegatingMethodInvocation<MonitoredInterface>, Stopwatch> disabledStopwatchSource
 		= DisabledMonitorSource.get();
-
+	private MonitoredInterface newMonitoredProxy(MonitorSource<DelegatingMethodInvocation<MonitoredInterface>, Stopwatch> stopwatchSource) {
+		return new StopwatchProxyFactory<MonitoredInterface>(monitoredTarget, stopwatchSource).newProxy(MonitoredInterface.class);
+	}
+	private MonitoredInterface newMonitoredProxy() {
+		return new StopwatchProxyFactory<MonitoredInterface>(monitoredTarget).newProxy(MonitoredInterface.class);
+	}
 	@BeforeMethod
 	public void beforeMethod() {
 		SimonManager.clear();
@@ -72,7 +77,7 @@ public class StopwatchProxyTest {
 	 */
 	@Test
 	public void testMain() {
-		MonitoredInterface monitoredProxy = StopwatchProxy.newProxy(monitoredTarget, MonitoredInterface.class);
+		MonitoredInterface monitoredProxy = newMonitoredProxy();
 		doTest(monitoredProxy, true);
 	}
 
@@ -81,7 +86,7 @@ public class StopwatchProxyTest {
 	 */
 	@Test
 	public void testCache() {
-		MonitoredInterface monitoredProxy = StopwatchProxy.newProxy(monitoredTarget, MonitoredInterface.class, new ProxyStopwatchSource<MonitoredInterface>().cache());
+		MonitoredInterface monitoredProxy = newMonitoredProxy(new ProxyStopwatchSource<MonitoredInterface>().cache());
 		doTest(monitoredProxy, true);
 	}
 
@@ -90,7 +95,7 @@ public class StopwatchProxyTest {
 	 */
 	@Test
 	public void testDisabled() {
-		MonitoredInterface monitoredProxy = StopwatchProxy.newProxy(monitoredTarget, MonitoredInterface.class, disabledStopwatchSource);
+		MonitoredInterface monitoredProxy = newMonitoredProxy(disabledStopwatchSource);
 		doTest(monitoredProxy, false);
 	}
 
@@ -128,28 +133,28 @@ public class StopwatchProxyTest {
 		logPerformanceTime("No proxy", implementation, implementation, iterations);
 
 		// 2) With proxy
-		MonitoredInterface monitoredProxy = StopwatchProxy.newProxy(monitoredTarget, MonitoredInterface.class);
+		MonitoredInterface monitoredProxy = newMonitoredProxy();
 		long proxy = doTestPerformance(monitoredProxy, iterations, true);
 		logPerformanceTime("Proxy", implementation, proxy, iterations);
 
 		// 3) With proxy and disable
-		monitoredProxy = StopwatchProxy.newProxy(monitoredTarget, MonitoredInterface.class, disabledStopwatchSource);
+		monitoredProxy = newMonitoredProxy(disabledStopwatchSource);
 		long disabledProxy = doTestPerformance(monitoredProxy, iterations, false);
 		logPerformanceTime("Proxy disabled", implementation, disabledProxy, iterations);
 
 		// 4) With proxy and cache
-		monitoredProxy = StopwatchProxy.newProxy(monitoredTarget, MonitoredInterface.class, new ProxyStopwatchSource<MonitoredInterface>().cache());
+		monitoredProxy = newMonitoredProxy(new ProxyStopwatchSource<MonitoredInterface>().cache());
 		long cacheProxy = doTestPerformance(monitoredProxy, iterations, true);
 		logPerformanceTime("Proxy cached", implementation, cacheProxy, iterations);
 
 		// 5) With proxy, cache and disable
-		MonitorSource<ProxyMethodInvocation<MonitoredInterface>, Stopwatch> disabledCachedStopwatchSource = new ProxyStopwatchSource<MonitoredInterface>() {
+		MonitorSource<DelegatingMethodInvocation<MonitoredInterface>, Stopwatch> disabledCachedStopwatchSource = new ProxyStopwatchSource<MonitoredInterface>() {
 			@Override
-			public boolean isMonitored(ProxyMethodInvocation<MonitoredInterface> location) {
+			public boolean isMonitored(DelegatingMethodInvocation<MonitoredInterface> location) {
 				return false;
 			}
 		}.cache();
-		monitoredProxy = StopwatchProxy.newProxy(monitoredTarget, MonitoredInterface.class, disabledCachedStopwatchSource);
+		monitoredProxy = newMonitoredProxy(disabledCachedStopwatchSource);
 		long cacheDisabledProxy = doTestPerformance(monitoredProxy, iterations, false);
 		logPerformanceTime("Proxy cached & disabled", implementation, cacheDisabledProxy, iterations);
 	}
