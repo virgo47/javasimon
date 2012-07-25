@@ -47,12 +47,14 @@ public class DetailJsonAction extends AbstractJsonAction {
 		// Plugins
 		ArrayJS pluginsJS=new ArrayJS();
 		for(DetailPlugin plugin:getContext().getPluginManager().getPluginsByType(DetailPlugin.class)) {
-			ObjectJS pluginJS=plugin.toJson(jsonStringifierFactory);
-			final ObjectJS pluginDataJS = plugin.executeJson(getContext(), jsonStringifierFactory, simon);
-			if (pluginDataJS!=null) {
-				pluginJS.setAttribute("data", pluginDataJS);
+			if (plugin.supports(simon)) {
+				ObjectJS pluginJS=plugin.toJson(jsonStringifierFactory);
+				final ObjectJS pluginDataJS = plugin.executeJson(getContext(), jsonStringifierFactory, simon);
+				if (pluginDataJS!=null) {
+					pluginJS.setAttribute("data", pluginDataJS);
+				}
+				pluginsJS.addElement(pluginJS);
 			}
-			pluginsJS.addElement(pluginJS);
 		}
 		simonJS.setAttribute("plugins", pluginsJS);
 		simonJS.write(getContext().getWriter());
