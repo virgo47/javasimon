@@ -41,7 +41,7 @@
 	</moduleSets>
 	<fileSets>
 		<fileSet>
-			<!-- readme.txt and lgpl.txt -->
+			<!-- readme.txt and license.txt -->
 			<outputDirectory></outputDirectory>
 			<directory>..</directory>
 			<includes>

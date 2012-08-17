@@ -18,7 +18,7 @@
 
 	<modules>
 		<module>core</module>
-<!--		<module>jdbc4</module>-->
+		<module>jdbc4</module>
 		<module>javaee</module>
 		<module>spring</module>
 		<module>console</module>
@@ -41,8 +41,8 @@
 
 	<licenses>
 		<license>
-			<name>GNU Lesser General Public License, 2.1</name>
-			<url>http://www.gnu.org/licenses/lgpl-2.1.txt</url>
+			<name>The BSD 3-Clause License</name>
+			<url>http://opensource.org/licenses/BSD-3-Clause</url>
 		</license>
 	</licenses>
 
