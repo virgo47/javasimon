@@ -117,7 +117,7 @@
 				<include name="overview.html"/>
 				<include name="build.properties"/>
 				<include name="readme.txt"/>
-				<include name="lgpl.txt"/>
+				<include name="license.txt"/>
 			</zipfileset>
 		</zip>
 	</target>

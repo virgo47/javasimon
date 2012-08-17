@@ -4,9 +4,9 @@
 
 Version: 3.2.2
 
-This software is distributed under the terms of the FSF Lesser Gnu Public License:
-  * check "lgpl.txt" in the root directory of the project
-  * or check it online http://www.gnu.org/licenses/lgpl.html
+This software is distributed under the terms of the The BSD 3-Clause License:
+  * check "license.txt" in the root directory of the project
+  * or check it online http://opensource.org/licenses/BSD-3-Clause
 
 Check this readme online for updates: http://code.google.com/p/javasimon/wiki/Readme
 
