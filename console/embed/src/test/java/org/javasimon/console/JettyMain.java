@@ -15,6 +15,8 @@ import org.javasimon.callback.CompositeCallback;
 import org.javasimon.callback.CompositeCallbackImpl;
 import org.javasimon.callback.async.AsyncCallbackProxyFactory;
 import org.javasimon.callback.calltree.CallTreeCallback;
+import org.javasimon.callback.quantiles.AutoQuantilesCallback;
+import org.javasimon.callback.quantiles.FixedQuantilesCallback;
 import org.javasimon.callback.quantiles.QuantilesCallback;
 import org.javasimon.callback.timeline.TimelineCallback;
 import org.javasimon.console.plugin.CallTreeDetailPlugin;
@@ -39,7 +41,8 @@ public class JettyMain {
 			server.setHandler(context);
 			// Servlet
 			CompositeCallback compositeCallback=new CompositeCallbackImpl();
-			compositeCallback.addCallback(new QuantilesCallback(5, 5));
+			compositeCallback.addCallback(new AutoQuantilesCallback(5, 5));
+//			compositeCallback.addCallback(new FixedQuantilesCallback(0L, 200L, 5));
 			compositeCallback.addCallback(new CallTreeCallback(50));
 			compositeCallback.addCallback(new TimelineCallback(10, 60000L));
 			SimonManager.callback().addCallback(new AsyncCallbackProxyFactory(compositeCallback).newProxy());
