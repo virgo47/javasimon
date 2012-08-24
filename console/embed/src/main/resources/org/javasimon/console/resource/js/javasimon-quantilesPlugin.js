@@ -27,8 +27,8 @@ if (javasimon) {
 				for(i=oQuantiles.buckets.length-1; i>=0; i--) {
 					oBucket=oQuantiles.buckets[i];
 					subRow=this.fnAppendRow(subTableSection);
-					this.fnAppendCell(subRow, null, oBucket.min);
-					this.fnAppendCell(subRow, null, oBucket.max);
+					this.fnAppendCell(subRow, null, oBucket.min === 0 ?"0":oBucket.min);
+					this.fnAppendCell(subRow, null, oBucket.max === 0 ?"0":oBucket.max);
 					eBucketCell=this.fnAppendCell(subRow, null, null);
 					if (oBucket.count) {
 						if (oQuantiles.maxCount) {
