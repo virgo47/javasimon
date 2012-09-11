@@ -1,13 +1,15 @@
 package org.javasimon.jdbc4;
 
-import java.sql.SQLException;
-import java.sql.DriverPropertyInfo;
-import java.sql.DriverManager;
-import java.sql.Connection;
-import java.util.Properties;
-import java.util.StringTokenizer;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.DriverPropertyInfo;
+import java.sql.SQLException;
+import java.util.Properties;
+import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Simon JDBC4 Proxy Driver.
@@ -17,7 +19,7 @@ import java.io.InputStream;
  * </p>
  * <pre>
  * Connection conn = DriverManager.getConnection("jdbc:simon:oracle:thin:...", "scott", "tiger");</pre>
- * <p/>
+ *
  * Simon driver has following format of JDBC connection string:
  * <pre>{@literal
  * jdbc:simon:<real driver conn string>;<param1>=<value1>;...}</pre>
@@ -38,11 +40,11 @@ import java.io.InputStream;
  * is used.
  * </li>
  * </ul>                                `
- * <p/>
+ *
  * By default, there is no need to load any driver explicitly, because drivers are loaded automatically
  * (since JDK 1.5) if they are in class path and jar have appropriate
  * meta information (see {@link java.sql.DriverManager}).
- * <p/>
+ *
  * If this is not a case for any reason, you need to register Simon proxy driver at least.
  * For real driver Simon proxy driver contains following procedure for find and register it:
  * <ol>
@@ -107,7 +109,7 @@ public final class Driver implements java.sql.Driver {
 
 		private static final String SIMON_JDBC = "jdbc:simon";
 
-		private static final int JDBC_URL_FIXED_PREFIX_LEN = 5;
+		private static final Pattern DRIVER_FROM_URL_PATTERN = Pattern.compile(SIMON_JDBC + ":(.*):.*");
 
 		private String realUrl;
 		private String driverId;
@@ -120,9 +122,9 @@ public final class Driver implements java.sql.Driver {
 		 * @param url given JDBC URL
 		 */
 		Url(String url) {
-			int i = url.indexOf(':', JDBC_URL_FIXED_PREFIX_LEN);
-			if (i > -1) {
-				driverId = url.substring(JDBC_URL_FIXED_PREFIX_LEN, i - 1);
+			Matcher m = DRIVER_FROM_URL_PATTERN.matcher(url);
+			if (m.matches()) {
+				driverId = m.group(1);
 			}
 
 			StringTokenizer st = new StringTokenizer(url, ";");
