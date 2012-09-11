@@ -63,6 +63,7 @@ public class SimonServletFilter implements Filter {
 
 	/**
 	 * Name of filter init parameter that sets relative ULR path that will provide Simon console page.
+	 * If the parameter is not used, basic plain text console will be disabled.
 	 */
 	public static final String INIT_PARAM_SIMON_CONSOLE_PATH = "console-path";
 
