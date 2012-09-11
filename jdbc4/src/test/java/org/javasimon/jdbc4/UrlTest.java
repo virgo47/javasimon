@@ -27,4 +27,17 @@ public class UrlTest {
 	public void urlRealUrlTest(String url, String realUrl) {
 		Assert.assertEquals(new Driver.Url(url).getRealUrl(), realUrl);
 	}
+
+	@DataProvider(name = "dp2")
+	public Object[][] createTestDataForUrlDriverTest() {
+		return new Object[][] {
+			{"jdbc:simon:sqlserver://test;databaseName=testdb", "sqlserver"},
+			{"jdbc:simon:mysql://localhost/someDb?useUnicode=yes&characterEncoding=UTF-8", "mysql"}
+		};
+	}
+
+	@Test(dataProvider = "dp2")
+	public void urlDriverTest(String url, String driver) {
+		Assert.assertEquals(new Driver.Url(url).getDriverId(), driver);
+	}
 }
