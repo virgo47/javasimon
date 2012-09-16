@@ -27,7 +27,7 @@ public final class JmxCallbackExample {
 		SimonManager.getCounter("org.javasimon.different.counter");
 		SimonManager.getStopwatch("org.javasimon.some.other.jmx.stopwatch1");
 		SimonManager.getStopwatch("org.javasimon.some.other.jmx.stopwatch2");
-		System.out.println("Now open jconsole and check it out! :-)");
+		System.out.println("Now open jconsole and check it out...\nWatch org.javasimon.examples.jmx.stopwatch for changes.");
 		while (true) {
 			counter.increase();
 			Split split = stopwatch.start();

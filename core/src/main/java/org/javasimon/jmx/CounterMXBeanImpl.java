@@ -63,8 +63,64 @@ public class CounterMXBeanImpl extends AbstractSimonMXBeanImpl implements Counte
 	 * {@inheritDoc}
 	 */
 	@Override
+	public long getMaxTimestamp() {
+		return counter.getMaxTimestamp();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public long getMax() {
+		return counter.getMax();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public long getMinTimestamp() {
+		return counter.getMinTimestamp();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public long getMin() {
+		return counter.getMin();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public long getCounter() {
+		return counter.getCounter();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public final void set(long val) {
 		counter.set(val);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public long getIncrementSum() {
+		return counter.getIncrementSum();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public long getDecrementSum() {
+		return counter.getDecrementSum();
 	}
 
 	/**
