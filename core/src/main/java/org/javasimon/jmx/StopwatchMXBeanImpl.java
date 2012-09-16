@@ -40,6 +40,14 @@ public class StopwatchMXBeanImpl extends AbstractSimonMXBeanImpl implements Stop
 	 * {@inheritDoc}
 	 */
 	@Override
+	public long getTotal() {
+		return stopwatch.getTotal();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public final long getLast() {
 		return stopwatch.getLast();
 	}
@@ -50,6 +58,102 @@ public class StopwatchMXBeanImpl extends AbstractSimonMXBeanImpl implements Stop
 	@Override
 	public final String getLastAsString() {
 		return SimonUtils.presentNanoTime(getLast());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public long getCounter() {
+		return stopwatch.getCounter();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public long getMax() {
+		return stopwatch.getMax();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public long getMin() {
+		return stopwatch.getMin();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public long getMaxTimestamp() {
+		return stopwatch.getMaxTimestamp();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public long getMinTimestamp() {
+		return stopwatch.getMinTimestamp();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public long getActive() {
+		return stopwatch.getActive();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public long getMaxActive() {
+		return stopwatch.getMaxActive();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public long getMaxActiveTimestamp() {
+		return stopwatch.getMaxActiveTimestamp();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public double getMean() {
+		return stopwatch.getMean();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public double getStandardDeviation() {
+		return stopwatch.getStandardDeviation();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public double getVariance() {
+		return stopwatch.getVariance();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public double getVarianceN() {
+		return stopwatch.getVarianceN();
 	}
 
 	/**
