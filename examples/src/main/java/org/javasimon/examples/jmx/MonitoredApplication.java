@@ -2,7 +2,7 @@ package org.javasimon.examples.jmx;
 
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
-import org.javasimon.jmx.SimonMXBeanImpl;
+import org.javasimon.jmx.SimonManagerMXBeanImpl;
 import org.javasimon.utils.SimonUtils;
 
 import javax.management.MBeanServer;
@@ -91,19 +91,19 @@ public class MonitoredApplication {
 		}
 	}
 
-	private static SimonMXBeanImpl register() {
+	private static SimonManagerMXBeanImpl register() {
 		MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
 		try {
 			ObjectName name = new ObjectName("org.javasimon.jmx.example:type=Simon");
 			if (mbs.isRegistered(name)) {
 				mbs.unregisterMBean(name);
 			}
-			SimonMXBeanImpl simon = new SimonMXBeanImpl(SimonManager.manager());
+			SimonManagerMXBeanImpl simon = new SimonManagerMXBeanImpl(SimonManager.manager());
 			mbs.registerMBean(simon, name);
-			System.out.println("SimonMXBean registerd under name: "+name);
+			System.out.println("SimonManagerMXBean registerd under name: "+name);
 			return simon;
 		} catch (JMException e) {
-			System.out.println("SimonMXBean registration failed!\n"+e);
+			System.out.println("SimonManagerMXBean registration failed!\n"+e);
 		}
 		return null;
 	}
@@ -115,9 +115,9 @@ public class MonitoredApplication {
 			if (mbs.isRegistered(name)) {
 				mbs.unregisterMBean(name);
 			}
-			System.out.println("SimonMXBean was unregisterd");
+			System.out.println("SimonManagerMXBean was unregisterd");
 		} catch (JMException e) {
-			System.out.println("SimonMXBean unregistration failed!\n"+e);
+			System.out.println("SimonManagerMXBean unregistration failed!\n"+e);
 		}
 	}
 

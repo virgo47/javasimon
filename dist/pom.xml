@@ -13,20 +13,6 @@
 	</parent>
 
 	<dependencies>
-<!--
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>javasimon-parent</artifactId>
-			<version>${project.version}</version>
-			<classifier>javadoc</classifier>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>javasimon-parent</artifactId>
-			<version>${project.version}</version>
-			<classifier>sources</classifier>
-		</dependency>
--->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>javasimon-javaee</artifactId>

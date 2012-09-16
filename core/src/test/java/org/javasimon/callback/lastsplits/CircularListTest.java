@@ -77,11 +77,11 @@ public class CircularListTest {
 		CircularList<String> list = new CircularList<String>(5);
 		assertArrayEquals(new String[0], list.toArray());
 		list.addAll(Arrays.asList("A", "B", "C"));
-		assertArrayEquals(new String[] {"A", "B", "C"}, list.toArray());
+		assertArrayEquals(new String[]{"A", "B", "C"}, list.toArray());
 		list.addAll(Arrays.asList("D", "E"));
-		assertArrayEquals(new String[] {"A", "B", "C", "D", "E"}, list.toArray());
+		assertArrayEquals(new String[]{"A", "B", "C", "D", "E"}, list.toArray());
 		list.addAll(Arrays.asList("F", "G"));
-		assertArrayEquals(new String[] {"C", "D", "E", "F", "G"}, list.toArray());
+		assertArrayEquals(new String[]{"C", "D", "E", "F", "G"}, list.toArray());
 	}
 
 	@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")

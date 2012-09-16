@@ -31,6 +31,7 @@ public class CallTreeTest {
 			CallTreeTest.this.rootTreeNode = rootNode;
 		}
 	};
+
 	/**
 	 * Root call tree node
 	 */

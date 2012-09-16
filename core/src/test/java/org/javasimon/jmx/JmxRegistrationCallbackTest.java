@@ -77,8 +77,8 @@ public class JmxRegistrationCallbackTest {
 	@Test
 	public void simonMxBeanTest() throws Exception {
 		ObjectName name = new ObjectName("whatever:type=anything");
-		SimonMXBean simonMXBean = new SimonMXBeanImpl(SimonManager.manager());
-		mbs.registerMBean(simonMXBean, name);
+		SimonManagerMXBean simonManagerMXBean = new SimonManagerMXBeanImpl(SimonManager.manager());
+		mbs.registerMBean(simonManagerMXBean, name);
 		mbs.unregisterMBean(name);
 	}
 }

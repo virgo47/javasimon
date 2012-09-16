@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 /**
- * Simon MXBean implementation. See {@link org.javasimon.jmx.SimonMXBean} for interface
+ * Simon MXBean implementation. See {@link SimonManagerMXBean} for interface
  * documentation.
  * Most methods are implemented by calling the {@link Manager}.
  *
@@ -17,7 +17,7 @@ import java.util.Collection;
  * @see SimonUtils
  * @since 2.0
  */
-public class SimonMXBeanImpl implements SimonMXBean {
+public class SimonManagerMXBeanImpl implements SimonManagerMXBean {
 	private Manager manager;
 
 	/**
@@ -25,7 +25,7 @@ public class SimonMXBeanImpl implements SimonMXBean {
 	 *
 	 * @param manager instance of {@link Manager}, typically {@code SimonManager.manager()}.
 	 */
-	public SimonMXBeanImpl(Manager manager) {
+	public SimonManagerMXBeanImpl(Manager manager) {
 		this.manager = manager;
 	}
 

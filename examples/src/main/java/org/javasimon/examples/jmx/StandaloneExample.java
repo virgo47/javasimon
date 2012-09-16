@@ -4,8 +4,8 @@ import org.javasimon.Stopwatch;
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
 import org.javasimon.Counter;
-import org.javasimon.jmx.SimonMXBeanImpl;
-import org.javasimon.jmx.SimonMXBean;
+import org.javasimon.jmx.SimonManagerMXBeanImpl;
+import org.javasimon.jmx.SimonManagerMXBean;
 
 import javax.management.*;
 import java.lang.management.ManagementFactory;
@@ -22,21 +22,21 @@ public class StandaloneExample {
 	 * Register Simon MXBean into platform MBeanServer under
 	 * {@code org.javasimon.jmx.example:type=Simon} name.
 	 *
-	 * @return registered SimonMXBean implementation object
+	 * @return registered SimonManagerMXBean implementation object
 	 */
-	private static SimonMXBean register() {
+	private static SimonManagerMXBean register() {
 		MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
 		try {
 			ObjectName name = new ObjectName("org.javasimon.jmx.example:type=Simon");
 			if (mbs.isRegistered(name)) {
 				mbs.unregisterMBean(name);
 			}
-			SimonMXBean simon = new SimonMXBeanImpl(SimonManager.manager());
-			mbs.registerMBean(simon, name);
-			System.out.println("SimonMXBean registerd under name: "+name);
-			return simon;
+			SimonManagerMXBean simonManagerMXBean = new SimonManagerMXBeanImpl(SimonManager.manager());
+			mbs.registerMBean(simonManagerMXBean, name);
+			System.out.println("SimonManagerMXBean registerd under name: "+name);
+			return simonManagerMXBean;
 		} catch (JMException e) {
-			System.out.println("SimonMXBean registration failed!\n"+e);
+			System.out.println("SimonManagerMXBean registration failed!\n"+e);
 		}
 		return null;
 	}
@@ -52,9 +52,9 @@ public class StandaloneExample {
 			if (mbs.isRegistered(name)) {
 				mbs.unregisterMBean(name);
 			}
-			System.out.println("SimonMXBean was unregisterd");
+			System.out.println("SimonManagerMXBean was unregisterd");
 		} catch (JMException e) {
-			System.out.println("SimonMXBean unregistration failed!\n"+e);
+			System.out.println("SimonManagerMXBean unregistration failed!\n"+e);
 		}
 	}
 
@@ -79,8 +79,8 @@ public class StandaloneExample {
 		counter.decrease(12);
 		counter.increase(18);
 
-		// Than, we register provided SimonMXBean.
-		// SimonMXBean is part of javasimon, but register method is client responsibility
+		// Than, we register provided SimonManagerMXBean.
+		// SimonManagerMXBean is part of javasimon, but register method is client responsibility
 		// so look to it for more detail.
 		register();
 
@@ -88,14 +88,14 @@ public class StandaloneExample {
 		// Becouse, this is same VM, we don't need to create JMXConnector object and
 		// than obtain MBeanServerConnection. Platform MBeanServer is a MBeanServerConnection
 		// already, so it's used.
-		// So we use JMX.newMXBeanProxy method to make JMX create new client proxy of SimonMXBean
+		// So we use JMX.newMXBeanProxy method to make JMX create new client proxy of SimonManagerMXBean
 		// for us.
-		SimonMXBean simon = JMX.newMXBeanProxy(ManagementFactory.getPlatformMBeanServer(),
-			new ObjectName("org.javasimon.jmx.example:type=Simon"), SimonMXBean.class);
+		SimonManagerMXBean simonManagerMXBean = JMX.newMXBeanProxy(ManagementFactory.getPlatformMBeanServer(),
+			new ObjectName("org.javasimon.jmx.example:type=Simon"), SimonManagerMXBean.class);
 
 		// Now, we can freely retrieve smples for counter and stopwatch example Simons
-		System.out.println("counter = " + simon.getCounterSample("org.javasimon.jmx.example2"));
-		System.out.println("stopwatch = " + simon.getStopwatchSample("org.javasimon.jmx.example1"));
+		System.out.println("counter = " + simonManagerMXBean.getCounterSample("org.javasimon.jmx.example2"));
+		System.out.println("stopwatch = " + simonManagerMXBean.getStopwatchSample("org.javasimon.jmx.example1"));
 
 		// Aftera all, it's good manner to clean up, so we unregister MXBean
 		unregister();

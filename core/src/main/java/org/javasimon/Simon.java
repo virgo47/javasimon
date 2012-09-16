@@ -72,7 +72,7 @@ public interface Simon {
 
 	/**
 	 * Returns ms timestamp of the last recent usage of the {@link #reset()} method on the Simon.
-	 * Returns 0 if {@code reset} was not called yet. This timestamp is usefull for rate measuring
+	 * Returns 0 if {@code reset} was not called yet. This timestamp is useful for rate measuring
 	 * when reset is called on a regular basis - likely via {@link #sampleAndReset()}. While
 	 * client code could store the timestamp too it is not necessary with this method.
 	 *
