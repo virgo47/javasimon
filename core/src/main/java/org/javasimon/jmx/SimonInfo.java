@@ -3,7 +3,7 @@ package org.javasimon.jmx;
 import java.beans.ConstructorProperties;
 
 /**
- * Value object for retrieving Simon name and type info via Simon MXBean ({@link SimonMXBean}).
+ * Value object for retrieving Simon name and type info via Simon MXBean ({@link SimonManagerMXBean}).
  * This value object make possible to retrieve list of all instantiated Simons together with
  * their types, so no multiple roundtrips are needed.
  * <p>
@@ -18,7 +18,7 @@ import java.beans.ConstructorProperties;
  *
  * @author Radovan Sninsky
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @see SimonMXBean#getSimonInfos
+ * @see SimonManagerMXBean#getSimonInfos
  * @since 2.0
  */
 public final class SimonInfo {

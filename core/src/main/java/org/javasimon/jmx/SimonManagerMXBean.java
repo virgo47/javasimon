@@ -3,15 +3,16 @@ package org.javasimon.jmx;
 import org.javasimon.StopwatchSample;
 
 /**
- * Interface of Simon management bean (MXBean).
+ * Interface of Simon management bean (MXBean) representing single point of access to a particular Simon
+ * {@link org.javasimon.Manager}.
  * <p>
- * It provides general management tasks over all Simon infrastructure (means hierarchy
- * of Simons) plus some usefull util functions.
+ * It provides general management tasks over all Simons for a single Manager (hierarchy of Simons)
+ * plus some useful util functions.
  *
  * @author Radovan Sninsky
  * @since 2.0
  */
-public interface SimonMXBean {
+public interface SimonManagerMXBean {
 
 	/**
 	 * Enables the Simon Manager, enable monitoring application by Simons.

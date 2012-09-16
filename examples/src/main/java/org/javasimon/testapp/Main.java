@@ -1,9 +1,9 @@
 package org.javasimon.testapp;
 
+import org.javasimon.jmx.SimonManagerMXBeanImpl;
 import org.javasimon.testapp.test.Runner;
 import org.javasimon.testapp.mm.AppMXBean;
-import org.javasimon.jmx.SimonMXBeanImpl;
-import org.javasimon.jmx.SimonMXBean;
+import org.javasimon.jmx.SimonManagerMXBean;
 import org.javasimon.jdbc4.jmx.JdbcMXBean;
 import org.javasimon.jdbc4.jmx.JdbcMXBeanImpl;
 import org.javasimon.SimonManager;
@@ -76,9 +76,9 @@ public class Main {
 			mbs.registerMBean(app, new ObjectName("org.javasimon.testapp:type=App"));
 			System.out.println("AppMXBean registerd");
 
-			SimonMXBean simon = new SimonMXBeanImpl(SimonManager.manager());
-			mbs.registerMBean(simon, new ObjectName("org.javasimon.testapp:type=Simon"));
-			System.out.println("SimonMXBean registerd");
+			SimonManagerMXBean simonManagerMXBean = new SimonManagerMXBeanImpl(SimonManager.manager());
+			mbs.registerMBean(simonManagerMXBean, new ObjectName("org.javasimon.testapp:type=Simon"));
+			System.out.println("SimonManagerMXBean registerd");
 
 			JdbcMXBean jdbc = new JdbcMXBeanImpl(SimonManager.manager(), "org.javasimon.testapp.jdbc");
 			mbs.registerMBean(jdbc, new ObjectName("org.javasimon.testapp:type=Jdbc"));

@@ -11,7 +11,7 @@ import org.javasimon.utils.SimonUtils;
  * <p/>
  * Example:
  * <pre>
- * SimonMXBean simon = JMX.newMXBeanProxy(..., new ObjectName("domain:type=Simon"), SimonMXBean.class);
+ * SimonManagerMXBean simon = JMX.newMXBeanProxy(..., new ObjectName("domain:type=Simon"), SimonManagerMXBean.class);
  * StopwatchSample = simon.getStopwatchSample("simon.stopwatch");
  * </pre>
  *

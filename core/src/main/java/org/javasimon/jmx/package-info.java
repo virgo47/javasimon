@@ -4,7 +4,7 @@
  *     <li>generic single-point Simon MBean;</li>
  *     <li>MX Bean for every Simon (using {@link org.javasimon.jmx.JmxRegisterCallback}.</li>
  * </ul>
- * <b>Simon MBean</b> ({@link org.javasimon.jmx.SimonMXBean}) implements jmx support for core functionality,
+ * <b>Simon MBean</b> ({@link SimonManagerMXBean}) implements jmx support for core functionality,
  * it means firstly management of java Simons during runtime and secondly, very requested,
  * way how to get gathered data by Simons out of application (jvm) for aditional processing.
  * <p>
@@ -23,11 +23,11 @@
  * logging, etc.
  * <p>
  * Technically, there are two methods, each for one Simon
- * type, {@link org.javasimon.jmx.SimonMXBean#getCounterSample(String)} for retrieving data from Counter Simon
- * and {@link org.javasimon.jmx.SimonMXBean#getStopwatchSample(String)} for retrieving data from Stopwatch Simon. Returned
+ * type, {@link SimonManagerMXBean#getCounterSample(String)} for retrieving data from Counter Simon
+ * and {@link SimonManagerMXBean#getStopwatchSample(String)} for retrieving data from Stopwatch Simon. Returned
  * value object is basically Sample object for each type of Simon as is known from core package. Each
  * sample has all needed access methods of its Simon. Parameter for retrieving methods is Simon hierarchical
- * name. To know all existing Simons and its type, use {@link org.javasimon.jmx.SimonMXBean#getSimonInfos()}.
+ * name. To know all existing Simons and its type, use {@link SimonManagerMXBean#getSimonInfos()}.
  * <p>
  * Both MBean needs to be registered first. Snippet bellow registers the Simon MBean:
  * <pre>
@@ -37,11 +37,11 @@ try {
 	if (mbs.isRegistered(name)) {
 		mbs.unregisterMBean(name);
 	}
-	SimonMXBean simon = new SimonMXBeanImpl(SimonManager.manager());
+	SimonManagerMXBean simon = new SimonManagerMXBeanImpl(SimonManager.manager());
 	mbs.registerMBean(simon, name);
-	System.out.println("SimonMXBean registerd under name: "+name);
+	System.out.println("SimonManagerMXBean registerd under name: "+name);
 } catch (JMException e) {
-	System.out.println("SimonMXBean registration failed!\n"+e);
+	System.out.println("SimonManagerMXBean registration failed!\n"+e);
 }
  * </pre>
  * Following code then unregisters the MBean.
@@ -52,9 +52,9 @@ try {
 	if (mbs.isRegistered(name)) {
 		mbs.unregisterMBean(name);
 	}
-	System.out.println("SimonMXBean was unregisterd");
+	System.out.println("SimonManagerMXBean was unregisterd");
 } catch (JMException e) {
-	System.out.println("SimonMXBean unregistration failed!\n"+e);
+	System.out.println("SimonManagerMXBean unregistration failed!\n"+e);
 }
  * </pre>
  * Java Simon doesn't provide any automatic mechanism or util functions to register

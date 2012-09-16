@@ -1,6 +1,6 @@
 package org.javasimon.examples.jmx;
 
-import org.javasimon.jmx.SimonMXBean;
+import org.javasimon.jmx.SimonManagerMXBean;
 import org.javasimon.jmx.SimonInfo;
 
 import javax.management.remote.JMXServiceURL;
@@ -34,21 +34,21 @@ public class MonitoringClient {
 
 		JMXConnector jmxc = JMXConnectorFactory.connect(url, null);
 		MBeanServerConnection mbsc = jmxc.getMBeanServerConnection();
-		SimonMXBean simon = JMX.newMXBeanProxy(mbsc, new ObjectName("org.javasimon.jmx.example:type=Simon"), SimonMXBean.class);
+		SimonManagerMXBean simonManagerMXBean = JMX.newMXBeanProxy(mbsc, new ObjectName("org.javasimon.jmx.example:type=Simon"), SimonManagerMXBean.class);
 
 		System.out.println("List of retrieved Simons:");
-		for (String n : simon.getSimonNames()) {
+		for (String n : simonManagerMXBean.getSimonNames()) {
 			System.out.println("  " + n);
 		}
 
 		System.out.println("List of stopwatch Simons:");
-		for (SimonInfo si : simon.getSimonInfos()) {
+		for (SimonInfo si : simonManagerMXBean.getSimonInfos()) {
 			if (si.getType().equals(SimonInfo.STOPWATCH)) {
 				System.out.println("  " + si.getName());
 			}
 		}
 
-		simon.printSimonTree();
+		simonManagerMXBean.printSimonTree();
 
 		jmxc.close();
 	}
