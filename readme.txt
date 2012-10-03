@@ -66,7 +66,7 @@ Project is hosted on Google Code as "javasimon":
 Project uses following libraries (for Ant build, check dependencies in POMs for Maven build):
   * TestNG: http://testng.org/ (test only)
     * `testng-6.5.2.jar`
-    * `jcommander-1.12.jar`
+    * `jcommander-1.5.jar`
   * Spring (core/aop/beans/web/webmvc/test/...): http://www.springsource.org/ (Spring integration)
     * `org.springframework.*-3.1.1.RELEASE.jar`
     * `aopalliance-1.0.jar`
