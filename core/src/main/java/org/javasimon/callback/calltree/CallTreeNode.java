@@ -2,7 +2,13 @@ package org.javasimon.callback.calltree;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.javasimon.Split;
 import org.javasimon.utils.SimonUtils;
 
@@ -11,33 +17,34 @@ import org.javasimon.utils.SimonUtils;
  * Simon+Level(+Thread) tuple are kept for later analysis.
  * Simon name is unique within parent tree node. Said differently a tree node can
  * not have two children with same name.
- * 
  *
  * @author gquintana
  * @since 3.2
  */
 public class CallTreeNode {
 	/**
-	 * Name, used as a key
+	 * Name, used as a key.
 	 */
 	private final String name;
 
 	/**
 	 * Splits.
-	 * Size defaults to 1, because most of the time there aren't any loops.
+	 * Size defaults to 1, because most of the time there are no loops.
 	 */
 	private final List<Split> splits = new ArrayList<Split>(1);
 
 	/**
-	 * Child tree nodes
+	 * Child tree nodes.
 	 */
 	private Map<String, CallTreeNode> children;
+
 	/**
 	 * Parent tree node. {@code null} for root tree node.
 	 */
 	private CallTreeNode parent;
+
 	/**
-	 * Main constructor
+	 * Main constructor.
 	 *
 	 * @param name Simon name
 	 */
@@ -46,7 +53,7 @@ public class CallTreeNode {
 	}
 
 	/**
-	 * Get Simon name
+	 * Returns Simon name.
 	 *
 	 * @return Name
 	 */
@@ -55,8 +62,8 @@ public class CallTreeNode {
 	}
 
 	/**
-	 * Add split to current tree node.
-	 * In case of loops, child nodes can have many splits
+	 * Adds a split to the current tree node.
+	 * In case of loops, child nodes can have many splits.
 	 *
 	 * @param split Split
 	 */
@@ -65,19 +72,19 @@ public class CallTreeNode {
 	}
 
 	/**
-	 * Get the number of splits
+	 * Returns the number of splits.
 	 *
 	 * @return Split count
 	 */
+	// TODO: is this the best possible name? Can's size or other name be used? Counter is a bit misleading as we have Counter with different meaning too.
 	public int getCounter() {
 		return splits.size();
 	}
 
 	/**
-	 * Get the total time of split.
-	 * Sum the split running for durations.
+	 * Returns the total time of splits using {@link org.javasimon.Split#runningFor()}.
 	 *
-	 * @return Total time
+	 * @return total time of splits
 	 */
 	public long getTotal() {
 		long total = 0;
@@ -86,21 +93,24 @@ public class CallTreeNode {
 		}
 		return total;
 	}
+
 	/**
-	 * Get the part of time spent in this node compared to parent
+	 * Returns the part of time spent in this node compared to parent.
+	 *
 	 * @return Percent time
 	 */
 	public Integer getPercent() {
 		Integer percent;
-		if (parent==null) {
-			percent=null;
+		if (parent == null) {
+			percent = null;
 		} else {
-			percent=(int) (getTotal()*100L/getParent().getTotal());
+			percent = (int) (getTotal() * 100L / getParent().getTotal());
 		}
 		return percent;
 	}
+
 	/**
-	 * Add a child to this tree node
+	 * Adds a child to this tree node.
 	 *
 	 * @param name Child Simon name
 	 * @return Created child node
@@ -111,12 +121,12 @@ public class CallTreeNode {
 		}
 		CallTreeNode child = new CallTreeNode(name);
 		children.put(name, child);
-		child.parent=this;
+		child.parent = this;
 		return child;
 	}
 
 	/**
-	 * Get child node by simon name
+	 * Returns the child node by Simon name.
 	 *
 	 * @param name Simon name
 	 * @return Child corresponding to given name, or null if any
@@ -126,16 +136,16 @@ public class CallTreeNode {
 	}
 
 	/**
-	 * Get all child nodes
+	 * Returns all child nodes.
 	 *
-	 * @return Children
+	 * @return children
 	 */
 	public Collection<CallTreeNode> getChildren() {
 		return children == null ? Collections.<CallTreeNode>emptyList() : children.values();
 	}
 
 	/**
-	 * Get, or create if it doesn't exists, a child node with given name
+	 * Returns a child node with given name or creates it if it does not exists.
 	 *
 	 * @param name Simon name
 	 * @return Child node
@@ -147,8 +157,10 @@ public class CallTreeNode {
 		}
 		return child;
 	}
+
 	/**
-	 * Get parent tree node
+	 * Returns parent tree node.
+	 *
 	 * @return Parent tree node
 	 */
 	public CallTreeNode getParent() {
@@ -156,7 +168,7 @@ public class CallTreeNode {
 	}
 
 	/**
-	 * Recursively prints this tree node to given print writer
+	 * Recursively prints this tree node to given print writer.
 	 *
 	 * @param printWriter Output print writer
 	 * @param prefix Line prefix (used internally for indentation)
@@ -184,7 +196,7 @@ public class CallTreeNode {
 	}
 
 	/**
-	 * Recursively prints this tree node to given print writer
+	 * Recursively prints this tree node to given print writer.
 	 *
 	 * @param printWriter Output print writer
 	 */
@@ -193,8 +205,7 @@ public class CallTreeNode {
 	}
 
 	/**
-	 * Get a string representing the tree from this tree node, visiting
-	 * recursively this tree branch.
+	 * Returns a string representing the tree from this tree node, visiting recursively this tree branch.
 	 *
 	 * @return String
 	 */

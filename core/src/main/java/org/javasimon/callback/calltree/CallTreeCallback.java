@@ -5,10 +5,10 @@ import org.javasimon.Stopwatch;
 import org.javasimon.StopwatchSample;
 import org.javasimon.callback.CallbackSkeleton;
 import org.javasimon.callback.logging.LogTemplate;
-
-import static org.javasimon.callback.logging.LogTemplates.*;
-
 import org.javasimon.callback.logging.SplitThresholdLogTemplate;
+
+import static org.javasimon.callback.logging.LogTemplates.toSLF4J;
+import static org.javasimon.callback.logging.LogTemplates.whenSplitLongerThanMilliseconds;
 
 /**
  * Callback which logs the call tree when the main call is bigger than specified threshold.
@@ -39,14 +39,17 @@ public class CallTreeCallback extends CallbackSkeleton {
 	 * Log template used for printing call tree.
 	 */
 	private LogTemplate<Split> callTreeLogTemplate;
+
 	/**
-	 * Simon attribute name used to store last significant call tree
+	 * Simon attribute name used to store last significant call tree.
 	 */
-	public static final String ATTR_NAME_LAST="lastCallTree";
+	public static final String ATTR_NAME_LAST = "lastCallTree";
+
 	/**
-	 * Duration threshold used to trigger logging and remembering
+	 * Duration threshold used to trigger logging and remembering.
 	 */
 	private Long logThreshold;
+
 	/**
 	 * Default constructor.
 	 */
@@ -57,7 +60,7 @@ public class CallTreeCallback extends CallbackSkeleton {
 	/**
 	 * Constructor with logging duration threshold.
 	 *
-	 * @param threshol Threshold
+	 * @param threshold Threshold
 	 */
 	public CallTreeCallback(long threshold) {
 		initLogThreshold(threshold);
@@ -73,7 +76,7 @@ public class CallTreeCallback extends CallbackSkeleton {
 	}
 
 	/**
-	 * Configure {@link #callTreeLogTemplate} with a {@link SplitThresholdLogTemplate}.
+	 * Configures {@link #callTreeLogTemplate} with a {@link SplitThresholdLogTemplate}.
 	 */
 	private void initLogThreshold(Long threshold) {
 		this.logThreshold = threshold;
@@ -86,14 +89,14 @@ public class CallTreeCallback extends CallbackSkeleton {
 	}
 
 	/**
-	 * Get log threshold when {@link #callTreeLogTemplate} is a {@link SplitThresholdLogTemplate}.
+	 * Returns log threshold when {@link #callTreeLogTemplate} is a {@link SplitThresholdLogTemplate}.
 	 */
 	public Long getLogThreshold() {
 		return logThreshold;
 	}
 
 	/**
-	 * Set log threshold.
+	 * Sets log threshold.
 	 * Configure {@link #callTreeLogTemplate} with a {@link SplitThresholdLogTemplate}.
 	 */
 	public void setLogThreshold(Long logThreshold) {
@@ -101,7 +104,7 @@ public class CallTreeCallback extends CallbackSkeleton {
 	}
 
 	/**
-	 * Get call tree for current thread.
+	 * Returns call tree for current thread.
 	 *
 	 * @return Thread call tree
 	 */
@@ -110,7 +113,7 @@ public class CallTreeCallback extends CallbackSkeleton {
 	}
 
 	/**
-	 * Initialize the call tree for current thread.
+	 * Initializes the call tree for current thread.
 	 *
 	 * @return Created call tree
 	 */
@@ -126,7 +129,7 @@ public class CallTreeCallback extends CallbackSkeleton {
 	}
 
 	/**
-	 * Remove call tree for current thread.
+	 * Removes call tree for current thread.
 	 */
 	private void removeCallTree() {
 		threadCallTree.remove();
@@ -162,13 +165,15 @@ public class CallTreeCallback extends CallbackSkeleton {
 	 */
 	public void onRootStopwatchStop(CallTree callTree, Split split) {
 		callTreeLogTemplate.log(split, callTree);
-		if (logThreshold!=null && split.runningFor()>logThreshold) {
+		if (logThreshold != null && split.runningFor() > logThreshold) {
 			split.getStopwatch().setAttribute(ATTR_NAME_LAST, callTree);
 		}
 		removeCallTree();
 	}
+
 	/**
-	 *  Get last call tree stored in stopwatch attributes
+	 * Returns last call tree stored in stopwatch attributes.
+	 *
 	 * @param stopwatch Stopwatch
 	 * @return Last call tree or {@code null} if any
 	 */
