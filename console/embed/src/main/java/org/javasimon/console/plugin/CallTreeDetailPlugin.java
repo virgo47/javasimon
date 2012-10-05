@@ -80,7 +80,7 @@ public class CallTreeDetailPlugin extends DetailPlugin {
 		htmlBuilder
 			.text("total&nbsp;").text(htmlStringifierFactory.toString(node.getTotal(), "Time"))
 			.text(", ")
-			.text("count&nbsp;").text(htmlStringifierFactory.toString(node.getCounter()));
+			.text("count&nbsp;").text(htmlStringifierFactory.toString(node.getSplitCount()));
 		if (!node.getChildren().isEmpty()) {
 			htmlBuilder.begin("ul");
 			for(CallTreeNode childNode:node.getChildren()) {

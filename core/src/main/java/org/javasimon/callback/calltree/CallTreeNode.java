@@ -72,12 +72,11 @@ public class CallTreeNode {
 	}
 
 	/**
-	 * Returns the number of splits.
+	 * Returns the number of splits in this node.
 	 *
 	 * @return Split count
 	 */
-	// TODO: is this the best possible name? Can's size or other name be used? Counter is a bit misleading as we have Counter with different meaning too.
-	public int getCounter() {
+	public int getSplitCount() {
 		return splits.size();
 	}
 
@@ -184,7 +183,7 @@ public class CallTreeNode {
 			printWriter.print("%, ");
 		}
 		printWriter.print(SimonUtils.presentNanoTime(total));
-		long counter = getCounter();
+		long counter = getSplitCount();
 		if (counter > 1) {
 			printWriter.print(", ");
 			printWriter.print(counter);

@@ -79,18 +79,18 @@ public class CallTreeTest {
 		stopStopwatch(rootSplit);
 		// Check result
 		assertEquals(rootTreeNode.getChildren().size(), 2);
-		assertEquals(rootTreeNode.getCounter(), 1);
+		assertEquals(rootTreeNode.getSplitCount(), 1);
 		CallTreeNode child1Node = rootTreeNode.getChild(NAME_PREFIX + "child1");
 		assertEquals(child1Node.getChildren().size(), 2);
-		assertEquals(child1Node.getCounter(), 1);
+		assertEquals(child1Node.getSplitCount(), 1);
 		CallTreeNode child11Node = child1Node.getChild(NAME_PREFIX + "child1.m1");
-		assertEquals(child11Node.getCounter(), 1);
+		assertEquals(child11Node.getSplitCount(), 1);
 		CallTreeNode child12Node = child1Node.getChild(NAME_PREFIX + "child1.m2");
-		assertEquals(child12Node.getCounter(), 1);
+		assertEquals(child12Node.getSplitCount(), 1);
 		CallTreeNode child2Node = rootTreeNode.getChild(NAME_PREFIX + "child2");
 		assertEquals(child2Node.getChildren().size(), 1);
 		CallTreeNode child21Node = child2Node.getChild(NAME_PREFIX + "child2.loop");
-		assertEquals(child21Node.getCounter(), 2);
+		assertEquals(child21Node.getSplitCount(), 2);
 		LOGGER.debug(rootTreeNode.toString());
 	}
 }

@@ -140,7 +140,7 @@ window.javasimon=javasimon;
 	* Service to store/load settings as cookies
 	*/
 	tns.SettingsService={
-		sVersion:"3.2",
+		sVersion:"3.3",
 		/**
 		* Object representing settings
 		*/
