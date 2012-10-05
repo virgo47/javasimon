@@ -1,6 +1,7 @@
 package org.javasimon.callback.calltree;
 
 import java.util.LinkedList;
+
 import org.javasimon.Split;
 import org.javasimon.callback.logging.LogMessageSource;
 
@@ -12,30 +13,34 @@ import org.javasimon.callback.logging.LogMessageSource;
  */
 public class CallTree implements LogMessageSource<Split> {
 	/**
-	 * Log threshold
+	 * Log threshold. // TODO in what unit?
 	 */
 	private final Long logThreshold;
-        /**
-         * Call stack is the path (made of tree nodes) from root tree node
-         * to current tree node
-         */
-	private final LinkedList<CallTreeNode> callStack=new LinkedList<CallTreeNode>();
+
 	/**
-	 * Root call tree node
+	 * Call stack is the path (made of tree nodes) from root tree node to the current tree node.
+	 */
+	private final LinkedList<CallTreeNode> callStack = new LinkedList<CallTreeNode>();
+
+	/**
+	 * Root call tree node.
 	 */
 	private CallTreeNode rootNode;
+
 	/**
-	 * Main constructor
-	 * @param logThreshold  Log threshold
+	 * Main constructor.
+	 *
+	 * @param logThreshold Log threshold
 	 */
 	public CallTree(Long logThreshold) {
 		this.logThreshold = logThreshold;
 	}
-	
-        /**
-         * When stopwatch is started, a new tree node is added to parent
-         * tree node and pushed on the call stack. 
-         * As a result, child tree node becomes the current tree node
+
+	/**
+	 * When stopwatch is started, a new tree node is added to the parent
+	 * tree node and pushed on the call stack.
+	 * As a result, child tree node becomes the current tree node.
+	 *
 	 * @return Current (child) tree node
 	 */
 	public CallTreeNode onStopwatchStart(Split split) {
@@ -43,8 +48,8 @@ public class CallTree implements LogMessageSource<Split> {
 		CallTreeNode currentNode;
 		if (callStack.isEmpty()) {
 			// Root tree node
-			rootNode=new CallTreeNode(name);
-			currentNode=rootNode;
+			rootNode = new CallTreeNode(name);
+			currentNode = rootNode;
 			onRootStopwatchStart(currentNode, split);
 		} else {
 			// Child node
@@ -57,7 +62,7 @@ public class CallTree implements LogMessageSource<Split> {
 	/**
 	 * When stopwatch is stopped, the the split is added to current tree node
 	 * and this tree node is popped from call stack.
-	 * As a result, parent tree node becomes current tree node
+	 * As a result, parent tree node becomes current tree node.
 	 *
 	 * @return Current (child) tree node
 	 */
@@ -88,8 +93,9 @@ public class CallTree implements LogMessageSource<Split> {
 	 */
 	protected void onRootStopwatchStop(CallTreeNode callTreeNode, Split split) {
 	}
+
 	/**
-	 * Transform this call tree into a loggable message
+	 * Transforms this call tree into a loggable message.
 	 */
 	public String getLogMessage(Split context) {
 		context.getStopwatch().setAttribute(CallTreeCallback.ATTR_NAME_LAST, this);
@@ -103,5 +109,4 @@ public class CallTree implements LogMessageSource<Split> {
 	public CallTreeNode getRootNode() {
 		return rootNode;
 	}
-	
 }

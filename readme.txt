@@ -2,7 +2,7 @@
 
 = Java Simon - Simple Monitors for Java =
 
-Version: 3.2.2
+Version: 3.3.0
 
 This software is distributed under the terms of the The BSD 3-Clause License:
   * check "license.txt" in the root directory of the project
@@ -55,10 +55,10 @@ For more check other Resources (lower), you may head to GettingStarted wiki page
 == Resources ==
 
 Project is hosted on Google Code as "javasimon":
-  * Homepage: http://www.javasimon.org
+  * Homepage: http://www.javasimon.org (Google+ http://gplus.to/javasimon, https://plus.google.com/b/115141838919870730025/115141838919870730025)
   * Project page: http://code.google.com/p/javasimon/
   * Download: http://code.google.com/p/javasimon/downloads/list
-  * Javadoc API: http://javasimon.googlecode.com/svn/javadoc/api-3.2/index.html
+  * Javadoc API: http://javasimon.googlecode.com/svn/javadoc/api-3.3/index.html
   * Source browser: http://code.google.com/p/javasimon/source/browse/
   * Issue tracker: http://code.google.com/p/javasimon/issues/list
   * Ohloh page: http://www.ohloh.net/p/javasimon
