@@ -43,6 +43,7 @@ public final class StopwatchTimeline extends Timeline<StopwatchTimeRange> {
 			timeRange = getOrCreateTimeRange(timestamp);
 		}
 		if (timeRange != null) {
+			//noinspection SynchronizationOnLocalVariableOrMethodParameter
 			synchronized(timeRange) {
 				timeRange.addSplit(timestamp, split.runningFor());
 			}
