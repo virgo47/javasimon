@@ -13,13 +13,9 @@ public class StandardRequestReporter extends DefaultRequestReporter {
 		System.out.println(message);
 	}
 
-	@SuppressWarnings("RedundantIfStatement")
 	@Override
 	protected boolean shouldBeAddedStopwatchInfo(StopwatchInfo info) {
-		if (isJdbcResultSetNextSimon(info)) {
-			return false;
-		}
-		return true;
+		return !(isJdbcResultSetNextSimon(info));
 	}
 
 	private boolean isJdbcResultSetNextSimon(StopwatchInfo info) {

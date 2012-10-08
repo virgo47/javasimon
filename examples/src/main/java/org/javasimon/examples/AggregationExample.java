@@ -31,17 +31,13 @@ public final class AggregationExample {
 	public static void main(String[] args) {
 		for (int i = 0; i < ITERATIONS; i++) {
 			Split split = SimonManager.getStopwatch(STOPWATCH_PARENT + Manager.HIERARCHY_DELIMITER + random.nextInt(STOPWATCH_COUNT)).start();
-			try {
-				Thread.sleep(random.nextInt(ITERATION_MS_MAX));
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			ExampleUtils.waitRandomlySquared(30);
 			split.stop();
 		}
 		// this is "null" Simon, but you don't care - just take all the children and do the stuff you want
 		Simon parent = SimonManager.getSimon(STOPWATCH_PARENT);
 		List<Simon> children = parent.getChildren();
-		System.out.println("parent children count = " + children.size());
+		System.out.println("parent.children count = " + children.size());
 
 		long totalSum = 0;
 		for (Simon child : children) {

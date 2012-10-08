@@ -31,7 +31,7 @@ public final class JmxCallbackExample {
 		while (true) {
 			counter.increase();
 			Split split = stopwatch.start();
-			ExampleUtils.waitRandomly(40);
+			ExampleUtils.waitRandomlySquared(40);
 			split.stop();
 		}
 	}
