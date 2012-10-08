@@ -1,12 +1,16 @@
 package org.javasimon;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.javasimon.callback.CompositeCallback;
 import org.javasimon.callback.CompositeCallbackImpl;
 import org.javasimon.utils.SimonUtils;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.*;
 
 /**
  * Implements fully functional {@link Manager} in the enabled state. Does not support
@@ -122,7 +126,7 @@ public final class EnabledManager implements Manager {
 	private Simon getOrCreateSimon(String name, Class<? extends AbstractSimon> simonClass) {
 		if (name == null) {
 			// create an "anonymous" Simon - Manager does not care about it anymore
-			return newSimon(null, simonClass);
+			return instantiateSimon(null, simonClass);
 		}
 		if (name.equals(ROOT_SIMON_NAME)) {
 			throw new SimonException("Root Simon cannot be replaced or recreated!");
@@ -204,7 +208,6 @@ public final class EnabledManager implements Manager {
 	}
 
 	private void addToHierarchy(AbstractSimon simon, String name) {
-		allSimons.put(name, simon);
 		int ix = name.lastIndexOf(HIERARCHY_DELIMITER);
 		AbstractSimon parent = rootSimon;
 		if (ix != -1) {
@@ -216,6 +219,7 @@ public final class EnabledManager implements Manager {
 			}
 		}
 		parent.addChild(simon);
+		allSimons.put(name, simon);
 	}
 
 	/**

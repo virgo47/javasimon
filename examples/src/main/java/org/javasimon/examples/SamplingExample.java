@@ -29,7 +29,7 @@ public final class SamplingExample {
 		// Starts the measuring
 		while (true) {
 			Split split = SimonManager.getStopwatch("sampled-stopwatch").start();
-			ExampleUtils.waitRandomly(50);
+			ExampleUtils.waitRandomlySquared(50);
 			split.stop();
 		}
 	}

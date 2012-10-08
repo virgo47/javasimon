@@ -21,7 +21,7 @@ public final class ExampleUtils {
 	 *
 	 * @param maxMsRoot square root of the maximal waiting time
 	 */
-	public static void waitRandomly(long maxMsRoot) {
+	public static void waitRandomlySquared(long maxMsRoot) {
 		long random = (long) (Math.random() * maxMsRoot);
 		try {
 			Thread.sleep(random * random);
