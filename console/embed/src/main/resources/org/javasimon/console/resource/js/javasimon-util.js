@@ -18,7 +18,7 @@ javasimon.DOMUtil={
 			for (var sAttributeName in oAttributes) {
 				eNode.setAttribute(sAttributeName, oAttributes[sAttributeName]);
 			}
-		}		
+		}
 	},
 	fnAppendChildText:function(eParent,sText) {
 		var eChild=document.createTextNode(sText);
@@ -140,7 +140,6 @@ javasimon.DOMUtil={
 		}
 		return eImg;
 	}
-	
 };
 javasimon.ObjectUtil={
 	fnMerge:function(oTarget, oSource, bRecurse) {
@@ -150,16 +149,16 @@ javasimon.ObjectUtil={
 				tSourceProp=oSource[sProp].constructor;
 				tTargetProp=oTarget[sProp].constructor;
 				if (tSourceProp===tTargetProp) {
-					if (tTargetProp===Object) {						
+					if (tTargetProp===Object) {
 						oTarget[sProp]=this.fnMerge(oTarget[sProp], oSource[sProp], true);
 					} else if (tTargetProp===Array) {
 						oTarget[sProp]=oTarget[sProp].concat(oSource[sProp]);
 					}
 				}
 			} else {
-				oTarget[sProp]=oSource[sProp];				
+				oTarget[sProp]=oSource[sProp];
 			}
 		}
 		return oTarget;
-	}	
+	}
 };
