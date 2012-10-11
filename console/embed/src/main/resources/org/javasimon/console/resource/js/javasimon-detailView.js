@@ -10,7 +10,7 @@ window.javasimon=javasimon;
 		this.oSettings={
 		};
 		if (oSettings) {
-			this.oSettings=javasimon.ObjectUtil.fnMerge(this.oSettings, oSettings, true);	
+			this.oSettings=javasimon.ObjectUtil.fnMerge(this.oSettings, oSettings, true);
 		}
 	};
 	tns.DetailView.prototype={
@@ -23,7 +23,7 @@ window.javasimon=javasimon;
 		},
 		fnAppendCell:function(eRow, sClass, sText, nColSpan) {
 			var eCell=domUtil.fnAppendChildElement(eRow, "td", {"class":sClass});
-			domUtil.fnAppendChildText(eCell, sText?sText:" ");			
+			domUtil.fnAppendChildText(eCell, sText?sText:" ");
 			if (nColSpan) {
 				eCell.setAttribute("colspan",nColSpan);
 			}
@@ -46,10 +46,14 @@ window.javasimon=javasimon;
 			return domUtil.fnAppendChildElement(eTable, "tr");
 		},
 		fnAppendSimonType:function(eParent) {
-			var sType=this.oSimon.type, 
+			var sType=this.oSimon.type,
 				oType=domUtil.fnGetSimonType(sType);
 			domUtil.fnAppendSimonTypeImage(eParent, sType);
-			domUtil.fnAppendChildText(eParent, oType.sLabel);
+//			domUtil.fnAppendChildText(eParent, oType.sLabel);
+            domUtil.fnAppendChildText(
+                domUtil.fnAppendChildElement(eParent,"span"),
+                oType.sLabel
+            );
 		},
 		fnRenderSimonDiv:function() {
 			// Section Title

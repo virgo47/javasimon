@@ -265,7 +265,7 @@ div.detailViewSection > div.title {
     height: 2em;
 }
 
-div.detailViewSection > table.formTable > tbody > tr > td img {
+div.detailViewSection > table.formTable > tbody > tr > td img,span {
     vertical-align: middle;
 }
 
