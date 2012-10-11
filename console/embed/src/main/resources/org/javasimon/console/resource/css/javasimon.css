@@ -1,42 +1,51 @@
 body {
-    font-family: "Trebuchet MS",Tahoma,Verdana,Arial,sans-serif;
-	font-size: 90%;
+    font-family: "Trebuchet MS", Tahoma, Verdana, Arial, sans-serif;
+    font-size: 90%;
 }
+
 img#logo {
     height: 55px;
     padding: 0;
     vertical-align: middle;
     width: 55px;
 }
+
 img.clickable:hover {
-	cursor: pointer;
+    cursor: pointer;
 }
+
 h1 {
     vertical-align: middle;
     margin-top: 0.2em;
     margin-bottom: 0.5em;
 }
+
 .error {
-	background-color: rgb(255,63,63);
+    background-color: rgb(255, 63, 63);
 }
+
 div.hidden {
-	display: none;
+    display: none;
 }
+
 /* -----------------------------------------------------------------------------
  * General Form layout
  * ---------------------------------------------------------------------------*/
 table.formTable {
-	width:100%;
+    width: 100%;
 }
+
 table.formTable > tbody > tr > td.label {
-	text-align: right;
-	font-weight: bold;
-	padding-left: 1em;
-	padding-right:0.5em;
+    text-align: right;
+    font-weight: bold;
+    padding-left: 1em;
+    padding-right: 0.5em;
 }
+
 table.formTable > tbody > tr > td.value {
-	padding-left: 0.5em;
-	padding-right:1em;
+    padding-left: 0.5em;
+    padding-right: 1em;
+    vertical-align: middle;
 }
 
 /* -----------------------------------------------------------------------------
@@ -45,11 +54,13 @@ table.formTable > tbody > tr > td.value {
 div#filterPanel {
     margin-bottom: 1em;
 }
+
 div.filterButtons {
     padding-left: 0.5em;
     padding-top: 0.2em;
     padding-bottom: 0.2em;
 }
+
 span#exportSpan {
     padding-left: 250px;
     display: inline-block;
@@ -60,35 +71,39 @@ td.numeric, td.date {
     padding: 0 2px;
     white-space: nowrap;
 }
+
 /* this should go to div in td probably :-(
 td.dataString {
-	text-overflow: ellipsis;
-	overflow: hidden;
-	white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 */
 
 div.dataTables_length, div.dataTables_filter {
-	float: left;
-	margin: 4px 24px 4px 4px;
+    float: left;
+    margin: 4px 24px 4px 4px;
 }
 
 table.dataTable > thead > tr > th {
-	text-align: center;
-	padding: 0 3px;
+    text-align: center;
+    padding: 0 3px;
 }
+
 table#dataTable > tbody > tr.even {
     background-color: #eef8ff;
 }
+
 table#dataTable > tbody > tr > td > img.icon {
-	height: 24px;
-	width: 24px;
-	border: none;
-	margin: 0px;
-	vertical-align:middle;
+    height: 24px;
+    width: 24px;
+    border: none;
+    margin: 0;
+    vertical-align: middle;
 }
+
 table#dataTable > tbody > tr:hover {
-	background-color: #E0F0F7;
+    background-color: #E0F0F7;
 }
 
 /* -----------------------------------------------------------------------------
@@ -97,76 +112,89 @@ table#dataTable > tbody > tr:hover {
 table.flatTable > tbody > tr > td.counter, td.total, td.min, td.mean, td.last, td.max, td.standardDeviation {
     text-align: right;
 }
+
 table.flatTable > tbody > tr.even {
     background-color: #eef8ff;
 }
+
 table.flatTable td {
-    border-left:  solid black thin;
+    border-left: solid black thin;
 }
+
 table.flatTable > thead {
     font-weight: bold;
-    border:  solid black thin;
-    text-align:  center;
+    border: solid black thin;
+    text-align: center;
 }
+
 table.flatTable {
     border: thin solid black;
     border-collapse: collapse;
-    width:  100%;
+    width: 100%;
 }
-
 
 /* -----------------------------------------------------------------------------
  * DHTML/Ajax Tree view styling
  * ---------------------------------------------------------------------------*/
 table.dataTreeTable {
-/*	border: solid 1px black;
-	border-collapse:collapse;*/
-	border-spacing: 2px 0px;
-	border-top: solid 2px white;
-	border-bottom: solid 2px white;
-	width:100%;
+    /*	border: solid 1px black;
+   border-collapse:collapse;*/
+    border-spacing: 2px 0;
+    border-top: solid 2px white;
+    border-bottom: solid 2px white;
+    width: 100%;
 }
+
 table.dataTreeTable > thead > tr > td {
-	text-align: center;
-	padding: 0 3px;
+    text-align: center;
+    padding: 0 3px;
 }
+
 table.dataTreeTable > thead > tr > td {
-	background: url("start/images/ui-bg_glass_45_0078ae_1x400.png") repeat-x scroll 50% 50% #0078AE;
-	border: 1px solid #77D5F7;
-	color: #FFFFFF;
-	height: 36px;
+    background: url("start/images/ui-bg_glass_45_0078ae_1x400.png") repeat-x scroll 50% 50% #0078AE;
+    border: 1px solid #77D5F7;
+    color: #FFFFFF;
+    height: 36px;
 }
+
 table.dataTreeTable > tbody > tr:hover {
-	background-color: #E0F0F7;
+    background-color: #E0F0F7;
 }
+
 table.dataTreeTable > tbody > tr.visible {
-	display: table-row;
+    display: table-row;
 }
+
 table.dataTreeTable > tbody > tr.hidden {
-	display: none;
+    display: none;
 }
+
 table.dataTreeTable > tbody > tr > td {
-	padding: 0px 2px 0px 2px;
-/*	border-left: solid 1px black;*/
-	margin: 0px;
+    padding: 0 2px 0 2px;
+    /*	border-left: solid 1px black;*/
+    margin: 0;
 }
-table.dataTreeTable > tbody > tr > td.headCell{
-	width: 40%;
+
+table.dataTreeTable > tbody > tr > td.headCell {
+    width: 40%;
 }
+
 table.dataTreeTable > tbody > tr > td.headCell img.icon,
 table.dataTreeTable > tbody > tr > td.footCell img.icon {
-	height: 24px;
-	width: 24px;
-	border: none;
-	margin: 0px;
-	vertical-align:middle;
+    height: 24px;
+    width: 24px;
+    border: none;
+    margin: 0;
+    vertical-align: middle;
 }
+
 table.dataTreeTable > tbody > tr > td.number {
-	text-align: right;
-	width: 75px;
+    text-align: right;
+    width: 75px;
 }
+
 table.dataTreeTable > tbody > tr > td.date {
-	width: 200px;
+    width: 200px;
 }
 
 /* -----------------------------------------------------------------------------
@@ -175,12 +203,15 @@ table.dataTreeTable > tbody > tr > td.date {
 .ui-button-text-icon-primary .ui-button-text, .ui-button-text-icons .ui-button-text {
     padding: 0.2em 0.5em 0.2em 1.8em;
 }
+
 .ui-button-text-only .ui-button-text {
     padding: 0.2em 0.5em;
 }
+
 .ui-widget {
     font-size: 1em;
 }
+
 .ui-tabs .ui-tabs-panel {
     background: none repeat scroll 0 0 transparent;
     border-width: 0;
@@ -192,46 +223,58 @@ table.dataTreeTable > tbody > tr > td.date {
  * Static detail view styling
  * ---------------------------------------------------------------------------*/
 div.sectionPanel {
-	margin-bottom: 1em;
-	border:solid 1px black;
-	width:1300px;
+    margin-bottom: 1em;
+    border: solid 1px black;
+    width: 1300px;
 }
+
 div.sectionPanel > div.title {
-	height: 2em;
-	font-weight: bold;
-	font-size: 110%;
+    height: 2em;
+    font-weight: bold;
+    font-size: 110%;
 }
+
 table.sectionTable > tbody > tr > td > img.icon {
-	height: 24px;
-	width: 24px;
-	border: none;
-	margin: 0px;
-	vertical-align:middle;
+    height: 24px;
+    width: 24px;
+    border: none;
+    margin: 0;
+    vertical-align: middle;
 }
+
 table.sectionTable > tbody > tr > td.label {
-	width:180px;
-	font-weight: bold;
+    width: 180px;
+    font-weight: bold;
 	vertical-align: top;
 }
+
 div.bar {
-	background-color: silver;
-	border-radius: 2px;
-	float: left;
+    background-color: silver;
+    border-radius: 2px;
+    float: left;
 }
+
 /* -----------------------------------------------------------------------------
  * DHTML/Ajax detail view styling
  * ---------------------------------------------------------------------------*/
 div.detailViewSection {
-	margin-bottom: 1em;
+    margin-bottom: 1em;
 }
+
 div.detailViewSection > div.title {
-	height: 2em;
+    height: 2em;
 }
+
+div.detailViewSection > table.formTable > tbody > tr > td img {
+    vertical-align: middle;
+}
+
 div.detailViewSection > table.formTable > tbody > tr > td.label {
-	width:200px;
-	font-weight: bold;
-	vertical-align: top;
+    width: 200px;
+    font-weight: bold;
+    vertical-align: middle;
 }
+
 table#callDataTreeTable > thead > tr > td {
-	height: 24px;
+    height: 24px;
 }
