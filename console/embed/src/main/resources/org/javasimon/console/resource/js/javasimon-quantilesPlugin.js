@@ -17,13 +17,13 @@ if (javasimon) {
 			row=this.fnAppendRow(eTableBody);
 			this.fnAppendLabelCell(row,"Distribution");
 			subTable=domUtil.fnAppendChildElement(this.fnAppendValueCell(row, " ", 3),"table");
-			subTableSection=domUtil.fnAppendChildElement(subTable, "thead");
-			subRow=this.fnAppendRow(subTable);
-			this.fnAppendLabelCell(subRow, "Min");
-			this.fnAppendLabelCell(subRow, "Max");
-			this.fnAppendLabelCell(subRow, "Count");
-			subTableSection=domUtil.fnAppendChildElement(subTable, "tbody");
-			if (oQuantiles.buckets) {
+			if (oQuantiles.buckets && oQuantiles.buckets.length>0) {
+				subTableSection=domUtil.fnAppendChildElement(subTable, "thead");
+				subRow=this.fnAppendRow(subTable);
+				this.fnAppendLabelCell(subRow, "Min");
+				this.fnAppendLabelCell(subRow, "Max");
+				this.fnAppendLabelCell(subRow, "Count");
+				subTableSection=domUtil.fnAppendChildElement(subTable, "tbody");
 				for(i=oQuantiles.buckets.length-1; i>=0; i--) {
 					oBucket=oQuantiles.buckets[i];
 					subRow=this.fnAppendRow(subTableSection);
