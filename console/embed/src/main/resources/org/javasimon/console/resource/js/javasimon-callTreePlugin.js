@@ -26,7 +26,7 @@ if (javasimon) {
 							{sTitle:"Name",		sField:"name", 		sClass:'string headCell'},
 							{sTitle:"Percent",	sField:"percent",	sClass:"number"},
 							{sTitle:"Total",	sField:"total",		sClass:"number"},
-							{sTitle:"Count",	sField:"counter",	sClass:"number"}
+							{sTitle:"Count",	sField:"splitCount",sClass:"number"}
 						]
 					}
 				);
