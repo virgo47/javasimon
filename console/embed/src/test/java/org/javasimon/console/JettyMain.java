@@ -52,11 +52,15 @@ public class JettyMain {
         server.setHandler(context);
         // Callbacks
         CompositeCallback compositeCallback=new CompositeCallbackImpl();
+        // QuantilesCallback automatically configured after 5 splits (5 buckets)
         compositeCallback.addCallback(new AutoQuantilesCallback(5, 5));
-//			compositeCallback.addCallback(new FixedQuantilesCallback(0L, 200L, 5));
-        compositeCallback.addCallback(new CallTreeCallback(50));
+        // QuantilesCallback manually configured 5 duration buckets 200ms wide each
+        // compositeCallback.addCallback(new FixedQuantilesCallback(0L, 200L, 5));
+        // TimelineCallback 10 time range buckets of 1 minute each
         compositeCallback.addCallback(new TimelineCallback(10, 60000L));
         SimonManager.callback().addCallback(new AsyncCallbackProxyFactory(compositeCallback).newProxy());
+        // CallTreeCallback doesn't support asynchronism
+        SimonManager.callback().addCallback(new CallTreeCallback(50));
         // Simon Servlet
         final SimonConsoleServlet simonConsoleServlet = new SimonConsoleServlet();
         ServletHolder servletHolder=new ServletHolder(simonConsoleServlet);
