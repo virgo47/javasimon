@@ -81,7 +81,7 @@ import static org.javasimon.utils.SimonUtils.presentNanoTime;
  * @author gquintana
  * @since 3.2
  */
-public class Buckets implements LogMessageSource<Split> {
+public abstract class Buckets implements LogMessageSource<Split> {
 	/**
 	 * Array of buckets, sorted by ranges.
 	 * The first and last buckets are special:
@@ -89,27 +89,22 @@ public class Buckets implements LogMessageSource<Split> {
 	 * The last bucket is range max to +infinity.
 	 * Other buckets are regular ones with constant width
 	 */
-	private final Bucket[] buckets;
+	protected final Bucket[] buckets;
 
 	/**
 	 * Number of real buckets (=buckets.length-2).
 	 */
-	private final int bucketNb;
+	protected final int bucketNb;
 
 	/**
-	 * Lower bound of all buckets.
+	 * Lower bound of all real buckets.
 	 */
-	private final long min;
+	protected final long min;
 
 	/**
-	 * Upper bound of all buckets.
+	 * Upper bound of all real buckets.
 	 */
-	private final long max;
-
-	/**
-	 * Width of all buckets.
-	 */
-	private final long width;
+	protected final long max;
 
 	/**
 	 * Log template used to log quantiles.
@@ -129,25 +124,21 @@ public class Buckets implements LogMessageSource<Split> {
 			throw new IllegalArgumentException("Expected at least 3 buckets: " + bucketNb);
 		}
 		if (min >= max) {
-			throw new IllegalArgumentException("Expected min>max: " + min + "/" + max);
+			throw new IllegalArgumentException("Expected min<max: " + min + "/" + max);
 		}
 		// Initialize attributes
-		this.buckets = new Bucket[bucketNb + 2];
-		this.width = (max - min) / bucketNb;
 		this.min = min;
 		this.max = max;
 		this.bucketNb = bucketNb;
+
+		this.buckets = new Bucket[bucketNb + 2];
 		// Initialize buckets with their bounds
-		this.buckets[0] = new Bucket(Long.MIN_VALUE, min);
-		long currentMin = min;
-		long currentMax;
-		for (int i = 1; i <= bucketNb; i++) {
-			currentMax = currentMin + width;
-			buckets[i] = new Bucket(currentMin, currentMax);
-			currentMin = currentMax;
-		}
+		buckets[0] = new Bucket(Long.MIN_VALUE, min);
+		makeRealBuckets();
 		buckets[bucketNb + 1] = new Bucket(max, Long.MAX_VALUE);
 	}
+
+	protected abstract void makeRealBuckets();
 
 	/**
 	 * Computes expected count and check used buckets number.
@@ -189,7 +180,7 @@ public class Buckets implements LogMessageSource<Split> {
 		int bucketIndex = 0;
 		for (int i = 0; i < buckets.length; i++) {
 			newCount = lastCount + buckets[i].getCount();
-			if (expectedCount >= lastCount && expectedCount <= newCount) {
+			if (expectedCount >= lastCount && expectedCount < newCount) {
 				bucketIndex = i;
 				break;
 			}
@@ -203,31 +194,23 @@ public class Buckets implements LogMessageSource<Split> {
 		}
 		// Linear interpolation of value
 		final Bucket bucket = buckets[bucketIndex];
+		return estimateQuantile(bucket, expectedCount, lastCount);
+	}
+
+	protected double estimateQuantile(Bucket bucket, double expectedCount, double lastCount) {
 		return bucket.getMin() + (expectedCount - lastCount) * (bucket.getMax() - bucket.getMin()) / bucket.getCount();
 	}
 
 	/**
 	 * Returns bucket where value should be sorted, the bucket whose min/max bounds are around the value.
 	 */
-	private Bucket getBucketForValue(long value) {
-		Bucket bucket;
-		if (value < min) {
-			bucket = buckets[0];
-		} else {
-			if (value > max) {
-				bucket = buckets[bucketNb + 1];
-			} else {
-				// Linear interpolation
-				int bucketIndex = 1 + (int) ((value - min) * (bucketNb - 1) / (max - min));
-				bucket = buckets[bucketIndex];
-				// As the division above was round at floor, bucket may be the next one
-				if (!bucket.contains(value)) {
-					bucketIndex++;
-					bucket = buckets[bucketIndex];
-				}
+	protected Bucket getBucketForValue(long value) {
+		for (Bucket bucket : buckets) {
+			if (value >= bucket.getMin() && value < bucket.getMax()) {
+				return bucket;
 			}
 		}
-		return bucket;
+		throw new IllegalStateException("Non continous buckets.");
 	}
 
 	/**
@@ -310,20 +293,21 @@ public class Buckets implements LogMessageSource<Split> {
 	public void setLogTemplate(LogTemplate<Split> logTemplate) {
 		this.logTemplate = logTemplate;
 	}
+
 	/**
-	 * Sample buckets and quantiles state
-	 * @return 
+	 * Sample buckets and quantiles state.
 	 */
 	public BucketsSample sample() {
 		synchronized (buckets) {
-			BucketSample[] bucketSamples=new BucketSample[buckets.length];
+			BucketSample[] bucketSamples = new BucketSample[buckets.length];
 			for (int i = 0; i < buckets.length; i++) {
-				bucketSamples[i]=buckets[i].sample();
+				bucketSamples[i] = buckets[i].sample();
 			}
 			Double[] quantiles = getQuantiles(0.50D, 0.90D);
 			return new BucketsSample(bucketSamples, quantiles[0], quantiles[1]);
-		}		
+		}
 	}
+
 	/**
 	 * String containing: min/max/number configuration and 50%, 75% and 90% quantiles if available.
 	 * Warning this method can be expensive as it is performing computation.
@@ -338,11 +322,11 @@ public class Buckets implements LogMessageSource<Split> {
 		stringBuilder.append("min=").append(presentNanoTime(min))
 			.append(",max=").append(presentNanoTime(max))
 			.append(",nb=").append(bucketNb)
-			.append(",width=").append(presentNanoTime(width))
+//			.append(",width=").append(presentNanoTime(width)) // i don't know how important this information in that String.
 			.append("] Quantiles[");
 		final String eol = System.getProperty("line.separator");
 		final String eoc = "\t";
-		BucketsSample bucketsSample=sample();
+		BucketsSample bucketsSample = sample();
 		if (bucketsSample.getMedian() != null) {
 			stringBuilder.append("median=").append(presentNanoTime(bucketsSample.getMedian()));
 		}

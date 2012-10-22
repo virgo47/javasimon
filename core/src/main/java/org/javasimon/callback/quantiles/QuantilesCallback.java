@@ -1,6 +1,5 @@
 package org.javasimon.callback.quantiles;
 
-
 import org.javasimon.Simon;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
@@ -8,22 +7,24 @@ import org.javasimon.StopwatchSample;
 import org.javasimon.callback.CallbackSkeleton;
 import org.javasimon.callback.logging.LogTemplate;
 
-import static org.javasimon.callback.logging.LogTemplates.*;
-
+import static org.javasimon.callback.logging.LogTemplates.disabled;
+import static org.javasimon.callback.logging.LogTemplates.everyNSeconds;
+import static org.javasimon.callback.logging.LogTemplates.toSLF4J;
 
 /**
  * Callback which stores data in buckets to compute quantiles.
  * The {@link #createBuckets(org.javasimon.Stopwatch) should be
- * implemented to configure the width and resolution of buckets. 
+ * implemented to configure the width and resolution of buckets.
  * Then {@link Buckets} are stored among Simon attributes.
  * There are 2 implementations:
  * <ul>
  * <li>{@link AutoQuantilesCallback} tries to determine the best configuration for each Stopwatch.</li>
  * <li>{@link FixedQuantilesCallback} uses a fixed configuration for all Stopwatches.</li>
- * </ul> 
+ * </ul>
+ *
  * @author gquintana
- * @since 3.2
  * @see Buckets
+ * @since 3.2
  */
 public abstract class QuantilesCallback extends CallbackSkeleton {
 	/**
@@ -73,14 +74,17 @@ public abstract class QuantilesCallback extends CallbackSkeleton {
 		}
 		return logTemplate;
 	}
+
 	/**
 	 * Get the buckets attribute.
 	 */
 	public static Buckets getBuckets(Stopwatch stopwatch) {
 		return (Buckets) stopwatch.getAttribute(ATTR_NAME_BUCKETS);
 	}
+
 	/**
 	 * Factory method to create a Buckets object using given configuration
+	 *
 	 * @param stopwatch Target Stopwatch
 	 * @param min Min bound
 	 * @param max Max bound
@@ -88,19 +92,20 @@ public abstract class QuantilesCallback extends CallbackSkeleton {
 	 * @return Buckets
 	 */
 	protected final Buckets createBuckets(Stopwatch stopwatch, long min, long max, int bucketNb) {
-		Buckets buckets = new Buckets(min, max, bucketNb);
+		Buckets buckets = new LinearBuckets(min, max, bucketNb);
 		buckets.setLogTemplate(createLogTemplate(stopwatch));
 		return buckets;
 	}
-	
+
 	/**
 	 * Create Buckets for given stopwatch.
 	 * Call {@link #createBuckets(org.javasimon.Stopwatch, long, long, int) to create a new buckets object.
+	 *
 	 * @param stopwatch Stopwatch
 	 * @return Buckets
 	 */
-	protected  abstract Buckets createBuckets(Stopwatch stopwatch);
-	
+	protected abstract Buckets createBuckets(Stopwatch stopwatch);
+
 	/**
 	 * Get the buckets attribute or create it if it does not exist.
 	 */
@@ -120,8 +125,8 @@ public abstract class QuantilesCallback extends CallbackSkeleton {
 	 * Get the buckets attribute and sample them
 	 */
 	public static BucketsSample sampleBuckets(Stopwatch stopwatch) {
-		final Buckets buckets=getBuckets(stopwatch);
-		return buckets==null?null:buckets.sample();
+		final Buckets buckets = getBuckets(stopwatch);
+		return buckets == null ? null : buckets.sample();
 	}
 
 	/**
@@ -136,6 +141,7 @@ public abstract class QuantilesCallback extends CallbackSkeleton {
 			buckets.log(split);
 		}
 	}
+
 	/**
 	 * Called internally when there is a new split on a Stopwatch
 	 * from {@link #onStopwatchAdd(org.javasimon.Stopwatch, long, org.javasimon.StopwatchSample).
@@ -165,7 +171,7 @@ public abstract class QuantilesCallback extends CallbackSkeleton {
 	public void onStopwatchAdd(Stopwatch stopwatch, Split split, StopwatchSample sample) {
 		onStopwatchSplit(split.getStopwatch(), split);
 	}
-	
+
 	/**
 	 * When a split is added, if buckets have been initialized, the value
 	 * is added to appropriate bucket.
@@ -188,5 +194,4 @@ public abstract class QuantilesCallback extends CallbackSkeleton {
 			}
 		}
 	}
-
 }
