@@ -2,17 +2,17 @@ package org.javasimon.callback.quantiles;
 
 import java.util.List;
 
-import org.testng.annotations.*;
+import org.testng.annotations.Test;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
 
 /**
  * @author gquintana
  */
-public class BucketsTest {
+public class LinearBucketsTest {
 	@Test
 	public void testAdd() {
-		Buckets buckets = new Buckets(0L, 500L, 5);
+		Buckets buckets = new LinearBuckets(0L, 500L, 5);
 		buckets.addValue(50);
 		buckets.addValue(60);
 		buckets.addValue(125);
@@ -31,7 +31,7 @@ public class BucketsTest {
 
 	@Test
 	public void testQuantiles1() {
-		Buckets buckets = new Buckets(0L, 500L, 5);
+		Buckets buckets = new LinearBuckets(0L, 500L, 5);
 		buckets.addValue(50);
 		buckets.addValue(150);
 		buckets.addValue(250);
@@ -53,7 +53,7 @@ public class BucketsTest {
 
 	@Test
 	public void testQuantiles2() {
-		Buckets buckets = new Buckets(0L, 500L, 5);
+		Buckets buckets = new LinearBuckets(0L, 500L, 5);
 		// 9 Values in 1st and 2nd buckets
 		buckets.addValue(10);
 		buckets.addValue(20);
