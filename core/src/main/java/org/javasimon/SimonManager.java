@@ -51,8 +51,8 @@ public final class SimonManager {
 	 * itself, only the configuration is reloaded. Method also preserves Callback setup.
 	 */
 	static void init() {
-		Callback tempraryCallback = new SystemDebugCallback();
-		manager.callback().addCallback(tempraryCallback); // just for reporting warnings, will be removed
+		Callback temporaryDebugCallback = new SystemDebugCallback();
+		manager.callback().addCallback(temporaryDebugCallback); // just for reporting warnings, will be removed
 		try {
 			manager.configuration().clear();
 			String fileName = System.getProperty(PROPERTY_CONFIG_FILE_NAME);
@@ -70,7 +70,7 @@ public final class SimonManager {
 		} catch (Exception e) {
 			manager.callback().onManagerWarning("SimonManager initialization error", e);
 		}
-		manager.callback().removeCallback(tempraryCallback);
+		manager.callback().removeCallback(temporaryDebugCallback);
 	}
 
 	private SimonManager() {
