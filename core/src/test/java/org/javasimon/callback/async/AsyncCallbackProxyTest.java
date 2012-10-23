@@ -38,6 +38,8 @@ public class AsyncCallbackProxyTest {
 	public void testOnMessage() throws Exception {
 		final String message = "Hello";
 		callbackProxy.onManagerMessage(message);
+		// TODO this is not a good way to test things, async should not be tested at all - but rather avoided/worked around
+		// Virgo says: this test also failed me once (randomly)
 		Thread.sleep(10L); // Let the async thread do it's job
 		verify(callbackMock).onManagerMessage(eq(message));
 	}

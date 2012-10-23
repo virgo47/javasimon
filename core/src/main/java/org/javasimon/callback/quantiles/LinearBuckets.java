@@ -4,19 +4,15 @@ package org.javasimon.callback.quantiles;
  * @author Alexej Vlasov
  */
 public class LinearBuckets extends Buckets {
-	/**
-	 * Width of all real buckets.
-	 */
-	private final long width;
 
 	public LinearBuckets(long min, long max, int bucketNb) {
 		super(min, max, bucketNb);
-		this.width = (max - min) / bucketNb;
 	}
 
 	protected void makeRealBuckets() {
 		long currentMin = min;
 		long currentMax;
+		long width = (max - min) / bucketNb;
 		for (int i = 1; i <= bucketNb; i++) {
 			currentMax = currentMin + width;
 			buckets[i] = new Bucket(currentMin, currentMax);
