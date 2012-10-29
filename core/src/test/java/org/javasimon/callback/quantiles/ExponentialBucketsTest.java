@@ -24,7 +24,7 @@ public class ExponentialBucketsTest {
 		List<Bucket> bucketList = buckets.getBuckets();
 		assertEquals(bucketList.size(), 6);
 		assertEquals(bucketList.get(0).getCount(), 0);// 0-1
-		assertEquals(bucketList.get(1).getCount(), 2);//   1-10
+		assertEquals(bucketList.get(1).getCount(), 2);// 1-10
 		assertEquals(bucketList.get(2).getCount(), 1);// 10-100
 		assertEquals(bucketList.get(3).getCount(), 1);// 100-1000
 		assertEquals(bucketList.get(4).getCount(), 3);// 1000-10000

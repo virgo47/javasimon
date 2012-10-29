@@ -14,62 +14,6 @@ import static org.javasimon.utils.SimonUtils.presentNanoTime;
 
 /**
  * List of buckets and quantiles computer.
- * For 100-600 range and 5 bucket count, the following buckets are created:
- * <table>
- * <tr>
- * <th>Index</th>
- * <th>Min</th><th>Max</th>
- * <th>Samples</th>
- * <th>Counter</th>
- * </tr>
- * <tr>
- * <td>0</td>
- * <td>-&infin;</td><td>100</td>
- * <td>53</td>
- * <td># (1)</td>
- * </tr>
- * <tr>
- * <td>1</td>
- * <td>100</td><td>200</td>
- * <td>128,136</td>
- * <td>## (2)</td>
- * </tr>
- * <tr>
- * <td>2</td>
- * <td>200</td><td>300</td>
- * <td>245,231,264,287,275</td>
- * <td>###### (5)</td>
- * </tr>
- * <tr>
- * <td>3</td>
- * <td>300</td><td>400</td>
- * <td>356,341</td>
- * <td>## (2)</td>
- * </tr>
- * <tr>
- * <td>4</td>
- * <td>400</td><td>500</td>
- * <td>461</td>
- * <td># (1)</td>
- * </tr>
- * <tr>
- * <td>5</td>
- * <td>500</td><td>600</td>
- * <td>801</td>
- * <td># (1)</td>
- * </tr>
- * <tr>
- * <td>6</td>
- * <td>600</td><td>+&infin;</td>
- * <td></td>
- * <td>(0)</td>
- * </tr>
- * </table>
- * For a total of 12 splits in this example, we can deduce that
- * <ul><li>Median (6th sample) is in bucket #2
- * <li>Third quartile (9th sample) is in bucket #3</li>
- * <li>90% percentile (10,8th sample) is in bucket #4 or #5 (but assume #4).</li>
- * </ul>
  * Samples are not kept in buckets only the counter indicates their presence.
  * <br/>
  * Some details impact quantiles computation precision:
@@ -78,7 +22,7 @@ import static org.javasimon.utils.SimonUtils.presentNanoTime;
  * <li><em>All samples in one bucket</em>: samples should be evenly distributed on buckets. If all samples go into the same bucket, you should consider changing the min/max/number settings</li>
  * </ul>
  *
- * @author gquintana
+ * @author Gerald Quintana
  * @since 3.2
  */
 public abstract class Buckets implements LogMessageSource<Split> {
@@ -130,15 +74,11 @@ public abstract class Buckets implements LogMessageSource<Split> {
 		this.min = min;
 		this.max = max;
 		this.bucketNb = bucketNb;
-
+        // Initialize bucket array
 		this.buckets = new Bucket[bucketNb + 2];
-		// Initialize buckets with their bounds
 		buckets[0] = new Bucket(Long.MIN_VALUE, min);
-		makeRealBuckets();
 		buckets[bucketNb + 1] = new Bucket(max, Long.MAX_VALUE);
 	}
-
-	protected abstract void makeRealBuckets();
 
 	/**
 	 * Computes expected count and check used buckets number.
@@ -192,25 +132,39 @@ public abstract class Buckets implements LogMessageSource<Split> {
 		} else if (bucketIndex == bucketNb + 1) {
 			throw new IllegalStateException("Quantile out of bounds: increase max");
 		}
-		// Linear interpolation of value
+		// Interpolation of value
 		final Bucket bucket = buckets[bucketIndex];
 		return estimateQuantile(bucket, expectedCount, lastCount);
 	}
 
-	protected double estimateQuantile(Bucket bucket, double expectedCount, double lastCount) {
-		return bucket.getMin() + (expectedCount - lastCount) * (bucket.getMax() - bucket.getMin()) / bucket.getCount();
-	}
+    /**
+     * Interpolate quantile located in given Bucket using linear regression.
+     * <ul>
+     *     <li>Quantile is between {@link Bucket#min} and {@link Bucket#max}</li>
+     *     <li>Expected count is between last count and last count+{@link Bucket#count}</li>
+     * </ul>
+     * @param bucket Current bucket containing the quantile
+     * @param expectedCount Searched value
+     * @param lastCount Value of the bucket lower bound
+     * @return Compute quantile
+     */
+    protected double estimateQuantile(Bucket bucket, double expectedCount, double lastCount) {
+        return bucket.getMin() + (expectedCount - lastCount) * (bucket.getMax() - bucket.getMin()) / bucket.getCount();
+    }
 
-	/**
-	 * Returns bucket where value should be sorted, the bucket whose min/max bounds are around the value.
+    /**
+	 * Get the bucket containing the given value.
+     * Bucket should be sorted, the bucket whose min/max bounds are around the value is returned.
+     * @param value Value
+     * @return Bucket containing given value
 	 */
 	protected Bucket getBucketForValue(long value) {
 		for (Bucket bucket : buckets) {
-			if (value >= bucket.getMin() && value < bucket.getMax()) {
+			if (bucket.contains(value)) {
 				return bucket;
 			}
 		}
-		throw new IllegalStateException("Non continous buckets.");
+		throw new IllegalStateException("Non continuous buckets.");
 	}
 
 	/**
