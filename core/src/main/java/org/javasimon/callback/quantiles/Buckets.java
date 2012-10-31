@@ -350,4 +350,16 @@ public abstract class Buckets implements LogMessageSource<Split> {
 	public void log(Split lastSplit) {
 		logTemplate.log(lastSplit, this);
 	}
+
+    public int getBucketNb() {
+        return bucketNb;
+    }
+
+    public long getMin() {
+        return min;
+    }
+
+    public long getMax() {
+        return max;
+    }
 }

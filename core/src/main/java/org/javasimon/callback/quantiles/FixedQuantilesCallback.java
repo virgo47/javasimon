@@ -29,10 +29,25 @@ public class FixedQuantilesCallback extends QuantilesCallback {
 		this.max = max;
 		this.bucketNb = bucketNb;
 	}
-	/**
+
+    /**
+     * Constructor with all configuration
+     * @param bucketsType Linear or exponential
+     * @param min Min
+     * @param max Max
+     * @param bucketNb Number of buckets
+     */
+    public FixedQuantilesCallback(BucketsType bucketsType, long min, long max, int bucketNb) {
+        super(bucketsType);
+        this.min = min;
+        this.max = max;
+        this.bucketNb = bucketNb;
+    }
+
+    /**
 	 * Create buckets using callback attributes
-	 * @param stopwatch
-	 * @return 
+	 * @param stopwatch Target stopwatch
+	 * @return Created buckets
 	 */
 	@Override
 	protected Buckets createBuckets(Stopwatch stopwatch) {
