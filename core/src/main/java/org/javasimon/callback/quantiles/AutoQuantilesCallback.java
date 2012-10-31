@@ -62,7 +62,7 @@ public class AutoQuantilesCallback extends QuantilesCallback {
 	}
 
 	/**
-	 * Constructor with warmup counter and number of buckets for each Simon.
+	 * Constructor with warmup counter and number of linear buckets for each Simon.
 	 *
 	 * @param warmupCounter
 	 * @param bucketNb
@@ -72,7 +72,19 @@ public class AutoQuantilesCallback extends QuantilesCallback {
 		this.bucketNb = bucketNb;
 	}
 
-	/**
+    /**
+     * Constructor with all configuration
+     * @param bucketsType Linear or exponential
+     * @param warmupCounter Number of splits before init
+     * @param bucketNb Bucket number
+     */
+    public AutoQuantilesCallback(BucketsType bucketsType, long warmupCounter, int bucketNb) {
+        super(bucketsType);
+        this.warmupCounter = warmupCounter;
+        this.bucketNb = bucketNb;
+    }
+
+    /**
 	 * Get the bucket values attribute or create it if it does not exist.
 	 */
 	@SuppressWarnings("SynchronizationOnLocalVariableOrMethodParameter")

@@ -41,14 +41,34 @@ public abstract class QuantilesCallback extends CallbackSkeleton {
 	 * SLF4J log template shared by all stopwatches.
 	 */
 	private final LogTemplate<Split> enabledStopwatchLogTemplate = toSLF4J(getClass().getName(), "debug");
-
+    /**
+     * Type of the buckets: linear or exponential
+     */
+    private BucketsType bucketsType;
 	/**
 	 * Default constructor.
 	 */
 	protected QuantilesCallback() {
+        bucketsType=BucketsType.LINEAR;
 	}
 
-	public boolean isLogEnabled() {
+    /**
+     * Constructor with buckets type
+     * @param bucketsType Type of buckets
+     */
+    protected QuantilesCallback(BucketsType bucketsType) {
+        this.bucketsType = bucketsType;
+    }
+
+    /**
+     * Get buckets type
+     * @return Buckets type
+     */
+    public BucketsType getBucketsType() {
+        return bucketsType;
+    }
+
+    public boolean isLogEnabled() {
 		return logEnabled;
 	}
 
@@ -92,7 +112,7 @@ public abstract class QuantilesCallback extends CallbackSkeleton {
 	 * @return Buckets
 	 */
 	protected final Buckets createBuckets(Stopwatch stopwatch, long min, long max, int bucketNb) {
-		Buckets buckets = new LinearBuckets(min, max, bucketNb);
+		Buckets buckets = bucketsType.createBuckets(stopwatch, min, max, bucketNb);
 		buckets.setLogTemplate(createLogTemplate(stopwatch));
 		return buckets;
 	}
