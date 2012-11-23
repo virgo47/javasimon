@@ -16,6 +16,8 @@ import org.javasimon.source.StopwatchTemplate;
  *
  * @author Erik van Oosten
  */
+// TODO: Is it possible to support both AOP alliance and AspectJ style?
+// maybe extending org.springframework.aop.interceptor.AbstractMonitoringInterceptor (see also JamonPMI in Spring)
 public final class MonitoringInterceptor implements MethodInterceptor, Serializable {
 	/**
 	 * Stopwatch template.
