@@ -5,8 +5,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.javasimon.callback.CompositeCallback;
 import org.javasimon.callback.CompositeCallbackImpl;
@@ -19,7 +19,7 @@ import org.javasimon.utils.SimonUtils;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public final class EnabledManager implements Manager {
-	private final Map<String, AbstractSimon> allSimons = new HashMap<String, AbstractSimon>();
+	private final Map<String, AbstractSimon> allSimons = new ConcurrentHashMap<String, AbstractSimon>();
 
 	private UnknownSimon rootSimon;
 
@@ -186,6 +186,7 @@ public final class EnabledManager implements Manager {
 			if (config.getState() != null) {
 				simon.setState(config.getState(), false);
 			}
+			allSimons.put(name, simon);
 		}
 		return simon;
 	}
@@ -216,10 +217,10 @@ public final class EnabledManager implements Manager {
 			if (parent == null) {
 				parent = new UnknownSimon(parentName, this);
 				addToHierarchy(parent, parentName);
+				allSimons.put(parentName, parent);
 			}
 		}
 		parent.addChild(simon);
-		allSimons.put(name, simon);
 	}
 
 	/**
