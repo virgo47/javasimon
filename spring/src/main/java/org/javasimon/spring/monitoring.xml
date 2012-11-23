@@ -1,24 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
 	<bean id="javasimonInterceptor" class="org.javasimon.spring.MonitoringInterceptor"/>
 
-	<bean id="javasimonAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
-		<property name="advice" ref="javasimonInterceptor"/>
-		<property name="pointcut">
-			<bean class="org.javasimon.spring.MonitoredMeasuringPointcut"/>
-		</property>
-	</bean>
+	<!--
+	First way - declare the pointcut with expression.
+	No need for annotation on the class (but still can be used to customize Simon names).
+	-->
+	<aop:config>
+		<!-- Adjust your expression as needed -->
+		<aop:pointcut id="monitoringPointcut" expression="execution(* *ServiceImpl(..))"/>
+		<aop:advisor pointcut-ref="monitoringPointcut" advice-ref="javasimonInterceptor"/>
+	</aop:config>
 
-	<bean id="monitoringAutoProxy" class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator">
-		<property name="usePrefix">
-			<value>true</value>
-		</property>
-		<property name="AdvisorBeanNamePrefix">
-			<value>javasimon</value>
-		</property>
-	</bean>
+	<!-- This should find all the @Monitored classes/methods and add monitors accordingly.
+
+	 <bean id="javasimonAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+		 <property name="advice" ref="javasimonInterceptor"/>
+		 <property name="pointcut">
+			 <bean class="org.javasimon.spring.MonitoredMeasuringPointcut"/>
+		 </property>
+	 </bean>
+
+	 <bean id="monitoringAutoProxy" class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator">
+		 <property name="usePrefix">
+			 <value>true</value>
+		 </property>
+		 <property name="AdvisorBeanNamePrefix">
+			 <value>javasimon</value>
+		 </property>
+	 </bean>
+ -->
 
 </beans>
