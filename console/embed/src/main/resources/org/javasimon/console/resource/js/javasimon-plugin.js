@@ -16,7 +16,7 @@
 		loadResources:function(){
 			var oResource, sResourcePath, eResource, self=this, 
 				resourceNb=this.resources.length, i,
-				fnOnLoad=function() {
+				fnOnLoad=function(data, textStatus, jqxhr) {
 					self.resourceCount--;
 					self.onLoaded(); 
 				};
@@ -31,14 +31,15 @@
 					}                               
 					switch(oResource.type) {
 						case "JS":
-							eResource=domUtil.fnAppendJSResource(sResourcePath);
-							if (eResource) {
-								this.resourceCount++;
-								eResource.onload=fnOnLoad;
-							}
+                            this.resourceCount++;
+                            $.getScript(sResourcePath, fnOnLoad);
 							break;
 						case "CSS":
-							eResource=domUtil.fnAppendCSSResource(sResourcePath);
+                            $("<link/>", {
+                                rel: "stylesheet",
+                                type: "text/css",
+                                href: sResourcePath
+                            }).appendTo("head");
 							break;
 					}
 				}
