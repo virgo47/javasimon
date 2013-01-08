@@ -15,7 +15,7 @@ import org.javasimon.utils.SimonUtils;
  * <li>whether split should be included - override {@link #shouldBeAddedSplit(org.javasimon.Split)}.</li>
  * </ul>
  *
- * @author <a href="mailto:richard.richter@posam.sk">Richard "Virgo" Richter</a>
+ * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 @SuppressWarnings("UnusedDeclaration")
 public class PlainRequestReporter implements RequestReporter {

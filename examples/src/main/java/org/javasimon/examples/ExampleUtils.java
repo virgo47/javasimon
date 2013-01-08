@@ -8,7 +8,7 @@ import java.util.Random;
 /**
  * Contains some supportive utils common for more examples.
  *
- * @author <a href="mailto:richard.richter@posam.sk">Richard "Virgo" Richter</a>
+ * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @since 3.1
  */
 public final class ExampleUtils {

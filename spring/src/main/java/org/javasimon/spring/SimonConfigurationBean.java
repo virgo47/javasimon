@@ -13,7 +13,7 @@ import org.springframework.beans.factory.InitializingBean;
 /**
  * Spring bean that configures Simon manager using {@link org.javasimon.ManagerConfiguration} facility.
  *
- * @author <a href="mailto:richard.richter@posam.sk">Richard "Virgo" Richter</a>
+ * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public class SimonConfigurationBean implements InitializingBean {
 	private Manager simonManager = SimonManager.manager();
