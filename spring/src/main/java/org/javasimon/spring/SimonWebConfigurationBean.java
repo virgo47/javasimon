@@ -9,7 +9,7 @@ import org.springframework.web.context.ServletContextAware;
  * {@link SimonConfigurationBean} with extended function - just pushes configured manager to the {@link ServletContext} attribute
  * {@link SimonUtils#MANAGER_SERVLET_CTX_ATTRIBUTE}.
  *
- * @author <a href="mailto:richard.richter@posam.sk">Richard "Virgo" Richter</a>
+ * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public class SimonWebConfigurationBean extends SimonConfigurationBean implements ServletContextAware {
 	@Override

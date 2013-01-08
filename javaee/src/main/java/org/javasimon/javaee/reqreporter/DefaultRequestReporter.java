@@ -23,7 +23,7 @@ import org.javasimon.utils.SimonUtils;
  * override {@link #shouldBeAddedStopwatchInfo(DefaultRequestReporter.StopwatchInfo)}.</li>
  * </ul>
  *
- * @author <a href="mailto:richard.richter@posam.sk">Richard "Virgo" Richter</a>
+ * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public class DefaultRequestReporter implements RequestReporter {
 	private static final int NOTE_OUTPUT_MAX_LEN = 80;

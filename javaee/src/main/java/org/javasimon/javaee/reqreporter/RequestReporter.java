@@ -9,7 +9,7 @@ import org.javasimon.javaee.SimonServletFilter;
 /**
  * RequestReporter interface .
  *
- * @author <a href="mailto:richard.richter@posam.sk">Richard "Virgo" Richter</a>
+ * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public interface RequestReporter {
 	/**
