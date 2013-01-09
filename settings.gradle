@@ -1,1 +1,1 @@
-include 'core', 'console', 'javaee', 'jdbc4', 'spring'
+include "core", "jdbc4", "javaee", "spring", "console-embed", "console-webapp", "examples", "demoapp"

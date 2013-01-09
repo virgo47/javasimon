@@ -3,7 +3,6 @@ package org.javasimon.console.action;
 import java.util.regex.Pattern;
 import org.javasimon.console.SimonData;
 import org.javasimon.console.TestActionContext;
-import org.json.JSONObject;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;

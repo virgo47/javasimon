@@ -68,7 +68,7 @@ Project uses following libraries (for Ant build, check dependencies in POMs for 
     * `testng-6.5.2.jar`
     * `jcommander-1.5.jar`
   * Spring (core/aop/beans/web/webmvc/test/...): http://www.springsource.org/ (Spring integration)
-    * `org.springframework.*-3.1.2.RELEASE.jar`
+    * `org.springframework.*-3.2.0.RELEASE.jar`
     * `aopalliance-1.0.jar`
     * `commons-logging-1.1.1.jar`
   * SLF4J logging: http://www.slf4j.org/ (logging callback in core module, may not be required during runtime)

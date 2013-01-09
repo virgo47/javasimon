@@ -5,7 +5,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import org.javasimon.callback.quantiles.BucketSample;
+
 import org.javasimon.console.text.StringifierFactory;
 
 /**

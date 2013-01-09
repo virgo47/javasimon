@@ -1,0 +1,24 @@
+// TODO: WIP - don't use yet
+apply plugin: 'java'
+
+repositories {
+	mavenCentral()
+}
+
+subprojects {
+	apply plugin: 'java'
+
+	repositories {
+		mavenCentral()
+	}
+
+	dependencies {
+		testCompile 'org.testng:testng:6.5.2'
+	}
+
+	version = '3.3.0'
+
+	jar {
+		manifest.attributes provider: 'gradle'
+	}
+}
