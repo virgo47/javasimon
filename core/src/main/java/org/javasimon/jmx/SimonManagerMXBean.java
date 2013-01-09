@@ -12,6 +12,7 @@ import org.javasimon.StopwatchSample;
  * @author Radovan Sninsky
  * @since 2.0
  */
+@SuppressWarnings("UnusedDeclaration")
 public interface SimonManagerMXBean {
 
 	/**

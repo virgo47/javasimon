@@ -1,0 +1,22 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+
+group = 'org.javasimon'
+archivesBaseName = 'javasimon-core'
+version = '3.3.1-SNAPSHOT'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	compile 'org.slf4j:slf4j-api:1.7.2'
+
+	testCompile 'org.testng:testng:6.5.2'
+	testCompile 'org.mockito:mockito-core:1.9.0'
+//	testRuntime 'org.slf4j:slf4j-jdk14:1.7.2'
+}
+
+test {
+	useTestNG()
+}
