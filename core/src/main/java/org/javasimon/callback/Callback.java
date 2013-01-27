@@ -216,7 +216,7 @@ public interface Callback {
 		/**
 		 * Clearing of the manager.
 		 */
-		CLEAR("clear"),
+		MANAGER_CLEAR("clearManager"),
 
 		/**
 		 * Event producing arbitrary message.

@@ -96,8 +96,7 @@ public class JmxRegisterCallback extends CallbackSkeleton {
 			try {
 				ObjectName objectName = new ObjectName(name);
 				mBeanServer.unregisterMBean(objectName);
-				// here I have to use iterator.remove() - that's why I can't call common method
-				// for clear() and simonDestroyed(simon)
+				// I have to use iterator.remove() - hence no common method for clearManager() and simonDestroyed(simon)
 				namesIter.remove();
 				onManagerMessage("Unregistered Simon with the name: " + objectName);
 			} catch (JMException e) {

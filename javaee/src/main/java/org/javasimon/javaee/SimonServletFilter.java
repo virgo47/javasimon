@@ -268,7 +268,7 @@ public class SimonServletFilter implements Filter {
 		String subcommand = SLASH_TRIM.process(localPath.substring(consolePath.length()));
 		if (subcommand.isEmpty()) {
 			printSimonTree(response);
-		} else if (subcommand.equalsIgnoreCase("clear")) {
+		} else if (subcommand.equalsIgnoreCase("clearManager")) {
 			manager.clear();
 			response.getOutputStream().println("Simon Manager was cleared");
 		} else if (subcommand.equalsIgnoreCase("help")) {
@@ -281,7 +281,7 @@ public class SimonServletFilter implements Filter {
 
 	private void simonHelp(ServletResponse response) throws IOException {
 		response.getOutputStream().println("Simon Console help - available commands:");
-		response.getOutputStream().println("- clear - clears the manager (removes all Simons)");
+		response.getOutputStream().println("- clearManager - clears the manager (removes all Simons)");
 		response.getOutputStream().println("- help - shows this help");
 	}
 

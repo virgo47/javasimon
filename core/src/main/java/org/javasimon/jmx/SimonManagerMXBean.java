@@ -75,7 +75,7 @@ public interface SimonManagerMXBean {
 	 *
 	 * @see org.javasimon.Manager#clear()
 	 */
-	void clear();
+	void clearManager();
 
 	/**
 	 * Enables particular Simon only.

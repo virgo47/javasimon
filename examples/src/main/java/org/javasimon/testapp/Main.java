@@ -23,9 +23,6 @@ import java.sql.Connection;
  * Run it with command:
  * <pre>java -cp ../lib/h2.jar:build/core:build/jdbc4:ild/jmx:examples org.javasimon.testapp.Main</pre>
  *
- * To initialize JDBC logging callback following switch has to be added as the JVM option:
- * {@code java -cp -Djavasimon.config.file=examples/testapp-config.xml}
- *
  * @author Radovan Sninsky
  * @since 2.0
  */

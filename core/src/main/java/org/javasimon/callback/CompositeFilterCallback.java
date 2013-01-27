@@ -192,7 +192,7 @@ public final class CompositeFilterCallback implements FilterCallback, CompositeC
 	 */
 	@Override
 	public void onManagerClear() {
-		if (rulesApplyTo(null, Event.CLEAR)) {
+		if (rulesApplyTo(null, Event.MANAGER_CLEAR)) {
 			callback.onManagerClear();
 		}
 	}
