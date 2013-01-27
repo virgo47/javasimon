@@ -93,7 +93,7 @@ public class SimonManagerMXBeanImpl implements SimonManagerMXBean {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final void clear() {
+	public final void clearManager() {
 		manager.clear();
 	}
 

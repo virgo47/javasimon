@@ -14,7 +14,7 @@
  * <li>enable/disable whole manager, what practically means turn on/off all Simons</li>
  * <li>enable/disable particular Simon without touching linked hierarchy</li>
  * <li>list all existing Simons</li>
- * <li>clear all Simons (all values are cleared)</li>
+ * <li>clear all Simons (all values of the Manager are cleared)</li>
  * </ul>
  * For retrieving data from Simons is used new feature: <b>return custom object from MBean's method</b>.
  * This is one of news in JMX 1.4 introduced with Java 6. Compared to calling many getters on an MBean
