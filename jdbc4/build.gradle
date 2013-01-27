@@ -1,0 +1,9 @@
+archivesBaseName = 'javasimon-jdbc4'
+
+dependencies {
+	compile project(':core')
+}
+
+test {
+	useTestNG()
+}

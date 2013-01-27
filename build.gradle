@@ -1,5 +1,7 @@
 // TODO: WIP - don't use yet
-apply plugin: 'java'
+apply plugin: 'maven'
+
+group = 'org.javasimon'
 
 repositories {
 	mavenCentral()
@@ -14,9 +16,10 @@ subprojects {
 
 	dependencies {
 		testCompile 'org.testng:testng:6.5.2'
+		testCompile 'org.mockito:mockito-core:1.9.0'
 	}
 
-	version = '3.3.0'
+	version = '3.3.1-SNAPSHOT'
 
 	jar {
 		manifest.attributes provider: 'gradle'
