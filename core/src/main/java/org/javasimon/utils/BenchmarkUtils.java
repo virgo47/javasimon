@@ -21,9 +21,9 @@ public class BenchmarkUtils {
 	 * <p/>
 	 * Tasks should not be extremely short - see {@link Task} javadoc for more.
 	 *
-	 * @param warmupRuns   number of runs before the measuring starts
+	 * @param warmupRuns number of runs before the measuring starts
 	 * @param measuredRuns number of measured runs
-	 * @param tasks        list of tasks to measure
+	 * @param tasks list of tasks to measure
 	 * @return result of the measured runs as an array of stopwatch objects in the order of the tasks
 	 */
 	public static StopwatchSample[] run(int warmupRuns, int measuredRuns, Task... tasks) {

@@ -1,13 +1,15 @@
 package org.javasimon.spring;
 
+import java.lang.reflect.Method;
+
 import org.aopalliance.intercept.MethodInvocation;
 import org.javasimon.Manager;
-import org.javasimon.source.AbstractMethodStopwatchSource;
 import org.javasimon.aop.Monitored;
+import org.javasimon.source.AbstractMethodStopwatchSource;
+import org.springframework.aop.SpringProxy;
+import org.springframework.aop.framework.Advised;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.core.annotation.AnnotationUtils;
-
-import java.lang.reflect.Method;
 
 /**
  * Monitor source providing stopwatches from Spring AOP method invocation.
@@ -76,7 +78,7 @@ public class SpringStopwatchSource extends AbstractMethodStopwatchSource<MethodI
 		if (classAnnotation != null && classAnnotation.name() != null && classAnnotation.name().length() > 0) {
 			nameBuilder.append(classAnnotation.name());
 		} else {
-			nameBuilder.append(targetClass.getName());
+			nameBuilder.append(getMeaningfulClassName(targetClass));
 		}
 		nameBuilder.append(Manager.HIERARCHY_DELIMITER);
 
@@ -85,5 +87,16 @@ public class SpringStopwatchSource extends AbstractMethodStopwatchSource<MethodI
 			suffix = methodAnnotation.suffix();
 		}
 		return nameBuilder.append(suffix).toString();
+	}
+
+	protected String getMeaningfulClassName(Class<?> targetClass) {
+		if (java.lang.reflect.Proxy.isProxyClass(targetClass)) {
+			for (Class<?> iface : targetClass.getInterfaces()) {
+				if (iface != SpringProxy.class && iface != Advised.class) {
+					return iface.getName();
+				}
+			}
+		}
+		return targetClass.getName();
 	}
 }

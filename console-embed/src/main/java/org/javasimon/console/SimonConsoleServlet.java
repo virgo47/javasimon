@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.javasimon.Manager;
 import org.javasimon.utils.SimonUtils;
 
@@ -14,6 +15,7 @@ import org.javasimon.utils.SimonUtils;
  *
  * @author gquintana
  */
+@SuppressWarnings("UnusedDeclaration")
 public class SimonConsoleServlet extends HttpServlet {
 	/**
 	 * Serial version UID since class is Serializable.
@@ -38,9 +40,9 @@ public class SimonConsoleServlet extends HttpServlet {
 
 		String urlPrefix = config.getInitParameter(URL_PREFIX_INIT_PARAMETER);
 		initRequestProcessor(urlPrefix);
-		
+
 		String pluginClasses = config.getInitParameter(PLUGIN_CLASSES_INIT_PARAMETER);
-		if (pluginClasses!=null) {
+		if (pluginClasses != null) {
 			requestProcessor.getPluginManager().addPlugins(pluginClasses);
 		}
 	}
@@ -79,7 +81,8 @@ public class SimonConsoleServlet extends HttpServlet {
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-		throws ServletException, IOException {
+		throws ServletException, IOException
+	{
 		requestProcessor.processRequest(request, response);
 	}
 
@@ -94,7 +97,8 @@ public class SimonConsoleServlet extends HttpServlet {
 	 */
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-		throws ServletException, IOException {
+		throws ServletException, IOException
+	{
 		requestProcessor.processRequest(request, response);
 	}
 

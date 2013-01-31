@@ -1,11 +1,12 @@
 package org.javasimon.console;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.javasimon.Manager;
 import org.javasimon.SimonManager;
 import org.javasimon.console.action.*;
@@ -41,17 +42,17 @@ class SimonConsoleRequestProcessor {
 	 * Simon manager to use.
 	 */
 	private Manager manager = SimonManager.manager();
-	
+
 	/**
 	 * List of action bindings.
 	 */
-	private final List<ActionBinding> actionBindings=new ArrayList<ActionBinding>();
-	
+	private final List<ActionBinding> actionBindings = new ArrayList<ActionBinding>();
+
 	/**
 	 * Plugin manager.
 	 */
-	private final SimonConsolePluginManager pluginManager=new SimonConsolePluginManager();
-	
+	private final SimonConsolePluginManager pluginManager = new SimonConsolePluginManager();
+
 	public SimonConsoleRequestProcessor(String urlPrefix) {
 		if (urlPrefix == null) {
 			this.urlPrefix = "";
@@ -59,54 +60,65 @@ class SimonConsoleRequestProcessor {
 			this.urlPrefix = urlPrefix.trim();
 		}
 	}
+
 	/**
 	 * Add an action binding to the {@link #actionBindings} list.
+	 *
 	 * @param actionBinding Action binding to add
 	 */
 	public final void addActionBinding(ActionBinding actionBinding) {
 		this.actionBindings.add(actionBinding);
 	}
+
 	/**
 	 * Add a simple action binding to the {@link #actionBindings} list.
+	 *
 	 * @param actionPath Path of the action
 	 * @param actionClass Class of the action
 	 */
-	public final <T> void addSimpleActionBinding(String actionPath, Class<T> actionClass) {
-		this.addActionBinding(new SimpleActionBinding(actionPath, actionClass));
+	public final <T extends Action> void addSimpleActionBinding(String actionPath, Class<T> actionClass) {
+		this.addActionBinding(new SimpleActionBinding<T>(actionPath, actionClass));
 	}
+
 	/**
 	 * Add a resource action binding to the {@link #actionBindings} list.
+	 *
 	 * @param actionPath Path of the action
-	 * @param resourcePath Path of a resource located under 
+	 * @param resourcePath Path of a resource located under
 	 */
 	public void addResourceActionBinding(final String actionPath, final String resourcePath) {
 		this.addActionBinding(new ActionBinding() {
 			public boolean supports(ActionContext actionContext) {
 				return actionContext.getPath().equals(actionPath);
 			}
+
 			public Action create(ActionContext actionContext) {
 				return new ResourceAction(actionContext, resourcePath);
 			}
 		});
 	}
+
 	/**
 	 * Find an acttion binding for the given action context
-	 * @return  Found Action binding , null if any.
+	 *
+	 * @return Found Action binding , null if any.
 	 */
 	protected final ActionBinding findActionBinding(ActionContext actionContext) {
-		for(ActionBinding actionBinding:this.actionBindings) {
+		for (ActionBinding actionBinding : this.actionBindings) {
 			if (actionBinding.supports(actionContext)) {
 				return actionBinding;
 			}
 		}
 		return null;
 	}
+
 	protected void initActionBindings() {
 		// /console is redirected to /console/index.html
 		addActionBinding(new ActionBinding<Action>() {
 			public boolean supports(ActionContext actionContext) {
 				return actionContext.getPath().isEmpty();
 			}
+
 			public Action create(ActionContext actionContext) {
 				return new RedirectAction(actionContext.getRequest().getContextPath() + urlPrefix + ROOT_PATH, actionContext);
 			}
@@ -119,30 +131,33 @@ class SimonConsoleRequestProcessor {
 		addResourceActionBinding(DETAIL_PATH, DETAIL_PATH);
 		// /resource/* loads resource/*
 		addActionBinding(new ActionBinding<Action>() {
-			private final String pathPrefix="/resource";
+			private final String pathPrefix = "/resource";
+
 			public boolean supports(ActionContext actionContext) {
 				return actionContext.getPath().startsWith(pathPrefix);
 			}
+
 			public Action create(ActionContext actionContext) {
 				return new ResourceAction(actionContext, actionContext.getPath().substring(pathPrefix.length()));
 			}
 		});
 		addSimpleActionBinding(TableJsonAction.PATH, TableJsonAction.class);
-		addSimpleActionBinding(ListJsonAction.PATH,  ListJsonAction.class);
-		addSimpleActionBinding(TreeJsonAction.PATH,  TreeJsonAction.class);
+		addSimpleActionBinding(ListJsonAction.PATH, ListJsonAction.class);
+		addSimpleActionBinding(TreeJsonAction.PATH, TreeJsonAction.class);
 		addSimpleActionBinding(TableJsonAction.PATH, TableJsonAction.class);
 		addSimpleActionBinding(TableHtmlAction.PATH, TableHtmlAction.class);
-		addSimpleActionBinding(TableCsvAction.PATH,  TableCsvAction.class);
-		addSimpleActionBinding(TreeXmlAction.PATH,   TreeXmlAction.class);
-		addSimpleActionBinding(ResetAction.PATH,     ResetAction.class);
-		addSimpleActionBinding(ClearAction.PATH,     ClearAction.class);		
-		addSimpleActionBinding(DetailHtmlAction.PATH,DetailHtmlAction.class);		
-		addSimpleActionBinding(DetailJsonAction.PATH,DetailJsonAction.class);		
-		addSimpleActionBinding(PluginsJsonAction.PATH,PluginsJsonAction.class);		
-		for(ActionBinding actionBinding:pluginManager.getActionBindings()) {
+		addSimpleActionBinding(TableCsvAction.PATH, TableCsvAction.class);
+		addSimpleActionBinding(TreeXmlAction.PATH, TreeXmlAction.class);
+		addSimpleActionBinding(ResetAction.PATH, ResetAction.class);
+		addSimpleActionBinding(ClearAction.PATH, ClearAction.class);
+		addSimpleActionBinding(DetailHtmlAction.PATH, DetailHtmlAction.class);
+		addSimpleActionBinding(DetailJsonAction.PATH, DetailJsonAction.class);
+		addSimpleActionBinding(PluginsJsonAction.PATH, PluginsJsonAction.class);
+		for (ActionBinding actionBinding : pluginManager.getActionBindings()) {
 			addActionBinding(actionBinding);
 		}
 	}
+
 	/**
 	 * Processes requests for both HTTP {@code GET} and {@code POST} methods.
 	 *
@@ -152,27 +167,30 @@ class SimonConsoleRequestProcessor {
 	 * @throws java.io.IOException if an I/O error occurs
 	 */
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-		throws ServletException, IOException {
+		throws ServletException, IOException
+	{
 		String path = request.getRequestURI().substring(request.getContextPath().length() + urlPrefix.length());
 		ActionContext actionContext = new ActionContext(request, response, path);
 		actionContext.setManager(manager);
 		actionContext.setPluginManager(pluginManager);
 		processContext(actionContext);
 	}
+
 	/**
 	 * Process an HTTP request.
+	 *
 	 * @param actionContext Action context (wrapping HTTP request and response)
 	 */
 	protected void processContext(ActionContext actionContext) throws ServletException, IOException {
-		Action action=null;
+		Action action = null;
 		try {
 			// Find action binding
-			ActionBinding actionBinding=findActionBinding(actionContext);
+			ActionBinding actionBinding = findActionBinding(actionContext);
 			// Create action
-			if (actionBinding!=null) {
-				action=actionBinding.create(actionContext);
+			if (actionBinding != null) {
+				action = actionBinding.create(actionContext);
 			}
-			if (action==null) {
+			if (action == null) {
 				throw new ActionException("No action bound to path " + actionContext.getPath());
 			}
 			// Read request parameters
@@ -190,6 +208,7 @@ class SimonConsoleRequestProcessor {
 			}
 		}
 	}
+
 	public String getUrlPrefix() {
 		return urlPrefix;
 	}
@@ -205,5 +224,5 @@ class SimonConsoleRequestProcessor {
 	public SimonConsolePluginManager getPluginManager() {
 		return pluginManager;
 	}
-	
+
 }

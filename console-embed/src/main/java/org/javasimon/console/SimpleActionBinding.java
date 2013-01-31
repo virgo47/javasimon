@@ -6,8 +6,10 @@ import java.lang.reflect.InvocationTargetException;
 /**
  * Simple action bindings which is triggered by the path and produces
  * actions of given type
+ *
  * @author gquintana
  */
+@SuppressWarnings("UnusedDeclaration")
 public class SimpleActionBinding<T extends Action> implements ActionBinding<T> {
 	/**
 	 * Path
@@ -21,15 +23,17 @@ public class SimpleActionBinding<T extends Action> implements ActionBinding<T> {
 	 * Constructor used to instantiate actions
 	 */
 	private final Constructor<T> actionConstructor;
+
 	/**
 	 * Constructor.
-	 * @param path  Supported path.
+	 *
+	 * @param path Supported path.
 	 * @param actionClass Create Action class
 	 */
 	public SimpleActionBinding(String path, Class<T> actionClass) {
-		this.path=path;
-		this.actionClass=actionClass;
-		Constructor<T> constructor=null;
+		this.path = path;
+		this.actionClass = actionClass;
+		Constructor<T> constructor;
 		try {
 			try {
 				constructor = actionClass.getConstructor(ActionContext.class);
@@ -37,26 +41,28 @@ public class SimpleActionBinding<T extends Action> implements ActionBinding<T> {
 				constructor = actionClass.getConstructor();
 			}
 		} catch (SecurityException securityException) {
-			throw new IllegalStateException("Can get constructor for class "+actionClass.getName(), securityException);
+			throw new IllegalStateException("Can get constructor for class " + actionClass.getName(), securityException);
 		} catch (NoSuchMethodException noSuchMethodException) {
-			throw new IllegalArgumentException("Can find constructor for class "+actionClass.getName());
+			throw new IllegalArgumentException("Can find constructor for class " + actionClass.getName());
 		}
 		this.actionConstructor = constructor;
 	}
+
 	/**
 	 * Returns true when {@link ActionContext#getPath()} equals {@link #path}.
 	 */
 	public boolean supports(ActionContext actionContext) {
 		return actionContext.getPath().equals(this.path);
 	}
+
 	/**
 	 * Create a new {@link Action} using {@link #actionConstructor}.
 	 */
 	public T create(ActionContext actionContext) {
 		try {
 			T action;
-			Class[] actionConstructorParams=actionConstructor.getParameterTypes();
-			switch(actionConstructorParams.length) {
+			Class[] actionConstructorParams = actionConstructor.getParameterTypes();
+			switch (actionConstructorParams.length) {
 				case 0:
 					action = actionConstructor.newInstance();
 					break;
@@ -64,11 +70,11 @@ public class SimpleActionBinding<T extends Action> implements ActionBinding<T> {
 					if (actionConstructorParams[0].equals(ActionContext.class)) {
 						action = actionConstructor.newInstance(actionContext);
 					} else {
-						throw new IllegalStateException("Unknown argument type in action constructor "+actionConstructorParams[0].getName());
+						throw new IllegalStateException("Unknown argument type in action constructor " + actionConstructorParams[0].getName());
 					}
 					break;
 				default:
-					throw new IllegalStateException("Invalid argument number in action constructor: "+actionConstructorParams.length);
+					throw new IllegalStateException("Invalid argument number in action constructor: " + actionConstructorParams.length);
 			}
 			return action;
 		} catch (InstantiationException instantiationException) {
@@ -91,5 +97,4 @@ public class SimpleActionBinding<T extends Action> implements ActionBinding<T> {
 	public String getPath() {
 		return path;
 	}
-	
 }
