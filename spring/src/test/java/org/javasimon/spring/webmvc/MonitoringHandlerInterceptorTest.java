@@ -8,10 +8,10 @@ import org.javasimon.Stopwatch;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
-
-import static org.testng.Assert.*;
-
 import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 
 /**
  * Unit test for {@link MonitoringHandlerInterceptor}.
