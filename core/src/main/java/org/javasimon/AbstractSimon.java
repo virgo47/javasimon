@@ -1,6 +1,8 @@
 package org.javasimon;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -42,7 +44,7 @@ abstract class AbstractSimon implements Simon {
 
 	private long resetTimestamp;
 
-	private Map<String, Object> attributes;
+	private AttributesSupport attributesSupport = new AttributesSupport();
 
 	/**
 	 * Constructor of the abstract Simon is used internally by subclasses.
@@ -59,16 +61,12 @@ abstract class AbstractSimon implements Simon {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public final Simon getParent() {
 		return parent;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public final List<Simon> getChildren() {
 		return children;
 	}
@@ -93,9 +91,7 @@ abstract class AbstractSimon implements Simon {
 		simon.enabled = enabled;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public final String getName() {
 		return name;
 	}
@@ -139,9 +135,7 @@ abstract class AbstractSimon implements Simon {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public boolean isEnabled() {
 		return enabled;
 	}
@@ -155,44 +149,32 @@ abstract class AbstractSimon implements Simon {
 		manager.callback().onSimonReset(this);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public synchronized long getLastReset() {
 		return resetTimestamp;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public synchronized final SimonState getState() {
 		return state;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public String getNote() {
 		return note;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public void setNote(String note) {
 		this.note = note;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public long getFirstUsage() {
 		return firstUsage;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public long getLastUsage() {
 		return lastUsage;
 	}
@@ -218,11 +200,9 @@ abstract class AbstractSimon implements Simon {
 	 * @param value the Object to be stored
 	 * @since 2.3
 	 */
+	@Override
 	public void setAttribute(String name, Object value) {
-		if (attributes == null) {
-			attributes = new HashMap<String, Object>();
-		}
-		attributes.put(name, value);
+		attributesSupport.setAttribute(name, value);
 	}
 
 	/**
@@ -233,11 +213,9 @@ abstract class AbstractSimon implements Simon {
 	 * @return an Object containing the value of the attribute, or null if the attribute does not exist
 	 * @since 2.3
 	 */
+	@Override
 	public Object getAttribute(String name) {
-		if (attributes == null) {
-			return null;
-		}
-		return attributes.get(name);
+		return attributesSupport.getAttribute(name);
 	}
 
 	/**
@@ -246,10 +224,9 @@ abstract class AbstractSimon implements Simon {
 	 * @param name a String specifying the name of the attribute to remove
 	 * @since 2.3
 	 */
+	@Override
 	public void removeAttribute(String name) {
-		if (attributes != null) {
-			attributes.remove(name);
-		}
+		attributesSupport.removeAttribute(name);
 	}
 
 	/**
@@ -259,11 +236,19 @@ abstract class AbstractSimon implements Simon {
 	 * @return an Iterator of strings containing the names of the Simon's attributes
 	 * @since 2.3
 	 */
+	@Override
 	public Iterator<String> getAttributeNames() {
-		if (attributes == null) {
-			return Collections.<String>emptySet().iterator();
-		}
-		return attributes.keySet().iterator();
+		return attributesSupport.getAttributeNames();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @since 3.4
+	 */
+	@Override
+	public Map<String, Object> getCopyAsSortedMap() {
+		return attributesSupport.getCopyAsSortedMap();
 	}
 
 	void sampleCommon(Sample sample) {

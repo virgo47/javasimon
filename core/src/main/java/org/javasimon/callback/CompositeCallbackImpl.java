@@ -97,9 +97,6 @@ public final class CompositeCallbackImpl implements CompositeCallback {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void onSimonReset(Simon simon) {
 		for (Callback callback : callbacks) {
@@ -107,9 +104,6 @@ public final class CompositeCallbackImpl implements CompositeCallback {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void onStopwatchAdd(Stopwatch stopwatch, long ns, StopwatchSample sample) {
 		for (Callback callback : callbacks) {
@@ -117,9 +111,6 @@ public final class CompositeCallbackImpl implements CompositeCallback {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void onStopwatchAdd(Stopwatch stopwatch, Split split, StopwatchSample sample) {
 		for (Callback callback : callbacks) {
@@ -127,9 +118,6 @@ public final class CompositeCallbackImpl implements CompositeCallback {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void onStopwatchStart(Split split) {
 		for (Callback callback : callbacks) {
@@ -137,9 +125,6 @@ public final class CompositeCallbackImpl implements CompositeCallback {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void onStopwatchStop(Split split, StopwatchSample sample) {
 		for (Callback callback : callbacks) {
@@ -147,9 +132,6 @@ public final class CompositeCallbackImpl implements CompositeCallback {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void onCounterDecrease(Counter counter, long dec, CounterSample sample) {
 		for (Callback callback : callbacks) {
@@ -157,9 +139,6 @@ public final class CompositeCallbackImpl implements CompositeCallback {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void onCounterIncrease(Counter counter, long inc, CounterSample sample) {
 		for (Callback callback : callbacks) {
@@ -167,9 +146,6 @@ public final class CompositeCallbackImpl implements CompositeCallback {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void onCounterSet(Counter counter, long val, CounterSample sample) {
 		for (Callback callback : callbacks) {
@@ -177,9 +153,6 @@ public final class CompositeCallbackImpl implements CompositeCallback {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void onSimonCreated(Simon simon) {
 		for (Callback callback : callbacks) {
@@ -187,9 +160,6 @@ public final class CompositeCallbackImpl implements CompositeCallback {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void onSimonDestroyed(Simon simon) {
 		for (Callback callback : callbacks) {
@@ -197,9 +167,6 @@ public final class CompositeCallbackImpl implements CompositeCallback {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void onManagerClear() {
 		for (Callback callback : callbacks) {
@@ -207,10 +174,6 @@ public final class CompositeCallbackImpl implements CompositeCallback {
 		}
 	}
 
-
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void onManagerMessage(String message) {
 		for (Callback callback : callbacks) {
@@ -218,9 +181,6 @@ public final class CompositeCallbackImpl implements CompositeCallback {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void onManagerWarning(String warning, Exception cause) {
 		for (Callback callback : callbacks) {

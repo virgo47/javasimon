@@ -62,7 +62,7 @@ public final class SimonUtils {
 	/**
 	 * Regex character class content for {@link #NAME_PATTERN}.
 	 */
-	public static final String NAME_PATTERN_CHAR_CLASS_CONTENT = "-_\\[\\]A-Za-z0-9.,@$%()<>";
+	public static final String NAME_PATTERN_CHAR_CLASS_CONTENT = "-_\\[\\]A-Za-z0-9.,@$%)(<>";
 
 	/**
 	 * Regex pattern for Simon names.
@@ -93,10 +93,10 @@ public final class SimonUtils {
 	 *
 	 * @since 3.3
 	 */
-
 	public static final long INIT_NANOS;
+
 	/**
-	 * Value of {@link System#nanoTime()} at a particular time, when {@link #INIT_MILLIS} is initialized as well.
+	 * Value of {@link System#currentTimeMillis()} at a particular time, when {@link #INIT_NANOS} is initialized as well.
 	 * Used in {@link #millisForNano(long)}.
 	 *
 	 * @since 3.3

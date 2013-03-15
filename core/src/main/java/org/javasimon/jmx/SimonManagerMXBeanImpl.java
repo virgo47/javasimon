@@ -1,10 +1,10 @@
 package org.javasimon.jmx;
 
-import org.javasimon.*;
-import org.javasimon.utils.SimonUtils;
-
 import java.util.Arrays;
 import java.util.Collection;
+
+import org.javasimon.*;
+import org.javasimon.utils.SimonUtils;
 
 /**
  * Simon MXBean implementation. See {@link SimonManagerMXBean} for interface
@@ -29,55 +29,41 @@ public class SimonManagerMXBeanImpl implements SimonManagerMXBean {
 		this.manager = manager;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public final void enable() {
 		manager.enable();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public final void disable() {
 		manager.disable();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public final boolean isEnabled() {
 		return manager.isEnabled();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public final String[] getSimonNames() {
 		Collection<String> simonNames = manager.getSimonNames();
 		return simonNames.toArray(new String[simonNames.size()]);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public final String[] getSimonNamesOrdered() {
 		String[] simonNames = getSimonNames();
 		Arrays.sort(simonNames);
 		return simonNames;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public final String getType(String name) {
 		Simon s = manager.getSimon(name);
 		return s != null ? s instanceof Stopwatch ? SimonInfo.STOPWATCH : SimonInfo.COUNTER : null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public final SimonInfo[] getSimonInfos() {
 		String[] simonNames = getSimonNamesOrdered();
 		SimonInfo[] simonInfo = new SimonInfo[simonNames.length];
@@ -90,37 +76,27 @@ public class SimonManagerMXBeanImpl implements SimonManagerMXBean {
 		return simonInfo;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public final void clearManager() {
 		manager.clear();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public final void enableSimon(String name) {
 		manager.getSimon(name).setState(SimonState.ENABLED, false);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public final void disableSimon(String name) {
 		manager.getSimon(name).setState(SimonState.DISABLED, false);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public final void inheritState(String name) {
 		manager.getSimon(name).setState(SimonState.INHERIT, false);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public final CounterSample getCounterSample(String name) {
 		Simon s = manager.getSimon(name);
 		if (s != null && s instanceof Counter) {
@@ -129,9 +105,7 @@ public class SimonManagerMXBeanImpl implements SimonManagerMXBean {
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public final StopwatchSample getStopwatchSample(String name) {
 		Simon s = manager.getSimon(name);
 		if (s != null && s instanceof Stopwatch) {
@@ -140,9 +114,7 @@ public class SimonManagerMXBeanImpl implements SimonManagerMXBean {
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public final CounterSample getCounterSampleAndReset(String name) {
 		Simon s = manager.getSimon(name);
 		if (s != null && s instanceof Counter) {
@@ -151,9 +123,7 @@ public class SimonManagerMXBeanImpl implements SimonManagerMXBean {
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public final StopwatchSample getStopwatchSampleAndReset(String name) {
 		Simon s = manager.getSimon(name);
 		if (s != null && s instanceof Stopwatch) {
@@ -162,16 +132,12 @@ public class SimonManagerMXBeanImpl implements SimonManagerMXBean {
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public final void printSimonTree() {
 		System.out.println(SimonUtils.simonTreeString(manager.getRootSimon()));
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public final void reset(String name) {
 		manager.getSimon(name).reset();
 	}

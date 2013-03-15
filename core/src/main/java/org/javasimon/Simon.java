@@ -1,6 +1,5 @@
 package org.javasimon;
 
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -13,7 +12,7 @@ import java.util.List;
  * @see Counter for Simon counting some events
  * @see Stopwatch for Simon measuring time spans
  */
-public interface Simon {
+public interface Simon extends HasAttributes {
 	/**
 	 * Returns Simon name. Simon name is always fully qualified
 	 * and determines also position of the Simon in the monitor hierarchy.
@@ -128,37 +127,4 @@ public interface Simon {
 	 * @return sample containing all Simon values
 	 */
 	Sample sampleAndReset();
-
-	/**
-	 * Stores an attribute in this Simon. Attributes can be used to store any custom objects.
-	 *
-	 * @param name a String specifying the name of the attribute
-	 * @param value the Object to be stored
-	 */
-	void setAttribute(String name, Object value);
-
-	/**
-	 * Returns the value of the named attribute as an Object, or null if no attribute of
-	 * the given name exists.
-	 *
-	 * @param name a String specifying the name of the attribute
-	 * @return an Object containing the value of the attribute, or null if the attribute does not exist
-	 */
-	Object getAttribute(String name);
-
-	/**
-	 * Removes an attribute from this Simon.
-	 *
-	 * @param name a String specifying the name of the attribute to remove
-	 */
-	void removeAttribute(String name);
-
-	/**
-	 * Returns an Iterator containing the names of the attributes available to this Simon.
-	 * This method returns an empty Iterator if the Simon has no attributes available to it.
-	 *
-	 * @return an Iterator of strings containing the names of the Simon's attributes
-	 * @since 2.3
-	 */
-	Iterator<String> getAttributeNames();
 }

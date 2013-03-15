@@ -108,9 +108,7 @@ public interface Counter extends Simon {
 	 */
 	Counter set(long val);
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	Counter reset();
 
 	/**
@@ -129,15 +127,9 @@ public interface Counter extends Simon {
 	 */
 	long getDecrementSum();
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	CounterSample sample();
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	CounterSample sampleAndReset();
 }

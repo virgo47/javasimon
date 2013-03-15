@@ -39,57 +39,36 @@ public final class CompositeFilterCallback implements FilterCallback, CompositeC
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public List<Callback> callbacks() {
 		return callback.callbacks();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void addCallback(Callback callback) {
 		this.callback.addCallback(callback);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void removeCallback(Callback callback) {
 		this.callback.removeCallback(callback);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void removeAllCallbacks() {
 		this.callback.removeAllCallbacks();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void initialize() {
 		callback.initialize();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void cleanup() {
 		callback.cleanup();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void onSimonReset(Simon simon) {
 		if (rulesApplyTo(simon, Event.RESET)) {
@@ -97,9 +76,6 @@ public final class CompositeFilterCallback implements FilterCallback, CompositeC
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void onStopwatchAdd(Stopwatch stopwatch, long ns, StopwatchSample sample) {
 		if (rulesApplyTo(stopwatch, Event.STOPWATCH_ADD, ns)) {
@@ -107,9 +83,6 @@ public final class CompositeFilterCallback implements FilterCallback, CompositeC
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void onStopwatchAdd(Stopwatch stopwatch, Split split, StopwatchSample sample) {
 		if (rulesApplyTo(stopwatch, Event.STOPWATCH_ADD, split.runningFor())) {
@@ -117,9 +90,6 @@ public final class CompositeFilterCallback implements FilterCallback, CompositeC
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void onStopwatchStart(Split split) {
 		if (rulesApplyTo(split.getStopwatch(), Event.STOPWATCH_START, split)) {
@@ -127,9 +97,6 @@ public final class CompositeFilterCallback implements FilterCallback, CompositeC
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void onStopwatchStop(Split split, StopwatchSample sample) {
 		if (rulesApplyTo(split.getStopwatch(), Event.STOPWATCH_STOP, split)) {
@@ -137,9 +104,6 @@ public final class CompositeFilterCallback implements FilterCallback, CompositeC
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void onCounterDecrease(Counter counter, long dec, CounterSample sample) {
 		if (rulesApplyTo(counter, Event.COUNTER_DECREASE, dec)) {
@@ -147,9 +111,6 @@ public final class CompositeFilterCallback implements FilterCallback, CompositeC
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void onCounterIncrease(Counter counter, long inc, CounterSample sample) {
 		if (rulesApplyTo(counter, Event.COUNTER_INCREASE, inc)) {
@@ -157,9 +118,6 @@ public final class CompositeFilterCallback implements FilterCallback, CompositeC
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void onCounterSet(Counter counter, long val, CounterSample sample) {
 		if (rulesApplyTo(counter, Event.COUNTER_SET, val)) {
@@ -167,9 +125,6 @@ public final class CompositeFilterCallback implements FilterCallback, CompositeC
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void onSimonCreated(Simon simon) {
 		if (rulesApplyTo(simon, Event.CREATED)) {
@@ -177,9 +132,6 @@ public final class CompositeFilterCallback implements FilterCallback, CompositeC
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void onSimonDestroyed(Simon simon) {
 		if (rulesApplyTo(simon, Event.DESTROYED)) {
@@ -187,9 +139,6 @@ public final class CompositeFilterCallback implements FilterCallback, CompositeC
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void onManagerClear() {
 		if (rulesApplyTo(null, Event.MANAGER_CLEAR)) {
@@ -197,9 +146,6 @@ public final class CompositeFilterCallback implements FilterCallback, CompositeC
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void onManagerMessage(String message) {
 		if (rulesApplyTo(null, Event.MESSAGE, message)) {
@@ -207,9 +153,6 @@ public final class CompositeFilterCallback implements FilterCallback, CompositeC
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void onManagerWarning(String warning, Exception cause) {
 		if (rulesApplyTo(null, Event.WARNING, cause)) {
@@ -217,9 +160,6 @@ public final class CompositeFilterCallback implements FilterCallback, CompositeC
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void addRule(FilterRule.Type type, String condition, String pattern, Event... events) {
 		SimonPattern simonPattern = SimonPattern.create(pattern);

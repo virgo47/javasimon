@@ -1,5 +1,8 @@
 package org.javasimon;
 
+import java.util.Iterator;
+import java.util.Map;
+
 import org.javasimon.utils.SimonUtils;
 
 /**
@@ -13,12 +16,13 @@ import org.javasimon.utils.SimonUtils;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @see Stopwatch
  */
-public final class Split {
+public final class Split implements HasAttributes {
 	private volatile Stopwatch stopwatch;
 	private volatile long start;
 	private volatile long total;
 	private volatile boolean enabled;
 	private volatile boolean running;
+	private AttributesSupport attributesSupport = new AttributesSupport();
 
 	/**
 	 * Creates a new Split for direct use without {@link Stopwatch} ("anonymous split"). Stop will not update any Stopwatch,
@@ -151,6 +155,64 @@ public final class Split {
 	 */
 	public long getStart() {
 		return start;
+	}
+
+	/**
+	 * Stores an attribute in this Split. Attributes can be used to store any custom objects.
+	 *
+	 * @param name a String specifying the name of the attribute
+	 * @param value the Object to be stored
+	 * @since 2.3
+	 */
+	@Override
+	public void setAttribute(String name, Object value) {
+		attributesSupport.setAttribute(name, value);
+	}
+
+	/**
+	 * Returns the value of the named attribute as an Object, or null if no attribute of
+	 * the given name exists.
+	 *
+	 * @param name a String specifying the name of the attribute
+	 * @return an Object containing the value of the attribute, or null if the attribute does not exist
+	 * @since 2.3
+	 */
+	@Override
+	public Object getAttribute(String name) {
+		return attributesSupport.getAttribute(name);
+	}
+
+	/**
+	 * Removes an attribute from this Split.
+	 *
+	 * @param name a String specifying the name of the attribute to remove
+	 * @since 2.3
+	 */
+	@Override
+	public void removeAttribute(String name) {
+		attributesSupport.removeAttribute(name);
+	}
+
+	/**
+	 * Returns an Iterator containing the names of the attributes available to this Split.
+	 * This method returns an empty Iterator if the Split has no attributes available to it.
+	 *
+	 * @return an Iterator of strings containing the names of the Split's attributes
+	 * @since 2.3
+	 */
+	@Override
+	public Iterator<String> getAttributeNames() {
+		return attributesSupport.getAttributeNames();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @since 3.4
+	 */
+	@Override
+	public Map<String, Object> getCopyAsSortedMap() {
+		return attributesSupport.getCopyAsSortedMap();
 	}
 
 	/**

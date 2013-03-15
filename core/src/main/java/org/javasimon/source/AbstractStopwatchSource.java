@@ -23,9 +23,6 @@ public abstract class AbstractStopwatchSource<T> implements MonitorSource<T, Sto
 		this.manager = manager;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Manager getManager() {
 		return manager;

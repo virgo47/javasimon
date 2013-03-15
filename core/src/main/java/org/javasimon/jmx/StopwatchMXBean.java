@@ -149,15 +149,9 @@ public interface StopwatchMXBean extends SimonSuperMXBean {
 	 */
 	double getVarianceN();
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	StopwatchSample sample();
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	StopwatchSample sampleAndReset();
 }

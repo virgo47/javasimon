@@ -16,6 +16,7 @@ import java.io.Reader;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @since 2.4
  */
+@SuppressWarnings("deprecation")
 public final class SimonCallableStatement extends SimonPreparedStatement implements CallableStatement {
 	private CallableStatement stmt;
 

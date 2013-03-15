@@ -25,31 +25,19 @@ public final class DisabledManager implements Manager {
 		return NullSimon.INSTANCE;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void destroySimon(String name) {
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void clear() {
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public CompositeCallback callback() {
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public ManagerConfiguration configuration() {
 		return null;
@@ -88,17 +76,11 @@ public final class DisabledManager implements Manager {
 		return NullSimon.INSTANCE;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Collection<String> getSimonNames() {
 		return Collections.emptyList();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Collection<Simon> getSimons(SimonPattern pattern) {
 		return Collections.emptyList();

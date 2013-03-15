@@ -17,81 +17,51 @@ public final class SwitchingManager implements Manager {
 
 	private Manager manager = enabled;
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Simon getRootSimon() {
 		return manager.getRootSimon();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Simon getSimon(String name) {
 		return manager.getSimon(name);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Counter getCounter(String name) {
 		return manager.getCounter(name);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Stopwatch getStopwatch(String name) {
 		return manager.getStopwatch(name);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Collection<String> getSimonNames() {
 		return manager.getSimonNames();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Collection<Simon> getSimons(SimonPattern pattern) {
 		return manager.getSimons(pattern);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void destroySimon(String name) {
 		manager.destroySimon(name);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void clear() {
 		manager.clear();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public CompositeCallback callback() {
 		return manager.callback();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public ManagerConfiguration configuration() {
 		return manager.configuration();
@@ -123,17 +93,11 @@ public final class SwitchingManager implements Manager {
 		return manager == enabled;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void message(String message) {
 		manager.message(message);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void warning(String warning, Exception cause) {
 		manager.warning(warning, cause);
