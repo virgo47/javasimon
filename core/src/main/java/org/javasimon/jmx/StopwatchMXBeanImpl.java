@@ -28,161 +28,101 @@ public class StopwatchMXBeanImpl extends AbstractSimonMXBeanImpl implements Stop
 		this.stopwatch = stopwatch;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final void addTime(long ns) {
 		stopwatch.addTime(ns);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getTotal() {
 		return stopwatch.getTotal();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final long getLast() {
 		return stopwatch.getLast();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final String getLastAsString() {
 		return SimonUtils.presentNanoTime(getLast());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getCounter() {
 		return stopwatch.getCounter();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getMax() {
 		return stopwatch.getMax();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getMin() {
 		return stopwatch.getMin();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getMaxTimestamp() {
 		return stopwatch.getMaxTimestamp();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getMinTimestamp() {
 		return stopwatch.getMinTimestamp();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getActive() {
 		return stopwatch.getActive();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getMaxActive() {
 		return stopwatch.getMaxActive();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getMaxActiveTimestamp() {
 		return stopwatch.getMaxActiveTimestamp();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public double getMean() {
 		return stopwatch.getMean();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public double getStandardDeviation() {
 		return stopwatch.getStandardDeviation();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public double getVariance() {
 		return stopwatch.getVariance();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public double getVarianceN() {
 		return stopwatch.getVarianceN();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final StopwatchSample sample() {
 		return new StopwatchSample(stopwatch.sample());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final StopwatchSample sampleAndReset() {
 		return new StopwatchSample(stopwatch.sampleAndReset());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final String getType() {
 		return SimonInfo.STOPWATCH;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected final Simon simon() {
 		return stopwatch;

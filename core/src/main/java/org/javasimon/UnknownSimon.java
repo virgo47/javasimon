@@ -17,16 +17,12 @@ final class UnknownSimon extends AbstractSimon {
 		super(name, manager);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public Simon reset() {
 		return this;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public synchronized Sample sample() {
 		UnknownSample sample = new UnknownSample();
 		sampleCommon(sample);
@@ -34,9 +30,7 @@ final class UnknownSimon extends AbstractSimon {
 
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public synchronized Sample sampleAndReset() {
 		// reset is not needed
 		return sample();

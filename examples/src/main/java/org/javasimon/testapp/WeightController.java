@@ -1,9 +1,11 @@
 package org.javasimon.testapp;
 
+import java.util.Map;
+import java.util.Random;
+import java.util.TreeMap;
+
 import org.javasimon.testapp.test.Action;
 import org.javasimon.testapp.test.Controller;
-
-import java.util.*;
 
 /**
  * Class WeightController.
@@ -15,7 +17,7 @@ public class WeightController implements Controller {
 
 	private final Random random = new Random();
 
-	private SortedMap<Integer, Action> actions = new TreeMap<Integer, Action>();
+	private Map<Integer, Action> actions = new TreeMap<Integer, Action>();
 
 	public WeightController() {
 	}
@@ -27,7 +29,7 @@ public class WeightController implements Controller {
 				last = x;
 			}
 		}
-		actions.put(last+weight, action);
+		actions.put(last + weight, action);
 	}
 
 	public Action next() {

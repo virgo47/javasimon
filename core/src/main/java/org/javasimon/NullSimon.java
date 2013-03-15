@@ -1,8 +1,6 @@
 package org.javasimon;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Null Simon implements Simon returned by the disabled {@link Manager#getSimon(String)}
@@ -24,79 +22,51 @@ class NullSimon implements Simon {
 	NullSimon() {
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Simon getParent() {
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final List<Simon> getChildren() {
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getName() {
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public SimonState getState() {
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setState(SimonState state, boolean overrule) {
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isEnabled() {
 		return false;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public NullSimon reset() {
 		return this;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getLastReset() {
 		return 0;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public long getFirstUsage() {
 		return 0;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public long getLastUsage() {
 		return 0;
 	}
@@ -118,16 +88,12 @@ class NullSimon implements Simon {
 	public void setNote(String note) {
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public Sample sample() {
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public Sample sampleAndReset() {
 		return null;
 	}
@@ -169,6 +135,16 @@ class NullSimon implements Simon {
 	}
 
 	/**
+	 * Returns empty set.
+	 *
+	 * @return empty set
+	 */
+	@Override
+	public Map<String, Object> getCopyAsSortedMap() {
+		return Collections.emptyMap();
+	}
+
+	/**
 	 * Returns string {@code Null Simon}.
 	 *
 	 * @return string {@code Null Simon}
@@ -197,113 +173,71 @@ final class NullStopwatch extends NullSimon implements Stopwatch {
 	private NullStopwatch() {
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public NullStopwatch reset() {
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getCounter() {
 		return 0;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getMin() {
 		return 0;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getMax() {
 		return 0;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getMaxTimestamp() {
 		return 0;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getMinTimestamp() {
 		return 0;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Stopwatch addTime(long ns) {
 		return this;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Stopwatch addSplit(Split split) {
 		return this;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Split start() {
 		return DISABLED_SPLIT;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getTotal() {
 		return 0;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getLast() {
 		return 0;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getActive() {
 		return 0;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getMaxActive() {
 		return 0;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getMaxActiveTimestamp() {
 		return 0;
@@ -349,17 +283,11 @@ final class NullStopwatch extends NullSimon implements Stopwatch {
 		return 0;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public StopwatchSample sample() {
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public StopwatchSample sampleAndReset() {
 		return null;
@@ -382,120 +310,77 @@ final class NullCounter extends NullSimon implements Counter {
 	private NullCounter() {
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public NullCounter reset() {
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Counter set(long val) {
 		return this;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Counter increase() {
 		return this;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Counter decrease() {
 		return this;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Counter increase(long inc) {
 		return this;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Counter decrease(long dec) {
 		return this;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getCounter() {
 		return 0;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getMin() {
 		return 0;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getMax() {
 		return 0;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getMaxTimestamp() {
 		return 0;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getMinTimestamp() {
 		return 0;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getIncrementSum() {
 		return 0;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getDecrementSum() {
 		return 0;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public CounterSample sample() {
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public CounterSample sampleAndReset() {
 		return null;
 	}

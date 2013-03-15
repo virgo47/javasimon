@@ -196,15 +196,9 @@ someStopwatch.addSplit(split.stop()); // you may omit stop(), if you does not us
 	 */
 	double getVarianceN();
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	StopwatchSample sample();
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	StopwatchSample sampleAndReset();
 }

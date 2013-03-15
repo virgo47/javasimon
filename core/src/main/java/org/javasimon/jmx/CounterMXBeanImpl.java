@@ -27,129 +27,81 @@ public class CounterMXBeanImpl extends AbstractSimonMXBeanImpl implements Counte
 		this.counter = counter;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final void increase() {
 		counter.increase();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final void decrease() {
 		counter.decrease();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final void increase(long inc) {
 		counter.increase(inc);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final void decrease(long dec) {
 		counter.decrease(dec);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getMaxTimestamp() {
 		return counter.getMaxTimestamp();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getMax() {
 		return counter.getMax();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getMinTimestamp() {
 		return counter.getMinTimestamp();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getMin() {
 		return counter.getMin();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getCounter() {
 		return counter.getCounter();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final void set(long val) {
 		counter.set(val);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getIncrementSum() {
 		return counter.getIncrementSum();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getDecrementSum() {
 		return counter.getDecrementSum();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final CounterSample sample() {
 		return new CounterSample(counter.sample());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final CounterSample sampleAndReset() {
 		return new CounterSample(counter.sampleAndReset());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final String getType() {
 		return SimonInfo.COUNTER;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected final Simon simon() {
 		return counter;

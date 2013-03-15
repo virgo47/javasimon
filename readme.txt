@@ -2,7 +2,7 @@
 
 = Java Simon - Simple Monitors for Java =
 
-Version: 3.3.0
+Version: 3.4.0
 
 This software is distributed under the terms of the The BSD 3-Clause License:
   * check "license.txt" in the root directory of the project

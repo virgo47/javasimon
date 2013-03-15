@@ -10,25 +10,15 @@ import org.javasimon.utils.SimonUtils;
  */
 final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	private long total;
-
 	private long counter;
-
 	private long active;
-
 	private long max;
-
 	private long maxTimestamp;
-
 	private long maxActive;
-
 	private long maxActiveTimestamp;
-
 	private long min = Long.MAX_VALUE;
-
 	private long minTimestamp;
-
 	private long last;
-
 	private double mean; // used to calculate statistics
 	private double mean2; // used to calculate statistics
 
@@ -42,9 +32,6 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		super(name, manager);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Stopwatch addTime(long ns) {
 		StopwatchSample sample = null;
@@ -62,9 +49,6 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		return this;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Stopwatch addSplit(Split split) {
 		if (!enabled) {
@@ -85,9 +69,6 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		return this;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Split start() {
 		if (!enabled) {
@@ -135,9 +116,6 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public synchronized Stopwatch reset() {
 		total = 0;
@@ -175,17 +153,11 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		return split;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public synchronized double getMean() {
 		return mean;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public synchronized double getVarianceN() {
 		if (counter == 0) {
@@ -194,9 +166,6 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		return mean2 / counter;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public synchronized double getVariance() {
 		if (counter == 0) {
@@ -209,97 +178,61 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		return mean2 / countMinusOne;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public synchronized double getStandardDeviation() {
 		return Math.sqrt(getVarianceN());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public synchronized long getTotal() {
 		return total;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public synchronized long getLast() {
 		return last;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public synchronized long getCounter() {
 		return counter;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public synchronized long getMax() {
 		return max;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public synchronized long getMin() {
 		return min;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public synchronized long getMaxTimestamp() {
 		return maxTimestamp;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public synchronized long getMinTimestamp() {
 		return minTimestamp;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public synchronized long getActive() {
 		return active;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public synchronized long getMaxActive() {
 		return maxActive;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public synchronized long getMaxActiveTimestamp() {
 		return maxActiveTimestamp;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public synchronized StopwatchSample sampleAndReset() {
 		StopwatchSample sample = sample();
@@ -307,9 +240,6 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		return sample;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public synchronized StopwatchSample sample() {
 		StopwatchSample sample = new StopwatchSample();

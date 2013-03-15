@@ -128,9 +128,6 @@ public final class SimonPattern {
 		return end == null || name.endsWith(end);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) {
@@ -145,17 +142,11 @@ public final class SimonPattern {
 		return !(pattern != null ? !pattern.equals(that.pattern) : that.pattern != null);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int hashCode() {
 		return (pattern != null ? pattern.hashCode() : 0);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		return "ConfigPattern: " + pattern;

@@ -48,9 +48,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		super(name, manager);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public Counter set(long val) {
 		if (!enabled) {
 			return this;
@@ -82,9 +80,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public Counter increase() {
 		if (!enabled) {
 			return this;
@@ -108,9 +104,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		return this;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public Counter decrease() {
 		if (!enabled) {
 			return this;
@@ -146,9 +140,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public Counter increase(long inc) {
 		if (!enabled) {
 			return this;
@@ -165,9 +157,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		return this;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public synchronized Counter decrease(long dec) {
 		if (!enabled) {
 			return this;
@@ -184,9 +174,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		return this;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public synchronized Counter reset() {
 		counter = 0;
 		max = Long.MIN_VALUE;
@@ -199,18 +187,14 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		return this;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public synchronized CounterSample sampleAndReset() {
 		CounterSample sample = sample();
 		reset();
 		return sample;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public synchronized CounterSample sample() {
 		CounterSample sample = new CounterSample();
 		sample.setCounter(counter);
@@ -224,51 +208,37 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		return sample;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public synchronized long getCounter() {
 		return counter;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public synchronized long getMin() {
 		return min;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public synchronized long getMinTimestamp() {
 		return minTimestamp;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public synchronized long getMax() {
 		return max;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public synchronized long getMaxTimestamp() {
 		return maxTimestamp;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public synchronized long getIncrementSum() {
 		return incrementSum;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public synchronized long getDecrementSum() {
 		return decrementSum;
 	}

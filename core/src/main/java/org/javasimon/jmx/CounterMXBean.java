@@ -111,15 +111,9 @@ public interface CounterMXBean extends SimonSuperMXBean {
 	 */
 	long getDecrementSum();
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	CounterSample sample();
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	CounterSample sampleAndReset();
 }

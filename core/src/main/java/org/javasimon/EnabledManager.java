@@ -37,17 +37,11 @@ public final class EnabledManager implements Manager {
 		callback.initialize();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Simon getSimon(String name) {
 		return allSimons.get(name);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public synchronized void destroySimon(String name) {
 		if (name.equals(ROOT_SIMON_NAME)) {
@@ -62,9 +56,6 @@ public final class EnabledManager implements Manager {
 		callback.onSimonDestroyed(simon);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public synchronized void clear() {
 		allSimons.clear();
@@ -73,41 +64,26 @@ public final class EnabledManager implements Manager {
 		callback.onManagerClear();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Counter getCounter(String name) {
 		return (Counter) getOrCreateSimon(name, CounterImpl.class);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Stopwatch getStopwatch(String name) {
 		return (Stopwatch) getOrCreateSimon(name, StopwatchImpl.class);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Simon getRootSimon() {
 		return rootSimon;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Collection<String> getSimonNames() {
 		return Collections.unmodifiableCollection(allSimons.keySet());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@SuppressWarnings({"unchecked"})
 	@Override
 	public Collection<Simon> getSimons(SimonPattern pattern) {
@@ -223,17 +199,11 @@ public final class EnabledManager implements Manager {
 		parent.addChild(simon);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public CompositeCallback callback() {
 		return callback;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public ManagerConfiguration configuration() {
 		return configuration;
@@ -265,17 +235,11 @@ public final class EnabledManager implements Manager {
 		return true;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void message(String message) {
 		callback.onManagerMessage(message);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void warning(String warning, Exception cause) {
 		callback.onManagerWarning(warning, cause);

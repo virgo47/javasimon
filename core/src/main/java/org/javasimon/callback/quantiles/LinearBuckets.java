@@ -58,32 +58,35 @@ package org.javasimon.callback.quantiles;
  * <li>Third quartile (9th sample) is in bucket #3</li>
  * <li>90% percentile (10,8th sample) is in bucket #4 or #5 (but assume #4).</li>
  * </ul>
+ *
  * @author Gérald Quintana
  * @author Alexej Vlasov
  */
 public class LinearBuckets extends Buckets {
-    /**
-     * Constructor
-     * @param min Duration min (lower bound of all buckets)
-     * @param max Duration max (upper bound of all buckets)
-     * @param bucketNb Number of buckets between min and max
-     */
+	/**
+	 * Constructor
+	 *
+	 * @param min Duration min (lower bound of all buckets)
+	 * @param max Duration max (upper bound of all buckets)
+	 * @param bucketNb Number of buckets between min and max
+	 */
 	public LinearBuckets(long min, long max, int bucketNb) {
 		super(min, max, bucketNb);
-        long width = (max - min) / bucketNb;
-        long currentMin, currentMax=min;
-        for (int i = 1; i <= bucketNb; i++) {
-            currentMin = currentMax;
-            currentMax = currentMin + width;
-            buckets[i] = new Bucket(currentMin, currentMax);
-        }
-    }
+		long width = (max - min) / bucketNb;
+		long currentMin, currentMax = min;
+		for (int i = 1; i <= bucketNb; i++) {
+			currentMin = currentMax;
+			currentMax = currentMin + width;
+			buckets[i] = new Bucket(currentMin, currentMax);
+		}
+	}
 
-    /**
-     * {@inheritDoc}
-     * Override the base method making it generally faster thanks to linear regression.
-     */
-    protected Bucket getBucketForValue(long value) {
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * Override the base method making it generally faster thanks to linear regression.
+	 */
+	protected Bucket getBucketForValue(long value) {
 		Bucket bucket;
 		if (value < min) {
 			bucket = buckets[0];
@@ -95,7 +98,7 @@ public class LinearBuckets extends Buckets {
 				int bucketIndex = 1 + (int) ((value - min) * (bucketNb - 1) / (max - min));
 				bucket = buckets[bucketIndex];
 				// As the division above was round at floor, bucket may be the next one
-				if (value>bucket.getMax()) {
+				if (value > bucket.getMax()) {
 					bucketIndex++;
 					bucket = buckets[bucketIndex];
 				}
