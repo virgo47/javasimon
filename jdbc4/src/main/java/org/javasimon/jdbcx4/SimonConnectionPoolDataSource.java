@@ -2,7 +2,6 @@ package org.javasimon.jdbcx4;
 
 import javax.sql.ConnectionPoolDataSource;
 import javax.sql.PooledConnection;
-import java.lang.reflect.Method;
 import java.sql.SQLException;
 
 /**
@@ -20,35 +19,7 @@ public final class SimonConnectionPoolDataSource extends AbstractSimonDataSource
 
 	private ConnectionPoolDataSource datasource() throws SQLException {
 		if (ds == null) {
-			if (realDataSourceClassName == null || realDataSourceClassName.length() == 0) {
-				throw new SQLException("Property realDataSourceClassName is not set");
-			}
-			Object o;
-			try {
-				o = Class.forName(realDataSourceClassName).newInstance();
-			} catch (Exception e) {
-				throw new SQLException(e);
-			}
-			if (o instanceof ConnectionPoolDataSource) {
-				ds = (ConnectionPoolDataSource) o;
-				try {
-					for (Method m : ds.getClass().getMethods()) {
-						String methodName = m.getName();
-						if (methodName.equalsIgnoreCase("setUser")) {
-							m.invoke(ds, user);
-						} else if (methodName.equalsIgnoreCase("setPassword")) {
-							m.invoke(ds, password);
-						} else if (methodName.equalsIgnoreCase("setUrl")) {
-							m.invoke(ds, url);
-						}
-					}
-				} catch (Exception e) {
-					throw new SQLException(e);
-				}
-				ds.setLoginTimeout(loginTimeout);
-			} else {
-				throw new SQLException("Class in realDataSourceClassName is not a ConnectionPoolDataSource");
-			}
+			ds = createDataSource(ConnectionPoolDataSource.class);
 		}
 		return ds;
 	}
@@ -58,7 +29,7 @@ public final class SimonConnectionPoolDataSource extends AbstractSimonDataSource
 	 */
 	@Override
 	public PooledConnection getPooledConnection() throws SQLException {
-		return new SimonPooledConnection(datasource().getPooledConnection(), prefix);
+		return new SimonPooledConnection(datasource().getPooledConnection(), getPrefix());
 	}
 
 	/**
@@ -66,6 +37,11 @@ public final class SimonConnectionPoolDataSource extends AbstractSimonDataSource
 	 */
 	@Override
 	public PooledConnection getPooledConnection(String user, String password) throws SQLException {
-		return new SimonPooledConnection(datasource().getPooledConnection(user, password), prefix);
+		return new SimonPooledConnection(datasource().getPooledConnection(user, password), getPrefix());
+	}
+
+	@Override
+	protected String doGetRealDataSourceClassName() {
+		return configuration.getRealConnectionPoolDataSourceName();
 	}
 }
