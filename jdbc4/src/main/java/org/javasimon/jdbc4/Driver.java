@@ -7,9 +7,6 @@ import java.sql.DriverManager;
 import java.sql.DriverPropertyInfo;
 import java.sql.SQLException;
 import java.util.Properties;
-import java.util.StringTokenizer;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Simon JDBC4 Proxy Driver.
@@ -71,22 +68,6 @@ import java.util.regex.Pattern;
  * @since 2.4
  */
 public final class Driver implements java.sql.Driver {
-	/**
-	 * Name for the property holding the real driver class value.
-	 */
-	public static final String REAL_DRIVER = "simon_real_drv";
-
-	/**
-	 * Default hierarchy prefix for Simon JDBC driver. All Simons created by Simon JDBC
-	 * driver without explicitly specified prefix are started with default prefix.
-	 */
-	public static final String DEFAULT_PREFIX = "org.javasimon.jdbc";
-
-	/**
-	 * Name for the driver property holding the hierarchy prefix given to JDBC Simons.
-	 */
-	public static final String PREFIX = "simon_prefix";
-
 	static {
 		try {
 			DriverManager.registerDriver(new Driver());
@@ -96,26 +77,10 @@ public final class Driver implements java.sql.Driver {
 		}
 	}
 
-	private final Properties drivers = new Properties();
-
 	/**
 	 * Class constructor. It loads well known driver list from resource file drivers.properties.
 	 */
 	public Driver() {
-		try {
-			InputStream stream = null;
-			try {
-				// TODO: limited to known drivers, better find driver later based on JDBC URL without "simon" word
-				stream = Thread.currentThread().getContextClassLoader().getResourceAsStream("org/javasimon/jdbc4/drivers.properties");
-				drivers.load(stream);
-			} finally {
-				if (stream != null) {
-					stream.close();
-				}
-			}
-		} catch (IOException e) {
-			// log somewhere
-		}
 	}
 
 	/**
@@ -133,7 +98,7 @@ public final class Driver implements java.sql.Driver {
 			return null;
 		}
 
-		Url url = new Url(simonUrl);
+		SimonConnectionConfiguration url = new SimonConnectionConfiguration(simonUrl);
 		java.sql.Driver driver = getRealDriver(url, info);
 
 		return new SimonConnection(driver.connect(url.getRealUrl(), info), url.getPrefix());
@@ -143,30 +108,30 @@ public final class Driver implements java.sql.Driver {
 	 * Tries to determine driver class, instantiate it and register if already not registered.
 	 * For more detail look at {@link org.javasimon.jdbc4.Driver} class javadoc.
 	 *
-	 * @param url instance of url object that represents url
+	 * @param configuration instance of url object that represents url
 	 * @param info parameters from {@link #connect(String, java.util.Properties)} method
 	 * @return instance of real driver
 	 * @throws java.sql.SQLException if real driver can't be determined or is not registerd
 	 */
-	private java.sql.Driver getRealDriver(Url url, Properties info) throws SQLException {
+	private java.sql.Driver getRealDriver(SimonConnectionConfiguration configuration, Properties info) throws SQLException {
 		java.sql.Driver drv = null;
 		try {
-			drv = DriverManager.getDriver(url.getRealUrl());
+			drv = DriverManager.getDriver(configuration.getRealUrl());
 		} catch (SQLException e) {
 			// nothing, not an error
 		}
 
-		if (drv == null && info != null && info.keySet().contains(REAL_DRIVER)) {
-			drv = registerDriver(info.getProperty(REAL_DRIVER));
+		if (drv == null && info != null && info.keySet().contains(SimonConnectionConfiguration.REAL_DRIVER)) {
+			drv = registerDriver(info.getProperty(SimonConnectionConfiguration.REAL_DRIVER));
 		}
 
-		if (drv == null && url.getDriverId() != null) {
-			drv = registerDriver(drivers.getProperty(url.getDriverId()));
+		if (drv == null && configuration.getRealDriver() != null) {
+			drv = registerDriver(configuration.getRealDriver());
 		}
 
 		if (drv == null) {
-			if (url.getRealDriver() != null) {
-				drv = registerDriver(url.getRealDriver());
+			if (configuration.getRealDriver() != null) {
+				drv = registerDriver(configuration.getRealDriver());
 			}
 		}
 
@@ -200,7 +165,7 @@ public final class Driver implements java.sql.Driver {
 	 */
 	@Override
 	public boolean acceptsURL(String url) throws SQLException {
-		return url != null && url.toLowerCase().startsWith(Url.SIMON_JDBC);
+		return SimonConnectionConfiguration.isSimonUrl(url);
 	}
 
 	/**
@@ -235,88 +200,4 @@ public final class Driver implements java.sql.Driver {
 		return true;
 	}
 
-	/**
-	 * Class Url represents Simon JDBC url. It parses given url and than provides getters for
-	 * driver's propreties if provided or default values.
-	 *
-	 * @author Radovan Sninsky
-	 * @since 2.4
-	 */
-	static class Url {
-
-		private static final String SIMON_JDBC = "jdbc:simon";
-
-		private static final Pattern DRIVER_FROM_URL_PATTERN = Pattern.compile(SIMON_JDBC + ":(.*):.*");
-
-		private String realUrl;
-		private String driverId;
-		private String realDriver;
-		private String prefix;
-
-		/**
-		 * Class constructor, parses given URL and recognizes driver's properties.
-		 *
-		 * @param url given JDBC URL
-		 */
-		Url(String url) {
-			Matcher m = DRIVER_FROM_URL_PATTERN.matcher(url);
-			if (m.matches()) {
-				driverId = m.group(1);
-			}
-
-			StringTokenizer st = new StringTokenizer(url, ";");
-			while (st.hasMoreTokens()) {
-				String tokenPairStr = st.nextToken().trim();
-				String[] tokenPair = tokenPairStr.split("=", 2);
-				String token = tokenPair[0];
-				String tokenValue = tokenPair.length == 2 ? tokenPair[1].trim() : null;
-
-				if (tokenPairStr.startsWith("jdbc")) {
-					realUrl = tokenPairStr.replaceFirst(SIMON_JDBC, "jdbc");
-				} else if (token.equalsIgnoreCase(REAL_DRIVER)) {
-					realDriver = tokenValue;
-				} else if (token.equalsIgnoreCase(PREFIX)) {
-					prefix = tokenValue;
-				} else {
-					realUrl += ";" + tokenPairStr;
-				}
-			}
-		}
-
-		/**
-		 * Returns orignal JDBC URL without any Simon stuff.
-		 *
-		 * @return original JDBC URL
-		 */
-		public String getRealUrl() {
-			return realUrl;
-		}
-
-		/**
-		 * Returns driver identifier (eg. oracle, postgres, mysql, h2, etc.).
-		 *
-		 * @return driver identifier
-		 */
-		public String getDriverId() {
-			return driverId;
-		}
-
-		/**
-		 * Returns fully qualified class name of the real driver.
-		 *
-		 * @return driver class FQN
-		 */
-		public String getRealDriver() {
-			return realDriver;
-		}
-
-		/**
-		 * Returns prefix for hierarchy of JDBC related Simons.
-		 *
-		 * @return prefix for JDBC Simons
-		 */
-		public String getPrefix() {
-			return prefix == null ? DEFAULT_PREFIX : prefix;
-		}
-	}
 }

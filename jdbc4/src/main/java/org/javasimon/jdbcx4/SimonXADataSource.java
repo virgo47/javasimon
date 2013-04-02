@@ -20,35 +20,7 @@ public final class SimonXADataSource extends AbstractSimonDataSource implements 
 
 	private XADataSource datasource() throws SQLException {
 		if (ds == null) {
-			if (realDataSourceClassName == null || realDataSourceClassName.length() == 0) {
-				throw new SQLException("Property realDataSourceClassName is not set");
-			}
-			Object o;
-			try {
-				o = Class.forName(realDataSourceClassName).newInstance();
-			} catch (Exception e) {
-				throw new SQLException(e);
-			}
-			if (o instanceof XADataSource) {
-				ds = (XADataSource) o;
-				try {
-					for (Method m : ds.getClass().getMethods()) {
-						String methodName = m.getName();
-						if (methodName.equalsIgnoreCase("setUser")) {
-							m.invoke(ds, user);
-						} else if (methodName.equalsIgnoreCase("setPassword")) {
-							m.invoke(ds, password);
-						} else if (methodName.equalsIgnoreCase("setUrl")) {
-							m.invoke(ds, url);
-						}
-					}
-				} catch (Exception e) {
-					throw new SQLException(e);
-				}
-				ds.setLoginTimeout(loginTimeout);
-			} else {
-				throw new SQLException("Class in realDataSourceClassName is not a XADataSource");
-			}
+			ds = createDataSource(XADataSource.class);
 		}
 		return ds;
 	}
@@ -67,5 +39,10 @@ public final class SimonXADataSource extends AbstractSimonDataSource implements 
 	@Override
 	public XAConnection getXAConnection(String user, String password) throws SQLException {
 		return new SimonXAConnection(datasource().getXAConnection(user, password), prefix);
+	}
+
+	@Override
+	protected String doGetRealDataSourceClassName() {
+		return this.configuration.getRealXADataSourceName();
 	}
 }

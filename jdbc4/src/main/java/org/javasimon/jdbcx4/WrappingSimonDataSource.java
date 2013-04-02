@@ -82,4 +82,9 @@ public class WrappingSimonDataSource extends AbstractSimonDataSource implements 
 	public boolean isWrapperFor(Class<?> iface) throws SQLException {
 		return wrapperSupport.isWrapperFor(iface);
 	}
+
+	@Override
+	protected String doGetRealDataSourceClassName() {
+		return this.configuration.getRealDataSourceName();
+	}
 }

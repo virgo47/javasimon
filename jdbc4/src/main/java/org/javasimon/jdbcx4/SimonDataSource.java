@@ -45,37 +45,9 @@ public final class SimonDataSource extends AbstractSimonDataSource implements Da
 
 	private DataSource datasource() throws SQLException {
 		if (ds == null) {
-			if (realDataSourceClassName == null || realDataSourceClassName.length() == 0) {
-				throw new SQLException("Property realDataSourceClassName is not set");
-			}
-			Object o;
-			try {
-				o = Class.forName(realDataSourceClassName).newInstance();
-			} catch (Exception e) {
-				throw new SQLException(e);
-			}
-			if (o instanceof DataSource) {
-				ds = (DataSource) o;
-				try {
-					for (Method m : ds.getClass().getMethods()) {
-						String methodName = m.getName();
-						if (methodName.equalsIgnoreCase("setUser")) {
-							m.invoke(ds, user);
-						} else if (methodName.equalsIgnoreCase("setPassword")) {
-							m.invoke(ds, password);
-						} else if (methodName.equalsIgnoreCase("setUrl")) {
-							m.invoke(ds, url);
-						}
-					}
-				} catch (Exception e) {
-					throw new SQLException(e);
-				}
-				ds.setLogWriter(logWriter);
-				ds.setLoginTimeout(loginTimeout);
-				wrapperSupport = new WrapperSupport<DataSource>(ds, DataSource.class);
-			} else {
-				throw new SQLException("Class in realDataSourceClassName is not a DataSource");
-			}
+			ds = createDataSource(DataSource.class);
+			ds.setLogWriter(logWriter);
+			wrapperSupport = new WrapperSupport<DataSource>(ds, DataSource.class);
 		}
 		return ds;
 	}
@@ -118,5 +90,10 @@ public final class SimonDataSource extends AbstractSimonDataSource implements Da
 	@Override
 	public boolean isWrapperFor(Class<?> iface) throws SQLException {
 		return wrapperSupport.isWrapperFor(iface);
+	}
+
+	@Override
+	protected String doGetRealDataSourceClassName() {
+		return this.configuration.getRealDataSourceName();
 	}
 }

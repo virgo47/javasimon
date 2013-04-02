@@ -1,6 +1,9 @@
 package org.javasimon.jdbcx4;
 
+import org.javasimon.jdbc4.SimonConnectionConfiguration;
+
 import java.io.PrintWriter;
+import java.lang.reflect.Method;
 import java.sql.SQLException;
 
 /**
@@ -15,14 +18,13 @@ import java.sql.SQLException;
  */
 public abstract class AbstractSimonDataSource {
 	protected transient PrintWriter logWriter;
-
-	protected String url;
+	protected SimonConnectionConfiguration configuration;
 	protected String user;
 	protected String password;
 	protected int loginTimeout;
 
 	protected String realDataSourceClassName;
-	protected String prefix = "org.javasimon.jdbcx4";
+	protected String prefix;
 
 	/**
 	 * Retrieves the log writer for this <code>DataSource</code> object.
@@ -54,7 +56,7 @@ public abstract class AbstractSimonDataSource {
 	 * @return JDBC connection URL
 	 */
 	public final String getUrl() {
-		return url;
+		return configuration==null?null:configuration.getSimonUrl();
 	}
 
 	/**
@@ -63,9 +65,16 @@ public abstract class AbstractSimonDataSource {
 	 * @param url JDBC connection URL
 	 */
 	public final void setUrl(String url) {
-		this.url = url;
+		this.configuration = new SimonConnectionConfiguration(url);
 	}
 
+	/**
+	 * Get real JDBC URL
+	 * @return
+	 */
+	public final String getRealUrl() {
+		return configuration==null?null:configuration.getRealUrl();
+	}
 	/**
 	 * Returns database user to autenticate connection.
 	 *
@@ -140,6 +149,9 @@ public abstract class AbstractSimonDataSource {
 	 * @return real datasource class name
 	 */
 	public final String getRealDataSourceClassName() {
+		if ((realDataSourceClassName == null || realDataSourceClassName.isEmpty())&&(configuration!=null)) {
+			realDataSourceClassName=doGetRealDataSourceClassName();
+		}
 		return realDataSourceClassName;
 	}
 
@@ -153,11 +165,54 @@ public abstract class AbstractSimonDataSource {
 	}
 
 	/**
+	 * Instantiate DataSource
+	 * @param dataSourceClass Expected DataSource class
+	 * @param <T> DataSource type
+	 * @return Create DataSource
+	 * @throws SQLException
+	 */
+	protected final <T> T createDataSource(Class<T> dataSourceClass) throws SQLException {
+		if (getRealDataSourceClassName()==null) {
+			throw new SQLException("Property realDataSourceClassName is not set");
+		}
+		try {
+			T ds= dataSourceClass.cast(Class.forName(realDataSourceClassName).newInstance());
+			for (Method m : ds.getClass().getMethods()) {
+				String methodName = m.getName();
+				if (methodName.startsWith("set")) {
+					if (methodName.equals("setUser")) {
+						m.invoke(ds, getUser());
+					} else if (methodName.equals("setPassword")) {
+						m.invoke(ds, getPassword());
+					} else if (methodName.equalsIgnoreCase("setUrl")) {
+						m.invoke(ds, getRealUrl());
+					} else if (methodName.equals("setLoginTimeout")) {
+						m.invoke(ds, getLoginTimeout());
+					}
+					// TODO Forward driver specific properties
+				}
+			}
+			return ds;
+
+		} catch (Exception e) {
+			throw new SQLException(e);
+		}
+	}
+
+	/**
+	 * Read DataSource class name from configuration
+	 */
+	protected abstract String doGetRealDataSourceClassName();
+
+	/**
 	 * Returns Simon prefix for constructing names of Simons.
 	 *
 	 * @return Simon prefix
 	 */
 	public final String getPrefix() {
+		if ((prefix==null || prefix.isEmpty())&&(configuration!=null)) {
+			prefix=configuration.getPrefix();
+		}
 		return prefix;
 	}
 
