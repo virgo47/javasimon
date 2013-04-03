@@ -268,267 +268,168 @@ public final class SimonConnection implements Connection {
 		return new SimonCallableStatement(conn, conn.prepareCall(sql, rsType, rsConcurrency, rsHoldability), sql, suffix);
 	}
 
-/////////////////// Not interesting methods for monitoring
+	//// NOT MONITORED
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String nativeSQL(String s) throws SQLException {
 		return conn.nativeSQL(s);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setAutoCommit(boolean b) throws SQLException {
 		conn.setAutoCommit(b);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean getAutoCommit() throws SQLException {
 		return conn.getAutoCommit();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isClosed() throws SQLException {
 		return conn.isClosed();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public DatabaseMetaData getMetaData() throws SQLException {
 		return conn.getMetaData();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setReadOnly(boolean b) throws SQLException {
 		conn.setReadOnly(b);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isReadOnly() throws SQLException {
 		return conn.isReadOnly();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setCatalog(String s) throws SQLException {
 		conn.setCatalog(s);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getCatalog() throws SQLException {
 		return conn.getCatalog();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setTransactionIsolation(int i) throws SQLException {
 		conn.setTransactionIsolation(i);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int getTransactionIsolation() throws SQLException {
 		return conn.getTransactionIsolation();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public SQLWarning getWarnings() throws SQLException {
 		return conn.getWarnings();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void clearWarnings() throws SQLException {
 		conn.clearWarnings();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Map<String, Class<?>> getTypeMap() throws SQLException {
 		return conn.getTypeMap();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setTypeMap(Map<String, Class<?>> stringClassMap) throws SQLException {
 		conn.setTypeMap(stringClassMap);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setHoldability(int i) throws SQLException {
 		conn.setHoldability(i);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int getHoldability() throws SQLException {
 		return conn.getHoldability();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Savepoint setSavepoint() throws SQLException {
 		return conn.setSavepoint();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Savepoint setSavepoint(String s) throws SQLException {
 		return conn.setSavepoint(s);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void releaseSavepoint(Savepoint savepoint) throws SQLException {
 		conn.releaseSavepoint(savepoint);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Clob createClob() throws SQLException {
 		return conn.createClob();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Blob createBlob() throws SQLException {
 		return conn.createBlob();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public NClob createNClob() throws SQLException {
 		return conn.createNClob();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public SQLXML createSQLXML() throws SQLException {
 		return conn.createSQLXML();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isValid(int i) throws SQLException {
 		return conn.isValid(i);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setClientInfo(String s, String s1) throws SQLClientInfoException {
 		conn.setClientInfo(s, s1);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setClientInfo(Properties properties) throws SQLClientInfoException {
 		conn.setClientInfo(properties);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getClientInfo(String s) throws SQLException {
 		return conn.getClientInfo(s);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Properties getClientInfo() throws SQLException {
 		return conn.getClientInfo();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Array createArrayOf(String s, Object[] objects) throws SQLException {
 		return conn.createArrayOf(s, objects);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Struct createStruct(String s, Object[] objects) throws SQLException {
 		return conn.createStruct(s, objects);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public <T> T unwrap(Class<T> iface) throws SQLException {
 		return wrapperSupport.unwrap(iface);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isWrapperFor(Class<?> iface) throws SQLException {
 		return wrapperSupport.isWrapperFor(iface);

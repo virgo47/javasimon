@@ -1,11 +1,12 @@
 package org.javasimon.examples.jdbc;
 
-import org.javasimon.jdbc4.Driver;
-import org.javasimon.utils.SimonUtils;
 import org.javasimon.*;
+import org.javasimon.jdbc4.SimonConnectionConfiguration;
+import org.javasimon.utils.SimonUtils;
 
-import java.util.*;
 import java.sql.*;
+import java.util.Collection;
+import java.util.Random;
 
 /**
  * Complicated example.
@@ -64,8 +65,8 @@ public final class Complex extends Simple {
 
 	private void printMonitoringInfo() {
 //		System.out.println("Simon monitor hierarchy:\n" + SimonUtils.simonTreeString(SimonManager.getRootSimon()));
-		System.out.println(SimonUtils.simonTreeString(SimonManager.getSimon(org.javasimon.jdbc4.Driver.DEFAULT_PREFIX)));
-		Collection<Simon> simons = SimonManager.getSimons(new SimonPattern(Driver.DEFAULT_PREFIX + ".sql.select.*"));
+		System.out.println(SimonUtils.simonTreeString(SimonManager.getSimon(SimonConnectionConfiguration.DEFAULT_PREFIX)));
+		Collection<Simon> simons = SimonManager.getSimons(new SimonPattern(SimonConnectionConfiguration.DEFAULT_PREFIX + ".sql.select.*"));
 		System.out.println("simons = " + simons);
 
 //		Simon jdbcSimon = SimonManager.getSimon(org.javasimon.jdbc4.Driver.DEFAULT_PREFIX);
@@ -79,7 +80,7 @@ public final class Complex extends Simple {
 	 *
 	 * @param jdbcSimon top JDBC Simon (typically prefix of the JDBC proxy driver)
 	 * @return information/stats about JDBC connections
-	 * @see org.javasimon.jdbc4.Driver#DEFAULT_PREFIX
+	 * @see org.javasimon.jdbc4.SimonConnectionConfiguration#DEFAULT_PREFIX
 	 */
 	private String printJdbcConnectionInfo(Simon jdbcSimon) {
 		if (SimonManager.getSimon(jdbcSimon.getName() + ".conn") != null) {
@@ -98,7 +99,7 @@ public final class Complex extends Simple {
 	 *
 	 * @param jdbcSimon top JDBC Simon (typically prefix of the JDBC proxy driver)
 	 * @return information/stats about JDBC statements
-	 * @see org.javasimon.jdbc4.Driver#DEFAULT_PREFIX
+	 * @see org.javasimon.jdbc4.SimonConnectionConfiguration#DEFAULT_PREFIX
 	 */
 	private String printJdbcStatementInfo(Simon jdbcSimon) {
 		if (SimonManager.getSimon(jdbcSimon.getName() + ".stmt") != null) {

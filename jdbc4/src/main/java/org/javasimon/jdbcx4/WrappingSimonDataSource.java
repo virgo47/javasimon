@@ -67,17 +67,11 @@ public class WrappingSimonDataSource extends AbstractSimonDataSource implements 
 		return new SimonConnection(getDataSource().getConnection(user, password), prefix);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public <T> T unwrap(Class<T> iface) throws SQLException {
 		return wrapperSupport.unwrap(iface);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isWrapperFor(Class<?> iface) throws SQLException {
 		return wrapperSupport.isWrapperFor(iface);

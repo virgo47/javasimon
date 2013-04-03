@@ -37,23 +37,14 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 		this.prefix = prefix;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public String getPrefix() {
 		return prefix;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public void setPrefix(String value) {
 		prefix = value;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public void enableMonitoring() {
 		Simon s = manager.getSimon(prefix);
 		if (s != null) {
@@ -61,9 +52,6 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public void disableMonitoring() {
 		Simon s = manager.getSimon(prefix);
 		if (s != null) {
@@ -71,16 +59,10 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public boolean isMonitoringEnabled() {
 		return manager.getSimon(prefix) != null && manager.getSimon(prefix).isEnabled();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public JdbcObjectInfo connectionsStat() {
 		Stopwatch s = manager.getStopwatch(prefix + ".conn");
 
@@ -99,9 +81,6 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public JdbcObjectInfo statementsStat() {
 		Stopwatch s = manager.getStopwatch(prefix + ".stmt");
 
@@ -120,16 +99,10 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public JdbcObjectInfo resultsetsStat() {
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public String[] getSqlCommands() {
 		Simon s = manager.getSimon(prefix + ".sql");
 		if (s != null) {
@@ -144,9 +117,6 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public org.javasimon.jmx.StopwatchSample getSqlCommandStat(String cmdId) {
 		if (manager.getSimon(prefix + ".sql." + cmdId) != null) {
 			return new org.javasimon.jmx.StopwatchSample(
@@ -155,9 +125,6 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public String[] getSqls(String cmdId) {
 		Simon s = manager.getSimon(prefix + ".sql." + cmdId);
 		if (s != null) {
@@ -172,9 +139,6 @@ public class JdbcMXBeanImpl implements JdbcMXBean {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public org.javasimon.jmx.StopwatchSample getSqlStat(String sqlId) {
 		if (manager != null) {
 			for (String simonName : manager.getSimonNames()) {

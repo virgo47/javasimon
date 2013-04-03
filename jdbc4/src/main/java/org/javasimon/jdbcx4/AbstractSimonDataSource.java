@@ -56,7 +56,7 @@ public abstract class AbstractSimonDataSource {
 	 * @return JDBC connection URL
 	 */
 	public final String getUrl() {
-		return configuration==null?null:configuration.getSimonUrl();
+		return configuration == null ? null : configuration.getSimonUrl();
 	}
 
 	/**
@@ -69,12 +69,14 @@ public abstract class AbstractSimonDataSource {
 	}
 
 	/**
-	 * Get real JDBC URL
-	 * @return
+	 * Returns real JDBC connection URL.
+	 *
+	 * @return real JDBC connection URL
 	 */
 	public final String getRealUrl() {
-		return configuration==null?null:configuration.getRealUrl();
+		return configuration == null ? null : configuration.getRealUrl();
 	}
+
 	/**
 	 * Returns database user to autenticate connection.
 	 *
@@ -112,11 +114,11 @@ public abstract class AbstractSimonDataSource {
 	}
 
 	/**
-	 * <p>Sets the maximum time in seconds that this data source will wait
+	 * Sets the maximum time in seconds that this data source will wait
 	 * while attempting to connect to a database.  A value of zero
 	 * specifies that the timeout is the default system timeout
 	 * if there is one; otherwise, it specifies that there is no timeout.
-	 * When a <code>DataSource</code> object is created, the login timeout is
+	 * When a {@code DataSource} object is created, the login timeout is
 	 * initially zero.
 	 *
 	 * @param seconds the data source login time limit
@@ -132,7 +134,7 @@ public abstract class AbstractSimonDataSource {
 	 * while attempting to connect to a database.  A value of zero
 	 * means that the timeout is the default system timeout
 	 * if there is one; otherwise, it means that there is no timeout.
-	 * When a <code>DataSource</code> object is created, the login timeout is
+	 * When a {@code DataSource} object is created, the login timeout is
 	 * initially zero.
 	 *
 	 * @return the data source login time limit
@@ -149,8 +151,8 @@ public abstract class AbstractSimonDataSource {
 	 * @return real datasource class name
 	 */
 	public final String getRealDataSourceClassName() {
-		if ((realDataSourceClassName == null || realDataSourceClassName.isEmpty())&&(configuration!=null)) {
-			realDataSourceClassName=doGetRealDataSourceClassName();
+		if ((realDataSourceClassName == null || realDataSourceClassName.isEmpty()) && (configuration != null)) {
+			realDataSourceClassName = doGetRealDataSourceClassName();
 		}
 		return realDataSourceClassName;
 	}
@@ -165,18 +167,19 @@ public abstract class AbstractSimonDataSource {
 	}
 
 	/**
-	 * Instantiate DataSource
+	 * Instantiates the DataSource.
+	 *
 	 * @param dataSourceClass Expected DataSource class
 	 * @param <T> DataSource type
 	 * @return Create DataSource
 	 * @throws SQLException
 	 */
 	protected final <T> T createDataSource(Class<T> dataSourceClass) throws SQLException {
-		if (getRealDataSourceClassName()==null) {
+		if (getRealDataSourceClassName() == null) {
 			throw new SQLException("Property realDataSourceClassName is not set");
 		}
 		try {
-			T ds= dataSourceClass.cast(Class.forName(realDataSourceClassName).newInstance());
+			T ds = dataSourceClass.cast(Class.forName(realDataSourceClassName).newInstance());
 			for (Method m : ds.getClass().getMethods()) {
 				String methodName = m.getName();
 				if (methodName.startsWith("set")) {
@@ -200,7 +203,7 @@ public abstract class AbstractSimonDataSource {
 	}
 
 	/**
-	 * Read DataSource class name from configuration
+	 * Reads DataSource class name from configuration.
 	 */
 	protected abstract String doGetRealDataSourceClassName();
 
@@ -210,14 +213,14 @@ public abstract class AbstractSimonDataSource {
 	 * @return Simon prefix
 	 */
 	public final String getPrefix() {
-		if ((prefix==null || prefix.isEmpty())&&(configuration!=null)) {
-			prefix=configuration.getPrefix();
+		if ((prefix == null || prefix.isEmpty()) && (configuration != null)) {
+			prefix = configuration.getPrefix();
 		}
 		return prefix;
 	}
 
 	/**
-	 * Setter for prefix property.
+	 * Sets Simon prefix for constructing names of Simons.
 	 *
 	 * @param prefix Simon prefix
 	 */

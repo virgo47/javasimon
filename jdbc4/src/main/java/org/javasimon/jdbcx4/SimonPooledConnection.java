@@ -36,49 +36,31 @@ public class SimonPooledConnection implements PooledConnection {
 		this.prefix = prefix;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final Connection getConnection() throws SQLException {
 		return new SimonConnection(pooledConn.getConnection(), prefix);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final void close() throws SQLException {
 		pooledConn.close();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final void addConnectionEventListener(ConnectionEventListener listener) {
 		pooledConn.addConnectionEventListener(listener);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final void removeConnectionEventListener(ConnectionEventListener listener) {
 		pooledConn.removeConnectionEventListener(listener);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void addStatementEventListener(StatementEventListener listener) {
 		pooledConn.addStatementEventListener(listener);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void removeStatementEventListener(StatementEventListener listener) {
 		pooledConn.removeStatementEventListener(listener);

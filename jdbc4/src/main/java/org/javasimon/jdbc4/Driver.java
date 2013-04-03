@@ -1,7 +1,5 @@
 package org.javasimon.jdbc4;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.DriverPropertyInfo;
@@ -160,41 +158,26 @@ public final class Driver implements java.sql.Driver {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean acceptsURL(String url) throws SQLException {
 		return SimonConnectionConfiguration.isSimonUrl(url);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public DriverPropertyInfo[] getPropertyInfo(String s, Properties properties) throws SQLException {
 		return new DriverPropertyInfo[0];
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int getMajorVersion() {
 		return 2;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int getMinorVersion() {
 		return 4;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean jdbcCompliant() {
 		return true;
