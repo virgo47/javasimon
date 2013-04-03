@@ -2,12 +2,12 @@ package org.javasimon.jdbc4;
 
 import org.javasimon.Manager;
 import org.javasimon.SimonManager;
-import org.javasimon.Stopwatch;
 import org.javasimon.Split;
+import org.javasimon.Stopwatch;
 
 import java.sql.*;
-import java.util.List;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Simon JDBC4 proxy statement implementation class.
@@ -359,227 +359,143 @@ public class SimonStatement implements Statement {
 		stmt.clearBatch();
 	}
 
-/////////////////// Not interesting methods for monitoring
+	//// NOT MONITORED
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final int getMaxFieldSize() throws SQLException {
 		return stmt.getMaxFieldSize();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final void setMaxFieldSize(int i) throws SQLException {
 		stmt.setMaxFieldSize(i);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final int getMaxRows() throws SQLException {
 		return stmt.getMaxRows();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final void setMaxRows(int i) throws SQLException {
 		stmt.setMaxRows(i);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final void setEscapeProcessing(boolean b) throws SQLException {
 		stmt.setEscapeProcessing(b);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final int getQueryTimeout() throws SQLException {
 		return stmt.getQueryTimeout();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final void setQueryTimeout(int i) throws SQLException {
 		stmt.setQueryTimeout(i);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final void cancel() throws SQLException {
 		stmt.cancel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final SQLWarning getWarnings() throws SQLException {
 		return stmt.getWarnings();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final void clearWarnings() throws SQLException {
 		stmt.clearWarnings();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final void setCursorName(String s) throws SQLException {
 		stmt.setCursorName(s);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final ResultSet getResultSet() throws SQLException {
 		return stmt.getResultSet();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final int getUpdateCount() throws SQLException {
 		return stmt.getUpdateCount();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final boolean getMoreResults() throws SQLException {
 		return stmt.getMoreResults();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final void setFetchDirection(int i) throws SQLException {
 		stmt.setFetchDirection(i);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final int getFetchDirection() throws SQLException {
 		return stmt.getFetchDirection();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final void setFetchSize(int i) throws SQLException {
 		stmt.setFetchSize(i);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final int getFetchSize() throws SQLException {
 		return stmt.getFetchSize();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final int getResultSetConcurrency() throws SQLException {
 		return stmt.getResultSetConcurrency();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final int getResultSetType() throws SQLException {
 		return stmt.getResultSetType();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final boolean getMoreResults(int i) throws SQLException {
 		return stmt.getMoreResults(i);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final ResultSet getGeneratedKeys() throws SQLException {
 		return stmt.getGeneratedKeys();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final int getResultSetHoldability() throws SQLException {
 		return stmt.getResultSetHoldability();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final boolean isClosed() throws SQLException {
 		return stmt.isClosed();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final void setPoolable(boolean b) throws SQLException {
 		stmt.setPoolable(b);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final boolean isPoolable() throws SQLException {
 		return stmt.isPoolable();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final <T> T unwrap(Class<T> tClass) throws SQLException {
 		return wrapperSupport.unwrap(tClass);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final boolean isWrapperFor(Class<?> aClass) throws SQLException {
 		return wrapperSupport.isWrapperFor(aClass);

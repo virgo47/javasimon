@@ -1,9 +1,8 @@
 package org.javasimon.jdbcx4;
 
-import javax.sql.XADataSource;
 import javax.sql.XAConnection;
+import javax.sql.XADataSource;
 import java.sql.SQLException;
-import java.lang.reflect.Method;
 
 /**
  * Wrapper class for real XADataSource implementation, produces xa
@@ -25,17 +24,11 @@ public final class SimonXADataSource extends AbstractSimonDataSource implements 
 		return ds;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public XAConnection getXAConnection() throws SQLException {
 		return new SimonXAConnection(datasource().getXAConnection(), prefix);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public XAConnection getXAConnection(String user, String password) throws SQLException {
 		return new SimonXAConnection(datasource().getXAConnection(user, password), prefix);

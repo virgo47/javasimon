@@ -33,25 +33,16 @@ public final class SimonXAConnection extends SimonPooledConnection implements XA
 		this.realConn = connection;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public XAResource getXAResource() throws SQLException {
 		return realConn.getXAResource();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void addStatementEventListener(StatementEventListener listener) {
 		realConn.addStatementEventListener(listener);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void removeStatementEventListener(StatementEventListener listener) {
 		realConn.removeStatementEventListener(listener);

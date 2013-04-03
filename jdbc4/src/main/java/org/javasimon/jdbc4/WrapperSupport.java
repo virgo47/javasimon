@@ -11,12 +11,12 @@ import java.sql.Wrapper;
  */
 public final class WrapperSupport<D extends Wrapper> implements Wrapper {
 	/**
-	 * Delegate instance
+	 * Delegate instance.
 	 */
 	private final D delegate;
 
 	/**
-	 * Interface implemented by delegate
+	 * Interface implemented by delegate.
 	 */
 	private final Class<D> delegateType;
 
