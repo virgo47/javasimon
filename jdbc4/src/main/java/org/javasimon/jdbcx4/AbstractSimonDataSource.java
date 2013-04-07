@@ -19,12 +19,12 @@ import java.sql.SQLException;
 public abstract class AbstractSimonDataSource {
 	protected transient PrintWriter logWriter;
 	protected SimonConnectionConfiguration configuration;
-	protected String user;
-	protected String password;
-	protected int loginTimeout;
+	private String user;
+	private String password;
+	private int loginTimeout;
 
-	protected String realDataSourceClassName;
-	protected String prefix;
+	private String realDataSourceClassName;
+	private String prefix;
 
 	/**
 	 * Retrieves the log writer for this <code>DataSource</code> object.
