@@ -51,7 +51,7 @@ public class WrappingSimonDataSource extends AbstractSimonDataSource implements 
 	 */
 	@Override
 	public Connection getConnection() throws SQLException {
-		return new SimonConnection(getDataSource().getConnection(), prefix);
+		return new SimonConnection(getDataSource().getConnection(), getPrefix());
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class WrappingSimonDataSource extends AbstractSimonDataSource implements 
 	 */
 	@Override
 	public Connection getConnection(String user, String password) throws SQLException {
-		return new SimonConnection(getDataSource().getConnection(user, password), prefix);
+		return new SimonConnection(getDataSource().getConnection(user, password), getPrefix());
 	}
 
 	@Override

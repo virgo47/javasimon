@@ -5,7 +5,6 @@ import org.javasimon.jdbc4.SimonConnection;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.sql.Connection;
-import java.lang.reflect.Method;
 
 import org.javasimon.jdbc4.WrapperSupport;
 
@@ -60,7 +59,7 @@ public final class SimonDataSource extends AbstractSimonDataSource implements Da
 	 */
 	@Override
 	public Connection getConnection() throws SQLException {
-		return new SimonConnection(datasource().getConnection(), prefix);
+		return new SimonConnection(datasource().getConnection(), getPrefix());
 	}
 
 	/**
@@ -73,7 +72,7 @@ public final class SimonDataSource extends AbstractSimonDataSource implements Da
 	 */
 	@Override
 	public Connection getConnection(String user, String password) throws SQLException {
-		return new SimonConnection(datasource().getConnection(user, password), prefix);
+		return new SimonConnection(datasource().getConnection(user, password), getPrefix());
 	}
 
 	@Override

@@ -26,12 +26,12 @@ public final class SimonXADataSource extends AbstractSimonDataSource implements 
 
 	@Override
 	public XAConnection getXAConnection() throws SQLException {
-		return new SimonXAConnection(datasource().getXAConnection(), prefix);
+		return new SimonXAConnection(datasource().getXAConnection(), getPrefix());
 	}
 
 	@Override
 	public XAConnection getXAConnection(String user, String password) throws SQLException {
-		return new SimonXAConnection(datasource().getXAConnection(user, password), prefix);
+		return new SimonXAConnection(datasource().getXAConnection(user, password), getPrefix());
 	}
 
 	@Override
