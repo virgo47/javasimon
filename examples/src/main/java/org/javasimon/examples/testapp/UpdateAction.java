@@ -1,7 +1,7 @@
-package org.javasimon.testapp;
+package org.javasimon.examples.testapp;
 
-import org.javasimon.testapp.test.Action;
-import org.javasimon.testapp.model.TupleDAO;
+import org.javasimon.examples.testapp.test.Action;
+import org.javasimon.examples.testapp.model.TupleDAO;
 import org.javasimon.Split;
 import org.javasimon.SimonManager;
 
@@ -25,7 +25,7 @@ public class UpdateAction implements Action {
 	}
 
 	public void perform(int runno) {
-		Split split = SimonManager.getStopwatch("org.javasimon.testapp.action.update").start();
+		Split split = SimonManager.getStopwatch("org.javasimon.examples.testapp.action.update").start();
 
 		int unique1 = provider.no();
 		try {

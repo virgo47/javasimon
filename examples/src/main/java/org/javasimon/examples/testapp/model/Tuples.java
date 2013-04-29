@@ -1,4 +1,4 @@
-package org.javasimon.testapp.model;
+package org.javasimon.examples.testapp.model;
 
 import java.util.Iterator;
 

@@ -1,9 +1,9 @@
-package org.javasimon.testapp;
+package org.javasimon.examples.testapp;
 
-import org.javasimon.testapp.test.Action;
-import org.javasimon.testapp.model.Tuple;
-import org.javasimon.testapp.model.Tuples;
-import org.javasimon.testapp.model.TupleDAO;
+import org.javasimon.examples.testapp.test.Action;
+import org.javasimon.examples.testapp.model.Tuple;
+import org.javasimon.examples.testapp.model.Tuples;
+import org.javasimon.examples.testapp.model.TupleDAO;
 import org.javasimon.Split;
 import org.javasimon.SimonManager;
 
@@ -41,7 +41,7 @@ public class InsertAction implements Action {
 	 * @param runno run number
 	 */
 	public void perform(int runno) {
-		Split split = SimonManager.getStopwatch("org.javasimon.testapp.action.insert").start();
+		Split split = SimonManager.getStopwatch("org.javasimon.examples.testapp.action.insert").start();
 
 		int cnt = provider.no();
 		System.out.println("Run: " + runno + ", InsertAction [count: " + cnt + "]");

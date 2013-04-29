@@ -1,4 +1,4 @@
-package org.javasimon.testapp.test;
+package org.javasimon.examples.testapp.test;
 
 /**
  * Common interface for various database-based actions.
