@@ -1,4 +1,4 @@
-package org.javasimon.testapp;
+package org.javasimon.examples.testapp;
 
 import org.javasimon.StopwatchSample;
 import org.javasimon.callback.CallbackSkeleton;

@@ -214,7 +214,7 @@
 								<phase>package</phase>
 								<configuration>
 									<excludePackageNames>
-										other,org.javasimon.examples.jdbc,org.javasimon.examples.jdbc.h2,org.javasimon.examples.jmx.custom,org.javasimon.testapp,org.javasimon.testapp.*
+										org.javasimon.examples:org.javasimon.examples.*
 									</excludePackageNames>
 									<!-- Begin: 
 									These resources are usually in src/main/javadoc instead of docs/api -->

@@ -1,8 +1,8 @@
-package org.javasimon.testapp;
+package org.javasimon.examples.testapp;
 
 import org.javasimon.jmx.SimonManagerMXBeanImpl;
-import org.javasimon.testapp.test.Runner;
-import org.javasimon.testapp.mm.AppMXBean;
+import org.javasimon.examples.testapp.test.Runner;
+import org.javasimon.examples.testapp.mm.AppMXBean;
 import org.javasimon.jmx.SimonManagerMXBean;
 import org.javasimon.jdbc4.jmx.JdbcMXBean;
 import org.javasimon.jdbc4.jmx.JdbcMXBeanImpl;
@@ -21,7 +21,7 @@ import java.sql.Connection;
  * Run it from main javasimon directory (where {@code examples} directory is). Compilation:
  * <pre>javac -cp lib/h2.jar:build/core:build/jdbc4:build/jmx examples/org/javasimon/testapp/*.java examples/org/javasimon/testapp/*\/*.java</pre>
  * Run it with command:
- * <pre>java -cp ../lib/h2.jar:build/core:build/jdbc4:ild/jmx:examples org.javasimon.testapp.Main</pre>
+ * <pre>java -cp ../lib/h2.jar:build/core:build/jdbc4:ild/jmx:examples org.javasimon.examples.testapp.Main</pre>
  *
  * @author Radovan Sninsky
  * @since 2.0
@@ -47,7 +47,7 @@ public class Main {
 
 	private void setupDatabase() throws Exception {
 		RunScript.execute("jdbc:h2:file:testappdb", "sa", "sa", "examples/testapp.db.sql", null, false);
-		connection = DriverManager.getConnection("jdbc:simon:h2:file:testappdb;simon_prefix=org.javasimon.testapp.jdbc", "sa", "sa");
+		connection = DriverManager.getConnection("jdbc:simon:h2:file:testappdb;simon_prefix=org.javasimon.examples.testapp.jdbc", "sa", "sa");
 	}
 
 	private void closeDatabase() throws Exception {
@@ -70,15 +70,15 @@ public class Main {
 		MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
 		try {
 			AppMXBean app = new AppMXBeanImpl();
-			mbs.registerMBean(app, new ObjectName("org.javasimon.testapp:type=App"));
+			mbs.registerMBean(app, new ObjectName("org.javasimon.examples.testapp:type=App"));
 			System.out.println("AppMXBean registerd");
 
 			SimonManagerMXBean simonManagerMXBean = new SimonManagerMXBeanImpl(SimonManager.manager());
-			mbs.registerMBean(simonManagerMXBean, new ObjectName("org.javasimon.testapp:type=Simon"));
+			mbs.registerMBean(simonManagerMXBean, new ObjectName("org.javasimon.examples.testapp:type=Simon"));
 			System.out.println("SimonManagerMXBean registerd");
 
-			JdbcMXBean jdbc = new JdbcMXBeanImpl(SimonManager.manager(), "org.javasimon.testapp.jdbc");
-			mbs.registerMBean(jdbc, new ObjectName("org.javasimon.testapp:type=Jdbc"));
+			JdbcMXBean jdbc = new JdbcMXBeanImpl(SimonManager.manager(), "org.javasimon.examples.testapp.jdbc");
+			mbs.registerMBean(jdbc, new ObjectName("org.javasimon.examples.testapp:type=Jdbc"));
 			System.out.println("JdbcMXBean registerd");
 		} catch (JMException e) {
 			System.out.println("JMX beans registration failed!\n"+e);

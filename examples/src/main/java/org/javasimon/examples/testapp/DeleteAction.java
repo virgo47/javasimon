@@ -1,7 +1,7 @@
-package org.javasimon.testapp;
+package org.javasimon.examples.testapp;
 
-import org.javasimon.testapp.test.Action;
-import org.javasimon.testapp.model.TupleDAO;
+import org.javasimon.examples.testapp.test.Action;
+import org.javasimon.examples.testapp.model.TupleDAO;
 import org.javasimon.Split;
 import org.javasimon.SimonManager;
 
@@ -36,7 +36,7 @@ public class DeleteAction implements Action {
 	 * @param runno run number
 	 */
 	public void perform(int runno) {
-		Split split = SimonManager.getStopwatch("org.javasimon.testapp.action.delete").start();
+		Split split = SimonManager.getStopwatch("org.javasimon.examples.testapp.action.delete").start();
 
 		int no = provider.no();
 		try {

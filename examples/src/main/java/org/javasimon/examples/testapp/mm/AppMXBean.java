@@ -1,4 +1,4 @@
-package org.javasimon.testapp.mm;
+package org.javasimon.examples.testapp.mm;
 
 /**
  * Interface of the application MX bean.

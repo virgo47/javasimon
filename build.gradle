@@ -17,11 +17,16 @@ subprojects {
 	dependencies {
 		testCompile 'org.testng:testng:6.5.2'
 		testCompile 'org.mockito:mockito-core:1.9.0'
+		testCompile 'org.springframework:spring-test:3.2.2.RELEASE'
 	}
 
 	version = '3.3.1-SNAPSHOT'
 
 	jar {
 		manifest.attributes provider: 'gradle'
+	}
+
+	test {
+		useTestNG()
 	}
 }

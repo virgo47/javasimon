@@ -1,4 +1,4 @@
-package org.javasimon.testapp.test;
+package org.javasimon.examples.testapp.test;
 
 /**
  * Interface Controller.

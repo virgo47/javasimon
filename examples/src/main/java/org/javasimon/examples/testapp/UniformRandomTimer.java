@@ -1,6 +1,6 @@
-package org.javasimon.testapp;
+package org.javasimon.examples.testapp;
 
-import org.javasimon.testapp.test.Timer;
+import org.javasimon.examples.testapp.test.Timer;
 
 import java.util.Random;
 
