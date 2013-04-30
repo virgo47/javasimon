@@ -85,20 +85,21 @@ window.javasimon=javasimon;
 			// Table
 			row=this.fnAppendRow(section.eTableBody);
 			this.fnAppendSimonLabelValueCell(row, "Counter", "counter");
-			this.fnAppendSimonLabelValueCell(row, "Total", "total");
+			this.fnAppendSimonLabelValueCell(row, "Total", "total", 3);
 			row=this.fnAppendRow(section.eTableBody);
-			this.fnAppendSimonLabelValueCell(row, "Min", "min");
-			this.fnAppendSimonLabelValueCell(row, "Min Timestamp", "minTimeStamp");
+			this.fnAppendSimonLabelValueCell(row, "Min", "min", 3);
+			this.fnAppendSimonLabelValueCell(row, "Min Timestamp", "minTimestamp");
 			row=this.fnAppendRow(section.eTableBody);
 			this.fnAppendSimonLabelValueCell(row, "Mean", "mean");
-			this.fnAppendSimonLabelValueCell(row, "Standard Deviation", "standardDeviation");
+			this.fnAppendSimonLabelValueCell(row, "Standard Deviation", "standardDeviation", 3);
 			row=this.fnAppendRow(section.eTableBody);
-			this.fnAppendSimonLabelValueCell(row, "Max", "max");
-			this.fnAppendSimonLabelValueCell(row, "Max Timestamp", "maxTimeStamp");
+			this.fnAppendSimonLabelValueCell(row, "Max", "max", 3);
+			this.fnAppendSimonLabelValueCell(row, "Max Timestamp", "maxTimestamp");
 			row=this.fnAppendRow(section.eTableBody);
-			this.fnAppendSimonLabelValueCell(row, "Last", "last");
+			this.fnAppendSimonLabelValueCell(row, "Last", "last", 3);
 			this.fnAppendSimonLabelValueCell(row, "Last Timestamp", "lastUsage");
 			row=this.fnAppendRow(section.eTableBody);
+			this.fnAppendSimonLabelValueCell(row, "Active", "active");
 			this.fnAppendSimonLabelValueCell(row, "Max Active", "maxActive");
 			this.fnAppendSimonLabelValueCell(row, "Max Active Timestamp", "maxActiveTimestamp");
 		},
