@@ -208,14 +208,14 @@ public class SimonServletFilter implements Filter {
 
 	private void doFilterWithMonitoring(FilterChain filterChain, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		Split split = stopwatchTemplate.start(request);
-		if (split != null && reportThresholdNanos != null) {
+		if (split.isEnabled() && reportThresholdNanos != null) {
 			splitsThreadLocal.set(new ArrayList<Split>());
 		}
 
 		try {
 			filterChain.doFilter(request, response);
 		} finally {
-			if (split != null) {
+			if (split.isEnabled()) {
 				long splitNanoTime = split.stop().runningFor();
 				if (reportThresholdNanos != null) {
 					List<Split> splits = splitsThreadLocal.get();

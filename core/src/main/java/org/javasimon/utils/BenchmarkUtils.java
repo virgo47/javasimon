@@ -99,7 +99,7 @@ public class BenchmarkUtils {
 		@Override
 		public void run() {
 			System.out.print(stopwatchName + ": ");
-			Split split = new Split();
+			Split split = Split.start();
 			try {
 				perform();
 			} catch (Exception e) {

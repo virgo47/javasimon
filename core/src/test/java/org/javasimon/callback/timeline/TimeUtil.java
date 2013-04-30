@@ -41,7 +41,7 @@ public class TimeUtil {
 	}
 
 	public static Split createSplit(long start, long total) {
-		Split split = new Split();
+		Split split = Split.start();
 		setField(split, "start", millisToNano(start));
 		setField(split, "running", false);
 		setField(split, "total", total);

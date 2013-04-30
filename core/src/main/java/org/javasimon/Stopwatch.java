@@ -75,7 +75,7 @@ public interface Stopwatch extends Simon {
 	 * {@link org.javasimon.callback.Callback#onStopwatchAdd(Stopwatch, Split, StopwatchSample)} provides split object to the callback.
 	 * <p/>
 	 * Usage examples:
-	 * <pre>Split split = new Split(); // no stopwatch needed
+	 * <pre>Split split = Split.start(); // no stopwatch needed
 ...
 someStopwatch.addSplit(split.stop()); // you may omit stop(), if you does not use the split after this point</pre>
 	 *

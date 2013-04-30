@@ -17,6 +17,11 @@ import org.javasimon.utils.SimonUtils;
  * @see Stopwatch
  */
 public final class Split implements HasAttributes {
+	/**
+	 * Disabled split (implies not running) for cases where monitoring is disabled and {@code null} value is not an option.
+	 */
+	public static final Split DISABLED = new Split();
+
 	private volatile Stopwatch stopwatch;
 	private volatile long start;
 	private volatile long total;
@@ -24,27 +29,7 @@ public final class Split implements HasAttributes {
 	private volatile boolean running;
 	private AttributesSupport attributesSupport = new AttributesSupport();
 
-	/**
-	 * Creates a new Split for direct use without {@link Stopwatch} ("anonymous split"). Stop will not update any Stopwatch,
-	 * value can be added to any chosen Stopwatch using {@link Stopwatch#addSplit(Split)} in conjuction with
-	 * {@link #stop()} like this:
-	 * <p/>
-	 * <pre>Split split = new Split();
-	 * ...
-	 * SimonManager.getStopwatch("codeBlock2.success").addTime(split.stop());</pre>
-	 * <p/>
-	 * If the split is not needed afterwards calling {@link #stop()} is not necessary:
-	 * <p/>
-	 * <pre>Split split = new Split();
-	 * ...
-	 * SimonManager.getStopwatch("codeBlock2.success").addTime(split);</pre>
-	 *
-	 * @since 3.1
-	 */
-	public Split() {
-		enabled = true;
-		running = true;
-		start = System.nanoTime();
+	private Split() {
 	}
 
 	/**
@@ -64,13 +49,38 @@ public final class Split implements HasAttributes {
 
 	/**
 	 * Creates a new Split for a disabled Stopwatch - <b>called internally only</b>.
+	 * Disabled split
 	 *
 	 * @param stopwatch owning Stopwatch (disabled)
 	 */
 	Split(Stopwatch stopwatch) {
 		assert !(stopwatch.isEnabled()) : "stopwatch must be disabled in this constructor!";
-
 		this.stopwatch = stopwatch;
+	}
+
+	/**
+	 * Creates a new Split for direct use without {@link Stopwatch} ("anonymous split"). Stop will not update any Stopwatch,
+	 * value can be added to any chosen Stopwatch using {@link Stopwatch#addSplit(Split)} - even in conjuction with
+	 * {@link #stop()} like this:
+	 * <p/>
+	 * <pre>Split split = Split.start();
+	 * ...
+	 * SimonManager.getStopwatch("codeBlock2.success").addTime(split.stop());</pre>
+	 * <p/>
+	 * If the split is not needed afterwards calling {@link #stop()} is not necessary:
+	 * <p/>
+	 * <pre>Split split = Split.start();
+	 * ...
+	 * SimonManager.getStopwatch("codeBlock2.success").addTime(split);</pre>
+	 *
+	 * @since 3.4
+	 */
+	public static Split start() {
+		Split split = new Split();
+		split.enabled = true;
+		split.running = true;
+		split.start = System.nanoTime();
+		return split;
 	}
 
 	/**
@@ -128,7 +138,7 @@ public final class Split implements HasAttributes {
 	}
 
 	/**
-	 * Returns true if this split was created from enabled Simon.
+	 * Returns true if this split was created from enabled Simon or via {@link #start()}.
 	 *
 	 * @return true if this split was created from enabled Simon
 	 */
@@ -137,7 +147,17 @@ public final class Split implements HasAttributes {
 	}
 
 	/**
+	 * Returns true if this split was created from disabled Simon or it is {@link #DISABLED} Split.
+	 *
+	 * @return true if this split was created from disabled Simon
+	 */
+	public boolean isDisabled() {
+		return !enabled;
+	}
+
+	/**
 	 * Returns true if this split is still running ({@link #stop()} has not been called yet).
+	 * Returns false for disabled Split.
 	 *
 	 * @return true if this split is still running
 	 * @since 3.1.0

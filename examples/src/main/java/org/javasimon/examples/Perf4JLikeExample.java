@@ -53,7 +53,7 @@ public class Perf4JLikeExample {
 	// example from http://perf4j.codehaus.org/devguide.html
 	private static void method() {
 //		StopWatch stopWatch = new LoggingStopWatch();
-		Split split = new Split();
+		Split split = Split.start();
 
 		try {
 			// the code block being timed - this is just a dummy example
