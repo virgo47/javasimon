@@ -33,7 +33,7 @@ public class SimonConnectionConfiguration {
 	/**
 	 * Regex used to parse JDBC connection URL.
 	 */
-	private static final Pattern URL_PATTERN = Pattern.compile(URL_PREFIX + ":([\\w]*):.*");
+	private static final Pattern URL_PATTERN = Pattern.compile("jdbc:(simon:)?([\\w]*):.*");
 
 	/**
 	 * Name for the property holding the real driver class value.
@@ -101,37 +101,46 @@ public class SimonConnectionConfiguration {
 	 * @param url given JDBC connection URL
 	 */
 	public SimonConnectionConfiguration(String url) {
-		simonUrl = url;
 		Matcher m = URL_PATTERN.matcher(url);
-		if (m.matches()) {
-			driverId = m.group(1);
+		if (!m.matches()) {
+			throw new IllegalArgumentException(url + " is not a valid JDBC connection URL");
+		}
+		driverId = m.group(2);
+		if (m.group(1) == null) {
+			// java:oracle:
+			simonUrl = url.replaceFirst("jdbc", URL_PREFIX);
+			realUrl = url;
+			realDriver = getProperty(driverId, "driver");
+			prefix = DEFAULT_PREFIX;
 		} else {
-			throw new IllegalArgumentException(url + " is not a Simon JDBC connection URL");
-		}
+			//java:simon:oracle
+			simonUrl = url;
+			StringTokenizer st = new StringTokenizer(url, ";");
+			String lRealDriver = getProperty(driverId, "driver"),
+				lPrefix = DEFAULT_PREFIX;
+			StringBuilder realUrlBuilder = new StringBuilder();
+			while (st.hasMoreTokens()) {
+				String tokenPairStr = st.nextToken().trim();
 
-		StringTokenizer st = new StringTokenizer(url, ";");
-		String lRealUrl = null,
-			lRealDriver = getProperty(driverId, "driver"),
-			lPrefix = DEFAULT_PREFIX;
-		while (st.hasMoreTokens()) {
-			String tokenPairStr = st.nextToken().trim();
-			String[] tokenPair = tokenPairStr.split("=", 2);
-			String token = tokenPair[0];
-			String tokenValue = tokenPair.length == 2 ? tokenPair[1].trim() : null;
-
-			if (tokenPairStr.startsWith("jdbc")) {
-				lRealUrl = tokenPairStr.replaceFirst(URL_PREFIX, "jdbc");
-			} else if (token.equalsIgnoreCase(REAL_DRIVER)) {
-				lRealDriver = tokenValue;
-			} else if (token.equalsIgnoreCase(PREFIX)) {
-				lPrefix = tokenValue;
-			} else {
-				lRealUrl += ";" + tokenPairStr;
+				if (tokenPairStr.startsWith(URL_PREFIX)) {
+					realUrlBuilder.append(tokenPairStr.replaceFirst(URL_PREFIX, "jdbc"));
+				} else {
+					String[] tokenPair = tokenPairStr.split("=", 2);
+					String token = tokenPair[0];
+					String tokenValue = tokenPair.length == 2 ? tokenPair[1].trim() : null;
+					if (token.equalsIgnoreCase(REAL_DRIVER)) {
+						lRealDriver = tokenValue;
+					} else if (token.equalsIgnoreCase(PREFIX)) {
+						lPrefix = tokenValue;
+					} else {
+						realUrlBuilder.append(';').append(tokenPairStr);
+					}
+				}
 			}
+			realUrl = realUrlBuilder.toString();
+			realDriver = lRealDriver;
+			prefix = lPrefix;
 		}
-		realUrl = lRealUrl;
-		realDriver = lRealDriver;
-		prefix = lPrefix;
 	}
 
 	/**
