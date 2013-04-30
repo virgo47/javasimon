@@ -35,6 +35,12 @@ public class SimonConnectionConfigurationTest {
 						"mysql",
 						"com.mysql.jdbc.Driver",
 						"jdbc:mysql://localhost/someDb?useUnicode=yes&characterEncoding=UTF-8"
+				},
+				{
+						"jdbc:mysql://localhost/someDb?useUnicode=yes&characterEncoding=UTF-8",
+						"mysql",
+						"com.mysql.jdbc.Driver",
+						"jdbc:mysql://localhost/someDb?useUnicode=yes&characterEncoding=UTF-8"
 				}
 		};
 	}
