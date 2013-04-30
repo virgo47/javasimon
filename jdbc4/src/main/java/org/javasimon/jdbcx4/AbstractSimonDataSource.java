@@ -194,6 +194,8 @@ public abstract class AbstractSimonDataSource {
 						propertyValue = getPassword();
 					} else if (methodName.equalsIgnoreCase("setUrl")) {
 						propertyValue = getRealUrl();
+					} else if (methodName.equals("setLogWriter")) {
+						propertyValue = getLogWriter();
 					} else if (methodName.equals("setLoginTimeout")) {
 						propertyValue = getLoginTimeout();
 					} else {
