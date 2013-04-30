@@ -30,7 +30,7 @@ public final class SplitTest {
 
 	@Test
 	public void toStringForAnonymousSplit() {
-		Split split = new Split();
+		Split split = Split.start();
 		Assert.assertTrue(split.toString().startsWith("Running split"));
 		split.stop();
 		Assert.assertTrue(split.toString().startsWith("Stopped split"));
@@ -38,7 +38,7 @@ public final class SplitTest {
 
 	@Test
 	public void anonymousSplitTest() throws InterruptedException {
-		Split split = new Split();
+		Split split = Split.start();
 		Assert.assertNull(split.getStopwatch());
 		Assert.assertTrue(split.isEnabled());
 		Assert.assertTrue(split.getStart() > 0);

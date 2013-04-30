@@ -39,7 +39,7 @@ public final class MultithreadedSleeping extends Thread {
 	 */
 	public static void main(String[] args) throws InterruptedException {
 		System.out.println("Going to run 1s sleep in " + THREADS + " threads...");
-		Split realTimeSplit = new Split();
+		Split realTimeSplit = Split.start();
 		for (int i = 0; i < THREADS; i++) {
 			new MultithreadedSleeping().start();
 		}
