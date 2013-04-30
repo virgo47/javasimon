@@ -5,6 +5,7 @@ import org.javasimon.jdbc4.SimonConnectionConfiguration;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.sql.SQLException;
+import java.util.Properties;
 
 /**
  * SimonCommonDataSource is parent for all three datasource implementation classes.
@@ -25,7 +26,10 @@ public abstract class AbstractSimonDataSource {
 
 	private String realDataSourceClassName;
 	private String prefix;
-
+	/**
+	 * Properties specific to the real datasource
+	 */
+	private Properties properties;
 	/**
 	 * Retrieves the log writer for this <code>DataSource</code> object.
 	 *
@@ -182,17 +186,27 @@ public abstract class AbstractSimonDataSource {
 			T ds = dataSourceClass.cast(Class.forName(realDataSourceClassName).newInstance());
 			for (Method m : ds.getClass().getMethods()) {
 				String methodName = m.getName();
-				if (methodName.startsWith("set")) {
+				if (methodName.startsWith("set") && m.getParameterTypes().length == 1) {
+					final Object propertyValue;
 					if (methodName.equals("setUser")) {
-						m.invoke(ds, getUser());
+						propertyValue = getUser();
 					} else if (methodName.equals("setPassword")) {
-						m.invoke(ds, getPassword());
+						propertyValue = getPassword();
 					} else if (methodName.equalsIgnoreCase("setUrl")) {
-						m.invoke(ds, getRealUrl());
+						propertyValue = getRealUrl();
 					} else if (methodName.equals("setLoginTimeout")) {
-						m.invoke(ds, getLoginTimeout());
+						propertyValue = getLoginTimeout();
+					} else {
+						String propertyName = methodName.substring(3, 4).toLowerCase();
+						if (methodName.length() > 4) {
+							propertyName += methodName.substring(4);
+						}
+						final Class<?> propertyType = m.getParameterTypes()[0];
+						propertyValue = getPropertyAs(propertyName, propertyType);
 					}
-					// TODO Forward driver specific properties
+					if (propertyValue != null) {
+						m.invoke(ds, propertyValue);
+					}
 				}
 			}
 			return ds;
@@ -226,5 +240,45 @@ public abstract class AbstractSimonDataSource {
 	 */
 	public final void setPrefix(String prefix) {
 		this.prefix = prefix;
+	}
+	/**
+	 * Get properties specific to the real datasource.
+	 * @return Properties
+	 */
+	public Properties getProperties() {
+		return properties;
+	}
+
+	/**
+	 * Set properties specific to the real datasource.
+	 * @return Properties
+	 */
+	public void setProperties(Properties properties) {
+		this.properties = properties;
+	}
+	/**
+	 * Get property from {@link #properties} and convert it to given type
+	 * @param <T> Property type
+	 * @param propertyName Property name
+	 * @param propertyType Property type
+	 * @return Property value
+	 */
+	private <T> T getPropertyAs(String propertyName, Class<T> propertyType) {
+		final String sValue = properties==null?null : properties.getProperty(propertyName);
+		final T value;
+		if (sValue==null) {
+			value=null;
+		} else if (propertyType.equals(String.class)) {
+			value=propertyType.cast(sValue);
+		} else if (propertyType.equals(Integer.class)) {
+			value=propertyType.cast(Integer.valueOf(sValue));
+		} else if (propertyType.equals(Long.class)) {
+			value=propertyType.cast(Long.valueOf(sValue));
+		} else if (propertyType.equals(Boolean.class)) {
+			value=propertyType.cast(Boolean.valueOf(sValue));
+		} else {
+			value=null;
+		}
+		return value;
 	}
 }
