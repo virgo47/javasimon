@@ -42,7 +42,7 @@ public final class SimonDataSource extends AbstractSimonDataSource implements Da
 	private DataSource ds;
 	private WrapperSupport<DataSource> wrapperSupport;
 
-	private DataSource datasource() throws SQLException {
+	DataSource datasource() throws SQLException {
 		if (ds == null) {
 			ds = createDataSource(DataSource.class);
 			ds.setLogWriter(logWriter);
