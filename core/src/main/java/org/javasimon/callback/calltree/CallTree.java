@@ -78,7 +78,7 @@ public class CallTree implements LogMessageSource<Split> {
 	/**
 	 * When stopwatch is started, and the root tree node is pushed into
 	 * the call stack, this method is called.
-	 * Does nothing but can be overriden for custom needs.
+	 * Does nothing but can be overridden for custom needs.
 	 *
 	 * @param rootNode Root tree node
 	 * @param split Root split
@@ -87,9 +87,9 @@ public class CallTree implements LogMessageSource<Split> {
 	}
 
 	/**
-	 * When stopwatched is stopped, and root tree node is popped from
+	 * When stopwatch is stopped, and root tree node is popped from
 	 * call stack, this method is called.
-	 * Does nothing but can be overriden for custom needs, such as logging, storing...
+	 * Does nothing but can be overridden for custom needs, such as logging, storing...
 	 */
 	protected void onRootStopwatchStop(CallTreeNode callTreeNode, Split split) {
 	}

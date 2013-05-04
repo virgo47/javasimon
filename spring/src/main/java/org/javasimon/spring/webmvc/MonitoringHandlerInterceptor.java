@@ -81,7 +81,7 @@ public class MonitoringHandlerInterceptor implements HandlerInterceptor {
 		Split split = null;
 		if (location != null) {
 			split = location.getSplit();
-			stopwatchTemplate.stop(split);
+			split.stop();
 			location.setSplit(null);
 		}
 		return split;

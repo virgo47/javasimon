@@ -9,7 +9,7 @@ import org.javasimon.utils.SimonUtils;
 
 /**
  * Reports the request with split lenght and list of all splits.
- * Report is sent through {@link org.javasimon.Manager#message(String)}. Following aspects of the class can be overriden:
+ * Report is sent through {@link org.javasimon.Manager#message(String)}. Following aspects of the class can be overridden:
  * <ul>
  * <li>Where the report goes - override {@link #reportMessage(String)},</li>
  * <li>whether split should be included - override {@link #shouldBeAddedSplit(org.javasimon.Split)}.</li>
@@ -41,7 +41,7 @@ public class PlainRequestReporter implements RequestReporter {
 	}
 
 	/**
-	 * Reports the prepared message through the method {@link org.javasimon.Manager#message(String)} - can be overriden
+	 * Reports the prepared message through the method {@link org.javasimon.Manager#message(String)} - can be overridden
 	 * to emit the message to log/console/etc.
 	 *
 	 * @param message prepared message with report

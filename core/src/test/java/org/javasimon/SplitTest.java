@@ -41,6 +41,7 @@ public final class SplitTest {
 		Split split = Split.start();
 		Assert.assertNull(split.getStopwatch());
 		Assert.assertTrue(split.isEnabled());
+		Assert.assertTrue(split.isRunning());
 		Assert.assertTrue(split.getStart() > 0);
 		Assert.assertTrue(split.runningFor() >= 0);
 
@@ -64,5 +65,26 @@ public final class SplitTest {
 		Assert.assertFalse(split.isEnabled());
 		Assert.assertEquals(split.getStart(), 0);
 		Assert.assertTrue(split.toString().startsWith("Split created from disabled Stopwatch"));
+	}
+
+	@Test
+	public void stopWithSubSimonOnAnonymousIsHarmless() {
+		Split split = Split.start();
+		Assert.assertNull(split.getStopwatch());
+		Split splitAfterStop = split.stop("subsimon");
+		Assert.assertSame(split, splitAfterStop);
+	}
+
+	@Test
+	public void stopWithSubSimon() {
+		String tag = "error";
+		Split split = SimonManager.getStopwatch(STOPWATCH_NAME).start();
+		String effectiveStopwatchName = STOPWATCH_NAME + Manager.HIERARCHY_DELIMITER + tag;
+		Assert.assertNull(SimonManager.getSimon(effectiveStopwatchName));
+		split.stop(tag);
+		Stopwatch effectiveStopwatch = split.getAttribute(Split.ATTR_EFFECTIVE_STOPWATCH, Stopwatch.class);
+		Assert.assertEquals(effectiveStopwatch.getName(), effectiveStopwatchName);
+		Assert.assertSame(SimonManager.getStopwatch(effectiveStopwatchName), effectiveStopwatch);
+
 	}
 }

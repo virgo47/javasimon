@@ -5,18 +5,22 @@ import org.javasimon.SimonManager;
 import org.javasimon.Split;
 import org.javasimon.callback.CallbackSkeleton;
 import org.javasimon.javaee.reqreporter.RequestReporter;
+import org.javasimon.source.DisabledMonitorSource;
+import org.javasimon.source.StopwatchTemplate;
 import org.javasimon.utils.Replacer;
 import org.javasimon.utils.SimonUtils;
 
-import javax.servlet.*;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.javasimon.source.DisabledMonitorSource;
-import org.javasimon.source.StopwatchTemplate;
 
 /**
  * Simon Servlet filter measuring HTTP request execution times. Non-HTTP usages are not supported.
@@ -31,7 +35,7 @@ import org.javasimon.source.StopwatchTemplate;
  * and classes are provided to override the default function:
  * <ul>
  * <li>{@link #shouldBeReported} - compares actual request nano time with {@link #getThreshold(javax.servlet.http.HttpServletRequest)}
- * (which may become unused if this method is overriden)</li>
+ * (which may become unused if this method is overridden)</li>
  * <li>{@link #getThreshold(javax.servlet.http.HttpServletRequest)} - returns threshold configured in {@code web.xml}</li>
  * <li>{@link org.javasimon.javaee.reqreporter.RequestReporter} can be implemented and specified using init parameter {@link #INIT_PARAM_REQUEST_REPORTER_CLASS}</li>
  * <li>{@link HttpStopwatchSource} can be subclassed and specified using init parameter {@link #INIT_PARAM_STOPWATCH_SOURCE_CLASS}, specifically
@@ -97,10 +101,10 @@ public class SimonServletFilter implements Filter {
 	private static Replacer SLASH_TRIM = new Replacer("^/*(.*?)/*$", "$1");
 
 	/**
-	 * Threshold in ns - any reqest longer than this will be reported by current {@link #requestReporter} instance.
+	 * Threshold in ns - any request longer than this will be reported by current {@link #requestReporter} instance.
 	 * Specified by {@link #INIT_PARAM_REPORT_THRESHOLD_MS} ({@value #INIT_PARAM_REPORT_THRESHOLD_MS}) in the {@code web.xml} (in ms,
 	 * converted to ns during servlet init). This is the default value returned by {@link #getThreshold(javax.servlet.http.HttpServletRequest)}
-	 * but it may be completely ignored if method is overrided so. However if the field is {@code null} threshold reporting feature
+	 * but it may be completely ignored if method is overridden so. However if the field is {@code null} threshold reporting feature
 	 * is disabled.
 	 */
 	protected Long reportThresholdNanos;
@@ -121,7 +125,7 @@ public class SimonServletFilter implements Filter {
 	private Manager manager = SimonManager.manager();
 
 	/**
-	 * Thread local list of splits used to cummulate all splits for the request.
+	 * Thread local list of splits used to cumulate all splits for the request.
 	 * Every instance of the Servlet has its own thread-local to bind its lifecycle to
 	 * the callback that servlet is registering. Then even more callbacks registered from various
 	 * servlets in the same manager do not interfere.
@@ -158,10 +162,10 @@ public class SimonServletFilter implements Filter {
 		requestReporter = SimonServletFilterUtils.initRequestReporter(filterConfig);
 		requestReporter.setSimonServletFilter(this);
 
-		String reportTreshold = filterConfig.getInitParameter(INIT_PARAM_REPORT_THRESHOLD_MS);
-		if (reportTreshold != null) {
+		String reportThreshold = filterConfig.getInitParameter(INIT_PARAM_REPORT_THRESHOLD_MS);
+		if (reportThreshold != null) {
 			try {
-				this.reportThresholdNanos = Long.parseLong(reportTreshold) * SimonUtils.NANOS_IN_MILLIS;
+				this.reportThresholdNanos = Long.parseLong(reportThreshold) * SimonUtils.NANOS_IN_MILLIS;
 				splitSaverCallback = new SplitSaverCallback();
 				manager.callback().addCallback(splitSaverCallback);
 			} catch (NumberFormatException e) {
@@ -190,8 +194,8 @@ public class SimonServletFilter implements Filter {
 	 * @param servletRequest HTTP servlet request
 	 * @param servletResponse HTTP servlet response
 	 * @param filterChain filter chain
-	 * @throws IOException possibly thrown by other filter/serlvet in the chain
-	 * @throws ServletException possibly thrown by other filter/serlvet in the chain
+	 * @throws IOException possibly thrown by other filter/servlet in the chain
+	 * @throws ServletException possibly thrown by other filter/servlet in the chain
 	 */
 	public final void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
@@ -214,15 +218,22 @@ public class SimonServletFilter implements Filter {
 
 		try {
 			filterChain.doFilter(request, response);
+			// TODO: is it sensible to catch exceptions here and stop split with tags?
+			// for instance Wicket does not let the exception go to here anyway
 		} finally {
-			if (split.isEnabled()) {
-				long splitNanoTime = split.stop().runningFor();
-				if (reportThresholdNanos != null) {
-					List<Split> splits = splitsThreadLocal.get();
-					splitsThreadLocal.remove(); // better do this before we call potentially overriden method
-					if (shouldBeReported(request, splitNanoTime, splits)) {
-						requestReporter.reportRequest(request, split, splits);
-					}
+			stopSplitForRequest(request, split);
+		}
+	}
+
+	private void stopSplitForRequest(HttpServletRequest request, Split split) {
+		if (split.isEnabled()) {
+			split.stop();
+			long splitNanoTime = split.runningFor();
+			if (reportThresholdNanos != null) {
+				List<Split> splits = splitsThreadLocal.get();
+				splitsThreadLocal.remove(); // better do this before we call potentially overridden method
+				if (shouldBeReported(request, splitNanoTime, splits)) {
+					requestReporter.reportRequest(request, split, splits);
 				}
 			}
 		}
@@ -265,13 +276,13 @@ public class SimonServletFilter implements Filter {
 			return;
 		}
 
-		String subcommand = SLASH_TRIM.process(localPath.substring(consolePath.length()));
-		if (subcommand.isEmpty()) {
+		String subCommand = SLASH_TRIM.process(localPath.substring(consolePath.length()));
+		if (subCommand.isEmpty()) {
 			printSimonTree(response);
-		} else if (subcommand.equalsIgnoreCase("clearManager")) {
+		} else if (subCommand.equalsIgnoreCase("clearManager")) {
 			manager.clear();
 			response.getOutputStream().println("Simon Manager was cleared");
-		} else if (subcommand.equalsIgnoreCase("help")) {
+		} else if (subCommand.equalsIgnoreCase("help")) {
 			simonHelp(response);
 		} else {
 			response.getOutputStream().println("Invalid command\n");

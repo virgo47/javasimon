@@ -40,8 +40,8 @@ public class Perf4JLikeExample {
 	public static void main(String[] args) {
 		SimonManager.callback().addCallback(new CallbackSkeleton() {
 			@Override
-			public void onStopwatchAdd(Stopwatch stopwatch, Split split, StopwatchSample sample) {
-				System.out.println("INFO: start[" + SimonUtils.millisForNano(split.getStart()) + "] time[" + (split.runningFor() / SimonUtils.NANOS_IN_MILLIS ) + "] tag[" + stopwatch.getName() + "]");
+			public void onStopwatchStop(Split split, StopwatchSample sample) {
+				System.out.println("INFO: start[" + SimonUtils.millisForNano(split.getStart()) + "] time[" + (split.runningFor() / SimonUtils.NANOS_IN_MILLIS ) + "] tag[" + sample.getName() + "]");
 			}
 		});
 		for (int i = 0; i < 20; i++) {
@@ -53,7 +53,7 @@ public class Perf4JLikeExample {
 	// example from http://perf4j.codehaus.org/devguide.html
 	private static void method() {
 //		StopWatch stopWatch = new LoggingStopWatch();
-		Split split = Split.start();
+		Split split = SimonManager.getStopwatch("codeBlock2").start();
 
 		try {
 			// the code block being timed - this is just a dummy example
@@ -63,12 +63,10 @@ public class Perf4JLikeExample {
 				throw new Exception("Throwing exception");
 			}
 
-			SimonManager.getStopwatch("codeBlock2.success").addSplit(split.stop()); //, "Sleep time was < 500 ms");
+			split.stop("success"); //, "Sleep time was < 500 ms");
 //			stopWatch.stop("codeBlock2.success", "Sleep time was < 500 ms");
 		} catch (Exception e) {
-			// Technically, this is NOT correct usage - however it will work if you forget the split and
-			// don't use it for something else again
-			SimonManager.getStopwatch("codeBlock2.failure").addSplit(split); //, "Exception was: " + e);
+			split.stop("failure"); //, "Exception was: " + e);
 //			stopWatch.stop("codeBlock2.failure", "Exception was: " + e);
 		}
 	}

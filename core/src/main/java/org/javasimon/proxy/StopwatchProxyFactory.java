@@ -6,8 +6,7 @@ import org.javasimon.source.MonitorSource;
 import org.javasimon.source.StopwatchTemplate;
 
 /**
- * Stopwatch proxy factory can generate a proxy to wrap an existing class and
- * monitor how its performance.
+ * Stopwatch proxy factory can generate a proxy to wrap an existing class and monitor its performance.
  * Sample usage:
  * <pre>
  * MonitoredInterface monitoredProxy=new StopwatchProxyFactory(monitoredImplementation).newProxy(MonitoredInterface.class);</pre>
@@ -23,16 +22,19 @@ public final class StopwatchProxyFactory<T> extends DelegatingProxyFactory<T> {
 
 	/**
 	 * Constructor
-	 * @param  delegate Wrapped object
-	 * @param  stopwatchSource Stopwatch source (to configure Stopwatch naming)
+	 *
+	 * @param delegate Wrapped object
+	 * @param stopwatchSource Stopwatch source (to configure Stopwatch naming)
 	 */
 	public StopwatchProxyFactory(T delegate, MonitorSource<DelegatingMethodInvocation<T>, Stopwatch> stopwatchSource) {
 		super(delegate);
 		this.stopwatchTemplate = new StopwatchTemplate<DelegatingMethodInvocation<T>>(stopwatchSource);
 	}
+
 	/**
 	 * Constructor
-	 * @param  delegate Wrapped object
+	 *
+	 * @param delegate Wrapped object
 	 */
 	public StopwatchProxyFactory(T delegate) {
 		this(delegate, new ProxyStopwatchSource<T>());
@@ -47,7 +49,7 @@ public final class StopwatchProxyFactory<T> extends DelegatingProxyFactory<T> {
 		try {
 			return methodInvocation.proceed();
 		} finally {
-			stopwatchTemplate.stop(split);
+			split.stop();
 		}
 	}
 }

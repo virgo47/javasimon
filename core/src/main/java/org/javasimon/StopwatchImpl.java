@@ -23,7 +23,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	private double mean2; // used to calculate statistics
 
 	/**
-	 * Construts Stopwatch Simon with a specified name and for the specified manager.
+	 * Constructs Stopwatch Simon with a specified name and for the specified manager.
 	 *
 	 * @param name Simon's name
 	 * @param manager owning manager
@@ -92,15 +92,22 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	 * @param split Split object that has been stopped
 	 * @param start start nano-time of the split @return split time in ns
 	 * @param nowNanos current nano time
+	 * @param subSimon name of the sub-stopwatch (hierarchy delimiter is added automatically), may be {@code null}
 	 */
-	void stop(Split split, long start, long nowNanos) {
+	void stop(Split split, long start, long nowNanos, String subSimon) {
 		StopwatchSample sample = null;
+		StopwatchImpl effectiveStopwatch = this;
 		synchronized (this) {
 			active--;
 			updateUsages(nowNanos);
-			addSplit(nowNanos - start);
+			if (subSimon != null) {
+				effectiveStopwatch = (StopwatchImpl) manager.getStopwatch(getName() + Manager.HIERARCHY_DELIMITER + subSimon);
+				effectiveStopwatch.updateUsages(nowNanos);
+				split.setAttribute(Split.ATTR_EFFECTIVE_STOPWATCH, effectiveStopwatch);
+			}
+			effectiveStopwatch.addSplit(nowNanos - start);
 			if (!manager.callback().callbacks().isEmpty()) {
-				sample = sample();
+				sample = effectiveStopwatch.sample();
 			}
 		}
 		manager.callback().onStopwatchStop(split, sample);

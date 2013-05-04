@@ -1,9 +1,9 @@
 package org.javasimon;
 
+import org.javasimon.utils.SimonUtils;
+
 import java.util.Iterator;
 import java.util.Map;
-
-import org.javasimon.utils.SimonUtils;
 
 /**
  * Represents single time split - one Stopwatch measurement. Object is obtained by {@link org.javasimon.Stopwatch#start()}
@@ -12,6 +12,9 @@ import org.javasimon.utils.SimonUtils;
  * Split measures real time (based on {@link System#nanoTime()}), it does not measure CPU time. Split can be garbage collected
  * and no resource leak occurs if it is not stopped, however Stopwatch's active counter ({@link org.javasimon.Stopwatch#getActive()})
  * will be stay incremented.
+ * <p/>
+ * Split can never be running ({@link #isRunning()}) if it is disabled. Enabled split is running until it is stopped.
+ * Stopped split (not running) will never again be running. Split never changes enabled flag after creation.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @see Stopwatch
@@ -20,16 +23,24 @@ public final class Split implements HasAttributes {
 	/**
 	 * Disabled split (implies not running) for cases where monitoring is disabled and {@code null} value is not an option.
 	 */
-	public static final Split DISABLED = new Split();
+	public static final Split DISABLED = new Split(false);
+
+	/**
+	 * Attribute name under which effectively used stopwatch is stored if the split was stopped with {@link #stop(String)}.
+	 */
+	public static final String ATTR_EFFECTIVE_STOPWATCH = "effective-stopwatch";
 
 	private volatile Stopwatch stopwatch;
+	private final boolean enabled;
+	private volatile boolean running;
+
 	private volatile long start;
 	private volatile long total;
-	private volatile boolean enabled;
-	private volatile boolean running;
+
 	private AttributesSupport attributesSupport = new AttributesSupport();
 
-	private Split() {
+	private Split(boolean enabled) {
+		this.enabled = enabled;
 	}
 
 	/**
@@ -55,12 +66,13 @@ public final class Split implements HasAttributes {
 	 */
 	Split(Stopwatch stopwatch) {
 		assert !(stopwatch.isEnabled()) : "stopwatch must be disabled in this constructor!";
+		this.enabled = false;
 		this.stopwatch = stopwatch;
 	}
 
 	/**
 	 * Creates a new Split for direct use without {@link Stopwatch} ("anonymous split"). Stop will not update any Stopwatch,
-	 * value can be added to any chosen Stopwatch using {@link Stopwatch#addSplit(Split)} - even in conjuction with
+	 * value can be added to any chosen Stopwatch using {@link Stopwatch#addSplit(Split)} - even in conjunction with
 	 * {@link #stop()} like this:
 	 * <p/>
 	 * <pre>Split split = Split.start();
@@ -76,17 +88,16 @@ public final class Split implements HasAttributes {
 	 * @since 3.4
 	 */
 	public static Split start() {
-		Split split = new Split();
-		split.enabled = true;
+		Split split = new Split(true);
 		split.running = true;
 		split.start = System.nanoTime();
 		return split;
 	}
 
 	/**
-	 * Returns the stopwatch that this split is running for. May be null for anonymous splits (directly created).
+	 * Returns the stopwatch that this split is running for. May be {@code null} for anonymous splits (directly created).
 	 *
-	 * @return owning stopwatch, may be null
+	 * @return owning stopwatch, may be {@code null}
 	 */
 	public Stopwatch getStopwatch() {
 		return stopwatch;
@@ -99,6 +110,19 @@ public final class Split implements HasAttributes {
 	 * @since 3.1 - previously returned split time in ns, call additional {@link #runningFor()} for the same result
 	 */
 	public Split stop() {
+		return stop(null);
+	}
+
+	/**
+	 * Stops the split, updates the sub-stopwatch specified by parameter and returns this.
+	 * Subsequent calls do not change the state of the split.
+	 *
+	 * @param subSimon name of the sub-stopwatch (hierarchy delimiter is added automatically) - if {@code null}
+	 * it behaves exactly like {@link #stop()}
+	 * @return this split object
+	 * @since 3.4
+	 */
+	public Split stop(String subSimon) {
 		if (!running) {
 			return this;
 		}
@@ -106,7 +130,7 @@ public final class Split implements HasAttributes {
 		long nowNanos = System.nanoTime();
 		total = nowNanos - start; // we update total before calling the stop so that callbacks can use it
 		if (stopwatch != null) {
-			((StopwatchImpl) stopwatch).stop(this, start, nowNanos);
+			((StopwatchImpl) stopwatch).stop(this, start, nowNanos, subSimon);
 		}
 		return this;
 	}
@@ -147,15 +171,6 @@ public final class Split implements HasAttributes {
 	}
 
 	/**
-	 * Returns true if this split was created from disabled Simon or it is {@link #DISABLED} Split.
-	 *
-	 * @return true if this split was created from disabled Simon
-	 */
-	public boolean isDisabled() {
-		return !enabled;
-	}
-
-	/**
 	 * Returns true if this split is still running ({@link #stop()} has not been called yet).
 	 * Returns false for disabled Split.
 	 *
@@ -190,16 +205,30 @@ public final class Split implements HasAttributes {
 	}
 
 	/**
-	 * Returns the value of the named attribute as an Object, or null if no attribute of
+	 * Returns the value of the named attribute as an Object, or {@code null} if no attribute of
 	 * the given name exists.
 	 *
 	 * @param name a String specifying the name of the attribute
-	 * @return an Object containing the value of the attribute, or null if the attribute does not exist
+	 * @return an Object containing the value of the attribute, or {@code null} if the attribute does not exist
 	 * @since 2.3
 	 */
 	@Override
 	public Object getAttribute(String name) {
 		return attributesSupport.getAttribute(name);
+	}
+
+	/**
+	 * Returns the value of the named attribute typed to the specified class, or {@code null} if no attribute of
+	 * the given name exists.
+	 *
+	 * @param name a String specifying the name of the attribute
+	 * @return the value of the attribute typed to T, or {@code null} if the attribute does not exist
+	 * @since 3.4
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> T getAttribute(String name, Class<T> clazz) {
+		return attributesSupport.getAttribute(name, clazz);
 	}
 
 	/**

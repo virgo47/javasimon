@@ -109,7 +109,7 @@ public class LastSplitsCallback extends CallbackSkeleton {
 
 	/**
 	 * Create log template for given stopwatch.
-	 * This method can be overriden to tune logging strategy.
+	 * This method can be overridden to tune logging strategy.
 	 * By default, when {@link #isLogEnabled()} is set, last splits are logged at each buffer revolution.
 	 *
 	 * @param stopwatch Stopwatch

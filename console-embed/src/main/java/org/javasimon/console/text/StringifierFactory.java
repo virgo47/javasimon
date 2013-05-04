@@ -12,7 +12,7 @@ import org.javasimon.utils.SimonUtils;
  * Base helper class to format values of attributes of simons.
  * This class is in charge of initializing the dictionnary contained
  * in {@link CompositeStringifier}.
- * This class can be overriden to export differently JSON, CSV formats
+ * This class can be overridden to export differently JSON, CSV formats
  *
  * @author gquintana
  */
@@ -52,7 +52,7 @@ public class StringifierFactory {
 	protected final  CompositeStringifier compositeStringifier = new CompositeStringifier();
 	/**
 	 * Register a stringifier for null values.
-	 * Method aimed at being overriden. Should call {@link #registerNullStringifier(java.lang.String) }.
+	 * Method aimed at being overridden. Should call {@link #registerNullStringifier(java.lang.String) }.
 	 */
 	protected Stringifier registerNullStringifier() {
 		return registerNullStringifier("");
@@ -71,7 +71,7 @@ public class StringifierFactory {
 	}
 	/**
 	 * Register a stringifier for String values.
-	 * Method aimed at being overriden.
+	 * Method aimed at being overridden.
 	 */
 	protected Stringifier<String> registerStringStringifier(Stringifier nullStringifier) {
 		Stringifier<String> stringStringifier=new BaseStringifier<String>(nullStringifier) {
@@ -101,7 +101,7 @@ public class StringifierFactory {
 	}
 	/**
 	 * Register a stringifier for various types and subtypes
-	 * Method aimed at being overriden.
+	 * Method aimed at being overridden.
 	 */
 	public void init(TimeFormatType timeFormat, String datePattern, String numberPattern) {
 		// Null

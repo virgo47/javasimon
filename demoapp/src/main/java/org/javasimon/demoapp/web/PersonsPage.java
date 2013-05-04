@@ -1,13 +1,13 @@
 package org.javasimon.demoapp.web;
 
-import java.util.Random;
-
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
-import org.apache.wicket.util.string.*;
+import org.apache.wicket.util.string.StringValue;
 import org.javasimon.Manager;
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
+
+import java.util.Random;
 
 public class PersonsPage extends WebPage {
 	private static final long serialVersionUID = 1L;
@@ -25,6 +25,18 @@ public class PersonsPage extends WebPage {
 		StringValue parameterNew = parameters.get("new");
 		if (parameterNew != null && !parameterNew.isEmpty()) {
 			split = SimonManager.getStopwatch(generateRandomName(5)).start();
+		}
+		StringValue parameterException = parameters.get("exception");
+		if (parameterException != null && !parameterException.isEmpty()) {
+			if (parameterException.toString().equals("npe")) {
+				throw new NullPointerException("as requested");
+			}
+			if (parameterException.toString().equals("rte")) {
+				throw new RuntimeException("runtime brutal");
+			}
+			if (parameterException.toString().equals("iae")) {
+				throw new IllegalArgumentException("you're doing something illegal!");
+			}
 		}
 		try {
 			SimonManager.getCounter("some.counter").increase(2);

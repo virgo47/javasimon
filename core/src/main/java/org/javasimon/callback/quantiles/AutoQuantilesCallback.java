@@ -27,7 +27,7 @@ import org.javasimon.utils.SimonUtils;
  * </ul>
  * <li><em>Normal</em>: <ul>
  * <li>Buckets are filled/updated with new splits as they come</li>
- * <li>Quantiles can be computed (provided there is enough splits and buckets are propertly configured)</li>
+ * <li>Quantiles can be computed (provided there is enough splits and buckets are properly configured)</li>
  * </ul>
  * </li></ol>
  *
@@ -63,9 +63,6 @@ public class AutoQuantilesCallback extends QuantilesCallback {
 
 	/**
 	 * Constructor with warmup counter and number of linear buckets for each Simon.
-	 *
-	 * @param warmupCounter
-	 * @param bucketNb
 	 */
 	public AutoQuantilesCallback(long warmupCounter, int bucketNb) {
 		this.warmupCounter = warmupCounter;
@@ -117,7 +114,7 @@ public class AutoQuantilesCallback extends QuantilesCallback {
 
 	/**
 	 * Create the buckets after warmup time.
-	 * Can be overriden to customize buckets configuration.
+	 * Can be overridden to customize buckets configuration.
 	 * By default buckets are create with:<ul>
 	 * <li>Min: stopwatch min-10% rounded to inferior millisecond</li>
 	 * <li>Max: stopwatch max+10 rounded to superior millisecond</li>
@@ -134,8 +131,7 @@ public class AutoQuantilesCallback extends QuantilesCallback {
 		// Compute max
 		long max = (stopwatch.getMax() * 110L) / 100L; // max +10%
 		max = (max / SimonUtils.NANOS_IN_MILLIS + 1) * SimonUtils.NANOS_IN_MILLIS; // round to upper millisecond
-		Buckets buckets = createBuckets(stopwatch, min, max, bucketNb);
-		return buckets;
+		return createBuckets(stopwatch, min, max, bucketNb);
 	}
 	/**
 	 * When warmup ends, buckets are create and retained splits are
@@ -203,7 +199,7 @@ public class AutoQuantilesCallback extends QuantilesCallback {
 	}
 	
 	/**
-	 * When the Stopwatch is reseted, so are the buckets.
+	 * When the Stopwatch is reset, so are the buckets.
 	 */
 	@Override
 	public void onSimonReset(Simon simon) {
