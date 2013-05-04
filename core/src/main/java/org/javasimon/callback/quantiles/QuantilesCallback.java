@@ -78,7 +78,7 @@ public abstract class QuantilesCallback extends CallbackSkeleton {
 
 	/**
 	 * Create log template for given stopwatch.
-	 * This method can be overriden to tune loging strategy.
+	 * This method can be overridden to tune logging strategy.
 	 * By default, when enabled, quantiles are logged at most once per minute
 	 *
 	 * @param stopwatch Stopwatch

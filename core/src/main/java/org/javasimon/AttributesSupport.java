@@ -27,6 +27,12 @@ final class AttributesSupport implements HasAttributes {
 		return attributes.get(name);
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> T getAttribute(String name, Class<T> clazz) {
+		return (T) getAttribute(name);
+	}
+
 	@Override
 	public synchronized void removeAttribute(String name) {
 		if (attributes != null) {

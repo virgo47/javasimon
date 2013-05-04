@@ -87,7 +87,7 @@ public class LoggingCallback extends CallbackSkeleton {
 
 	/**
 	 * Get log template for stopwatch, defaults to {@link #stopwatchLogTemplate}.
-	 * This method can be overriden to get a specific log template per stopwatch.
+	 * This method can be overridden to get a specific log template per stopwatch.
 	 *
 	 * @param stopwatch Stopwatch
 	 * @return Logger

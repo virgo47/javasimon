@@ -46,7 +46,7 @@ public class SpringStopwatchSource extends AbstractMethodStopwatchSource<MethodI
 
 	/**
 	 * By default returns {@code true} because it is expected to be called from {@link MonitoringInterceptor} which means that the method call
-	 * should be monitored. Pointcuts provided enough mechanism to decide whether the method is monitored or not, but this method can be overriden
+	 * should be monitored. Pointcuts provided enough mechanism to decide whether the method is monitored or not, but this method can be overridden
 	 * if needed.
 	 *
 	 * @param methodInvocation current method invocation

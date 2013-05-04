@@ -18,7 +18,7 @@ import org.javasimon.console.text.StringifierFactory;
 
 /**
  * Base class for exporting Simons as tabular data
- * The following methods a called during rendering and can be overriden
+ * The following methods a called during rendering and can be overridden
  * <ul>
  * <li>{@link #printTable }: <ul>
  * <li>{@link #printHeaderRow}: <ul>

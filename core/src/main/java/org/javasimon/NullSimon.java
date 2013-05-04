@@ -1,10 +1,13 @@
 package org.javasimon;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Null Simon implements Simon returned by the disabled {@link Manager#getSimon(String)}
- * or {@link org.javasimon.Manager#getRootSimon()}. Null Simon does nothing, returns null
+ * or {@link org.javasimon.Manager#getRootSimon()}. Null Simon does nothing, returns {@code null}
  * or zeroes wherever return value is expected and has minimal performance impact on the system.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
@@ -76,6 +79,7 @@ class NullSimon implements Simon {
 	 *
 	 * @return note for the Simon.
 	 */
+	@Override
 	public String getNote() {
 		return null;
 	}
@@ -85,6 +89,7 @@ class NullSimon implements Simon {
 	 *
 	 * @param note note for the Simon.
 	 */
+	@Override
 	public void setNote(String note) {
 	}
 
@@ -104,16 +109,30 @@ class NullSimon implements Simon {
 	 * @param name ignored
 	 * @param value ignored
 	 */
+	@Override
 	public void setAttribute(String name, Object value) {
 	}
 
 	/**
-	 * Returns null.
+	 * Returns {@code null}.
 	 *
 	 * @param name ignored
-	 * @return null
+	 * @return {@code null}
 	 */
+	@Override
 	public Object getAttribute(String name) {
+		return null;
+	}
+
+	/**
+	 * Returns {@code null}.
+	 *
+	 * @param name ignored
+	 * @param clazz ignored
+	 * @return {@code null}
+	 */
+	@Override
+	public <T> T getAttribute(String name, Class<T> clazz) {
 		return null;
 	}
 
@@ -122,6 +141,7 @@ class NullSimon implements Simon {
 	 *
 	 * @param name ignored
 	 */
+	@Override
 	public void removeAttribute(String name) {
 	}
 
@@ -130,6 +150,7 @@ class NullSimon implements Simon {
 	 *
 	 * @return empty iterator
 	 */
+	@Override
 	public Iterator<String> getAttributeNames() {
 		return Collections.<String>emptySet().iterator();
 	}

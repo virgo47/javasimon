@@ -12,10 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Provide stopwatch source for HTTP Servlet request.
  * Used by {@link SimonServletFilter} as default stopwatch source.
- * Can be overriden to customize monitored HTTP Requests and their
+ * Can be overridden to customize monitored HTTP Requests and their
  * related Simon name.
  * <p/>
- * To select which HTTP Request should be monitored method {@link #isMonitored} can be overriden. Default implementation monitors everything except for
+ * To select which HTTP Request should be monitored method {@link #isMonitored} can be overridden. Default implementation monitors everything except for
  * typical resource-like requests (images, JS/CSS, ...).
  *
  * @author gquintana
@@ -57,10 +57,10 @@ public class HttpStopwatchSource extends AbstractStopwatchSource<HttpServletRequ
 
 	/**
 	 * Returns Simon name for the specified HTTP request with the specified prefix. By default it contains URI without parameters with
-	 * all slashes replaced for dots (slashes then determines position in Simon hierarchy). Method can NOT be overriden, but some of the
+	 * all slashes replaced for dots (slashes then determines position in Simon hierarchy). Method can NOT be overridden, but some of the
 	 * following steps can:
 	 * <ol>
-	 * <li>the request is transformed to the string ({@link #requestToStringForMonitorName(javax.servlet.http.HttpServletRequest)}, can be overriden),</li>
+	 * <li>the request is transformed to the string ({@link #requestToStringForMonitorName(javax.servlet.http.HttpServletRequest)}, can be overridden),</li>
 	 * <li>the characters that are not allowed as part of the Simon name are replaced with underscore (_) - replacement regex can be changed with {@link #setReplaceUnallowed(String)},</li>
 	 * <li>any subsequent slashes and dots are replaced with a single dot ({@link org.javasimon.Manager#HIERARCHY_DELIMITER})</li>
 	 * </ol>
@@ -81,7 +81,7 @@ public class HttpStopwatchSource extends AbstractStopwatchSource<HttpServletRequ
 	/**
 	 * Performs the first step in getting the monitor name from the specified HTTP request - here any custom ignore logic should happen.
 	 * By default the name is URI (without parameters - see {@link javax.servlet.http.HttpServletRequest#getRequestURI()}) with JSessionID
-	 * removed (see {@link #removeJSessionIdFromUri(String)}). This method can be overriden for two typical reasons:
+	 * removed (see {@link #removeJSessionIdFromUri(String)}). This method can be overridden for two typical reasons:
 	 * <ul>
 	 * <li>Name of the monitor (Stopwatch) should be based on something else then URI,</li>
 	 * <li>there are other parts of the name that should be modified or ignored (e.g., REST parameters that are part of the URI).</li>
@@ -100,7 +100,7 @@ public class HttpStopwatchSource extends AbstractStopwatchSource<HttpServletRequ
 
 	/**
 	 * Called by default implementation of {@link #requestToStringForMonitorName(javax.servlet.http.HttpServletRequest)} and extracted
-	 * so it can be used by any overriding implementation of the same method. Method can be overriden if the default behavior is not
+	 * so it can be used by any overriding implementation of the same method. Method can be overridden if the default behavior is not
 	 * sufficient.
 	 *
 	 * @param uri preprocessed URI that may contain JSessionID

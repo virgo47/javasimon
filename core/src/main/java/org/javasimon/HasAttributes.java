@@ -48,4 +48,14 @@ public interface HasAttributes {
 	 * @return copy of attributes as a sorted map
 	 */
 	Map<String, Object> getCopyAsSortedMap();
+
+	/**
+	 * Returns the value of the named attribute typed to the specified class, or {@code null} if no attribute of
+	 * the given name exists.
+	 *
+	 * @param name a String specifying the name of the attribute
+	 * @return the value of the attribute typed to T, or {@code null} if the attribute does not exist
+	 * @since 3.4
+	 */
+	<T> T getAttribute(String name, Class<T> clazz);
 }

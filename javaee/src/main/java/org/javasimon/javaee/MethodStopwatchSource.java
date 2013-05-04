@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
 /**
  * Provide stopwatch source for EJB and CDI invocation context.
  * Used by {@link SimonInterceptor} as default stopwatch source.
- * Can be overriden to customize monitored EJB methods and their
+ * Can be overridden to customize monitored EJB methods and their
  * related Simon name.
  * @author gquintana
  */
@@ -20,7 +20,7 @@ public class MethodStopwatchSource extends AbstractMethodStopwatchSource<Invocat
 	public static final String DEFAULT_PREFIX = "org.javasimon.business";
 
 	/**
-	 * Simon name prefix - can be overriden in subclasses.
+	 * Simon name prefix - can be overridden in subclasses.
 	 */
 	protected String prefix = DEFAULT_PREFIX;
 
@@ -49,7 +49,7 @@ public class MethodStopwatchSource extends AbstractMethodStopwatchSource<Invocat
 	/**
 	 * Returns Simon name for the specified Invocation context.
 	 * By default it contains the prefix + method name.
-	 * This method can be overriden.
+	 * This method can be overridden.
 	 *
 	 * @param context Invocation context
 	 * @return fully qualified name of the Simon

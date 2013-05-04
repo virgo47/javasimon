@@ -15,7 +15,7 @@ import org.javasimon.utils.SimonUtils;
 
 /**
  * Reports significant splits (longer than 5% of the request) and list of all used stopwatches with their split counts.
- * Report is sent through {@link org.javasimon.Manager#message(String)}. Following aspects of the class can be overriden:
+ * Report is sent through {@link org.javasimon.Manager#message(String)}. Following aspects of the class can be overridden:
  * <ul>
  * <li>Where the report goes - override {@link #reportMessage(String)},</li>
  * <li>what is significant split - override {@link #isSignificantSplit(org.javasimon.Split, org.javasimon.Split)},</li>
@@ -47,7 +47,7 @@ public class DefaultRequestReporter implements RequestReporter {
 	}
 
 	/**
-	 * Reports the prepared message through the method {@link org.javasimon.Manager#message(String)} - can be overriden
+	 * Reports the prepared message through the method {@link org.javasimon.Manager#message(String)} - can be overridden
 	 * to emit the message to log/console/etc.
 	 *
 	 * @param message prepared message with report
@@ -80,13 +80,13 @@ public class DefaultRequestReporter implements RequestReporter {
 	}
 
 	/**
-	 * Can be overriden to decide whether {@link Split} is considered significant to be reported in the first part of the output.
+	 * Can be overridden to decide whether {@link Split} is considered significant to be reported in the first part of the output.
 	 * By default all Splits with time over 5% of total request time are significant. This includes overlapping splits too, so more than
 	 * 20 splits can be reported.
 	 *
 	 * @param split tested Split
 	 * @param requestSplit Split for the whole HTTP request
-	 * @return true, if tested Split is singificant
+	 * @return true, if tested Split is significant
 	 */
 	protected boolean isSignificantSplit(Split split, Split requestSplit) {
 		return split.runningFor() > (requestSplit.runningFor() / 20); // is more than 5%

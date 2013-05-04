@@ -21,14 +21,14 @@ public class SimonInterceptor {
 	public static final String DEFAULT_INTERCEPTOR_PREFIX = "org.javasimon.business";
 
 	/**
-	 * Simon name prefix - can be overriden in subclasses.
+	 * Simon name prefix - can be overridden in subclasses.
 	 */
 	protected String prefix = DEFAULT_INTERCEPTOR_PREFIX;
 
 	/**
 	 * Returns Simon name for the specified Invocation context.
 	 * By default it contains the prefix + method name.
-	 * This method can be overriden.
+	 * This method can be overridden.
 	 *
 	 * @param context Invocation context
 	 * @return fully qualified name of the Simon
@@ -43,7 +43,7 @@ public class SimonInterceptor {
 	/**
 	 * Indicates whether the method invocation should be monitored.
 	 * Default behavior always returns true.
-	 * This method can be overriden
+	 * This method can be overridden
 	 *
 	 * @param context Method invocation context
 	 * @return true to enable Simon, false either
