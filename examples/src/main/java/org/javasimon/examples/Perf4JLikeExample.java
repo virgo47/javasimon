@@ -41,6 +41,15 @@ public class Perf4JLikeExample {
 		SimonManager.callback().addCallback(new CallbackSkeleton() {
 			@Override
 			public void onStopwatchStop(Split split, StopwatchSample sample) {
+				printPerf4JLog(split, sample);
+			}
+
+			@Override
+			public void onStopwatchAdd(Stopwatch stopwatch, Split split, StopwatchSample sample) {
+				printPerf4JLog(split, sample);
+			}
+
+			private void printPerf4JLog(Split split, StopwatchSample sample) {
 				System.out.println("INFO: start[" + SimonUtils.millisForNano(split.getStart()) + "] time[" + (split.runningFor() / SimonUtils.NANOS_IN_MILLIS ) + "] tag[" + sample.getName() + "]");
 			}
 		});
