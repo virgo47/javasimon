@@ -1,9 +1,9 @@
 package org.javasimon;
 
-import org.javasimon.utils.SimonUtils;
-
 import java.util.Iterator;
 import java.util.Map;
+
+import org.javasimon.utils.SimonUtils;
 
 /**
  * Represents single time split - one Stopwatch measurement. Object is obtained by {@link org.javasimon.Stopwatch#start()}
@@ -114,8 +114,16 @@ public final class Split implements HasAttributes {
 	}
 
 	/**
-	 * Stops the split, updates the sub-stopwatch specified by parameter and returns this.
-	 * Subsequent calls do not change the state of the split.
+	 * Stops the split, updates the sub-stopwatch specified by parameter and returns this. Active counter of the original stopwatch
+	 * is decreased as expected. Subsequent calls do not change the state of the split.
+	 * <p/>
+	 * <b>Important:</b> While {@link #stop()} (or this stop with {@code null} argument)
+	 * results in {@link org.javasimon.callback.Callback#onStopwatchStop(Split, StopwatchSample)} callback method being invoked,
+	 * if sub-simon is affected then {@link org.javasimon.callback.Callback#onStopwatchAdd(Stopwatch, Split, StopwatchSample)}
+	 * is called instead.
+	 * <p/>
+	 * If the split was obtained from disabled Stopwatch, this method does not update sub-simon even if it is enabled, because
+	 * split itself is disabled as well. If split is enabled, but sub-simon is disabled, the latter is not updated.
 	 *
 	 * @param subSimon name of the sub-stopwatch (hierarchy delimiter is added automatically) - if {@code null}
 	 * it behaves exactly like {@link #stop()}
