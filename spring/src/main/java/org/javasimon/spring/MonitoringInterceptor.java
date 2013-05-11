@@ -61,11 +61,12 @@ public class MonitoringInterceptor extends BasicMonitoringInterceptor {
 	 * @return return object from the method
 	 * @throws Throwable
 	 */
-	protected Object processInvoke(MethodInvocation invocation, @SuppressWarnings("UnusedParameters") Split split) throws Throwable {
+	protected Object processInvoke(MethodInvocation invocation, Split split) throws Throwable {
 		try {
 			return invocation.proceed();
-		} catch (Throwable t) {
-			split.stop(t.getClass().getSimpleName());
+		}
+		catch (Throwable t) {
+			split.stop(tagByExceptionType ? t.getClass().getSimpleName() : EXCEPTION_TAG);
 			throw t;
 		}
 	}
