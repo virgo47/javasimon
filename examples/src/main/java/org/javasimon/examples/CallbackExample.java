@@ -20,10 +20,12 @@ public final class CallbackExample {
 	 */
 	public static void main(String[] args) {
 		SimonManager.callback().addCallback(new CallbackSkeleton() {
+			@Override
 			public void onStopwatchStart(Split split) {
 				System.out.println("\nStopwatch " + split.getStopwatch().getName() + " has just been started.");
 			}
 
+			@Override
 			public void onStopwatchStop(Split split, StopwatchSample sample) {
 				System.out.println("Stopwatch " + split.getStopwatch().getName()
 					+ " has just been stopped (" + SimonUtils.presentNanoTime(split.runningFor()) + ").");
@@ -34,6 +36,7 @@ public final class CallbackExample {
 		sw.start().stop();
 
 		Split split = sw.start();
+		//noinspection StatementWithEmptyBody
 		for (int i = 0; i < 1000000; i++) {
 			// what does JVM do with empty loop? :-)))
 		}
