@@ -19,7 +19,6 @@ public final class AggregationExample {
 	private static final int STOPWATCH_COUNT = 4;
 
 	private static final int ITERATIONS = 100;
-	private static final int ITERATION_MS_MAX = 50;
 
 	private static Random random = new Random();
 

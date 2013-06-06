@@ -26,10 +26,12 @@ public final class CallbackFilteringExample {
 
 		// simple callback printing actions to the stdout is created and installed
 		Callback stdoutCallback = new CallbackSkeleton() {
+			@Override
 			public void onStopwatchStart(Split split) {
 				System.out.println("Starting " + split.getStopwatch().getName());
 			}
 
+			@Override
 			public void onStopwatchStop(Split split, StopwatchSample sample) {
 				System.out.println("Stopped " + split.getStopwatch().getName() + " (" + SimonUtils.presentNanoTime(split.runningFor()) + ")");
 			}
