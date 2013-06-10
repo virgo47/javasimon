@@ -6,10 +6,12 @@ import javax.servlet.http.HttpServletRequest;
 import org.javasimon.DisabledManager;
 import org.javasimon.Manager;
 import org.javasimon.SimonManager;
+import org.javasimon.Split;
 import org.javasimon.Stopwatch;
 import org.javasimon.source.AbstractStopwatchSource;
-import org.javasimon.source.CacheMonitorSource;
+import org.javasimon.source.CachedMonitorSource;
 import org.javasimon.source.MonitorSource;
+import org.javasimon.source.StopwatchSource;
 import org.springframework.mock.web.MockFilterConfig;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.testng.Assert;
@@ -22,7 +24,7 @@ public class SimonServletFilterUtilsTest {
 		MonitorSource<HttpServletRequest, Stopwatch> monitorSource = SimonServletFilterUtils.initStopwatchSource(
 			prepareFilterConfig(null, null), null);
 		Assert.assertNull(monitorSource.getManager());
-		Assert.assertFalse(monitorSource instanceof CacheMonitorSource);
+		Assert.assertFalse(monitorSource instanceof CachedMonitorSource);
 		Assert.assertTrue(monitorSource instanceof HttpStopwatchSource);
 	}
 
@@ -31,7 +33,7 @@ public class SimonServletFilterUtilsTest {
 		MonitorSource<HttpServletRequest, Stopwatch> monitorSource = SimonServletFilterUtils.initStopwatchSource(
 			prepareFilterConfig(null, Boolean.FALSE.toString()), SimonManager.manager());
 		Assert.assertEquals(monitorSource.getManager(), SimonManager.manager());
-		Assert.assertFalse(monitorSource instanceof CacheMonitorSource);
+		Assert.assertFalse(monitorSource instanceof CachedMonitorSource);
 		Assert.assertTrue(monitorSource instanceof HttpStopwatchSource);
 	}
 
@@ -40,7 +42,7 @@ public class SimonServletFilterUtilsTest {
 		MonitorSource<HttpServletRequest, Stopwatch> monitorSource = SimonServletFilterUtils.initStopwatchSource(
 			prepareFilterConfig(null, Boolean.TRUE.toString()), null);
 		Assert.assertNull(monitorSource.getManager());
-		Assert.assertTrue(monitorSource instanceof CacheMonitorSource);
+		Assert.assertTrue(monitorSource instanceof CachedMonitorSource);
 	}
 
 	@Test
@@ -49,7 +51,7 @@ public class SimonServletFilterUtilsTest {
 		MonitorSource<HttpServletRequest, Stopwatch> monitorSource = SimonServletFilterUtils.initStopwatchSource(
 			prepareFilterConfig(null, Boolean.TRUE.toString()), manager);
 		Assert.assertEquals(monitorSource.getManager(), manager);
-		Assert.assertTrue(monitorSource instanceof CacheMonitorSource);
+		Assert.assertTrue(monitorSource instanceof CachedMonitorSource);
 	}
 
 	@Test
@@ -126,7 +128,7 @@ class MonitorSourceWithManagerViaConstructorBroken extends AbstractStopwatchSour
 }
 
 @SuppressWarnings("UnusedDeclaration")
-class MonitorSourceNoConstructorManagerViaSetter implements MonitorSource<HttpServletRequest, Stopwatch> {
+class MonitorSourceNoConstructorManagerViaSetter implements StopwatchSource<HttpServletRequest> {
 	private Manager manager;
 
 	@Override
@@ -146,6 +148,11 @@ class MonitorSourceNoConstructorManagerViaSetter implements MonitorSource<HttpSe
 
 	public void setManager(Manager manager) {
 		this.manager = manager;
+	}
+
+	@Override
+	public Split start(HttpServletRequest location) {
+		return null; // not used here
 	}
 }
 

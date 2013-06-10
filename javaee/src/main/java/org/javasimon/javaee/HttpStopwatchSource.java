@@ -3,8 +3,8 @@ package org.javasimon.javaee;
 import org.javasimon.Manager;
 import org.javasimon.Stopwatch;
 import org.javasimon.source.AbstractStopwatchSource;
-import org.javasimon.source.CacheMonitorSource;
-import org.javasimon.source.MonitorSource;
+import org.javasimon.source.CachedStopwatchSource;
+import org.javasimon.source.StopwatchSource;
 import org.javasimon.utils.Replacer;
 
 import javax.servlet.http.HttpServletRequest;
@@ -145,11 +145,11 @@ public class HttpStopwatchSource extends AbstractStopwatchSource<HttpServletRequ
 	 * @param stopwatchSource Stopwatch source
 	 * @return Cached stopwatch source
 	 */
-	public static MonitorSource<HttpServletRequest, Stopwatch> newCacheStopwatchSource(MonitorSource<HttpServletRequest, Stopwatch> stopwatchSource) {
-		return new CacheMonitorSource<HttpServletRequest, Stopwatch, String>(stopwatchSource) {
+	public static StopwatchSource<HttpServletRequest> newCacheStopwatchSource(StopwatchSource<HttpServletRequest> stopwatchSource) {
+		return new CachedStopwatchSource<HttpServletRequest, String>(stopwatchSource) {
 			@Override
-			protected String getLocationKey(HttpServletRequest l) {
-				return l.getRequestURI();
+			protected String getLocationKey(HttpServletRequest location) {
+				return location.getRequestURI();
 			}
 		};
 	}

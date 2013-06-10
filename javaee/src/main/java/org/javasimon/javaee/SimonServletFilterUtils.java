@@ -5,6 +5,7 @@ import org.javasimon.Stopwatch;
 import org.javasimon.javaee.reqreporter.DefaultRequestReporter;
 import org.javasimon.javaee.reqreporter.RequestReporter;
 import org.javasimon.source.MonitorSource;
+import org.javasimon.source.StopwatchSource;
 import org.javasimon.utils.Replacer;
 import org.javasimon.utils.SimonUtils;
 
@@ -60,9 +61,9 @@ public class SimonServletFilterUtils {
 	 * @param filterConfig Filter configuration
 	 * @return Stopwatch source
 	 */
-	protected static MonitorSource<HttpServletRequest, Stopwatch> initStopwatchSource(FilterConfig filterConfig, Manager manager) {
+	protected static StopwatchSource<HttpServletRequest> initStopwatchSource(FilterConfig filterConfig, Manager manager) {
 		String stopwatchSourceClass = filterConfig.getInitParameter(SimonServletFilter.INIT_PARAM_STOPWATCH_SOURCE_CLASS);
-		MonitorSource<HttpServletRequest, Stopwatch> stopwatchSource = createMonitorSource(stopwatchSourceClass, manager);
+		StopwatchSource<HttpServletRequest> stopwatchSource = createMonitorSource(stopwatchSourceClass, manager);
 
 		injectSimonPrefixIntoMonitorSource(filterConfig, stopwatchSource);
 
@@ -72,7 +73,7 @@ public class SimonServletFilterUtils {
 		return stopwatchSource;
 	}
 
-	private static MonitorSource<HttpServletRequest, Stopwatch> createMonitorSource(String stopwatchSourceClass, Manager manager) {
+	private static StopwatchSource<HttpServletRequest> createMonitorSource(String stopwatchSourceClass, Manager manager) {
 		if (stopwatchSourceClass == null) {
 			return new HttpStopwatchSource(manager);
 		} else {
@@ -92,14 +93,14 @@ public class SimonServletFilterUtils {
 		}
 	}
 
-	private static MonitorSource<HttpServletRequest, Stopwatch> wrapMonitorSourceWithCacheIfNeeded(MonitorSource<HttpServletRequest, Stopwatch> stopwatchSource, String cache) {
+	private static StopwatchSource<HttpServletRequest> wrapMonitorSourceWithCacheIfNeeded(StopwatchSource<HttpServletRequest> stopwatchSource, String cache) {
 		if (cache != null && Boolean.parseBoolean(cache)) {
 			stopwatchSource = HttpStopwatchSource.newCacheStopwatchSource(stopwatchSource);
 		}
 		return stopwatchSource;
 	}
 
-	private static MonitorSource<HttpServletRequest, Stopwatch> createMonitorForSourceSpecifiedClass(String stopwatchSourceClass, Manager manager) {
+	private static StopwatchSource<HttpServletRequest> createMonitorForSourceSpecifiedClass(String stopwatchSourceClass, Manager manager) {
 		try {
 			Class<?> monitorClass = Class.forName(stopwatchSourceClass);
 			return  monitorSourceNewInstance(manager, monitorClass);
@@ -115,17 +116,17 @@ public class SimonServletFilterUtils {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static MonitorSource<HttpServletRequest, Stopwatch> monitorSourceNewInstance(Manager manager, Class<?> monitorClass) throws InstantiationException, IllegalAccessException {
-		MonitorSource<HttpServletRequest, Stopwatch> stopwatchSource = null;
+	private static StopwatchSource<HttpServletRequest> monitorSourceNewInstance(Manager manager, Class<?> monitorClass) throws InstantiationException, IllegalAccessException {
+		StopwatchSource<HttpServletRequest> stopwatchSource = null;
 		try {
-			stopwatchSource = (MonitorSource<HttpServletRequest, Stopwatch>) monitorClass.getConstructor(Manager.class).newInstance(manager);
+			stopwatchSource = (StopwatchSource<HttpServletRequest>) monitorClass.getConstructor(Manager.class).newInstance(manager);
 		} catch (NoSuchMethodException e) {
 			// safe to ignore here - we'll try default constructor + setter
 		} catch (InvocationTargetException e) {
 			// safe to ignore here
 		}
 		if (stopwatchSource == null) {
-			stopwatchSource = (MonitorSource<HttpServletRequest, Stopwatch>) monitorClass.newInstance();
+			stopwatchSource = (StopwatchSource<HttpServletRequest>) monitorClass.newInstance();
 			try {
 				monitorClass.getMethod("setManager", Manager.class).invoke(stopwatchSource, manager);
 			} catch (NoSuchMethodException e) {

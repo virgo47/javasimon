@@ -10,9 +10,16 @@ import org.javasimon.Simon;
  */
 public class DisabledMonitorSource<L, M extends Simon> implements MonitorSource<L, M> {
 	/**
-	 * Singleton constructor is not hidden for reflection purpose.
+	 * Singleton instance.
 	 */
-	public DisabledMonitorSource() {
+	private static final DisabledMonitorSource INSTANCE = new DisabledMonitorSource();
+
+	/**
+	 * Returns a singleton instance.
+	 */
+	@SuppressWarnings("unchecked")
+	public static <L, M extends Simon> DisabledMonitorSource<L, M> get() {
+		return (DisabledMonitorSource<L, M>) INSTANCE;
 	}
 
 	/**
@@ -27,19 +34,6 @@ public class DisabledMonitorSource<L, M extends Simon> implements MonitorSource<
 	 */
 	public boolean isMonitored(L location) {
 		return false;
-	}
-
-	/**
-	 * Singleton instance.
-	 */
-	private static final DisabledMonitorSource INSTANCE = new DisabledMonitorSource();
-
-	/**
-	 * Returns a singleton instance.
-	 */
-	@SuppressWarnings("unchecked")
-	public static <L, M extends Simon> DisabledMonitorSource<L, M> get() {
-		return (DisabledMonitorSource<L, M>) INSTANCE;
 	}
 
 	@Override

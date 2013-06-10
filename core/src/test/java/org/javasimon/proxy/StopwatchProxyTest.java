@@ -3,8 +3,8 @@ package org.javasimon.proxy;
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
-import org.javasimon.source.DisabledMonitorSource;
-import org.javasimon.source.MonitorSource;
+import org.javasimon.source.DisabledStopwatchSource;
+import org.javasimon.source.StopwatchSource;
 import org.javasimon.utils.SimonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,14 +42,17 @@ public class StopwatchProxyTest {
 	}
 
 	private MonitoredImplementation monitoredTarget = new MonitoredImplementation();
-	private MonitorSource<DelegatingMethodInvocation<MonitoredInterface>, Stopwatch> disabledStopwatchSource
-		= DisabledMonitorSource.get();
-	private MonitoredInterface newMonitoredProxy(MonitorSource<DelegatingMethodInvocation<MonitoredInterface>, Stopwatch> stopwatchSource) {
+	private StopwatchSource<DelegatingMethodInvocation<MonitoredInterface>> disabledStopwatchSource
+		= DisabledStopwatchSource.get();
+
+	private MonitoredInterface newMonitoredProxy(StopwatchSource<DelegatingMethodInvocation<MonitoredInterface>> stopwatchSource) {
 		return new StopwatchProxyFactory<MonitoredInterface>(monitoredTarget, stopwatchSource).newProxy(MonitoredInterface.class);
 	}
+
 	private MonitoredInterface newMonitoredProxy() {
 		return new StopwatchProxyFactory<MonitoredInterface>(monitoredTarget).newProxy(MonitoredInterface.class);
 	}
+
 	@BeforeMethod
 	public void beforeMethod() {
 		SimonManager.clear();
@@ -148,7 +151,7 @@ public class StopwatchProxyTest {
 		logPerformanceTime("Proxy cached", implementation, cacheProxy, iterations);
 
 		// 5) With proxy, cache and disable
-		MonitorSource<DelegatingMethodInvocation<MonitoredInterface>, Stopwatch> disabledCachedStopwatchSource = new ProxyStopwatchSource<MonitoredInterface>() {
+		StopwatchSource<DelegatingMethodInvocation<MonitoredInterface>> disabledCachedStopwatchSource = new ProxyStopwatchSource<MonitoredInterface>() {
 			@Override
 			public boolean isMonitored(DelegatingMethodInvocation<MonitoredInterface> location) {
 				return false;

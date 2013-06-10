@@ -4,8 +4,8 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.javasimon.Manager;
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
-import org.javasimon.Stopwatch;
 import org.javasimon.source.MonitorSource;
+import org.javasimon.source.StopwatchSource;
 
 /**
  * Method interceptor that measures the duration of the intercepted call with a Stopwatch and treats failure
@@ -25,7 +25,7 @@ public class MonitoringInterceptor extends BasicMonitoringInterceptor {
 	 *
 	 * @param stopwatchSource stopwatch provider for method invocation
 	 */
-	public MonitoringInterceptor(MonitorSource<MethodInvocation, Stopwatch> stopwatchSource) {
+	public MonitoringInterceptor(StopwatchSource<MethodInvocation> stopwatchSource) {
 		super(stopwatchSource);
 	}
 
@@ -64,8 +64,7 @@ public class MonitoringInterceptor extends BasicMonitoringInterceptor {
 	protected Object processInvoke(MethodInvocation invocation, Split split) throws Throwable {
 		try {
 			return invocation.proceed();
-		}
-		catch (Throwable t) {
+		} catch (Throwable t) {
 			split.stop(tagByExceptionType ? t.getClass().getSimpleName() : EXCEPTION_TAG);
 			throw t;
 		}

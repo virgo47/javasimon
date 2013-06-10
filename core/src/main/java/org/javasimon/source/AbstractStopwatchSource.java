@@ -1,6 +1,7 @@
 package org.javasimon.source;
 
 import org.javasimon.Manager;
+import org.javasimon.Split;
 import org.javasimon.Stopwatch;
 
 /**
@@ -8,7 +9,7 @@ import org.javasimon.Stopwatch;
  *
  * @author gquintana
  */
-public abstract class AbstractStopwatchSource<T> implements MonitorSource<T, Stopwatch> {
+public abstract class AbstractStopwatchSource<T> implements StopwatchSource<T> {
 	/**
 	 * Simon manager used for producing Stopwatches.
 	 */
@@ -30,6 +31,7 @@ public abstract class AbstractStopwatchSource<T> implements MonitorSource<T, Sto
 
 	/**
 	 * Default implementation returns always true.
+	 *
 	 * @return always true
 	 */
 	@Override
@@ -51,5 +53,13 @@ public abstract class AbstractStopwatchSource<T> implements MonitorSource<T, Sto
 	@Override
 	public Stopwatch getMonitor(T location) {
 		return manager.getStopwatch(getMonitorName(location));
+	}
+
+	@Override
+	public Split start(T location) {
+		if (isMonitored(location)) {
+			return getMonitor(location).start();
+		}
+		return Split.DISABLED;
 	}
 }
