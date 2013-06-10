@@ -1,16 +1,14 @@
 package org.javasimon.spring.webmvc;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.javasimon.Manager;
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
-import org.javasimon.Stopwatch;
-import org.javasimon.source.MonitorSource;
-import org.javasimon.source.StopwatchTemplate;
+import org.javasimon.source.StopwatchSource;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Spring MVC interceptor monitors time spent in handlers (usually controllers)
@@ -31,17 +29,17 @@ public class MonitoringHandlerInterceptor implements HandlerInterceptor {
 	private final ThreadLocal<HandlerLocation> threadLocation = new ThreadLocal<HandlerLocation>();
 
 	/**
-	 * Stopwatch template.
+	 * Stopwatch source.
 	 */
-	private StopwatchTemplate<HandlerLocation> stopwatchTemplate;
+	private StopwatchSource<HandlerLocation> stopwatchSource;
 
 	/**
 	 * Constructor with stopwatch source.
 	 *
 	 * @param stopwatchSource Stopwatch source
 	 */
-	public MonitoringHandlerInterceptor(MonitorSource<HandlerLocation, Stopwatch> stopwatchSource) {
-		this.stopwatchTemplate = new StopwatchTemplate<HandlerLocation>(stopwatchSource);
+	public MonitoringHandlerInterceptor(StopwatchSource<HandlerLocation> stopwatchSource) {
+		this.stopwatchSource = stopwatchSource;
 	}
 
 	/**
@@ -50,14 +48,14 @@ public class MonitoringHandlerInterceptor implements HandlerInterceptor {
 	 * @param manager Manager manager
 	 */
 	public MonitoringHandlerInterceptor(Manager manager) {
-		this.stopwatchTemplate = new StopwatchTemplate<HandlerLocation>(new HandlerStopwatchSource(manager));
+		stopwatchSource = new HandlerStopwatchSource(manager);
 	}
 
 	/**
 	 * Default constructor: default stopwatch source, default manager.
 	 */
 	public MonitoringHandlerInterceptor() {
-		this.stopwatchTemplate = new StopwatchTemplate<HandlerLocation>(new HandlerStopwatchSource(SimonManager.manager()));
+		stopwatchSource = new HandlerStopwatchSource(SimonManager.manager());
 	}
 
 	/**
@@ -66,7 +64,7 @@ public class MonitoringHandlerInterceptor implements HandlerInterceptor {
 	 * @return Running split
 	 */
 	protected final Split startStopwatch(HandlerLocation location) {
-		Split split = stopwatchTemplate.start(location);
+		Split split = stopwatchSource.start(location);
 		location.setSplit(split);
 		return split;
 	}

@@ -6,7 +6,7 @@ import org.javasimon.Split;
 import org.javasimon.callback.CallbackSkeleton;
 import org.javasimon.javaee.reqreporter.RequestReporter;
 import org.javasimon.source.DisabledMonitorSource;
-import org.javasimon.source.StopwatchTemplate;
+import org.javasimon.source.StopwatchSource;
 import org.javasimon.utils.Replacer;
 import org.javasimon.utils.SimonUtils;
 
@@ -138,9 +138,9 @@ public class SimonServletFilter implements Filter {
 	private SplitSaverCallback splitSaverCallback;
 
 	/**
-	 * Stopwatch template is invoked before/after each request to start/stop.
+	 * Stopwatch source is used before/after each request to start/stop a stopwatch.
 	 */
-	private StopwatchTemplate<HttpServletRequest> stopwatchTemplate;
+	private StopwatchSource<HttpServletRequest> stopwatchSource;
 
 	/**
 	 * Object responsible for reporting the request over threshold (if {@link #shouldBeReported(javax.servlet.http.HttpServletRequest, long, java.util.List)}
@@ -156,8 +156,7 @@ public class SimonServletFilter implements Filter {
 	 */
 	public final void init(FilterConfig filterConfig) {
 		pickUpSharedManagerIfExists(filterConfig);
-
-		stopwatchTemplate = new StopwatchTemplate<HttpServletRequest>(SimonServletFilterUtils.initStopwatchSource(filterConfig, manager));
+		stopwatchSource = SimonServletFilterUtils.initStopwatchSource(filterConfig, manager);
 
 		requestReporter = SimonServletFilterUtils.initRequestReporter(filterConfig);
 		requestReporter.setSimonServletFilter(this);
@@ -211,7 +210,7 @@ public class SimonServletFilter implements Filter {
 	}
 
 	private void doFilterWithMonitoring(FilterChain filterChain, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		Split split = stopwatchTemplate.start(request);
+		Split split = stopwatchSource.start(request);
 		if (split.isEnabled() && reportThresholdNanos != null) {
 			splitsThreadLocal.set(new ArrayList<Split>());
 		}

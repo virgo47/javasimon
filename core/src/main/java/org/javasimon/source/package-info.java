@@ -2,7 +2,7 @@
  * {@link org.javasimon.source.MonitorSource} is the interface used as function to transform execution context (method invocation,
  * HTTP request...) into a Simon. Following subtypes are provided:
  * <ul>
- * <li>{@link org.javasimon.source.CacheMonitorSource} - abstract implementation which acts as a cache for excutation context to Simon conversion.</li>
+ * <li>{@link org.javasimon.source.CachedMonitorSource} - abstract implementation which acts as a cache for excutation context to Simon conversion.</li>
  * <li>{@link org.javasimon.source.DisabledMonitorSource} - implementation to disable monitoring at interceptor level (produces null Simons).</li>
  * <li>{@code org.javasimon.javaee.HttpStopwatchSource} (in javaee module) - used by servlet filter to get the Simon associated with a HTTP request.</li>
  * <li>{@link org.javasimon.source.AbstractMethodStopwatchSource} - abstract used for method invocation contexts:

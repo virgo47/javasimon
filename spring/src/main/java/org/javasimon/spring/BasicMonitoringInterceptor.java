@@ -5,9 +5,7 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.javasimon.Manager;
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
-import org.javasimon.Stopwatch;
-import org.javasimon.source.MonitorSource;
-import org.javasimon.source.StopwatchTemplate;
+import org.javasimon.source.StopwatchSource;
 
 import java.io.Serializable;
 
@@ -19,18 +17,15 @@ import java.io.Serializable;
  * @author Erik van Oosten
  */
 public class BasicMonitoringInterceptor implements MethodInterceptor, Serializable {
-	/**
-	 * Stopwatch template.
-	 */
-	private final StopwatchTemplate<MethodInvocation> stopwatchTemplate;
+	private final StopwatchSource<MethodInvocation> stopwatchSource;
 
 	/**
 	 * Constructor with specified {@link org.javasimon.source.MonitorSource}.
 	 *
 	 * @param stopwatchSource stopwatch provider for method invocation
 	 */
-	public BasicMonitoringInterceptor(MonitorSource<MethodInvocation, Stopwatch> stopwatchSource) {
-		this.stopwatchTemplate = new StopwatchTemplate<MethodInvocation>(stopwatchSource);
+	public BasicMonitoringInterceptor(StopwatchSource<MethodInvocation> stopwatchSource) {
+		this.stopwatchSource = stopwatchSource;
 	}
 
 	/**
@@ -55,7 +50,7 @@ public class BasicMonitoringInterceptor implements MethodInterceptor, Serializab
 	 * @throws Throwable anything thrown by the method
 	 */
 	public final Object invoke(MethodInvocation invocation) throws Throwable {
-		final Split split = stopwatchTemplate.start(invocation);
+		final Split split = stopwatchSource.start(invocation);
 		try {
 			return processInvoke(invocation, split);
 		} finally {
