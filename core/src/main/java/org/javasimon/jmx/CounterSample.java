@@ -1,7 +1,7 @@
 package org.javasimon.jmx;
 
 import java.beans.ConstructorProperties;
-
+import java.util.Date;
 import org.javasimon.utils.SimonUtils;
 
 /**
@@ -64,6 +64,7 @@ public final class CounterSample extends org.javasimon.CounterSample {
 	 * @param sample sample object obtained from Counter Simon
 	 */
 	CounterSample(org.javasimon.CounterSample sample) {
+		setName(sample.getName());
 		setNote(sample.getNote());
 		setFirstUsage(sample.getFirstUsage());
 		setLastUsage(sample.getLastUsage());
@@ -86,6 +87,15 @@ public final class CounterSample extends org.javasimon.CounterSample {
 	public String getFirstUsageAsString() {
 		return SimonUtils.presentTimestamp(getFirstUsage());
 	}
+	
+	/**
+	 * Timestamp of the first usage from the sampled Simon as a formatted date.
+	 *
+	 * @return Simon's first usage timestamp as date
+	 */
+	public Date getFirstUsageAsDate() {
+		return new Date(getFirstUsage());
+	}
 
 	/**
 	 * Timestamp of the last usage from the sampled Simon as a formatted string.
@@ -94,6 +104,15 @@ public final class CounterSample extends org.javasimon.CounterSample {
 	 */
 	public String getLastUsageAsString() {
 		return SimonUtils.presentTimestamp(getLastUsage());
+	}
+	
+	/**
+	 * Timestamp of the last usage from the sampled Simon as a date.
+	 *
+	 * @return Simon's last usage timestamp as date
+	 */
+	public Date getLastUsageAsDate() {
+		return new Date(getLastUsage());
 	}
 
 	/**
@@ -106,6 +125,15 @@ public final class CounterSample extends org.javasimon.CounterSample {
 	}
 
 	/**
+	 * Timestamp of the last reset from the sampled Simon as a formatted date.
+	 *
+	 * @return Simon's last reset timestamp as date
+	 */
+	public Date getLastResetAsDate() {
+		return new Date(getLastReset());
+	}
+
+	/**
 	 * Returns ms timestamp when the min value was measured as a formatted string.
 	 *
 	 * @return ms timestamp of the min value measurement as string
@@ -115,11 +143,29 @@ public final class CounterSample extends org.javasimon.CounterSample {
 	}
 
 	/**
+	 * Returns ms timestamp when the min value was measured as a formatted date.
+	 *
+	 * @return ms timestamp of the min value measurement as date
+	 */
+	public final Date getMinTimestampAsDate() {
+		return new Date(getMinTimestamp());
+	}
+
+	/**
 	 * Returns ms timestamp when the max value was measured as a formatted string.
 	 *
 	 * @return ms timestamp of the max value measurement as string
 	 */
 	public final String getMaxTimestampAsString() {
 		return SimonUtils.presentTimestamp(getMaxTimestamp());
+	}
+
+	/**
+	 * Returns ms timestamp when the max value was measured as a formatted date.
+	 *
+	 * @return ms timestamp of the max value measurement as date
+	 */
+	public final Date getMaxTimestampAsDate() {
+		return new Date(getMaxTimestamp());
 	}
 }
