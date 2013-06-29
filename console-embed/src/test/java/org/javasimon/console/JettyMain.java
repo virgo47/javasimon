@@ -112,6 +112,7 @@ public class JettyMain {
      */
     private void addDefaultSimons() {
         SimonData.initialize();
+		addStopwatchSplits(SimonManager.getStopwatch("$Proxy"), 5);
     }
 
     /**

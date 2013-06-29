@@ -3,6 +3,9 @@ package org.javasimon.console;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumSet;
@@ -55,7 +58,10 @@ public class ActionContext {
 	public HttpServletRequest getRequest() {
 		return request;
 	}
-
+	public String getCharacterEncoding() {
+		String encoding=getRequest().getCharacterEncoding();
+		return encoding==null? Charset.defaultCharset().name():encoding;
+	}
 	public HttpServletResponse getResponse() {
 		return response;
 	}
@@ -100,7 +106,15 @@ public class ActionContext {
 	}
 
 	protected String getParameter(String name) {
-		return getRequest().getParameter(name);
+		String value=getRequest().getParameter(name);
+		if (value!=null) {
+			try {
+				value = URLDecoder.decode(value, getCharacterEncoding());
+			} catch (UnsupportedEncodingException unsupportedEncodingException) {
+				// Leave value as is
+			}
+		}
+		return value;
 	}
 	protected String[] getParameters(String name) {
 		return getRequest().getParameterValues(name);
