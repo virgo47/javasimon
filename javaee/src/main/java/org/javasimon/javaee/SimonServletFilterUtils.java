@@ -32,7 +32,7 @@ public class SimonServletFilterUtils {
 	 * @param replacement replacement string (for every unallowed character)
 	 * @return compiled pattern matching characters to remove from the URL
 	 */
-	public static Replacer createUnallowedCharsReplacer(String replacement) {
+	static Replacer createUnallowedCharsReplacer(String replacement) {
 		return new Replacer("[^" + SimonUtils.NAME_PATTERN_CHAR_CLASS_CONTENT.replace('.', '/') + "]+", replacement);
 	}
 

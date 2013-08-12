@@ -67,7 +67,7 @@ public final class SimonUtils {
 	/**
 	 * Regex pattern for Simon names.
 	 */
-	public static final Pattern NAME_PATTERN = Pattern.compile("[" + NAME_PATTERN_CHAR_CLASS_CONTENT + "]*");
+	public static final Pattern NAME_PATTERN = Pattern.compile("[" + NAME_PATTERN_CHAR_CLASS_CONTENT + "]+");
 
 	/**
 	 * Allowed Simon name characters.

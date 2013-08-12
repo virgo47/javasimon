@@ -51,10 +51,23 @@ public class HttpStopwatchSourceTest {
 	}
 
 	@Test
-	public void testJSessionIdRemove() {
+	public void testTrailingStuffAndDoubleSlashRemoval() {
 		httpStopwatchSource.setPrefix(null);
 		httpStopwatchSource.setReplaceUnallowed("_");
 
+		assertMonitorName("/foo/bar/2345", "foo.bar");
+		assertMonitorName("/foo/+bar/", "foo._bar");
+		assertMonitorName("/foo/+bar//", "foo._bar");
+		assertMonitorName("/foo//+bar/234/@#$%/23_+", "foo._bar");
+	}
+
+	@Test
+	public void testJSessionIdRemoval() {
+		httpStopwatchSource.setPrefix(null);
+		httpStopwatchSource.setReplaceUnallowed("_");
+
+		// real Simons will never have names with paramaters because processed URIs are without parameters,
+		// these are here just to test jSessionId removal patterns
 		assertMonitorName("/foo/bar/quix?jsessionId=234523;44", "foo.bar.quix_44");
 		assertMonitorName("/foo/+bar/;JSESSIONID=2345245DDD72345{}?bubu&res=quix.png", "foo._bar._bubu_res_quix_png");
 	}

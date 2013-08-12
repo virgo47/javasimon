@@ -2,6 +2,7 @@ package org.javasimon.jmx;
 
 import java.beans.ConstructorProperties;
 import java.util.Date;
+
 import org.javasimon.utils.SimonUtils;
 
 /**
@@ -87,7 +88,7 @@ public final class CounterSample extends org.javasimon.CounterSample {
 	public String getFirstUsageAsString() {
 		return SimonUtils.presentTimestamp(getFirstUsage());
 	}
-	
+
 	/**
 	 * Timestamp of the first usage from the sampled Simon as a formatted date.
 	 *
@@ -105,7 +106,7 @@ public final class CounterSample extends org.javasimon.CounterSample {
 	public String getLastUsageAsString() {
 		return SimonUtils.presentTimestamp(getLastUsage());
 	}
-	
+
 	/**
 	 * Timestamp of the last usage from the sampled Simon as a date.
 	 *

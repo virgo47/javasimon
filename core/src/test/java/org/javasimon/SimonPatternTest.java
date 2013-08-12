@@ -9,13 +9,10 @@ import org.testng.annotations.Test;
  * @author virgo47@gmail.com
  */
 public final class SimonPatternTest {
-	@Test
+
+	@Test(expectedExceptions = SimonException.class, expectedExceptionsMessageRegExp = "Invalid Simon pattern: ")
 	public void testEmpty() {
-		SimonPattern simonPattern = SimonPattern.create("");
-
-		Assert.assertTrue(simonPattern.matches(Manager.ROOT_SIMON_NAME));
-
-		Assert.assertFalse(simonPattern.matches("whatever"));
+		SimonPattern.create("");
 	}
 
 	@Test

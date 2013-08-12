@@ -1,12 +1,13 @@
 package org.javasimon.jmx;
 
 import java.util.List;
+
 import org.javasimon.StopwatchSample;
 
 /**
  * Interface of Simon management bean (MXBean) representing single point of access to a particular Simon
  * {@link org.javasimon.Manager}.
- * <p>
+ * <p/>
  * It provides general management tasks over all Simons for a single Manager (hierarchy of Simons)
  * plus some useful util functions.
  *
@@ -59,7 +60,7 @@ public interface SimonManagerMXBean {
 	 *
 	 * @param name name of Simon
 	 * @return string COUNTER if Counter Simon, STOPWATCH if Stopwatch Simon
-	 * or UKNOWN if there is no Simon just undefined hierarchy node
+	 *         or UKNOWN if there is no Simon just undefined hierarchy node
 	 */
 	String getType(String name);
 
@@ -153,12 +154,14 @@ public interface SimonManagerMXBean {
 
 	/**
 	 * Sample all Counters
+	 *
 	 * @return One Sample for each Counter
 	 */
 	List<CounterSample> getCounterSamples();
 
 	/**
 	 * Sample all Counters whose name matches given pattern
+	 *
 	 * @param namePattern Name pattern, null means all Counters
 	 * @return One Sample for each Counter
 	 */
@@ -166,15 +169,16 @@ public interface SimonManagerMXBean {
 
 	/**
 	 * Sample all Stopwaches whose name matches given pattern.
-	 * @param namePattern Name pattern, null means all Stopwatches.
-	 * @return One Sample for each Stopwatch
-	 */
-	List<org.javasimon.jmx.StopwatchSample> getStopwatchSamples();
-
-	/**
-	 * Sample all Stopwaches whose name matches given pattern.
-	 * @param namePattern Name pattern, null means all Stopwatches.
-	 * @return One Sample for each Stopwatch
+	 *
+	 * @param namePattern name pattern ({@link org.javasimon.SimonPattern}), {@code null} means all Stopwatches
+	 * @return one Sample for each Stopwatch
 	 */
 	List<org.javasimon.jmx.StopwatchSample> getStopwatchSamples(String namePattern);
+
+	/**
+	 * Sample all Stopwaches.
+	 *
+	 * @return one Sample for each Stopwatch
+	 */
+	List<org.javasimon.jmx.StopwatchSample> getStopwatchSamples();
 }
