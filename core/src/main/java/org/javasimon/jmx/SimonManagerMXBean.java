@@ -1,5 +1,6 @@
 package org.javasimon.jmx;
 
+import java.util.List;
 import org.javasimon.StopwatchSample;
 
 /**
@@ -149,4 +150,31 @@ public interface SimonManagerMXBean {
 	 * @see org.javasimon.utils.SimonUtils#simonTreeString(org.javasimon.Simon)
 	 */
 	void printSimonTree();
+
+	/**
+	 * Sample all Counters
+	 * @return One Sample for each Counter
+	 */
+	List<CounterSample> getCounterSamples();
+
+	/**
+	 * Sample all Counters whose name matches given pattern
+	 * @param namePattern Name pattern, null means all Counters
+	 * @return One Sample for each Counter
+	 */
+	List<CounterSample> getCounterSamples(String namePattern);
+
+	/**
+	 * Sample all Stopwaches whose name matches given pattern.
+	 * @param namePattern Name pattern, null means all Stopwatches.
+	 * @return One Sample for each Stopwatch
+	 */
+	List<org.javasimon.jmx.StopwatchSample> getStopwatchSamples();
+
+	/**
+	 * Sample all Stopwaches whose name matches given pattern.
+	 * @param namePattern Name pattern, null means all Stopwatches.
+	 * @return One Sample for each Stopwatch
+	 */
+	List<org.javasimon.jmx.StopwatchSample> getStopwatchSamples(String namePattern);
 }

@@ -1,6 +1,7 @@
 package org.javasimon.jmx;
 
 import java.beans.ConstructorProperties;
+import java.util.Date;
 
 import org.javasimon.utils.SimonUtils;
 
@@ -80,6 +81,7 @@ public final class StopwatchSample extends org.javasimon.StopwatchSample {
 	 * @param sample sample object obtained from Stopwatch Simon
 	 */
 	public StopwatchSample(org.javasimon.StopwatchSample sample) {
+		setName(sample.getName());
 		setMean(sample.getMean());
 		setStandardDeviation(sample.getStandardDeviation());
 		setVariance(sample.getVariance());
@@ -147,6 +149,15 @@ public final class StopwatchSample extends org.javasimon.StopwatchSample {
 	}
 
 	/**
+	 * Returns ms timestamp when the min value was measured as a formatted date.
+	 *
+	 * @return ms timestamp of the min value measurement as date
+	 */
+	public final Date getMinTimestampAsDate() {
+		return new Date(getMinTimestamp());
+	}
+
+	/**
 	 * Returns ms timestamp when the max value was measured as a formatted string.
 	 *
 	 * @return ms timestamp of the max value measurement as string
@@ -156,12 +167,30 @@ public final class StopwatchSample extends org.javasimon.StopwatchSample {
 	}
 
 	/**
+	 * Returns ms timestamp when the max value was measured as a formatted date.
+	 *
+	 * @return ms timestamp of the max value measurement as date
+	 */
+	public final Date getMaxTimestampAsDate() {
+		return new Date(getMaxTimestamp());
+	}
+
+	/**
 	 * Returns ms timestamp when the last peek of the active split count occured as a formatted string.
 	 *
 	 * @return ms timestamp of the last peek of the active split count as string
 	 */
 	public final String getMaxActiveTimestampAsString() {
 		return SimonUtils.presentTimestamp(getMaxActiveTimestamp());
+	}
+
+	/**
+	 * Returns ms timestamp when the last peek of the active split count occured as a formatted date.
+	 *
+	 * @return ms timestamp of the last peek of the active split count as date
+	 */
+	public final Date getMaxActiveTimestampAsDate() {
+		return new Date(getMaxActiveTimestamp());
 	}
 
 	/**
@@ -183,6 +212,15 @@ public final class StopwatchSample extends org.javasimon.StopwatchSample {
 	}
 
 	/**
+	 * Timestamp of the first usage from the sampled Simon as a formatted date.
+	 *
+	 * @return Simon's first usage timestamp as date
+	 */
+	public Date getFirstUsageAsDate() {
+		return new Date(getFirstUsage());
+	}
+
+	/**
 	 * Timestamp of the last usage from the sampled Simon as a formatted string.
 	 *
 	 * @return Simon's last usage timestamp as string
@@ -192,11 +230,29 @@ public final class StopwatchSample extends org.javasimon.StopwatchSample {
 	}
 
 	/**
+	 * Timestamp of the last usage from the sampled Simon as a formatted date.
+	 *
+	 * @return Simon's last usage timestamp as string
+	 */
+	public Date getLastUsageAsDate() {
+		return new Date(getLastUsage());
+	}
+
+	/**
 	 * Timestamp of the last reset from the sampled Simon as a formatted string.
 	 *
 	 * @return Simon's last reset timestamp as string
 	 */
 	public String getLastResetAsString() {
 		return SimonUtils.presentTimestamp(getLastReset());
+	}
+
+	/**
+	 * Timestamp of the last reset from the sampled Simon as a formatted date.
+	 *
+	 * @return Simon's last reset timestamp as date
+	 */
+	public Date getLastResetAsDate() {
+		return new Date(getLastReset());
 	}
 }
