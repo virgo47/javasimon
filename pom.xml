@@ -35,8 +35,8 @@
 
 	<scm>
 		<url>https://javasimon.googlecode.com/svn/trunk/</url>
-		<connection>scm:svn:https://javasimon.googlecode.com/svn/trunk/</connection>
-		<developerConnection>scm:svn:https://javasimon.googlecode.com/svn/trunk/</developerConnection>
+		<connection>scm:git:https://code.google.com/p/javasimon/</connection>
+		<developerConnection>scm:git:https://code.google.com/p/javasimon/</developerConnection>
 	</scm>
 
 	<licenses>
