@@ -19,7 +19,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.javasimon</groupId>
-			<artifactId>javasimon-jdbc4</artifactId>
+			<artifactId>javasimon-jdbc41</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
