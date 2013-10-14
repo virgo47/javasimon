@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>org.javasimon</groupId>
 		<artifactId>javasimon-parent</artifactId>
-		<version>3.4.0-SNAPSHOT</version>
+		<version>3.4.1-SNAPSHOT</version>
 	</parent>
 
 	<properties>
@@ -88,7 +88,7 @@
 
 		<dependency>
 			<groupId>org.javasimon</groupId>
-			<artifactId>javasimon-jdbc4</artifactId>
+			<artifactId>javasimon-jdbc41</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
