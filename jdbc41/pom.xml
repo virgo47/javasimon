@@ -11,28 +11,22 @@
 		<version>3.4.1-SNAPSHOT</version>
 	</parent>
 
+
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-enforcer-plugin</artifactId>
-				<version>1.1</version>
-				<executions>
-					<execution>
-						<id>enforce-versions</id>
-						<goals>
-							<goal>enforce</goal>
-						</goals>
-						<configuration>
-							<rules>
-								<requireJavaVersion>
-									<version>[1.6,1.8)</version>
-								</requireJavaVersion>
-							</rules>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${version.compiler-plugin}</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <compilerArguments>
+                        <bootclasspath>${env.JDK7.HOME}/jre/lib/rt.jar${path.separator}${env.JDK7.HOME}/jre/lib/jce.jar</bootclasspath>
+                    </compilerArguments>
+                    <executable>${env.JDK7.HOME}/bin/javac</executable>
+                </configuration>
+            </plugin>
 		</plugins>
 	</build>
     <profiles>
@@ -48,11 +42,13 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <version>2.11</version>
+                        <version>${version.surefire-plugin}</version>
                         <configuration>
                             <suiteXmlFiles>
                                 <suiteXmlFile>target/nb-private/testng-suite.xml</suiteXmlFile>
                             </suiteXmlFiles>
+                            <jvm>${env.JDK7.HOME}/bin/java</jvm>
+                            <forkMode>once</forkMode>
                         </configuration>
                     </plugin>
                 </plugins>
