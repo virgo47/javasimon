@@ -44,7 +44,8 @@ public final class ManagerVsStopwatchComparison {
 			new BenchmarkUtils.Task("start-stop") {
 				@Override
 				public void perform() throws Exception {
-					Stopwatch stopwatch = SimonManager.getStopwatch(NAME).reset();
+					Stopwatch stopwatch = SimonManager.getStopwatch(NAME);
+					stopwatch.reset();
 					for (int i = 0; i < LOOP; i++) {
 						stopwatch.start().stop();
 					}

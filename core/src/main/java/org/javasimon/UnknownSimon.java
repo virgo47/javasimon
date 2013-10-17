@@ -18,8 +18,8 @@ final class UnknownSimon extends AbstractSimon {
 	}
 
 	@Override
-	public Simon reset() {
-		return this;
+	void concreteReset() {
+		// nothing to do
 	}
 
 	@Override

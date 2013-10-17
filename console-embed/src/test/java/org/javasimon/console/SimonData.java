@@ -2,6 +2,7 @@ package org.javasimon.console;
 
 import org.javasimon.Counter;
 import org.javasimon.SimonManager;
+import org.javasimon.Split;
 import org.javasimon.Stopwatch;
 import org.javasimon.utils.SimonUtils;
 
@@ -16,14 +17,7 @@ public class SimonData {
 
 	private static void addTime(String name, long sleep) {
 		Stopwatch stopwatch = SimonManager.manager().getStopwatch(name);
-//        Split split=stopwatch.start();
-//        try {
-//            Thread.sleep(sleep);
-//        } catch (InterruptedException e) {
-//        } finally {
-//            split.stop();
-//        }
-		stopwatch.addTime(sleep * SimonUtils.NANOS_IN_MILLIS);
+		stopwatch.addSplit(Split.create(sleep * SimonUtils.NANOS_IN_MILLIS));
 	}
 
 	private static void initStopwatches() {
@@ -37,6 +31,7 @@ public class SimonData {
 		addCounter("X", 4L);
 		addCounter("X", 2L);
 	}
+
 	private static void addCounter(String name, long value) {
 		Counter counter = SimonManager.manager().getCounter(name);
 		counter.set(value);

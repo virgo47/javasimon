@@ -40,20 +40,21 @@ public final class StopwatchTest {
 		split.stop();
 		Assert.assertTrue(stopwatch.getFirstUsage() <= stopwatch.getLastUsage());
 		Thread.sleep(20);
-		stopwatch.addTime(0);
+		stopwatch.addSplit(Split.create(0));
 		Assert.assertTrue(stopwatch.getFirstUsage() < stopwatch.getLastUsage());
 	}
 
 	@Test
 	public void resetTest() throws Exception {
+		long ts = System.currentTimeMillis();
 		Stopwatch stopwatch = SimonManager.getStopwatch(STOPWATCH_NAME);
 		stopwatch.reset();
-		long ts = System.currentTimeMillis();
-		stopwatch.addTime(100);
+		stopwatch.addSplit(Split.create(100));
 		Assert.assertEquals(stopwatch.getTotal(), 100);
 		Assert.assertEquals(stopwatch.getMax(), 100);
 		Assert.assertEquals(stopwatch.getMin(), 100);
-		Assert.assertTrue(stopwatch.getMaxTimestamp() >= ts);
+		long maxTimestamp = stopwatch.getMaxTimestamp();
+		Assert.assertTrue(maxTimestamp >= ts, "maxTimestamp=" + maxTimestamp + ", ts=" + ts);
 		Assert.assertTrue(stopwatch.getMinTimestamp() >= ts);
 		Assert.assertTrue(stopwatch.getLastUsage() >= ts);
 		Assert.assertTrue(stopwatch.getFirstUsage() >= ts);

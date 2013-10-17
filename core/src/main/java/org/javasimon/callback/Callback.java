@@ -68,16 +68,6 @@ public interface Callback {
 	void onSimonReset(Simon simon);
 
 	/**
-	 * Stopwatch add time event. {@link StopwatchSample} valid for the moment after the add is provided
-	 * because the callback is executed out of synchronized block.
-	 *
-	 * @param stopwatch modified Stopwatch
-	 * @param ns added split time in ns
-	 * @param sample stopwatch sampled after the add
-	 */
-	void onStopwatchAdd(Stopwatch stopwatch, long ns, StopwatchSample sample);
-
-	/**
 	 * Stopwatch add split event. {@link StopwatchSample} valid for the moment after the add is provided
 	 * because the callback is executed out of synchronized block.
 	 *

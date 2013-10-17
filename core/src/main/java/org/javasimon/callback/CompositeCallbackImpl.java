@@ -105,13 +105,6 @@ public final class CompositeCallbackImpl implements CompositeCallback {
 	}
 
 	@Override
-	public void onStopwatchAdd(Stopwatch stopwatch, long ns, StopwatchSample sample) {
-		for (Callback callback : callbacks) {
-			callback.onStopwatchAdd(stopwatch, ns, sample);
-		}
-	}
-
-	@Override
 	public void onStopwatchAdd(Stopwatch stopwatch, Split split, StopwatchSample sample) {
 		for (Callback callback : callbacks) {
 			callback.onStopwatchAdd(stopwatch, split, sample);

@@ -9,14 +9,6 @@ package org.javasimon.jmx;
  */
 public interface StopwatchMXBean extends SimonSuperMXBean {
 	/**
-	 * Adds split time in nanoseconds to total time of the stopwatch.
-	 *
-	 * @param ns split time
-	 * @see org.javasimon.Stopwatch#addTime(long)
-	 */
-	void addTime(long ns);
-
-	/**
 	 * Returns total sum of all split times in nanoseconds.
 	 *
 	 * @return total time of the stopwatch in nanoseconds

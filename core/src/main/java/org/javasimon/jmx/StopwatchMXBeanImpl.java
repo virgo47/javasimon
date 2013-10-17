@@ -29,11 +29,6 @@ public class StopwatchMXBeanImpl extends AbstractSimonMXBeanImpl implements Stop
 	}
 
 	@Override
-	public final void addTime(long ns) {
-		stopwatch.addTime(ns);
-	}
-
-	@Override
 	public long getTotal() {
 		return stopwatch.getTotal();
 	}

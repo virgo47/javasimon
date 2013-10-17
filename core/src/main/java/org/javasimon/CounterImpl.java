@@ -175,7 +175,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	}
 
 	@Override
-	public synchronized Counter reset() {
+	void concreteReset() {
 		counter = 0;
 		max = Long.MIN_VALUE;
 		maxTimestamp = 0;
@@ -183,8 +183,6 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		minTimestamp = 0;
 		incrementSum = 0;
 		decrementSum = 0;
-		resetCommon();
-		return this;
 	}
 
 	@Override

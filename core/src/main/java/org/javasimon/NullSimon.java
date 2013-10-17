@@ -55,8 +55,8 @@ class NullSimon implements Simon {
 	}
 
 	@Override
-	public NullSimon reset() {
-		return this;
+	public void reset() {
+		// nothing to do
 	}
 
 	@Override
@@ -195,11 +195,6 @@ final class NullStopwatch extends NullSimon implements Stopwatch {
 	}
 
 	@Override
-	public NullStopwatch reset() {
-		return null;
-	}
-
-	@Override
 	public long getCounter() {
 		return 0;
 	}
@@ -222,11 +217,6 @@ final class NullStopwatch extends NullSimon implements Stopwatch {
 	@Override
 	public long getMinTimestamp() {
 		return 0;
-	}
-
-	@Override
-	public Stopwatch addTime(long ns) {
-		return this;
 	}
 
 	@Override
@@ -329,11 +319,6 @@ final class NullCounter extends NullSimon implements Counter {
 	static final NullCounter INSTANCE = new NullCounter();
 
 	private NullCounter() {
-	}
-
-	@Override
-	public NullCounter reset() {
-		return null;
 	}
 
 	@Override

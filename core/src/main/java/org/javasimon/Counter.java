@@ -108,9 +108,6 @@ public interface Counter extends Simon {
 	 */
 	Counter set(long val);
 
-	@Override
-	Counter reset();
-
 	/**
 	 * Returns the sum of all incremented values. If incremented value was negative, sum
 	 * is lowered by this value.

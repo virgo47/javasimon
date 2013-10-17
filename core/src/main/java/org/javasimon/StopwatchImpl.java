@@ -33,23 +33,6 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	}
 
 	@Override
-	public Stopwatch addTime(long ns) {
-		StopwatchSample sample = null;
-		if (!enabled) {
-			return this;
-		}
-		synchronized (this) {
-			updateUsages();
-			addSplit(ns);
-			if (!manager.callback().callbacks().isEmpty()) {
-				sample = sample();
-			}
-		}
-		manager.callback().onStopwatchAdd(this, ns, sample);
-		return this;
-	}
-
-	@Override
 	public Stopwatch addSplit(Split split) {
 		if (!enabled) {
 			return this;
@@ -124,7 +107,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	}
 
 	@Override
-	public synchronized Stopwatch reset() {
+	void concreteReset() {
 		total = 0;
 		counter = 0;
 		max = 0;
@@ -136,8 +119,6 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		maxActiveTimestamp = 0;
 		mean = 0;
 		mean2 = 0;
-		resetCommon();
-		return this;
 	}
 
 	private long addSplit(long split) {
@@ -276,16 +257,6 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	 */
 	private void updateUsages(long nowNanos) {
 		lastUsage = SimonUtils.millisForNano(nowNanos);
-		if (firstUsage == 0) {
-			firstUsage = lastUsage;
-		}
-	}
-
-	/**
-	 * Updates usage statistics. If current nano timer value is available use {@link #updateUsages(long)} instead.
-	 */
-	private void updateUsages() {
-		lastUsage = System.currentTimeMillis();
 		if (firstUsage == 0) {
 			firstUsage = lastUsage;
 		}

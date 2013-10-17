@@ -34,6 +34,7 @@ import org.javasimon.utils.SimonUtils;
  * @author gquintana
  * @since 3.2
  * @see Buckets
+ * @noinspection UnusedDeclaration
  */
 public class AutoQuantilesCallback extends QuantilesCallback {
 
@@ -177,24 +178,6 @@ public class AutoQuantilesCallback extends QuantilesCallback {
 			// Warm
 			buckets.addValue(value);
 			buckets.log(split);
-		}
-	}
-
-	/**
-	 * Called when there is a new split on a Stopwatch, either
-	 * {@link #onStopwatchStop} or {@link #onStopwatchAdd}.
-	 * If buckets have been initialized, the value is added to appropriate bucket.
-	 * Else if stopwatch is warming up value is added to value list.
-	 */
-	@Override
-	protected void onStopwatchSplit(Stopwatch stopwatch, long value) {
-		Buckets buckets = getOrCreateBuckets(stopwatch);
-		if (buckets == null) {
-			// Warming up
-			getOrCreateBucketsValues(stopwatch).add(value);
-		} else {
-			// Warm
-			buckets.addValue(value);
 		}
 	}
 	

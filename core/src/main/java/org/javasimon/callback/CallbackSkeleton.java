@@ -23,10 +23,6 @@ public class CallbackSkeleton implements Callback {
 	}
 
 	@Override
-	public void onStopwatchAdd(Stopwatch stopwatch, long ns, StopwatchSample sample) {
-	}
-
-	@Override
 	public void onStopwatchAdd(Stopwatch stopwatch, Split split, StopwatchSample sample) {
 	}
 

@@ -77,13 +77,6 @@ public final class CompositeFilterCallback implements FilterCallback, CompositeC
 	}
 
 	@Override
-	public void onStopwatchAdd(Stopwatch stopwatch, long ns, StopwatchSample sample) {
-		if (rulesApplyTo(stopwatch, Event.STOPWATCH_ADD, ns)) {
-			callback.onStopwatchAdd(stopwatch, ns, sample);
-		}
-	}
-
-	@Override
 	public void onStopwatchAdd(Stopwatch stopwatch, Split split, StopwatchSample sample) {
 		if (rulesApplyTo(stopwatch, Event.STOPWATCH_ADD, split.runningFor())) {
 			callback.onStopwatchAdd(stopwatch, split, sample);

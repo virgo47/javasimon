@@ -1,7 +1,5 @@
 package org.javasimon.utils;
 
-import org.javasimon.*;
-
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
@@ -9,6 +7,11 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.Callable;
 import java.util.regex.Pattern;
+
+import org.javasimon.Manager;
+import org.javasimon.Simon;
+import org.javasimon.SimonManager;
+import org.javasimon.Split;
 
 /**
  * SimonUtils provides static utility methods.
@@ -60,6 +63,11 @@ public final class SimonUtils {
 	public static final long NANOS_IN_MILLIS = 1000000;
 
 	/**
+	 * Number of nanoseconds in one second.
+	 */
+	public static final long NANOS_IN_SECOND = NANOS_IN_MILLIS * MILLIS_IN_SECOND;
+
+	/**
 	 * Regex character class content for {@link #NAME_PATTERN}.
 	 */
 	public static final String NAME_PATTERN_CHAR_CLASS_CONTENT = "-_\\[\\]A-Za-z0-9.,@$%)(<>";
@@ -93,7 +101,7 @@ public final class SimonUtils {
 	 *
 	 * @since 3.3
 	 */
-	public static final long INIT_NANOS;
+	public static final long INIT_NANOS = Calibration.initNanos;
 
 	/**
 	 * Value of {@link System#currentTimeMillis()} at a particular time, when {@link #INIT_NANOS} is initialized as well.
@@ -101,7 +109,21 @@ public final class SimonUtils {
 	 *
 	 * @since 3.3
 	 */
-	public static final long INIT_MILLIS;
+	public static final long INIT_MILLIS = Calibration.initMillis;
+
+	/**
+	 * Measured difference in {@link System#currentTimeMillis()} during calibration.
+	 *
+	 * @since 3.5
+	 */
+	public static final long MILLIS_GRANULARITY = Calibration.millisGranularity;
+
+	/**
+	 * Average difference in {@link System#nanoTime()} during calibration.
+	 *
+	 * @since 3.5
+	 */
+	public static final long NANOS_GRANULARITY = Calibration.nanosGranularity;
 
 	private static final SimpleDateFormat TIMESTAMP_FORMAT = new SimpleDateFormat("yyMMdd-HHmmss.SSS");
 
@@ -126,14 +148,10 @@ public final class SimonUtils {
 			}
 		}
 		CLIENT_CODE_STACK_INDEX = i;
-
-		// for conversion between nano and millis - see method millisForNano(long)
-		INIT_NANOS = System.nanoTime();
-		INIT_MILLIS = System.currentTimeMillis();
 	}
 
 	private SimonUtils() {
-		throw new UnsupportedOperationException();
+		throw new AssertionError();
 	}
 
 	/**
@@ -444,5 +462,49 @@ public final class SimonUtils {
 	 */
 	public static long millisForNano(long nanos) {
 		return INIT_MILLIS + (nanos - INIT_NANOS) / NANOS_IN_MILLIS;
+	}
+
+	// ensures that saved nano-time belongs to a fresh just started millis value
+	private static class Calibration {
+
+		private static final int TENTH_OF_MILLIS = 1000000;
+		private static final int NANO_CHANGES = 100;
+
+		private static long initNanos;
+		private static long initMillis;
+		private static long nanosGranularity;
+
+		private static long millisGranularity;
+
+		static {
+			initMillis = System.currentTimeMillis();
+			while (true) {
+				initNanos = System.nanoTime();
+				long nextMillis = System.currentTimeMillis();
+				if (nextMillis > initMillis) {
+					millisGranularity = nextMillis - initMillis;
+					initMillis = nextMillis;
+					break;
+				}
+			}
+
+			long sumOfNanoDiffs = 0;
+			int nanoChanges = 0;
+			int nanoMeasurements = 0;
+			long oldNanos = initNanos;
+
+			while (nanoChanges < NANO_CHANGES) {
+				long nextNanos = System.nanoTime();
+				nanoMeasurements++;
+				if (nextNanos > oldNanos) {
+					nanoChanges++;
+					sumOfNanoDiffs += nextNanos - oldNanos;
+					oldNanos = nextNanos;
+				}
+			}
+			nanosGranularity = sumOfNanoDiffs / nanoChanges;
+//			System.out.println("nanosGranularity = " + nanosGranularity + " (based on " + nanoChanges + " changes and " + nanoMeasurements + " measurements)");
+//			System.out.println("millisGranularity = " + millisGranularity);
+		}
 	}
 }

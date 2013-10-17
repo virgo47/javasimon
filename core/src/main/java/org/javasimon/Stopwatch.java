@@ -4,7 +4,8 @@ package org.javasimon;
  * Stopwatch Simon measures time spans and holds related statistics.
  * Methods {@link #start} creates new {@link org.javasimon.Split} object.
  * On this object you can call {@link org.javasimon.Split#stop()} - this demarcates measured interval.
- * Alternatively method {@link #addTime} can be used to add split time to the stopwatch. Both ways effectively
+ * Alternatively method {@link #addSplit(Split)} can be used to add split to the stopwatch ({@link Split#create(long)}
+ * can be used to create finished Split for any nanos value). Both ways effectively
  * updates usage times, increase usage counter by one and updates total time of the stopwatch.
  * Split object enables multiple time-splits to be measured in parallel.
  * <p/>
@@ -60,14 +61,6 @@ public interface Stopwatch extends Simon {
 	 * @see org.javasimon.Split#stop()
 	 */
 	Split start();
-
-	/**
-	 * Adds split time in nanoseconds to total time of the stopwatch.
-	 *
-	 * @param ns split time
-	 * @return this stopwatch
-	 */
-	Stopwatch addTime(long ns);
 
 	/**
 	 * Adds {@link Split} to the stopwatch which is useful for aggregation of splits created for other stopwatch.
@@ -139,10 +132,8 @@ someStopwatch.addSplit(split.stop()); // you may omit stop(), if you does not us
 	 * Resets the Simon - clears total time, min, max, usage stats, etc. Split times that
 	 * started before reset will be counted when appropriate stop is called, so no split
 	 * time is ignored by the stopwatch. Active count is not reset.
-	 *
-	 * @return returns this
 	 */
-	Stopwatch reset();
+	void reset();
 
 	/**
 	 * Returns current number of measured splits (concurrently running). This counter can show more

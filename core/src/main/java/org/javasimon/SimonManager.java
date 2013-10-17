@@ -74,7 +74,7 @@ public final class SimonManager {
 	}
 
 	private SimonManager() {
-		throw new UnsupportedOperationException();
+		throw new AssertionError();
 	}
 
 	/**

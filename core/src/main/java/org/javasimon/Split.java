@@ -77,13 +77,13 @@ public final class Split implements HasAttributes {
 	 * <p/>
 	 * <pre>Split split = Split.start();
 	 * ...
-	 * SimonManager.getStopwatch("codeBlock2.success").addTime(split.stop());</pre>
+	 * SimonManager.getStopwatch("codeBlock2.success").addSplit(split.stop());</pre>
 	 * <p/>
 	 * If the split is not needed afterwards calling {@link #stop()} is not necessary:
 	 * <p/>
 	 * <pre>Split split = Split.start();
 	 * ...
-	 * SimonManager.getStopwatch("codeBlock2.success").addTime(split);</pre>
+	 * SimonManager.getStopwatch("codeBlock2.success").addSplit(split);</pre>
 	 *
 	 * @since 3.4
 	 */
@@ -91,6 +91,19 @@ public final class Split implements HasAttributes {
 		Split split = new Split(true);
 		split.running = true;
 		split.start = System.nanoTime();
+		return split;
+	}
+
+	/**
+	 * Creates simulated non-running Split that took specific time in nanos.
+	 *
+	 * @param nanos Split's total time in nanos
+	 * @return created Split
+	 */
+	public static Split create(long nanos) {
+		Split split = new Split(true);
+		split.start = System.nanoTime();
+		split.total = nanos;
 		return split;
 	}
 

@@ -141,13 +141,21 @@ abstract class AbstractSimon implements Simon {
 	}
 
 	/**
-	 * Saves the timestamp when the Simon was reset and calls {@link org.javasimon.callback.Callback#onSimonReset(Simon)}.
-	 * Called only from synchronized method {@link #reset()}.
+	 * {@inheritDoc}
+	 *
+	 * <b>Thread-safety:</b> May be called with write lock already acquired (from {@link #sampleAndReset()} for instance.
+	 * Must not re-acquire write lock, but always releases it, as it calls callbacks out of the critical section already.
 	 */
-	protected void resetCommon() {
-		resetTimestamp = System.currentTimeMillis();
+	@Override
+	public void reset() {
+		synchronized (this) {
+			resetTimestamp = System.currentTimeMillis();
+			concreteReset();
+		}
 		manager.callback().onSimonReset(this);
 	}
+
+	abstract void concreteReset();
 
 	@Override
 	public synchronized long getLastReset() {

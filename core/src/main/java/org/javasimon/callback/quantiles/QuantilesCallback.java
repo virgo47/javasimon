@@ -25,6 +25,7 @@ import static org.javasimon.callback.logging.LogTemplates.toSLF4J;
  * @author gquintana
  * @see Buckets
  * @since 3.2
+ * @noinspection UnusedDeclaration
  */
 public abstract class QuantilesCallback extends CallbackSkeleton {
 	/**
@@ -163,18 +164,6 @@ public abstract class QuantilesCallback extends CallbackSkeleton {
 	}
 
 	/**
-	 * Called internally when there is a new split on a Stopwatch
-	 * from {@link #onStopwatchAdd(org.javasimon.Stopwatch, long, org.javasimon.StopwatchSample).
-	 * If buckets have been initialized, the value is added to appropriate bucket.
-	 */
-	protected void onStopwatchSplit(Stopwatch stopwatch, long value) {
-		Buckets buckets = getOrCreateBuckets(stopwatch);
-		if (buckets != null) {
-			buckets.addValue(value);
-		}
-	}
-
-	/**
 	 * When a split is stopped, if buckets have been initialized, the value
 	 * is added to appropriate bucket.
 	 */
@@ -190,15 +179,6 @@ public abstract class QuantilesCallback extends CallbackSkeleton {
 	@Override
 	public void onStopwatchAdd(Stopwatch stopwatch, Split split, StopwatchSample sample) {
 		onStopwatchSplit(split.getStopwatch(), split);
-	}
-
-	/**
-	 * When a split is added, if buckets have been initialized, the value
-	 * is added to appropriate bucket.
-	 */
-	@Override
-	public void onStopwatchAdd(Stopwatch stopwatch, long value, StopwatchSample sample) {
-		onStopwatchSplit(stopwatch, value);
 	}
 
 	/**

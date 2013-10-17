@@ -4,11 +4,11 @@ import org.javasimon.EnabledManager;
 import org.javasimon.Manager;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
-import org.javasimon.utils.SimonUtils;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 /**
@@ -25,14 +25,8 @@ public class LastSplitsCallbackTest {
 		return (LastSplits) getStopwatch().getAttribute(LastSplitsCallback.ATTR_NAME_LAST_SPLITS);
 	}
 
-	private Split addSplit(long length) {
-		Split split = getStopwatch().start();
-		try {
-			Thread.sleep(length);
-		} catch (InterruptedException interruptedException) {
-		}
-		split.stop();
-		return split;
+	private void addSplit(long length) {
+		getStopwatch().addSplit(Split.create(length));
 	}
 
 	private static LastSplitsCallback lastSplitsCallback = new LastSplitsCallback(5);
@@ -47,10 +41,6 @@ public class LastSplitsCallbackTest {
 		getStopwatch().reset();
 	}
 
-	private void assertTimeEquals(String name, long expected, long actual) {
-		assertTrue(Math.abs(expected - actual) < 5, name);
-	}
-
 	@Test
 	public void testAddSplit() {
 		addSplit(100L);
@@ -58,9 +48,9 @@ public class LastSplitsCallbackTest {
 		addSplit(125L);
 		addSplit(150L);
 		LastSplits lastSplits = getLastSplits();
-		assertTimeEquals("Min", 100L, lastSplits.getMin() / SimonUtils.NANOS_IN_MILLIS);
-		assertTimeEquals("Max", 150L, lastSplits.getMax() / SimonUtils.NANOS_IN_MILLIS);
-		assertTimeEquals("Mean", (150L * 2 + 125L + 100L) / 4L, lastSplits.getMean().longValue() / SimonUtils.NANOS_IN_MILLIS);
+		assertEquals(100L, lastSplits.getMin().longValue());
+		assertEquals(150L, lastSplits.getMax().longValue());
+		assertEquals((150 * 2 + 125 + 100) / 4L, lastSplits.getMean().longValue());
 	}
 
 	@Test
