@@ -1,7 +1,7 @@
 package org.javasimon.jmx;
 
-import org.javasimon.Stopwatch;
 import org.javasimon.Simon;
+import org.javasimon.Stopwatch;
 import org.javasimon.utils.SimonUtils;
 
 /**

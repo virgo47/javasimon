@@ -31,31 +31,31 @@
  * <p>
  * Both MBean needs to be registered first. Snippet bellow registers the Simon MBean:
  * <pre>
-MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
-try {
-	ObjectName name = new ObjectName("org.javasimon.jmx.example:type=Simon");
-	if (mbs.isRegistered(name)) {
-		mbs.unregisterMBean(name);
-	}
-	SimonManagerMXBean simon = new SimonManagerMXBeanImpl(SimonManager.manager());
-	mbs.registerMBean(simon, name);
-	System.out.println("SimonManagerMXBean registerd under name: "+name);
-} catch (JMException e) {
-	System.out.println("SimonManagerMXBean registration failed!\n"+e);
-}
+ MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+ try {
+ ObjectName name = new ObjectName("org.javasimon.jmx.example:type=Simon");
+ if (mbs.isRegistered(name)) {
+ mbs.unregisterMBean(name);
+ }
+ SimonManagerMXBean simon = new SimonManagerMXBeanImpl(SimonManager.manager());
+ mbs.registerMBean(simon, name);
+ System.out.println("SimonManagerMXBean registerd under name: "+name);
+ } catch (JMException e) {
+ System.out.println("SimonManagerMXBean registration failed!\n"+e);
+ }
  * </pre>
  * Following code then unregisters the MBean.
  * <pre>
-MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
-try {
-	ObjectName name = new ObjectName("org.javasimon.jmx.example:type=Simon");
-	if (mbs.isRegistered(name)) {
-		mbs.unregisterMBean(name);
-	}
-	System.out.println("SimonManagerMXBean was unregisterd");
-} catch (JMException e) {
-	System.out.println("SimonManagerMXBean unregistration failed!\n"+e);
-}
+ MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+ try {
+ ObjectName name = new ObjectName("org.javasimon.jmx.example:type=Simon");
+ if (mbs.isRegistered(name)) {
+ mbs.unregisterMBean(name);
+ }
+ System.out.println("SimonManagerMXBean was unregisterd");
+ } catch (JMException e) {
+ System.out.println("SimonManagerMXBean unregistration failed!\n"+e);
+ }
  * </pre>
  * Java Simon doesn't provide any automatic mechanism or util functions to register
  * or unregister Simon MBean becouse there are simply too many things which could be customized. It is

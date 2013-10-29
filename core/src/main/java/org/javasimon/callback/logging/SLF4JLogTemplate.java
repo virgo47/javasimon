@@ -75,17 +75,11 @@ public abstract class SLF4JLogTemplate<C> extends LogTemplate<C> {
 			super(logger, marker);
 		}
 
-		/**
-		 * {@inheritDoc }
-		 */
 		@Override
 		protected boolean isEnabled(C context) {
 			return logger.isDebugEnabled(marker);
 		}
 
-		/**
-		 * {@inheritDoc }
-		 */
 		@Override
 		protected void log(String message) {
 			logger.debug(marker, message);
@@ -104,17 +98,11 @@ public abstract class SLF4JLogTemplate<C> extends LogTemplate<C> {
 			super(logger, marker);
 		}
 
-		/**
-		 * {@inheritDoc }
-		 */
 		@Override
 		protected boolean isEnabled(C context) {
 			return logger.isInfoEnabled(marker);
 		}
 
-		/**
-		 * {@inheritDoc }
-		 */
 		@Override
 		protected void log(String message) {
 			logger.info(marker, message);
@@ -133,17 +121,11 @@ public abstract class SLF4JLogTemplate<C> extends LogTemplate<C> {
 			super(logger, marker);
 		}
 
-		/**
-		 * {@inheritDoc }
-		 */
 		@Override
 		protected boolean isEnabled(C context) {
 			return logger.isWarnEnabled(marker);
 		}
 
-		/**
-		 * {@inheritDoc }
-		 */
 		@Override
 		protected void log(String message) {
 			logger.warn(marker, message);

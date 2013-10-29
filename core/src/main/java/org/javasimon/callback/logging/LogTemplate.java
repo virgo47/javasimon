@@ -7,7 +7,7 @@ package org.javasimon.callback.logging;
  */
 public abstract class LogTemplate<C> {
 	/**
-	 * Tell whether logging is enabled.
+	 * Tells whether logging is enabled.
 	 *
 	 * @return Logging enabled
 	 */

@@ -2,8 +2,9 @@ package org.javasimon.callback.timeline;
 
 import org.testng.annotations.Test;
 
-import static org.javasimon.callback.timeline.TimeUtil.*;
-import static org.testng.Assert.*;
+import static org.javasimon.callback.timeline.TimeUtil.createSplit;
+import static org.javasimon.callback.timeline.TimeUtil.createTimestamp;
+import static org.testng.Assert.assertEquals;
 
 /**
  * Unit test for {@link StopwatchTimeline} and {@link Timeline}
@@ -34,7 +35,7 @@ public class StopwatchTimelineTest {
 		timeline.addSplit(createSplit(createTimestamp(2012, 7, 12, 21, 54, 22), 250));
 		// Date is ready, let's check the result
 		StopwatchTimeRange[] timeRanges = timeline.sample().getTimeRanges();
-		for(StopwatchTimeRange timeRange:timeRanges) {
+		for (StopwatchTimeRange timeRange : timeRanges) {
 			System.out.println(timeRange.toString());
 		}
 		assertEquals(timeRanges.length, 3);

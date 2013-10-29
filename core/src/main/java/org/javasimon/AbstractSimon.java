@@ -96,11 +96,6 @@ abstract class AbstractSimon implements Simon {
 		return name;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @throws IllegalArgumentException if {@code state} is {@code null}.
-	 */
 	public synchronized final void setState(SimonState state, boolean overrule) {
 		if (state == null) {
 			throw new IllegalArgumentException();
@@ -142,7 +137,7 @@ abstract class AbstractSimon implements Simon {
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * <p/>
 	 * <b>Thread-safety:</b> May be called with write lock already acquired (from {@link #sampleAndReset()} for instance.
 	 * Must not re-acquire write lock, but always releases it, as it calls callbacks out of the critical section already.
 	 */
@@ -262,11 +257,6 @@ abstract class AbstractSimon implements Simon {
 		return attributesSupport.getAttributeNames();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @since 3.4
-	 */
 	@Override
 	public Map<String, Object> getCopyAsSortedMap() {
 		return attributesSupport.getCopyAsSortedMap();

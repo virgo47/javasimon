@@ -1,12 +1,9 @@
 package org.javasimon.jmx;
 
-import static org.testng.Assert.assertEquals;
-
-import java.lang.management.ManagementFactory;
-import java.util.List;
-
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
+import java.lang.management.ManagementFactory;
+import java.util.List;
 
 import org.javasimon.Counter;
 import org.javasimon.Manager;
@@ -15,6 +12,8 @@ import org.javasimon.Split;
 import org.javasimon.Stopwatch;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertEquals;
 
 /**
  * Unit test for {@link SimonManagerMXBeanImpl}

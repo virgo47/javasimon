@@ -1,14 +1,14 @@
 package org.javasimon.callback;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.javasimon.Counter;
 import org.javasimon.CounterSample;
 import org.javasimon.Simon;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
 import org.javasimon.StopwatchSample;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Callback processes various events of the Java Simon API and is used as an extension point of the API.
@@ -46,7 +46,6 @@ public interface Callback {
 	 * is executed out of synchronized block.
 	 *
 	 * @param split started Split
-	 *
 	 */
 	void onStopwatchStart(Split split);
 
@@ -142,7 +141,6 @@ public interface Callback {
 	 * @param cause exception causing this warning - can be {@code null}, unless concrete implementation states otherwise
 	 */
 	void onManagerWarning(String warning, Exception cause);
-
 
 	/**
 	 * Enumeration of all supported callback actions. {@link #ALL} is meta-action usable in

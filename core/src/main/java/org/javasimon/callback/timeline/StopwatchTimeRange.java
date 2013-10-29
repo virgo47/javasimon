@@ -1,6 +1,5 @@
 package org.javasimon.callback.timeline;
 
-import org.javasimon.Split;
 import org.javasimon.utils.SimonUtils;
 
 /**
@@ -44,6 +43,7 @@ public class StopwatchTimeRange extends TimeRange {
 
 	/**
 	 * Add stopwatch split information.
+	 *
 	 * @param timestampInMs When the split started, expressed in milliseconds
 	 * @param durationInNs How long the split was, expressed in nanoseconds
 	 */
@@ -80,6 +80,7 @@ public class StopwatchTimeRange extends TimeRange {
 	public long getCounter() {
 		return counter;
 	}
+
 	/**
 	 * Compute mean/average using total and counter
 	 */
@@ -89,6 +90,7 @@ public class StopwatchTimeRange extends TimeRange {
 
 	/**
 	 * Compute mean/average.
+	 *
 	 * @return mean/average duration.
 	 */
 	public Double getMean() {
@@ -97,6 +99,7 @@ public class StopwatchTimeRange extends TimeRange {
 
 	/**
 	 * Compute variance.
+	 *
 	 * @return variance
 	 */
 	public Double getVariance() {
@@ -109,8 +112,10 @@ public class StopwatchTimeRange extends TimeRange {
 			return squareMean - meanSquare;
 		}
 	}
+
 	/**
 	 * Compute standard deviation.
+	 *
 	 * @return Standard deviation
 	 */
 	public Double getStandardDeviation() {

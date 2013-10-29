@@ -1,8 +1,8 @@
 package org.javasimon.utils;
 
+import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import org.testng.Assert;
 
 /**
  * OtherTestNG.
@@ -12,7 +12,7 @@ import org.testng.Assert;
 public final class SimonUtilsTest {
 	@DataProvider(name = "test-data-utils")
 	public Object[][] testDataUtilsProvider() {
-		return new Object[][]{
+		return new Object[][] {
 			{1, "1 ns"},
 			{47, "47 ns"},
 			{999, "999 ns"},

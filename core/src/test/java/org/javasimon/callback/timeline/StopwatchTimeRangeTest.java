@@ -1,9 +1,12 @@
 package org.javasimon.callback.timeline;
 
-import static org.javasimon.callback.timeline.TimeUtil.*;
-import static org.testng.Assert.*;
-
 import org.testng.annotations.Test;
+
+import static org.javasimon.callback.timeline.TimeUtil.addSplit;
+import static org.javasimon.callback.timeline.TimeUtil.createTimestamp;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 /**
  * Unit test for {@link StopwatchTimeRange} and {@link TimeRange}

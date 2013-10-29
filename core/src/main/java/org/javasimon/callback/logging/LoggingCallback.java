@@ -5,10 +5,9 @@ import org.javasimon.Split;
 import org.javasimon.Stopwatch;
 import org.javasimon.StopwatchSample;
 import org.javasimon.callback.CallbackSkeleton;
+import org.javasimon.utils.SimonUtils;
 
 import static org.javasimon.callback.logging.LogTemplates.toSLF4J;
-
-import org.javasimon.utils.SimonUtils;
 
 /**
  * Callback which log stopwatch splits and manager warnings.
@@ -98,20 +97,17 @@ public class LoggingCallback extends CallbackSkeleton {
 	}
 
 	/**
-	 * {@inheritDoc  }
+	 * {@inheritDoc}
 	 * Split and stopwatch are logger to log template is enabled.
 	 *
 	 * @param split Split
-	 * @param sample
+	 * @param sample Stopwatch sample
 	 */
 	@Override
 	public void onStopwatchStop(Split split, StopwatchSample sample) {
 		getStopwatchLogTemplate(split.getStopwatch()).log(split, stopwatchLogMessageSource);
 	}
 
-	/**
-	 * {@inheritDoc }
-	 */
 	@Override
 	public void onManagerWarning(String warning, Exception cause) {
 		managerLogTemplate.log(warning, managerLogMessageSource);

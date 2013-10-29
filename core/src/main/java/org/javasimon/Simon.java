@@ -51,6 +51,7 @@ public interface Simon extends HasAttributes {
 	 *
 	 * @param state a new state.
 	 * @param overrule specifies whether this change is forced to the whole subtree.
+	 * @throws IllegalArgumentException if {@code state} is {@code null}.
 	 */
 	void setState(SimonState state, boolean overrule);
 

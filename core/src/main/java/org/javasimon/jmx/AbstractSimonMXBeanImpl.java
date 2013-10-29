@@ -1,11 +1,11 @@
 package org.javasimon.jmx;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.javasimon.Simon;
 import org.javasimon.SimonState;
 import org.javasimon.utils.SimonUtils;
-
-import java.util.List;
-import java.util.ArrayList;
 
 /**
  * Common functionality for JMX bean for a signle Simon that corresponds to AbstractSimon

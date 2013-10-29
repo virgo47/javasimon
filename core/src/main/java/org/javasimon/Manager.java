@@ -1,8 +1,8 @@
 package org.javasimon;
 
-import org.javasimon.callback.CompositeCallback;
-
 import java.util.Collection;
+
+import org.javasimon.callback.CompositeCallback;
 
 /**
  * Manager provides access to Simons and manages them in a tree structure. Any number of Managers

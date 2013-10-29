@@ -23,9 +23,9 @@ import static org.javasimon.callback.logging.LogTemplates.toSLF4J;
  * </ul>
  *
  * @author gquintana
+ * @noinspection UnusedDeclaration
  * @see Buckets
  * @since 3.2
- * @noinspection UnusedDeclaration
  */
 public abstract class QuantilesCallback extends CallbackSkeleton {
 	/**
@@ -42,34 +42,37 @@ public abstract class QuantilesCallback extends CallbackSkeleton {
 	 * SLF4J log template shared by all stopwatches.
 	 */
 	private final LogTemplate<Split> enabledStopwatchLogTemplate = toSLF4J(getClass().getName(), "debug");
-    /**
-     * Type of the buckets: linear or exponential
-     */
-    private BucketsType bucketsType;
+	/**
+	 * Type of the buckets: linear or exponential
+	 */
+	private BucketsType bucketsType;
+
 	/**
 	 * Default constructor.
 	 */
 	protected QuantilesCallback() {
-        bucketsType=BucketsType.LINEAR;
+		bucketsType = BucketsType.LINEAR;
 	}
 
-    /**
-     * Constructor with buckets type
-     * @param bucketsType Type of buckets
-     */
-    protected QuantilesCallback(BucketsType bucketsType) {
-        this.bucketsType = bucketsType;
-    }
+	/**
+	 * Constructor with buckets type
+	 *
+	 * @param bucketsType Type of buckets
+	 */
+	protected QuantilesCallback(BucketsType bucketsType) {
+		this.bucketsType = bucketsType;
+	}
 
-    /**
-     * Get buckets type
-     * @return Buckets type
-     */
-    public BucketsType getBucketsType() {
-        return bucketsType;
-    }
+	/**
+	 * Get buckets type
+	 *
+	 * @return Buckets type
+	 */
+	public BucketsType getBucketsType() {
+		return bucketsType;
+	}
 
-    public boolean isLogEnabled() {
+	public boolean isLogEnabled() {
 		return logEnabled;
 	}
 

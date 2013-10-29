@@ -56,18 +56,11 @@ public class CounterLogTemplate<C> extends DelegateLogTemplate<C> {
 		return loop;
 	}
 
-	/**
-	 * {@inheritDoc }
-	 */
 	@Override
 	public boolean isEnabled(C context) {
 		return super.isEnabled(context) && incrementCounter();
 	}
 
-	/**
-	 * {@inheritDoc }
-	 * Increases counter on each call, if delegate log template is enabled
-	 */
 	@Override
 	public void log(String message) {
 		super.log(message);

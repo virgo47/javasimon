@@ -2,12 +2,17 @@ package org.javasimon.callback.logging;
 
 import java.util.logging.Level;
 
-import static org.javasimon.callback.logging.LogTemplates.*;
-
 import org.javasimon.utils.SimonUtils;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.*;
+import static org.javasimon.callback.logging.LogTemplates.everyNMilliseconds;
+import static org.javasimon.callback.logging.LogTemplates.everyNSplits;
+import static org.javasimon.callback.logging.LogTemplates.toJUL;
+import static org.javasimon.callback.logging.LogTemplates.toSLF4J;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNull;
+import static org.testng.Assert.assertTrue;
 
 /**
  * Unit test for all {@link LogTemplate} implementations.

@@ -4,7 +4,9 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 
 import org.javasimon.SimonManager;
+import org.javasimon.Split;
 import org.javasimon.Stopwatch;
+import org.javasimon.StopwatchSample;
 import org.javasimon.utils.SimonUtils;
 
 /**
@@ -73,7 +75,11 @@ public class MultithreadedTester extends Thread {
 		@Override
 		public void run() {
 			for (int i = 0; i < loop; i++) {
-				SimonManager.getStopwatch(NAME).start().stop();
+				Stopwatch stopwatch = SimonManager.getStopwatch(NAME);
+				Split split = stopwatch.start();
+				StopwatchSample sample = stopwatch.sample();
+				sample.toString();
+				split.stop();
 			}
 			// signal to latch that the thread is finished
 			latch.countDown();

@@ -1,10 +1,10 @@
 package org.javasimon.source;
 
-import org.javasimon.Manager;
-import org.javasimon.Simon;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import org.javasimon.Manager;
+import org.javasimon.Simon;
 
 /**
  * Monitor source playing the role of cache for delegate monitor source.

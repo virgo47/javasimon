@@ -74,7 +74,7 @@ public abstract class Buckets implements LogMessageSource<Split> {
 		this.min = min;
 		this.max = max;
 		this.bucketNb = bucketNb;
-        // Initialize bucket array
+		// Initialize bucket array
 		this.buckets = new Bucket[bucketNb + 2];
 		buckets[0] = new Bucket(Long.MIN_VALUE, min);
 		buckets[bucketNb + 1] = new Bucket(max, Long.MAX_VALUE);
@@ -137,26 +137,28 @@ public abstract class Buckets implements LogMessageSource<Split> {
 		return estimateQuantile(bucket, expectedCount, lastCount);
 	}
 
-    /**
-     * Interpolate quantile located in given Bucket using linear regression.
-     * <ul>
-     *     <li>Quantile is between {@link Bucket#min} and {@link Bucket#max}</li>
-     *     <li>Expected count is between last count and last count+{@link Bucket#count}</li>
-     * </ul>
-     * @param bucket Current bucket containing the quantile
-     * @param expectedCount Searched value
-     * @param lastCount Value of the bucket lower bound
-     * @return Compute quantile
-     */
-    protected double estimateQuantile(Bucket bucket, double expectedCount, double lastCount) {
-        return bucket.getMin() + (expectedCount - lastCount) * (bucket.getMax() - bucket.getMin()) / bucket.getCount();
-    }
+	/**
+	 * Interpolate quantile located in given Bucket using linear regression.
+	 * <ul>
+	 * <li>Quantile is between {@link Bucket#min} and {@link Bucket#max}</li>
+	 * <li>Expected count is between last count and last count+{@link Bucket#count}</li>
+	 * </ul>
+	 *
+	 * @param bucket Current bucket containing the quantile
+	 * @param expectedCount Searched value
+	 * @param lastCount Value of the bucket lower bound
+	 * @return Compute quantile
+	 */
+	protected double estimateQuantile(Bucket bucket, double expectedCount, double lastCount) {
+		return bucket.getMin() + (expectedCount - lastCount) * (bucket.getMax() - bucket.getMin()) / bucket.getCount();
+	}
 
-    /**
+	/**
 	 * Get the bucket containing the given value.
-     * Bucket should be sorted, the bucket whose min/max bounds are around the value is returned.
-     * @param value Value
-     * @return Bucket containing given value
+	 * Bucket should be sorted, the bucket whose min/max bounds are around the value is returned.
+	 *
+	 * @param value Value
+	 * @return Bucket containing given value
 	 */
 	protected Bucket getBucketForValue(long value) {
 		for (Bucket bucket : buckets) {
@@ -351,15 +353,15 @@ public abstract class Buckets implements LogMessageSource<Split> {
 		logTemplate.log(lastSplit, this);
 	}
 
-    public int getBucketNb() {
-        return bucketNb;
-    }
+	public int getBucketNb() {
+		return bucketNb;
+	}
 
-    public long getMin() {
-        return min;
-    }
+	public long getMin() {
+		return min;
+	}
 
-    public long getMax() {
-        return max;
-    }
+	public long getMax() {
+		return max;
+	}
 }

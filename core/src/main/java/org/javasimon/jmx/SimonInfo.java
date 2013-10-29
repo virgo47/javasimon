@@ -6,7 +6,7 @@ import java.beans.ConstructorProperties;
  * Value object for retrieving Simon name and type info via Simon MXBean ({@link SimonManagerMXBean}).
  * This value object make possible to retrieve list of all instantiated Simons together with
  * their types, so no multiple roundtrips are needed.
- * <p>
+ * <p/>
  * Example: Following example shows usage of SimonInfo object to find out Simon type through jmx.
  * <pre>
  * System.out.println("List of stopwatch Simons:");

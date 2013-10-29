@@ -42,8 +42,8 @@ public interface CounterMXBean extends SimonSuperMXBean {
 	 * Returns the current value of the counter.
 	 *
 	 * @return counter value
-	 * @since 3.3
 	 * @see org.javasimon.Counter#getCounter()
+	 * @since 3.3
 	 */
 	long getCounter();
 
@@ -51,8 +51,8 @@ public interface CounterMXBean extends SimonSuperMXBean {
 	 * Returns minimal value of counter.
 	 *
 	 * @return maximal reached value
-	 * @since 3.3
 	 * @see org.javasimon.Counter#getMin()
+	 * @since 3.3
 	 */
 	long getMin();
 
@@ -60,8 +60,8 @@ public interface CounterMXBean extends SimonSuperMXBean {
 	 * Returns ms timestamp when the min value was reached.
 	 *
 	 * @return ms timestamp of the min value decremented
-	 * @since 3.3
 	 * @see org.javasimon.Counter#getMinTimestamp()
+	 * @since 3.3
 	 */
 	long getMinTimestamp();
 
@@ -69,8 +69,8 @@ public interface CounterMXBean extends SimonSuperMXBean {
 	 * Returns maximal value of counter.
 	 *
 	 * @return maximal reached value
-	 * @since 3.3
 	 * @see org.javasimon.Counter#getMax()
+	 * @since 3.3
 	 */
 	long getMax();
 
@@ -78,8 +78,8 @@ public interface CounterMXBean extends SimonSuperMXBean {
 	 * Returns ms timestamp when the max value was reached.
 	 *
 	 * @return ms timestamp of the max value incremented
-	 * @since 3.3
 	 * @see org.javasimon.Counter#getMaxTimestamp()
+	 * @since 3.3
 	 */
 	long getMaxTimestamp();
 
@@ -96,8 +96,8 @@ public interface CounterMXBean extends SimonSuperMXBean {
 	 * is lowered by this value.
 	 *
 	 * @return sum of all incremented values
-	 * @since 3.3
 	 * @see org.javasimon.Counter#getIncrementSum()
+	 * @since 3.3
 	 */
 	long getIncrementSum();
 
@@ -106,8 +106,8 @@ public interface CounterMXBean extends SimonSuperMXBean {
 	 * is lowered by this value.
 	 *
 	 * @return sum of all decremented values
-	 * @since 3.3
 	 * @see org.javasimon.Counter#getDecrementSum()
+	 * @since 3.3
 	 */
 	long getDecrementSum();
 

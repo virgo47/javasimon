@@ -98,8 +98,10 @@ public final class Bucket {
 	public void clear() {
 		count = 0;
 	}
+
 	/**
 	 * Get sample from this bucket
+	 *
 	 * @return Sample
 	 */
 	public BucketSample sample() {

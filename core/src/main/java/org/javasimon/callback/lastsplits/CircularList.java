@@ -43,13 +43,16 @@ public class CircularList<T> extends AbstractList<T> {
 	public CircularList(int capacity) {
 		elements = (T[]) new Object[capacity];
 	}
+
 	/**
 	 * Get capacity (buffer size).
+	 *
 	 * @return capacity
 	 */
 	public int getCapacity() {
 		return elements.length;
 	}
+
 	/**
 	 * Converts an index starting from 0 into an index starting from first
 	 *

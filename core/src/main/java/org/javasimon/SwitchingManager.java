@@ -1,8 +1,8 @@
 package org.javasimon;
 
-import org.javasimon.callback.CompositeCallback;
-
 import java.util.Collection;
+
+import org.javasimon.callback.CompositeCallback;
 
 /**
  * {@link Manager} implementation that supports {@link #enable()} and {@link #disable()} and switches between

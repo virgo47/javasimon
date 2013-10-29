@@ -1,9 +1,9 @@
 package org.javasimon.aop;
 
+import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.lang.annotation.ElementType;
 
 /**
  * Annotation to mark classes and/or methods that should be monitored. A method is monitored when it is annotated,

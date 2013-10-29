@@ -69,8 +69,8 @@ public interface Stopwatch extends Simon {
 	 * <p/>
 	 * Usage examples:
 	 * <pre>Split split = Split.start(); // no stopwatch needed
-...
-someStopwatch.addSplit(split.stop()); // you may omit stop(), if you does not use the split after this point</pre>
+	 * ...
+	 * someStopwatch.addSplit(split.stop()); // you may omit stop(), if you does not use the split after this point</pre>
 	 *
 	 * @param split split object (should be stopped)
 	 * @return this stopwatch

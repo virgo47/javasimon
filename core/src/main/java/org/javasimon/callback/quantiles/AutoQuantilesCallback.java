@@ -6,13 +6,12 @@ import java.util.List;
 import org.javasimon.Simon;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
-
 import org.javasimon.utils.SimonUtils;
 
 /**
  * Callback which stores data in buckets to compute quantiles.
  * Quantiles can only be obtained after warmup period, after which buckets are
- * initialized. 
+ * initialized.
  * For each Simon the following lifecycle occurs:<ol>
  * <li><em>Warm up</em>:<ul>
  * <li>Buckets do not exist</li>
@@ -32,9 +31,9 @@ import org.javasimon.utils.SimonUtils;
  * </li></ol>
  *
  * @author gquintana
- * @since 3.2
- * @see Buckets
  * @noinspection UnusedDeclaration
+ * @see Buckets
+ * @since 3.2
  */
 public class AutoQuantilesCallback extends QuantilesCallback {
 
@@ -70,19 +69,20 @@ public class AutoQuantilesCallback extends QuantilesCallback {
 		this.bucketNb = bucketNb;
 	}
 
-    /**
-     * Constructor with all configuration
-     * @param bucketsType Linear or exponential
-     * @param warmupCounter Number of splits before init
-     * @param bucketNb Bucket number
-     */
-    public AutoQuantilesCallback(BucketsType bucketsType, long warmupCounter, int bucketNb) {
-        super(bucketsType);
-        this.warmupCounter = warmupCounter;
-        this.bucketNb = bucketNb;
-    }
+	/**
+	 * Constructor with all configuration
+	 *
+	 * @param bucketsType Linear or exponential
+	 * @param warmupCounter Number of splits before init
+	 * @param bucketNb Bucket number
+	 */
+	public AutoQuantilesCallback(BucketsType bucketsType, long warmupCounter, int bucketNb) {
+		super(bucketsType);
+		this.warmupCounter = warmupCounter;
+		this.bucketNb = bucketNb;
+	}
 
-    /**
+	/**
 	 * Get the bucket values attribute or create it if it does not exist.
 	 */
 	@SuppressWarnings("SynchronizationOnLocalVariableOrMethodParameter")
@@ -104,7 +104,6 @@ public class AutoQuantilesCallback extends QuantilesCallback {
 	private List<Long> getBucketsValues(final Stopwatch stopwatch) {
 		return (List<Long>) stopwatch.getAttribute(ATTR_NAME_BUCKETS_VALUES);
 	}
-
 
 	/**
 	 * Remove the bucket values attribute (after warmup).
@@ -134,6 +133,7 @@ public class AutoQuantilesCallback extends QuantilesCallback {
 		max = (max / SimonUtils.NANOS_IN_MILLIS + 1) * SimonUtils.NANOS_IN_MILLIS; // round to upper millisecond
 		return createBuckets(stopwatch, min, max, bucketNb);
 	}
+
 	/**
 	 * When warmup ends, buckets are create and retained splits are
 	 * sorted in the buckets.
@@ -180,7 +180,7 @@ public class AutoQuantilesCallback extends QuantilesCallback {
 			buckets.log(split);
 		}
 	}
-	
+
 	/**
 	 * When the Stopwatch is reset, so are the buckets.
 	 */

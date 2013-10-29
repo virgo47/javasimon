@@ -1,9 +1,9 @@
 package org.javasimon;
 
-import org.javasimon.callback.CompositeCallback;
-
 import java.util.Collection;
 import java.util.Collections;
+
+import org.javasimon.callback.CompositeCallback;
 
 /**
  * {@link Manager} implementation that does nothing or returns {@code null} or {@link NullSimon} as expected

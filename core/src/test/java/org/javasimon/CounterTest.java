@@ -1,8 +1,8 @@
 package org.javasimon;
 
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import org.testng.Assert;
 
 /**
  * Tests for {@link Counter}.

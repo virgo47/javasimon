@@ -1,9 +1,9 @@
 package org.javasimon.source;
 
+import java.lang.reflect.Method;
+
 import org.javasimon.Manager;
 import org.javasimon.Stopwatch;
-
-import java.lang.reflect.Method;
 
 /**
  * Base class for Stopwatch sources working on method locations.

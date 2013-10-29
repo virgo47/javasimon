@@ -1,13 +1,18 @@
 package org.javasimon.callback;
 
 import javax.script.ScriptException;
-
-import org.javasimon.*;
-
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
-import java.util.EnumMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+
+import org.javasimon.Counter;
+import org.javasimon.CounterSample;
+import org.javasimon.Simon;
+import org.javasimon.SimonPattern;
+import org.javasimon.Split;
+import org.javasimon.Stopwatch;
+import org.javasimon.StopwatchSample;
 
 /**
  * This callback combines Composite and Filter behavior. Filter can be configured

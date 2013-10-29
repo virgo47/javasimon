@@ -15,7 +15,7 @@ package org.javasimon;
  * Output is:
  * <pre>
  * counter = Simon Counter: [com.my.counter INHERIT] counter=0, max=undef, min=undef</pre>
- * <p/>
+ *
  * This behavior allows the counter to be initialized before it is used and its exteremes are
  * tracked - first initialization also sets max/min (extreme) values:
  * <pre>
@@ -24,7 +24,7 @@ package org.javasimon;
  * Output is:
  * <pre>
  * counter = Simon Counter: [com.my.counter INHERIT] counter=47, max=47, min=47</pre>
- * <p/>
+ *
  * <h3>Usage</h3>
  * Typical Counter usage is based on {@link #increase()} and {@link #decrease()} methods when
  * it is possible to track the monitored value - this can be used for example to count users logged

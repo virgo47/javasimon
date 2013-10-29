@@ -3,6 +3,7 @@ package org.javasimon.callback.lastsplits;
 import org.javasimon.Split;
 import org.javasimon.callback.logging.LogMessageSource;
 import org.javasimon.callback.logging.LogTemplate;
+
 import static org.javasimon.callback.logging.LogTemplates.disabled;
 import static org.javasimon.utils.SimonUtils.presentNanoTime;
 
@@ -25,7 +26,8 @@ public class LastSplits implements LogMessageSource<Split> {
 	/**
 	 * Log template used to log this list of splits
 	 */
-	private LogTemplate<Split> logTemplate=disabled();
+	private LogTemplate<Split> logTemplate = disabled();
+
 	/**
 	 * Constructor with ring buffer size
 	 *
@@ -62,7 +64,7 @@ public class LastSplits implements LogMessageSource<Split> {
 	public void setLogTemplate(LogTemplate<Split> logTemplate) {
 		this.logTemplate = logTemplate;
 	}
-	
+
 	/**
 	 * Get number of splits in the buffer
 	 *
@@ -257,15 +259,17 @@ public class LastSplits implements LogMessageSource<Split> {
 
 	/**
 	 * Transforms split values into a String
+	 *
 	 * @return Splits presented in a String
 	 */
 	private String getSplitsAsString() {
 		return processFunction(new AbstractSplitFunction<StringBuilder>(new StringBuilder()) {
-			private boolean first=true;
+			private boolean first = true;
+
 			@Override
 			public void evaluate(long runningFor) {
 				if (first) {
-					first=false;
+					first = false;
 				} else {
 					result.append(',');
 				}
@@ -273,6 +277,7 @@ public class LastSplits implements LogMessageSource<Split> {
 			}
 		}).toString();
 	}
+
 	/**
 	 * String containing: count, min, mean, max and trend(1ms).
 	 * This method can be expensive, because many computations are done.
@@ -283,7 +288,7 @@ public class LastSplits implements LogMessageSource<Split> {
 	public String toString() {
 		int count;
 		long min = 0, mean = 0, max = 0, trend = 0;
-		String values=null;
+		String values = null;
 		// First extract data
 		synchronized (splits) {
 			count = getCount();
@@ -291,9 +296,9 @@ public class LastSplits implements LogMessageSource<Split> {
 				min = getMin();
 				mean = getMean().longValue();
 				max = getMax();
-				values=getSplitsAsString();
-				if (count>1) {
-					trend=getTrend().longValue();
+				values = getSplitsAsString();
+				if (count > 1) {
+					trend = getTrend().longValue();
 				}
 			}
 		}
@@ -305,19 +310,21 @@ public class LastSplits implements LogMessageSource<Split> {
 				.append(",min=").append(presentNanoTime(min))
 				.append(",mean=").append(presentNanoTime(mean))
 				.append(",max=").append(presentNanoTime(max));
-			if (count>1) {
+			if (count > 1) {
 				stringBuilder.append(",trend=").append(presentNanoTime(trend));
 			}
 		}
 		stringBuilder.append("]");
 		return stringBuilder.toString();
 	}
+
 	/**
 	 * Transform this list of splits into a loggable message
 	 */
 	public String getLogMessage(Split lastSplit) {
-		return lastSplit.getStopwatch().getName()+" "+toString();
+		return lastSplit.getStopwatch().getName() + " " + toString();
 	}
+
 	/**
 	 * Log eventually this list of splits into log template
 	 */

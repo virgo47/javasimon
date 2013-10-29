@@ -1,7 +1,7 @@
 package org.javasimon.jmx;
 
-import org.javasimon.Simon;
 import org.javasimon.Counter;
+import org.javasimon.Simon;
 
 /**
  * MX Bean representing a particular {@link org.javasimon.Counter}. It is not created

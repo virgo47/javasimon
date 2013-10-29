@@ -1,15 +1,17 @@
 package org.javasimon.jmx;
 
-import org.javasimon.*;
-import org.javasimon.callback.CallbackSkeleton;
-
+import javax.management.JMException;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
-import javax.management.JMException;
-import java.util.Set;
-import java.util.Iterator;
-import java.util.HashSet;
 import java.lang.management.ManagementFactory;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
+import org.javasimon.Counter;
+import org.javasimon.Simon;
+import org.javasimon.Stopwatch;
+import org.javasimon.callback.CallbackSkeleton;
 
 /**
  * Callback that registers MXBeans for Simons after their creation. It is

@@ -1,8 +1,8 @@
 package org.javasimon.jmx;
 
-import org.javasimon.Sample;
-
 import java.util.List;
+
+import org.javasimon.Sample;
 
 /**
  * Interface with common methods for JMX beans for a signle Simon that corresponds

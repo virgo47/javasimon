@@ -72,7 +72,7 @@ public class PeriodicLogTemplate<C> extends DelegateLogTemplate<C> {
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * <p/>
 	 * Next time is updated after delegate log is called.
 	 */
 	@Override

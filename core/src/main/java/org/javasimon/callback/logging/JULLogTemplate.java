@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 /**
  * Concrete log template using {@link Logger}.
+ *
  * @author gquintana
  */
 public class JULLogTemplate<C> extends LogTemplate<C> {
@@ -16,8 +17,10 @@ public class JULLogTemplate<C> extends LogTemplate<C> {
 	 * Logging level
 	 */
 	private Level level;
+
 	/**
 	 * Constructor
+	 *
 	 * @param logger Logger
 	 * @param level Level
 	 */
@@ -25,8 +28,10 @@ public class JULLogTemplate<C> extends LogTemplate<C> {
 		this.logger = logger;
 		this.level = level;
 	}
+
 	/**
 	 * Constructor
+	 *
 	 * @param loggerName Logger name
 	 * @param level Level
 	 */
@@ -34,40 +39,42 @@ public class JULLogTemplate<C> extends LogTemplate<C> {
 		this.logger = Logger.getLogger(loggerName);
 		this.level = level;
 	}
+
 	/**
 	 * Get level
+	 *
 	 * @return Level
 	 */
 	public Level getLevel() {
 		return level;
 	}
+
 	/**
 	 * Change level
-	 * @param level Level 
+	 *
+	 * @param level Level
 	 */
 	public void setLevel(Level level) {
 		this.level = level;
 	}
-	
+
 	/**
 	 * Get logger
+	 *
 	 * @return Logger
 	 */
 	public Logger getLogger() {
 		return logger;
 	}
+
 	/**
 	 * {@inheritDoc }
-	 * Logger is enabled if underlying logger is {@link Logger#isLoggable} is true
-	 * for current level
+	 * Logger is enabled if underlying logger is {@link Logger#isLoggable} is true for current level
 	 */
 	public boolean isEnabled(C context) {
 		return logger.isLoggable(level);
 	}
 
-	/**
-	 * {@inheritDoc }
-	 */
 	public void log(String message) {
 		logger.log(level, message);
 	}

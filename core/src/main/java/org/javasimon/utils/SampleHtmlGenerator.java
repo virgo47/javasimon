@@ -1,10 +1,10 @@
 package org.javasimon.utils;
 
+import java.util.Arrays;
+
 import org.javasimon.CounterSample;
 import org.javasimon.Sample;
 import org.javasimon.StopwatchSample;
-
-import java.util.Arrays;
 
 /**
  * Generates HTML table for the provided {@link org.javasimon.Sample}s. Lines are separated by the default line separator

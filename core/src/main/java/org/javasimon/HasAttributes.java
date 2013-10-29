@@ -46,6 +46,7 @@ public interface HasAttributes {
 	 * Returns copy of attributes as a sorted map, this can be used further for operations like {@code toString}.
 	 *
 	 * @return copy of attributes as a sorted map
+	 * @since 3.4
 	 */
 	Map<String, Object> getCopyAsSortedMap();
 

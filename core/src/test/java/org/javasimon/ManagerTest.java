@@ -1,13 +1,13 @@
- package org.javasimon;
+package org.javasimon;
+
+import java.util.LinkedList;
+import java.util.Queue;
 
 import org.javasimon.callback.CallbackSkeleton;
-import org.testng.annotations.Test;
-import org.testng.annotations.BeforeMethod;
-import org.testng.Assert;
 import org.javasimon.utils.SimonUtils;
-
-import java.util.Queue;
-import java.util.LinkedList;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 /**
  * Tests SimonManager behavior.

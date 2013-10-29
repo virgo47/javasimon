@@ -135,9 +135,6 @@ public class CallTreeCallback extends CallbackSkeleton {
 		threadCallTree.remove();
 	}
 
-	/**
-	 * {@inheritDoc }
-	 */
 	@Override
 	public void onStopwatchStart(Split split) {
 		CallTree callTree = getCallTree();
@@ -148,9 +145,6 @@ public class CallTreeCallback extends CallbackSkeleton {
 		callTree.onStopwatchStart(split);
 	}
 
-	/**
-	 * {@inheritDoc }
-	 */
 	@Override
 	public void onStopwatchStop(Split split, StopwatchSample sample) {
 		getCallTree().onStopwatchStop(split);

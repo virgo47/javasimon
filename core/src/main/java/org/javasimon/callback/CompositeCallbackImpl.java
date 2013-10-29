@@ -1,14 +1,14 @@
 package org.javasimon.callback;
 
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import org.javasimon.Counter;
 import org.javasimon.CounterSample;
 import org.javasimon.Simon;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
 import org.javasimon.StopwatchSample;
-
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Composite callbacks holds child-callbacks and delegates any operations to all of them.

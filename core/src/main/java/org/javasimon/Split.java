@@ -275,11 +275,6 @@ public final class Split implements HasAttributes {
 		return attributesSupport.getAttributeNames();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @since 3.4
-	 */
 	@Override
 	public Map<String, Object> getCopyAsSortedMap() {
 		return attributesSupport.getCopyAsSortedMap();

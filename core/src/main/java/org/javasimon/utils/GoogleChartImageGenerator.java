@@ -1,12 +1,12 @@
 package org.javasimon.utils;
 
-import org.javasimon.StopwatchSample;
-
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+
+import org.javasimon.StopwatchSample;
 
 /**
  * Produces URLs for Google Chart Image API - column type.
