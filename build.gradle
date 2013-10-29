@@ -23,7 +23,16 @@ subprojects {
 
 	version = '3.4.0-SNAPSHOT'
 
-	jar {
+    sourceCompatibility = '1.6'
+    targetCompatibility = '1.6'
+
+    compileJava {
+        options.compilerArgs << '-bootclasspath' << System.getenv('JDK6.HOME') + '\\jre\\lib\\rt.jar;' + System.getenv('JDK6.HOME') + '\\jre\\lib\\jce.jar'
+        options.fork = true
+        options.forkOptions.executable = 'javac'
+    }
+
+    jar {
 		manifest.attributes provider: 'gradle'
 	}
 
