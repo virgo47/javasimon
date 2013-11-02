@@ -1,8 +1,23 @@
 archivesBaseName = 'javasimon-spring'
 
+configurations {
+    provided
+}
+sourceSets {
+    main { compileClasspath += configurations.provided }
+}
+
 dependencies {
 	compile project(':core')
-	compile 'org.slf4j:slf4j-api:1.7.2'
+	
+	compile libs.spring_core	
+	compile libs.spring_aop	
+	compile libs.spring_mvc	
+	
+	provided libs.javaee_api
+	
+	testCompile libs.spring_test
+	testCompile 'org.apache.geronimo.specs:geronimo-servlet_3.0_spec:1.0'	
 }
 
 test {
