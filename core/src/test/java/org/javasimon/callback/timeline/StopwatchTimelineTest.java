@@ -1,5 +1,10 @@
 package org.javasimon.callback.timeline;
 
+import org.javasimon.EnabledManager;
+import org.javasimon.Manager;
+import org.javasimon.Stopwatch;
+
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import static org.javasimon.callback.timeline.TimeUtil.createSplit;
@@ -42,5 +47,16 @@ public class StopwatchTimelineTest {
 		assertEquals(timeRanges[0].getCounter(), 5);
 		assertEquals(timeRanges[1].getCounter(), 2);
 		assertEquals(timeRanges[2].getCounter(), 3);
+	}
+
+	@Test
+	public void issue113() {
+		Manager manager = new EnabledManager();
+		Stopwatch before = manager.getStopwatch("before");
+		manager.callback().addCallback(new TimelineCallback());
+		Stopwatch after = manager.getStopwatch("after");
+		Assert.assertNotNull(after.getAttribute(TimelineCallback.TIMELINE_ATTRIBUTE_NAME));
+		Assert.assertNull(before.getAttribute(TimelineCallback.TIMELINE_ATTRIBUTE_NAME));
+		before.start().stop(); // caused NPE before the fix
 	}
 }

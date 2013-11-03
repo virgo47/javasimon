@@ -18,27 +18,27 @@ import org.javasimon.callback.CallbackSkeleton;
  */
 public class TimelineCallback extends CallbackSkeleton {
 	/**
-	 * Default attribute name for storing timelines
+	 * Default attribute name for storing timelines.
 	 */
 	public static final String TIMELINE_ATTRIBUTE_NAME = "timeline";
 
 	/**
-	 * Attribute name for storing timeline in Simons
+	 * Attribute name for storing timeline in Simons.
 	 */
 	private final String timelineAttributeName;
 
 	/**
-	 * Number of time ranges to keep in the timeline
+	 * Number of time ranges to keep in the timeline.
 	 */
 	private final int timelineCapacity;
 
 	/**
-	 * Width in milliseconds of the time ranges
+	 * Width in milliseconds of the time ranges.
 	 */
 	private final long timeRangeWidth;
 
 	/**
-	 * Main constructor
+	 * Main constructor.
 	 *
 	 * @param timelineAttributeName Simon attribute name used for storing Timeline
 	 * @param timelineCapacity Timeline capacity (number of time ranges)
@@ -51,7 +51,7 @@ public class TimelineCallback extends CallbackSkeleton {
 	}
 
 	/**
-	 * Constructor using default attribute name
+	 * Constructor using default attribute name.
 	 *
 	 * @param timelineCapacity Timeline capacity (number of time ranges)
 	 * @param timeRangeWidth Time range width (in milliseconds)
@@ -69,47 +69,40 @@ public class TimelineCallback extends CallbackSkeleton {
 	}
 
 	/**
-	 * Get timeline for given Simon
-	 *
-	 * @param simon
-	 * @return Timeline
-	 */
-	private Timeline getTimeline(Simon simon) {
-		return (Timeline) simon.getAttribute(timelineAttributeName);
-	}
-
-	/**
-	 * Get timeline for given Stopwatch
+	 * Gets timeline for given Stopwatch.
 	 *
 	 * @param stopwatch Stopwatch
 	 * @return Stopwatch timeline
 	 */
 	private StopwatchTimeline getStopwatchTimeline(Stopwatch stopwatch) {
-		return (StopwatchTimeline) getTimeline(stopwatch);
+		return (StopwatchTimeline) stopwatch.getAttribute(timelineAttributeName);
 	}
 
 	/**
-	 * On simon creation a timeline attribute is added
+	 * On simon creation a timeline attribute is added (for Stopwatches only).
 	 *
-	 * @param simon Create simon
+	 * @param simon created simon
 	 */
 	@Override
 	public void onSimonCreated(Simon simon) {
 		if (simon instanceof Stopwatch) {
 			simon.setAttribute(timelineAttributeName, new StopwatchTimeline(timelineCapacity, timeRangeWidth));
-//        } else if (simon instanceof Counter) {
-//            simon.setAttribute(timelineAttributeName, new CounterTimeline(timelineCapacity, timeRangeWidth));
 		}
 	}
 
 	@Override
 	public void onStopwatchAdd(Stopwatch stopwatch, Split split, StopwatchSample sample) {
-		getStopwatchTimeline(stopwatch).addSplit(split);
+		StopwatchTimeline timeline = getStopwatchTimeline(stopwatch);
+		if (timeline != null) {
+			timeline.addSplit(split);
+		}
 	}
 
 	@Override
 	public void onStopwatchStop(Split split, StopwatchSample sample) {
-		getStopwatchTimeline(split.getStopwatch()).addSplit(split);
+		StopwatchTimeline timeline = getStopwatchTimeline(split.getStopwatch());
+		if (timeline != null) {
+			timeline.addSplit(split);
+		}
 	}
-
 }
