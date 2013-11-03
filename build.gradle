@@ -4,7 +4,7 @@ apply plugin: 'maven'
 group = 'org.javasimon'
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 def getJdkVersion() {
@@ -50,34 +50,34 @@ ext.testNgVersion = '6.5.2'
 
 ext.libs = [
     spring_core:    "org.springframework:spring-core:$springVersion",
-	spring_aop:     "org.springframework:spring-aop:$springVersion",
-	spring_jdbc:    "org.springframework:spring-jdbc:$springVersion",
-	spring_mvc:     "org.springframework:spring-webmvc:$springVersion",
+    spring_aop:     "org.springframework:spring-aop:$springVersion",
+    spring_jdbc:    "org.springframework:spring-jdbc:$springVersion",
+    spring_mvc:     "org.springframework:spring-webmvc:$springVersion",
     spring_web:     "org.springframework:spring-web:$springVersion",
-	spring_test:    "org.springframework:spring-test:$springVersion",
+    spring_test:    "org.springframework:spring-test:$springVersion",
     slf4j:          "org.slf4j:slf4j-api:$slf4jVersion",
-	
-	javaee_api:     "javax:javaee-api:$javaEeVersion",
+
+    javaee_api:     "javax:javaee-api:$javaEeVersion",
     mockito:        "org.mockito:mockito-core:$mockitoVersion",
     h2:             "com.h2database:h2:$h2Version",
     test_ng:        "org.testng:testng:$testNgVersion"
 ]
 
 subprojects {
-	apply plugin: 'java'
+    apply plugin: 'java'
     apply plugin: 'jacoco'
 
-	repositories {
-		mavenCentral()
-	}
+    repositories {
+        mavenCentral()
+    }
 
-	dependencies {
-		testCompile libs.test_ng
-		testCompile libs.mockito
-		testCompile libs.spring_test
-	}
+    dependencies {
+        testCompile libs.test_ng
+        testCompile libs.mockito
+        testCompile libs.spring_test
+    }
 
-	version = '3.4.1-SNAPSHOT'
+    version = '3.4.1-SNAPSHOT'
 
     sourceCompatibility = '1.6'
     targetCompatibility = '1.6'
@@ -89,10 +89,10 @@ subprojects {
     }
 
     jar {
-		manifest.attributes provider: 'gradle'
-	}
+        manifest.attributes provider: 'gradle'
+    }
 
-	test {
-		useTestNG()
-	}
+    test {
+        useTestNG()
+    }
 }

@@ -8,18 +8,18 @@ sourceSets {
 }
 
 dependencies {
-	compile project(':core')
-	
-	compile libs.spring_core	
-	compile libs.spring_aop	
-	compile libs.spring_mvc	
-	
-	provided libs.javaee_api
-	
-	testCompile libs.spring_test
-	testCompile 'org.apache.geronimo.specs:geronimo-servlet_3.0_spec:1.0'	
+    compile project(':core')
+
+    compile libs.spring_core
+    compile libs.spring_aop
+    compile libs.spring_mvc
+
+    provided libs.javaee_api
+
+    testCompile libs.spring_test
+    testCompile 'org.apache.geronimo.specs:geronimo-servlet_3.0_spec:1.0'
 }
 
 test {
-	useTestNG()
+    useTestNG()
 }

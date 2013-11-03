@@ -14,9 +14,9 @@ compileJava {
 }
 
 dependencies {
-	compile project(':core')
-	compile project(jdbcDependencyName)
-	compile libs.h2
+    compile project(':core')
+    compile project(jdbcDependencyName)
+    compile libs.h2
 }
 
 
