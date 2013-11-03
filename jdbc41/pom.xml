@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>javasimon-jdbc41</artifactId>
 	<packaging>jar</packaging>
@@ -11,51 +12,7 @@
 		<version>3.4.1-SNAPSHOT</version>
 	</parent>
 
-
-	<build>
-		<plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${version.compiler-plugin}</version>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                    <compilerArguments>
-                        <bootclasspath>${env.JDK7.HOME}/jre/lib/rt.jar${path.separator}${env.JDK7.HOME}/jre/lib/jce.jar</bootclasspath>
-                    </compilerArguments>
-                    <executable>${env.JDK7.HOME}/bin/javac</executable>
-                </configuration>
-            </plugin>
-		</plugins>
-	</build>
-    <profiles>
-        <profile>
-            <id>netbeans-private-testng</id>
-            <activation>
-                <property>
-                    <name>netbeans.testng.action</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <version>${version.surefire-plugin}</version>
-                        <configuration>
-                            <suiteXmlFiles>
-                                <suiteXmlFile>target/nb-private/testng-suite.xml</suiteXmlFile>
-                            </suiteXmlFiles>
-                            <jvm>${env.JDK7.HOME}/bin/java</jvm>
-                            <forkMode>once</forkMode>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-    <dependencies>
+	<dependencies>
 		<dependency>
 			<groupId>org.javasimon</groupId>
 			<artifactId>javasimon-core</artifactId>
@@ -75,4 +32,51 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${version.compiler-plugin}</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+					<compilerArguments>
+						<bootclasspath>
+							${env.JDK7.HOME}/jre/lib/rt.jar${path.separator}${env.JDK7.HOME}/jre/lib/jce.jar
+						</bootclasspath>
+					</compilerArguments>
+					<executable>${env.JDK7.HOME}/bin/javac</executable>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>netbeans-private-testng</id>
+			<activation>
+				<property>
+					<name>netbeans.testng.action</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>${version.surefire-plugin}</version>
+						<configuration>
+							<suiteXmlFiles>
+								<suiteXmlFile>target/nb-private/testng-suite.xml</suiteXmlFile>
+							</suiteXmlFiles>
+							<jvm>${env.JDK7.HOME}/bin/java</jvm>
+							<forkMode>once</forkMode>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>

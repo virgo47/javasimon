@@ -9,7 +9,7 @@ repositories {
 
 subprojects {
 	apply plugin: 'java'
-    apply plugin: 'jacoco'
+	apply plugin: 'jacoco'
 
 	repositories {
 		mavenCentral()
@@ -21,18 +21,18 @@ subprojects {
 		testCompile 'org.springframework:spring-test:3.2.2.RELEASE'
 	}
 
-	version = '3.4.0-SNAPSHOT'
+	version = '3.4.1-SNAPSHOT'
 
-    sourceCompatibility = '1.6'
-    targetCompatibility = '1.6'
+	sourceCompatibility = '1.6'
+	targetCompatibility = '1.6'
 
-    compileJava {
-        options.compilerArgs << '-bootclasspath' << System.getenv('JDK6.HOME') + '\\jre\\lib\\rt.jar;' + System.getenv('JDK6.HOME') + '\\jre\\lib\\jce.jar'
-        options.fork = true
-        options.forkOptions.executable = 'javac'
-    }
+	compileJava {
+		options.compilerArgs << '-bootclasspath' << System.getenv('JDK6.HOME') + '\\jre\\lib\\rt.jar;' + System.getenv('JDK6.HOME') + '\\jre\\lib\\jce.jar'
+		options.fork = true
+		options.forkOptions.executable = 'javac'
+	}
 
-    jar {
+	jar {
 		manifest.attributes provider: 'gradle'
 	}
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.javasimon</groupId>
 	<artifactId>javasimon-parent</artifactId>
@@ -17,8 +18,8 @@
 
 	<modules>
 		<module>core</module>
-        <module>jdbc4</module>
-        <module>jdbc41</module>
+		<module>jdbc4</module>
+		<module>jdbc41</module>
 		<module>javaee</module>
 		<module>spring</module>
 		<module>console-embed</module>
@@ -32,8 +33,8 @@
 		<version.testng>6.5.2</version.testng>
 		<version.h2database>1.3.168</version.h2database>
 		<version.slf4j>1.7.2</version.slf4j>
-        <version.surefire-plugin>2.16</version.surefire-plugin>
-        <version.compiler-plugin>2.5.1</version.compiler-plugin>
+		<version.surefire-plugin>2.16</version.surefire-plugin>
+		<version.compiler-plugin>2.5.1</version.compiler-plugin>
 	</properties>
 
 	<scm>
@@ -74,34 +75,36 @@
 		</plugins>
 		<pluginManagement>
 			<plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>${version.compiler-plugin}</version>
-                    <configuration>
-                        <source>1.6</source>
-                        <target>1.6</target>
-                        <compilerArguments>
-                            <bootclasspath>${env.JDK6.HOME}/jre/lib/rt.jar${path.separator}${env.JDK6.HOME}/jre/lib/jce.jar</bootclasspath>
-                        </compilerArguments>
-                    </configuration>
-                </plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${version.compiler-plugin}</version>
+					<configuration>
+						<source>1.6</source>
+						<target>1.6</target>
+						<compilerArguments>
+							<bootclasspath>
+								${env.JDK6.HOME}/jre/lib/rt.jar${path.separator}${env.JDK6.HOME}/jre/lib/jce.jar
+							</bootclasspath>
+						</compilerArguments>
+					</configuration>
+				</plugin>
 
 				<plugin>
 					<artifactId>maven-assembly-plugin</artifactId>
 					<version>2.3</version>
 				</plugin>
 
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>${version.surefire-plugin}</version>
-                    <!-- <configuration>
-                        <jvm>${env.JDK6.HOME}/bin/java</jvm>
-                        <forkMode>once</forkMode>
-                    </configuration> -->
-                </plugin>
-            </plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${version.surefire-plugin}</version>
+					<!-- <configuration>
+						<jvm>${env.JDK6.HOME}/bin/java</jvm>
+						<forkMode>once</forkMode>
+					</configuration> -->
+				</plugin>
+			</plugins>
 		</pluginManagement>
 	</build>
 
@@ -187,46 +190,13 @@
 		</developer>
 	</developers>
 
-    <profiles>
-        <!-- <profile>
-            <id>jdk7</id>
-            <modules>
-                <module>core</module>
-                <module>jdbc41</module>
-                <module>javaee</module>
-                <module>spring</module>
-                <module>console-embed</module>
-                <module>console-webapp</module>
-                <module>examples</module>
-            </modules>
-            <activation>
-                <jdk>[1.7,1.8)</jdk>
-            </activation>
-        </profile>
-
-        <profile>
-            <id>jdk6</id>
-            <modules>
-                <module>core</module>
-                <module>jdbc4</module>
-                <module>javaee</module>
-                <module>spring</module>
-                <module>console-embed</module>
-                <module>console-webapp</module>
-                <module>examples</module>
-            </modules>
-            <activation>
-                <jdk>[1.3,1.7)</jdk>
-            </activation>
-        </profile>
-        -->
-
+	<profiles>
 		<profile>
 			<id>dist</id>
 			<modules>
 				<module>core</module>
 				<module>jdbc4</module>
-                <module>jdbc41</module>
+				<module>jdbc41</module>
 				<module>javaee</module>
 				<module>spring</module>
 				<module>console-embed</module>
