@@ -1,37 +1,22 @@
 archivesBaseName = 'javasimon-examples'
 
-String version = System.getProperty("java.specification.version")
+String jdkVersion = getJdkVersion()
 
-String jdbcDependencyName = null
-if (version == "1.7") {
-	jdbcDependencyName = ':jdbc41'
-	
-	sourceCompatibility = '1.7'
-    targetCompatibility = '1.7'
+String jdbcDependencyName = getJdbcDependencyName(jdkVersion)
 
-    compileJava {
-        options.compilerArgs << '-bootclasspath' << getBootstrapPath("1.7")
-        options.fork = true
-        options.forkOptions.executable = 'javac'
-    }
-	
-} else {
-	jdbcDependencyName = ':jdbc4'
-	
-	sourceCompatibility = '1.6'
-    targetCompatibility = '1.6'
+sourceCompatibility = jdkVersion
+targetCompatibility = jdkVersion
 
-    compileJava {
-        options.compilerArgs << '-bootclasspath' << getBootstrapPath("1.6")
-        options.fork = true
-        options.forkOptions.executable = 'javac'
-    }
+compileJava {
+    options.compilerArgs << '-bootclasspath' << getBootstrapPath(jdkVersion)
+    options.fork = true
+    options.forkOptions.executable = 'javac'
 }
 
 dependencies {
 	compile project(':core')
 	compile project(jdbcDependencyName)
-	compile 'com.h2database:h2:1.3.171'
+	compile libs.h2
 }
 
 

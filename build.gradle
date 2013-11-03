@@ -7,31 +7,60 @@ repositories {
 	mavenCentral()
 }
 
+def getJdkVersion() {
+    System.getProperty("java.specification.version")
+}
+
 def getBootstrapPath(jdkVersion) {
+    String separator = File.pathSeparator;
 
     switch (jdkVersion) {
         case "1.6":
-            return System.getenv('JDK6.HOME') + '/jre/lib/rt.jar;' + System.getenv('JDK6.HOME') + '/jre/lib/jce.jar';
-            break;
+            return System.getenv('JDK6.HOME') + '/jre/lib/rt.jar' + separator + System.getenv('JDK6.HOME') + '/jre/lib/jce.jar';
+            break
         case "1.7":
-            return System.getenv('JDK7.HOME') + '/jre/lib/rt.jar;' + System.getenv('JDK7.HOME') + '/jre/lib/jce.jar'
-            break;
+            return System.getenv('JDK7.HOME') + '/jre/lib/rt.jar' + separator + System.getenv('JDK7.HOME') + '/jre/lib/jce.jar'
+            break
         default:
-            throw new GradleException("Unknown jdk version: " + jdkVersion)
+            throw new GradleException("Unknown JDK version: " + jdkVersion)
     }
 }
 
+def getJdbcDependencyName(jdkVersion) {
+    switch (jdkVersion) {
+        case '1.6':
+            ':jdbc4'
+            break
+        case '1.7':
+            ':jdbc41'
+            break
+        default:
+            throw new GradleException("Unknown JDK version: " + jdkVersion);
+    }
+}
+
+
+ext.springVersion = '3.2.0.RELEASE'
+ext.slf4jVersion = '1.7.2'
+ext.javaEeVersion = '6.0'
+ext.mockitoVersion = '1.9.0'
+ext.h2Version = '1.3.168'
+ext.testNgVersion = '6.5.2'
+
+
 ext.libs = [
-    spring_core:    'org.springframework:spring-core:3.2.0.RELEASE',
-	spring_aop:     'org.springframework:spring-aop:3.2.0.RELEASE',
-	spring_jdbc:    'org.springframework:spring-jdbc:3.2.0.RELEASE',
-	spring_mvc:     'org.springframework:spring-webmvc:3.2.0.RELEASE',
-	spring_test:    'org.springframework:spring-test:3.2.0.RELEASE',
+    spring_core:    "org.springframework:spring-core:$springVersion",
+	spring_aop:     "org.springframework:spring-aop:$springVersion",
+	spring_jdbc:    "org.springframework:spring-jdbc:$springVersion",
+	spring_mvc:     "org.springframework:spring-webmvc:$springVersion",
+    spring_web:     "org.springframework:spring-web:$springVersion",
+	spring_test:    "org.springframework:spring-test:$springVersion",
+    slf4j:          "org.slf4j:slf4j-api:$slf4jVersion",
 	
-	javaee_api:     'javax:javaee-api:6.0',
-    mockito:        'org.mockito:mockito-core:1.9.0',
-    h2:             'com.h2database:h2:1.3.168',
-    test_ng:        'org.testng:testng:6.5.2'
+	javaee_api:     "javax:javaee-api:$javaEeVersion",
+    mockito:        "org.mockito:mockito-core:$mockitoVersion",
+    h2:             "com.h2database:h2:$h2Version",
+    test_ng:        "org.testng:testng:$testNgVersion"
 ]
 
 subprojects {
@@ -48,7 +77,7 @@ subprojects {
 		testCompile libs.spring_test
 	}
 
-	version = '3.4.0-SNAPSHOT'
+	version = '3.4.1-SNAPSHOT'
 
     sourceCompatibility = '1.6'
     targetCompatibility = '1.6'

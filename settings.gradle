@@ -1,1 +1,1 @@
-include "core", "jdbc4" , "javaee", "examples", "jdbc41", "spring" , "console-embed", "console-webapp" /*, "demoapp"*/
+include "core", "jdbc4" , "javaee", "examples", "jdbc41", "spring" , "console-embed", "console-webapp", "demoapp"

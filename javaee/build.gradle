@@ -6,10 +6,10 @@ configurations{
 
 dependencies {
 	compile project(':core')
-	provided 'javax:javaee-api:6.0'
+	provided "javax:javaee-api:$javaEeVersion"
 	testCompile 'org.apache.geronimo.specs:geronimo-interceptor_1.1_spec:1.0'
 	testCompile 'org.apache.geronimo.specs:geronimo-servlet_3.0_spec:1.0'
-	testCompile 'org.springframework:spring-test:3.2.2.RELEASE'
+	testCompile "org.springframework:spring-test:$springVersion"
 
 }
 

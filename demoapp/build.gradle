@@ -1,0 +1,71 @@
+/*
+
+		<dependency>
+			<groupId>org.eclipse.jetty.aggregate</groupId>
+			<artifactId>jetty-all-server</artifactId>
+			<version>${jetty.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<scope>compile</scope>
+			<exclusions>
+				<exclusion>
+					<artifactId>spring-asm</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-aop</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+*/
+
+configurations {
+    provided
+}
+sourceSets {
+    main { compileClasspath += configurations.provided }
+}
+
+
+
+String jdkVersion = getJdkVersion()
+String jdbcDependencyName = getJdbcDependencyName(jdkVersion)
+
+sourceCompatibility = jdkVersion
+targetCompatibility = jdkVersion
+
+compileJava {
+    options.compilerArgs << '-bootclasspath' << getBootstrapPath(jdkVersion)
+    options.fork = true
+    options.forkOptions.executable = 'javac'
+}
+
+ext.wicketVersion = '1.5.3'
+ext.jettyVersion = '7.5.0.v20110901'
+
+dependencies {
+    compile project(':core')
+    compile "org.apache.wicket:wicket-core:$wicketVersion"
+    compile "org.apache.wicket:wicket-spring:$wicketVersion"
+
+    provided libs.slf4j
+    compile "org.slf4j:slf4j-log4j12:$slf4jVersion"
+
+    compile "org.eclipse.jetty.aggregate:jetty-all-server:$jettyVersion"
+    compile libs.spring_core
+    compile(libs.spring_jdbc) {
+        exclude module: 'spring-asm'
+        exclude module: 'spring-aop'
+    }
+    compile libs.spring_web
+    compile libs.h2
+    compile 'commons-dbcp:commons-dbcp:1.4'
+    compile project(jdbcDependencyName)
+    compile project(':javaee')
+    compile project(':console-embed')
+
+}
