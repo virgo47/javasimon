@@ -1,10 +1,10 @@
 package org.javasimon.callback;
 
-import javax.script.ScriptException;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
+import javax.script.ScriptException;
 
 import org.javasimon.Counter;
 import org.javasimon.CounterSample;
@@ -90,14 +90,16 @@ public final class CompositeFilterCallback implements FilterCallback, CompositeC
 
 	@Override
 	public void onStopwatchStart(Split split) {
-		if (rulesApplyTo(split.getStopwatch(), Event.STOPWATCH_START, split)) {
+		Stopwatch stopwatch = split.getStopwatch();
+		if (stopwatch != null && rulesApplyTo(stopwatch, Event.STOPWATCH_START, split)) {
 			callback.onStopwatchStart(split);
 		}
 	}
 
 	@Override
 	public void onStopwatchStop(Split split, StopwatchSample sample) {
-		if (rulesApplyTo(split.getStopwatch(), Event.STOPWATCH_STOP, split)) {
+		Stopwatch stopwatch = split.getStopwatch();
+		if (stopwatch != null && rulesApplyTo(stopwatch, Event.STOPWATCH_STOP, split)) {
 			callback.onStopwatchStop(split, sample);
 		}
 	}
@@ -210,6 +212,7 @@ public final class CompositeFilterCallback implements FilterCallback, CompositeC
 	}
 
 	private boolean patternAndConditionCheck(Simon simon, FilterRule rule, Object... params) throws ScriptException {
+		//noinspection SimplifiableIfStatement
 		if (simon != null && rule.getPattern() != null && !rule.getPattern().matches(simon.getName())) {
 			return false;
 		}

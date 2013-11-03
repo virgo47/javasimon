@@ -84,6 +84,8 @@ public final class Split implements HasAttributes {
 	 * <pre>Split split = Split.start();
 	 * ...
 	 * SimonManager.getStopwatch("codeBlock2.success").addSplit(split);</pre>
+	 * <p/>
+	 * No callbacks are called for this Split.
 	 *
 	 * @since 3.4
 	 */
@@ -96,9 +98,11 @@ public final class Split implements HasAttributes {
 
 	/**
 	 * Creates simulated non-running Split that took specific time in nanos.
+	 * No callbacks are called for this Split.
 	 *
 	 * @param nanos Split's total time in nanos
 	 * @return created Split
+	 * @since 3.5
 	 */
 	public static Split create(long nanos) {
 		Split split = new Split(true);
@@ -110,7 +114,7 @@ public final class Split implements HasAttributes {
 	/**
 	 * Returns the stopwatch that this split is running for. May be {@code null} for anonymous splits (directly created).
 	 *
-	 * @return owning stopwatch, may be {@code null}
+	 * @return owning stopwatch, may return {@code null}
 	 */
 	public Stopwatch getStopwatch() {
 		return stopwatch;

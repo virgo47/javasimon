@@ -37,6 +37,9 @@ public interface Callback {
 	 * Lifecycle method called when the callback is removed from the manager. It should implement
 	 * any necessary cleanup or resources - e.g. release JDBC connection if one was used for Callback
 	 * functionality.
+	 * <p/>
+	 * <b>It is important to realize that this method is not guaranteed to be called for all callbacks, only for
+	 * callbacks removed from Manager's callback tree.</b>
 	 */
 	void cleanup();
 
@@ -44,6 +47,7 @@ public interface Callback {
 	 * Stopwatch start event. <b>Duration of all callbacks is included into the split time!</b>
 	 * {@link StopwatchSample} valid for the moment after the start is provided because the callback
 	 * is executed out of synchronized block.
+	 * It is guaranteed that {@link org.javasimon.Split#getStopwatch()} will not return {@code null}.
 	 *
 	 * @param split started Split
 	 */
@@ -53,6 +57,7 @@ public interface Callback {
 	 * Stopwatch stop event. This action is executed after the split time is calculated and does not
 	 * affect the measuring. {@link StopwatchSample} valid for the moment after the stop is provided
 	 * because the callback is executed out of synchronized block.
+	 * It is guaranteed that {@link org.javasimon.Split#getStopwatch()} will not return {@code null}.
 	 *
 	 * @param split stopped Split
 	 * @param sample stopwatch sampled after the stop
@@ -69,6 +74,7 @@ public interface Callback {
 	/**
 	 * Stopwatch add split event. {@link StopwatchSample} valid for the moment after the add is provided
 	 * because the callback is executed out of synchronized block.
+	 * It is guaranteed that {@link org.javasimon.Split#getStopwatch()} will not return {@code null}.
 	 *
 	 * @param stopwatch modified Stopwatch
 	 * @param split added split object
@@ -109,6 +115,8 @@ public interface Callback {
 
 	/**
 	 * Simon created event is called when Simon is successfully created by the Manager.
+	 * <b>Runs within the block synchronized on the Manager</b> - this results in high consistency, but it also
+	 * means that <b>implementations of this method should not take much time.</b>
 	 *
 	 * @param simon created Simon
 	 */
@@ -116,6 +124,8 @@ public interface Callback {
 
 	/**
 	 * Simon destroyed event is called when Simon is successfully destroyed by the Manager.
+	 * <b>Runs within the block synchronized on the Manager</b> - this results in high consistency, but it also
+	 * means that <b>implementations of this method should not take much time.</b>
 	 *
 	 * @param simon destroyed Simon
 	 */
@@ -123,6 +133,8 @@ public interface Callback {
 
 	/**
 	 * Event called when the manager is cleared.
+	 * <b>Runs within the block synchronized on the Manager</b> - this results in high consistency, but it also
+	 * means that <b>implementations of this method should not take much time.</b>
 	 */
 	void onManagerClear();
 
