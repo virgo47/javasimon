@@ -1,5 +1,7 @@
 package org.javasimon;
 
+import org.javasimon.utils.SimonUtils;
+
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -46,7 +48,9 @@ public final class StopwatchTest {
 
 	@Test
 	public void resetTest() throws Exception {
-		long ts = System.currentTimeMillis();
+		// with raw current millis this test is unstable - this is not a problem in real-life situations though
+		// point is to check that timestamps are set, not that they are set off by 1 ms or so
+		long ts = SimonUtils.millisForNano(System.currentTimeMillis());
 		Stopwatch stopwatch = SimonManager.getStopwatch(STOPWATCH_NAME);
 		stopwatch.reset();
 		stopwatch.addSplit(Split.create(100));
@@ -55,9 +59,9 @@ public final class StopwatchTest {
 		Assert.assertEquals(stopwatch.getMin(), 100);
 		long maxTimestamp = stopwatch.getMaxTimestamp();
 		Assert.assertTrue(maxTimestamp >= ts, "maxTimestamp=" + maxTimestamp + ", ts=" + ts);
-		Assert.assertTrue(stopwatch.getMinTimestamp() >= ts);
-		Assert.assertTrue(stopwatch.getLastUsage() >= ts);
-		Assert.assertTrue(stopwatch.getFirstUsage() >= ts);
+		Assert.assertEquals(stopwatch.getMinTimestamp(), maxTimestamp);
+		Assert.assertEquals(stopwatch.getLastUsage(), maxTimestamp);
+		Assert.assertEquals(stopwatch.getFirstUsage(), maxTimestamp);
 		Assert.assertEquals(stopwatch.getCounter(), 1);
 		StopwatchSample sample = stopwatch.sample();
 		Assert.assertEquals(sample.getName(), stopwatch.getName());

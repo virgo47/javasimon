@@ -464,7 +464,6 @@ public final class SimonUtils {
 		return INIT_MILLIS + (nanos - INIT_NANOS) / NANOS_IN_MILLIS;
 	}
 
-	// ensures that saved nano-time belongs to a fresh just started millis value
 	private static class Calibration {
 
 		private static final int TENTH_OF_MILLIS = 1000000;
@@ -478,21 +477,24 @@ public final class SimonUtils {
 
 		static {
 			initMillis = System.currentTimeMillis();
+			long oldNanos;
 			while (true) {
-				initNanos = System.nanoTime();
+				oldNanos = System.nanoTime();
 				long nextMillis = System.currentTimeMillis();
 				if (nextMillis > initMillis) {
 					millisGranularity = nextMillis - initMillis;
 					initMillis = nextMillis;
 					break;
+				} else {
+					// this ensures that we should get the last possible nano value before initMillis
+					initNanos = oldNanos;
 				}
 			}
 
 			long sumOfNanoDiffs = 0;
 			int nanoChanges = 0;
 			int nanoMeasurements = 0;
-			long oldNanos = initNanos;
-
+			// we will reuse oldNanos from before
 			while (nanoChanges < NANO_CHANGES) {
 				long nextNanos = System.nanoTime();
 				nanoMeasurements++;
@@ -503,8 +505,14 @@ public final class SimonUtils {
 				}
 			}
 			nanosGranularity = sumOfNanoDiffs / nanoChanges;
-//			System.out.println("nanosGranularity = " + nanosGranularity + " (based on " + nanoChanges + " changes and " + nanoMeasurements + " measurements)");
-//			System.out.println("millisGranularity = " + millisGranularity);
+			/*
+			Producec funny results when repeated - granularity differences are striking even during a single Maven build:
+            nanosGranularity = 460 (based on 100 changes and 327 measurements)
+            nanosGranularity = 1198 (based on 100 changes and 324 measurements)
+            nanosGranularity = 605 (based on 100 changes and 328 measurements)
+			System.out.println("nanosGranularity = " + nanosGranularity + " (based on " + nanoChanges + " changes and " + nanoMeasurements + " measurements)");
+			System.out.println("millisGranularity = " + millisGranularity);
+			*/
 		}
 	}
 }
