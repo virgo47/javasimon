@@ -109,6 +109,10 @@ javasimon.DOMUtil={
 			this.fnSetClass(eImg, "icon");
 		}
 		return eImg;
+	},
+	fnGetSampleRow: function(sampleName) {
+	    var sampleText = $( 'a[href$="' + sampleName + '"]' );
+	    return sampleText.parent().parent();
 	}
 };
 javasimon.ObjectUtil={
