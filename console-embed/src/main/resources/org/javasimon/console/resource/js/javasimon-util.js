@@ -136,3 +136,35 @@ javasimon.ObjectUtil={
 		return oTarget;
 	}
 };
+
+javasimon.TimeUtils = function() {
+    var timeUnits = {
+        "SECOND": 1.0,
+        "MILLISECOND": 1000.0,
+        "MICROSECOND": 1000 * 1000.0,
+        "NANOSECOND": 1000 * 1000 * 1000.0
+    };
+
+    function convert(val, fromUnit, toUnit) {
+        var coeff = timeUnits[toUnit] / timeUnits[fromUnit];
+
+        return val * coeff;
+    }
+
+    var obj = {};
+
+    obj.toSeconds = function(val, timeUnit) {
+        return convert(val, timeUnit, "SECOND");
+    };
+    obj.toMillis = function(val, timeUnit) {
+        return convert(val, timeUnit, "MILLISECOND");
+    };
+    obj.toMicros = function(val, timeUnit) {
+        return convert(val, timeUnit, "MICROSECOND");
+    };
+    obj.toNanos = function(val, timeUnit) {
+        return convert(val, timeUnit, "NANOSECOND");
+    };
+
+    return obj;
+}();

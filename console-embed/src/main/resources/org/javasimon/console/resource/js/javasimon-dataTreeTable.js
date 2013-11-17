@@ -23,10 +23,19 @@ window.javasimon=javasimon;
 		if (oSettings) {
 			this.oSettings=objUtil.fnMerge(this.oSettings, oSettings, true);	
 		}
+
+		var fnShouldAppendText = function(sFieldValue, bHasChildren) {
+			if (bHasChildren)	{
+				return sFieldValue;
+			} else {
+				return sFieldValue === 0 || sFieldValue;
+			}
+		}
+
 		// Default cell rendering function
-		var fnRenderDefault =function(oNode,eCell,oDataTreeTable) {
+		var fnRenderDefault =function(oNode, eCell, oDataTreeTable, bHasChildren) {
 			var sFieldValue=oNode.oData[this.sField];
-			if (sFieldValue) {
+			if (fnShouldAppendText(sFieldValue, bHasChildren)) {
 				domUtil.fnAppendChildText(eCell, sFieldValue);
 			}
 			if (this.sClass) {
@@ -178,7 +187,7 @@ window.javasimon=javasimon;
 			// Other columns
 			for(i=1;i<aoColumns.length;i++) {
 				eCell=domUtil.fnAppendChildElement(eRow,'td');	
-				aoColumns[i].fnRender(oNode, eCell, this);
+				aoColumns[i].fnRender(oNode, eCell, this, oNode.bHasChildren);
 			}
 		},
 		fnDrawHeader:function() {

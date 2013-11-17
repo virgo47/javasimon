@@ -16,6 +16,7 @@
         <script type="text/javascript">
 $(document).ready(function() {
 	var onTableData = javasimon.onTableData || function() {};
+	var timeFormatSelect = $('#timeFormatSelect');
 
 	javasimon.SettingsService.load();
 	var oFilterCtrl=new javasimon.FilterController(
@@ -85,7 +86,7 @@ $(document).ready(function() {
 						json = {aaData:json};
 					}
 					fnCallback(json);
-                    onTableData(json.aaData);
+                    onTableData(json.aaData, timeFormatSelect.val());
 				}
 			});
 		},

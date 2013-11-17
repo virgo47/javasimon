@@ -6,10 +6,11 @@ $.getScript("resource/js/javasimon-util.js", function(data, textStatus, jqxhr) {
     console.log("javasimon-utils were loaded");
 });
 
-javasimon.onTableData = function(json) {
+javasimon.onTableData = function(json, timeUnit) {
     $.each(json, function(index, sample) {
         var $sampleRow = javasimon.DOMUtil.fnGetSampleRow(sample.name);
-        if (sample.max > 20) {
+        var maxTime = javasimon.TimeUtils.toMillis(sample.max, timeUnit);
+        if (maxTime > 20) {
             $sampleRow.css('background-color','#ff0000');
         }
     });
@@ -19,10 +20,11 @@ function isLeaf(treeElement) {
     return treeElement.bHasChildren === false;
 }
 
-javasimon.onTreeElementDrawn = function(treeElement) {
+javasimon.onTreeElementDrawn = function(treeElement, timeUnit) {
     if (isLeaf(treeElement)) {
         var $sampleRow = javasimon.DOMUtil.fnGetSampleRow(treeElement.oData.name);
-        if (treeElement.oData.max > 20) {
+        var maxTime = javasimon.TimeUtils.toMillis(treeElement.oData.max, timeUnit);
+        if (maxTime > 20) {
             $sampleRow.css('background-color','#ff0000');
         }
     }
