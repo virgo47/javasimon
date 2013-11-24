@@ -11,10 +11,10 @@ javasimon.onTableData = function(json, timeUnit) {
         var $sampleRow = javasimon.DOMUtil.fnGetSampleRow(sample.name);
         var maxTime = javasimon.TimeUtils.toMillis(sample.max, timeUnit);
         if (maxTime > 20) {
-            $sampleRow.css('background-color','#ff0000');
+            $sampleRow.css('background-color','#ff8888');
         }
     });
-}
+};
 
 function isLeaf(treeElement) {
     return treeElement.bHasChildren === false;
@@ -25,7 +25,7 @@ javasimon.onTreeElementDrawn = function(treeElement, timeUnit) {
         var $sampleRow = javasimon.DOMUtil.fnGetSampleRow(treeElement.oData.name);
         var maxTime = javasimon.TimeUtils.toMillis(treeElement.oData.max, timeUnit);
         if (maxTime > 20) {
-            $sampleRow.css('background-color','#ff0000');
+            $sampleRow.css('background-color','#ff8888');
         }
     }
-}
+};

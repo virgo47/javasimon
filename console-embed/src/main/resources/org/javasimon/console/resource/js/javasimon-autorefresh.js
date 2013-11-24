@@ -29,7 +29,7 @@ javasimon.AutoRefreshController = function(oRefreshTimeSelect, fnOnRefresh) {
 		}
 
 		that.restartTimer();		
-	})
+	});
 
 
 	this.restartTimer();
