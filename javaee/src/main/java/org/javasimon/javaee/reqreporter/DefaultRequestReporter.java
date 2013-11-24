@@ -1,12 +1,12 @@
 package org.javasimon.javaee.reqreporter;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import javax.servlet.http.HttpServletRequest;
 
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;

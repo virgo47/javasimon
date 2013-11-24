@@ -1,12 +1,12 @@
 package org.javasimon.examples.testapp;
 
-import org.javasimon.examples.testapp.test.Action;
-import org.javasimon.examples.testapp.model.TupleDAO;
-import org.javasimon.Split;
-import org.javasimon.SimonManager;
-
-import java.sql.SQLException;
 import java.sql.Connection;
+import java.sql.SQLException;
+
+import org.javasimon.SimonManager;
+import org.javasimon.Split;
+import org.javasimon.examples.testapp.model.TupleDAO;
+import org.javasimon.examples.testapp.test.Action;
 
 /**
  * Class UpdateAction.

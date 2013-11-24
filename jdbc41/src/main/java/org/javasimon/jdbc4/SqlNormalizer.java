@@ -1,8 +1,8 @@
 package org.javasimon.jdbc4;
 
-import org.javasimon.utils.Replacer;
-
 import java.util.List;
+
+import org.javasimon.utils.Replacer;
 
 /**
  * SqlNormalizer takes SQL statement and replaces parameters with question marks. It is

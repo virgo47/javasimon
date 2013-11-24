@@ -1,12 +1,20 @@
 package org.javasimon.examples.jdbc;
 
-import org.javasimon.*;
-import org.javasimon.jdbc4.SimonConnectionConfiguration;
-import org.javasimon.utils.SimonUtils;
-
-import java.sql.*;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Collection;
 import java.util.Random;
+
+import org.javasimon.Counter;
+import org.javasimon.Simon;
+import org.javasimon.SimonManager;
+import org.javasimon.SimonPattern;
+import org.javasimon.StopwatchSample;
+import org.javasimon.jdbc4.SimonConnectionConfiguration;
+import org.javasimon.utils.SimonUtils;
 
 /**
  * Complicated example.

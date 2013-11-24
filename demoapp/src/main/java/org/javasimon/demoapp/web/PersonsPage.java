@@ -1,13 +1,14 @@
 package org.javasimon.demoapp.web;
 
-import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.request.mapper.parameter.PageParameters;
-import org.apache.wicket.util.string.StringValue;
+import java.util.Random;
+
 import org.javasimon.Manager;
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
 
-import java.util.Random;
+import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.util.string.StringValue;
 
 public class PersonsPage extends WebPage {
 	private static final long serialVersionUID = 1L;

@@ -1,15 +1,16 @@
 package org.javasimon.spring;
 
-import org.aopalliance.intercept.MethodInvocation;
+import java.lang.reflect.Method;
+
 import org.javasimon.Manager;
 import org.javasimon.aop.Monitored;
 import org.javasimon.source.AbstractMethodStopwatchSource;
+
+import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.aop.SpringProxy;
 import org.springframework.aop.framework.Advised;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.core.annotation.AnnotationUtils;
-
-import java.lang.reflect.Method;
 
 /**
  * Monitor source providing stopwatches from Spring AOP method invocation.

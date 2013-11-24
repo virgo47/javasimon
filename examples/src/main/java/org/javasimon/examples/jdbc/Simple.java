@@ -1,11 +1,16 @@
 package org.javasimon.examples.jdbc;
 
-import org.javasimon.utils.SimonUtils;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Random;
+
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
-
-import java.sql.*;
-import java.util.Random;
+import org.javasimon.utils.SimonUtils;
 
 /**
  * A very simple example of Simon JDBC Proxy Driver usage.

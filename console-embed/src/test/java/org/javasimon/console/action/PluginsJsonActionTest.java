@@ -1,12 +1,15 @@
 package org.javasimon.console.action;
 
 import org.javasimon.console.TestActionContext;
-import org.javasimon.console.plugin.*;
+import org.javasimon.console.plugin.DummyDetailPlugin;
+import org.javasimon.console.plugin.DummyOtherPlugin;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
-import static org.testng.Assert.*;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertEquals;
 
 /**
  * Unit test for {@link PluginsJsonAction}

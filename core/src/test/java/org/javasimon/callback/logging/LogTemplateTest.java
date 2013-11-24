@@ -3,6 +3,7 @@ package org.javasimon.callback.logging;
 import java.util.logging.Level;
 
 import org.javasimon.utils.SimonUtils;
+
 import org.testng.annotations.Test;
 
 import static org.javasimon.callback.logging.LogTemplates.everyNMilliseconds;

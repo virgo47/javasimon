@@ -1,10 +1,11 @@
 package org.javasimon.console.action;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.javasimon.console.ActionException;
 import org.javasimon.console.TestActionContext;
-import org.testng.annotations.Test;
 
-import javax.servlet.http.HttpServletResponse;
+import org.testng.annotations.Test;
 
 import static org.mockito.Mockito.verify;
 import static org.testng.Assert.assertEquals;

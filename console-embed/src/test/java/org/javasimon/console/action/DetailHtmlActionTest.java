@@ -1,12 +1,16 @@
 package org.javasimon.console.action;
 
 import java.util.regex.Pattern;
+
 import org.javasimon.console.SimonData;
 import org.javasimon.console.TestActionContext;
+
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-import static org.testng.Assert.*;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 /**
  * Unit test for {@link DetailHtmlAction}

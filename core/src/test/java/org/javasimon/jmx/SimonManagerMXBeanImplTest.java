@@ -1,15 +1,16 @@
 package org.javasimon.jmx;
 
-import javax.management.MBeanServer;
-import javax.management.ObjectName;
 import java.lang.management.ManagementFactory;
 import java.util.List;
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
 
 import org.javasimon.Counter;
 import org.javasimon.Manager;
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 

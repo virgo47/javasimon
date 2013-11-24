@@ -6,6 +6,7 @@ import org.javasimon.Stopwatch;
 import org.javasimon.source.DisabledStopwatchSource;
 import org.javasimon.source.StopwatchSource;
 import org.javasimon.utils.SimonUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.BeforeMethod;

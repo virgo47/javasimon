@@ -2,6 +2,7 @@ package org.javasimon.console.json;
 
 import java.io.IOException;
 import java.io.Writer;
+
 import org.javasimon.console.text.Stringifier;
 
 /**

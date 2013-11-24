@@ -3,6 +3,7 @@ package org.javasimon.console;
 import java.lang.reflect.Proxy;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.javasimon.Sample;
 import org.javasimon.Simon;
 

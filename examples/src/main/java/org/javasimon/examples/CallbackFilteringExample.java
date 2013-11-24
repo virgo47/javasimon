@@ -1,6 +1,11 @@
 package org.javasimon.examples;
 
-import org.javasimon.*;
+import org.javasimon.EnabledManager;
+import org.javasimon.Manager;
+import org.javasimon.SimonManager;
+import org.javasimon.Split;
+import org.javasimon.Stopwatch;
+import org.javasimon.StopwatchSample;
 import org.javasimon.callback.Callback;
 import org.javasimon.callback.CallbackSkeleton;
 import org.javasimon.callback.CompositeFilterCallback;

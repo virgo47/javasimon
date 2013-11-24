@@ -1,5 +1,9 @@
 package org.javasimon.javaee;
 
+import java.lang.reflect.InvocationTargetException;
+import javax.servlet.FilterConfig;
+import javax.servlet.http.HttpServletRequest;
+
 import org.javasimon.Manager;
 import org.javasimon.Stopwatch;
 import org.javasimon.javaee.reqreporter.DefaultRequestReporter;
@@ -8,10 +12,6 @@ import org.javasimon.source.MonitorSource;
 import org.javasimon.source.StopwatchSource;
 import org.javasimon.utils.Replacer;
 import org.javasimon.utils.SimonUtils;
-
-import javax.servlet.FilterConfig;
-import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * Various supporting utility methods for {@link SimonServletFilter}.

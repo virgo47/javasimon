@@ -1,5 +1,6 @@
 package org.javasimon.callback;
 
+import java.math.BigDecimal;
 import javax.script.Bindings;
 import javax.script.Compilable;
 import javax.script.CompiledScript;
@@ -7,7 +8,6 @@ import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
-import java.math.BigDecimal;
 
 import org.javasimon.Counter;
 import org.javasimon.Simon;

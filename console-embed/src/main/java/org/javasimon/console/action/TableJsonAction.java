@@ -2,6 +2,7 @@ package org.javasimon.console.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import org.javasimon.Sample;
 import org.javasimon.console.ActionContext;
 import org.javasimon.console.json.ArrayJS;

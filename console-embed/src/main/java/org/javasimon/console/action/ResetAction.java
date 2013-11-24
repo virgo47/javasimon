@@ -3,9 +3,15 @@ package org.javasimon.console.action;
 import java.io.IOException;
 import java.util.Set;
 import javax.servlet.ServletException;
+
 import org.javasimon.Simon;
 import org.javasimon.SimonManager;
-import org.javasimon.console.*;
+import org.javasimon.console.Action;
+import org.javasimon.console.ActionContext;
+import org.javasimon.console.ActionException;
+import org.javasimon.console.SimonType;
+import org.javasimon.console.SimonVisitor;
+import org.javasimon.console.SimonVisitors;
 
 /**
  * Action to reset one or many simons

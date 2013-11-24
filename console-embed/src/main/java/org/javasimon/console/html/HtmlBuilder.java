@@ -2,6 +2,7 @@ package org.javasimon.console.html;
 
 import java.io.IOException;
 import java.io.Writer;
+
 import org.javasimon.Simon;
 import org.javasimon.console.SimonType;
 import org.javasimon.console.reflect.Getter;

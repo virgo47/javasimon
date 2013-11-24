@@ -1,8 +1,8 @@
 package org.javasimon.jdbcx4;
 
+import java.sql.SQLException;
 import javax.sql.XAConnection;
 import javax.sql.XADataSource;
-import java.sql.SQLException;
 
 /**
  * Wrapper class for real XADataSource implementation, produces xa

@@ -1,10 +1,10 @@
 package org.javasimon.jdbcx4;
 
-import javax.sql.ConnectionPoolDataSource;
-import javax.sql.PooledConnection;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
 import java.util.logging.Logger;
+import javax.sql.ConnectionPoolDataSource;
+import javax.sql.PooledConnection;
 
 /**
  * Wrapper class for real ConnectionPoolDataSource implementation, produces pooled

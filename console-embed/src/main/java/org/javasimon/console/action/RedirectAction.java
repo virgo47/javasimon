@@ -2,6 +2,7 @@ package org.javasimon.console.action;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
+
 import org.javasimon.console.Action;
 import org.javasimon.console.ActionContext;
 import org.javasimon.console.ActionException;

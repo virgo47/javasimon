@@ -1,12 +1,12 @@
 package org.javasimon.jdbcx4;
 
-import org.javasimon.jdbc4.SimonConnection;
-
-import javax.sql.DataSource;
-import java.sql.*;
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.SQLFeatureNotSupportedException;
 import java.util.logging.Logger;
+import javax.sql.DataSource;
 
+import org.javasimon.jdbc4.SimonConnection;
 import org.javasimon.jdbc4.WrapperSupport;
 
 /**

@@ -1,9 +1,9 @@
 package org.javasimon;
 
-import javax.script.ScriptException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.logging.Level;
+import javax.script.ScriptException;
 
 import org.javasimon.callback.Callback;
 import org.javasimon.callback.CallbackSkeleton;
@@ -13,6 +13,7 @@ import org.javasimon.callback.FilterRule;
 import org.javasimon.utils.LoggingCallback;
 import org.javasimon.utils.SimonUtils;
 import org.javasimon.utils.SystemDebugCallback;
+
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

@@ -1,9 +1,9 @@
 package org.javasimon.jdbcx4;
 
+import java.sql.SQLException;
 import javax.sql.StatementEventListener;
 import javax.sql.XAConnection;
 import javax.transaction.xa.XAResource;
-import java.sql.SQLException;
 
 /**
  * Simon implementation of <code>XAConnection</code>, needed for

@@ -3,6 +3,7 @@ package org.javasimon.spring;
 import javax.servlet.ServletContext;
 
 import org.javasimon.utils.SimonUtils;
+
 import org.springframework.web.context.ServletContextAware;
 
 /**

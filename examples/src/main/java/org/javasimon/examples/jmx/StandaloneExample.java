@@ -1,14 +1,18 @@
 package org.javasimon.examples.jmx;
 
-import org.javasimon.Stopwatch;
+import java.lang.management.ManagementFactory;
+import javax.management.JMException;
+import javax.management.JMX;
+import javax.management.MBeanServer;
+import javax.management.MalformedObjectNameException;
+import javax.management.ObjectName;
+
+import org.javasimon.Counter;
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
-import org.javasimon.Counter;
-import org.javasimon.jmx.SimonManagerMXBeanImpl;
+import org.javasimon.Stopwatch;
 import org.javasimon.jmx.SimonManagerMXBean;
-
-import javax.management.*;
-import java.lang.management.ManagementFactory;
+import org.javasimon.jmx.SimonManagerMXBeanImpl;
 
 /**
  * This example shows simplest possible way how to retrieve data from Simon through JMX.

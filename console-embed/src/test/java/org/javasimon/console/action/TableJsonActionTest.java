@@ -2,19 +2,19 @@ package org.javasimon.console.action;
 
 import java.util.HashSet;
 import java.util.Set;
-import org.javasimon.SimonManager;
 
+import org.javasimon.SimonManager;
 import org.javasimon.console.SimonData;
 import org.javasimon.console.TestActionContext;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
-
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
 
 /**
  * Unit test for {@link TableJsonAction}

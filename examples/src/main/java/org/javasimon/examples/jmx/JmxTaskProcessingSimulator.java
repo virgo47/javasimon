@@ -1,16 +1,16 @@
 package org.javasimon.examples.jmx;
 
-import org.javasimon.utils.LoggingCallback;
-import org.javasimon.jmx.SimonManagerMXBeanImpl;
-import org.javasimon.SimonManager;
-import org.javasimon.Split;
-
-import javax.management.MBeanServer;
-import javax.management.ObjectName;
-import javax.management.JMException;
 import java.lang.management.ManagementFactory;
 import java.util.Random;
 import java.util.logging.Level;
+import javax.management.JMException;
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
+
+import org.javasimon.SimonManager;
+import org.javasimon.Split;
+import org.javasimon.jmx.SimonManagerMXBeanImpl;
+import org.javasimon.utils.LoggingCallback;
 
 /**
  * Simulates task processing system where task processing means time should be smaller than the

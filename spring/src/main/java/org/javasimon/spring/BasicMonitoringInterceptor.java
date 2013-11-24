@@ -1,13 +1,14 @@
 package org.javasimon.spring;
 
-import org.aopalliance.intercept.MethodInterceptor;
-import org.aopalliance.intercept.MethodInvocation;
+import java.io.Serializable;
+
 import org.javasimon.Manager;
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
 import org.javasimon.source.StopwatchSource;
 
-import java.io.Serializable;
+import org.aopalliance.intercept.MethodInterceptor;
+import org.aopalliance.intercept.MethodInvocation;
 
 /**
  * Basic method interceptor that measures the duration of the intercepted call with a Stopwatch.

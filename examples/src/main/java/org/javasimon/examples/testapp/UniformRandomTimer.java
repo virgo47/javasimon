@@ -1,8 +1,8 @@
 package org.javasimon.examples.testapp;
 
-import org.javasimon.examples.testapp.test.Timer;
-
 import java.util.Random;
+
+import org.javasimon.examples.testapp.test.Timer;
 
 /**
  * Class UniformRandomTimer.

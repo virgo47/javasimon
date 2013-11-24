@@ -1,11 +1,11 @@
 package org.javasimon.javaee;
 
+import javax.interceptor.AroundInvoke;
+import javax.interceptor.InvocationContext;
+
 import org.javasimon.Manager;
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
-
-import javax.interceptor.AroundInvoke;
-import javax.interceptor.InvocationContext;
 
 /**
  * Simon Interceptor measuring method execution time - can be used in EJB, or CDI in general.

@@ -1,16 +1,16 @@
 package org.javasimon.examples.testapp;
 
-import org.javasimon.examples.testapp.test.Action;
-import org.javasimon.examples.testapp.model.Tuple;
-import org.javasimon.examples.testapp.model.Tuples;
-import org.javasimon.examples.testapp.model.TupleDAO;
-import org.javasimon.Split;
-import org.javasimon.SimonManager;
-
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+
+import org.javasimon.SimonManager;
+import org.javasimon.Split;
+import org.javasimon.examples.testapp.model.Tuple;
+import org.javasimon.examples.testapp.model.TupleDAO;
+import org.javasimon.examples.testapp.model.Tuples;
+import org.javasimon.examples.testapp.test.Action;
 
 /**
  * Class InsertBatchAction.

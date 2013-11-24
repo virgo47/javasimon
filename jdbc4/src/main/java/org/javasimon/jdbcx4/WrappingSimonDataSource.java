@@ -2,7 +2,6 @@ package org.javasimon.jdbcx4;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-
 import javax.sql.DataSource;
 
 import org.javasimon.jdbc4.SimonConnection;

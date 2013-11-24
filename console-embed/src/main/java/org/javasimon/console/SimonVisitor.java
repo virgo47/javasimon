@@ -1,6 +1,7 @@
 package org.javasimon.console;
 
 import java.io.IOException;
+
 import org.javasimon.Simon;
 
 /**

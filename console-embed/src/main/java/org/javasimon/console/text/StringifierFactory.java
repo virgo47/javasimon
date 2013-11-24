@@ -1,7 +1,12 @@
 package org.javasimon.console.text;
 
-import java.text.*;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import org.javasimon.SimonState;
 import org.javasimon.console.SimonType;
 import org.javasimon.console.TimeFormatType;

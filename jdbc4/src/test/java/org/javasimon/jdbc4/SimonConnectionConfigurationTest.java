@@ -1,7 +1,7 @@
 package org.javasimon.jdbc4;
 
-import org.testng.annotations.Test;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 

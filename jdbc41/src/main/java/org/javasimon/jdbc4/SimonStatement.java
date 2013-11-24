@@ -1,13 +1,17 @@
 package org.javasimon.jdbc4;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.SQLWarning;
+import java.sql.Statement;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.javasimon.Manager;
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
-
-import java.sql.*;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Simon JDBC4 proxy statement implementation class.

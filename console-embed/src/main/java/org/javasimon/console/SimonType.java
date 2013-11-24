@@ -1,6 +1,12 @@
 package org.javasimon.console;
 
-import org.javasimon.*;
+import org.javasimon.Counter;
+import org.javasimon.CounterSample;
+import org.javasimon.Sample;
+import org.javasimon.Simon;
+import org.javasimon.Stopwatch;
+import org.javasimon.StopwatchSample;
+import org.javasimon.UnknownSample;
 
 /**
  * Simon type enumeration

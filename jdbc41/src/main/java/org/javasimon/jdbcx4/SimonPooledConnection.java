@@ -1,12 +1,12 @@
 package org.javasimon.jdbcx4;
 
-import org.javasimon.jdbc4.SimonConnection;
-
-import javax.sql.PooledConnection;
-import javax.sql.ConnectionEventListener;
-import javax.sql.StatementEventListener;
 import java.sql.Connection;
 import java.sql.SQLException;
+import javax.sql.ConnectionEventListener;
+import javax.sql.PooledConnection;
+import javax.sql.StatementEventListener;
+
+import org.javasimon.jdbc4.SimonConnection;
 
 /**
  * Simon implementation of <code>PooledConnection</code>, needed for

@@ -1,7 +1,7 @@
 package org.javasimon.examples.testapp.test;
 
-import org.javasimon.Split;
 import org.javasimon.SimonManager;
+import org.javasimon.Split;
 
 /**
  * Class Runner.

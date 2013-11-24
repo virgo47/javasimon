@@ -1,10 +1,14 @@
 package org.javasimon.examples;
 
-import org.javasimon.*;
-import org.javasimon.utils.SimonUtils;
-
 import java.util.List;
 import java.util.Random;
+
+import org.javasimon.Manager;
+import org.javasimon.Simon;
+import org.javasimon.SimonManager;
+import org.javasimon.Split;
+import org.javasimon.Stopwatch;
+import org.javasimon.utils.SimonUtils;
 
 /**
  * Example shows how to aggregate results from multiple Stopwatch. This feature is not exactly

@@ -1,11 +1,11 @@
 package org.javasimon.jdbcx4;
 
-import org.javasimon.jdbc4.SimonConnectionConfiguration;
-
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.util.Properties;
+
+import org.javasimon.jdbc4.SimonConnectionConfiguration;
 
 /**
  * SimonCommonDataSource is parent for all three datasource implementation classes.

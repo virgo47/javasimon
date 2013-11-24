@@ -1,11 +1,11 @@
 package org.javasimon.examples.testapp;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.javasimon.Split;
 import org.javasimon.StopwatchSample;
 import org.javasimon.callback.CallbackSkeleton;
-import org.javasimon.Split;
-
-import java.util.List;
-import java.util.ArrayList;
 
 /**
  * This callback accumulates some selected splits when they are stopped for further analysis.

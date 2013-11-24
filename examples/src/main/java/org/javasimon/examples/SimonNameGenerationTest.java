@@ -1,6 +1,7 @@
 package org.javasimon.examples;
 
-import org.javasimon.*;
+import org.javasimon.SimonManager;
+import org.javasimon.StopwatchSample;
 import org.javasimon.utils.BenchmarkUtils;
 import org.javasimon.utils.GoogleChartImageGenerator;
 import org.javasimon.utils.SimonUtils;

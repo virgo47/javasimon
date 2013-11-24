@@ -1,9 +1,9 @@
 package org.javasimon.examples;
 
+import java.util.Random;
+
 import org.javasimon.Manager;
 import org.javasimon.SimonManager;
-
-import java.util.Random;
 
 /**
  * Contains some supportive utils common for more examples.

@@ -2,11 +2,13 @@ package org.javasimon.console.action;
 
 import org.javasimon.console.SimonData;
 import org.javasimon.console.TestActionContext;
+
 import org.json.JSONObject;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-import static org.testng.Assert.*;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertEquals;
 
 /**
  * Unit test for {@link DetailJsonAction}

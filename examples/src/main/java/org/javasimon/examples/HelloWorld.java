@@ -1,8 +1,8 @@
 package org.javasimon.examples;
 
-import org.javasimon.Stopwatch;
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
+import org.javasimon.Stopwatch;
 
 /**
  * HelloWorld is the most basic example of Stopwatch usage. You can show this

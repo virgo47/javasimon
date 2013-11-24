@@ -1,9 +1,10 @@
 package org.javasimon.spring.webmvc;
 
-import org.javasimon.Split;
-import org.springframework.web.servlet.ModelAndView;
-
 import javax.servlet.http.HttpServletRequest;
+
+import org.javasimon.Split;
+
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Location used by stopwatch source for MVC Handler interceptor.

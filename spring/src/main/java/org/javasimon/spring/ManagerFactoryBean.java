@@ -7,6 +7,7 @@ import org.javasimon.Manager;
 import org.javasimon.SimonManager;
 import org.javasimon.SwitchingManager;
 import org.javasimon.callback.Callback;
+
 import org.springframework.beans.factory.FactoryBean;
 
 /**

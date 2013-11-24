@@ -1,8 +1,8 @@
 package org.javasimon.examples;
 
 import org.javasimon.SimonManager;
-import org.javasimon.Stopwatch;
 import org.javasimon.Split;
+import org.javasimon.Stopwatch;
 
 /**
  * Simple example of the measuring a method in a loop. Method takes random time to finish.

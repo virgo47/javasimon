@@ -1,6 +1,7 @@
 package org.javasimon.console;
 
 import java.util.Iterator;
+
 import org.javasimon.Manager;
 import org.javasimon.callback.Callback;
 import org.javasimon.callback.CompositeCallback;

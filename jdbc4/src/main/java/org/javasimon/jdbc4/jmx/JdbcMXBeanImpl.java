@@ -1,6 +1,9 @@
 package org.javasimon.jdbc4.jmx;
 
-import org.javasimon.*;
+import org.javasimon.Manager;
+import org.javasimon.Simon;
+import org.javasimon.SimonState;
+import org.javasimon.Stopwatch;
 import org.javasimon.utils.SimonUtils;
 
 /**

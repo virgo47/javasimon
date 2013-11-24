@@ -1,10 +1,10 @@
 package org.javasimon.examples;
 
 import org.javasimon.SimonManager;
-import org.javasimon.StopwatchSample;
-import org.javasimon.callback.CallbackSkeleton;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
+import org.javasimon.StopwatchSample;
+import org.javasimon.callback.CallbackSkeleton;
 import org.javasimon.utils.SimonUtils;
 
 /**

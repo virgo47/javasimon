@@ -5,7 +5,11 @@ import java.util.Set;
 import javax.servlet.ServletException;
 
 import org.javasimon.Simon;
-import org.javasimon.console.*;
+import org.javasimon.console.ActionContext;
+import org.javasimon.console.ActionException;
+import org.javasimon.console.SimonType;
+import org.javasimon.console.SimonVisitor;
+import org.javasimon.console.SimonVisitors;
 import org.javasimon.console.json.ArrayJS;
 import org.javasimon.console.json.ObjectJS;
 

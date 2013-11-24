@@ -1,20 +1,21 @@
 package org.javasimon.examples.testapp;
 
-import org.javasimon.jmx.SimonManagerMXBeanImpl;
-import org.javasimon.examples.testapp.test.Runner;
+import java.lang.management.ManagementFactory;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import javax.management.JMException;
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
+
+import org.javasimon.SimonManager;
 import org.javasimon.examples.testapp.mm.AppMXBean;
-import org.javasimon.jmx.SimonManagerMXBean;
+import org.javasimon.examples.testapp.test.Runner;
 import org.javasimon.jdbc4.jmx.JdbcMXBean;
 import org.javasimon.jdbc4.jmx.JdbcMXBeanImpl;
-import org.javasimon.SimonManager;
-import org.h2.tools.RunScript;
+import org.javasimon.jmx.SimonManagerMXBean;
+import org.javasimon.jmx.SimonManagerMXBeanImpl;
 
-import javax.management.ObjectName;
-import javax.management.MBeanServer;
-import javax.management.JMException;
-import java.lang.management.ManagementFactory;
-import java.sql.DriverManager;
-import java.sql.Connection;
+import org.h2.tools.RunScript;
 
 /**
  * Main class of the test application (DB+JMX).

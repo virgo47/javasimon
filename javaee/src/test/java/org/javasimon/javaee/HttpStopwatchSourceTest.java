@@ -2,12 +2,13 @@ package org.javasimon.javaee;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static org.testng.Assert.*;
-
 import org.javasimon.SimonManager;
-import org.testng.annotations.*;
 
-import static org.mockito.Mockito.*;
+import org.testng.annotations.Test;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertEquals;
 
 /**
  * Unit test for {@link org.javasimon.javaee.HttpStopwatchSource}.
