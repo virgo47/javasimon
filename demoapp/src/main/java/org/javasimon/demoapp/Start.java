@@ -1,13 +1,15 @@
 package org.javasimon.demoapp;
 
-import org.apache.wicket.util.time.Duration;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.bio.SocketConnector;
 import org.eclipse.jetty.webapp.WebAppContext;
+import org.javasimon.demoapp.dao.ToDoItemDao;
+import org.javasimon.demoapp.model.ToDoItem;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Start {
     public static void main(String[] args) throws Exception {
-        int timeout = (int) Duration.ONE_HOUR.getMilliseconds();
+        int timeout = 3600;
 
         Server server = new Server();
         SocketConnector connector = new SocketConnector();
