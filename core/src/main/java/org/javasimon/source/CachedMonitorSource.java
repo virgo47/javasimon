@@ -1,7 +1,7 @@
 package org.javasimon.source;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.javasimon.Manager;
 import org.javasimon.Simon;
@@ -61,7 +61,7 @@ public abstract class CachedMonitorSource<L, M extends Simon, K> implements Moni
 	/**
 	 * Map location key &rarr; monitor information.
 	 */
-	private final Map<K, MonitorInformation> monitorInformations = new HashMap<K, MonitorInformation>();
+	private final Map<K, MonitorInformation> monitorInformations = new ConcurrentHashMap<K, MonitorInformation>();
 
 	/**
 	 * Constructor with real {@link MonitorSource}.
