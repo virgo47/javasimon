@@ -74,6 +74,11 @@ public class ToDoDaoImplTest extends AbstractTestNGSpringContextTests {
         assertEquals(items.size(), 0);
     }
 
+    @Test(expectedExceptions = DaoException.class)
+    public void deleteNonExistingItemCausesException() {
+        toDoDao.delete(12345);
+    }
+
     @Test
     public void updateItem() {
         String oldName = "name";
@@ -90,6 +95,12 @@ public class ToDoDaoImplTest extends AbstractTestNGSpringContextTests {
         assertEquals(actualItem.getName(), newName);
     }
 
+    @Test(expectedExceptions = DaoException.class)
+    public void updateNonExistingItemShouldCauseException() {
+        ToDoItem item = createItem("newName");
+        item.setId(12345);
+        toDoDao.update(item);
+    }
 
     private ToDoItem createItem(String name) {
         ToDoItem item = new ToDoItem();

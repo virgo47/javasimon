@@ -30,6 +30,16 @@ ToDoDemo.View = {
             }
         }
 
+        function createDeleteButton(oItem) {
+            var $deleteButton = $('<button/>');
+            $deleteButton.text('Delete');
+            $deleteButton.click(function() {
+                ToDoDemo.Controller.deleteItem(oItem);
+            });
+
+            return $deleteButton;
+        }
+
         function addItem(oItem) {
             var $row = $('<tr>');
 
@@ -42,8 +52,12 @@ ToDoDemo.View = {
             var $textField = $('<td/>');
             $textField.text(oItem.name);
 
+            var $deleteButton = $('<td/>');
+            $deleteButton.append(createDeleteButton(oItem));
+
             $row.append($cbHolder);
             $row.append($textField);
+            $row.append($deleteButton);
 
             $toDoList.append($row);
 
@@ -51,6 +65,8 @@ ToDoDemo.View = {
 
         return view;
     },
+
+
 
     createErrorView: function($errorDiv) {
         return {

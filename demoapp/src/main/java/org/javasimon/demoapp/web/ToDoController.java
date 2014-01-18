@@ -1,16 +1,19 @@
 package org.javasimon.demoapp.web;
 
 import com.google.gson.Gson;
+import org.javasimon.demoapp.dao.DaoException;
 import org.javasimon.demoapp.dao.ToDoItemDao;
 import org.javasimon.demoapp.model.ToDoItem;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,6 +36,16 @@ public class ToDoController {
         List<ToDoItem> items = toDoItemDao.getAll();
 
         return gson.toJson(items);
+    }
+
+    @RequestMapping(value="/deleteItem/{id}", method = RequestMethod.POST)
+    public ResponseEntity<String> deleteItem(@PathVariable("id") long id) {
+        try {
+            toDoItemDao.delete(id);
+            return new ResponseEntity<String>(HttpStatus.OK);
+        } catch (DaoException ex) {
+            return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+        }
     }
 
     public void setToDoItemDao(ToDoItemDao toDoItemDao) {

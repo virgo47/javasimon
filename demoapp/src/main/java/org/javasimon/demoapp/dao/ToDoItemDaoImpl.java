@@ -58,14 +58,22 @@ public class ToDoItemDaoImpl implements ToDoItemDao {
 
     @Override
     public void delete(long id) {
-        jdbcTemplate.update("DELETE FROM toDoItem WHERE id = ?",
+        int numOfDeleted = jdbcTemplate.update("DELETE FROM toDoItem WHERE id = ?",
                 new Object[] {id});
+
+        if (numOfDeleted == 0) {
+            throw new DaoException("Failed to removed item with id = " + id);
+        }
     }
 
     @Override
     public void update(ToDoItem newItem) {
-        jdbcTemplate.update("UPDATE toDoItem SET name = ?, description = ?, isDone = ? WHERE id = ?",
+        int numOfUpdated = jdbcTemplate.update("UPDATE toDoItem SET name = ?, description = ?, isDone = ? WHERE id = ?",
                 new Object[] {newItem.getName(), newItem.getDescription(), newItem.isDone(), newItem.getId()});
+
+        if (numOfUpdated == 0) {
+            throw new DaoException("Failed to updated item with id = " + newItem.getId());
+        }
     }
 
     @Override

@@ -18,7 +18,17 @@ ToDoDemo.Model = {
     create: function(oItem, fnSuccess, fnFail) {
     },
 
-    remove: function(numId, fnSuccess, fnFail) {
+    deleteItem: function(numId, fnSuccess, fnFail) {
+        $.ajax({
+            url: ToDoDemo.serverRoot + "/deleteItem/" + numId,
+            type:'POST',
+            success: function(oData, strStatus, jqXHR) {
+                fnSuccess();
+            },
+            error: function(jqXHR, strStatus, strErrorThrown) {
+                fnFail(strErrorThrown);
+            }
+        });
     },
 
     update: function(oItem, fnSuccess, fnFail) {

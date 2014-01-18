@@ -1,8 +1,12 @@
 package org.javasimon.demoapp.web;
 
 import com.google.gson.*;
+import org.javasimon.demoapp.dao.DaoException;
 import org.javasimon.demoapp.dao.ToDoItemDao;
 import org.javasimon.demoapp.model.ToDoItem;
+import org.mockito.Mockito;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -10,8 +14,7 @@ import org.testng.annotations.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.testng.Assert.assertEquals;
 
 /**
@@ -54,6 +57,25 @@ public class ToDoControllerTest {
         String str = controller.getAll(new ModelMap());
         JsonElement actualJson = parseJson(str);
         assertEquals(expectedArray, actualJson);
+    }
+
+    @Test
+    public void deleteItem() {
+        long idToRemove = 123;
+        ResponseEntity<String> result = controller.deleteItem(123);
+
+        verify(dao).delete(idToRemove);
+        assertEquals(result.getStatusCode(), HttpStatus.OK);
+    }
+
+    @Test
+    public void deleteNonExistingItemShouldCauseException() {
+        long idToRemove = 123;
+        Mockito.doThrow(new DaoException()).when(dao).delete(idToRemove);
+        ResponseEntity<String> result = controller.deleteItem(123);
+
+        verify(dao).delete(idToRemove);
+        assertEquals(result.getStatusCode(), HttpStatus.NOT_FOUND);
     }
 
     private JsonElement parseJson(String str) {
