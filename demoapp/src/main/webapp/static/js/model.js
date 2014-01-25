@@ -15,7 +15,20 @@ ToDoDemo.Model = {
         });
     },
 
-    create: function(oItem, fnSuccess, fnFail) {
+    addItem: function(oItem, fnSuccess, fnFail) {
+         $.ajax({
+             url: ToDoDemo.serverRoot + "/addItem",
+             type:'POST',
+             contentType: 'application/json',
+             dataType:"json",
+             data: JSON.stringify(oItem),
+             success: function() {
+                 fnSuccess();
+             },
+             error: function(jqXHR, strStatus, strErrorThrown) {
+                 fnFail(strErrorThrown);
+             }
+         });
     },
 
     deleteItem: function(numId, fnSuccess, fnFail) {
@@ -31,7 +44,20 @@ ToDoDemo.Model = {
         });
     },
 
-    update: function(oItem, fnSuccess, fnFail) {
+    updateItem: function(oItem, fnSuccess, fnFail) {
+        $.ajax({
+             url: ToDoDemo.serverRoot + "/updateItem",
+             type:'POST',
+             contentType: 'application/json',
+             dataType:"json",
+             data: JSON.stringify(oItem),
+             success: function() {
+                 fnSuccess();
+             },
+             error: function(jqXHR, strStatus, strErrorThrown) {
+                 fnFail(strErrorThrown);
+             }
+         });
     }
 
 }

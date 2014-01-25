@@ -78,6 +78,43 @@ public class ToDoControllerTest {
         assertEquals(result.getStatusCode(), HttpStatus.NOT_FOUND);
     }
 
+    @Test
+    public void addNewItem() {
+        ToDoItem item = new ToDoItem();
+        item.setName("name");
+        item.setDescription("description");
+
+        controller.addItem(item);
+
+        verify(dao).create(item);
+       // assertEquals(result.getStatusCode(), HttpStatus.OK);
+    }
+
+    @Test
+    public void updateItem() {
+        ToDoItem item = new ToDoItem();
+        item.setId(123);
+        item.setName("name");
+        item.setDescription("description");
+
+        controller.updateItem(item);
+
+        verify(dao).update(item);
+    }
+
+    @Test
+    public void updateNonExistingItemShouldCauseException() {
+        ToDoItem item = new ToDoItem();
+        item.setId(123);
+        item.setName("name");
+        item.setDescription("description");
+
+        Mockito.doThrow(new DaoException()).when(dao).update(item);
+        controller.updateItem(item);
+
+        verify(dao).update(item);
+    }
+
     private JsonElement parseJson(String str) {
         return new JsonParser().parse(str);
     }

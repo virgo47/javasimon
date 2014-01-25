@@ -3,7 +3,26 @@ var ToDoDemo = window.ToDoDemo || {}
 
 ToDoDemo.Controller = {
     onPageLoad: function() {
+        ToDoDemo.View.init();
         this.displayAll();
+    },
+
+    onCreateItem: function() {
+         var itemForm = ToDoDemo.View.createItemForm(
+             function(oNewItem) {
+                ToDoDemo.Model.addItem(oNewItem,
+                    function() {
+                        ToDoDemo.Controller.displayAll();
+                        itemForm.close();
+                    },
+                    function(sErrorText) {
+                        itemForm.displayError(sErrorText);
+                    }
+                );
+             }
+         );
+
+         itemForm.open();
     },
 
     displayAll: function() {
@@ -25,6 +44,25 @@ ToDoDemo.Controller = {
                 this.displayError
             );
         }
+    },
+
+    updateItem: function(oItem) {
+        var itemForm = ToDoDemo.View.updateItemForm(
+             function(oUpdatedItem) {
+                ToDoDemo.Model.updateItem(oUpdatedItem,
+                    function() {
+                        ToDoDemo.Controller.displayAll();
+                        itemForm.close();
+                    },
+                    function(sErrorText) {
+                        itemForm.displayError(sErrorText);
+                    }
+                );
+             },
+             oItem
+         );
+
+         itemForm.open();
     },
 
     displayError: function(strError) {

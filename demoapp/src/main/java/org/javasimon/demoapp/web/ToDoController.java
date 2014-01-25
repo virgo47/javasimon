@@ -6,13 +6,11 @@ import org.javasimon.demoapp.dao.ToDoItemDao;
 import org.javasimon.demoapp.model.ToDoItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -38,6 +36,12 @@ public class ToDoController {
         return gson.toJson(items);
     }
 
+    @RequestMapping(value="/addItem", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ToDoItem addItem(@RequestBody final ToDoItem item) {
+        toDoItemDao.create(item);
+        return item;
+    }
+
     @RequestMapping(value="/deleteItem/{id}", method = RequestMethod.POST)
     public ResponseEntity<String> deleteItem(@PathVariable("id") long id) {
         try {
@@ -46,6 +50,12 @@ public class ToDoController {
         } catch (DaoException ex) {
             return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @RequestMapping(value="/updateItem", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ToDoItem updateItem(@RequestBody final ToDoItem item) {
+        toDoItemDao.update(item);
+        return item;
     }
 
     public void setToDoItemDao(ToDoItemDao toDoItemDao) {
