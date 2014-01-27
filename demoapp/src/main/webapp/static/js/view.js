@@ -3,7 +3,7 @@ var ToDoDemo = window.ToDoDemo || {}
 ToDoDemo.View = {
 
     init: function() {
-        $("#dialog-form").hide();
+        $("#itemForm").hide();
     },
 
     getToDoView: function() {
@@ -84,14 +84,17 @@ ToDoDemo.View = {
     },
 
     createItemForm: function(fnOnCreate) {
-        var createForm = $("#dialog-form").dialog({
+        this.clearItemForm();
+        var createForm = $("#itemForm").dialog({
             autoOpen: false,
             height: 300,
-            width: 350,
+            width: 550,
             modal: true,
             buttons: {
                 "Create": function() {
-                    fnOnCreate(ToDoDemo.View.createItem());
+                    if ($('#form').valid()) {
+                        fnOnCreate(ToDoDemo.View.createItem());
+                    }
                 },
                 "Cancel": function() {
                     $(this).dialog("close");
@@ -99,7 +102,7 @@ ToDoDemo.View = {
             }
         });
 
-        this.clearItemForm();
+
         return {
             displayError: function(sErrorText) {
                 alert(sErrorText);
@@ -119,6 +122,8 @@ ToDoDemo.View = {
     clearItemForm: function() {
         $("#itemNameField").val("");
         $("#descriptionField").val("");
+        $errorMessages = $("#itemForm label.error");
+        $errorMessages.remove();
     },
 
      createItem: function(oPrevItem) {
@@ -140,16 +145,28 @@ ToDoDemo.View = {
          return newItem;
     },
 
-    updateItemForm: function(fnOnUpdate, oItem) {
+    setFormValidator: function() {
+        var validator = $("#itemForm").validate({
+            onchange: true,
+            rules: this.validationRules,
+            showErrors: function (errorMap, errorList) {
+                alert("Form validation failed");
+            }
+        });
+    },
 
-         var createForm = $("#dialog-form").dialog({
+    updateItemForm: function(fnOnUpdate, oItem) {
+         this.clearItemForm();
+         var createForm = $("#itemForm").dialog({
              autoOpen: false,
              height: 300,
              width: 350,
              modal: true,
              buttons: {
                  "Update": function() {
-                     fnOnUpdate(ToDoDemo.View.createItem(oItem));
+                     if ($('#form').valid()) {
+                        fnOnUpdate(ToDoDemo.View.createItem(oItem));
+                     }
                  },
                  "Cancel": function() {
                      $(this).dialog("close");
