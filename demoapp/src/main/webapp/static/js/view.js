@@ -83,99 +83,63 @@ ToDoDemo.View = {
         return view;
     },
 
-    createItemForm: function(fnOnCreate) {
-        this.clearItemForm();
-        var createForm = $("#itemForm").dialog({
-            autoOpen: false,
-            height: 300,
-            width: 550,
-            modal: true,
-            buttons: {
-                "Create": function() {
-                    if ($('#form').valid()) {
-                        fnOnCreate(ToDoDemo.View.createItem());
-                    }
-                },
-                "Cancel": function() {
-                    $(this).dialog("close");
-                }
+    createItemForm: function(fnOnAccept, oItem) {
+        function createItem() {
+             var $itemNameInput = $("#itemNameField");
+             var $itemDescriptionInput = $("#descriptionField");
+
+             var itemName = $itemNameInput.val();
+             var itemDescription = $itemDescriptionInput.val();
+             var newItem = {
+                 name: itemName,
+                 done: false,
+                 description: itemDescription
+             };
+
+             if (oItem) {
+                newItem.id = oItem.id;
+             }
+
+             return newItem;
+        }
+
+        function clearItemForm() {
+            $("#itemNameField").val("");
+            $("#descriptionField").val("");
+            $errorMessages = $("#itemForm label.error");
+            $errorMessages.remove();
+        }
+
+        function fillItemForm() {
+            if (oItem) {
+                $("#itemNameField").val(oItem.name);
+                $("#descriptionField").val(oItem.description);
             }
-        });
+        }
 
+        clearItemForm();
+        var acceptButtonName = oItem ? "Update" : "Create";
 
-        return {
-            displayError: function(sErrorText) {
-                alert(sErrorText);
-            },
-
-            close: function() {
-                createForm.dialog("close");
-                createForm.dialog("destroy");
-            },
-
-            open: function() {
-                createForm.dialog("open");
+        var formButtons = {};
+        formButtons[acceptButtonName] = function() {
+            if ($('#form').valid()) {
+                fnOnAccept(createItem());
             }
         };
-    },
+        formButtons["Cancel"] = function() {
+            createForm.dialog("close");
+        }
 
-    clearItemForm: function() {
-        $("#itemNameField").val("");
-        $("#descriptionField").val("");
-        $errorMessages = $("#itemForm label.error");
-        $errorMessages.remove();
-    },
-
-     createItem: function(oPrevItem) {
-         var $itemNameInput = $("#itemNameField");
-         var $itemDescriptionInput = $("#descriptionField");
-
-         var itemName = $itemNameInput.val();
-         var itemDescription = $itemDescriptionInput.val();
-         var newItem = {
-             name: itemName,
-             done: false,
-             description: itemDescription
-         };
-
-         if (oPrevItem) {
-            newItem.id = oPrevItem.id;
-         }
-
-         return newItem;
-    },
-
-    setFormValidator: function() {
-        var validator = $("#itemForm").validate({
-            onchange: true,
-            rules: this.validationRules,
-            showErrors: function (errorMap, errorList) {
-                alert("Form validation failed");
-            }
-        });
-    },
-
-    updateItemForm: function(fnOnUpdate, oItem) {
-         this.clearItemForm();
-         var createForm = $("#itemForm").dialog({
+        var createForm = $("#itemForm").dialog({
              autoOpen: false,
              height: 300,
              width: 350,
              modal: true,
-             buttons: {
-                 "Update": function() {
-                     if ($('#form').valid()) {
-                        fnOnUpdate(ToDoDemo.View.createItem(oItem));
-                     }
-                 },
-                 "Cancel": function() {
-                     $(this).dialog("close");
-                 }
-             }
-         });
+             buttons: formButtons
+        });
+        fillItemForm();
 
-         this.fillItemForm(oItem);
-         return {
+        return {
              displayError: function(sErrorText) {
                  alert(sErrorText);
              },
@@ -189,11 +153,6 @@ ToDoDemo.View = {
                  createForm.dialog("open");
              }
          };
-    },
-
-    fillItemForm: function(oItem) {
-        $("#itemNameField").val(oItem.name);
-        $("#descriptionField").val(oItem.description);
     },
 
     createErrorView: function($errorDiv) {

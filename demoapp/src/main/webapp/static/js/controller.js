@@ -47,7 +47,7 @@ ToDoDemo.Controller = {
     },
 
     updateItem: function(oItem) {
-        var itemForm = ToDoDemo.View.updateItemForm(
+        var itemForm = ToDoDemo.View.createItemForm(
              function(oUpdatedItem) {
                 ToDoDemo.Model.updateItem(oUpdatedItem,
                     function() {
