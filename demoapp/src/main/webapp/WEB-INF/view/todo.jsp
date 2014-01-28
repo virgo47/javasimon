@@ -30,7 +30,18 @@
 </head>
 <body>
 	<h1>TODO list:</h1>
-	<table id="toDoList">
+	<table>
+	    <thead>
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Description</th>
+                <th></th>
+                <th></th>
+            </tr>
+	    </thead>
+	    <tbody id="toDoList">
+	    </tbody>
 	</table>
 
     <button id="create-item">Create new item</button>
@@ -48,7 +59,7 @@
 
                     <tr>
                         <td><label for="name">Description</label></td>
-                        <td><input type="text" name="description" id="descriptionField" required="true" class="text ui-widget-content ui-corner-all" /></td>
+                        <td><input type="text" name="description" id="descriptionField" class="text ui-widget-content ui-corner-all" /></td>
                     </tr>
                 </table>
             </fieldset>

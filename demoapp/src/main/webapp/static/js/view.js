@@ -36,7 +36,15 @@ ToDoDemo.View = {
 
         function createDeleteButton(oItem) {
             var $deleteButton = $('<button/>');
-            $deleteButton.text('Delete');
+            $deleteButton.button({
+                icons: {
+                    primary: "ui-icon-trash"
+                },
+                text: false
+            });
+
+            $deleteButton.attr("title", "Delete this item");
+            $deleteButton.tooltip();
             $deleteButton.click(function() {
                 ToDoDemo.Controller.deleteItem(oItem);
             });
@@ -46,7 +54,14 @@ ToDoDemo.View = {
 
         function createUpdateButton(oItem) {
             var $updateButton = $('<button/>');
-            $updateButton.text('Update');
+            $updateButton.button({
+                icons: {
+                    primary: "ui-icon-pencil"
+                },
+                text: false
+            });
+            $updateButton.attr("title", "Update this item");
+            $updateButton.tooltip();
             $updateButton.click(function() {
                 ToDoDemo.Controller.updateItem(oItem);
             });
@@ -63,8 +78,11 @@ ToDoDemo.View = {
             var $cbHolder = $('<td/>');
             $cbHolder.append($doneCb);
 
-            var $textField = $('<td/>');
-            $textField.text(oItem.name);
+            var $nameField = $('<td/>');
+            $nameField.text(oItem.name);
+
+            var $descriptionField = $('<td/>');
+            $descriptionField.text(oItem.description);
 
             var $deleteButton = $('<td/>');
             var $updateButton = $('<td/>');
@@ -72,7 +90,8 @@ ToDoDemo.View = {
             $updateButton.append(createUpdateButton(oItem));
 
             $row.append($cbHolder);
-            $row.append($textField);
+            $row.append($nameField);
+            $row.append($descriptionField);
             $row.append($deleteButton);
             $row.append($updateButton);
 
