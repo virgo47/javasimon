@@ -45,7 +45,7 @@ public class DetailJsonActionTest {
 		assertEquals(jsonObject.getLong("mean"),200L);
 		assertEquals(jsonObject.getLong("counter"),3L);
 		assertEquals(jsonObject.getString("type"),"STOPWATCH");
-		assertEquals(jsonObject.getLong("standardDeviation"),82L);
+		assertEquals(jsonObject.getLong("standardDeviation"),100L);
 	}
 	/**
 	 * Test get Counter detail in JSON format

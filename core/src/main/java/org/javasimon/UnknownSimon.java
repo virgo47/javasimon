@@ -8,7 +8,7 @@ package org.javasimon;
  */
 final class UnknownSimon extends AbstractSimon {
 	/**
-	 * Construts unknown Simon with a specified name and for the specified manager.
+	 * Constructs unknown Simon with a specified name and for the specified manager.
 	 *
 	 * @param name Simon's name
 	 * @param manager owning manager

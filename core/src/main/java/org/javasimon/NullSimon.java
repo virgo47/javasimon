@@ -8,7 +8,8 @@ import java.util.Map;
 /**
  * Null Simon implements Simon returned by the disabled {@link Manager#getSimon(String)}
  * or {@link org.javasimon.Manager#getRootSimon()}. Null Simon does nothing, returns {@code null}
- * or zeroes wherever return value is expected and has minimal performance impact on the system.
+ * or zeroes wherever return value is expected ({@code Double.NaN} for statistics)
+ * and has minimal performance impact on the system.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
@@ -255,43 +256,43 @@ final class NullStopwatch extends NullSimon implements Stopwatch {
 	}
 
 	/**
-	 * Returns zero.
+	 * Returns {@code Double.NaN}.
 	 *
-	 * @return zero
+	 * @return {@code Double.NaN}
 	 */
 	@Override
 	public double getMean() {
-		return 0;
+		return Double.NaN;
 	}
 
 	/**
-	 * Returns zero.
+	 * Returns {@code Double.NaN}.
 	 *
-	 * @return zero
+	 * @return {@code Double.NaN}
 	 */
 	@Override
 	public double getStandardDeviation() {
-		return 0;
+		return Double.NaN;
 	}
 
 	/**
-	 * Returns zero.
+	 * Returns {@code Double.NaN}.
 	 *
-	 * @return zero
+	 * @return {@code Double.NaN}
 	 */
 	@Override
 	public double getVariance() {
-		return 0;
+		return Double.NaN;
 	}
 
 	/**
-	 * Returns zero.
+	 * Returns {@code Double.NaN}.
 	 *
-	 * @return zero
+	 * @return {@code Double.NaN}
 	 */
 	@Override
 	public double getVarianceN() {
-		return 0;
+		return Double.NaN;
 	}
 
 	@Override

@@ -149,7 +149,10 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	@Override
 	public synchronized double getVarianceN() {
 		if (counter == 0) {
-			return 0;
+			return Double.NaN;
+		}
+		if (counter == 1) {
+			return 0d;
 		}
 		return mean2 / counter;
 	}
@@ -157,18 +160,17 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	@Override
 	public synchronized double getVariance() {
 		if (counter == 0) {
-			return 0;
+			return Double.NaN;
 		}
-		long countMinusOne = counter - 1;
-		if (counter < 2) {
-			countMinusOne = 1;
+		if (counter == 1) {
+			return 0d;
 		}
-		return mean2 / countMinusOne;
+		return mean2 / (counter - 1);
 	}
 
 	@Override
 	public synchronized double getStandardDeviation() {
-		return Math.sqrt(getVarianceN());
+		return Math.sqrt(getVariance());
 	}
 
 	@Override

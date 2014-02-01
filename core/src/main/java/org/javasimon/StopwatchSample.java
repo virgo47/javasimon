@@ -171,7 +171,7 @@ public class StopwatchSample extends Sample {
 	}
 
 	/**
-	 * Returns ms timestamp when the last peek of the active split count occured.
+	 * Returns ms timestamp when the last peek of the active split count occurred.
 	 *
 	 * @return ms timestamp of the last peek of the active split count
 	 */
@@ -180,7 +180,7 @@ public class StopwatchSample extends Sample {
 	}
 
 	/**
-	 * Sets the ms timestamp when the last peek of the active split count occured.
+	 * Sets the ms timestamp when the last peek of the active split count occurred.
 	 *
 	 * @param maxActiveTimestamp ms timestamp of the last peek of the active split count
 	 */
@@ -225,18 +225,18 @@ public class StopwatchSample extends Sample {
 	}
 
 	/**
-	 * Returns standard deviation for all measured values.
+	 * Returns unbiased estimate of standard deviation.
 	 *
-	 * @return standard deviation
+	 * @return unbiased estimate of standard deviation
 	 */
 	public final double getStandardDeviation() {
 		return standardDeviation;
 	}
 
 	/**
-	 * Sets the standard deviation for all measured values.
+	 * Sets unbiased estimate of standard deviation.
 	 *
-	 * @param standardDeviation standard deviation
+	 * @param standardDeviation unbiased estimate of standard deviation
 	 */
 	public final void setStandardDeviation(double standardDeviation) {
 		this.standardDeviation = standardDeviation;

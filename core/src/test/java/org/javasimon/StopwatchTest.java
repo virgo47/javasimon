@@ -85,9 +85,9 @@ public final class StopwatchTest {
 		Assert.assertEquals(sample.getCounter(), 0);
 		Assert.assertEquals(sample.getTotal(), 0);
 		Assert.assertEquals(sample.getMean(), 0d);
-		Assert.assertEquals(sample.getStandardDeviation(), 0d);
-		Assert.assertEquals(sample.getVariance(), 0d);
-		Assert.assertEquals(sample.getVarianceN(), 0d);
+		Assert.assertEquals(sample.getStandardDeviation(), Double.NaN);
+		Assert.assertEquals(sample.getVariance(), Double.NaN);
+		Assert.assertEquals(sample.getVarianceN(), Double.NaN);
 	}
 
 	@Test

@@ -37,7 +37,7 @@ public interface Simon extends HasAttributes {
 	List<Simon> getChildren();
 
 	/**
-	 * Returns state of the Simon that can be enabled, disabled or ihnerited.
+	 * Returns state of the Simon that can be enabled, disabled or inherited.
 	 *
 	 * @return state of the Simon
 	 */
@@ -63,8 +63,9 @@ public interface Simon extends HasAttributes {
 	boolean isEnabled();
 
 	/**
-	 * Resets the Simon values related to the measuring, timestamps and so on - usage timestamps, state, attributes are not affected.
-	 * Timestamp of the last reset can be obtained by the method {@link #getLastReset()}. Reset is perfomed even for disabled Simons.
+	 * Resets the Simon values related to the measuring, timestamps and so on - usage timestamps, state,
+	 * attributes are not affected. Timestamp of the last reset can be obtained by the method {@link #getLastReset()}.
+	 * Reset is performed even for disabled Simons.
 	 */
 	void reset();
 

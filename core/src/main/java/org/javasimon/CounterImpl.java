@@ -39,7 +39,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	private long minTimestamp;
 
 	/**
-	 * Construts Counter Simon with a specified name and for the specified manager.
+	 * Constructs Counter Simon with a specified name and for the specified manager.
 	 *
 	 * @param name Simon's name
 	 * @param manager owning manager

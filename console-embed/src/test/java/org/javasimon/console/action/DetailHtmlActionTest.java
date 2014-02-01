@@ -50,7 +50,7 @@ public class DetailHtmlActionTest {
 		assertContainsCell("Total","600", html);
 		assertContainsCell("Last","300", html);
 		assertContainsCell("Counter","3", html);
-		assertContainsCell("Standard Deviation","81.650", html);
+		assertContainsCell("Standard Deviation","100.000", html);
 	}
 	/**
 	 * Test get Counter detail in JSON format

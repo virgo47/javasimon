@@ -39,7 +39,7 @@ import org.javasimon.callback.FilterRule;
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
-// TODO: This class needs serious rethinking, also manager config itself should be independant from the reading
+// TODO: This class needs serious rethinking, also manager config itself should be independent from the reading
 // of the config - so it can be set up by Spring for instance
 public final class ManagerConfiguration {
 	private Map<SimonPattern, SimonConfiguration> configs;
@@ -49,7 +49,7 @@ public final class ManagerConfiguration {
 	/**
 	 * Creates manager configuration for a specified manager.
 	 *
-	 * @param manager manager on whos behalf this configuration is created
+	 * @param manager manager on whose behalf this configuration is created
 	 */
 	ManagerConfiguration(Manager manager) {
 		this.manager = manager;

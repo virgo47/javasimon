@@ -86,7 +86,7 @@ public interface Stopwatch extends Simon {
 	long getTotal();
 
 	/**
-	 * Returns value of the last added split - wheter it was added directly or with stop method.
+	 * Returns value of the last added split - whether it was added directly or with stop method.
 	 *
 	 * @return value of the last added split
 	 */
@@ -153,7 +153,7 @@ public interface Stopwatch extends Simon {
 	long getMaxActive();
 
 	/**
-	 * Retruns ms timestamp when the last peek of the active split count occured.
+	 * Returns ms timestamp when the last peek of the active split count occurred.
 	 *
 	 * @return ms timestamp of the last peek of the active split count
 	 */
@@ -161,20 +161,23 @@ public interface Stopwatch extends Simon {
 
 	/**
 	 * Returns mean value (average) of all measured values.
+	 * If {@link #getCounter()} is 0 it should return {@code Double.NaN}, but for practical reasons returns 0.
 	 *
 	 * @return mean value
 	 */
 	double getMean();
 
 	/**
-	 * Returns standard deviation for all measured values.
+	 * Returns unbiased estimate of standard deviation. If {@link #getCounter()} is 0 returns {@code Double.NaN}.
+	 * http://en.wikipedia.org/wiki/Unbiased_estimation_of_standard_deviation
 	 *
-	 * @return standard deviation
+	 * @return unbiased estimate of standard deviation
 	 */
 	double getStandardDeviation();
 
 	/**
-	 * Returns unbiased estimate of the population variance.
+	 * Returns unbiased estimate of the population variance. If {@link #getCounter()} is 0 returns {@code Double.NaN}.
+	 * http://en.wikipedia.org/wiki/Variance#Population_variance_and_sample_variance
 	 *
 	 * @return unbiased estimated variance
 	 */
@@ -182,6 +185,8 @@ public interface Stopwatch extends Simon {
 
 	/**
 	 * Returns variance value of all measured values (entire population).
+	 * If {@link #getCounter()} is 0 returns {@code Double.NaN}.
+	 * http://en.wikipedia.org/wiki/Variance#Population_variance_and_sample_variance
 	 *
 	 * @return entire population variance
 	 */

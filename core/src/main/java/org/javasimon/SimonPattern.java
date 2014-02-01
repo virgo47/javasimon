@@ -15,7 +15,7 @@ import org.javasimon.utils.SimonUtils;
  * <li>{@code something*else} - matches if tested name starts with {@code something} and ends with {@code else}
  * <li>anything else will throw {@link SimonException} with the message about invalid Simon pattern
  * </ul>
- * Without wildcard exact match is required. Every wildcarded pattern always matches with the same string
+ * Without wildcard exact match is required. Every pattern with wildcards always matches with the same string
  * without wildcards (in other words - wildcards matches with nothing as well).
  */
 public final class SimonPattern {

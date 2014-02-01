@@ -16,17 +16,7 @@ public final class SimonException extends RuntimeException {
 	}
 
 	/**
-	 * Creates SimonException with the message and the chained exception causing this excaption.
-	 *
-	 * @param message exception message
-	 * @param cause chained exception
-	 */
-	public SimonException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
-	/**
-	 * Creates SimonException with the chained exception causing this excaption.
+	 * Creates SimonException with the chained exception causing this exception.
 	 *
 	 * @param cause chained exception
 	 */

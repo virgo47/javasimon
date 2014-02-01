@@ -13,8 +13,8 @@ import org.javasimon.utils.SystemDebugCallback;
 /**
  * SimonManager is static utility class providing so called "default {@link org.javasimon.Manager}.
  * It is possible to create separate Manager, but it cannot be accessed via this convenient
- * utility-like class. This option may be useful in Java EE environmant when it's required to
- * separate Simon trees accross different applications. For majority of Java SE applications this
+ * utility-like class. This option may be useful in Java EE environment when it's required to
+ * separate Simon trees across different applications. For majority of Java SE applications this
  * class is recommended.
  * <p/>
  * SimonManager also provides configuration initialization via properties. To initialize configuration
@@ -46,7 +46,7 @@ public final class SimonManager {
 	}
 
 	/**
-	 * Initilizes the configuration facility for the default Simon Manager. Fetches exception
+	 * Initializes the configuration facility for the default Simon Manager. Fetches exception
 	 * if configuration resource or file is not found. This method does NOT clear the manager
 	 * itself, only the configuration is reloaded. Method also preserves Callback setup.
 	 */

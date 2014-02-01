@@ -7,7 +7,7 @@ import org.javasimon.utils.SimonUtils;
  * {@link org.javasimon.Simon#sample()} and {@link org.javasimon.Simon#sampleAndReset()} methods.
  * Returned object contains consistent set of Simon values as both operations are synchronized.
  * However Sample is a Java Bean and it can be modified afterwards so no consistency is guaranteed
- * when the object is used in an inapropriate context. As a Java Bean object can be
+ * when the object is used in an inappropriate context. As a Java Bean object can be
  * used directly as the data transfer object without need to create another DTO with the same data.
  * Sample generally doesn't have any behavior.
  *
