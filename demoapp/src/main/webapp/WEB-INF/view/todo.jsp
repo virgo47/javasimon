@@ -26,46 +26,75 @@
         .error {
             color: red;
         }
+
+        .sidebar {
+            position: absolute;
+            width: 10%;
+            font: 14px 'Helvetica';
+        }
+
+        .sidebar h2 {
+            font-size: 20px;
+        }
+
+        .content {
+            width: 60%;
+            margin-left: 20%;
+        }
+
+        .content h1 {
+            font-size: 25px;
+        }
+
     </style>
 </head>
 <body>
-	<h1>TODO list:</h1>
-	<table>
-	    <thead>
-            <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Description</th>
-                <th></th>
-                <th></th>
-            </tr>
-	    </thead>
-	    <tbody id="toDoList">
-	    </tbody>
-	</table>
+    <aside class="sidebar">
+        <h2>Description</h2>
+        <p>This simple web-application is used to generate performance data that can be visualized on Javasimon console</p>
+        <p>Just add/remove few TODO items and go to the <a href="#">console</a> to view performance results
+    </aside>
 
-    <button id="create-item">Create new item</button>
+    <section class="content">
 
-    <div id="itemForm" title="Create new item">
-    	<p class="validateTips">All form fields are required.</p>
+        <h1>TODO list:</h1>
+        <table >
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="toDoList">
+            </tbody>
+        </table>
 
-    	<form id="form">
-            <fieldset>
-                <table>
-                    <tr>
-                        <td><label for="name">Name</label></td>
-                        <td><input type="text" name="name" id="itemNameField" required="true" class="text ui-widget-content ui-corner-all" /></td>
-                    </tr>
+        <button id="create-item">Create new item</button>
 
-                    <tr>
-                        <td><label for="name">Description</label></td>
-                        <td><input type="text" name="description" id="descriptionField" class="text ui-widget-content ui-corner-all" /></td>
-                    </tr>
-                </table>
-            </fieldset>
-    	</form>
-    </div>
+        <div id="itemForm" title="Create new item">
+            <p class="validateTips">All form fields are required.</p>
 
+            <form id="form">
+                <fieldset>
+                    <table>
+                        <tr>
+                            <td><label for="name">Name</label></td>
+                            <td><input type="text" name="name" id="itemNameField" required="true" class="text ui-widget-content ui-corner-all" /></td>
+                        </tr>
+
+                        <tr>
+                            <td><label for="name">Description</label></td>
+                            <td><input type="text" name="description" id="descriptionField" class="text ui-widget-content ui-corner-all" /></td>
+                        </tr>
+                    </table>
+                </fieldset>
+            </form>
+        </div>
+
+    </section>
 
 	<script>
         $(function() {
