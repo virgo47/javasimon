@@ -65,6 +65,14 @@ ToDoDemo.Controller = {
          itemForm.open();
     },
 
+    checkItem: function(oItem, bIsChecked) {
+        oItem.done = bIsChecked;
+        ToDoDemo.Model.updateItem(oItem,
+            function() {},
+            this.displayError
+        );
+    },
+
     displayError: function(strError) {
         ToDoDemo.View.getErrorView().displayError(strError);
     }

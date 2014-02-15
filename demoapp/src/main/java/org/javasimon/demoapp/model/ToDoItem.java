@@ -9,7 +9,7 @@ public class ToDoItem {
     private long id;
     private String name;
     private String description;
-    private boolean isDone;
+    private boolean done;
 
     public long getId() {
         return id;
@@ -36,11 +36,11 @@ public class ToDoItem {
     }
 
     public boolean isDone() {
-        return isDone;
+        return done;
     }
 
     public void setDone(boolean done) {
-        isDone = done;
+        this.done = done;
     }
 
     @Override
@@ -51,7 +51,7 @@ public class ToDoItem {
         ToDoItem toDoItem = (ToDoItem) o;
 
         if (id != toDoItem.id) return false;
-        if (isDone != toDoItem.isDone) return false;
+        if (done != toDoItem.done) return false;
         if (description != null ? !description.equals(toDoItem.description) : toDoItem.description != null)
             return false;
         if (name != null ? !name.equals(toDoItem.name) : toDoItem.name != null) return false;
@@ -64,7 +64,7 @@ public class ToDoItem {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (isDone ? 1 : 0);
+        result = 31 * result + (done ? 1 : 0);
         return result;
     }
 }

@@ -47,7 +47,7 @@ public class ToDoControllerTest {
 
         JsonArray expectedArray = new JsonArray();
         JsonObject object = new JsonObject();
-        object.addProperty("isDone", false);
+        object.addProperty("done", false);
         object.addProperty("name", "Item name");
         object.addProperty("description", "Item description");
         object.addProperty("id", 0);
@@ -97,19 +97,6 @@ public class ToDoControllerTest {
         item.setName("name");
         item.setDescription("description");
 
-        controller.updateItem(item);
-
-        verify(dao).update(item);
-    }
-
-    @Test
-    public void updateNonExistingItemShouldCauseException() {
-        ToDoItem item = new ToDoItem();
-        item.setId(123);
-        item.setName("name");
-        item.setDescription("description");
-
-        Mockito.doThrow(new DaoException()).when(dao).update(item);
         controller.updateItem(item);
 
         verify(dao).update(item);

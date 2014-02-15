@@ -69,11 +69,23 @@ ToDoDemo.View = {
             return $updateButton;
         }
 
+        function createCheckbox(oItem) {
+            var $checkBox = $('<input type="checkbox"/>')
+            $checkBox.change(function(){
+                if(this.checked)
+                    ToDoDemo.Controller.checkItem(oItem, true);
+                else
+                    ToDoDemo.Controller.checkItem(oItem, false);
+            });
+
+            return $checkBox;
+        }
+
         function addItem(oItem) {
             var $row = $('<tr>');
 
-            var $doneCb = $('<input type="checkbox" />');
-            $doneCb.attr('checked', oItem.isDone);
+            var $doneCb = createCheckbox(oItem);
+            $doneCb.attr('checked', oItem.done);
 
             var $cbHolder = $('<td/>');
             $cbHolder.append($doneCb);
