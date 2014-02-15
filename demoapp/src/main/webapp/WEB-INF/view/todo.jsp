@@ -52,7 +52,7 @@
     <aside class="sidebar">
         <h2>Description</h2>
         <p>This simple web-application is used to generate performance data that can be visualized on Javasimon console</p>
-        <p>Just add/remove few TODO items and go to the <a href="#">console</a> to view performance results
+        <p>Just add/remove few TODO items and go to the <a href="../console-servlet/index.html">console</a> to view performance results
     </aside>
 
     <section class="content">
