@@ -1,0 +1,26 @@
+body {
+    font-size:10px;
+}
+
+.error {
+    color: red;
+}
+
+.sidebar {
+    position: absolute;
+    width: 10%;
+    font: 14px 'Helvetica';
+}
+
+.sidebar h2 {
+    font-size: 20px;
+}
+
+.content {
+    width: 60%;
+    margin-left: 20%;
+}
+
+.content h1 {
+    font-size: 25px;
+}

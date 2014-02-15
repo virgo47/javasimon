@@ -24,11 +24,6 @@ public class ToDoController {
     private ToDoItemDao toDoItemDao;
     private Gson gson = new Gson();
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String index(ModelMap model) {
-        return "todo";
-    }
-
     @RequestMapping(value="/items", method = RequestMethod.GET)
     public @ResponseBody String getAll(ModelMap model) {
         List<ToDoItem> items = toDoItemDao.getAll();
