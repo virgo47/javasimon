@@ -123,12 +123,13 @@ ToDoDemo.View = {
              var itemDescription = $itemDescriptionInput.val();
              var newItem = {
                  name: itemName,
-                 done: oItem.done,
+                 done: false,
                  description: itemDescription
              };
 
              if (oItem) {
                 newItem.id = oItem.id;
+                newItem.done = oItem.done;
              }
 
              return newItem;
