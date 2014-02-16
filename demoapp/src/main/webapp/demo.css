@@ -24,3 +24,38 @@ body {
 .content h1 {
     font-size: 25px;
 }
+
+#toDoTable {
+    border-collapse: collapse;
+    margin: 10px;
+}
+
+.col {
+    color: #000088;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 15px 10px 10px;
+}
+
+#toDoTable tbody {
+    background: none repeat scroll 0 0 #E8EDFF;
+}
+
+#toDoTable th {
+    border-bottom: 2px solid #4433FF;
+    color: #000088;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 10px 8px;
+}
+
+#toDoList tr:hover {
+   background: none repeat scroll 0 0 #D6DBEE;
+}
+
+#toDoTable td {
+    border-top: 1px solid #3727e8;
+    padding: 10px;
+}
+
+
