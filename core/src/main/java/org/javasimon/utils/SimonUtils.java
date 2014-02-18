@@ -8,10 +8,7 @@ import java.util.Locale;
 import java.util.concurrent.Callable;
 import java.util.regex.Pattern;
 
-import org.javasimon.Manager;
-import org.javasimon.Simon;
-import org.javasimon.SimonManager;
-import org.javasimon.Split;
+import org.javasimon.*;
 
 /**
  * SimonUtils provides static utility methods.
@@ -463,6 +460,30 @@ public final class SimonUtils {
 	public static long millisForNano(long nanos) {
 		return INIT_MILLIS + (nanos - INIT_NANOS) / NANOS_IN_MILLIS;
 	}
+
+    /**
+     * Aggregate statistics from all stopwatches in hierarchy of stopwatches.
+     *
+     * @param stopwatch - root of the hierarchy of simons for which statistics will be aggregated.
+     * @return aggregated statistics
+     */
+    public static StopwatchAggregate calculateAggregate(Stopwatch stopwatch) {
+        StopwatchAggregate stopwatchAggregate = new StopwatchAggregate();
+        calculateAggregate(stopwatchAggregate, stopwatch);
+
+        return stopwatchAggregate;
+    }
+
+    private static void calculateAggregate(StopwatchAggregate aggregate, Simon simon) {
+        if (simon instanceof Stopwatch) {
+            Stopwatch stopwatch = (Stopwatch) simon;
+            aggregate.addSample(stopwatch.sample());
+        }
+
+        for (Simon child : simon.getChildren()) {
+            calculateAggregate(aggregate, child);
+        }
+    }
 
 	private static class Calibration {
 
