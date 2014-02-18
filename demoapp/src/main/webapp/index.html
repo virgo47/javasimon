@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>Simon Demo Application</title>
+	<link rel="stylesheet" href="style.css" type="text/css" media="screen" title="Stylesheet"/>
+</head>
+<body>
+<div id="hd">
+	<div id="logo">
+		<img src="simonlogo120.png" width="120px" height="36px" alt="Java Simon Logo"/>
+	</div>
+</div>
+<div id="bd">
+	<h2>Java Simon Demo Web Application</h2>
+
+	<p>
+		Java Simon provides a few ways how to monitor your web-requests out of the box:
+	</p>
+	<ul>
+		<li>Simon Serlvet Filter - is mandatory and perfoms the measuring itself. It comes
+			with simple plain text "console" - check it <a href="simon" title="simon-filter">here</a>
+			(or <a href="simon/help">"help" page</a>)
+		</li>
+		<li>Embedded Console comes in two ways - as a <a href="console-filter" title="console-filter">filter</a>
+			or as a <a href="console-servlet" title="console-servlet">servlet</a>. Functionally they are the same,
+			but filter is easier to set-up so it is not monitored - just put it before the Simon Servlet Filter.
+		</li>
+	</ul>
+	<p>
+		In case you want to create some statistics by using a test monitored web appliction, click <a href="/demo.html">this link</a>.
+	</p>
+<!-- TODO: add exceptions but on Spring business tier
+	<p>
+		For exceptions, click <a href="?exception=npe">NPE</a>, <a href="?exception=rte">RTE</a> or <a href="?exception=iae">IAE</a>.
+	</p>
+-->
+</div>
+<div id="ft">
+</div>
+</body>
+</html>

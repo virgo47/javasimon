@@ -1,0 +1,81 @@
+<html>
+<head>
+    <title>
+        Test demo application
+    </title>
+
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/start/jquery-ui.css">
+
+    <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/additional-methods.js"></script>
+
+    <script src="/static/js/conf.js"/></script>
+    <script src="/static/js/model.js"/></script>
+    <script src="/static/js/view.js"/></script>
+    <script src="/static/js/controller.js"/></script>
+
+   	<link rel="stylesheet" href="demo.css">
+</head>
+<body>
+    <aside class="sidebar">
+        <h2>Description</h2>
+        <p>This simple web-application is used to generate performance data that can be visualized on Javasimon console</p>
+        <p>Just add/remove few TODO items and go to the <a href="../console-servlet/index.html">console</a> to view performance results.
+    </aside>
+
+    <section class="content">
+
+        <h1>TODO list:</h1>
+        <table id="toDoTable">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="toDoList">
+            </tbody>
+        </table>
+
+        <button id="create-item">Create new item</button>
+
+        <div id="itemForm" title="Create new item">
+            <p class="validateTips">All form fields are required.</p>
+
+            <form id="form">
+                <fieldset>
+                    <table>
+                        <tr>
+                            <td><label for="name">Name</label></td>
+                            <td><input type="text" name="name" id="itemNameField" required="true" class="text ui-widget-content ui-corner-all" /></td>
+                        </tr>
+
+                        <tr>
+                            <td><label for="name">Description</label></td>
+                            <td><input type="text" name="description" id="descriptionField" class="text ui-widget-content ui-corner-all" /></td>
+                        </tr>
+                    </table>
+                </fieldset>
+            </form>
+        </div>
+
+    </section>
+
+	<script>
+        $(function() {
+            ToDoDemo.Controller.onPageLoad();
+
+            $( "#create-item" )
+                .button()
+                .click(function() {
+                    ToDoDemo.Controller.onCreateItem();
+            });
+        });
+	</script>
+</body>
+</html>
