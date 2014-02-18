@@ -33,7 +33,7 @@ public final class SqlNormalizer {
 			new Replacer(" *([-=<>!+*/,]+) *", "$1"), // remove spaces around various operators and commas
 			new Replacer("([-=<>!+*/]+)", " $1 "), // put spaces back (results in one space everywhere
 			new Replacer("\\s+", " "), // normalize white spaces
-			new Replacer("(create|alter|drop) (\\S+) ([^ (]+).*$", "$1 $2 $3"), // shring DLL to first three tokens
+			new Replacer("(create|alter|drop) (\\S+) ([^ (]+).*$", "$1 $2 $3"), // shrink DLL to first three tokens
 			new Replacer("([-=<>!+*/,.(]+\\s?)(?:(?:'[^']+')|(?:[0-9.]+))", "$1?"), // replace arguments after =, ( and , with ?
 			new Replacer("like '[^']+'", "like ?"), // replace like arguments
 			new Replacer("between \\S+ and \\S+", "between ? and ?"), // replace between arguments
@@ -134,7 +134,7 @@ public final class SqlNormalizer {
 	}
 
 	/**
-	 * Returns SQL type which is typicaly first word of the SQL (insert, select, etc). Returns batch for batches.
+	 * Returns SQL type which is typically first word of the SQL (insert, select, etc). Returns batch for batches.
 	 *
 	 * @return SQL statement type or "batch"
 	 */

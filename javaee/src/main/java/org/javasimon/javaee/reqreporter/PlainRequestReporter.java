@@ -32,8 +32,8 @@ public class PlainRequestReporter implements RequestReporter {
 
 		for (Split split : splits) {
 			if (shouldBeAddedSplit(split)) {
-			messageBuilder.append("\n\t").append(split.getStopwatch().getName()).append(": ").
-				append(SimonUtils.presentNanoTime(split.runningFor()));
+				messageBuilder.append("\n\t").append(split.getStopwatch().getName()).append(": ").
+					append(SimonUtils.presentNanoTime(split.runningFor()));
 			}
 		}
 

@@ -225,7 +225,7 @@ public class LastSplits implements LogMessageSource<Split> {
 	 * Compute a trend of duration: the average delta of splits between
 	 * 2 split spaced of at least the given threshold.
 	 * The threshold is only here to avoid computing a delta between 2 splits
-	 * occuring at the same time by 2 different threads.
+	 * occurring at the same time by 2 different threads.
 	 * Sum(splits(t[n])-splits(t[n-1])/SizeOf(splits)
 	 *
 	 * @param timeDeltaThreshold Accepted splits space
@@ -319,7 +319,7 @@ public class LastSplits implements LogMessageSource<Split> {
 	}
 
 	/**
-	 * Transform this list of splits into a loggable message
+	 * Transforms this list of splits into a loggable message.
 	 */
 	public String getLogMessage(Split lastSplit) {
 		return lastSplit.getStopwatch().getName() + " " + toString();

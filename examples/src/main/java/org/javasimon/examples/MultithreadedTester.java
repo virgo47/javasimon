@@ -69,9 +69,7 @@ public class MultithreadedTester extends Thread {
 	}
 
 	class TestTask implements Runnable {
-		/**
-		 * Run method implementing the code performed by the thread.
-		 */
+		/** Run method implementing the code performed by the thread. */
 		@Override
 		public void run() {
 			for (int i = 0; i < loop; i++) {

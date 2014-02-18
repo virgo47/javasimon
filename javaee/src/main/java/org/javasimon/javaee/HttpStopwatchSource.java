@@ -70,7 +70,7 @@ public class HttpStopwatchSource extends AbstractStopwatchSource<HttpServletRequ
 	 * @return fully qualified name of the Simon
 	 * @see #requestToStringForMonitorName(javax.servlet.http.HttpServletRequest)
 	 */
-	protected final String getMonitorName(HttpServletRequest request) {
+	protected String getMonitorName(HttpServletRequest request) {
 		String uri = requestToStringForMonitorName(request);
 		String localName = SimonServletFilterUtils.getSimonName(uri, unallowedCharacterReplacer);
 		if (prefix == null || prefix.isEmpty()) {

@@ -7,8 +7,8 @@ import java.util.Date;
  * Tuple data object.
  *
  * @author Radovan Sninsky
- * @since 2.0
  * @see Tuples
+ * @since 2.0
  */
 public class Tuple implements Serializable {
 
@@ -135,27 +135,10 @@ public class Tuple implements Serializable {
 		return new Date(created);
 	}
 
-	public void setCreated(long created) {
-		this.created = created;
-	}
-
 	public String toString() {
-		final StringBuffer buf = new StringBuffer();
-		buf.append("Tuple");
-		buf.append("[unique1=").append(unique1);
-		buf.append(",idx=").append(idx);
-		buf.append(",one=").append(one);
-		buf.append(",ten=").append(ten);
-		buf.append(",twenty=").append(twenty);
-		buf.append(",twentyFive=").append(twentyFive);
-		buf.append(",fifty=").append(fifty);
-		buf.append(",even=").append(evenOnePercent);
-		buf.append(",odd=").append(oddOnePercent);
-		buf.append(",stringU1=").append(stringU1);
-		buf.append(",stringU2=").append(stringU2);
-		buf.append(",string4=").append(string4);
-		buf.append(",created=").append(getCreatedAsDate());
-		buf.append(']');
-		return buf.toString();
+		return "Tuple[unique1=" + unique1 + ",idx=" + idx + ",one=" + one + ",ten=" + ten +
+			",twenty=" + twenty + ",twentyFive=" + twentyFive + ",fifty=" + fifty +
+			",even=" + evenOnePercent + ",odd=" + oddOnePercent + ",stringU1=" + stringU1 +
+			",stringU2=" + stringU2 + ",string4=" + string4 + ",created=" + getCreatedAsDate() + ']';
 	}
 }
