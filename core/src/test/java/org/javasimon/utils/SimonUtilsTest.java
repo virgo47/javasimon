@@ -51,49 +51,49 @@ public final class SimonUtilsTest {
 		Assert.assertEquals(SimonUtils.compact("asdfadfasd;a 345tw", 30), "asdfadfasd;a 345tw");
 	}
 
-    @Test
-    public void testAggregateSingleStopwatch() {
-        StopwatchSample sample = new StopwatchSample();
-        sample.setTotal(1);
+	@Test
+	public void testAggregateSingleStopwatch() {
+		StopwatchSample sample = new StopwatchSample();
+		sample.setTotal(1);
 
-        Stopwatch stopwatch = createMockStopwatch(sample);
+		Stopwatch stopwatch = createMockStopwatch(sample);
 
-        StopwatchAggregate aggregate = SimonUtils.calculateAggregate(stopwatch);
-        Assert.assertEquals(aggregate.getTotal(), 1);
-    }
+		StopwatchAggregate aggregate = SimonUtils.calculateStopwatchAggregate(stopwatch);
+		Assert.assertEquals(aggregate.getTotal(), 1);
+	}
 
-    @Test
-    public void testAggregateOnStopwatchHierarchy() {
-        StopwatchSample sample = new StopwatchSample();
-        sample.setTotal(1);
+	@Test
+	public void testAggregateOnStopwatchHierarchy() {
+		StopwatchSample sample = new StopwatchSample();
+		sample.setTotal(1);
 
-        Stopwatch root = createMockStopwatch(sample);
-        Stopwatch child1 = createMockStopwatch(sample);
-        Stopwatch child2 = createMockStopwatch(sample);
-        Stopwatch child11 = createMockStopwatch(sample);
+		Stopwatch root = createMockStopwatch(sample);
+		Stopwatch child1 = createMockStopwatch(sample);
+		Stopwatch child2 = createMockStopwatch(sample);
+		Stopwatch child11 = createMockStopwatch(sample);
 
-        Counter counter = createMockCounter();
+		Counter counter = createMockCounter();
 
-        when(root.getChildren()).thenReturn(Arrays.asList(child1, child2, counter));
-        when(child1.getChildren()).thenReturn(Arrays.asList(child11, counter));
+		when(root.getChildren()).thenReturn(Arrays.asList(child1, child2, counter));
+		when(child1.getChildren()).thenReturn(Arrays.asList(child11, counter));
 
-        StopwatchAggregate aggregate = SimonUtils.calculateAggregate(root);
-        Assert.assertEquals(aggregate.getTotal(), 4);
-    }
+		StopwatchAggregate aggregate = SimonUtils.calculateStopwatchAggregate(root);
+		Assert.assertEquals(aggregate.getTotal(), 4);
+	}
 
-    private Counter createMockCounter() {
-        Counter counter = mock(Counter.class);
-        when(counter.getChildren()).thenReturn(Collections.<Simon>emptyList());
+	private Counter createMockCounter() {
+		Counter counter = mock(Counter.class);
+		when(counter.getChildren()).thenReturn(Collections.<Simon>emptyList());
 
-        return counter;
-    }
+		return counter;
+	}
 
-    private Stopwatch createMockStopwatch(StopwatchSample sample) {
-        Stopwatch stopwatch = mock(Stopwatch.class);
-        when(stopwatch.sample()).thenReturn(sample);
-        when(stopwatch.getChildren()).thenReturn(Collections.<Simon>emptyList());
+	private Stopwatch createMockStopwatch(StopwatchSample sample) {
+		Stopwatch stopwatch = mock(Stopwatch.class);
+		when(stopwatch.sample()).thenReturn(sample);
+		when(stopwatch.getChildren()).thenReturn(Collections.<Simon>emptyList());
 
-        return stopwatch;
-    }
+		return stopwatch;
+	}
 
 }

@@ -461,29 +461,29 @@ public final class SimonUtils {
 		return INIT_MILLIS + (nanos - INIT_NANOS) / NANOS_IN_MILLIS;
 	}
 
-    /**
-     * Aggregate statistics from all stopwatches in hierarchy of stopwatches.
-     *
-     * @param stopwatch - root of the hierarchy of simons for which statistics will be aggregated.
-     * @return aggregated statistics
-     */
-    public static StopwatchAggregate calculateAggregate(Stopwatch stopwatch) {
-        StopwatchAggregate stopwatchAggregate = new StopwatchAggregate();
-        calculateAggregate(stopwatchAggregate, stopwatch);
+	/**
+	 * Aggregate statistics from all stopwatches in hierarchy of stopwatches.
+	 *
+	 * @param simon - root of the hierarchy of simons for which statistics will be aggregated.
+	 * @return aggregated statistics
+	 */
+	public static StopwatchAggregate calculateStopwatchAggregate(Simon simon) {
+		StopwatchAggregate stopwatchAggregate = new StopwatchAggregate();
+		calculateAggregate(stopwatchAggregate, simon);
 
-        return stopwatchAggregate;
-    }
+		return stopwatchAggregate;
+	}
 
-    private static void calculateAggregate(StopwatchAggregate aggregate, Simon simon) {
-        if (simon instanceof Stopwatch) {
-            Stopwatch stopwatch = (Stopwatch) simon;
-            aggregate.addSample(stopwatch.sample());
-        }
+	private static void calculateAggregate(StopwatchAggregate aggregate, Simon simon) {
+		if (simon instanceof Stopwatch) {
+			Stopwatch stopwatch = (Stopwatch) simon;
+			aggregate.addSample(stopwatch.sample());
+		}
 
-        for (Simon child : simon.getChildren()) {
-            calculateAggregate(aggregate, child);
-        }
-    }
+		for (Simon child : simon.getChildren()) {
+			calculateAggregate(aggregate, child);
+		}
+	}
 
 	private static class Calibration {
 
