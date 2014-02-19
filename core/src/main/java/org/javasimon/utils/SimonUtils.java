@@ -470,7 +470,7 @@ public final class SimonUtils {
 
 	/**
 	 * Aggregate statistics from all stopwatches in hierarchy that pass specified filter. Filter is applied
-	 * to all simons of the hierarchy of all types. If a simon is rejected by filter its children are not considered.
+	 * to all simons in the hierarchy of all types. If a simon is rejected by filter its children are not considered.
 	 * Simons are aggregated in the top-bottom fashion, i.e. parent simons are aggregated before children.
 	 *
 	 * @param simon root of the hierarchy of simons for which statistics will be aggregated
@@ -508,6 +508,48 @@ public final class SimonUtils {
 
 			for (Simon child : simon.getChildren()) {
 				calculateAggregate(aggregate, child, filter);
+			}
+		}
+	}
+
+	/**
+	 * Aggregate statistics from all counters in hierarchy of simons.
+	 *
+	 * @param simon root of the hierarchy of simons for which statistics will be aggregated
+	 * @return aggregated statistics
+	 */
+	public static CounterAggregate calculateCounterAggregate(Simon simon) {
+		return calculateCounterAggregate(simon, null);
+	}
+
+	/**
+	 * Aggregate statistics from all counters in hierarchy that pass specified filter. Filter is applied
+	 * to all simons in the hierarchy of all types. If a simon is rejected by filter its children are not considered.
+	 * Simons are aggregated in the top-bottom fashion, i.e. parent simons are aggregated before children.
+	 *
+	 * @param simon root of the hierarchy of simons for which statistics will be aggregated
+	 * @param filter filter to select subsets of simons to aggregate
+	 * @return aggregates statistics
+	 */
+	public static CounterAggregate calculateCounterAggregate(Simon simon, SimonFilter filter) {
+		CounterAggregate aggregate = new CounterAggregate();
+		if (filter != null) {
+			calculateCounterAggregate(aggregate, simon, filter);
+		} else {
+			calculateCounterAggregate(aggregate, simon, ACCEPT_ALL_FILTER);
+		}
+		return aggregate;
+	}
+
+	private static void calculateCounterAggregate(CounterAggregate aggregate, Simon simon, SimonFilter filter) {
+		if (filter.accept(simon)) {
+			if (simon instanceof Counter) {
+				Counter counter = (Counter) simon;
+				aggregate.addSample(counter.sample());
+			}
+
+			for (Simon child : simon.getChildren()) {
+				calculateCounterAggregate(aggregate, child, filter);
 			}
 		}
 	}

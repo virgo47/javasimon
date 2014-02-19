@@ -1,9 +1,6 @@
 package org.javasimon.utils;
 
-import org.javasimon.Counter;
-import org.javasimon.Simon;
-import org.javasimon.Stopwatch;
-import org.javasimon.StopwatchSample;
+import org.javasimon.*;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -19,22 +16,91 @@ import static org.mockito.Mockito.when;
  */
 public class SimonUtilsAggregationTests {
 
-	private Stopwatch hierarchyRoot;
+	private Stopwatch stopwatchHeirarchy;
+	private Counter counterHierarchy;
+
+	private SimonFilter acceptAllFilter = new SimonFilter() {
+		@Override
+		public boolean accept(Simon simon) {
+			return true;
+		}
+	};
+
+	private SimonFilter rejectAll = new SimonFilter() {
+		@Override
+		public boolean accept(Simon simon) {
+			return false;
+		}
+	};
+
+	private SimonFilter rejectRoot = new SimonFilter() {
+		@Override
+		public boolean accept(Simon simon) {
+			return !simon.getName().equals("root");
+		}
+	};
+
+	private SimonFilter rejectSubtree = new SimonFilter() {
+		@Override
+		public boolean accept(Simon simon) {
+			return !simon.getName().equals("child1");
+		}
+	};
+
+
 
 	@BeforeTest
 	public void beforeTest() {
+		createStopwatchHierarchy();
+		createCounterHierarchy();
+	}
+
+	private void createStopwatchHierarchy() {
 		StopwatchSample sample = new StopwatchSample();
 		sample.setTotal(1);
 
-		hierarchyRoot = createMockStopwatch("root", sample);
+		stopwatchHeirarchy = createMockStopwatch("root", sample);
 		Stopwatch child1 = createMockStopwatch("child1", sample);
 		Stopwatch child2 = createMockStopwatch("child2", sample);
 		Stopwatch child11 = createMockStopwatch("child11", sample);
 
-		Counter counter = createMockCounter("counter");
+		Counter counter = createMockCounter("counter", new CounterSample());
 
-		when(hierarchyRoot.getChildren()).thenReturn(Arrays.asList(child1, child2, counter));
+		when(stopwatchHeirarchy.getChildren()).thenReturn(Arrays.asList(child1, child2, counter));
 		when(child1.getChildren()).thenReturn(Arrays.asList(child11, counter));
+	}
+
+	private Counter createMockCounter(String name, CounterSample sample) {
+		Counter counter = mock(Counter.class);
+		when(counter.getChildren()).thenReturn(Collections.<Simon>emptyList());
+		when(counter.getName()).thenReturn(name);
+		when(counter.sample()).thenReturn(sample);
+
+		return counter;
+	}
+
+	private Stopwatch createMockStopwatch(String name, StopwatchSample sample) {
+		Stopwatch stopwatch = mock(Stopwatch.class);
+		when(stopwatch.sample()).thenReturn(sample);
+		when(stopwatch.getChildren()).thenReturn(Collections.<Simon>emptyList());
+		when(stopwatch.getName()).thenReturn(name);
+
+		return stopwatch;
+	}
+
+	private void createCounterHierarchy() {
+		CounterSample sample = new CounterSample();
+		sample.setCounter(1);
+
+		counterHierarchy = createMockCounter("root", sample);
+		Counter child1 = createMockCounter("child1", sample);
+		Counter child2 = createMockCounter("child2", sample);
+		Counter child11 = createMockCounter("child11", sample);
+
+		Stopwatch stopwatch = createMockStopwatch("stopwatch", new StopwatchSample());
+
+		when(counterHierarchy.getChildren()).thenReturn(Arrays.asList(child1, child2, stopwatch));
+		when(child1.getChildren()).thenReturn(Arrays.asList(child11, stopwatch));
 	}
 
 	@Test
@@ -50,82 +116,71 @@ public class SimonUtilsAggregationTests {
 
 	@Test
 	public void testAggregateOnStopwatchHierarchy() {
-		StopwatchAggregate aggregate = SimonUtils.calculateStopwatchAggregate(hierarchyRoot);
+		StopwatchAggregate aggregate = SimonUtils.calculateStopwatchAggregate(stopwatchHeirarchy);
 		Assert.assertEquals(aggregate.getTotal(), 4);
 	}
 
 	@Test
 	public void testFilteredAggregationWithAcceptAllFilter() {
-		SimonFilter acceptAll = new SimonFilter() {
-			@Override
-			public boolean accept(Simon simon) {
-				return true;
-			}
-		};
-
-		StopwatchAggregate aggregate = SimonUtils.calculateStopwatchAggregate(hierarchyRoot, acceptAll);
+		StopwatchAggregate aggregate = SimonUtils.calculateStopwatchAggregate(stopwatchHeirarchy, acceptAllFilter);
 		Assert.assertEquals(aggregate.getTotal(), 4);
 	}
 
 	@Test
 	public void testFilteredAggregationWithRejectAllFilter() {
-		SimonFilter rejectAll = new SimonFilter() {
-			@Override
-			public boolean accept(Simon simon) {
-				return false;
-			}
-		};
-
-		StopwatchAggregate aggregate = SimonUtils.calculateStopwatchAggregate(hierarchyRoot, rejectAll);
+		StopwatchAggregate aggregate = SimonUtils.calculateStopwatchAggregate(stopwatchHeirarchy, rejectAll);
 		Assert.assertEquals(aggregate.getTotal(), 0);
 	}
 
 	@Test
 	public void testFilteredAggregationWithFilterThatRejectsRoot() {
-		SimonFilter rejectRoot = new SimonFilter() {
-			@Override
-			public boolean accept(Simon simon) {
-				return !simon.getName().equals("root");
-			}
-		};
-
-		StopwatchAggregate aggregate = SimonUtils.calculateStopwatchAggregate(hierarchyRoot, rejectRoot);
+		StopwatchAggregate aggregate = SimonUtils.calculateStopwatchAggregate(stopwatchHeirarchy, rejectRoot);
 		Assert.assertEquals(aggregate.getTotal(), 0);
 	}
 
 	@Test
-	public void testFilteredAggregationWithFilterThatSubtree() {
-		SimonFilter rejectSubtree = new SimonFilter() {
-			@Override
-			public boolean accept(Simon simon) {
-				return !simon.getName().equals("child1");
-			}
-		};
-
-		StopwatchAggregate aggregate = SimonUtils.calculateStopwatchAggregate(hierarchyRoot, rejectSubtree);
+	public void testFilteredAggregationWithSubtreeFilter() {
+		StopwatchAggregate aggregate = SimonUtils.calculateStopwatchAggregate(stopwatchHeirarchy, rejectSubtree);
 		Assert.assertEquals(aggregate.getTotal(), 2);
 	}
 
 	@Test
 	public void testAggregationWithNullFilter() {
-		StopwatchAggregate aggregate = SimonUtils.calculateStopwatchAggregate(hierarchyRoot, null);
+		StopwatchAggregate aggregate = SimonUtils.calculateStopwatchAggregate(stopwatchHeirarchy, null);
 		Assert.assertEquals(aggregate.getTotal(), 4);
 	}
 
-	private Counter createMockCounter(String name) {
-		Counter counter = mock(Counter.class);
-		when(counter.getChildren()).thenReturn(Collections.<Simon>emptyList());
-		when(counter.getName()).thenReturn(name);
+	@Test
+	public void testAggregateWithSingleCounter() {
+		CounterSample sample = new CounterSample();
+		sample.setCounter(1);
 
-		return counter;
+		Counter counter = createMockCounter("counter", sample);
+		CounterAggregate aggregate = SimonUtils.calculateCounterAggregate(counter);
+		Assert.assertEquals(aggregate.getCounter(), 1);
 	}
 
-	private Stopwatch createMockStopwatch(String name, StopwatchSample sample) {
-		Stopwatch stopwatch = mock(Stopwatch.class);
-		when(stopwatch.sample()).thenReturn(sample);
-		when(stopwatch.getChildren()).thenReturn(Collections.<Simon>emptyList());
-		when(stopwatch.getName()).thenReturn(name);
+	@Test
+	public void testAggregateWithCountersHierarchy() {
+		CounterAggregate aggregate = SimonUtils.calculateCounterAggregate(counterHierarchy);
+		Assert.assertEquals(aggregate.getCounter(), 4);
+	}
 
-		return stopwatch;
+	@Test
+	public void testFilteredCounterAggregateWithSubtreeFilter() {
+		CounterAggregate aggregate = SimonUtils.calculateCounterAggregate(counterHierarchy, rejectSubtree);
+		Assert.assertEquals(aggregate.getCounter(), 2);
+	}
+
+	@Test
+	public void testFilteredCounterAggregateWithRejectAllFilter() {
+		CounterAggregate aggregate = SimonUtils.calculateCounterAggregate(counterHierarchy, rejectAll);
+		Assert.assertEquals(aggregate.getCounter(), 0);
+	}
+
+	@Test
+	public void testFilteredCounterAggregateWithRejectRoot() {
+		CounterAggregate aggregate = SimonUtils.calculateCounterAggregate(counterHierarchy, rejectRoot);
+		Assert.assertEquals(aggregate.getCounter(), 0);
 	}
 }
