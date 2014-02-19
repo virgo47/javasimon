@@ -147,6 +147,13 @@ public final class SimonUtils {
 		CLIENT_CODE_STACK_INDEX = i;
 	}
 
+	private static final SimonFilter ACCEPT_ALL_FILTER = new SimonFilter() {
+		@Override
+		public boolean accept(Simon simon) {
+			return true;
+		}
+	};
+
 	private SimonUtils() {
 		throw new AssertionError();
 	}
@@ -462,26 +469,46 @@ public final class SimonUtils {
 	}
 
 	/**
-	 * Aggregate statistics from all stopwatches in hierarchy of stopwatches.
+	 * Aggregate statistics from all stopwatches in hierarchy that pass specified filter. Filter is applied
+	 * to all simons of the hierarchy of all types. If a simon is rejected by filter its children are not considered.
+	 * Simons are aggregated in the top-bottom fashion, i.e. parent simons are aggregated before children.
 	 *
-	 * @param simon - root of the hierarchy of simons for which statistics will be aggregated.
-	 * @return aggregated statistics
+	 * @param simon root of the hierarchy of simons for which statistics will be aggregated
+	 * @param filter filter to select subsets of simons to aggregate
+	 * @return aggregates statistics
 	 */
-	public static StopwatchAggregate calculateStopwatchAggregate(Simon simon) {
+	public static StopwatchAggregate calculateStopwatchAggregate(Simon simon, SimonFilter filter) {
 		StopwatchAggregate stopwatchAggregate = new StopwatchAggregate();
-		calculateAggregate(stopwatchAggregate, simon);
+		if (filter != null) {
+			calculateAggregate(stopwatchAggregate, simon, filter);
+		} else {
+			calculateAggregate(stopwatchAggregate, simon, ACCEPT_ALL_FILTER);
+		}
+
 
 		return stopwatchAggregate;
 	}
 
-	private static void calculateAggregate(StopwatchAggregate aggregate, Simon simon) {
-		if (simon instanceof Stopwatch) {
-			Stopwatch stopwatch = (Stopwatch) simon;
-			aggregate.addSample(stopwatch.sample());
-		}
+	/**
+	 * Aggregate statistics from all stopwatches in hierarchy of simons.
+	 *
+	 * @param simon root of the hierarchy of simons for which statistics will be aggregated
+	 * @return aggregated statistics
+	 */
+	public static StopwatchAggregate calculateStopwatchAggregate(Simon simon) {
+		return calculateStopwatchAggregate(simon, null);
+	}
 
-		for (Simon child : simon.getChildren()) {
-			calculateAggregate(aggregate, child);
+	private static void calculateAggregate(StopwatchAggregate aggregate, Simon simon, SimonFilter filter) {
+		if (filter.accept(simon)) {
+			if (simon instanceof Stopwatch) {
+				Stopwatch stopwatch = (Stopwatch) simon;
+				aggregate.addSample(stopwatch.sample());
+			}
+
+			for (Simon child : simon.getChildren()) {
+				calculateAggregate(aggregate, child, filter);
+			}
 		}
 	}
 
