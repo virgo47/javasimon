@@ -1,8 +1,11 @@
 package org.javasimon.javaee;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -12,6 +15,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.ConvertUtils;
 import org.javasimon.Manager;
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
@@ -96,6 +101,13 @@ public class SimonServletFilter implements Filter {
 	 */
 	public static final String INIT_PARAM_REQUEST_REPORTER_CLASS = "request-reporter-class";
 
+	/**
+	 * Properties for a StopwatchSource class. Has the following format: prop1=val1;prop2=val2
+	 * Properties are assumed to be correct Java bean properties and should exist in a class specified by
+	 * {@link org.javasimon.javaee.SimonServletFilter#INIT_PARAM_STOPWATCH_SOURCE_CLASS}
+	 */
+	public static final String INIT_PARAM_STOPWATCH_SOURCE_PROPS = "stopwatch-source-props";
+
 	private static Replacer FINAL_SLASH_REMOVE = new Replacer("/*$", "");
 
 	private static Replacer SLASH_TRIM = new Replacer("^/*(.*?)/*$", "$1");
@@ -157,6 +169,7 @@ public class SimonServletFilter implements Filter {
 	public final void init(FilterConfig filterConfig) {
 		pickUpSharedManagerIfExists(filterConfig);
 		stopwatchSource = SimonServletFilterUtils.initStopwatchSource(filterConfig, manager);
+		setStopwatchSourceProperties(filterConfig, stopwatchSource);
 
 		requestReporter = SimonServletFilterUtils.initRequestReporter(filterConfig);
 		requestReporter.setSimonServletFilter(this);
@@ -177,6 +190,40 @@ public class SimonServletFilter implements Filter {
 			this.printTreePath = FINAL_SLASH_REMOVE.process(consolePath);
 			this.consolePath = printTreePath + "/";
 		}
+	}
+
+	private void setStopwatchSourceProperties(FilterConfig filterConfig, StopwatchSource<HttpServletRequest> stopwatchSource) {
+		registerEnumConverter();
+
+		String properties = filterConfig.getInitParameter(INIT_PARAM_STOPWATCH_SOURCE_PROPS);
+		for (String keyValStr : properties.split(";")) {
+			String[] keyVal = keyValStr.split("=");
+			String key = keyVal[0];
+			String val = keyVal[1];
+
+			Map<String, String> propMap = new HashMap<String, String>();
+			propMap.put(key, val);
+
+			setProperties(stopwatchSource, propMap);
+		}
+	}
+
+	private void setProperties(StopwatchSource<HttpServletRequest> stopwatchSource, Map<String, String> propMap) {
+		try {
+			BeanUtils.populate(stopwatchSource, propMap);
+		} catch (IllegalAccessException e) {
+			wrapAndRethrow(e);
+		} catch (InvocationTargetException e) {
+			wrapAndRethrow(e);
+		}
+	}
+
+	private void registerEnumConverter() {
+		ConvertUtils.register(new EnumConverter(), HttpStopwatchSource.IncludeHttpMethodName.class);
+	}
+
+	private void wrapAndRethrow(Exception e) {
+		throw new IllegalArgumentException("Failed to set stopwatch properties", e);
 	}
 
 	private void pickUpSharedManagerIfExists(FilterConfig filterConfig) {
@@ -301,6 +348,15 @@ public class SimonServletFilter implements Filter {
 
 	public Manager getManager() {
 		return manager;
+	}
+
+	/**
+	 * Returns stopwatch source used by the filter.
+	 *
+	 * @return stopwatch source
+	 */
+	StopwatchSource<HttpServletRequest> getStopwatchSource() {
+		return stopwatchSource;
 	}
 
 	/**
