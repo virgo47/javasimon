@@ -31,13 +31,13 @@ public class ToDoController {
         return gson.toJson(items);
     }
 
-    @RequestMapping(value="/addItem", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value="/items", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ToDoItem addItem(@RequestBody final ToDoItem item) {
         toDoItemDao.create(item);
         return item;
     }
 
-    @RequestMapping(value="/deleteItem/{id}", method = RequestMethod.POST)
+    @RequestMapping(value="/items/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<String> deleteItem(@PathVariable("id") long id) {
         try {
             toDoItemDao.delete(id);
@@ -47,7 +47,7 @@ public class ToDoController {
         }
     }
 
-    @RequestMapping(value="/updateItem", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value="/items", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ToDoItem updateItem(@RequestBody final ToDoItem item) {
         toDoItemDao.update(item);
         return item;
