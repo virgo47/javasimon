@@ -305,6 +305,12 @@ public class SimonBeanUtilsTest {
 		simonBeanUtils.setProperty(testBean, "nonExistingProp", "10");
 	}
 
+	@Test(expectedExceptions = {BeanUtilsException.class})
+	public void testSetNonExistingPropertyOfNonConvertableType() {
+		TestBean testBean = new TestBean();
+		simonBeanUtils.setProperty(testBean, "nonExistingProp", new TestClass());
+	}
+
 	private static class NoUsualConverterBean {
 		private TestClass testClass;
 
@@ -350,4 +356,57 @@ public class SimonBeanUtilsTest {
 		simonBeanUtils.setProperty(bean, "strProp", "strVal");
 		Assert.assertEquals(bean.getStrProp(), "strVal");
 	}
+
+	private static class TestBeanExtension extends TestBean {
+		private TestClass prop;
+
+		public TestClass getOtherTestClassProp() {
+			return prop;
+		}
+
+		private void setOtherTestClassProp(TestClass val) {
+			this.prop = val;
+		}
+	}
+
+	private static class TestBeanExtension2 extends TestBeanExtension {}
+
+	@Test
+	public void testSetInheritedProperty() {
+		TestBeanExtension bean = new TestBeanExtension();
+		simonBeanUtils.setProperty(bean, "strProp", "val");
+		Assert.assertEquals(bean.getStrProp(), "val");
+	}
+
+	@Test
+	public void testSetInheritedPropertyWithoutConversion() {
+		TestBeanExtension testBean = new TestBeanExtension();
+		TestClass val = new TestClass();
+		simonBeanUtils.setProperty(testBean, "testClassProp", val);
+		Assert.assertEquals(testBean.getTestClassProp(), val);
+	}
+
+	@Test
+	public void testSetPrivateInheritedPropertyWithoutConversion() {
+		TestBeanExtension2 testBean = new TestBeanExtension2();
+		TestClass val = new TestClass();
+		simonBeanUtils.setProperty(testBean, "otherTestClassProp", val);
+		Assert.assertEquals(testBean.getOtherTestClassProp(), val);
+	}
+
+	private static class BaseNoSetterBean {
+		protected int intField;
+	}
+
+	private static class BaseNoSetterBeanInherited extends BaseNoSetterBean {}
+
+	@Test
+	public void testSetInheritedField() {
+		BaseNoSetterBeanInherited bean = new BaseNoSetterBeanInherited();
+		simonBeanUtils.setProperty(bean, "intField", "123");
+		Assert.assertEquals(bean.intField, 123);
+	}
+
+
+
 }

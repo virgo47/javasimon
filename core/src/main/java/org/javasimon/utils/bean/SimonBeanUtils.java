@@ -75,6 +75,7 @@ public class SimonBeanUtils {
 	private void convertStringValue(Object target, String property, String strVal) {
 		Set<Method> setters = getPotentialSetters(target, property);
 		boolean converted = false;
+
 		for (Method setter : setters) {
 			try {
 				Class<?> setterType = getSetterType(setter);
@@ -125,7 +126,7 @@ public class SimonBeanUtils {
 			if (field != null) {
 				setValueUsingField(field, target, value);
 			} else {
-				//
+				throw new BeanUtilsException("Failed to find field/setter for property " + property);
 			}
 		}
 	}
@@ -142,13 +143,17 @@ public class SimonBeanUtils {
 	}
 
 	private Set<Method> getPotentialSetters(Object target, String property) {
-		Class<?> targetClass = target.getClass();
 		String setterName = setterName(property);
 		Set<Method> setters = new HashSet<Method>();
-		for (Method method : targetClass.getDeclaredMethods()) {
-			if (method.getName().equals(setterName) && method.getParameterTypes().length == 1) {
-				setters.add(method);
+		Class<?> targetClass = target.getClass();
+
+		while (targetClass != null) {
+			for (Method method : targetClass.getDeclaredMethods()) {
+				if (method.getName().equals(setterName) && method.getParameterTypes().length == 1) {
+					setters.add(method);
+				}
 			}
+			targetClass = targetClass.getSuperclass();
 		}
 
 		return setters;
@@ -166,20 +171,38 @@ public class SimonBeanUtils {
 	}
 
 	private Field getField(Object target, String fieldName) {
-		try {
-			return target.getClass().getDeclaredField(fieldName);
-		} catch (NoSuchFieldException e) {
-			return null;
+		Class<?> targetClass = target.getClass();
+
+		while (targetClass != null) {
+			try {
+				Field field = targetClass.getDeclaredField(fieldName);
+				logger.debug("Found field {} in class {}", fieldName, targetClass.getName());
+				return field;
+			} catch (NoSuchFieldException e) {
+				logger.debug("Failed to find field {} in class {}", fieldName, targetClass.getName());
+			}
+			targetClass = targetClass.getSuperclass();
 		}
+
+		return null;
 	}
 
 	private Method getSetterMethod(Object target, String propertyName, Class<?>... types) {
-		try {
-			String setterMethodName = setterName(propertyName);
-			return target.getClass().getMethod(setterMethodName, types);
-		} catch (NoSuchMethodException e) {
-			return null;
+		Class<?> targetClass = target.getClass();
+		String setterMethodName = setterName(propertyName);
+
+		while (targetClass != null) {
+			try {
+				Method setter = targetClass.getDeclaredMethod(setterMethodName, types);
+				logger.debug("Found setter {} in class {}", setterMethodName, targetClass.getName());
+				return setter;
+			} catch (NoSuchMethodException e) {
+				logger.debug("Failed to found setter {} in class {}", setterMethodName, targetClass.getName());
+			}
+			targetClass = targetClass.getSuperclass();
 		}
+
+		return null;
 	}
 
 	private String setterName(String name) {
