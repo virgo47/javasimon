@@ -1,22 +1,5 @@
 package org.javasimon.javaee;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.beanutils.ConvertUtils;
 import org.javasimon.Manager;
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
@@ -26,6 +9,15 @@ import org.javasimon.source.DisabledMonitorSource;
 import org.javasimon.source.StopwatchSource;
 import org.javasimon.utils.Replacer;
 import org.javasimon.utils.SimonUtils;
+import org.javasimon.utils.bean.SimonBeanUtils;
+import org.javasimon.utils.bean.ToEnumConverter;
+
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Simon Servlet filter measuring HTTP request execution times. Non-HTTP usages are not supported.
@@ -201,25 +193,12 @@ public class SimonServletFilter implements Filter {
 			String key = keyVal[0];
 			String val = keyVal[1];
 
-			Map<String, String> propMap = new HashMap<String, String>();
-			propMap.put(key, val);
-
-			setProperties(stopwatchSource, propMap);
-		}
-	}
-
-	private void setProperties(StopwatchSource<HttpServletRequest> stopwatchSource, Map<String, String> propMap) {
-		try {
-			BeanUtils.populate(stopwatchSource, propMap);
-		} catch (IllegalAccessException e) {
-			wrapAndRethrow(e);
-		} catch (InvocationTargetException e) {
-			wrapAndRethrow(e);
+			SimonBeanUtils.getInstance().setProperty(stopwatchSource, key, val);
 		}
 	}
 
 	private void registerEnumConverter() {
-		ConvertUtils.register(new EnumConverter(), HttpStopwatchSource.IncludeHttpMethodName.class);
+		SimonBeanUtils.getInstance().registerConverter(HttpStopwatchSource.IncludeHttpMethodName.class, new ToEnumConverter());
 	}
 
 	private void wrapAndRethrow(Exception e) {

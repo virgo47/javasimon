@@ -1,6 +1,5 @@
-package org.javasimon.javaee;
+package org.javasimon.utils.bean;
 
-import org.apache.commons.beanutils.ConversionException;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -8,8 +7,8 @@ import org.testng.annotations.Test;
 /**
  * @author <a href="mailto:ivan.mushketyk@gmail.com">Ivan Mushketyk</a>
  */
-public class EnumCoverterTest {
-	private EnumConverter enumCoverter = new EnumConverter();
+public class ToEnumCoverterTest {
+	private ToEnumConverter enumCoverter = new ToEnumConverter();
 
 	private static enum TestEnum {
 		VAL1,
@@ -31,14 +30,8 @@ public class EnumCoverterTest {
 		Assert.assertEquals(enumCoverter.convert(TestEnum.class, valStr), enumVal);
 	}
 
-	@Test(expectedExceptions = ConversionException.class)
+	@Test(expectedExceptions = ConvertException.class)
 	public void testNonExistingEnumValConversion() {
 		enumCoverter.convert(TestEnum.class, "SOME_NON_EXISTING_ENUM_VAL");
 	}
-
-	@Test(expectedExceptions = ConversionException.class)
-	public void testNonStringConversion() {
-		enumCoverter.convert(TestEnum.class, 1.23);
-	}
-
 }

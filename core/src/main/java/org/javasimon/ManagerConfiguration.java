@@ -18,6 +18,7 @@ import org.javasimon.callback.CompositeCallbackImpl;
 import org.javasimon.callback.CompositeFilterCallback;
 import org.javasimon.callback.FilterCallback;
 import org.javasimon.callback.FilterRule;
+import org.javasimon.utils.bean.SimonBeanUtils;
 
 /**
  * Holds configuration for one Simon Manager. Configuration is read from the stream
@@ -212,8 +213,7 @@ public final class ManagerConfiguration {
 	private void setProperty(Callback callback, String property, String value) {
 		try {
 			if (value != null) {
-				Method setter = callback.getClass().getMethod(setterName(property), String.class);
-				setter.invoke(callback, value);
+				SimonBeanUtils.getInstance().setProperty(callback, property, value);
 			} else {
 				callback.getClass().getMethod(setterName(property)).invoke(callback);
 			}
