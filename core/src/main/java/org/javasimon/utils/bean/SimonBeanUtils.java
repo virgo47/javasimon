@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -22,6 +21,7 @@ public class SimonBeanUtils {
 
 	private static final SimonBeanUtils INSTANCE = new SimonBeanUtils();
 
+	private final ClassUtils classUtils = new ClassUtils();
 	private final Map<Class<?>, Converter> converters = new ConcurrentHashMap<Class<?>, Converter>();
 
 	public SimonBeanUtils() {
@@ -73,12 +73,12 @@ public class SimonBeanUtils {
 	}
 
 	private void convertStringValue(Object target, String property, String strVal) {
-		Set<Method> setters = getPotentialSetters(target, property);
+		Set<Method> potentialSetters = classUtils.getSetters(target.getClass(), property);
 		boolean converted = false;
 
-		for (Method setter : setters) {
+		for (Method setter : potentialSetters) {
 			try {
-				Class<?> setterType = getSetterType(setter);
+				Class<?> setterType = classUtils.getSetterType(setter);
 				Converter converter = getConverterTo(setterType);
 				if (converter != null) {
 					Object value = converter.convert(setterType, strVal);
@@ -94,7 +94,7 @@ public class SimonBeanUtils {
 		}
 		
 		if (!converted) {
-			Field field = getField(target, property);
+			Field field = classUtils.getField(target.getClass(), property);
 			if (field != null) {
 				Class<?> fieldType = field.getType();
 				Converter converter = getConverterTo(fieldType);
@@ -113,16 +113,12 @@ public class SimonBeanUtils {
 		return converters.get(setterType);
 	}
 
-	private Class<?> getSetterType(Method setter) {
-		return setter.getParameterTypes()[0];
-	}
-
 	private void setObjectValue(Object target, String property, Object value) {
-		Method setter = getSetterMethod(target, property, value.getClass());
+		Method setter = classUtils.getSetter(target.getClass(), property, value.getClass());
 		if (setter != null) {
 			invokeSetter(target, setter, value);
 		} else {
-			Field field = getField(target, property);
+			Field field = classUtils.getField(target.getClass(), property);
 			if (field != null) {
 				setValueUsingField(field, target, value);
 			} else {
@@ -142,23 +138,6 @@ public class SimonBeanUtils {
 		}
 	}
 
-	private Set<Method> getPotentialSetters(Object target, String property) {
-		String setterName = setterName(property);
-		Set<Method> setters = new HashSet<Method>();
-		Class<?> targetClass = target.getClass();
-
-		while (targetClass != null) {
-			for (Method method : targetClass.getDeclaredMethods()) {
-				if (method.getName().equals(setterName) && method.getParameterTypes().length == 1) {
-					setters.add(method);
-				}
-			}
-			targetClass = targetClass.getSuperclass();
-		}
-
-		return setters;
-	}
-
 	private void setValueUsingField(Field field, Object target, Object value) {
 		try {
 			field.setAccessible(true);
@@ -168,45 +147,6 @@ public class SimonBeanUtils {
 		} catch (IllegalAccessException e) {
 			throw new BeanUtilsException(e);
 		}
-	}
-
-	private Field getField(Object target, String fieldName) {
-		Class<?> targetClass = target.getClass();
-
-		while (targetClass != null) {
-			try {
-				Field field = targetClass.getDeclaredField(fieldName);
-				logger.debug("Found field {} in class {}", fieldName, targetClass.getName());
-				return field;
-			} catch (NoSuchFieldException e) {
-				logger.debug("Failed to find field {} in class {}", fieldName, targetClass.getName());
-			}
-			targetClass = targetClass.getSuperclass();
-		}
-
-		return null;
-	}
-
-	private Method getSetterMethod(Object target, String propertyName, Class<?>... types) {
-		Class<?> targetClass = target.getClass();
-		String setterMethodName = setterName(propertyName);
-
-		while (targetClass != null) {
-			try {
-				Method setter = targetClass.getDeclaredMethod(setterMethodName, types);
-				logger.debug("Found setter {} in class {}", setterMethodName, targetClass.getName());
-				return setter;
-			} catch (NoSuchMethodException e) {
-				logger.debug("Failed to found setter {} in class {}", setterMethodName, targetClass.getName());
-			}
-			targetClass = targetClass.getSuperclass();
-		}
-
-		return null;
-	}
-
-	private String setterName(String name) {
-		return "set" + name.substring(0, 1).toUpperCase() + name.substring(1);
 	}
 
 	/**
