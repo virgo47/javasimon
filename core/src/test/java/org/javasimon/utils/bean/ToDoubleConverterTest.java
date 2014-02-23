@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 /**
  * @author <a href="mailto:ivan.mushketyk@gmail.com">Ivan Mushketyk</a>
  */
-public class TooDoubleConverterTest {
+public class ToDoubleConverterTest {
 
 	private ToDoubleConverter toDoubleConverter = new ToDoubleConverter();
 
