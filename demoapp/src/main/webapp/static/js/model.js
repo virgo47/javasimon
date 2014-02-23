@@ -17,7 +17,7 @@ ToDoDemo.Model = {
 
     addItem: function(oItem, fnSuccess, fnFail) {
          $.ajax({
-             url: ToDoDemo.serverRoot + "/addItem",
+             url: ToDoDemo.serverRoot + "/items",
              type:'POST',
              contentType: 'application/json',
              dataType:"json",
@@ -33,8 +33,8 @@ ToDoDemo.Model = {
 
     deleteItem: function(numId, fnSuccess, fnFail) {
         $.ajax({
-            url: ToDoDemo.serverRoot + "/deleteItem/" + numId,
-            type:'POST',
+            url: ToDoDemo.serverRoot + "/items/" + numId,
+            type:'DELETE',
             success: function(oData, strStatus, jqXHR) {
                 fnSuccess();
             },
@@ -46,8 +46,8 @@ ToDoDemo.Model = {
 
     updateItem: function(oItem, fnSuccess, fnFail) {
         $.ajax({
-             url: ToDoDemo.serverRoot + "/updateItem",
-             type:'POST',
+             url: ToDoDemo.serverRoot + "/items",
+             type:'PUT',
              contentType: 'application/json',
              dataType:"json",
              data: JSON.stringify(oItem),

@@ -20,6 +20,10 @@
             <param-name>report-threshold-ms</param-name>
             <param-value>4</param-value>
         </init-param>
+        <init-param>
+            <param-name>stopwatch-source-props</param-name>
+            <param-value>includeHttpMethodName=ALWAYS</param-value>
+        </init-param>
     </filter>
 
     <filter>
