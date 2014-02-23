@@ -105,4 +105,30 @@ class ClassUtils {
 		return parameterTypes[0];
 	}
 
+	/**
+	 * Get getter method for a specified property.
+	 * @param targetClass class for which a getter will be returned
+	 * @param propertyName name of the property for which a getter will be returned
+	 * @return getter of a specified property if one exists, null otherwise
+	 */
+	public Method getGetter(Class<?> targetClass, String propertyName) {
+		String getterName = getterName(propertyName);
+
+		while (targetClass != null) {
+			try {
+				Method getter = targetClass.getDeclaredMethod(getterName);
+				logger.debug("Found getter {} in class {}", getter.getName(), targetClass.getName());
+				return getter;
+			} catch (NoSuchMethodException e) {
+				logger.debug("Failed  to find getter for property {} in class {}", propertyName, targetClass.getName());
+			}
+			targetClass = targetClass.getSuperclass();
+		}
+
+		return null;
+	}
+
+	private String getterName(String propertyName) {
+		return "get" + propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1);
+	}
 }

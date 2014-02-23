@@ -130,4 +130,35 @@ public class ClassUtilsTest {
 		Class<?> type = classUtils.getSetterType(otherMethod);
 	}
 
+	@Test
+	public void getGetter() throws Exception {
+		Method getter = classUtils.getGetter(TestBean.class, "intField");
+		Assert.assertEquals(getter, TestBean.class.getDeclaredMethod("getIntField"));
+	}
+
+	@Test
+	public void getNonExistingGetterMethod() throws Exception {
+		Method getter = classUtils.getGetter(TestBean.class, "nonExistingField");
+		Assert.assertEquals(getter, null);
+	}
+
+	@Test
+	public void getInheritedGetter() throws Exception {
+		Method getter = classUtils.getGetter(InheritedTestBean.class, "intField");
+		Assert.assertEquals(getter, TestBean.class.getDeclaredMethod("getIntField"));
+	}
+
+	private static final class ProtectedTestBean {
+		private int field;
+
+		protected int getField() {
+			return field;
+		}
+	}
+
+	@Test
+	public void getProtectedGetter() throws Exception {
+		Method getter = classUtils.getGetter(ProtectedTestBean.class, "field");
+		Assert.assertEquals(getter, ProtectedTestBean.class.getDeclaredMethod("getField"));
+	}
 }
