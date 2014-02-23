@@ -18,7 +18,7 @@ import org.javasimon.utils.SimonUtils;
  * Without wildcard exact match is required. Every pattern with wildcards always matches with the same string
  * without wildcards (in other words - wildcards matches with nothing as well).
  */
-public final class SimonPattern {
+public final class SimonPattern implements SimonFilter {
 	private static final String WILDCARD_STAR = "*";
 
 	/**
@@ -104,6 +104,17 @@ public final class SimonPattern {
 				throw new SimonException(INVALID_PATTERN + pattern);
 			}
 		}
+	}
+
+	@Override
+	/**
+	 * Checks if Simon's name matches this pattern.
+	 *
+	 * @param simon Simon to be tested
+	 * @return true if Simon's name matches this pattern
+	 */
+	public boolean accept(Simon simon) {
+		return matches(simon.getName());
 	}
 
 	/**

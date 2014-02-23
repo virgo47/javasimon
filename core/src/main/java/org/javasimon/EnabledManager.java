@@ -86,14 +86,14 @@ public final class EnabledManager implements Manager {
 
 	@SuppressWarnings({"unchecked"})
 	@Override
-	public Collection<Simon> getSimons(SimonPattern pattern) {
-		if (pattern == null) {
+	public Collection<Simon> getSimons(SimonFilter simonFilter) {
+		if (simonFilter == null) {
 			return Collections.unmodifiableCollection((Collection) allSimons.values());
 		}
 		Collection<Simon> simons = new ArrayList<Simon>();
-		for (Map.Entry<String, AbstractSimon> entry : allSimons.entrySet()) {
-			if (pattern.matches(entry.getKey())) {
-				simons.add(entry.getValue());
+		for (AbstractSimon simon : allSimons.values()) {
+			if (simonFilter.accept(simon)) {
+				simons.add(simon);
 			}
 		}
 		return simons;

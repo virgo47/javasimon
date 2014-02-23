@@ -43,8 +43,8 @@ public final class SwitchingManager implements Manager {
 	}
 
 	@Override
-	public Collection<Simon> getSimons(SimonPattern pattern) {
-		return manager.getSimons(pattern);
+	public Collection<Simon> getSimons(SimonFilter simonFilter) {
+		return manager.getSimons(simonFilter);
 	}
 
 	@Override

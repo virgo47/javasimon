@@ -18,7 +18,7 @@ import org.javasimon.Stopwatch;
 import org.javasimon.utils.Replacer;
 
 /**
- * Represents filtering rule that checks whether subcallbacks will get the event.
+ * Represents filtering rule that checks whether sub-callbacks will get the event.
  * Rule can be one of the following types:
  * <ul>
  * <li>{@link Type#MUST} - rule MUST be true and following rules are checked
@@ -34,7 +34,7 @@ import org.javasimon.utils.Replacer;
  */
 public class FilterRule {
 	/**
-	 * Enumeration of rule types that determines the evaluation of mutliple rules in a chain.
+	 * Enumeration of rule types that determines the evaluation of multiple rules in a chain.
 	 */
 	public enum Type {
 		/**
@@ -174,7 +174,7 @@ public class FilterRule {
 	}
 
 	/**
-	 * Retruns the Simon pattern of this rule.
+	 * Returns the Simon pattern of this rule.
 	 *
 	 * @return Simon pattern of this rule
 	 */

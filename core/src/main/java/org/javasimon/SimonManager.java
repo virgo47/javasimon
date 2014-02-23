@@ -161,17 +161,17 @@ public final class SimonManager {
 	}
 
 	/**
-	 * Returns collection containing all existing Simons matching the pattern (can be {@code null}).
-	 * Collection is unmodifiable if {@code null} pattern is provided and all Simons are returned,
-	 * otherwise new collection with matching Simons is returned.
+	 * Returns collection containing all existing Simons accepted by specified {@link SimonFilter}.
+	 * If {@code null} pattern is provided all Simons are returned in an unmodifiable Collection.
+	 * Otherwise new collection with matching Simons is returned.
 	 *
-	 * @param pattern Simon name pattern (see {@link SimonPattern}
-	 * @return collection of all Simons matching the pattern
+	 * @param simonFilter filter accepting the Simons to result collection
+	 * @return collection of all Simons which pass the filter
 	 * @see SimonPattern to find out more about possible patterns
 	 * @since 3.1
 	 */
-	public static Collection<Simon> getSimons(SimonPattern pattern) {
-		return manager.getSimons(pattern);
+	public static Collection<Simon> getSimons(SimonFilter simonFilter) {
+		return manager.getSimons(simonFilter);
 	}
 
 	/**

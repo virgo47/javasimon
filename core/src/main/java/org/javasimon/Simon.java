@@ -13,6 +13,7 @@ import java.util.List;
  * @see Stopwatch for Simon measuring time spans
  */
 public interface Simon extends HasAttributes {
+
 	/**
 	 * Returns Simon name. Simon name is always fully qualified
 	 * and determines also position of the Simon in the monitor hierarchy.

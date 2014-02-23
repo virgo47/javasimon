@@ -213,7 +213,7 @@ public final class CompositeFilterCallback implements FilterCallback, CompositeC
 
 	private boolean patternAndConditionCheck(Simon simon, FilterRule rule, Object... params) throws ScriptException {
 		//noinspection SimplifiableIfStatement
-		if (simon != null && rule.getPattern() != null && !rule.getPattern().matches(simon.getName())) {
+		if (simon != null && rule.getPattern() != null && !rule.getPattern().accept(simon)) {
 			return false;
 		}
 		return rule.checkCondition(simon, params);

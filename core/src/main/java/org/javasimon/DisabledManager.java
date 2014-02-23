@@ -82,7 +82,7 @@ public final class DisabledManager implements Manager {
 	}
 
 	@Override
-	public Collection<Simon> getSimons(SimonPattern pattern) {
+	public Collection<Simon> getSimons(SimonFilter simonFilter) {
 		return Collections.emptyList();
 	}
 
