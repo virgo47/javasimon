@@ -11,7 +11,6 @@ import java.util.Set;
  * @author <a href="mailto:ivan.mushketyk@gmail.com">Ivan Mushketyk</a>
  */
 public class ClassUtilsTest {
-	public ClassUtils classUtils = new ClassUtils();
 
 	private static class TestBean {
 		 int intField;
@@ -47,104 +46,104 @@ public class ClassUtilsTest {
 
 	@Test
 	public void testGetField() {
-		Field field = classUtils.getField(TestBean.class, "intField");
+		Field field = ClassUtils.getField(TestBean.class, "intField");
 		Assert.assertEquals(field.getType(), int.class);
 	}
 
 	@Test
 	public void testGetNonExistingField() {
-		Field field = classUtils.getField(TestBean.class, "nonExistingField");
+		Field field = ClassUtils.getField(TestBean.class, "nonExistingField");
 		Assert.assertEquals(field, null);
 	}
 
 	@Test
 	public void testGetInhertiedField() {
-		Field field = classUtils.getField(InheritedTestBean.class, "intField");
+		Field field = ClassUtils.getField(InheritedTestBean.class, "intField");
 		Assert.assertEquals(field.getType(), int.class);
 	}
 
 	@Test
 	public void testGetSetter() {
-		Method method = classUtils.getSetter(TestBean.class, "strField", String.class);
+		Method method = ClassUtils.getSetter(TestBean.class, "strField", String.class);
 		Assert.assertEquals(method.getName(), "setStrField");
 	}
 
 	@Test
 	public void testGetSetterOfWrongType() {
-		Method method = classUtils.getSetter(TestBean.class, "strField", int.class);
+		Method method = ClassUtils.getSetter(TestBean.class, "strField", int.class);
 		Assert.assertEquals(method, null);
 	}
 
 	@Test
 	public void testGetNonExistingSetter() {
-		Method method = classUtils.getSetter(TestBean.class, "someNoneExistng", int.class);
+		Method method = ClassUtils.getSetter(TestBean.class, "someNoneExistng", int.class);
 		Assert.assertEquals(method, null);
 	}
 
 	@Test
 	public void testGetInheritedSetter() {
-		Method method = classUtils.getSetter(InheritedTestBean.class, "strField", String.class);
+		Method method = ClassUtils.getSetter(InheritedTestBean.class, "strField", String.class);
 		Assert.assertEquals(method.getName(), "setStrField");
 	}
 
 	@Test
 	public void getMultiplePotentialSetters() {
-		Set<Method> methods = classUtils.getSetters(TestBean.class, "strField");
+		Set<Method> methods = ClassUtils.getSetters(TestBean.class, "strField");
 		Assert.assertEquals(methods.size(), 2);
 	}
 
 	@Test
 	public void getSinglePotentialSetter() {
-		Set<Method> methods = classUtils.getSetters(TestBean.class, "intField");
+		Set<Method> methods = ClassUtils.getSetters(TestBean.class, "intField");
 		Assert.assertEquals(methods.size(), 1);
 	}
 
 	@Test
 	public void getNonExistingPotentialSetters() {
-		Set<Method> methods = classUtils.getSetters(TestBean.class, "someNonExisting");
+		Set<Method> methods = ClassUtils.getSetters(TestBean.class, "someNonExisting");
 		Assert.assertEquals(methods.size(), 0);
 	}
 
 	@Test
 	public void getInheritedPotentialSetters() {
-		Set<Method> methods = classUtils.getSetters(InheritedTestBean.class, "strField");
+		Set<Method> methods = ClassUtils.getSetters(InheritedTestBean.class, "strField");
 		Assert.assertEquals(methods.size(), 2);
 	}
 
 	@Test
 	public void getSetterType() {
-		Method setter = classUtils.getSetter(TestBean.class, "strField", String.class);
-		Class<?> type = classUtils.getSetterType(setter);
+		Method setter = ClassUtils.getSetter(TestBean.class, "strField", String.class);
+		Class<?> type = ClassUtils.getSetterType(setter);
 		Assert.assertEquals(type, String.class);
 	}
 
 	@Test(expectedExceptions = {BeanUtilsException.class})
 	public void getSetterTypeWithIncorrectSignature() throws Exception {
 		Method getter = TestBean.class.getDeclaredMethod("getStrField");
-		Class<?> type = classUtils.getSetterType(getter);
+		Class<?> type = ClassUtils.getSetterType(getter);
 	}
 
 	@Test(expectedExceptions = {BeanUtilsException.class})
 	public void getSetterTypeWithIncorrectSignature2() throws Exception {
 		Method otherMethod = TestBean.class.getDeclaredMethod("otherMethod", String.class, int.class);
-		Class<?> type = classUtils.getSetterType(otherMethod);
+		Class<?> type = ClassUtils.getSetterType(otherMethod);
 	}
 
 	@Test
 	public void getGetter() throws Exception {
-		Method getter = classUtils.getGetter(TestBean.class, "intField");
+		Method getter = ClassUtils.getGetter(TestBean.class, "intField");
 		Assert.assertEquals(getter, TestBean.class.getDeclaredMethod("getIntField"));
 	}
 
 	@Test
 	public void getNonExistingGetterMethod() throws Exception {
-		Method getter = classUtils.getGetter(TestBean.class, "nonExistingField");
+		Method getter = ClassUtils.getGetter(TestBean.class, "nonExistingField");
 		Assert.assertEquals(getter, null);
 	}
 
 	@Test
 	public void getInheritedGetter() throws Exception {
-		Method getter = classUtils.getGetter(InheritedTestBean.class, "intField");
+		Method getter = ClassUtils.getGetter(InheritedTestBean.class, "intField");
 		Assert.assertEquals(getter, TestBean.class.getDeclaredMethod("getIntField"));
 	}
 
@@ -158,7 +157,7 @@ public class ClassUtilsTest {
 
 	@Test
 	public void getProtectedGetter() throws Exception {
-		Method getter = classUtils.getGetter(ProtectedTestBean.class, "field");
+		Method getter = ClassUtils.getGetter(ProtectedTestBean.class, "field");
 		Assert.assertEquals(getter, ProtectedTestBean.class.getDeclaredMethod("getField"));
 	}
 }

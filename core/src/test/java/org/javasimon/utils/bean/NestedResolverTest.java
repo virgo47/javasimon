@@ -7,9 +7,6 @@ import org.testng.annotations.Test;
  * @author <a href="mailto:ivan.mushketyk@gmail.com">Ivan Mushketyk</a>
  */
 public class NestedResolverTest {
-
-	private ClassUtils classUtils = new ClassUtils();
-
 	private static class NestedTestBean {
 		private int field;
 	}
@@ -21,7 +18,7 @@ public class NestedResolverTest {
 	@Test
 	public void testResolveCurrentBean() {
 		NestedTestBean nestedTestBean = new NestedTestBean();
-		NestedResolver nestedResolver = new NestedResolver(classUtils, nestedTestBean, "field");
+		NestedResolver nestedResolver = new NestedResolver(nestedTestBean, "field");
 
 		Assert.assertEquals(nestedResolver.getNestedTarget(), nestedTestBean);
 		Assert.assertEquals(nestedResolver.getProperty(), "field");
@@ -32,7 +29,7 @@ public class NestedResolverTest {
 		TestBean testBean = new TestBean();
 		NestedTestBean nestedTestBean = new NestedTestBean();
 		testBean.bean = nestedTestBean;
-		NestedResolver nestedResolver = new NestedResolver(classUtils, testBean, "bean.field");
+		NestedResolver nestedResolver = new NestedResolver(testBean, "bean.field");
 
 		Assert.assertEquals(nestedResolver.getNestedTarget(), nestedTestBean);
 		Assert.assertEquals(nestedResolver.getProperty(), "field");
@@ -43,7 +40,7 @@ public class NestedResolverTest {
 		TestBean testBean = new TestBean();
 		NestedTestBean nestedTestBean = new NestedTestBean();
 		testBean.bean = nestedTestBean;
-		NestedResolver nestedResolver = new NestedResolver(classUtils, testBean, "nonExisting.field");
+		NestedResolver nestedResolver = new NestedResolver(testBean, "nonExisting.field");
     }
 
     private static class PropertyTestBean {
@@ -59,7 +56,7 @@ public class NestedResolverTest {
 		PropertyTestBean testBean = new PropertyTestBean();
 		NestedTestBean nestedTestBean = new NestedTestBean();
 		testBean.nestedBean = nestedTestBean;
-		NestedResolver nestedResolver = new NestedResolver(classUtils, testBean, "bean.field");
+		NestedResolver nestedResolver = new NestedResolver(testBean, "bean.field");
 
 		Assert.assertEquals(nestedResolver.getNestedTarget(), nestedTestBean);
 		Assert.assertEquals(nestedResolver.getProperty(), "field");

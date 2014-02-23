@@ -10,18 +10,15 @@ import java.lang.reflect.Method;
  * @author <a href="mailto:ivan.mushketyk@gmail.com">Ivan Mushketyk</a>
  */
 class NestedResolver {
-	private final ClassUtils classUtils;
 	private Object nestedTarget;
 	private String targetProperty;
 
 	/**
 	 * Resolve nested bean.
-	 * @param classUtils instance of ClassUtils
 	 * @param target target class where nested bean will be resolved
 	 * @param property nested property specification in format bean1.bean2.property
 	 */
-	public NestedResolver(ClassUtils classUtils, Object target, String property) {
-		this.classUtils = classUtils;
+	public NestedResolver(Object target, String property) {
 		nestedTarget = target;
 		targetProperty = property;
 
@@ -42,12 +39,12 @@ class NestedResolver {
 
 	private Object resolveNestedTarget(Object nestedTarget, String propertyName) {
 		try {
-			Method getter = classUtils.getGetter(nestedTarget.getClass(), propertyName);
+			Method getter = ClassUtils.getGetter(nestedTarget.getClass(), propertyName);
 			if (getter != null) {
 				return getter.invoke(nestedTarget);
 			}
 
-			Field field = classUtils.getField(nestedTarget.getClass(), propertyName);
+			Field field = ClassUtils.getField(nestedTarget.getClass(), propertyName);
 			if (field == null) {
 				throw new BeanUtilsException(String.format("Failed to find property %s in %s", propertyName, nestedTarget));
 			}

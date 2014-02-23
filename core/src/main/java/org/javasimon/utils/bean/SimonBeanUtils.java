@@ -21,7 +21,6 @@ public class SimonBeanUtils {
 
 	private static final SimonBeanUtils INSTANCE = new SimonBeanUtils();
 
-	private final ClassUtils classUtils = new ClassUtils();
 	private final Map<Class<?>, Converter> converters = new ConcurrentHashMap<Class<?>, Converter>();
 
 	public SimonBeanUtils() {
@@ -65,7 +64,7 @@ public class SimonBeanUtils {
 	 * @param value value to be set
 	 */
 	public void setProperty(Object target, String property, Object value) {
-		NestedResolver resolver = new NestedResolver(classUtils, target, property);
+		NestedResolver resolver = new NestedResolver(target, property);
 
 		if (value instanceof String) {
 			convertStringValue(resolver.getNestedTarget(), resolver.getProperty(), (String) value);
@@ -75,12 +74,12 @@ public class SimonBeanUtils {
 	}
 
 	private void convertStringValue(Object target, String property, String strVal) {
-		Set<Method> potentialSetters = classUtils.getSetters(target.getClass(), property);
+		Set<Method> potentialSetters = ClassUtils.getSetters(target.getClass(), property);
 		boolean converted = false;
 
 		for (Method setter : potentialSetters) {
 			try {
-				Class<?> setterType = classUtils.getSetterType(setter);
+				Class<?> setterType = ClassUtils.getSetterType(setter);
 				Converter converter = getConverterTo(setterType);
 				if (converter != null) {
 					Object value = converter.convert(setterType, strVal);
@@ -96,7 +95,7 @@ public class SimonBeanUtils {
 		}
 		
 		if (!converted) {
-			Field field = classUtils.getField(target.getClass(), property);
+			Field field = ClassUtils.getField(target.getClass(), property);
 			if (field != null) {
 				Class<?> fieldType = field.getType();
 				Converter converter = getConverterTo(fieldType);
@@ -116,11 +115,11 @@ public class SimonBeanUtils {
 	}
 
 	private void setObjectValue(Object target, String property, Object value) {
-		Method setter = classUtils.getSetter(target.getClass(), property, value.getClass());
+		Method setter = ClassUtils.getSetter(target.getClass(), property, value.getClass());
 		if (setter != null) {
 			invokeSetter(target, setter, value);
 		} else {
-			Field field = classUtils.getField(target.getClass(), property);
+			Field field = ClassUtils.getField(target.getClass(), property);
 			if (field != null) {
 				setValueUsingField(field, target, value);
 			} else {

@@ -17,13 +17,17 @@ class ClassUtils {
 
 	private static final Logger logger = LoggerFactory.getLogger(ClassUtils.class);
 
+	private ClassUtils() {
+		throw new AssertionError("ClassUtils is a collections of utility methods");
+	}
+
 	/**
 	 * Get field with the specified name.
 	 * @param targetClass class for which a field will be returned
 	 * @param fieldName name of the field that should be returned
 	 * @return field with the specified name if one exists, null otherwise
 	 */
-	public Field getField(Class<?> targetClass, String fieldName) {
+	public static Field getField(Class<?> targetClass, String fieldName) {
 		while (targetClass != null) {
 			try {
 				Field field = targetClass.getDeclaredField(fieldName);
@@ -45,7 +49,7 @@ class ClassUtils {
 	 * @param type a target setter accepts
 	 * @return setter method for the specified property that accepts specified type if one exists, null otherwise
 	 */
-	public Method getSetter(Class<?> targetClass, String propertyName, Class<?> type) {
+	public static Method getSetter(Class<?> targetClass, String propertyName, Class<?> type) {
 		String setterMethodName = setterName(propertyName);
 
 		while (targetClass != null) {
@@ -62,7 +66,7 @@ class ClassUtils {
 		return null;
 	}
 
-	private String setterName(String name) {
+	private static String setterName(String name) {
 		return "set" + name.substring(0, 1).toUpperCase() + name.substring(1);
 	}
 
@@ -72,7 +76,7 @@ class ClassUtils {
 	 * @param propertyName name of the property for which setters will be returned
 	 * @return possible setters for the specified property	 *
 	 */
-	public Set<Method> getSetters(Class<?> targetClass, String propertyName) {
+	public static Set<Method> getSetters(Class<?> targetClass, String propertyName) {
 		String setterName = setterName(propertyName);
 		Set<Method> setters = new HashSet<Method>();
 
@@ -95,7 +99,7 @@ class ClassUtils {
 	 * @return type of the specified setter method
 	 * @throws org.javasimon.utils.bean.BeanUtilsException if specified method does not has setter signature
 	 */
-	public Class<?> getSetterType(Method setter) {
+	public static Class<?> getSetterType(Method setter) {
 		Class<?>[] parameterTypes = setter.getParameterTypes();
 		if (parameterTypes.length != 1) {
 			throw new BeanUtilsException(
@@ -111,7 +115,7 @@ class ClassUtils {
 	 * @param propertyName name of the property for which a getter will be returned
 	 * @return getter of a specified property if one exists, null otherwise
 	 */
-	public Method getGetter(Class<?> targetClass, String propertyName) {
+	public static Method getGetter(Class<?> targetClass, String propertyName) {
 		String getterName = getterName(propertyName);
 
 		while (targetClass != null) {
@@ -128,7 +132,7 @@ class ClassUtils {
 		return null;
 	}
 
-	private String getterName(String propertyName) {
+	private static String getterName(String propertyName) {
 		return "get" + propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1);
 	}
 }
