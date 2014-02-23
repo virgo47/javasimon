@@ -408,5 +408,14 @@ public class SimonBeanUtilsTest {
 	}
 
 
+	private static class NestedBean {
+		private TestBean bean = new TestBean();
+	}
 
+	@Test
+	public void testSetNestedBean() {
+		NestedBean nestedBean = new NestedBean();
+		simonBeanUtils.setProperty(nestedBean, "bean.intProp", "123");
+		Assert.assertEquals(nestedBean.bean.getIntProp(), 123);
+	}
 }

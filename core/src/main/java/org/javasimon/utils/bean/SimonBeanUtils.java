@@ -65,10 +65,12 @@ public class SimonBeanUtils {
 	 * @param value value to be set
 	 */
 	public void setProperty(Object target, String property, Object value) {
+		NestedResolver resolver = new NestedResolver(classUtils, target, property);
+
 		if (value instanceof String) {
-			convertStringValue(target, property, (String) value);
+			convertStringValue(resolver.getNestedTarget(), resolver.getProperty(), (String) value);
 		} else {
-			setObjectValue(target, property, value);
+			setObjectValue(resolver.getNestedTarget(), resolver.getProperty(), value);
 		}
 	}
 
