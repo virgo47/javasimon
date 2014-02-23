@@ -93,7 +93,7 @@ public class SimonBeanUtils {
 				logger.debug(String.format("Failed to convert value '%s' for method '%s'", strVal, setter.toString()));
 			}
 		}
-		
+
 		if (!converted) {
 			Field field = ClassUtils.getField(target.getClass(), property);
 			if (field != null) {
@@ -106,7 +106,7 @@ public class SimonBeanUtils {
 				}
 			}
 			throw new BeanUtilsException(
-						String.format("Failed to find find setter/field for property '%s' and value '%s'", property, strVal));
+				String.format("Failed to find find setter/field for property '%s' and value '%s'", property, strVal));
 		}
 	}
 

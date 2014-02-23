@@ -8,15 +8,12 @@ package org.javasimon.utils.bean;
 public class ToEnumConverter implements Converter {
 	@Override
 	public Object convert(Class<?> tClass, String strVal) throws ConvertException {
-
-		Enum[] enumConstants = (Enum[]) tClass.getEnumConstants();
-
-		for (Enum enumConstant : enumConstants) {
-			if (enumConstant.name().equals(strVal)) {
-				return enumConstant;
-			}
+		try {
+			//noinspection unchecked,UnnecessaryLocalVariable
+			Class uncheckedClass = tClass;
+			return Enum.valueOf(uncheckedClass, strVal);
+		} catch (IllegalArgumentException e) {
+			throw new ConvertException(String.format("Failed to convert %s value to %s class", strVal, tClass.toString()), e);
 		}
-
-		throw new ConvertException(String.format("Failed to convert %s value to %s class", strVal, tClass.toString()));
 	}
 }

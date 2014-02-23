@@ -9,10 +9,6 @@ public class ToStringConverter implements Converter {
 
 	@Override
 	public String convert(Class<?> targetClass, String strVal) {
-		if (strVal == null) {
-			return null;
-		}
-
 		return strVal;
 	}
 }

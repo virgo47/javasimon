@@ -6,11 +6,17 @@ package org.javasimon.utils.bean;
  * @author <a href="mailto:ivan.mushketyk@gmail.com">Ivan Mushketyk</a>
  */
 public class ToFloatConverter implements Converter {
-	private ToDoubleConverter toDoubleConverter = new ToDoubleConverter();
 
 	@Override
 	public Float convert(Class<?> targetClass, String strVal) throws ConvertException {
-		Double doubleVal = toDoubleConverter.convert(Float.class, strVal);
-		return doubleVal.floatValue();
+		if (strVal == null) {
+			return null;
+		}
+
+		try {
+			return Float.parseFloat(strVal);
+		} catch (NumberFormatException ex) {
+			throw new ConvertException(String.format("Failed to parse '%s' to Float", strVal));
+		}
 	}
 }

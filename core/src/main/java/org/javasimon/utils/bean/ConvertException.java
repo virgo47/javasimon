@@ -7,10 +7,6 @@ package org.javasimon.utils.bean;
  */
 public class ConvertException extends RuntimeException {
 
-	public ConvertException() {
-
-	}
-
 	public ConvertException(String msg) {
 		super(msg);
 	}

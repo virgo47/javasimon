@@ -6,11 +6,18 @@ package org.javasimon.utils.bean;
  * @author <a href="mailto:ivan.mushketyk@gmail.com">Ivan Mushketyk</a>
  */
 public class ToShortConverter implements Converter {
-	private ToLongConverter toLongConverter = new ToLongConverter();
 
 	@Override
-	public Object convert(Class<?> targetClass, String strVal) throws ConvertException {
-		Long longResult = toLongConverter.convert(Short.class, strVal);
-		return longResult.shortValue();
+	public Short convert(Class<?> targetClass, String strVal) throws ConvertException {
+		if (strVal == null) {
+			return null;
+		}
+
+		try {
+			return Short.parseShort(strVal);
+		} catch (NumberFormatException ex) {
+			throw new ConvertException(
+				String.format("Cannot convert string '%s' to Short", strVal));
+		}
 	}
 }

@@ -27,7 +27,7 @@ class ClassUtils {
 	 * @param fieldName name of the field that should be returned
 	 * @return field with the specified name if one exists, null otherwise
 	 */
-	public static Field getField(Class<?> targetClass, String fieldName) {
+	static Field getField(Class<?> targetClass, String fieldName) {
 		while (targetClass != null) {
 			try {
 				Field field = targetClass.getDeclaredField(fieldName);
@@ -49,7 +49,7 @@ class ClassUtils {
 	 * @param type a target setter accepts
 	 * @return setter method for the specified property that accepts specified type if one exists, null otherwise
 	 */
-	public static Method getSetter(Class<?> targetClass, String propertyName, Class<?> type) {
+	static Method getSetter(Class<?> targetClass, String propertyName, Class<?> type) {
 		String setterMethodName = setterName(propertyName);
 
 		while (targetClass != null) {
@@ -76,7 +76,7 @@ class ClassUtils {
 	 * @param propertyName name of the property for which setters will be returned
 	 * @return possible setters for the specified property	 *
 	 */
-	public static Set<Method> getSetters(Class<?> targetClass, String propertyName) {
+	static Set<Method> getSetters(Class<?> targetClass, String propertyName) {
 		String setterName = setterName(propertyName);
 		Set<Method> setters = new HashSet<Method>();
 
@@ -99,7 +99,7 @@ class ClassUtils {
 	 * @return type of the specified setter method
 	 * @throws org.javasimon.utils.bean.BeanUtilsException if specified method does not has setter signature
 	 */
-	public static Class<?> getSetterType(Method setter) {
+	static Class<?> getSetterType(Method setter) {
 		Class<?>[] parameterTypes = setter.getParameterTypes();
 		if (parameterTypes.length != 1) {
 			throw new BeanUtilsException(
@@ -115,7 +115,7 @@ class ClassUtils {
 	 * @param propertyName name of the property for which a getter will be returned
 	 * @return getter of a specified property if one exists, null otherwise
 	 */
-	public static Method getGetter(Class<?> targetClass, String propertyName) {
+	static Method getGetter(Class<?> targetClass, String propertyName) {
 		String getterName = getterName(propertyName);
 
 		while (targetClass != null) {

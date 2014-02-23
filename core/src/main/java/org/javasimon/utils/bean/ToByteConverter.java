@@ -7,11 +7,17 @@ package org.javasimon.utils.bean;
  */
 public class ToByteConverter implements Converter {
 
-	private ToLongConverter toLongConverter = new ToLongConverter();
-
 	@Override
 	public Byte convert(Class<?> targetClass, String strVal) throws ConvertException {
-		Long longRes = toLongConverter.convert(Byte.class, strVal);
-		return longRes.byteValue();
+		if (strVal == null) {
+			return null;
+		}
+
+		try {
+			return Byte.parseByte(strVal);
+		} catch (NumberFormatException ex) {
+			throw new ConvertException(
+				String.format("Cannot convert string '%s' to Byte", strVal));
+		}
 	}
 }

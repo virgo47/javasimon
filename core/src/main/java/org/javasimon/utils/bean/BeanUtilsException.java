@@ -6,9 +6,6 @@ package org.javasimon.utils.bean;
  * @author <a href="mailto:ivan.mushketyk@gmail.com">Ivan Mushketyk</a>
  */
 public class BeanUtilsException extends RuntimeException {
-	public BeanUtilsException() {
-		super();
-	}
 
 	public BeanUtilsException(String msg) {
 		super(msg);

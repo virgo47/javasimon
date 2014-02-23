@@ -6,20 +6,20 @@ package org.javasimon.utils.bean;
  * @author <a href="mailto:ivan.mushketyk@gmail.com">Ivan Mushketyk</a>
  */
 public class ToBooleanConverter implements Converter {
+
 	@Override
 	public Boolean convert(Class<?> targetClass, String strVal) throws ConvertException {
 		if (strVal == null) {
 			return null;
-		} else {
-			strVal = strVal.toLowerCase();
-			if (strVal.equals("true")) {
-				return true;
-			} else if (strVal.equals("false")) {
-				return false;
-			} else {
-				throw new ConvertException(String.format("Failed to parse '%s' as boolean", strVal));
-			}
 		}
 
+		strVal = strVal.toLowerCase();
+		if (strVal.equals("true")) {
+			return true;
+		} else if (strVal.equals("false")) {
+			return false;
+		} else {
+			throw new ConvertException(String.format("Failed to parse '%s' as Boolean", strVal));
+		}
 	}
 }

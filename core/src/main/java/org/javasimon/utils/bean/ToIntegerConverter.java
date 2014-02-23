@@ -6,11 +6,18 @@ package org.javasimon.utils.bean;
  * @author <a href="mailto:ivan.mushketyk@gmail.com">Ivan Mushketyk</a>
  */
 public class ToIntegerConverter implements Converter {
-	private ToLongConverter toLongConverter = new ToLongConverter();
 
 	@Override
 	public Integer convert(Class<?> targetClass, String strVal) throws ConvertException {
-		Long longRes = toLongConverter.convert(Integer.class, strVal);
-		return longRes.intValue();
+		if (strVal == null) {
+			return null;
+		}
+
+		try {
+			return Integer.parseInt(strVal);
+		} catch (NumberFormatException ex) {
+			throw new ConvertException(
+				String.format("Cannot convert string '%s' to Integer", strVal));
+		}
 	}
 }

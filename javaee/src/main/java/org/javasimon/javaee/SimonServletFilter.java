@@ -201,10 +201,6 @@ public class SimonServletFilter implements Filter {
 		SimonBeanUtils.getInstance().registerConverter(HttpStopwatchSource.IncludeHttpMethodName.class, new ToEnumConverter());
 	}
 
-	private void wrapAndRethrow(Exception e) {
-		throw new IllegalArgumentException("Failed to set stopwatch properties", e);
-	}
-
 	private void pickUpSharedManagerIfExists(FilterConfig filterConfig) {
 		Object managerObject = filterConfig.getServletContext().getAttribute(SimonUtils.MANAGER_SERVLET_CTX_ATTRIBUTE);
 		if (managerObject != null && managerObject instanceof Manager) {

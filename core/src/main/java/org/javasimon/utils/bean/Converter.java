@@ -7,7 +7,8 @@ package org.javasimon.utils.bean;
  */
 public interface Converter {
 	/**
-	 * Convert string values to an object of a bean property
+	 * Converts string values to an object of a bean property.
+	 *
 	 * @param targetClass type of property
 	 * @param strVal value to convert
 	 * @return conversion result

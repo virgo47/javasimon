@@ -10,15 +10,17 @@ import java.lang.reflect.Method;
  * @author <a href="mailto:ivan.mushketyk@gmail.com">Ivan Mushketyk</a>
  */
 class NestedResolver {
+
 	private Object nestedTarget;
 	private String targetProperty;
 
 	/**
 	 * Resolve nested bean.
+	 *
 	 * @param target target class where nested bean will be resolved
 	 * @param property nested property specification in format bean1.bean2.property
 	 */
-	public NestedResolver(Object target, String property) {
+	NestedResolver(Object target, String property) {
 		nestedTarget = target;
 		targetProperty = property;
 
@@ -60,17 +62,19 @@ class NestedResolver {
 
 	/**
 	 * Get resolved nested target bean.
+	 *
 	 * @return resolved target object
 	 */
-	public Object getNestedTarget() {
+	Object getNestedTarget() {
 		return nestedTarget;
 	}
 
 	/**
 	 * Return name of the property that should be set in the nested target object
+	 *
 	 * @return name of the property that should be set.
 	 */
-	public String getProperty() {
+	String getProperty() {
 		return targetProperty;
 	}
 }
