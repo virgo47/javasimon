@@ -17,6 +17,7 @@
 	</parent>
 
 	<modules>
+		<module>aggregation</module>
 		<module>core</module>
 		<module>jdbc4</module>
 		<module>jdbc41</module>
