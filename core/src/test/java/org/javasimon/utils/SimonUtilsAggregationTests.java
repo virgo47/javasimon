@@ -47,8 +47,6 @@ public class SimonUtilsAggregationTests {
 		}
 	};
 
-
-
 	@BeforeTest
 	public void beforeTest() {
 		createStopwatchHierarchy();

@@ -60,17 +60,20 @@ public class StopwatchAggregateTest {
 	public void testMinIsUpdated() {
 		StopwatchSample sample = new StopwatchSample();
 
-		sample.setMin(40); sample.setMinTimestamp(100);
+		sample.setMin(40);
+		sample.setMinTimestamp(100);
 		aggregate.addSample(sample);
 		Assert.assertEquals(aggregate.getMin(), 40);
 		Assert.assertEquals(aggregate.getMinTimestamp(), 100);
 
-		sample.setMin(10); sample.setMinTimestamp(200);
+		sample.setMin(10);
+		sample.setMinTimestamp(200);
 		aggregate.addSample(sample);
 		Assert.assertEquals(aggregate.getMin(), 10);
 		Assert.assertEquals(aggregate.getMinTimestamp(), 200);
 
-		sample.setMin(20); sample.setMinTimestamp(500);
+		sample.setMin(20);
+		sample.setMinTimestamp(500);
 		aggregate.addSample(sample);
 		Assert.assertEquals(aggregate.getMin(), 10);
 		Assert.assertEquals(aggregate.getMinTimestamp(), 200);
@@ -80,17 +83,20 @@ public class StopwatchAggregateTest {
 	public void testMaxIsUpdated() {
 		StopwatchSample sample = new StopwatchSample();
 
-		sample.setMax(10); sample.setMaxTimestamp(100);
+		sample.setMax(10);
+		sample.setMaxTimestamp(100);
 		aggregate.addSample(sample);
 		Assert.assertEquals(aggregate.getMax(), 10);
 		Assert.assertEquals(aggregate.getMaxTimestamp(), 100);
 
-		sample.setMax(40); sample.setMaxTimestamp(200);
+		sample.setMax(40);
+		sample.setMaxTimestamp(200);
 		aggregate.addSample(sample);
 		Assert.assertEquals(aggregate.getMax(), 40);
 		Assert.assertEquals(aggregate.getMaxTimestamp(), 200);
 
-		sample.setMax(20); sample.setMaxTimestamp(500);
+		sample.setMax(20);
+		sample.setMaxTimestamp(500);
 		aggregate.addSample(sample);
 		Assert.assertEquals(aggregate.getMax(), 40);
 		Assert.assertEquals(aggregate.getMaxTimestamp(), 200);
@@ -113,17 +119,20 @@ public class StopwatchAggregateTest {
 	public void testMaxActiveIsUpdated() {
 		StopwatchSample sample = new StopwatchSample();
 
-		sample.setMaxActive(10); sample.setMaxActiveTimestamp(100);
+		sample.setMaxActive(10);
+		sample.setMaxActiveTimestamp(100);
 		aggregate.addSample(sample);
 		Assert.assertEquals(aggregate.getMaxActive(), 10);
 		Assert.assertEquals(aggregate.getMaxActiveTimestamp(), 100);
 
-		sample.setMaxActive(40); sample.setMaxActiveTimestamp(200);
+		sample.setMaxActive(40);
+		sample.setMaxActiveTimestamp(200);
 		aggregate.addSample(sample);
 		Assert.assertEquals(aggregate.getMaxActive(), 40);
 		Assert.assertEquals(aggregate.getMaxActiveTimestamp(), 200);
 
-		sample.setMaxActive(20); sample.setMaxActiveTimestamp(300);
+		sample.setMaxActive(20);
+		sample.setMaxActiveTimestamp(300);
 		aggregate.addSample(sample);
 		Assert.assertEquals(aggregate.getMaxActive(), 40);
 		Assert.assertEquals(aggregate.getMaxActiveTimestamp(), 200);
