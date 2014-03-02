@@ -1,9 +1,9 @@
 package org.javasimon.jmx;
 
+import org.javasimon.utils.SimonUtils;
+
 import java.beans.ConstructorProperties;
 import java.util.Date;
-
-import org.javasimon.utils.SimonUtils;
 
 /**
  * Value object for retrieving data from Stopwatch Simon. Basically, it's
@@ -255,4 +255,6 @@ public final class StopwatchSample extends org.javasimon.StopwatchSample {
 	public Date getLastResetAsDate() {
 		return new Date(getLastReset());
 	}
+
+
 }

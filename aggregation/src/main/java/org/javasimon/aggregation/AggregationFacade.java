@@ -1,5 +1,6 @@
 package org.javasimon.aggregation;
 
+import org.javasimon.aggregation.metricsDao.DaoException;
 import org.javasimon.jmx.SimonManagerMXBean;
 import org.javasimon.jmx.StopwatchSample;
 
@@ -92,8 +93,12 @@ public class AggregationFacade {
 
 		@Override
 		public void run() {
-			List<StopwatchSample> samples = simonManager.getStopwatchSamples ();
-			metricsDao.storeStopwatchSamples(managerId, samples);
+			try {
+				List<StopwatchSample> samples = simonManager.getStopwatchSamples ();
+				metricsDao.storeStopwatchSamples(managerId, samples);
+			} catch (DaoException e) {
+				e.printStackTrace();
+			}
 		}
 
 		SimonManagerMXBean getSimonManager() {
