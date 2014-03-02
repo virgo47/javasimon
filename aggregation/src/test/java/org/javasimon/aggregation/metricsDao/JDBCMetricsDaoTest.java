@@ -61,7 +61,7 @@ public class JDBCMetricsDaoTest {
 		List<StopwatchSample> samples = jdbcMetricsDao.getStopwatchSamples (managerId);
 
 		Assert.assertEquals(samples.size(), 2);
-		Assert.assertTrue(samples.contains(sample1));
+ 		Assert.assertTrue(samples.contains(sample1));
 		Assert.assertTrue(samples.contains(sample2));
 	}
 

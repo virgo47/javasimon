@@ -20,6 +20,7 @@ public class DemoAggregation {
 		args.setExecutor(Executors.newScheduledThreadPool(1));
 		args.setTimePeriod(2);
 		args.setTimeUnit(TimeUnit.SECONDS);
+		args.setAggregator(new ReplaceSamplesAggregator());
 
 		AggregationFacade facade = new AggregationFacade(args);
 
@@ -39,5 +40,8 @@ public class DemoAggregation {
 		}
 
 		facade.shutdown();
+
+		System.out.println("Aggregated values:");
+		System.out.println(facade.getAggregatedStopwatchSamples("jmxServer"));
 	}
 }

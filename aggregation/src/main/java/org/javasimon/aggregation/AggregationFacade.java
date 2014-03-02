@@ -18,6 +18,7 @@ public class AggregationFacade {
 		private long timePeriod;
 		private TimeUnit timeUnit;
 		private MetricsDao metricsDao;
+		private SamplesAggregator aggregator;
 
 		public void setRemoteSimonManagerFactory(RemoteSimonManagerFactory remoteSimonManagerFactory) {
 			if (remoteSimonManagerFactory == null) {
@@ -71,11 +72,24 @@ public class AggregationFacade {
 			if (metricsDao == null) {
 				throw new IllegalArgumentException("No metrics DAO was specified");
 			}
+
 			this.metricsDao = metricsDao;
 		}
 
 		public MetricsDao getMetricsDao() {
 			return metricsDao;
+		}
+
+		public void setAggregator(SamplesAggregator aggregator) {
+			if (aggregator == null) {
+				throw new IllegalArgumentException("No aggregator was specified");
+			}
+
+			this.aggregator = aggregator;
+		}
+
+		public SamplesAggregator getAggregator() {
+			return aggregator;
 		}
 	}
 
@@ -83,12 +97,14 @@ public class AggregationFacade {
 
 		private final MetricsDao metricsDao;
 		private final String managerId;
+		private final SamplesAggregator aggregator;
 		private SimonManagerMXBean simonManager;
 
-		public PollRunnable(String managerId, SimonManagerMXBean simonManager, MetricsDao metricsDao) {
+		public PollRunnable(String managerId, SimonManagerMXBean simonManager, MetricsDao metricsDao, SamplesAggregator aggregator) {
 			this.simonManager = simonManager;
 			this.managerId = managerId;
 			this.metricsDao = metricsDao;
+			this.aggregator = aggregator;
 		}
 
 		@Override
@@ -96,6 +112,7 @@ public class AggregationFacade {
 			try {
 				List<StopwatchSample> samples = simonManager.getStopwatchSamples ();
 				metricsDao.storeStopwatchSamples(managerId, samples);
+				aggregator.addStopwatchSamples(managerId, samples);
 			} catch (DaoException e) {
 				e.printStackTrace();
 			}
@@ -116,6 +133,7 @@ public class AggregationFacade {
 	private final long timePeriod;
 	private final TimeUnit timeUnit;
 	private final MetricsDao metricsDao;
+	private final SamplesAggregator aggregator;
 
 	public AggregationFacade(Args args) {
 		this.remoteSimonManagerFactory = args.getRemoteSimonManagerFactory();
@@ -123,6 +141,7 @@ public class AggregationFacade {
 		this.timePeriod = args.getTimePeriod();
 		this.timeUnit = args.getTimeUnit();
 		this.metricsDao = args.getMetricsDao();
+		this.aggregator = args.getAggregator();
 	}
 
 	public void addManager(String managerClass, Properties properties) throws ManagerCreationException {
@@ -130,11 +149,16 @@ public class AggregationFacade {
 		SimonManagerMXBean manager = remoteSimonManagerFactory.createSimonManager(managerClass, properties);
 		managers.put(managerId, manager);
 
-		executorService.scheduleAtFixedRate(new PollRunnable(managerId, manager, metricsDao), 0, timePeriod, timeUnit);
+		PollRunnable pollRunnable = new PollRunnable(managerId, manager, metricsDao, aggregator);
+		executorService.scheduleAtFixedRate(pollRunnable, 0, timePeriod, timeUnit);
 	}
 
 	public Set<String> getManagerIds() {
 		return managers.keySet();
+	}
+
+	public List<StopwatchSample> getAggregatedStopwatchSamples(String managerId) {
+		return aggregator.getSamples(managerId);
 	}
 
 	public void shutdown() {

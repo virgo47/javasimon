@@ -7,10 +7,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -27,6 +24,7 @@ public class AggregationFacadeTest {
 	private RemoteSimonManagerFactory remoteSimonManagerFactory;
 	private SimonManagerMXBean simonManagerMXBean;
 	private MetricsDao metricsDao;
+	private SamplesAggregator aggregator;
 
 	private static final String SERVER_CLASS = "org.javasimon.RemoteSimonManager";
 	private static final Properties TEST_PROPERTIES = createTestProperties();
@@ -46,6 +44,7 @@ public class AggregationFacadeTest {
 	public void beforeMethod() throws Exception {
 		remoteSimonManagerFactory = mock(RemoteSimonManagerFactory.class);
 		metricsDao = mock(MetricsDao.class);
+		aggregator = mock(SamplesAggregator.class);
 
 		args = new AggregationFacade.Args();
 		args.setRemoteSimonManagerFactory(remoteSimonManagerFactory);
@@ -53,6 +52,7 @@ public class AggregationFacadeTest {
 		args.setTimePeriod(TIME_PERIOD);
 		args.setTimeUnit(TIME_UNIT);
 		args.setMetricsDao(metricsDao);
+		args.setAggregator(aggregator);
 
 		aggregationFacade = new AggregationFacade(args);
 		simonManagerMXBean = mock(SimonManagerMXBean.class);
@@ -123,13 +123,24 @@ public class AggregationFacadeTest {
 
 	@Test
 	public void testDataStoredToDao() throws Exception {
-		AggregationFacade.PollRunnable pollRunnable = new AggregationFacade.PollRunnable(MANAGER_ID, simonManagerMXBean, metricsDao);
+		AggregationFacade.PollRunnable pollRunnable = new AggregationFacade.PollRunnable(MANAGER_ID, simonManagerMXBean, metricsDao, aggregator);
 
 		List<StopwatchSample> remoteSamples = Collections.singletonList(createTestStopwatchSample());
 		when(simonManagerMXBean.getStopwatchSamples()).thenReturn(remoteSamples);
 		pollRunnable.run();
 
 		verify(metricsDao).storeStopwatchSamples(MANAGER_ID, remoteSamples);
+		verify(aggregator).addStopwatchSamples(MANAGER_ID, remoteSamples);
+	}
+
+	@Test
+	public void testGetAggregatedStopwatchSamples() {
+		List<StopwatchSample> expectedList = Arrays.asList(createTestStopwatchSample());
+		when(aggregator.getSamples(MANAGER_ID)).thenReturn(expectedList);
+		List<StopwatchSample> actualList = aggregationFacade.getAggregatedStopwatchSamples(MANAGER_ID);
+
+		verify(aggregator).getSamples(MANAGER_ID);
+		Assert.assertEquals(actualList, expectedList);
 	}
 
 	private StopwatchSample createTestStopwatchSample() {

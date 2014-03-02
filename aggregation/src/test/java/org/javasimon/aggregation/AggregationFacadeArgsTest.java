@@ -80,4 +80,17 @@ public class AggregationFacadeArgsTest {
 	public void testSetNullMetricsDao() {
 		args.setMetricsDao(null);
 	}
+
+	@Test
+	public void testGetSamplesAggregator() {
+		SamplesAggregator aggregator = mock(SamplesAggregator.class);
+		args.setAggregator(aggregator);
+		Assert.assertEquals(args.getAggregator(), aggregator);
+	}
+
+	@Test(expectedExceptions = {IllegalArgumentException.class})
+	public void testSetNullAggregator() {
+		args.setAggregator(null);
+	}
+
 }
