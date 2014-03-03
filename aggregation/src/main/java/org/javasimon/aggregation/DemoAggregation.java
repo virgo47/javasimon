@@ -43,5 +43,8 @@ public class DemoAggregation {
 
 		System.out.println("Aggregated values:");
 		System.out.println(facade.getAggregatedStopwatchSamples("jmxServer"));
+
+        System.out.println("Used servers: ");
+        System.out.println(facade.getManagerIds());
 	}
 }

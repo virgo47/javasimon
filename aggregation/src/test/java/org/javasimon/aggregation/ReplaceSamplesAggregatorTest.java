@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author <a href="mailto:ivan.mushketyk@gmail.com">Ivan Mushketyk</a>
@@ -15,50 +16,65 @@ public class ReplaceSamplesAggregatorTest {
 
 	private ReplaceSamplesAggregator replaceSamplesAggregator;
 
+	private static final String MANAGER_ID = "managerId";
+
 	@BeforeMethod
 	public void beforeMethod() {
 		replaceSamplesAggregator = new ReplaceSamplesAggregator();
 	}
 
 	@Test
-	public void testAddSingleStopwatchSample() {
-		String managerId = "managerId";
+	public void testGetServerIdsFromNewAggregator() {
+		Set<String> ids = replaceSamplesAggregator.getServerIds();
+		Assert.assertTrue(ids.isEmpty());
+	}
+
+	@Test
+	public void testGetServerIdsAfterStopwatchSampleWasAdded() {
 		StopwatchSample sample = createStopwatchSample("s1", 1);
-		replaceSamplesAggregator.addStopwatchSamples(managerId, Arrays.asList(sample));
-		List<StopwatchSample> actualSamples = replaceSamplesAggregator.getSamples (managerId);
+		replaceSamplesAggregator.addStopwatchSamples(MANAGER_ID, Arrays.asList(sample));
+
+		Set<String> ids = replaceSamplesAggregator.getServerIds();
+		Assert.assertEquals(ids.size(), 1);
+		Assert.assertTrue(ids.contains(MANAGER_ID));
+	}
+
+	@Test
+	public void testAddSingleStopwatchSample() {
+		StopwatchSample sample = createStopwatchSample("s1", 1);
+		replaceSamplesAggregator.addStopwatchSamples(MANAGER_ID, Arrays.asList(sample));
+		List<StopwatchSample> actualSamples = replaceSamplesAggregator.getSamples (MANAGER_ID);
 		Assert.assertEquals(actualSamples.size(), 1);
 		Assert.assertTrue(actualSamples.contains(sample));
 	}
 
 	@Test
 	public void testAddSamplesForMultipleManagers() {
-		String manager1 = "manager1";
 		String manager2 = "manager2";
 
 		StopwatchSample sample1 = createStopwatchSample("s1", 1);
 		StopwatchSample sample2 = createStopwatchSample("s1", 2);
 
-		replaceSamplesAggregator.addStopwatchSamples(manager1, Arrays.asList(sample1));
+		replaceSamplesAggregator.addStopwatchSamples(MANAGER_ID, Arrays.asList(sample1));
 		replaceSamplesAggregator.addStopwatchSamples(manager2, Arrays.asList(sample2));
 
-		List<StopwatchSample> actualSamples = replaceSamplesAggregator.getSamples (manager1);
+		List<StopwatchSample> actualSamples = replaceSamplesAggregator.getSamples (MANAGER_ID);
 		Assert.assertEquals(actualSamples.size(), 1);
 		Assert.assertTrue(actualSamples.contains(sample1));
 	}
 
 	@Test
 	public void testReplaceOldSample() {
-		String managerId = "managerId";
 		StopwatchSample s11 = createStopwatchSample("s1", 1);
 		StopwatchSample s12 = createStopwatchSample("s2", 2);
 
 		StopwatchSample s21 = createStopwatchSample("s1", 3);
 		StopwatchSample s22 = createStopwatchSample("s2", 4);
 
-		replaceSamplesAggregator.addStopwatchSamples(managerId, Arrays.asList(s11, s12));
-		replaceSamplesAggregator.addStopwatchSamples(managerId, Arrays.asList(s21, s22));
+		replaceSamplesAggregator.addStopwatchSamples(MANAGER_ID, Arrays.asList(s11, s12));
+		replaceSamplesAggregator.addStopwatchSamples(MANAGER_ID, Arrays.asList(s21, s22));
 
-		List<StopwatchSample> actualSamples = replaceSamplesAggregator.getSamples (managerId);
+		List<StopwatchSample> actualSamples = replaceSamplesAggregator.getSamples (MANAGER_ID);
 		Assert.assertEquals(actualSamples.size(), 2);
 		Assert.assertTrue(actualSamples.contains(s21));
 		Assert.assertTrue(actualSamples.contains(s22));

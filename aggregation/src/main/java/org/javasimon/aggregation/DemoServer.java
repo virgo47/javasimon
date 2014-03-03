@@ -39,16 +39,16 @@ public class DemoServer {
 
 
 		Stopwatch stopwatch1 = SimonManager.getStopwatch("org.javasimon.jmx.example1");
-        Stopwatch stopwatch2 = SimonManager.getStopwatch("org.javasimon.jmx.example2");
+		Stopwatch stopwatch2 = SimonManager.getStopwatch("org.javasimon.jmx.example2");
 
 		while (true) {
 			Split s1 = stopwatch1.start();
 			try { Thread.sleep(632); } catch (InterruptedException e) { /* do nothing */ }
 			s1.stop();
 
-            Split s2 = stopwatch2.start();
-            try { Thread.sleep(851); } catch (InterruptedException e) { /* do nothing */ }
-            s2.stop();
+			Split s2 = stopwatch2.start();
+			try { Thread.sleep(851); } catch (InterruptedException e) { /* do nothing */ }
+			s2.stop();
 		}
 	}
 
