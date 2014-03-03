@@ -20,10 +20,20 @@ public class LogMetricsDao implements MetricsDao {
 
 	@Override
 	public void storeStopwatchSamples(String managerId, List<StopwatchSample> samples) {
-		System.out.println(String.format("Manager: %s. %s", managerId, samples.toString()));
+        String samplesStr = concatSamples(samples);
+		System.out.println(String.format("Manager: %s. %s", managerId, samplesStr));
 	}
 
-	@Override
+    private String concatSamples(List<StopwatchSample> samples) {
+        String res = "";
+        for (StopwatchSample sample : samples) {
+            res += sample + "\n";
+        }
+
+        return res;
+    }
+
+    @Override
 	public List<StopwatchSample> getStopwatchSamples(String managerId) {
 		return Collections.emptyList();
 	}

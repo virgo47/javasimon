@@ -38,13 +38,17 @@ public class DemoServer {
 		}
 
 
-		Stopwatch stopwatch = SimonManager.getStopwatch("org.javasimon.jmx.example1");
+		Stopwatch stopwatch1 = SimonManager.getStopwatch("org.javasimon.jmx.example1");
+        Stopwatch stopwatch2 = SimonManager.getStopwatch("org.javasimon.jmx.example2");
 
 		while (true) {
-			// Do little measurement for stopwatch Simon ...
-			Split s = stopwatch.start();
+			Split s1 = stopwatch1.start();
 			try { Thread.sleep(632); } catch (InterruptedException e) { /* do nothing */ }
-			s.stop();
+			s1.stop();
+
+            Split s2 = stopwatch2.start();
+            try { Thread.sleep(851); } catch (InterruptedException e) { /* do nothing */ }
+            s2.stop();
 		}
 	}
 
