@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>javasimon-aggregation</artifactId>
 	<packaging>jar</packaging>
-	<name>Aggregation of multiple JavaSimon servers</name>
+	<name>JavaSimon Aggregation</name>
 
 	<parent>
 		<groupId>org.javasimon</groupId>
