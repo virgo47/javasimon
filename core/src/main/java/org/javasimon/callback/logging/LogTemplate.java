@@ -1,7 +1,7 @@
 package org.javasimon.callback.logging;
 
 /**
- * Log template interface is the root of a hierarchy of implementations with different purposes.
+ * Log template class is the root of a hierarchy of implementations with different purposes.
  *
  * @author gquintana
  */
