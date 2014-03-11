@@ -6,6 +6,7 @@ import org.javasimon.CounterSample;
  * Object that holds aggregate values from all counters in hierarchy.
  *
  * @author <a href="mailto:ivan.mushketyk@gmail.com">Ivan Mushketyk</a>
+ * @since 3.5
  */
 public class CounterAggregate {
 
@@ -18,7 +19,6 @@ public class CounterAggregate {
 	private long minTimestamp;
 
 	CounterAggregate() {
-
 	}
 
 	/**
@@ -101,19 +101,6 @@ public class CounterAggregate {
 	}
 
 	@Override
-	public String toString() {
-		return "CounterAggregate{" +
-				"counter=" + counter +
-				", incrementSum=" + incrementSum +
-				", decrementSum=" + decrementSum +
-				", max=" + max +
-				", min=" + min +
-				", maxTimestamp=" + maxTimestamp +
-				", minTimestamp=" + minTimestamp +
-				'}';
-	}
-
-	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
@@ -141,5 +128,18 @@ public class CounterAggregate {
 		result = 31 * result + (int) (maxTimestamp ^ (maxTimestamp >>> 32));
 		result = 31 * result + (int) (minTimestamp ^ (minTimestamp >>> 32));
 		return result;
+	}
+
+	@Override
+	public String toString() {
+		return "CounterAggregate{" +
+			"counter=" + counter +
+			", incrementSum=" + incrementSum +
+			", decrementSum=" + decrementSum +
+			", max=" + max +
+			", min=" + min +
+			", maxTimestamp=" + maxTimestamp +
+			", minTimestamp=" + minTimestamp +
+			'}';
 	}
 }

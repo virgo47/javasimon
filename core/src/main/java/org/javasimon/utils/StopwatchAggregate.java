@@ -6,6 +6,7 @@ import org.javasimon.StopwatchSample;
  * Object that holds aggregate values from all stopwatches in hierarchy.
  *
  * @author <a href="mailto:ivan.mushketyk@gmail.com">Ivan Mushketyk</a>
+ * @since 3.5
  */
 public class StopwatchAggregate {
 
@@ -20,7 +21,6 @@ public class StopwatchAggregate {
 	private long maxActiveTimestamp;
 
 	StopwatchAggregate() {
-
 	}
 
 	/**
@@ -132,19 +132,6 @@ public class StopwatchAggregate {
 	}
 
 	@Override
-	public String toString() {
-		return "StopwatchAggregate{total= " + total +
-			", counter=" + counter +
-			", min=" + min +
-			", max=" + max +
-			", minTimestamp=" + minTimestamp +
-			", maxTimestamp=" + maxTimestamp +
-			", active=" + active +
-			", maxActive=" + maxActive +
-			", maxActiveTimestamp=" + maxActiveTimestamp + '}';
-	}
-
-	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
@@ -176,5 +163,18 @@ public class StopwatchAggregate {
 		result = 31 * result + (int) (maxActive ^ (maxActive >>> 32));
 		result = 31 * result + (int) (maxActiveTimestamp ^ (maxActiveTimestamp >>> 32));
 		return result;
+	}
+
+	@Override
+	public String toString() {
+		return "StopwatchAggregate{total= " + total +
+			", counter=" + counter +
+			", min=" + min +
+			", max=" + max +
+			", minTimestamp=" + minTimestamp +
+			", maxTimestamp=" + maxTimestamp +
+			", active=" + active +
+			", maxActive=" + maxActive +
+			", maxActiveTimestamp=" + maxActiveTimestamp + '}';
 	}
 }

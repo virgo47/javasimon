@@ -476,6 +476,7 @@ public final class SimonUtils {
 	 * @param simon root of the hierarchy of simons for which statistics will be aggregated
 	 * @param filter filter to select subsets of simons to aggregate
 	 * @return aggregates statistics
+	 * @since 3.5
 	 */
 	public static StopwatchAggregate calculateStopwatchAggregate(Simon simon, SimonFilter filter) {
 		StopwatchAggregate stopwatchAggregate = new StopwatchAggregate();
@@ -494,6 +495,7 @@ public final class SimonUtils {
 	 *
 	 * @param simon root of the hierarchy of simons for which statistics will be aggregated
 	 * @return aggregated statistics
+	 * @since 3.5
 	 */
 	public static StopwatchAggregate calculateStopwatchAggregate(Simon simon) {
 		return calculateStopwatchAggregate(simon, null);
@@ -517,6 +519,7 @@ public final class SimonUtils {
 	 *
 	 * @param simon root of the hierarchy of simons for which statistics will be aggregated
 	 * @return aggregated statistics
+	 * @since 3.5
 	 */
 	public static CounterAggregate calculateCounterAggregate(Simon simon) {
 		return calculateCounterAggregate(simon, null);
@@ -530,6 +533,7 @@ public final class SimonUtils {
 	 * @param simon root of the hierarchy of simons for which statistics will be aggregated
 	 * @param filter filter to select subsets of simons to aggregate
 	 * @return aggregates statistics
+	 * @since 3.5
 	 */
 	public static CounterAggregate calculateCounterAggregate(Simon simon, SimonFilter filter) {
 		CounterAggregate aggregate = new CounterAggregate();
