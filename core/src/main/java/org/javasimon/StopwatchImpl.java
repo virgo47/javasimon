@@ -242,11 +242,11 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		sample.setActive(active);
 		sample.setMaxActive(maxActive);
 		sample.setMaxActiveTimestamp(maxActiveTimestamp);
-		sample.setMean(getMean());
+		sample.setMean(mean);
 		sample.setVariance(getVariance());
 		sample.setVarianceN(getVarianceN());
 		sample.setStandardDeviation(getStandardDeviation());
-		sample.setLast(getLast());
+		sample.setLast(last);
 		sampleCommon(sample);
 		return sample;
 	}
