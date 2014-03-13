@@ -7,9 +7,7 @@ package org.javasimon.callback.logging;
  */
 public abstract class DelegateLogTemplate<C> extends LogTemplate<C> {
 
-	/**
-	 * Delegate log template.
-	 */
+	/** Delegate log template. */
 	private final LogTemplate<C> delegate;
 
 	/**

@@ -16,27 +16,23 @@ import java.util.Iterator;
  */
 public class CircularList<T> extends AbstractList<T> {
 
-	/**
-	 * Elements
-	 */
+	/** Elements. */
 	private final T[] elements;
 	/**
-	 * Index + 1 of the last element. Or said differently index where will
-	 * be added the next element
+	 * Index + 1 of the last element.
+	 * Or said differently index where will be added the next element.
 	 */
 	private int lastIndex;
 	/**
-	 * Index of the the first element. Or said differently index which will
-	 * be removed when list capacity is achieved.
+	 * Index of the the first element.
+	 * Or said differently index which will be removed when list capacity is achieved.
 	 */
 	private int firstIndex = -1;
-	/**
-	 * Number of element stored in this list.
-	 */
+	/** Number of element stored in this list. */
 	private int size;
 
 	/**
-	 * Contructor
+	 * Constructor.
 	 *
 	 * @param capacity Size of the ring buffer
 	 */
@@ -136,7 +132,7 @@ public class CircularList<T> extends AbstractList<T> {
 	}
 
 	/**
-	 * Insert a collection of elements, looping on them
+	 * Inserts a collection of elements, looping on them.
 	 *
 	 * @param newElements Collection of elements to add
 	 * @return Always true
@@ -150,7 +146,7 @@ public class CircularList<T> extends AbstractList<T> {
 	}
 
 	/**
-	 * Remove the first (inserted) element of the collection
+	 * Removes the first (inserted) element of the collection.
 	 *
 	 * @return Removed element or null if any
 	 */
@@ -165,7 +161,7 @@ public class CircularList<T> extends AbstractList<T> {
 	}
 
 	/**
-	 * Get the first (inserted) element
+	 * Returns the first (inserted) element.
 	 *
 	 * @return First element or null if any
 	 */
@@ -174,7 +170,7 @@ public class CircularList<T> extends AbstractList<T> {
 	}
 
 	/**
-	 * Get the last (inserted) element
+	 * Returns the last (inserted) element.
 	 *
 	 * @return Last element or null if any
 	 */
@@ -182,9 +178,7 @@ public class CircularList<T> extends AbstractList<T> {
 		return isEmpty() ? null : elements[lastIndex];
 	}
 
-	/**
-	 * Removes all elements from the list
-	 */
+	/** Removes all elements from the list. */
 	@Override
 	public void clear() {
 		Arrays.fill(elements, null);
@@ -194,7 +188,7 @@ public class CircularList<T> extends AbstractList<T> {
 	}
 
 	/**
-	 * Create a new iterator to browse elements
+	 * Creates a new iterator to browse elements.
 	 *
 	 * @return Iterator
 	 */
@@ -207,9 +201,7 @@ public class CircularList<T> extends AbstractList<T> {
 		}
 	}
 
-	/**
-	 * Empty iterator used when the list is empty
-	 */
+	/** Empty iterator used when the list is empty. */
 	private class EmptyIterator implements Iterator<T> {
 
 		public boolean hasNext() {
@@ -225,14 +217,10 @@ public class CircularList<T> extends AbstractList<T> {
 		}
 	}
 
-	/**
-	 * Main iterator user when the list contains at least one element
-	 */
+	/** Main iterator user when the list contains at least one element. */
 	private class MainIterator implements Iterator<T> {
 
-		/**
-		 * Index of the element
-		 */
+		/** Index of the element. */
 		private int nextIndex = firstIndex;
 		/**
 		 * Is it first element. This flag is required because when
@@ -241,16 +229,12 @@ public class CircularList<T> extends AbstractList<T> {
 		 */
 		private boolean begin = true;
 
-		/**
-		 * Is there another element in the list
-		 */
+		/** Is there another element in the list. */
 		public boolean hasNext() {
 			return begin || nextIndex != lastIndex;
 		}
 
-		/**
-		 * Returns an element and compute the next one
-		 */
+		/** Returns an element and compute the next one. */
 		public T next() {
 			T nextElement = elements[nextIndex];
 			begin = false;
@@ -264,7 +248,7 @@ public class CircularList<T> extends AbstractList<T> {
 	}
 
 	/**
-	 * Copy elements in a target array
+	 * Copy elements in a target array.
 	 *
 	 * @param elementsCopy Target array
 	 */

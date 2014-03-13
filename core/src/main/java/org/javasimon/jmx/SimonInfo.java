@@ -22,19 +22,14 @@ import java.beans.ConstructorProperties;
  * @since 2.0
  */
 public final class SimonInfo {
-	/**
-	 * Type identifier for unknown Simon.
-	 */
+
+	/** Type identifier for unknown Simon. */
 	public static final String UNKNOWN = "Unknown";
 
-	/**
-	 * Type identifier for Stopwatch.
-	 */
+	/** Type identifier for Stopwatch. */
 	public static final String STOPWATCH = "Stopwatch";
 
-	/**
-	 * Type identifier for Counter.
-	 */
+	/** Type identifier for Counter. */
 	public static final String COUNTER = "Counter";
 
 	private String name;

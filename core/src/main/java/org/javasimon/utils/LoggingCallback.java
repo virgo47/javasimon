@@ -1,11 +1,11 @@
 package org.javasimon.utils;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import org.javasimon.Split;
 import org.javasimon.StopwatchSample;
 import org.javasimon.callback.CallbackSkeleton;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * LoggingCallback logs events via JDK logging API.
@@ -14,20 +14,17 @@ import org.javasimon.callback.CallbackSkeleton;
  */
 @SuppressWarnings("UnusedDeclaration")
 public class LoggingCallback extends CallbackSkeleton {
+
 	private Logger logger = Logger.getAnonymousLogger();
 	private Level level = Level.FINE;
 
-	/**
-	 * Logs Simon start on a sprecified log level.
-	 */
+	/** Logs Simon start on a specified log level. */
 	@Override
 	public void onStopwatchStart(Split split) {
 		logger.log(level, "SIMON START: " + split.getStopwatch());
 	}
 
-	/**
-	 * Logs Simon stop on a specified log level.
-	 */
+	/** Logs Simon stop on a specified log level. */
 	@Override
 	public void onStopwatchStop(Split split, StopwatchSample sample) {
 		logger.log(level, "SIMON STOP: " + sample.stopwatchToString() + " (" + split.runningFor() + ")");

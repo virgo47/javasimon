@@ -1,8 +1,8 @@
 package org.javasimon;
 
-import java.util.Collection;
-
 import org.javasimon.callback.CompositeCallback;
+
+import java.util.Collection;
 
 /**
  * {@link Manager} implementation that supports {@link #enable()} and {@link #disable()} and switches between
@@ -11,6 +11,7 @@ import org.javasimon.callback.CompositeCallback;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public final class SwitchingManager implements Manager {
+
 	private Manager enabled = new EnabledManager();
 
 	private Manager disabled = new DisabledManager();
@@ -67,17 +68,13 @@ public final class SwitchingManager implements Manager {
 		return manager.configuration();
 	}
 
-	/**
-	 * Enables the Simon Manager. Enabled manager provides real Simons.
-	 */
+	/** Enables the Simon Manager. Enabled manager provides real Simons. */
 	@Override
 	public void enable() {
 		manager = enabled;
 	}
 
-	/**
-	 * Disables the Simon Manager. Disabled manager provides null Simons that actually do nothing.
-	 */
+	/** Disables the Simon Manager. Disabled manager provides null Simons that actually do nothing. */
 	@Override
 	public void disable() {
 		manager = disabled;

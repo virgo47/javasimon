@@ -1,8 +1,8 @@
 package org.javasimon;
 
-import java.util.Collection;
-
 import org.javasimon.callback.CompositeCallback;
+
+import java.util.Collection;
 
 /**
  * Manager provides access to Simons and manages them in a tree structure. Any number of Managers
@@ -20,14 +20,11 @@ import org.javasimon.callback.CompositeCallback;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public interface Manager {
-	/**
-	 * Name of the root Simon.
-	 */
+
+	/** Name of the root Simon. */
 	String ROOT_SIMON_NAME = "";
 
-	/**
-	 * Hierarchy delimiter in Simon name.
-	 */
+	/** Hierarchy delimiter in Simon name. */
 	String HIERARCHY_DELIMITER = ".";
 
 	/**

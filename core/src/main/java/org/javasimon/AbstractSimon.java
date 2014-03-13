@@ -12,24 +12,17 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 abstract class AbstractSimon implements Simon {
-	/**
-	 * Owning manager of this Simon.
-	 */
+
+	/** Owning manager of this Simon. */
 	protected Manager manager;
 
-	/**
-	 * Simon's effective state.
-	 */
+	/** Simon's effective state. */
 	protected volatile boolean enabled;
 
-	/**
-	 * Timestamp of the first usage.
-	 */
+	/** Timestamp of the first usage. */
 	protected long firstUsage;
 
-	/**
-	 * Timestamp of the last usage.
-	 */
+	/** Timestamp of the last usage. */
 	protected long lastUsage;
 
 	private final String name;

@@ -11,6 +11,7 @@ import org.javasimon.Stopwatch;
  * @author gquintana
  */
 public abstract class AbstractMethodStopwatchSource<T> extends AbstractStopwatchSource<T> {
+
 	/**
 	 * Constructor using specific simon manager.
 	 *
@@ -36,9 +37,7 @@ public abstract class AbstractMethodStopwatchSource<T> extends AbstractStopwatch
 	 */
 	protected abstract Method getTargetMethod(T location);
 
-	/**
-	 * Returns the Stopwatch for given join point.
-	 */
+	/** Returns the Stopwatch for given join point. */
 	@Override
 	public Stopwatch getMonitor(T location) {
 		final Stopwatch stopwatch = super.getMonitor(location);

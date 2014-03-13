@@ -2,12 +2,13 @@ package org.javasimon.jmx;
 
 /**
  * Interface for MX Bean representing a particular {@link org.javasimon.Counter}.
- * It is not created by default when JMX is activated - it must be created explicitely.
+ * It is not created by default when JMX is activated - it must be created explicitly.
  * {@link JmxRegisterCallback} can be used to automate this.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public interface CounterMXBean extends SimonSuperMXBean {
+
 	/**
 	 * Increments the counter by one.
 	 *

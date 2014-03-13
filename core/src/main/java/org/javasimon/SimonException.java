@@ -6,6 +6,7 @@ package org.javasimon;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public final class SimonException extends RuntimeException {
+
 	/**
 	 * Creates SimonException with the message.
 	 *

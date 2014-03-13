@@ -1,12 +1,5 @@
 package org.javasimon.console.action;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import javax.servlet.ServletException;
-
 import org.javasimon.Sample;
 import org.javasimon.Simon;
 import org.javasimon.console.Action;
@@ -22,9 +15,17 @@ import org.javasimon.console.reflect.GetterFactory;
 import org.javasimon.console.text.Stringifier;
 import org.javasimon.console.text.StringifierFactory;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import javax.servlet.ServletException;
+
 /**
- * Base class for exporting Simons as tabular data
- * The following methods a called during rendering and can be overridden
+ * Base class for exporting Simons as tabular data.
+ * The following methods are called during rendering and can be overridden:
  * <ul>
  * <li>{@link #printTable }: <ul>
  * <li>{@link #printHeaderRow}: <ul>
@@ -42,44 +43,22 @@ import org.javasimon.console.text.StringifierFactory;
  */
 public class AbstractTableAction extends Action {
 
-	/**
-	 * Value formatter
-	 */
+	/** Value formatter. */
 	protected StringifierFactory stringifierFactory;
-
-	/**
-	 * Pattern for Simon name filtering
-	 */
+	/** Pattern for Simon name filtering. */
 	private String pattern;
-
-	/**
-	 * Types for Simon type filtering
-	 */
+	/** Types for Simon type filtering. */
 	private Set<SimonType> types;
-
-	/**
-	 * Column list in response
-	 */
+	/** Column list in response. */
 	private List<Column> columns = new ArrayList<Column>();
-
-	/**
-	 * Content type of response
-	 */
+	/** Content type of response. */
 	protected final String contentType;
-
-	/**
-	 * Decimal format pattern used for printing doubles
-	 */
+	/** Decimal format pattern used for printing doubles. */
 	protected String numberPattern = StringifierFactory.READABLE_NUMBER_PATTERN;
-	
-	/**
-	 * Flag indicating  if simons should be reset during sampling
-	 */
+	/** Flag indicating if simons should be reset during sampling. */
 	protected boolean reset;
 
-	/**
-	 * Base constructor initialiszes columns list
-	 */
+	/** Base constructor initializes columns list. */
 	protected AbstractTableAction(ActionContext context, String contentType) {
 		super(context);
 		this.contentType = contentType;
@@ -167,7 +146,7 @@ public class AbstractTableAction extends Action {
 		}
 	}
 
-	protected void printBodyCell(Column c, Sample sample, PrintWriter writer) throws IOException{
+	protected void printBodyCell(Column c, Sample sample, PrintWriter writer) throws IOException {
 		printCell(c, c.getFormattedValue(sample), writer);
 	}
 
@@ -204,17 +183,10 @@ public class AbstractTableAction extends Action {
 		}
 	}
 
-	/**
-	 * Columns
-	 */
 	protected class Column<T> {
-		/**
-		 * Column title/header
-		 */
+		/** Column title/header. */
 		private final String title;
-		/**
-		 * Column property name
-		 */
+		/** Column property name. */
 		private final String name;
 
 		public Column(String title, String name) {
@@ -222,41 +194,35 @@ public class AbstractTableAction extends Action {
 			this.name = name;
 		}
 
-		/**
-		 * Get column property name
-		 */
+		/** Get column property name. */
 		public String getName() {
 			return name;
 		}
 
-		/**
-		 * Get column property title/header
-		 */
+		/** Get column property title/header. */
 		public String getTitle() {
 			return title;
 		}
 
 		/**
-		 * Get Getter for given column and row (simon)
+		 * Returns getter for given column and row (simon).
 		 *
 		 * @param object Simon row
-		 * @return Getter
+		 * @return getter
 		 */
 		@SuppressWarnings("unchecked")
 		private Getter<T> getGetter(Object object) {
 			return GetterFactory.getGetter(object.getClass(), name);
 		}
 
-		/**
-		 * Get raw column value
-		 */
+		/** Returns raw column value. */
 		public T getValue(Object object) {
 			Getter<T> getter = getGetter(object);
 			return getter == null ? null : getter.get(object);
 		}
 
 		/**
-		 * Get stringier used for given column and row
+		 * Get stringier used for given column and row.
 		 *
 		 * @param object Row (simon)
 		 * @return Stringifier
@@ -270,9 +236,7 @@ public class AbstractTableAction extends Action {
 			}
 		}
 
-		/**
-		 * Get formatted column value
-		 */
+		/** Get formatted column value. */
 		public String getFormattedValue(Object object) {
 			Getter<T> getter = getGetter(object);
 			if (getter == null) {
@@ -282,5 +246,4 @@ public class AbstractTableAction extends Action {
 			}
 		}
 	}
-
 }

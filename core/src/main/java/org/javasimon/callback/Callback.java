@@ -1,14 +1,14 @@
 package org.javasimon.callback;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.javasimon.Counter;
 import org.javasimon.CounterSample;
 import org.javasimon.Simon;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
 import org.javasimon.StopwatchSample;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Callback processes various events of the Java Simon API and is used as an extension point of the API.
@@ -28,9 +28,8 @@ import org.javasimon.StopwatchSample;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public interface Callback {
-	/**
-	 * Lifecycle method called when the callback is added to a manager.
-	 */
+
+	/** Lifecycle method called when the callback is added to a manager. */
 	void initialize();
 
 	/**
@@ -163,69 +162,43 @@ public interface Callback {
 	 * Event codes are used for configuration purposes instead of enum literals.
 	 */
 	enum Event {
-		/**
-		 * Meta-action designating all actions (or any action in rules).
-		 */
+		/** Meta-action designating all actions (or any action in rules). */
 		ALL("all"),
 
-		/**
-		 * Reset of the Simon.
-		 */
+		/** Reset of the Simon. */
 		RESET("reset"),
 
-		/**
-		 * Start of the stopwatch.
-		 */
+		/** Start of the stopwatch. */
 		STOPWATCH_START("start"),
 
-		/**
-		 * Stop of the stopwatch.
-		 */
+		/** Stop of the stopwatch. */
 		STOPWATCH_STOP("stop"),
 
-		/**
-		 * Adding value to the stopwatch.
-		 */
+		/** Adding value to the stopwatch. */
 		STOPWATCH_ADD("add"),
 
-		/**
-		 * Counter increased.
-		 */
+		/** Counter increased. */
 		COUNTER_INCREASE("increase"),
 
-		/**
-		 * Counter decreased.
-		 */
+		/** Counter decreased. */
 		COUNTER_DECREASE("decrease"),
 
-		/**
-		 * Counter set to arbitrary value.
-		 */
+		/** Counter set to arbitrary value. */
 		COUNTER_SET("set"),
 
-		/**
-		 * Creation of a Simon.
-		 */
+		/** Creation of a Simon. */
 		CREATED("created"),
 
-		/**
-		 * Removing of a Simon.
-		 */
+		/** Removing of a Simon. */
 		DESTROYED("destroyed"),
 
-		/**
-		 * Clearing of the manager.
-		 */
+		/** Clearing of the manager. */
 		MANAGER_CLEAR("clearManager"),
 
-		/**
-		 * Event producing arbitrary message.
-		 */
+		/** Event producing arbitrary message. */
 		MESSAGE("message"),
 
-		/**
-		 * Warning related to the manager.
-		 */
+		/** Warning related to the manager. */
 		WARNING("warning");
 
 		private static Map<String, Event> codeValues = new HashMap<String, Event>();

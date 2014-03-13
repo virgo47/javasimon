@@ -1,11 +1,11 @@
 package org.javasimon.callback.async;
 
-import java.lang.reflect.Method;
-
 import org.javasimon.SimonManager;
 import org.javasimon.callback.Callback;
 import org.javasimon.proxy.Delegating;
 import org.javasimon.proxy.DelegatingMethodInvocation;
+
+import java.lang.reflect.Method;
 
 /**
  * Callback factory, produces a callback wrapper to make any callback asynchronous.
@@ -22,14 +22,13 @@ import org.javasimon.proxy.DelegatingMethodInvocation;
  * @author gerald
  */
 public final class AsyncCallbackProxyFactory extends ExecutorProxyFactory<Callback> {
-	/**
-	 * Interfaces implemented by callback proxy
-	 */
-	private static final Class[] PROXY_INTERFACES = new Class[] {Callback.class, Delegating.class};
+
+	/** Interfaces implemented by callback proxy. */
+	private static final Class[] PROXY_INTERFACES = new Class[]{Callback.class, Delegating.class};
 	private final Method getDelegateMethod;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @param delegate Wrapped object
 	 */
@@ -50,9 +49,9 @@ public final class AsyncCallbackProxyFactory extends ExecutorProxyFactory<Callba
 	}
 
 	/**
-	 * Find {@link Delegating#getDelegate() } method
+	 * Finds {@link Delegating#getDelegate()} method.
 	 *
-	 * @return Get delegate method
+	 * @return delegate method
 	 */
 	private Method findGetDelegateMethod() {
 		try {

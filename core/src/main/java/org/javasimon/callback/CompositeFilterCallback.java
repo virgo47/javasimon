@@ -1,11 +1,5 @@
 package org.javasimon.callback;
 
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.CopyOnWriteArrayList;
-import javax.script.ScriptException;
-
 import org.javasimon.Counter;
 import org.javasimon.CounterSample;
 import org.javasimon.Simon;
@@ -13,6 +7,13 @@ import org.javasimon.SimonPattern;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
 import org.javasimon.StopwatchSample;
+
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+import javax.script.ScriptException;
 
 /**
  * This callback combines Composite and Filter behavior. Filter can be configured
@@ -30,13 +31,12 @@ import org.javasimon.StopwatchSample;
  * @see FilterRule
  */
 public final class CompositeFilterCallback implements FilterCallback, CompositeCallback {
+
 	private CompositeCallbackImpl callback = new CompositeCallbackImpl();
 
 	private Map<Event, List<FilterRule>> rules;
 
-	/**
-	 * Constructs composite filter callback.
-	 */
+	/** Constructs composite filter callback. */
 	public CompositeFilterCallback() {
 		rules = new EnumMap<Event, List<FilterRule>>(Event.class);
 		for (Event event : Event.values()) {

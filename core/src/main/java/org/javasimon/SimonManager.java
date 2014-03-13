@@ -1,14 +1,14 @@
 package org.javasimon;
 
+import org.javasimon.callback.Callback;
+import org.javasimon.callback.CompositeCallback;
+import org.javasimon.utils.SystemDebugCallback;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Collection;
-
-import org.javasimon.callback.Callback;
-import org.javasimon.callback.CompositeCallback;
-import org.javasimon.utils.SystemDebugCallback;
 
 /**
  * SimonManager is static utility class providing so called "default {@link org.javasimon.Manager}.
@@ -26,21 +26,16 @@ import org.javasimon.utils.SystemDebugCallback;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public final class SimonManager {
-	/**
-	 * Property name for the Simon configuration file is "javasimon.config.file".
-	 */
+
+	/** Property name for the Simon configuration file is "javasimon.config.file". */
 	public static final String PROPERTY_CONFIG_FILE_NAME = "javasimon.config.file";
 
-	/**
-	 * Property name for the Simon configuration resource is "javasimon.config.resource".
-	 */
+	/** Property name for the Simon configuration resource is "javasimon.config.resource". */
 	public static final String PROPERTY_CONFIG_RESOURCE_NAME = "javasimon.config.resource";
 
 	private static Manager manager = new SwitchingManager();
 
-	/**
-	 * Calls {@link #init()}.
-	 */
+	/** Calls {@link #init()}. */
 	static {
 		init();
 	}
@@ -118,16 +113,12 @@ public final class SimonManager {
 		return manager.getStopwatch(name);
 	}
 
-	/**
-	 * Enables the Simon Manager. Enabled manager provides real Simons.
-	 */
+	/** Enables the Simon Manager. Enabled manager provides real Simons. */
 	public static void enable() {
 		manager.enable();
 	}
 
-	/**
-	 * Disables the Simon Manager. Disabled manager provides null Simons that actually do nothing.
-	 */
+	/** Disables the Simon Manager. Disabled manager provides null Simons that actually do nothing. */
 	public static void disable() {
 		manager.disable();
 	}
@@ -231,5 +222,4 @@ public final class SimonManager {
 	public static void warning(String warning, Exception cause) {
 		manager.warning(warning, cause);
 	}
-
 }

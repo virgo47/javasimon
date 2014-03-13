@@ -1,9 +1,9 @@
 package org.javasimon.jmx;
 
+import org.javasimon.utils.SimonUtils;
+
 import java.beans.ConstructorProperties;
 import java.util.Date;
-
-import org.javasimon.utils.SimonUtils;
 
 /**
  * Value object for retrieving data from Counter Simon. Basically, it's
@@ -41,8 +41,7 @@ public final class CounterSample extends org.javasimon.CounterSample {
 	@ConstructorProperties({"name", "note", "firstUsage", "lastUsage", "lastReset", "counter", "min",
 		"max", "minTimestamp", "maxTimestamp", "incrementSum", "decrementSum"})
 	public CounterSample(String name, String note, long firstUsage, long lastUsage, long lastReset, long counter,
-		long min, long max, long minTimestamp, long maxTimestamp, long incSum, long decSum)
-	{
+	                     long min, long max, long minTimestamp, long maxTimestamp, long incSum, long decSum) {
 		setName(name);
 		setNote(note);
 		setFirstUsage(firstUsage);
@@ -59,7 +58,7 @@ public final class CounterSample extends org.javasimon.CounterSample {
 	}
 
 	/**
-	 * Internall, framework constructor for Simon MBean implementation to initialize all properties
+	 * Internal, framework constructor for Simon MBean implementation to initialize all properties
 	 * by sample obtained from Simon.
 	 *
 	 * @param sample sample object obtained from Counter Simon

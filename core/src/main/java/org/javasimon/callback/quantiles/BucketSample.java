@@ -7,19 +7,12 @@ package org.javasimon.callback.quantiles;
  * @since 3.3
  */
 public final class BucketSample {
-	/**
-	 * Minimal value.
-	 */
+
+	/** Minimal value. */
 	private final long min;
-
-	/**
-	 * Maximal value.
-	 */
+	/** Maximal value. */
 	private final long max;
-
-	/**
-	 * Number of values in the range min-max.
-	 */
+	/** Number of values in the range min-max. */
 	private final int count;
 
 	/**
@@ -60,5 +53,4 @@ public final class BucketSample {
 	public long getMin() {
 		return min;
 	}
-
 }

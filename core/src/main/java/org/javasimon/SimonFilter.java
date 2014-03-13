@@ -6,6 +6,7 @@ package org.javasimon;
  * @author <a href="mailto:ivan.mushketyk@gmail.com">Ivan Mushketyk</a>
  */
 public interface SimonFilter {
+
 	/**
 	 * Checks whether current Simon should be used/considered.
 	 *

@@ -1,19 +1,17 @@
 package org.javasimon.callback.logging;
 
 /**
- * Log template that logs something after every N milliseconds. The {@link #isEnabled(Object)} is only true after N milliseconds from the last log.
+ * Log template that logs something after every N milliseconds.
+ * The {@link #isEnabled(Object)} is only true after N milliseconds from the last log.
  *
  * @author gquintana
  */
 public class PeriodicLogTemplate<C> extends DelegateLogTemplate<C> {
-	/**
-	 * Maximum time between two calls to log method.
-	 */
+
+	/** Maximum time between two calls to log method. */
 	private final long period;
 
-	/**
-	 * Timestamp of next invocation.
-	 */
+	/** Timestamp of next invocation. */
 	private long nextTime;
 
 	/**
@@ -46,16 +44,12 @@ public class PeriodicLogTemplate<C> extends DelegateLogTemplate<C> {
 		return System.currentTimeMillis();
 	}
 
-	/**
-	 * Computes the next timestamp.
-	 */
+	/** Computes the next timestamp. */
 	private synchronized void initNextTime() {
 		nextTime = getCurrentTime() + period;
 	}
 
-	/**
-	 * Indicates whether next timestamp is in past.
-	 */
+	/** Indicates whether next timestamp is in past. */
 	public synchronized boolean isNextTimePassed() {
 		return nextTime < getCurrentTime();
 	}

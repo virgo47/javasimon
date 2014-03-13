@@ -6,8 +6,9 @@ package org.javasimon.callback.logging;
  * @author gquintana
  */
 public interface LogMessageSource<C> {
+
 	/**
-	 * Get message for given context
+	 * Returns message for given context.
 	 *
 	 * @param context Context
 	 * @return Message

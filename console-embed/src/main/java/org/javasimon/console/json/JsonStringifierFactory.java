@@ -5,7 +5,8 @@ import org.javasimon.console.text.Stringifier;
 import org.javasimon.console.text.StringifierFactory;
 
 /**
- * Value formatter for JSON reponses
+ * Value formatter for JSON responses.
+ *
  * @author gquintana
  */
 public class JsonStringifierFactory extends StringifierFactory {
@@ -17,7 +18,7 @@ public class JsonStringifierFactory extends StringifierFactory {
 
 	@Override
 	protected Stringifier<String> registerStringStringifier(Stringifier nullStringifier) {
-		Stringifier<String> stringStringifier=new BaseStringifier<String>(nullStringifier) {
+		Stringifier<String> stringStringifier = new BaseStringifier<String>(nullStringifier) {
 			@Override
 			protected String doToString(String s) {
 				return "\"" + s.replace("\\", "\\\\").replace("\"", "\\\"").replace("/", "\\/") + "\"";
@@ -26,4 +27,4 @@ public class JsonStringifierFactory extends StringifierFactory {
 		compositeStringifier.add(String.class, stringStringifier);
 		return stringStringifier;
 	}
-};
+}

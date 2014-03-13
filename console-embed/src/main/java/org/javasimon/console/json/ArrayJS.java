@@ -1,27 +1,27 @@
 package org.javasimon.console.json;
 
+import org.javasimon.console.text.StringifierFactory;
+
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.javasimon.console.text.StringifierFactory;
-
 /**
- * JavaScript Array
+ * JavaScript Array.
  *
  * @author gquintana
  */
 public class ArrayJS extends AnyJS {
-	/**
-	 * Elements of the array
-	 */
+
+	/** Elements of the array. */
 	private List<AnyJS> elements;
 
 	public ArrayJS() {
 		this.elements = new ArrayList<AnyJS>();
 	}
+
 	public ArrayJS(int size) {
 		this.elements = new ArrayList<AnyJS>(size);
 	}
@@ -30,15 +30,12 @@ public class ArrayJS extends AnyJS {
 		this.elements = elements;
 	}
 
-	/**
-	 * Get elements of the array
-	 */
+	/** Gets elements of the array. */
 	public List<AnyJS> getElements() {
 		return elements;
 	}
-	/**
-	 * Add an element in the array
-	 */
+
+	/** Adds an element in the array. */
 	public void addElement(AnyJS element) {
 		elements.add(element);
 	}
@@ -57,14 +54,16 @@ public class ArrayJS extends AnyJS {
 		}
 		writer.write("]");
 	}
+
 	/**
-	 * Create an JSON Array of JSON objects from a collection of Java Objects
+	 * Create an JSON Array of JSON objects from a collection of Java Objects.
+	 *
 	 * @param objects Java Objects
 	 * @param stringifierFactory JSON Stringifier converter
 	 * @return Array of JSON Objects
 	 */
 	public static ArrayJS create(Collection<?> objects, StringifierFactory stringifierFactory) {
-		if (objects==null) {
+		if (objects == null) {
 			return null;
 		}
 		ArrayJS arrayJS = new ArrayJS(objects.size());
@@ -73,14 +72,16 @@ public class ArrayJS extends AnyJS {
 		}
 		return arrayJS;
 	}
+
 	/**
-	 * Create an JSON Array of JSON objects from a collection of Java Objects
+	 * Create an JSON Array of JSON objects from a collection of Java Objects.
+	 *
 	 * @param objects Java Objects
 	 * @param stringifierFactory JSON Stringifier converter
 	 * @return Array of JSON Objects
 	 */
 	public static ArrayJS create(Object[] objects, StringifierFactory stringifierFactory) {
-		if (objects==null) {
+		if (objects == null) {
 			return null;
 		}
 		ArrayJS arrayJS = new ArrayJS(objects.length);

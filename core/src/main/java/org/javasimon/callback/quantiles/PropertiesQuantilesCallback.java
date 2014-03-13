@@ -1,9 +1,9 @@
 package org.javasimon.callback.quantiles;
 
-import java.util.Properties;
-
 import org.javasimon.Simon;
 import org.javasimon.Stopwatch;
+
+import java.util.Properties;
 
 /**
  * Callback which stores data in buckets to compute quantiles.
@@ -29,13 +29,12 @@ import org.javasimon.Stopwatch;
  * @author gquintana
  */
 public class PropertiesQuantilesCallback extends QuantilesCallback {
-	/**
-	 * Properties containing configuration
-	 */
+
+	/** Properties containing configuration. */
 	private final Properties properties;
 
 	/**
-	 * Main constructor
+	 * Main constructor.
 	 *
 	 * @param properties Properties containing configuration
 	 */
@@ -44,7 +43,7 @@ public class PropertiesQuantilesCallback extends QuantilesCallback {
 	}
 
 	/**
-	 * Create buckets using callback attributes
+	 * Create buckets using callback attributes.
 	 *
 	 * @param stopwatch Target stopwatch
 	 * @return Created buckets for given stopwatch
@@ -63,7 +62,7 @@ public class PropertiesQuantilesCallback extends QuantilesCallback {
 	}
 
 	/**
-	 * Get property for Simon
+	 * Returns value of Simon property.
 	 *
 	 * @param simon Simon
 	 * @param name Property name
@@ -73,9 +72,7 @@ public class PropertiesQuantilesCallback extends QuantilesCallback {
 		return properties.getProperty(simon.getName() + "." + name);
 	}
 
-	/**
-	 * Remove space at both ends and convert empty strings to null
-	 */
+	/** Remove space at both ends and convert empty strings to null. */
 	private static String cleanString(String s) {
 		if (s != null) {
 			s = s.trim();
@@ -86,9 +83,7 @@ public class PropertiesQuantilesCallback extends QuantilesCallback {
 		return s;
 	}
 
-	/**
-	 * Base class for property types
-	 */
+	/** Base class for property types. */
 	private abstract class PropertyType<T> {
 		public abstract T parse(String value);
 
@@ -107,9 +102,7 @@ public class PropertiesQuantilesCallback extends QuantilesCallback {
 		}
 	}
 
-	/**
-	 * Get long property for Simon
-	 */
+	/** Returns long property for Simon. */
 	private final PropertyType<Long> longPropertyType = new PropertyType<Long>() {
 		@Override
 		public Long parse(String s) {
@@ -122,9 +115,8 @@ public class PropertiesQuantilesCallback extends QuantilesCallback {
 			return l;
 		}
 	};
-	/**
-	 * Get integer property for Simon
-	 */
+
+	/** Returns integer property for Simon. */
 	private final PropertyType<Integer> integerPropertyType = new PropertyType<Integer>() {
 		@Override
 		public Integer parse(String s) {
@@ -138,9 +130,7 @@ public class PropertiesQuantilesCallback extends QuantilesCallback {
 		}
 	};
 
-	/**
-	 * Get enum property for Simon
-	 */
+	/** Returns enum property for Simon. */
 	private class EnumPropertyType<E extends Enum<E>> extends PropertyType<E> {
 		private final Class<E> enumClass;
 
@@ -160,9 +150,7 @@ public class PropertiesQuantilesCallback extends QuantilesCallback {
 		}
 	}
 
-	/**
-	 * Get bucket type property for Simon
-	 */
+	/** Returns bucket type property for Simon. */
 	private final EnumPropertyType<BucketsType> bucketsTypeEnumPropertyType = new EnumPropertyType<BucketsType>(BucketsType.class) {
 		@Override
 		public BucketsType get(Simon simon, String name) {

@@ -2,12 +2,13 @@ package org.javasimon.jmx;
 
 /**
  * Interface for MX Bean representing a particular {@link org.javasimon.Stopwatch}. It is not created
- * by default when JMX is activated - it must be created explicitely.
+ * by default when JMX is activated - it must be created explicitly.
  * {@link JmxRegisterCallback} can be used to automate this.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public interface StopwatchMXBean extends SimonSuperMXBean {
+
 	/**
 	 * Returns total sum of all split times in nanoseconds.
 	 *
@@ -18,7 +19,7 @@ public interface StopwatchMXBean extends SimonSuperMXBean {
 	long getTotal();
 
 	/**
-	 * Returns value of the last added split - wheter it was added directly or with stop method.
+	 * Returns value of the last added split - whether it was added directly or with stop method.
 	 *
 	 * @return value of the last added split
 	 * @see org.javasimon.Stopwatch#getLast()
@@ -97,7 +98,7 @@ public interface StopwatchMXBean extends SimonSuperMXBean {
 	long getMaxActive();
 
 	/**
-	 * Retruns ms timestamp when the last peek of the active split count occured.
+	 * Returns ms timestamp when the last peek of the active split count occurred.
 	 *
 	 * @return ms timestamp of the last peek of the active split count
 	 * @see org.javasimon.Stopwatch#getMaxActiveTimestamp()

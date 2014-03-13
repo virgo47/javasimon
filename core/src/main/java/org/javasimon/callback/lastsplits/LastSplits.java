@@ -1,11 +1,11 @@
 package org.javasimon.callback.lastsplits;
 
+import static org.javasimon.callback.logging.LogTemplates.disabled;
+import static org.javasimon.utils.SimonUtils.presentNanoTime;
+
 import org.javasimon.Split;
 import org.javasimon.callback.logging.LogMessageSource;
 import org.javasimon.callback.logging.LogTemplate;
-
-import static org.javasimon.callback.logging.LogTemplates.disabled;
-import static org.javasimon.utils.SimonUtils.presentNanoTime;
 
 /**
  * Object stored among Stopwatch's attributes in charge of <ul>
@@ -18,18 +18,14 @@ import static org.javasimon.utils.SimonUtils.presentNanoTime;
  * @since 3.2
  */
 public class LastSplits implements LogMessageSource<Split> {
-	/**
-	 * Ring buffer containing splits
-	 */
+	/** Ring buffer containing splits. */
 	private final CircularList<Split> splits;
 
-	/**
-	 * Log template used to log this list of splits
-	 */
+	/** Log template used to log this list of splits. */
 	private LogTemplate<Split> logTemplate = disabled();
 
 	/**
-	 * Constructor with ring buffer size
+	 * Constructor with ring buffer size.
 	 *
 	 * @param capacity Buffer size
 	 */
@@ -38,7 +34,7 @@ public class LastSplits implements LogMessageSource<Split> {
 	}
 
 	/**
-	 * Add split to the buffer
+	 * Adds split to the buffer.
 	 *
 	 * @param split Split
 	 */
@@ -48,9 +44,7 @@ public class LastSplits implements LogMessageSource<Split> {
 		}
 	}
 
-	/**
-	 * Remove all splits from buffer
-	 */
+	/** Removes all splits from buffer. */
 	public void clear() {
 		synchronized (splits) {
 			splits.clear();
@@ -66,7 +60,7 @@ public class LastSplits implements LogMessageSource<Split> {
 	}
 
 	/**
-	 * Get number of splits in the buffer
+	 * Gets number of splits in the buffer.
 	 *
 	 * @return Split number
 	 */
@@ -77,7 +71,7 @@ public class LastSplits implements LogMessageSource<Split> {
 	}
 
 	/**
-	 * Evaluate a function over the list of splits
+	 * Evaluate a function over the list of splits.
 	 *
 	 * @param <T> Function result type
 	 * @param function Function to evaluate
@@ -96,20 +90,20 @@ public class LastSplits implements LogMessageSource<Split> {
 	}
 
 	/**
-	 * Function
+	 * Function.
 	 *
 	 * @param <T> Result type
 	 */
 	private static interface SplitFunction<T> {
 		/**
-		 * Called for each split
+		 * Called for each split.
 		 *
 		 * @param split Current split
 		 */
 		void evaluate(Split split);
 
 		/**
-		 * Called after all splits
+		 * Called after all splits.
 		 *
 		 * @return Function result
 		 */
@@ -117,32 +111,28 @@ public class LastSplits implements LogMessageSource<Split> {
 	}
 
 	/**
-	 * Base implementation of functions
+	 * Base implementation of functions.
 	 *
 	 * @param <T> Function return type
 	 */
 	private static abstract class AbstractSplitFunction<T> implements SplitFunction<T> {
-		/**
-		 * Function result
-		 */
+		/** Function result. */
 		protected T result;
 
-		/**
-		 * Initial function result
-		 */
+		/** Initial function result. */
 		public AbstractSplitFunction(T result) {
 			this.result = result;
 		}
 
 		/**
-		 * Running for duration of the split
+		 * Running for duration of the split.
 		 *
 		 * @param runningFor Running for
 		 */
 		public abstract void evaluate(long runningFor);
 
 		/**
-		 * Calls evaluate with split running for duration
+		 * Calls evaluate with split running for duration.
 		 *
 		 * @param split Current split
 		 */
@@ -150,9 +140,7 @@ public class LastSplits implements LogMessageSource<Split> {
 			evaluate(split.runningFor());
 		}
 
-		/**
-		 * Final result
-		 */
+		/** Final result. */
 		public T result() {
 			return result;
 		}

@@ -1,12 +1,12 @@
 package org.javasimon.utils;
 
+import org.javasimon.StopwatchSample;
+
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
-
-import org.javasimon.StopwatchSample;
 
 /**
  * Produces URLs for Google Chart Image API - column type.
@@ -15,6 +15,7 @@ import org.javasimon.StopwatchSample;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public final class GoogleChartImageGenerator {
+
 	private static final int FIXED_WIDTH = 100;
 	private static final int BAR_WIDTH = 80;
 	private static final int BAR_SPACING = 40;

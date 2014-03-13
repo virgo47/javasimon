@@ -1,15 +1,15 @@
 package org.javasimon.callback.quantiles;
 
+import static org.javasimon.callback.logging.LogTemplates.disabled;
+import static org.javasimon.callback.logging.LogTemplates.everyNSeconds;
+import static org.javasimon.callback.logging.LogTemplates.toSLF4J;
+
 import org.javasimon.Simon;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
 import org.javasimon.StopwatchSample;
 import org.javasimon.callback.CallbackSkeleton;
 import org.javasimon.callback.logging.LogTemplate;
-
-import static org.javasimon.callback.logging.LogTemplates.disabled;
-import static org.javasimon.callback.logging.LogTemplates.everyNSeconds;
-import static org.javasimon.callback.logging.LogTemplates.toSLF4J;
 
 /**
  * Callback which stores data in buckets to compute quantiles.
@@ -28,34 +28,25 @@ import static org.javasimon.callback.logging.LogTemplates.toSLF4J;
  * @since 3.2
  */
 public abstract class QuantilesCallback extends CallbackSkeleton {
-	/**
-	 * Simon attribute name of the buckets stored in Simons after warmup time.
-	 */
+
+	/** Simon attribute name of the buckets stored in Simons after warmup time. */
 	public static final String ATTR_NAME_BUCKETS = "buckets";
 
-	/**
-	 * Global flag indicating whether last splits should be logged once in a while.
-	 */
-	private boolean logEnabled = false;
-
-	/**
-	 * SLF4J log template shared by all stopwatches.
-	 */
+	/** SLF4J log template shared by all stopwatches. */
 	private final LogTemplate<Split> enabledStopwatchLogTemplate = toSLF4J(getClass().getName(), "debug");
-	/**
-	 * Type of the buckets: linear or exponential
-	 */
+
+	/** Global flag indicating whether last splits should be logged once in a while. */
+	private boolean logEnabled = false;
+	/** Type of the buckets: linear or exponential. */
 	private BucketsType bucketsType;
 
-	/**
-	 * Default constructor.
-	 */
+	/** Default constructor. */
 	protected QuantilesCallback() {
 		bucketsType = BucketsType.LINEAR;
 	}
 
 	/**
-	 * Constructor with buckets type
+	 * Constructor with buckets type.
 	 *
 	 * @param bucketsType Type of buckets
 	 */
@@ -64,7 +55,7 @@ public abstract class QuantilesCallback extends CallbackSkeleton {
 	}
 
 	/**
-	 * Get buckets type
+	 * Returns buckets type.
 	 *
 	 * @return Buckets type
 	 */
@@ -99,15 +90,13 @@ public abstract class QuantilesCallback extends CallbackSkeleton {
 		return logTemplate;
 	}
 
-	/**
-	 * Get the buckets attribute.
-	 */
+	/** Returns the buckets attribute. */
 	public static Buckets getBuckets(Stopwatch stopwatch) {
 		return (Buckets) stopwatch.getAttribute(ATTR_NAME_BUCKETS);
 	}
 
 	/**
-	 * Factory method to create a Buckets object using given configuration
+	 * Factory method to create a Buckets object using given configuration.
 	 *
 	 * @param stopwatch Target Stopwatch
 	 * @param min Min bound
@@ -130,9 +119,7 @@ public abstract class QuantilesCallback extends CallbackSkeleton {
 	 */
 	protected abstract Buckets createBuckets(Stopwatch stopwatch);
 
-	/**
-	 * Get the buckets attribute or create it if it does not exist.
-	 */
+	/** Returns the buckets attribute or create it if it does not exist. */
 	@SuppressWarnings("SynchronizationOnLocalVariableOrMethodParameter")
 	protected final Buckets getOrCreateBuckets(Stopwatch stopwatch) {
 		synchronized (stopwatch) {
@@ -145,9 +132,7 @@ public abstract class QuantilesCallback extends CallbackSkeleton {
 		}
 	}
 
-	/**
-	 * Get the buckets attribute and sample them
-	 */
+	/** Returns the buckets attribute and sample them. */
 	public static BucketsSample sampleBuckets(Stopwatch stopwatch) {
 		final Buckets buckets = getBuckets(stopwatch);
 		return buckets == null ? null : buckets.sample();
@@ -175,18 +160,13 @@ public abstract class QuantilesCallback extends CallbackSkeleton {
 		onStopwatchSplit(split.getStopwatch(), split);
 	}
 
-	/**
-	 * When a split is added, if buckets have been initialized, the value
-	 * is added to appropriate bucket.
-	 */
+	/** When a split is added, if buckets have been initialized, the value is added to appropriate bucket. */
 	@Override
 	public void onStopwatchAdd(Stopwatch stopwatch, Split split, StopwatchSample sample) {
 		onStopwatchSplit(split.getStopwatch(), split);
 	}
 
-	/**
-	 * When the Stopwatch is reseted, so are the buckets.
-	 */
+	/** When the Stopwatch is reset, so are the buckets. */
 	@Override
 	public void onSimonReset(Simon simon) {
 		if (simon instanceof Stopwatch) {

@@ -15,30 +15,23 @@ import java.util.concurrent.ThreadFactory;
  * @author gerald
  */
 public final class Executors {
-	/**
-	 * Disabled Executor
-	 */
+
+	/** Disabled Executor. */
 	public static Executor DISABLED = new Executor() {
 		public Object execute(Callable callable) throws Throwable {
 			return null;
 		}
 	};
-	/**
-	 * Synchronous, same thread Executor
-	 */
+	/** Synchronous, same thread Executor. */
 	public static Executor SYNC = new Executor() {
 		public Object execute(Callable callable) throws Throwable {
 			return callable.call();
 		}
 	};
-	/**
-	 * Single threaded executor service used by default async
-	 */
+	/** Single threaded executor service used by default async. */
 	private static ExecutorService ASYNC_EXECUTOR_SERVICE;
 
-	/**
-	 * Initializes default ingle threaded executor service
-	 */
+	/** Initializes default single threaded executor service. */
 	private static synchronized ExecutorService initAsyncExecutorService() {
 		if (ASYNC_EXECUTOR_SERVICE == null) {
 			ASYNC_EXECUTOR_SERVICE = java.util.concurrent.Executors.newSingleThreadExecutor(
@@ -53,13 +46,9 @@ public final class Executors {
 		return ASYNC_EXECUTOR_SERVICE;
 	}
 
-	/**
-	 * Asynchronous, different thread executor
-	 */
+	/** Asynchronous, different thread executor. */
 	private static class AsyncCallbackExecutor<T> implements Executor<T> {
-		/**
-		 * Used executor service
-		 */
+		/** Used executor service. */
 		private final ExecutorService executorService;
 
 		public AsyncCallbackExecutor(ExecutorService executorService) {
@@ -73,37 +62,27 @@ public final class Executors {
 
 	}
 
-	/**
-	 * Return disabled executor
-	 */
+	/** Returns disabled executor. */
 	public static <T> Executor<T> disabled() {
 		return DISABLED;
 	}
 
-	/**
-	 * Return synchronous, same thread executor
-	 */
+	/** Returns synchronous, same thread executor. */
 	public static <T> Executor<T> sync() {
 		return SYNC;
 	}
 
-	/**
-	 * Return asynchronous, different thread executor
-	 */
+	/** Returns asynchronous, different thread executor. */
 	public static <T> Executor<T> async(ExecutorService executorService) {
 		return new AsyncCallbackExecutor(executorService);
 	}
 
-	/**
-	 * Return asynchronous, different but unique thread executor
-	 */
+	/** Returns asynchronous, different but unique thread executor. */
 	public static <T> Executor<T> async() {
 		return async(initAsyncExecutorService());
 	}
 
-	/**
-	 * Stop thread used by default async executor
-	 */
+	/** Stops thread used by default async executor. */
 	public void shutdownAsync() {
 		if (ASYNC_EXECUTOR_SERVICE != null) {
 			ASYNC_EXECUTOR_SERVICE.shutdown();

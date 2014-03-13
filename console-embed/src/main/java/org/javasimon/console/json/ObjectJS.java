@@ -1,5 +1,10 @@
 package org.javasimon.console.json;
 
+import org.javasimon.console.reflect.Getter;
+import org.javasimon.console.reflect.GetterFactory;
+import org.javasimon.console.text.Stringifier;
+import org.javasimon.console.text.StringifierFactory;
+
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
@@ -7,13 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.javasimon.console.reflect.Getter;
-import org.javasimon.console.reflect.GetterFactory;
-import org.javasimon.console.text.Stringifier;
-import org.javasimon.console.text.StringifierFactory;
-
 /**
- * JavaScript Object
+ * JavaScript Object.
  *
  * @author gquintana
  */
@@ -39,10 +39,12 @@ public class ObjectJS extends AnyJS {
 			attribute.value = value;
 		}
 	}
+
 	public <T> void setSimpleAttribute(String name, T value, Stringifier<T> stringifier) {
 		SimpleJS propertyJS = new SimpleJS<T>(value, stringifier);
 		setAttribute(name, propertyJS);
 	}
+
 	public AnyJS getAttribute(String name) {
 		assert name != null;
 		Attribute attribute = attributesByName.get(name);
@@ -65,6 +67,7 @@ public class ObjectJS extends AnyJS {
 		}
 		writer.write("}");
 	}
+
 	@SuppressWarnings("unchecked")
 	public static ObjectJS create(Object o, StringifierFactory stringifierFactory) {
 		if (o == null) {
@@ -74,8 +77,8 @@ public class ObjectJS extends AnyJS {
 			// Export properties using reflection
 			for (Getter getter : GetterFactory.getGetters(o.getClass())) {
 				String propertyName = getter.getName();
-				Stringifier propertyStringifier=stringifierFactory.getStringifier( getter.getType(), getter.getSubType());
-				if (propertyStringifier!=null) {
+				Stringifier propertyStringifier = stringifierFactory.getStringifier(getter.getType(), getter.getSubType());
+				if (propertyStringifier != null) {
 					Object propertyValue = getter.get(o);
 					objectJS.setSimpleAttribute(propertyName, propertyValue, propertyStringifier);
 				}
@@ -83,9 +86,8 @@ public class ObjectJS extends AnyJS {
 			return objectJS;
 		}
 	}
-	/**
-	 * Export Simon attribute map as a JS object
-	 */
+
+	/** Export Simon attribute map as a JS object. */
 	private static class Attribute {
 
 		private final String name;

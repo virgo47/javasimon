@@ -7,6 +7,7 @@ package org.javasimon;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 final class UnknownSimon extends AbstractSimon {
+
 	/**
 	 * Constructs unknown Simon with a specified name and for the specified manager.
 	 *

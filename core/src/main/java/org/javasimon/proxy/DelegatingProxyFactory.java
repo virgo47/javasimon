@@ -12,13 +12,12 @@ import java.lang.reflect.Proxy;
  * @author gerald
  */
 public class DelegatingProxyFactory<T> implements InvocationHandler, Delegating<T> {
-	/**
-	 * Wrapped class and concrete implementation
-	 */
+
+	/** Wrapped class and concrete implementation. */
 	private final T delegate;
 
 	/**
-	 * Main constructor
+	 * Main constructor.
 	 *
 	 * @param delegate Wrapped class and concrete implementation
 	 */
@@ -32,7 +31,7 @@ public class DelegatingProxyFactory<T> implements InvocationHandler, Delegating<
 	}
 
 	/**
-	 * Method to override in child classes
+	 * Method to override in child classes.
 	 *
 	 * @param delegatingMethodInvocation Method invocation (arguments, method name, etc.)
 	 * @return Method invocation results
@@ -42,9 +41,7 @@ public class DelegatingProxyFactory<T> implements InvocationHandler, Delegating<
 		return delegatingMethodInvocation.proceed();
 	}
 
-	/**
-	 * Return Wrapped class and concrete implementation.
-	 */
+	/** Return Wrapped class and concrete implementation. */
 	public T getDelegate() {
 		return delegate;
 	}
@@ -62,7 +59,7 @@ public class DelegatingProxyFactory<T> implements InvocationHandler, Delegating<
 
 	/**
 	 * Create a proxy using given classloader and interfaces.
-	 * Current thread class loaded is used as default classload.
+	 * Current thread classloader is used as a default.
 	 *
 	 * @param interfaces Interfaces to implement
 	 * @return Proxy
@@ -72,13 +69,12 @@ public class DelegatingProxyFactory<T> implements InvocationHandler, Delegating<
 	}
 
 	/**
-	 * Create a proxy using given classloader and interfaces
+	 * Create a proxy using given classloader and interfaces.
 	 *
-	 * @param classLoader Class loader
 	 * @param interfaces Interface to implement
-	 * @return Proxy
+	 * @return proxy
 	 */
 	public <X> X newProxy(Class<X> interfaces) {
-		return (X) newProxy(new Class[] {interfaces});
+		return (X) newProxy(new Class[]{interfaces});
 	}
 }

@@ -6,22 +6,19 @@ import java.io.Writer;
 import org.javasimon.console.text.Stringifier;
 
 /**
- * JavaScript simple type
+ * JavaScript simple type.
  *
  * @author gquintana
  */
 public class SimpleJS<T> extends AnyJS {
-	/**
-	 * Simple value
-	 */
+
+	/** Simple value. */
 	protected final T value;
-	/**
-	 * Value formatter
-	 */
+	/** Value formatter. */
 	protected final Stringifier<T> valueStringifier;
-	/**
-	 * Hidden constructor use factory methods instead
-	 */
+
+	// TODO how hidden is this?
+	/** Hidden constructor use factory methods instead. */
 	public SimpleJS(T value, Stringifier<T> valueStringifier) {
 		this.value = value;
 		this.valueStringifier = valueStringifier;
@@ -39,5 +36,4 @@ public class SimpleJS<T> extends AnyJS {
 	public void write(Writer writer) throws IOException {
 		writer.write(getFormattedValue());
 	}
-
 }

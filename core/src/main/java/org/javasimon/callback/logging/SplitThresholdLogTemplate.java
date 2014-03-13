@@ -8,13 +8,12 @@ import org.javasimon.Split;
  * @author gquintana
  */
 public class SplitThresholdLogTemplate extends DelegateLogTemplate<Split> {
-	/**
-	 * Split duration theshold
-	 */
+
+	/** Split duration theshold. */
 	private final long threshold;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @param delegate Concreate log template
 	 * @param threshold Theshold

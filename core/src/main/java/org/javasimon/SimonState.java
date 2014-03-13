@@ -8,18 +8,13 @@ package org.javasimon;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public enum SimonState {
-	/**
-	 * Enabled.
-	 */
+
+	/** Enabled. */
 	ENABLED,
 
-	/**
-	 * Disabled.
-	 */
+	/** Disabled. */
 	DISABLED,
 
-	/**
-	 * Effective state (enabled/disabled) is going to be derived from the parent.
-	 */
-	INHERIT
+	/** Effective state (enabled/disabled) is going to be derived from the parent. */
+	INHERIT,
 }

@@ -10,22 +10,15 @@ import org.javasimon.utils.SimonUtils;
  * @author gquintana
  */
 public class FixedQuantilesCallback extends QuantilesCallback {
-	/**
-	 * Buckets lower bound in milliseconds.
-	 */
+
+	/** Buckets lower bound in milliseconds. */
 	private final long min;
-	/**
-	 * Buckets upper bound in milliseconds.
-	 */
+	/** Buckets upper bound in milliseconds. */
 	private final long max;
-	/**
-	 * Number of buckets.
-	 */
+	/** Number of buckets. */
 	private final int bucketNb;
 
-	/**
-	 * Main constructor.
-	 */
+	/** Main constructor. */
 	public FixedQuantilesCallback(long min, long max, int bucketNb) {
 		this.min = min;
 		this.max = max;
@@ -69,5 +62,4 @@ public class FixedQuantilesCallback extends QuantilesCallback {
 	public int getBucketNb() {
 		return bucketNb;
 	}
-
 }

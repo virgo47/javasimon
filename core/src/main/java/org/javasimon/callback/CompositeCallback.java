@@ -14,6 +14,7 @@ import java.util.List;
  * @since 3.2
  */
 public interface CompositeCallback extends Callback {
+
 	/**
 	 * Returns the list of all child-callbacks.
 	 *
@@ -35,8 +36,6 @@ public interface CompositeCallback extends Callback {
 	 */
 	void removeCallback(Callback callback);
 
-	/**
-	 * Removes all callbacks from this callback.
-	 */
+	/** Removes all callbacks from this callback. */
 	void removeAllCallbacks();
 }

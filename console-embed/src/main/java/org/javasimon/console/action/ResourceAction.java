@@ -1,27 +1,29 @@
 package org.javasimon.console.action;
 
+import org.javasimon.console.Action;
+import org.javasimon.console.ActionContext;
+import org.javasimon.console.ActionException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 
-import org.javasimon.console.Action;
-import org.javasimon.console.ActionContext;
-import org.javasimon.console.ActionException;
-
 /**
- * Action used to send resources (images, JS, CSS) to the browser
+ * Action used to send resources (images, JS, CSS) to the browser.
+ *
  * @author gquintana
  */
 public class ResourceAction extends Action {
 
 	public static final String PREFIX = "/resource";
+
 	private static final Map<String, String> CONTENT_TYPES = new HashMap<String, String>();
-	/* Fill the CONTENT_TYPES map
-	 */
+
 	static {
 		CONTENT_TYPES.put("gif", "image/gif");
 		CONTENT_TYPES.put("png", "image/png");
@@ -30,21 +32,24 @@ public class ResourceAction extends Action {
 		CONTENT_TYPES.put("css", "text/css");
 		CONTENT_TYPES.put("js", "text/javascript");
 	}
+
 	/**
-	 * Relative path of the resource to return
+	 * Relative path of the resource to return.
 	 */
 	private final String resourcePath;
+
 	/**
-	 * Constructor
+	 * Constructor.
+	 *
 	 * @param context Action context
 	 * @param resourcePath Local path of the resource
 	 */
 	public ResourceAction(ActionContext context, String resourcePath) {
 		super(context);
 		if (resourcePath.startsWith("/")) {
-			this.resourcePath=resourcePath;
+			this.resourcePath = resourcePath;
 		} else {
-			this.resourcePath="/"+resourcePath;
+			this.resourcePath = "/" + resourcePath;
 		}
 	}
 
@@ -54,7 +59,7 @@ public class ResourceAction extends Action {
 		try {
 			resourceIStream = getClass().getResourceAsStream("/org/javasimon/console/resource" + resourcePath);
 			if (resourceIStream == null) {
-                getContext().getResponse().sendError(HttpServletResponse.SC_NOT_FOUND);
+				getContext().getResponse().sendError(HttpServletResponse.SC_NOT_FOUND);
 				throw new ActionException("Resource " + resourcePath + " not found");
 			}
 			String extension = resourcePath.substring(resourcePath.lastIndexOf('.') + 1).toLowerCase();
@@ -73,6 +78,7 @@ public class ResourceAction extends Action {
 			}
 		}
 	}
+
 	/**
 	 * Copy resource input stream to HTTP response output stream using
 	 * a 64kib buffer

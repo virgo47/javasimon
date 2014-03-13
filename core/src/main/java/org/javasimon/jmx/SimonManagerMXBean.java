@@ -1,8 +1,8 @@
 package org.javasimon.jmx;
 
-import java.util.List;
-
 import org.javasimon.StopwatchSample;
+
+import java.util.List;
 
 /**
  * Interface of Simon management bean (MXBean) representing single point of access to a particular Simon
@@ -60,7 +60,7 @@ public interface SimonManagerMXBean {
 	 *
 	 * @param name name of Simon
 	 * @return string COUNTER if Counter Simon, STOPWATCH if Stopwatch Simon
-	 *         or UKNOWN if there is no Simon just undefined hierarchy node
+	 * or UNKNOWN if there is no Simon just undefined hierarchy node
 	 */
 	String getType(String name);
 
@@ -168,7 +168,7 @@ public interface SimonManagerMXBean {
 	List<CounterSample> getCounterSamples(String namePattern);
 
 	/**
-	 * Sample all Stopwaches whose name matches given pattern.
+	 * Sample all Stopwatches whose name matches given pattern.
 	 *
 	 * @param namePattern name pattern ({@link org.javasimon.SimonPattern}), {@code null} means all Stopwatches
 	 * @return one Sample for each Stopwatch
@@ -176,7 +176,7 @@ public interface SimonManagerMXBean {
 	List<org.javasimon.jmx.StopwatchSample> getStopwatchSamples(String namePattern);
 
 	/**
-	 * Sample all Stopwaches.
+	 * Sample all Stopwatches.
 	 *
 	 * @return one Sample for each Stopwatch
 	 */

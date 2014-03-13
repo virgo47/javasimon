@@ -1,10 +1,10 @@
 package org.javasimon.proxy;
 
-import java.lang.reflect.Method;
-
 import org.javasimon.Manager;
 import org.javasimon.SimonManager;
 import org.javasimon.source.AbstractMethodStopwatchSource;
+
+import java.lang.reflect.Method;
 
 /**
  * Stopwatch source for use with proxy.
@@ -12,9 +12,8 @@ import org.javasimon.source.AbstractMethodStopwatchSource;
  * @author gquintana
  */
 public class ProxyStopwatchSource<T> extends AbstractMethodStopwatchSource<DelegatingMethodInvocation<T>> {
-	/**
-	 * Prefix used for simon name
-	 */
+
+	/** Prefix used for simon name. */
 	private String prefix = "org.javasimon.proxy";
 
 	public ProxyStopwatchSource() {

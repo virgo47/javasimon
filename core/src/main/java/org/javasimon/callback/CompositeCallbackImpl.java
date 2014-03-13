@@ -1,14 +1,14 @@
 package org.javasimon.callback;
 
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import org.javasimon.Counter;
 import org.javasimon.CounterSample;
 import org.javasimon.Simon;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
 import org.javasimon.StopwatchSample;
+
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Composite callbacks holds child-callbacks and delegates any operations to all of them.
@@ -17,6 +17,7 @@ import org.javasimon.StopwatchSample;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public final class CompositeCallbackImpl implements CompositeCallback {
+
 	private List<Callback> callbacks = new CopyOnWriteArrayList<Callback>();
 
 	private boolean initialized; // should also indicate whether this callback is joined to manager
@@ -57,9 +58,7 @@ public final class CompositeCallbackImpl implements CompositeCallback {
 		}
 	}
 
-	/**
-	 * Removes specified callback from this callback, properly cleans up all the removed callbacks.
-	 */
+	/** Removes specified callback from this callback, properly cleans up all the removed callbacks. */
 	@Override
 	public void removeAllCallbacks() {
 		for (Callback callback : callbacks) {
@@ -67,9 +66,7 @@ public final class CompositeCallbackImpl implements CompositeCallback {
 		}
 	}
 
-	/**
-	 * Calls initialize on all children.
-	 */
+	/** Calls initialize on all children. */
 	@Override
 	public void initialize() {
 		initialized = true;
@@ -82,9 +79,7 @@ public final class CompositeCallbackImpl implements CompositeCallback {
 		}
 	}
 
-	/**
-	 * Calls deactivate on all children.
-	 */
+	/** Calls deactivate on all children. */
 	@Override
 	public void cleanup() {
 		initialized = false;

@@ -4,26 +4,19 @@ import java.lang.reflect.Method;
 import java.util.concurrent.Callable;
 
 /**
- * Proxy method invocation
+ * Proxy method invocation.
  *
  * @author gquintana
  */
 public class DelegatingMethodInvocation<T> implements Delegating<T>, Runnable, Callable<Object> {
-	/**
-	 * Target (real) object
-	 */
+
+	/** Target (real) object. */
 	private final T delegate;
-	/**
-	 * Proxy
-	 */
+	/** Proxy. */
 	private final Object proxy;
-	/**
-	 * Method
-	 */
+	/** Method. */
 	private final Method method;
-	/**
-	 * Invocation arguments
-	 */
+	/** Invocation arguments. */
 	private final Object[] args;
 
 	public DelegatingMethodInvocation(T target, Object proxy, Method method, Object... args) {
@@ -74,5 +67,4 @@ public class DelegatingMethodInvocation<T> implements Delegating<T>, Runnable, C
 			throw new IllegalStateException(throwable);
 		}
 	}
-
 }

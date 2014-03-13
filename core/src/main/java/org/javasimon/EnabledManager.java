@@ -1,5 +1,9 @@
 package org.javasimon;
 
+import org.javasimon.callback.CompositeCallback;
+import org.javasimon.callback.CompositeCallbackImpl;
+import org.javasimon.utils.SimonUtils;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -8,10 +12,6 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.javasimon.callback.CompositeCallback;
-import org.javasimon.callback.CompositeCallbackImpl;
-import org.javasimon.utils.SimonUtils;
-
 /**
  * Implements fully functional {@link Manager} in the enabled state. Does not support
  * {@link #enable()}/{@link #disable()} - for this use {@link SwitchingManager}.
@@ -19,6 +19,7 @@ import org.javasimon.utils.SimonUtils;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public final class EnabledManager implements Manager {
+
 	private final Map<String, AbstractSimon> allSimons = new ConcurrentHashMap<String, AbstractSimon>();
 
 	private UnknownSimon rootSimon;
@@ -27,9 +28,7 @@ public final class EnabledManager implements Manager {
 
 	private ManagerConfiguration configuration;
 
-	/**
-	 * Creates new enabled manager.
-	 */
+	/** Creates new enabled manager. */
 	public EnabledManager() {
 		rootSimon = new UnknownSimon(ROOT_SIMON_NAME, this);
 		allSimons.put(ROOT_SIMON_NAME, rootSimon);
@@ -209,17 +208,13 @@ public final class EnabledManager implements Manager {
 		return configuration;
 	}
 
-	/**
-	 * Throws {@link UnsupportedOperationException}.
-	 */
+	/** Throws {@link UnsupportedOperationException}. */
 	@Override
 	public void enable() {
 		throw new UnsupportedOperationException("Only SwitchingManager supports this operation.");
 	}
 
-	/**
-	 * Throws {@link UnsupportedOperationException}.
-	 */
+	/** Throws {@link UnsupportedOperationException}. */
 	@Override
 	public void disable() {
 		throw new UnsupportedOperationException("Only SwitchingManager supports this operation.");

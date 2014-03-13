@@ -5,14 +5,13 @@ import java.io.StringWriter;
 import java.io.Writer;
 
 /**
- * Base class for all JavaScript things
+ * Base class for all JavaScript things.
  *
  * @author gquintana
  */
 public abstract class AnyJS {
-	/**
-	 * Renders the reponse
-	 */
+
+	/** Renders the response. */
 	public abstract void write(Writer writer) throws IOException;
 
 	protected final void writeString(Writer writer, String string) throws IOException {
@@ -21,9 +20,7 @@ public abstract class AnyJS {
 		writer.write("\"");
 	}
 
-	/**
-	 * Renders the reponse in a String
-	 */
+	/** Renders the response in a String. */
 	@Override
 	public String toString() {
 		try {

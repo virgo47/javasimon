@@ -9,31 +9,22 @@ import org.javasimon.utils.SimonUtils;
  * @see org.javasimon.Counter
  */
 final class CounterImpl extends AbstractSimon implements Counter {
-	/**
-	 * An internal counter.
-	 */
+
+	/** An internal counter. */
 	private long counter;
 
-	/**
-	 * Sum of all increments.
-	 */
+	/** Sum of all increments. */
 	private long incrementSum;
 
-	/**
-	 * Sum of all decrements.
-	 */
+	/** Sum of all decrements. */
 	private long decrementSum;
 
-	/**
-	 * A maximum tracker.
-	 */
+	/** A maximum tracker. */
 	private long max = Long.MIN_VALUE;
 
 	private long maxTimestamp;
 
-	/**
-	 * A minimum tracker - only negative values.
-	 */
+	/** A minimum tracker - only negative values. */
 	private long min = Long.MAX_VALUE;
 
 	private long minTimestamp;

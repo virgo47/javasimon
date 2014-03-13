@@ -1,17 +1,5 @@
 package org.javasimon;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
-
 import org.javasimon.callback.Callback;
 import org.javasimon.callback.CompositeCallback;
 import org.javasimon.callback.CompositeCallbackImpl;
@@ -19,6 +7,18 @@ import org.javasimon.callback.CompositeFilterCallback;
 import org.javasimon.callback.FilterCallback;
 import org.javasimon.callback.FilterRule;
 import org.javasimon.utils.bean.SimonBeanUtils;
+
+import java.io.IOException;
+import java.io.Reader;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 
 /**
  * Holds configuration for one Simon Manager. Configuration is read from the stream
@@ -43,6 +43,7 @@ import org.javasimon.utils.bean.SimonBeanUtils;
 // TODO: This class needs serious rethinking, also manager config itself should be independent from the reading
 // of the config - so it can be set up by Spring for instance
 public final class ManagerConfiguration {
+
 	private Map<SimonPattern, SimonConfiguration> configs;
 
 	private final Manager manager;
@@ -57,9 +58,7 @@ public final class ManagerConfiguration {
 		clear();
 	}
 
-	/**
-	 * Clears any previously loaded configuration.
-	 */
+	/** Clears any previously loaded configuration. */
 	public void clear() {
 		configs = new LinkedHashMap<SimonPattern, SimonConfiguration>();
 	}

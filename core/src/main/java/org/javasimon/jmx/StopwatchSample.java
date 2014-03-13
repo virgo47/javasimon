@@ -1,9 +1,9 @@
 package org.javasimon.jmx;
 
+import org.javasimon.utils.SimonUtils;
+
 import java.beans.ConstructorProperties;
 import java.util.Date;
-
-import org.javasimon.utils.SimonUtils;
 
 /**
  * Value object for retrieving data from Stopwatch Simon. Basically, it's
@@ -41,8 +41,8 @@ public final class StopwatchSample extends org.javasimon.StopwatchSample {
 	 * @param minTimestamp ms timestamp when minimal time was measured
 	 * @param maxTimestamp ms timestamp when maximal time was measured
 	 * @param active count of actual running measures
-	 * @param maxActive maximum paralel measures
-	 * @param maxActiveTimestamp ms timestamp time when maximum paralel measures happend
+	 * @param maxActive maximum parallel measures
+	 * @param maxActiveTimestamp ms timestamp time when maximum parallel measures happened
 	 * @param last last split value in ns
 	 */
 	@ConstructorProperties({"name", "mean", "standardDeviation", "variance", "varianceN", "note", "firstUsage", "lastUsage",
@@ -176,7 +176,7 @@ public final class StopwatchSample extends org.javasimon.StopwatchSample {
 	}
 
 	/**
-	 * Returns ms timestamp when the last peek of the active split count occured as a formatted string.
+	 * Returns ms timestamp when the last peek of the active split count occurred as a formatted string.
 	 *
 	 * @return ms timestamp of the last peek of the active split count as string
 	 */
@@ -185,7 +185,7 @@ public final class StopwatchSample extends org.javasimon.StopwatchSample {
 	}
 
 	/**
-	 * Returns ms timestamp when the last peek of the active split count occured as a formatted date.
+	 * Returns ms timestamp when the last peek of the active split count occurred as a formatted date.
 	 *
 	 * @return ms timestamp of the last peek of the active split count as date
 	 */

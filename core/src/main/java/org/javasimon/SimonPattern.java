@@ -19,31 +19,22 @@ import org.javasimon.utils.SimonUtils;
  * without wildcards (in other words - wildcards matches with nothing as well).
  */
 public final class SimonPattern implements SimonFilter {
+
 	private static final String WILDCARD_STAR = "*";
 
-	/**
-	 * Original pattern from the configuration.
-	 */
+	/** Original pattern from the configuration. */
 	private String pattern;
 
-	/**
-	 * Used if complete match is expected.
-	 */
+	/** Used if complete match is expected. */
 	private String all;
 
-	/**
-	 * Used if head should match.
-	 */
+	/** Used if head should match. */
 	private String start;
 
-	/**
-	 * Used if tail should match.
-	 */
+	/** Used if tail should match. */
 	private String end;
 
-	/**
-	 * Used if anything inside (or everything) should match.
-	 */
+	/** Used if anything inside (or everything) should match. */
 	private String middle;
 
 	private static final String INVALID_PATTERN = "Invalid Simon pattern: ";
@@ -113,7 +104,8 @@ public final class SimonPattern implements SimonFilter {
 	 * @param simon Simon to be tested
 	 * @return true if Simon's name matches this pattern
 	 */
-	public boolean accept(Simon simon) {
+	public boolean accept(Simon simon)
+	{
 		return matches(simon.getName());
 	}
 

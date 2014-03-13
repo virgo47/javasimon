@@ -14,6 +14,7 @@ import org.javasimon.utils.SimonUtils;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public abstract class Sample {
+
 	private String name;
 	private String note;
 	private long firstUsage;
@@ -119,9 +120,7 @@ public abstract class Sample {
 		sb.append('}');
 	}
 
-	/**
-	 * Similar to {@link org.javasimon.AbstractSimon#toString()} except for the state missing in the output.
-	 */
+	/** Similar to {@link org.javasimon.AbstractSimon#toString()} except for the state missing in the output. */
 	public synchronized String simonToString() {
 		return " [" + name + (getNote() != null && getNote().length() != 0 ? " \"" + getNote() + "\"]" : "]");
 	}

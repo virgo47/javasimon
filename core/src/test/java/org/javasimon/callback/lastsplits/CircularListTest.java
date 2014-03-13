@@ -1,21 +1,21 @@
 package org.javasimon.callback.lastsplits;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import static org.testng.Assert.assertEquals;
 
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
-
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author gquintana
  */
 public class CircularListTest {
+
 	@Test
 	public void testAddAndSize() {
 		CircularList<String> list = new CircularList<String>(5);
@@ -78,11 +78,11 @@ public class CircularListTest {
 		CircularList<String> list = new CircularList<String>(5);
 		assertArrayEquals(new String[0], list.toArray());
 		list.addAll(Arrays.asList("A", "B", "C"));
-		assertArrayEquals(new String[] {"A", "B", "C"}, list.toArray());
+		assertArrayEquals(new String[]{"A", "B", "C"}, list.toArray());
 		list.addAll(Arrays.asList("D", "E"));
-		assertArrayEquals(new String[] {"A", "B", "C", "D", "E"}, list.toArray());
+		assertArrayEquals(new String[]{"A", "B", "C", "D", "E"}, list.toArray());
 		list.addAll(Arrays.asList("F", "G"));
-		assertArrayEquals(new String[] {"C", "D", "E", "F", "G"}, list.toArray());
+		assertArrayEquals(new String[]{"C", "D", "E", "F", "G"}, list.toArray());
 	}
 
 	@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")

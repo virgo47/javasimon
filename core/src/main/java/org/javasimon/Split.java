@@ -20,14 +20,11 @@ import org.javasimon.utils.SimonUtils;
  * @see Stopwatch
  */
 public final class Split implements HasAttributes {
-	/**
-	 * Disabled split (implies not running) for cases where monitoring is disabled and {@code null} value is not an option.
-	 */
+
+	/** Disabled split (implies not running) for cases where monitoring is disabled and {@code null} value is not an option. */
 	public static final Split DISABLED = new Split(false);
 
-	/**
-	 * Attribute name under which effectively used stopwatch is stored if the split was stopped with {@link #stop(String)}.
-	 */
+	/** Attribute name under which effectively used stopwatch is stored if the split was stopped with {@link #stop(String)}. */
 	public static final String ATTR_EFFECTIVE_STOPWATCH = "effective-stopwatch";
 
 	private volatile Stopwatch stopwatch;

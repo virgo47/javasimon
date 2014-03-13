@@ -1,9 +1,9 @@
 package org.javasimon;
 
+import org.javasimon.callback.CompositeCallback;
+
 import java.util.Collection;
 import java.util.Collections;
-
-import org.javasimon.callback.CompositeCallback;
 
 /**
  * {@link Manager} implementation that does nothing or returns {@code null} or {@link NullSimon} as expected
@@ -13,6 +13,7 @@ import org.javasimon.callback.CompositeCallback;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public final class DisabledManager implements Manager {
+
 	/**
 	 * Returns "Null Simon" that always returns empty/null values and cannot measure anything.
 	 * Null Simon returned by this method is neither {@link Stopwatch} nor {@link Counter}.
@@ -86,17 +87,13 @@ public final class DisabledManager implements Manager {
 		return Collections.emptyList();
 	}
 
-	/**
-	 * Throws {@link UnsupportedOperationException}.
-	 */
+	/** Throws {@link UnsupportedOperationException}. */
 	@Override
 	public void enable() {
 		throw new UnsupportedOperationException("Only SwitchingManager supports this operation.");
 	}
 
-	/**
-	 * Throws {@link UnsupportedOperationException}.
-	 */
+	/** Throws {@link UnsupportedOperationException}. */
 	@Override
 	public void disable() {
 		throw new UnsupportedOperationException("Only SwitchingManager supports this operation.");

@@ -1,17 +1,18 @@
 package org.javasimon.jmx;
 
-import java.lang.management.ManagementFactory;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-import javax.management.JMException;
-import javax.management.MBeanServer;
-import javax.management.ObjectName;
-
 import org.javasimon.Counter;
 import org.javasimon.Simon;
 import org.javasimon.Stopwatch;
 import org.javasimon.callback.CallbackSkeleton;
+
+import java.lang.management.ManagementFactory;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
+import javax.management.JMException;
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
 
 /**
  * Callback that registers MXBeans for Simons after their creation. It is
@@ -22,14 +23,11 @@ import org.javasimon.callback.CallbackSkeleton;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public class JmxRegisterCallback extends CallbackSkeleton {
-	/**
-	 * Domain part of the JMX object name - protected for subclasses.
-	 */
+
+	/** Domain part of the JMX object name - protected for subclasses. */
 	protected String domain;
 
-	/**
-	 * MBean server instance specified for this callback (or default platform one) - protected for subclasses.
-	 */
+	/** MBean server instance specified for this callback (or default platform one) - protected for subclasses. */
 	protected MBeanServer mBeanServer;
 
 	private Set<String> registeredNames = new HashSet<String>();
@@ -56,8 +54,7 @@ public class JmxRegisterCallback extends CallbackSkeleton {
 	}
 
 	/**
-	 * After Simon is created respective MX bean is registered for it according to
-	 * its type.
+	 * After Simon is created respective MX bean is registered for it according to its type.
 	 *
 	 * @param simon created Simon
 	 */
@@ -87,9 +84,7 @@ public class JmxRegisterCallback extends CallbackSkeleton {
 		}
 	}
 
-	/**
-	 * When the manager is cleared, all MX beans for its Simons are unregistered.
-	 */
+	/** When the manager is cleared, all MX beans for its Simons are unregistered. */
 	@Override
 	public final void onManagerClear() {
 		Iterator<String> namesIter = registeredNames.iterator();

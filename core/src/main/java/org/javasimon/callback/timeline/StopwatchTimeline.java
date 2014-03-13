@@ -5,14 +5,14 @@ import org.javasimon.Stopwatch;
 import org.javasimon.utils.SimonUtils;
 
 /**
- * Timeline for Stopwatches, historicise {@link Stopwatch} state on a
- * rolling period of time.
+ * Timeline for Stopwatches, historicize {@link Stopwatch} state on a rolling period of time.
  *
  * @author gerald
  */
 public final class StopwatchTimeline extends Timeline<StopwatchTimeRange> {
+
 	/**
-	 * Main constructor
+	 * Main constructor.
 	 *
 	 * @param capacity Number of time range.
 	 * @param timeRangeWidth Width of each time range
@@ -22,7 +22,7 @@ public final class StopwatchTimeline extends Timeline<StopwatchTimeRange> {
 	}
 
 	/**
-	 * Produces a {@link StopwatchTimeRange} object
+	 * Produces a {@link StopwatchTimeRange} object.
 	 *
 	 * @param startTimestamp Range beginning
 	 * @param endTimestamp Range ending
@@ -35,7 +35,7 @@ public final class StopwatchTimeline extends Timeline<StopwatchTimeRange> {
 
 	/**
 	 * Main method used to insert the split on the timeline: <ol>
-	 * <li>Split start is used to determine in which timerange it should be split. A new time range may be created if needed.</li>
+	 * <li>Split start is used to determine in which time-range it should be split. A new time range may be created if needed.</li>
 	 * <li>Split duration is added to time range statistics.
 	 * </ol>
 	 * The split might be drop if it's too old.
@@ -67,8 +67,7 @@ public final class StopwatchTimeline extends Timeline<StopwatchTimeRange> {
 		synchronized (this) {
 			timeRangesCopy = timeRanges.toArray(new StopwatchTimeRange[timeRanges.size()]);
 		}
-		// TODO sample each timerange by making a copy of it
+		// TODO sample each time-range by making a copy of it
 		return new TimelineSample<StopwatchTimeRange>(timeRanges.getCapacity(), timeRangeWidth * SimonUtils.NANOS_IN_MILLIS, timeRangesCopy);
 	}
-
 }

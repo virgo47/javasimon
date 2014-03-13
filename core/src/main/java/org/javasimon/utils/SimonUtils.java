@@ -1,5 +1,13 @@
 package org.javasimon.utils;
 
+import org.javasimon.Counter;
+import org.javasimon.Manager;
+import org.javasimon.Simon;
+import org.javasimon.SimonFilter;
+import org.javasimon.SimonManager;
+import org.javasimon.Split;
+import org.javasimon.Stopwatch;
+
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
@@ -7,8 +15,6 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.Callable;
 import java.util.regex.Pattern;
-
-import org.javasimon.*;
 
 /**
  * SimonUtils provides static utility methods.
@@ -49,29 +55,20 @@ import org.javasimon.*;
  */
 @SuppressWarnings({"UnusedDeclaration"})
 public final class SimonUtils {
-	/**
-	 * Number of milliseconds in one second.
-	 */
+
+	/** Number of milliseconds in one second. */
 	public static final long MILLIS_IN_SECOND = 1000;
 
-	/**
-	 * Number of nanoseconds in one millisecond.
-	 */
+	/** Number of nanoseconds in one millisecond. */
 	public static final long NANOS_IN_MILLIS = 1000000;
 
-	/**
-	 * Number of nanoseconds in one second.
-	 */
+	/** Number of nanoseconds in one second. */
 	public static final long NANOS_IN_SECOND = NANOS_IN_MILLIS * MILLIS_IN_SECOND;
 
-	/**
-	 * Regex character class content for {@link #NAME_PATTERN}.
-	 */
+	/** Regex character class content for {@link #NAME_PATTERN}. */
 	public static final String NAME_PATTERN_CHAR_CLASS_CONTENT = "-_\\[\\]A-Za-z0-9.,@$%)(<>";
 
-	/**
-	 * Regex pattern for Simon names.
-	 */
+	/** Regex pattern for Simon names. */
 	public static final Pattern NAME_PATTERN = Pattern.compile("[" + NAME_PATTERN_CHAR_CLASS_CONTENT + "]+");
 
 	/**
@@ -186,10 +183,6 @@ public final class SimonUtils {
 		return presentOverNanoTime(nanos);
 	}
 
-	/**
-	 * @param time time in nanoseconds
-	 * @return human readable time string
-	 */
 	private static String presentOverNanoTime(double time) {
 		if (Math.abs(time) < 1d) {
 			return "0";
@@ -213,20 +206,14 @@ public final class SimonUtils {
 		return formatTime(time, " s");
 	}
 
-	private static String formatTime(double time, String unit) {
+	private static synchronized String formatTime(double time, String unit) {
 		if (time < TEN) {
-			synchronized (UNDER_TEN_FORMAT) {
-				return UNDER_TEN_FORMAT.format(time) + unit;
-			}
+			return UNDER_TEN_FORMAT.format(time) + unit;
 		}
 		if (time < HUNDRED) {
-			synchronized (UNDER_HUNDRED_FORMAT) {
-				return UNDER_HUNDRED_FORMAT.format(time) + unit;
-			}
+			return UNDER_HUNDRED_FORMAT.format(time) + unit;
 		}
-		synchronized (DEFAULT_FORMAT) {
-			return DEFAULT_FORMAT.format(time) + unit;
-		}
+		return DEFAULT_FORMAT.format(time) + unit;
 	}
 
 	/**

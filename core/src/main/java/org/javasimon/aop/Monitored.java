@@ -16,8 +16,8 @@ import java.lang.annotation.Target;
  * <li>If method annotation has the name parameter it will be the name of the Stopwatch (suffix is ignored).</li>
  * <li>Default name part is the fully qualified class name.</li>
  * <li>Default suffix part is the name of the current method.</li>
- * <li>Name can be overruled by class annotation paramter, this can be overruled by method annotation parameter.</li>
- * <li>Suffix parameter overrules default method name. Suffix paramter is ignored on the class annotation.</li>
+ * <li>Name can be overruled by class annotation parameter, this can be overruled by method annotation parameter.</li>
+ * <li>Suffix parameter overrules default method name. Suffix parameter is ignored on the class annotation.</li>
  * </ul>
  * If no parameter is used, name of the Stopwatch will be: {@code fully.qualified.ClassName.methodName}
  * <p/>
@@ -39,7 +39,7 @@ public @interface Monitored {
 
 	/**
 	 * Part added after the name part (which defaults to the class name or is specified on the class annotation). This
-	 * paramater is ignored for the class annotation or if the name parameter was specified on the method
+	 * parameter is ignored for the class annotation or if the name parameter was specified on the method
 	 * annotation. If not ignored, it is added to the Stopwatch name after the Simon name separator (.).
 	 *
 	 * @return suffix to be added to the name of the monitor

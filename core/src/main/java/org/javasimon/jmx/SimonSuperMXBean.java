@@ -1,16 +1,17 @@
 package org.javasimon.jmx;
 
-import java.util.List;
-
 import org.javasimon.Sample;
 
+import java.util.List;
+
 /**
- * Interface with common methods for JMX beans for a signle Simon that corresponds
+ * Interface with common methods for JMX beans for a single Simon that corresponds
  * to AbstractSimon in the core package.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public interface SimonSuperMXBean {
+
 	/**
 	 * Returns Simon name. While Simon names can be {@code null} for anonymous
 	 * Simons, such Simons are never registered hence this method never returns

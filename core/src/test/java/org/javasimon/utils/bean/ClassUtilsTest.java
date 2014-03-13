@@ -13,8 +13,8 @@ import java.util.Set;
 public class ClassUtilsTest {
 
 	private static class TestBean {
-		 int intField;
-		 String strField;
+		int intField;
+		String strField;
 
 		public int getIntField() {
 			return intField;

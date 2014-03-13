@@ -35,6 +35,7 @@ package org.javasimon;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public interface Counter extends Simon {
+
 	/**
 	 * Increments the counter by one.
 	 *

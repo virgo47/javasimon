@@ -17,24 +17,15 @@ import org.javasimon.callback.CallbackSkeleton;
  * @author gerald
  */
 public class TimelineCallback extends CallbackSkeleton {
-	/**
-	 * Default attribute name for storing timelines.
-	 */
+
+	/** Default attribute name for storing timelines. */
 	public static final String TIMELINE_ATTRIBUTE_NAME = "timeline";
 
-	/**
-	 * Attribute name for storing timeline in Simons.
-	 */
+	/** Attribute name for storing timeline in Simons. */
 	private final String timelineAttributeName;
-
-	/**
-	 * Number of time ranges to keep in the timeline.
-	 */
+	/** Number of time ranges to keep in the timeline. */
 	private final int timelineCapacity;
-
-	/**
-	 * Width in milliseconds of the time ranges.
-	 */
+	/** Width in milliseconds of the time ranges. */
 	private final long timeRangeWidth;
 
 	/**
@@ -69,7 +60,7 @@ public class TimelineCallback extends CallbackSkeleton {
 	}
 
 	/**
-	 * Gets timeline for given Stopwatch.
+	 * Returns timeline for given Stopwatch.
 	 *
 	 * @param stopwatch Stopwatch
 	 * @return Stopwatch timeline
