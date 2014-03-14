@@ -140,7 +140,9 @@ abstract class AbstractSimon implements Simon {
 			resetTimestamp = System.currentTimeMillis();
 			concreteReset();
 		}
-		manager.callback().onSimonReset(this);
+		if (manager != null) {
+			manager.callback().onSimonReset(this);
+		}
 	}
 
 	abstract void concreteReset();

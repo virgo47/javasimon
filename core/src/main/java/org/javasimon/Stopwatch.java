@@ -197,4 +197,8 @@ public interface Stopwatch extends Simon {
 
 	@Override
 	StopwatchSample sampleAndReset();
+
+	StopwatchSample sample(Object key);
+
+	void removeSampleKey(Object key);
 }

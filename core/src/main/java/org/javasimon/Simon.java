@@ -128,4 +128,6 @@ public interface Simon extends HasAttributes {
 	 * @return sample containing all Simon values
 	 */
 	Sample sampleAndReset();
+
+//	Sample sample(Object key);
 }

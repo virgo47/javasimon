@@ -2,6 +2,9 @@ package org.javasimon;
 
 import org.javasimon.utils.SimonUtils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Class implements {@link org.javasimon.Stopwatch} interface - see there for how to use Stopwatch.
  *
@@ -9,6 +12,7 @@ import org.javasimon.utils.SimonUtils;
  * @see org.javasimon.Stopwatch
  */
 final class StopwatchImpl extends AbstractSimon implements Stopwatch {
+
 	private long total;
 	private long counter;
 	private long active;
@@ -22,6 +26,8 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	private double mean; // used to calculate statistics
 	private double mean2; // used to calculate statistics
 
+	private Map<Object, StopwatchImpl> tags;
+
 	/**
 	 * Constructs Stopwatch Simon with a specified name and for the specified manager.
 	 *
@@ -30,6 +36,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	 */
 	StopwatchImpl(String name, Manager manager) {
 		super(name, manager);
+		tags = new HashMap<Object, StopwatchImpl>();
 	}
 
 	@Override
@@ -42,10 +49,15 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		StopwatchSample sample = null;
 		synchronized (this) {
 			// using parameter version saves one currentTimeMillis call
-			updateUsages(split.getStart() + splitNs);
+			long nowNanos = split.getStart() + splitNs;
+			updateUsages(nowNanos);
 			addSplit(splitNs);
 			if (!manager.callback().callbacks().isEmpty()) {
 				sample = sample();
+			}
+			for (StopwatchImpl stopwatch : tags.values()) {
+				stopwatch.addSplit(splitNs);
+				stopwatch.updateUsages(nowNanos);
 			}
 		}
 		manager.callback().onStopwatchAdd(this, split, sample);
@@ -77,7 +89,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	 * @param nowNanos current nano time
 	 * @param subSimon name of the sub-stopwatch (hierarchy delimiter is added automatically), may be {@code null}
 	 */
-	void stop(Split split, long start, long nowNanos, String subSimon) {
+	void stop(final Split split, final long start, final long nowNanos, final String subSimon) {
 		StopwatchSample sample = null;
 		synchronized (this) {
 			active--;
@@ -88,9 +100,14 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 				effectiveStopwatch.addSplit(split);
 				return;
 			}
-			addSplit(nowNanos - start);
+			long splitNs = nowNanos - start;
+			addSplit(splitNs);
 			if (!manager.callback().callbacks().isEmpty()) {
 				sample = sample();
+			}
+			for (StopwatchImpl stopwatch : tags.values()) {
+				stopwatch.updateUsages(nowNanos);
+				stopwatch.addSplit(splitNs);
 			}
 		}
 		manager.callback().onStopwatchStop(split, sample);
@@ -228,6 +245,23 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		StopwatchSample sample = sample();
 		reset();
 		return sample;
+	}
+
+	@Override
+	public synchronized StopwatchSample sample(Object key) {
+		StopwatchSample sample = sample();
+		StopwatchImpl stopwatch = tags.get(key);
+		if (stopwatch != null) {
+			sample.setIncrement(stopwatch.sampleAndReset());
+		} else {
+			tags.put(key, new StopwatchImpl(null, null));
+		}
+		return sample;
+	}
+
+	@Override
+	public synchronized void removeSampleKey(Object key) {
+		tags.remove(key);
 	}
 
 	@Override

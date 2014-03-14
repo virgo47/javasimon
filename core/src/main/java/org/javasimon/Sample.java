@@ -26,7 +26,7 @@ public abstract class Sample {
 	 *
 	 * @return Simon's name
 	 */
-	public String getName() {
+	public final String getName() {
 		return name;
 	}
 
@@ -35,7 +35,7 @@ public abstract class Sample {
 	 *
 	 * @param name Simon's name
 	 */
-	public void setName(String name) {
+	public final void setName(String name) {
 		this.name = name;
 	}
 

@@ -10,6 +10,7 @@ import org.javasimon.utils.SimonUtils;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public class StopwatchSample extends Sample {
+
 	private long total;
 	private long counter;
 	private long min;
@@ -24,6 +25,7 @@ public class StopwatchSample extends Sample {
 	private double standardDeviation;
 	private double variance;
 	private double varianceN;
+	private StopwatchSample increment;
 
 	/**
 	 * Returns the total sum of all split times in nanoseconds.
@@ -278,6 +280,14 @@ public class StopwatchSample extends Sample {
 		this.varianceN = varianceN;
 	}
 
+	void setIncrement(StopwatchSample increment) {
+		this.increment = increment;
+	}
+
+	public StopwatchSample getIncrement() {
+		return increment;
+	}
+
 	/**
 	 * Returns readable representation of object.
 	 *
@@ -286,9 +296,11 @@ public class StopwatchSample extends Sample {
 	@Override
 	public String toString() {
 		final StringBuilder sb = new StringBuilder();
-		sb.append("StopwatchSample");
-		sb.append("{name=").append(getName());
-		sb.append(", total=").append(SimonUtils.presentNanoTime(total));
+		sb.append("StopwatchSample{");
+		if (getName() != null) {
+			sb.append("name=").append(getName()).append(", ");
+		}
+		sb.append("total=").append(SimonUtils.presentNanoTime(total));
 		sb.append(", counter=").append(counter);
 		sb.append(", min=").append(SimonUtils.presentMinMaxSplit(min));
 		sb.append(", max=").append(SimonUtils.presentMinMaxSplit(max));
@@ -303,6 +315,9 @@ public class StopwatchSample extends Sample {
 		sb.append(", variance=").append(getVariance());
 		sb.append(", varianceN=").append(getVarianceN());
 		finishWithUsagesAndNote(sb);
+		if (increment != null) {
+			sb.append("+Increment").append(increment.toString());
+		}
 		return sb.toString();
 	}
 

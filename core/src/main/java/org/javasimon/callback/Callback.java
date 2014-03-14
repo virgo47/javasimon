@@ -67,7 +67,10 @@ public interface Callback {
 	 * Simon reset event.
 	 *
 	 * @param simon reset Simon
+	 * @deprecated Will be removed in 4.0. Use {@link org.javasimon.Stopwatch#sample(Object)} (keyed sampling) instead.
+	 * TODO change link to Simon when done
 	 */
+	@Deprecated
 	void onSimonReset(Simon simon);
 
 	/**
@@ -165,7 +168,13 @@ public interface Callback {
 		/** Meta-action designating all actions (or any action in rules). */
 		ALL("all"),
 
-		/** Reset of the Simon. */
+		/**
+		 * Reset of the Simon.
+		 *
+		 * @deprecated Will be removed in 4.0. Use {@link org.javasimon.Stopwatch#sample(Object)} (keyed sampling) instead.
+		 * TODO change link to Simon when done
+		 */
+		@Deprecated
 		RESET("reset"),
 
 		/** Start of the stopwatch. */

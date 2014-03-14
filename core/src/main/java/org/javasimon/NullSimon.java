@@ -304,6 +304,15 @@ final class NullStopwatch extends NullSimon implements Stopwatch {
 	public StopwatchSample sampleAndReset() {
 		return null;
 	}
+
+	@Override
+	public StopwatchSample sample(Object key) {
+		return null;
+	}
+
+	@Override
+	public void removeSampleKey(Object key) {
+	}
 }
 
 /**
