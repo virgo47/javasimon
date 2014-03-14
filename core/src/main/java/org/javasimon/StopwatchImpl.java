@@ -252,10 +252,9 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		StopwatchSample sample = sample();
 		StopwatchImpl stopwatch = tags.get(key);
 		if (stopwatch != null) {
-			sample.setIncrement(stopwatch.sampleAndReset());
-		} else {
-			tags.put(key, new StopwatchImpl(null, null));
+			sample.setIncrement(stopwatch.sample());
 		}
+		tags.put(key, new StopwatchImpl(null, null));
 		return sample;
 	}
 

@@ -38,5 +38,6 @@ public class KeyedSampling {
 		System.out.println("1: " + stopwatch.sample("1"));
 		System.out.println("2: " + stopwatch.sample("2"));
 		System.out.println("3: " + stopwatch.sample("3"));
+		System.out.println("3 after no change: " + stopwatch.sample("3"));
 	}
 }
