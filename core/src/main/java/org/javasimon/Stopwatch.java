@@ -200,5 +200,5 @@ public interface Stopwatch extends Simon {
 
 	StopwatchSample sample(Object key);
 
-	void removeSampleKey(Object key);
+	boolean removeSampleKey(Object key);
 }

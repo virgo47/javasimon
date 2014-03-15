@@ -311,7 +311,8 @@ final class NullStopwatch extends NullSimon implements Stopwatch {
 	}
 
 	@Override
-	public void removeSampleKey(Object key) {
+	public boolean removeSampleKey(Object key) {
+		return false;
 	}
 }
 

@@ -1,6 +1,7 @@
 package org.javasimon.examples;
 
 import org.javasimon.SimonManager;
+import org.javasimon.Split;
 import org.javasimon.Stopwatch;
 
 import java.lang.management.ManagementFactory;
@@ -35,6 +36,10 @@ public class SimonMemoryConsumption {
 			stopwatch.start().stop();
 		}
 		report("after 100K start/stop");
+		for (Stopwatch stopwatch : stopwatches) {
+			something(stopwatch);
+		}
+		report("after 100K (2 keys each)");
 
 		System.out.println("array-len = " + stopwatches.length);
 		report("after array.length");
@@ -63,7 +68,6 @@ public class SimonMemoryConsumption {
 		System.out.println(what + ": " + baseline);
 	}
 
-	/*
 	private static void something(Stopwatch stopwatch) {
 		stopwatch.sample();
 		stopwatch.addSplit(Split.create(55));
@@ -84,5 +88,4 @@ public class SimonMemoryConsumption {
 		stopwatch.removeSampleKey("1");
 		stopwatch.addSplit(Split.create(12));
 	}
-	*/
 }

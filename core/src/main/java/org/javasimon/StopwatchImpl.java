@@ -26,7 +26,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	private double mean; // used to calculate statistics
 	private double mean2; // used to calculate statistics
 
-	private Map<Object, StopwatchImpl> tags;
+	private Map<Object, StopwatchImpl> sampleKeys;
 
 	/**
 	 * Constructs Stopwatch Simon with a specified name and for the specified manager.
@@ -36,7 +36,6 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	 */
 	StopwatchImpl(String name, Manager manager) {
 		super(name, manager);
-		tags = new HashMap<Object, StopwatchImpl>();
 	}
 
 	@Override
@@ -55,13 +54,19 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 			if (!manager.callback().callbacks().isEmpty()) {
 				sample = sample();
 			}
-			for (StopwatchImpl stopwatch : tags.values()) {
+			updateSampleKeys(splitNs, nowNanos);
+		}
+		manager.callback().onStopwatchAdd(this, split, sample);
+		return this;
+	}
+
+	private void updateSampleKeys(long splitNs, long nowNanos) {
+		if (sampleKeys != null) {
+			for (StopwatchImpl stopwatch : sampleKeys.values()) {
 				stopwatch.addSplit(splitNs);
 				stopwatch.updateUsages(nowNanos);
 			}
 		}
-		manager.callback().onStopwatchAdd(this, split, sample);
-		return this;
 	}
 
 	@Override
@@ -105,10 +110,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 			if (!manager.callback().callbacks().isEmpty()) {
 				sample = sample();
 			}
-			for (StopwatchImpl stopwatch : tags.values()) {
-				stopwatch.updateUsages(nowNanos);
-				stopwatch.addSplit(splitNs);
-			}
+			updateSampleKeys(splitNs, nowNanos);
 		}
 		manager.callback().onStopwatchStop(split, sample);
 	}
@@ -250,17 +252,24 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	@Override
 	public synchronized StopwatchSample sample(Object key) {
 		StopwatchSample sample = sample();
-		StopwatchImpl stopwatch = tags.get(key);
+		StopwatchImpl stopwatch = getSampleKey(key);
 		if (stopwatch != null) {
 			sample.setIncrement(stopwatch.sample());
 		}
-		tags.put(key, new StopwatchImpl(null, null));
+		sampleKeys.put(key, new StopwatchImpl(null, null));
 		return sample;
 	}
 
+	private StopwatchImpl getSampleKey(Object key) {
+		if (sampleKeys == null) {
+			sampleKeys = new HashMap<Object, StopwatchImpl>();
+		}
+		return sampleKeys.get(key);
+	}
+
 	@Override
-	public synchronized void removeSampleKey(Object key) {
-		tags.remove(key);
+	public synchronized boolean removeSampleKey(Object key) {
+		return sampleKeys != null && sampleKeys.remove(key) != null;
 	}
 
 	@Override
