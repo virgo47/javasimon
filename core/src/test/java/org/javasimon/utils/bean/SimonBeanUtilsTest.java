@@ -34,6 +34,7 @@ public class SimonBeanUtilsTest extends SimonUnitTest {
 		private long longProp;
 		private float floatProp;
 		private double doubleProp;
+		private char charProp;
 		private TestClass testClassProp;
 
 		public boolean isBooleanProp() {
@@ -100,6 +101,14 @@ public class SimonBeanUtilsTest extends SimonUnitTest {
 			this.doubleProp = doubleProp;
 		}
 
+		public char getCharProp() {
+			return charProp;
+		}
+
+		public void setCharProp(char charProp) {
+			this.charProp = charProp;
+		}
+
 		public TestClass getTestClassProp() {
 			return testClassProp;
 		}
@@ -163,6 +172,13 @@ public class SimonBeanUtilsTest extends SimonUnitTest {
 		TestBean testBean = new TestBean();
 		simonBeanUtils.setProperty(testBean, "doubleProp", "123.456");
 		Assert.assertEquals(testBean.getDoubleProp(), 123.456, 0.00001);
+	}
+
+	@Test
+	public void testSetCharProperty() {
+		TestBean testBean = new TestBean();
+		simonBeanUtils.setProperty(testBean, "charProp", "a");
+		Assert.assertEquals(testBean.getCharProp(), 'a');
 	}
 
 	@Test

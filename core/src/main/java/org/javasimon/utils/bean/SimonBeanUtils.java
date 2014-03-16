@@ -47,6 +47,9 @@ public class SimonBeanUtils {
 		converters.put(double.class, new ToDoubleConverter());
 		converters.put(Double.class, new ToDoubleConverter());
 
+		converters.put(char.class, new ToCharConverter());
+		converters.put(Character.class, new ToCharConverter());
+
 	}
 
 	public static SimonBeanUtils getInstance() {
