@@ -1,19 +1,21 @@
 package org.javasimon.callback.timeline;
 
-import org.testng.annotations.Test;
-
 import static org.javasimon.callback.timeline.TimeUtil.addSplit;
 import static org.javasimon.callback.timeline.TimeUtil.createTimestamp;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
+import org.javasimon.SimonUnitTest;
+import org.testng.annotations.Test;
+
 /**
  * Unit test for {@link StopwatchTimeRange} and {@link TimeRange}
  *
  * @author gerald
  */
-public class StopwatchTimeRangeTest {
+public class StopwatchTimeRangeTest extends SimonUnitTest {
+
 	private StopwatchTimeRange createStopwatchTimeRange() {
 		return new StopwatchTimeRange(createTimestamp(2012, 7, 12, 21, 5, 0), createTimestamp(2012, 7, 12, 21, 10, 0));
 	}
@@ -48,5 +50,4 @@ public class StopwatchTimeRangeTest {
 		assertEquals(timeRange.getLast(), 300);
 		assertEquals(timeRange.getStandardDeviation(), 81.65d, 0.01d);
 	}
-
 }

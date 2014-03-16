@@ -1,21 +1,20 @@
 package org.javasimon;
 
-import java.util.LinkedList;
-import java.util.Queue;
-
 import org.javasimon.callback.CallbackSkeleton;
 import org.javasimon.utils.SimonUtils;
-
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * Tests SimonManager behavior.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
-public final class ManagerTest {
+public final class ManagerTest extends SimonUnitTest {
+
 	private static final int FRESH_MANAGER_SIMON_LIST_SIZE = 1;
 	private static final int SIMON_COUNT_AFTER_COUNTER_ADDED = 5;
 
@@ -23,12 +22,6 @@ public final class ManagerTest {
 	private static final String ORG_JAVASIMON_INHERIT_SW1 = "org.javasimon.inherit.sw1";
 	private static final String ORG_JAVASIMON_ENABLED_SW1 = "org.javasimon.enabled.sw1";
 	private static final String ORG_JAVASIMON_DISABLED_SW1 = "org.javasimon.disabled.sw1";
-
-	@BeforeMethod
-	public void resetAndEnable() {
-		SimonManager.enable();
-		SimonManager.clear();
-	}
 
 	@Test
 	public void testSimonCreation() {

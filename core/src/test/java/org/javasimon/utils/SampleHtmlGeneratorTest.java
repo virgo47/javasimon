@@ -1,5 +1,12 @@
 package org.javasimon.utils;
 
+import org.javasimon.CounterSample;
+import org.javasimon.Sample;
+import org.javasimon.SimonUnitTest;
+import org.javasimon.StopwatchSample;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -8,17 +15,11 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.javasimon.CounterSample;
-import org.javasimon.Sample;
-import org.javasimon.StopwatchSample;
-
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
 /**
  * Unit test of {@link SampleHtmlGenerator}.
  */
-public class SampleHtmlGeneratorTest {
+public class SampleHtmlGeneratorTest extends SimonUnitTest {
+
 	@Test
 	public void testSamplesToHtmlTable() throws Exception {
 		SampleHtmlGenerator.setLineSeparator("\r\n"); // in case it runs on Unix/Linux

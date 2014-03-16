@@ -2,6 +2,7 @@ package org.javasimon.callback.timeline;
 
 import org.javasimon.EnabledManager;
 import org.javasimon.Manager;
+import org.javasimon.SimonUnitTest;
 import org.javasimon.Stopwatch;
 
 import org.testng.Assert;
@@ -16,7 +17,8 @@ import static org.testng.Assert.assertEquals;
  *
  * @author gerald
  */
-public class StopwatchTimelineTest {
+public class StopwatchTimelineTest extends SimonUnitTest {
+
 	@Test
 	public void testAddSplit() {
 		// 10 ranges of 5 minutes

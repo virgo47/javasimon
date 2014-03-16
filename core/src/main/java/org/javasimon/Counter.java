@@ -52,8 +52,8 @@ public interface Counter extends Simon {
 
 	/**
 	 * Increments the counter by the specified value. Using negative values is possible but may provide
-	 * unexpected results - this method updates only incrementSum and max, never decrementSum and min.
-	 * Also incrementSum is decreased when negative number is used.
+	 * unexpected results - this method updates only incrementSum, it is decreased when negative number is used.
+	 * Min and max are updated as expected.
 	 *
 	 * @param inc added value
 	 * @return this
@@ -62,8 +62,8 @@ public interface Counter extends Simon {
 
 	/**
 	 * Increments the counter by the specified value. Using negative values is possible but may provide
-	 * unexpected results - this method updates only decrementSum and min, never incrementSum and max.
-	 * Also decrementSum is decreased when negative number is used.
+	 * unexpected results - this method updates only decrementSum, it is decreased when negative number is used.
+	 * Min and max are updated as expected.
 	 *
 	 * @param dec subtracted value
 	 * @return this

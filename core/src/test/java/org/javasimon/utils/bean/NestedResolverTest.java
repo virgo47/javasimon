@@ -1,12 +1,14 @@
 package org.javasimon.utils.bean;
 
+import org.javasimon.SimonUnitTest;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 /**
  * @author <a href="mailto:ivan.mushketyk@gmail.com">Ivan Mushketyk</a>
  */
-public class NestedResolverTest {
+public class NestedResolverTest extends SimonUnitTest {
+
 	private static class NestedTestBean {
 		private int field;
 	}
@@ -41,9 +43,9 @@ public class NestedResolverTest {
 		NestedTestBean nestedTestBean = new NestedTestBean();
 		testBean.bean = nestedTestBean;
 		NestedResolver nestedResolver = new NestedResolver(testBean, "nonExisting.field");
-    }
+	}
 
-    private static class PropertyTestBean {
+	private static class PropertyTestBean {
 		private NestedTestBean nestedBean;
 
 		public NestedTestBean getBean() {

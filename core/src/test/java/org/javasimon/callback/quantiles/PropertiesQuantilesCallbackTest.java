@@ -1,18 +1,17 @@
 package org.javasimon.callback.quantiles;
 
+import static org.testng.Assert.assertEquals;
+
+import org.javasimon.SimonManager;
+import org.javasimon.SimonUnitTest;
+import org.testng.annotations.Test;
+
 import java.io.IOException;
 import java.util.Properties;
 
-import org.javasimon.SimonManager;
+/** Unit test for {@link PropertiesQuantilesCallback}. */
+public class PropertiesQuantilesCallbackTest extends SimonUnitTest {
 
-import org.testng.annotations.Test;
-
-import static org.testng.Assert.assertEquals;
-
-/**
- * Unit test for {@link PropertiesQuantilesCallback}
- */
-public class PropertiesQuantilesCallbackTest {
 	private static class LocalPropertiesQuantilesCallback extends PropertiesQuantilesCallback {
 		private LocalPropertiesQuantilesCallback(Properties properties) {
 			super(properties);

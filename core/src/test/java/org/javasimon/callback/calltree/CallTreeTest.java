@@ -1,31 +1,25 @@
 package org.javasimon.callback.calltree;
 
-import org.javasimon.SimonManager;
-import org.javasimon.Split;
+import static org.testng.Assert.assertEquals;
 
+import org.javasimon.SimonManager;
+import org.javasimon.SimonUnitTest;
+import org.javasimon.Split;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
-
 /**
- * Unit test for {@link CallTree} and {@link CallTreeNode}
+ * Unit test for {@link CallTree} and {@link CallTreeNode}.
  *
  * @author gquintana
  */
-public class CallTreeTest {
-	/**
-	 * Logger
-	 */
+public class CallTreeTest extends SimonUnitTest {
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(CallTreeTest.class);
-	/**
-	 * Simon name prefix
-	 */
 	private static final String NAME_PREFIX = "org.javasimon.test.";
-	/**
-	 * Call tree under test
-	 */
+
+	/** Call tree under test. */
 	private CallTree callTree = new CallTree(null) {
 		@Override
 		public void onRootStopwatchStart(CallTreeNode rootNode, Split split) {
@@ -33,31 +27,23 @@ public class CallTreeTest {
 		}
 	};
 
-	/**
-	 * Root call tree node
-	 */
+	/** Root call tree node. */
 	private CallTreeNode rootTreeNode;
 
-	/**
-	 * Start a stopwatch and append it call stack
-	 */
+	/** Start a stopwatch and append it call stack. */
 	private Split startStopwatch(String name) {
 		Split split = SimonManager.getStopwatch(NAME_PREFIX + name).start();
 		callTree.onStopwatchStart(split);
 		return split;
 	}
 
-	/**
-	 * Stop a stopwatch and remove it from call stack
-	 */
+	/** Stop a stopwatch and remove it from call stack. */
 	private void stopStopwatch(Split split) {
 		split.stop();
 		callTree.onStopwatchStop(split);
 	}
 
-	/**
-	 * Test call tree
-	 */
+	/** Test call tree. */
 	@Test
 	public void testStopwatchStartStop() {
 		// Initialisation

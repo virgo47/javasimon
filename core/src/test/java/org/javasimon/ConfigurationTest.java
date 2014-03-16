@@ -1,10 +1,5 @@
 package org.javasimon;
 
-import java.io.IOException;
-import java.io.StringReader;
-import java.util.logging.Level;
-import javax.script.ScriptException;
-
 import org.javasimon.callback.Callback;
 import org.javasimon.callback.CallbackSkeleton;
 import org.javasimon.callback.CompositeCallback;
@@ -13,16 +8,22 @@ import org.javasimon.callback.FilterRule;
 import org.javasimon.utils.LoggingCallback;
 import org.javasimon.utils.SimonUtils;
 import org.javasimon.utils.SystemDebugCallback;
-
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.logging.Level;
+
+import javax.script.ScriptException;
 
 /**
  * Tests for the configuration facility (callbacks, {@link ManagerConfiguration}).
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
-public final class ConfigurationTest {
+public final class ConfigurationTest extends SimonUnitTest {
+
 	@Test
 	public void testConfigResource() throws IOException {
 		SimonManager.callback().removeAllCallbacks();

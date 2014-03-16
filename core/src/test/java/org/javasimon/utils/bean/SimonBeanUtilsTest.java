@@ -1,17 +1,18 @@
 package org.javasimon.utils.bean;
 
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import org.javasimon.SimonUnitTest;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
 /**
  * @author <a href="mailto:ivan.mushketyk@gmail.com">Ivan Mushketyk</a>
  */
-public class SimonBeanUtilsTest {
+public class SimonBeanUtilsTest extends SimonUnitTest {
 
 	private SimonBeanUtils simonBeanUtils;
 
@@ -369,7 +370,8 @@ public class SimonBeanUtilsTest {
 		}
 	}
 
-	private static class TestBeanExtension2 extends TestBeanExtension {}
+	private static class TestBeanExtension2 extends TestBeanExtension {
+	}
 
 	@Test
 	public void testSetInheritedProperty() {
@@ -398,7 +400,8 @@ public class SimonBeanUtilsTest {
 		protected int intField;
 	}
 
-	private static class BaseNoSetterBeanInherited extends BaseNoSetterBean {}
+	private static class BaseNoSetterBeanInherited extends BaseNoSetterBean {
+	}
 
 	@Test
 	public void testSetInheritedField() {

@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
  *
  * @author virgo47@gmail.com
  */
-public final class SimonPatternTest {
+public final class SimonPatternTest extends SimonUnitTest {
 
 	@Test(expectedExceptions = SimonException.class, expectedExceptionsMessageRegExp = "Invalid Simon pattern: ")
 	public void testEmpty() {

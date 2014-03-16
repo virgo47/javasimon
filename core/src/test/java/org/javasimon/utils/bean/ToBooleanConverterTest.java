@@ -1,5 +1,6 @@
 package org.javasimon.utils.bean;
 
+import org.javasimon.SimonUnitTest;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -7,12 +8,13 @@ import org.testng.annotations.Test;
 /**
  * @author <a href="mailto:ivan.mushketyk@gmail.com">Ivan Mushketyk</a>
  */
-public class ToBooleanConverterTest {
+public class ToBooleanConverterTest extends SimonUnitTest {
+
 	private ToBooleanConverter toBooleanConverter = new ToBooleanConverter();
 
 	@DataProvider(name = "validValues")
 	public Object[][] validValues() {
-		return new Object[][] {
+		return new Object[][]{
 			{"true", true},
 			{"false", false},
 			{"True", true},
@@ -27,8 +29,8 @@ public class ToBooleanConverterTest {
 
 	@DataProvider(name = "invalidValues")
 	public Object[][] invalidValues() {
-		return new Object[][] {
-				{"12345"}
+		return new Object[][]{
+			{"12345"}
 		};
 	}
 
@@ -36,5 +38,4 @@ public class ToBooleanConverterTest {
 	public void testConvertingValidValues(String invalidVal) {
 		toBooleanConverter.convert(Boolean.class, invalidVal);
 	}
-
 }

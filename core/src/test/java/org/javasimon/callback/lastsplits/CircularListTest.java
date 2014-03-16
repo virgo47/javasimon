@@ -3,6 +3,7 @@ package org.javasimon.callback.lastsplits;
 import static org.testng.Assert.assertEquals;
 
 import org.javasimon.SimonManager;
+import org.javasimon.SimonUnitTest;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
 import org.testng.annotations.Test;
@@ -14,7 +15,7 @@ import java.util.List;
 /**
  * @author gquintana
  */
-public class CircularListTest {
+public class CircularListTest extends SimonUnitTest {
 
 	@Test
 	public void testAddAndSize() {

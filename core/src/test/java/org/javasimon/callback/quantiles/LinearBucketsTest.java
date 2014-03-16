@@ -2,6 +2,7 @@ package org.javasimon.callback.quantiles;
 
 import java.util.List;
 
+import org.javasimon.SimonUnitTest;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
@@ -9,7 +10,8 @@ import static org.testng.Assert.assertEquals;
 /**
  * @author gquintana
  */
-public class LinearBucketsTest {
+public class LinearBucketsTest extends SimonUnitTest {
+
 	@Test
 	public void testAdd() {
 		Buckets buckets = new LinearBuckets(0L, 500L, 5);
@@ -66,6 +68,6 @@ public class LinearBucketsTest {
 		buckets.addValue(140);
 		// 1 value in another bucket
 		buckets.addValue(300);
-		assertEquals(200D, buckets.getQuantile(0.9D), 0.1D);// End of second becond bucket
+		assertEquals(200D, buckets.getQuantile(0.9D), 0.1D);// End of second bucket
 	}
 }

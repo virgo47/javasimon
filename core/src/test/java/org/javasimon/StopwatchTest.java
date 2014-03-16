@@ -1,9 +1,7 @@
 package org.javasimon;
 
 import org.javasimon.utils.SimonUtils;
-
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
@@ -11,13 +9,7 @@ import org.testng.annotations.Test;
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
-public final class StopwatchTest {
-
-	@BeforeMethod
-	public void resetAndEnable() {
-		SimonManager.clear();
-		SimonManager.enable();
-	}
+public final class StopwatchTest extends SimonUnitTest {
 
 	@Test
 	public void basicStopwatchTest() {
@@ -33,7 +25,6 @@ public final class StopwatchTest {
 	@Test
 	public void usagesTest() throws Exception {
 		Stopwatch stopwatch = SimonManager.getStopwatch(null);
-		stopwatch.reset();
 		Assert.assertEquals(stopwatch.getFirstUsage(), 0);
 		Assert.assertEquals(stopwatch.getLastUsage(), 0);
 		Split split = stopwatch.start();
@@ -45,7 +36,9 @@ public final class StopwatchTest {
 		Assert.assertTrue(stopwatch.getFirstUsage() < stopwatch.getLastUsage());
 	}
 
+	// remove in 4.0
 	@Test
+	@Deprecated
 	public void resetTest() throws Exception {
 		// with raw current millis this test is unstable - this is not a problem in real-life situations though
 		// point is to check that timestamps are set, not that they are set off by 1 ms or so

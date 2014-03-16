@@ -1,5 +1,6 @@
 package org.javasimon.utils.bean;
 
+import org.javasimon.SimonUnitTest;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -7,7 +8,8 @@ import org.testng.annotations.Test;
 /**
  * @author <a href="mailto:ivan.mushketyk@gmail.com">Ivan Mushketyk</a>
  */
-public class ToEnumCoverterTest {
+public class ToEnumCoverterTest extends SimonUnitTest {
+
 	private ToEnumConverter enumCoverter = new ToEnumConverter();
 
 	private static enum TestEnum {
@@ -18,7 +20,7 @@ public class ToEnumCoverterTest {
 
 	@DataProvider(name = "enumConversion")
 	Object[][] enumConversionDataProvider() {
-		return new Object[][] {
+		return new Object[][]{
 			{"VAL1", TestEnum.VAL1},
 			{"VAL2", TestEnum.VAL2},
 			{"VAL3", TestEnum.VAL3},

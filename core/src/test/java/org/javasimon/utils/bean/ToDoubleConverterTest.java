@@ -1,5 +1,6 @@
 package org.javasimon.utils.bean;
 
+import org.javasimon.SimonUnitTest;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -7,13 +8,13 @@ import org.testng.annotations.Test;
 /**
  * @author <a href="mailto:ivan.mushketyk@gmail.com">Ivan Mushketyk</a>
  */
-public class ToDoubleConverterTest {
+public class ToDoubleConverterTest extends SimonUnitTest {
 
 	private ToDoubleConverter toDoubleConverter = new ToDoubleConverter();
 
 	@DataProvider(name = "validValues")
 	public Object[][] validValues() {
-		return new Object[][] {
+		return new Object[][]{
 			{"123.456", 123.456},
 			{"12", 12.0}
 		};
@@ -31,7 +32,7 @@ public class ToDoubleConverterTest {
 
 	@DataProvider(name = "invalidValues")
 	public Object[][] invalidValues() {
-		return new Object[][] {
+		return new Object[][]{
 			{"str"}
 		};
 	}
@@ -40,5 +41,4 @@ public class ToDoubleConverterTest {
 	public void testConvertInvalidValues(String invalidVal) {
 		toDoubleConverter.convert(Double.class, invalidVal);
 	}
-
 }

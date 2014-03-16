@@ -1,33 +1,31 @@
 package org.javasimon.jmx;
 
-import java.lang.management.ManagementFactory;
-import java.util.List;
-import javax.management.MBeanServer;
-import javax.management.ObjectName;
+import static org.testng.Assert.assertEquals;
 
 import org.javasimon.Counter;
-import org.javasimon.Manager;
 import org.javasimon.SimonManager;
+import org.javasimon.SimonUnitTest;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
-
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
+import java.lang.management.ManagementFactory;
+import java.util.List;
+
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
 
 /**
  * Unit test for {@link SimonManagerMXBeanImpl}
  *
  * @author gerald
  */
-public class SimonManagerMXBeanImplTest {
-	private final Manager manager;
+public class SimonManagerMXBeanImplTest extends SimonUnitTest {
+
 	private final SimonManagerMXBean managerMXBean;
 
 	public SimonManagerMXBeanImplTest() throws Exception {
-		manager = SimonManager.manager();
-		managerMXBean = new SimonManagerMXBeanImpl(manager);
+		managerMXBean = new SimonManagerMXBeanImpl(SimonManager.manager());
 		MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
 		final ObjectName objectName = new ObjectName("org.javasimon", "type", "SimonManager");
 		if (mBeanServer.isRegistered(objectName)) {
@@ -36,14 +34,7 @@ public class SimonManagerMXBeanImplTest {
 		mBeanServer.registerMBean(managerMXBean, objectName);
 	}
 
-	@BeforeMethod
-	public void beforeMethod() throws Exception {
-		manager.clear();
-	}
-
-	/**
-	 * Test {@link SimonManagerMXBeanImpl#getCounterSamples(java.lang.String) }
-	 */
+	/** Test {@link SimonManagerMXBeanImpl#getCounterSamples(java.lang.String)}. */
 	@Test
 	public void testGetCounterSamples() {
 		// Prepare some Counters
@@ -64,9 +55,7 @@ public class SimonManagerMXBeanImplTest {
 		assertEquals(samples.get(0).getDecrementSum(), 1);
 	}
 
-	/**
-	 * Test {@link SimonManagerMXBeanImpl#getStopwatchSamples(java.lang.String) }
-	 */
+	/** Test {@link SimonManagerMXBeanImpl#getStopwatchSamples(java.lang.String)}. */
 	@Test
 	public void testGetStopwatchSamples() throws InterruptedException {
 		// Prepare some Stopwatches

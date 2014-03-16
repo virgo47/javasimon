@@ -1,11 +1,5 @@
 package org.javasimon.callback.logging;
 
-import java.util.logging.Level;
-
-import org.javasimon.utils.SimonUtils;
-
-import org.testng.annotations.Test;
-
 import static org.javasimon.callback.logging.LogTemplates.everyNMilliseconds;
 import static org.javasimon.callback.logging.LogTemplates.everyNSplits;
 import static org.javasimon.callback.logging.LogTemplates.toJUL;
@@ -15,22 +9,27 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
+import org.javasimon.SimonUnitTest;
+import org.javasimon.utils.SimonUtils;
+import org.testng.annotations.Test;
+
+import java.util.logging.Level;
+
 /**
  * Unit test for all {@link LogTemplate} implementations.
  *
  * @author gquintana
  */
 @SuppressWarnings({"UnusedDeclaration", "unchecked", "UnusedAssignment"})
-public class LogTemplateTest implements LogMessageSource<Object> {
+public class LogTemplateTest extends SimonUnitTest implements LogMessageSource<Object> {
+
 	private String logMessage;
 
 	public String getLogMessage(Object context) {
 		return logMessage;
 	}
 
-	/**
-	 * Test for {@link JULLogTemplate}
-	 */
+	/** Test for {@link JULLogTemplate}. */
 	@Test
 	public void testJUL() {
 		JULLogTemplate logTemplate = toJUL(getClass().getName(), Level.INFO);
@@ -38,9 +37,7 @@ public class LogTemplateTest implements LogMessageSource<Object> {
 		logTemplate.log(null, this);
 	}
 
-	/**
-	 * Test for {@link SLF4JLogTemplate}
-	 */
+	/** Test for {@link SLF4JLogTemplate}. */
 	@Test
 	public void testSLF4J() {
 		SLF4JLogTemplate logTemplate = toSLF4J(getClass().getName(), "info", null);
@@ -76,9 +73,7 @@ public class LogTemplateTest implements LogMessageSource<Object> {
 		}
 	}
 
-	/**
-	 * Test for {@link CounterLogTemplate}
-	 */
+	/** Test for {@link CounterLogTemplate}. */
 	@Test
 	public void testCounter() {
 		TestLogTemplate logTemplate1 = new TestLogTemplate();
@@ -106,9 +101,7 @@ public class LogTemplateTest implements LogMessageSource<Object> {
 		logTemplate1.clear();
 	}
 
-	/**
-	 * Test for {@link PeriodicLogTemplate}
-	 */
+	/** Test for {@link PeriodicLogTemplate}. */
 	@Test
 	public void testPeriodic() throws InterruptedException {
 		TestLogTemplate logTemplate1 = new TestLogTemplate();

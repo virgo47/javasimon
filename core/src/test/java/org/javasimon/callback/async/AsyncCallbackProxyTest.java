@@ -1,29 +1,30 @@
 package org.javasimon.callback.async;
 
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
-import java.util.concurrent.ThreadFactory;
-
-import org.javasimon.callback.Callback;
-import org.javasimon.callback.CallbackSkeleton;
-import org.javasimon.proxy.Delegating;
-import org.javasimon.utils.SimonUtils;
-
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.testng.Assert.assertSame;
+
+import org.javasimon.SimonUnitTest;
+import org.javasimon.callback.Callback;
+import org.javasimon.callback.CallbackSkeleton;
+import org.javasimon.proxy.Delegating;
+import org.javasimon.utils.SimonUtils;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+import java.util.concurrent.ThreadFactory;
 
 /**
  * Unit test for {@link org.javasimon.callback.async.AsyncCallbackProxyFactory}.
  *
  * @author gerald
  */
-public class AsyncCallbackProxyTest {
+public class AsyncCallbackProxyTest extends SimonUnitTest {
+
 	private Callback callbackMock;
 	private Callback callbackProxy;
 

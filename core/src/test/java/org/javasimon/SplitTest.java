@@ -1,9 +1,7 @@
 package org.javasimon;
 
 import org.javasimon.utils.SimonUtils;
-
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
@@ -11,14 +9,9 @@ import org.testng.annotations.Test;
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
-public final class SplitTest {
-	private static final String STOPWATCH_NAME = "org.javasimon.test-stopwatch";
+public final class SplitTest extends SimonUnitTest {
 
-	@BeforeMethod
-	public void resetAndEnable() {
-		SimonManager.clear();
-		SimonManager.enable();
-	}
+	private static final String STOPWATCH_NAME = "org.javasimon.test-stopwatch";
 
 	@Test
 	public void issue10NPEInSplitToString() {

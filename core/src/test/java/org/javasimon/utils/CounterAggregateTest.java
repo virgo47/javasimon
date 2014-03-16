@@ -1,6 +1,7 @@
 package org.javasimon.utils;
 
 import org.javasimon.CounterSample;
+import org.javasimon.SimonUnitTest;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -8,7 +9,7 @@ import org.testng.annotations.Test;
 /**
  * @author <a href="mailto:ivan.mushketyk@gmail.com">Ivan Mushketyk</a>
  */
-public class CounterAggregateTest {
+public final class CounterAggregateTest extends SimonUnitTest {
 
 	private CounterAggregate counterAggregate;
 
@@ -71,17 +72,20 @@ public class CounterAggregateTest {
 	public void testMinValueIsUpdated() {
 		CounterSample sample = new CounterSample();
 
-		sample.setMin(40); sample.setMinTimestamp(100);
+		sample.setMin(40);
+		sample.setMinTimestamp(100);
 		counterAggregate.addSample(sample);
 		Assert.assertEquals(counterAggregate.getMin(), 40);
 		Assert.assertEquals(counterAggregate.getMinTimestamp(), 100);
 
-		sample.setMin(10); sample.setMinTimestamp(200);
+		sample.setMin(10);
+		sample.setMinTimestamp(200);
 		counterAggregate.addSample(sample);
 		Assert.assertEquals(counterAggregate.getMin(), 10);
 		Assert.assertEquals(counterAggregate.getMinTimestamp(), 200);
 
-		sample.setMin(20); sample.setMinTimestamp(300);
+		sample.setMin(20);
+		sample.setMinTimestamp(300);
 		counterAggregate.addSample(sample);
 		Assert.assertEquals(counterAggregate.getMin(), 10);
 		Assert.assertEquals(counterAggregate.getMinTimestamp(), 200);
@@ -91,17 +95,20 @@ public class CounterAggregateTest {
 	public void testMaxValueIsUpdated() {
 		CounterSample sample = new CounterSample();
 
-		sample.setMax(10); sample.setMaxTimestamp(100);
+		sample.setMax(10);
+		sample.setMaxTimestamp(100);
 		counterAggregate.addSample(sample);
 		Assert.assertEquals(counterAggregate.getMax(), 10);
 		Assert.assertEquals(counterAggregate.getMaxTimestamp(), 100);
 
-		sample.setMax(40); sample.setMaxTimestamp(200);
+		sample.setMax(40);
+		sample.setMaxTimestamp(200);
 		counterAggregate.addSample(sample);
 		Assert.assertEquals(counterAggregate.getMax(), 40);
 		Assert.assertEquals(counterAggregate.getMaxTimestamp(), 200);
 
-		sample.setMax(20); sample.setMaxTimestamp(300);
+		sample.setMax(20);
+		sample.setMaxTimestamp(300);
 		counterAggregate.addSample(sample);
 		Assert.assertEquals(counterAggregate.getMax(), 40);
 		Assert.assertEquals(counterAggregate.getMaxTimestamp(), 200);

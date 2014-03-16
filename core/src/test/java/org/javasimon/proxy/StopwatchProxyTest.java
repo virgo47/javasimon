@@ -1,26 +1,26 @@
 package org.javasimon.proxy;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+
 import org.javasimon.SimonManager;
+import org.javasimon.SimonUnitTest;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
 import org.javasimon.source.DisabledStopwatchSource;
 import org.javasimon.source.StopwatchSource;
 import org.javasimon.utils.SimonUtils;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
 
 /**
  * Unit test for StopwatchProxy, AbstractMethodSource, etc.
  *
  * @author gquintana
  */
-public class StopwatchProxyTest {
+public class StopwatchProxyTest extends SimonUnitTest {
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(StopwatchProxyTest.class);
 
 	public interface MonitoredInterface {
@@ -52,11 +52,6 @@ public class StopwatchProxyTest {
 
 	private MonitoredInterface newMonitoredProxy() {
 		return new StopwatchProxyFactory<MonitoredInterface>(monitoredTarget).newProxy(MonitoredInterface.class);
-	}
-
-	@BeforeMethod
-	public void beforeMethod() {
-		SimonManager.clear();
 	}
 
 	private void assertStopwatchCounter(String name, long counter, boolean enabled) {
@@ -161,9 +156,5 @@ public class StopwatchProxyTest {
 		monitoredProxy = newMonitoredProxy(disabledCachedStopwatchSource);
 		long cacheDisabledProxy = doTestPerformance(monitoredProxy, iterations, false);
 		logPerformanceTime("Proxy cached & disabled", implementation, cacheDisabledProxy, iterations);
-	}
-
-	public static void main(String[] args) {
-		new StopwatchProxyTest().testPerformance();
 	}
 }

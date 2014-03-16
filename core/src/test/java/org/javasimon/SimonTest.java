@@ -1,24 +1,18 @@
 package org.javasimon;
 
-import java.util.Iterator;
-
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.util.Iterator;
 
 /**
  * Tests for common {@link Simon} interface functionality.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
-public final class SimonTest {
-	private static final String STOPWATCH_NAME = "org.javasimon.test-stopwatch";
+public final class SimonTest extends SimonUnitTest {
 
-	@BeforeMethod
-	public void resetAndEnable() {
-		SimonManager.clear();
-		SimonManager.enable();
-	}
+	private static final String STOPWATCH_NAME = "org.javasimon.test-stopwatch";
 
 	@Test
 	public void attributesTest() {

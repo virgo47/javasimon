@@ -1,5 +1,6 @@
 package org.javasimon.utils.bean;
 
+import org.javasimon.SimonUnitTest;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -10,7 +11,7 @@ import java.util.Set;
 /**
  * @author <a href="mailto:ivan.mushketyk@gmail.com">Ivan Mushketyk</a>
  */
-public class ClassUtilsTest {
+public class ClassUtilsTest extends SimonUnitTest {
 
 	private static class TestBean {
 		int intField;
