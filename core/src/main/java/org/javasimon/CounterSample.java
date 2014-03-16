@@ -156,36 +156,6 @@ public class CounterSample extends Sample {
 		return "+" + SimonUtils.presentMinMaxCount(incrementSum) + "/-" + SimonUtils.presentMinMaxCount(decrementSum);
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-
-		CounterSample that = (CounterSample) o;
-
-		if (counter != that.counter) return false;
-		if (decrementSum != that.decrementSum) return false;
-		if (incrementSum != that.incrementSum) return false;
-		if (max != that.max) return false;
-		if (maxTimestamp != that.maxTimestamp) return false;
-		if (min != that.min) return false;
-		if (minTimestamp != that.minTimestamp) return false;
-
-		return true;
-	}
-
-	@Override
-	public int hashCode() {
-		int result = (int) (counter ^ (counter >>> 32));
-		result = 31 * result + (int) (min ^ (min >>> 32));
-		result = 31 * result + (int) (max ^ (max >>> 32));
-		result = 31 * result + (int) (minTimestamp ^ (minTimestamp >>> 32));
-		result = 31 * result + (int) (maxTimestamp ^ (maxTimestamp >>> 32));
-		result = 31 * result + (int) (incrementSum ^ (incrementSum >>> 32));
-		result = 31 * result + (int) (decrementSum ^ (decrementSum >>> 32));
-		return result;
-	}
-
 	/**
 	 * Returns readable representation of object.
 	 *
@@ -209,9 +179,7 @@ public class CounterSample extends Sample {
 		return sb.toString();
 	}
 
-	/**
-	 * Equivalent to {@link org.javasimon.CounterImpl#toString()} without state.
-	 */
+	/** Equivalent to {@link org.javasimon.CounterImpl#toString()} without state. */
 	public synchronized String simonToString() {
 		return "Simon Counter: counter=" + counter +
 			", max=" + SimonUtils.presentMinMaxCount(max) +

@@ -309,9 +309,7 @@ public class StopwatchSample extends Sample {
 		return sb.toString();
 	}
 
-	/**
-	 * Equivalent to {@link org.javasimon.StopwatchImpl#toString()} without state.
-	 */
+	/** Equivalent to {@link org.javasimon.StopwatchImpl#toString()} without state. */
 	public String simonToString() {
 		return "Simon Stopwatch: total " + SimonUtils.presentNanoTime(total) +
 			", counter " + counter +

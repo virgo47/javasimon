@@ -106,8 +106,7 @@ public final class CounterTest extends SimonUnitTest {
 	public void sampling() {
 		Counter counter = SimonManager.getCounter(null);
 		counter.increase();
-		CounterSample sample = counter.sample();
-		Assert.assertEquals(sample, counter.sampleIncrement(""));
+		assertCounterAndSampleAreEqual(counter, counter.sampleIncrement(""));
 		// no change, zero increment
 		assertZeroSample(counter.sampleIncrement(""));
 
@@ -121,7 +120,7 @@ public final class CounterTest extends SimonUnitTest {
 		// after key is removed, next incremental sample equals normal sample
 		Assert.assertTrue(counter.stopIncrementalSampling(""));
 		counter.increase();
-		Assert.assertEquals(counter.sample(), counter.sampleIncrement(""));
+		assertCounterAndSampleAreEqual(counter, counter.sampleIncrement(""));
 		assertCounterAndSampleAreEqual(counter);
 
 		// check of return value for nonexistent increment key
@@ -149,7 +148,10 @@ public final class CounterTest extends SimonUnitTest {
 	}
 
 	private void assertCounterAndSampleAreEqual(Counter counter) {
-		CounterSample sample = counter.sample();
+		assertCounterAndSampleAreEqual(counter, counter.sample());
+	}
+
+	private void assertCounterAndSampleAreEqual(Counter counter, CounterSample sample) {
 		Assert.assertEquals(sample.getCounter(), counter.getCounter());
 		Assert.assertEquals(sample.getIncrementSum(), counter.getIncrementSum());
 		Assert.assertEquals(sample.getDecrementSum(), counter.getDecrementSum());
