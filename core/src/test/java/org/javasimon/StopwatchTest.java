@@ -114,8 +114,53 @@ public final class StopwatchTest extends SimonUnitTest {
 		assertStopwatchAndSampleAreEqual(stopwatch);
 	}
 
+	@Test
+	public void sampling() {
+		Stopwatch stopwatch = SimonManager.getStopwatch(null);
+		stopwatch.addSplit(Split.create(10));
+		assertStopwatchAndSampleAreEqual(stopwatch, stopwatch.sampleIncrement(""));
+		// no change, zero increment
+		assertZeroSample(stopwatch.sampleIncrement(""));
+
+		stopwatch.addSplit(Split.create(10));
+		assertIncrementalSampleAfterIncrease(stopwatch.sampleIncrement(""));
+
+		// another change produces the same incremental sample
+		stopwatch.addSplit(Split.create(10));
+		assertIncrementalSampleAfterIncrease(stopwatch.sampleIncrement(""));
+
+		// after key is removed, next incremental sample equals normal sample
+		Assert.assertTrue(stopwatch.stopIncrementalSampling(""));
+		stopwatch.addSplit(Split.create(10));
+		assertStopwatchAndSampleAreEqual(stopwatch, stopwatch.sampleIncrement(""));
+		assertStopwatchAndSampleAreEqual(stopwatch);
+
+		// check of return value for nonexistent increment key
+		Assert.assertFalse(stopwatch.stopIncrementalSampling("nonexistent"));
+	}
+
+	private void assertIncrementalSampleAfterIncrease(StopwatchSample sample) {
+		Assert.assertEquals(sample.getTotal(), 10);
+		Assert.assertEquals(sample.getCounter(), 1);
+		Assert.assertEquals(sample.getMax(), 10);
+		Assert.assertEquals(sample.getMin(), 10);
+		Assert.assertEquals(sample.getLast(), 10);
+	}
+
+	private void assertZeroSample(StopwatchSample sample) {
+		Assert.assertEquals(sample.getTotal(), 0);
+		Assert.assertEquals(sample.getCounter(), 0);
+		Assert.assertEquals(sample.getMax(), 0);
+		Assert.assertEquals(sample.getMin(), Long.MAX_VALUE);
+		Assert.assertEquals(sample.getFirstUsage(), 0);
+		Assert.assertEquals(sample.getLastUsage(), 0);
+	}
+
 	private void assertStopwatchAndSampleAreEqual(Stopwatch stopwatch) {
-		StopwatchSample sample = stopwatch.sample();
+		assertStopwatchAndSampleAreEqual(stopwatch, stopwatch.sample());
+	}
+
+	private void assertStopwatchAndSampleAreEqual(Stopwatch stopwatch, StopwatchSample sample) {
 		Assert.assertEquals(sample.getTotal(), stopwatch.getTotal());
 		Assert.assertEquals(sample.getCounter(), stopwatch.getCounter());
 		Assert.assertEquals(sample.getMax(), stopwatch.getMax());

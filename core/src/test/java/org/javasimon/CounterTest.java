@@ -103,6 +103,28 @@ public final class CounterTest extends SimonUnitTest {
 	}
 
 	@Test
+	public void disabledCounter() {
+		Counter counter = SimonManager.getCounter(null);
+		counter.setState(SimonState.DISABLED, false);
+		assertZeroSample(counter.sample());
+		counter.set(47);
+		counter.increase();
+		counter.increase(3);
+		counter.decrease();
+		counter.decrease(2);
+		assertZeroSample(counter.sample());
+
+		counter.setState(SimonState.ENABLED, false);
+		counter.increase();
+		Assert.assertEquals(counter.getCounter(), 1);
+		counter.setState(SimonState.DISABLED, false);
+		// disabled mean no change, but reading works just fine
+		counter.increase();
+		Assert.assertEquals(counter.getCounter(), 1);
+		Assert.assertEquals(counter.sample().getCounter(), 1);
+	}
+
+	@Test
 	public void sampling() {
 		Counter counter = SimonManager.getCounter(null);
 		counter.increase();
