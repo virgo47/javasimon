@@ -39,7 +39,7 @@ public class SLF4JLoggingCallback extends CallbackSkeleton {
 	 */
 	@Override
 	public void onStopwatchStop(Split split, StopwatchSample sample) {
-		logger.debug(marker, "SIMON STOP: " + sample.stopwatchToString() + " (" + split.runningFor() + ")");
+		logger.debug(marker, "SIMON STOP: " + sample.simonToString() + " (" + split.runningFor() + ")");
 	}
 
 	/**

@@ -35,6 +35,7 @@ public class CallbackSkeleton implements Callback {
 	}
 
 	@Override
+	@Deprecated
 	public void onSimonReset(Simon simon) {
 	}
 

@@ -67,7 +67,7 @@ public interface Callback {
 	 * Simon reset event.
 	 *
 	 * @param simon reset Simon
-	 * @deprecated Will be removed in 4.0. Use {@link org.javasimon.Stopwatch#sample(Object)} (keyed sampling) instead.
+	 * @deprecated will be removed in 4.0. Use {@link org.javasimon.Stopwatch#sampleIncrement(Object)} (keyed sampling) instead.
 	 * TODO change link to Simon when done
 	 */
 	@Deprecated
@@ -171,7 +171,7 @@ public interface Callback {
 		/**
 		 * Reset of the Simon.
 		 *
-		 * @deprecated Will be removed in 4.0. Use {@link org.javasimon.Stopwatch#sample(Object)} (keyed sampling) instead.
+		 * @deprecated Will be removed in 4.0. Use {@link org.javasimon.Stopwatch#sampleIncrement(Object)} (keyed sampling) instead.
 		 * TODO change link to Simon when done
 		 */
 		@Deprecated

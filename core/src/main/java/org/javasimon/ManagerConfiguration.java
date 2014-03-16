@@ -64,7 +64,7 @@ public final class ManagerConfiguration {
 	}
 
 	/**
-	 * Reads config from provided buffered reader. Package level because of tests.
+	 * Reads config from provided buffered reader. Reader is not closed after this method finishes.
 	 *
 	 * @param reader reader containing configuration
 	 * @throws IOException thrown if problem occurs while reading from the reader

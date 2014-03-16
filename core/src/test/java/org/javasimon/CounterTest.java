@@ -10,7 +10,6 @@ import org.testng.annotations.Test;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public final class CounterTest {
-	private static final String COUNTER_NAME = "org.javasimon.test-counter";
 
 	@BeforeMethod
 	public void resetAndEnable() {
@@ -20,7 +19,7 @@ public final class CounterTest {
 
 	@Test
 	public void basicTest() throws InterruptedException {
-		Counter counter = SimonManager.getCounter(COUNTER_NAME);
+		Counter counter = SimonManager.getCounter(null);
 		Assert.assertEquals(counter.getCounter(), 0);
 		Assert.assertEquals(counter.getIncrementSum(), 0);
 		Assert.assertEquals(counter.getDecrementSum(), 0);
@@ -60,11 +59,19 @@ public final class CounterTest {
 		Assert.assertEquals(counter.getDecrementSum(), 56);
 		Assert.assertEquals(counter.getMax(), 1);
 		Assert.assertEquals(counter.getMin(), -58);
+
+		counter = SimonManager.getCounter(null);
+		counter.decrease();
+		Assert.assertEquals(counter.getMax(), Long.MIN_VALUE);
+		Assert.assertEquals(counter.getCounter(), -1);
+		Assert.assertEquals(counter.getIncrementSum(), 0);
+		Assert.assertEquals(counter.getDecrementSum(), 1);
+		Assert.assertEquals(counter.getMin(), -1);
 	}
 
 	@Test
 	public void arbitraryStartValue() {
-		Counter counter = SimonManager.getCounter(COUNTER_NAME);
+		Counter counter = SimonManager.getCounter(null);
 		counter.set(47);
 		Assert.assertEquals(counter.getCounter(), 47);
 		Assert.assertEquals(counter.getIncrementSum(), 0);

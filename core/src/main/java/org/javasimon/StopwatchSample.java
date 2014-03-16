@@ -3,8 +3,8 @@ package org.javasimon;
 import org.javasimon.utils.SimonUtils;
 
 /**
- * Object holds all relevant data from Stopwatch Simon. Whenever it is important to get more values
- * in a synchronous manner, {@link org.javasimon.Stopwatch#sample()} (or {@link Stopwatch#sampleAndReset()}
+ * Object holds all relevant data from {@link Stopwatch} Simon. Whenever it is important to get more values
+ * in a synchronous manner, {@link org.javasimon.Stopwatch#sample()} (or {@link Stopwatch#sampleIncrement(Object)}
  * should be used to obtain this Java Bean object.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
@@ -25,7 +25,6 @@ public class StopwatchSample extends Sample {
 	private double standardDeviation;
 	private double variance;
 	private double varianceN;
-	private StopwatchSample increment;
 
 	/**
 	 * Returns the total sum of all split times in nanoseconds.
@@ -280,14 +279,6 @@ public class StopwatchSample extends Sample {
 		this.varianceN = varianceN;
 	}
 
-	void setIncrement(StopwatchSample increment) {
-		this.increment = increment;
-	}
-
-	public StopwatchSample getIncrement() {
-		return increment;
-	}
-
 	/**
 	 * Returns readable representation of object.
 	 *
@@ -314,22 +305,19 @@ public class StopwatchSample extends Sample {
 		sb.append(", standardDeviation=").append(SimonUtils.presentNanoTime((long) getStandardDeviation()));
 		sb.append(", variance=").append(getVariance());
 		sb.append(", varianceN=").append(getVarianceN());
-		finishWithUsagesAndNote(sb);
-		if (increment != null) {
-			sb.append("+Increment").append(increment.toString());
-		}
+		toStringCommon(sb);
 		return sb.toString();
 	}
 
 	/**
 	 * Equivalent to {@link org.javasimon.StopwatchImpl#toString()} without state.
 	 */
-	public String stopwatchToString() {
+	public String simonToString() {
 		return "Simon Stopwatch: total " + SimonUtils.presentNanoTime(total) +
 			", counter " + counter +
 			", max " + SimonUtils.presentNanoTime(max) +
 			", min " + SimonUtils.presentNanoTime(min) +
 			", mean " + SimonUtils.presentNanoTime((long) mean) +
-			simonToString();
+			simonToStringCommon();
 	}
 }

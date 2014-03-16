@@ -12,7 +12,6 @@ import org.testng.annotations.Test;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public final class StopwatchTest {
-	private static final String STOPWATCH_NAME = "org.javasimon.test-stopwatch";
 
 	@BeforeMethod
 	public void resetAndEnable() {
@@ -22,7 +21,7 @@ public final class StopwatchTest {
 
 	@Test
 	public void basicStopwatchTest() {
-		Stopwatch stopwatch = SimonManager.getStopwatch(STOPWATCH_NAME);
+		Stopwatch stopwatch = SimonManager.getStopwatch(null);
 		long split = stopwatch.start().stop().runningFor();
 		Assert.assertTrue(stopwatch.getTotal() >= 0);
 		Assert.assertEquals(stopwatch.getTotal(), split);
@@ -33,7 +32,7 @@ public final class StopwatchTest {
 
 	@Test
 	public void usagesTest() throws Exception {
-		Stopwatch stopwatch = SimonManager.getStopwatch(STOPWATCH_NAME);
+		Stopwatch stopwatch = SimonManager.getStopwatch(null);
 		stopwatch.reset();
 		Assert.assertEquals(stopwatch.getFirstUsage(), 0);
 		Assert.assertEquals(stopwatch.getLastUsage(), 0);
@@ -51,7 +50,7 @@ public final class StopwatchTest {
 		// with raw current millis this test is unstable - this is not a problem in real-life situations though
 		// point is to check that timestamps are set, not that they are set off by 1 ms or so
 		long ts = SimonUtils.millisForNano(System.currentTimeMillis());
-		Stopwatch stopwatch = SimonManager.getStopwatch(STOPWATCH_NAME);
+		Stopwatch stopwatch = SimonManager.getStopwatch(null);
 		stopwatch.reset();
 		stopwatch.addSplit(Split.create(100));
 		Assert.assertEquals(stopwatch.getTotal(), 100);
@@ -92,7 +91,7 @@ public final class StopwatchTest {
 
 	@Test
 	public void disableEnableInsideSplit() throws Exception {
-		Stopwatch stopwatch = SimonManager.getStopwatch(STOPWATCH_NAME);
+		Stopwatch stopwatch = SimonManager.getStopwatch(null);
 		Split split = stopwatch.start();
 		Assert.assertEquals(stopwatch.getActive(), 1);
 		stopwatch.setState(SimonState.DISABLED, false);

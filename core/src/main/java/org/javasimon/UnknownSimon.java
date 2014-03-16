@@ -19,6 +19,7 @@ final class UnknownSimon extends AbstractSimon {
 	}
 
 	@Override
+	@Deprecated
 	void concreteReset() {
 		// nothing to do
 	}
@@ -32,9 +33,20 @@ final class UnknownSimon extends AbstractSimon {
 	}
 
 	@Override
+	@Deprecated
 	public synchronized Sample sampleAndReset() {
 		// reset is not needed
 		return sample();
+	}
+
+	@Override
+	public Sample sampleIncrement(Object key) {
+		return sample();
+	}
+
+	@Override
+	public boolean stopIncrementalSampling(Object key) {
+		return false;
 	}
 
 	/**

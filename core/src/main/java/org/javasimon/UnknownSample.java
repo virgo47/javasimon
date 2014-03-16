@@ -17,4 +17,9 @@ public class UnknownSample extends Sample {
 	public String toString() {
 		return "UnknownSample" + "{name=" + getName() + ", note=" + getNote() + '}';
 	}
+
+	@Override
+	public String simonToString() {
+		return null;
+	}
 }

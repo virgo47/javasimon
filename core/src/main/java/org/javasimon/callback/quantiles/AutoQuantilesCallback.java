@@ -164,6 +164,7 @@ public class AutoQuantilesCallback extends QuantilesCallback {
 
 	/** When the Stopwatch is reset, so are the buckets. */
 	@Override
+	@Deprecated
 	public void onSimonReset(Simon simon) {
 		if (simon instanceof Stopwatch) {
 			Stopwatch stopwatch = (Stopwatch) simon;

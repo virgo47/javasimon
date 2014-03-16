@@ -1,5 +1,6 @@
 package org.javasimon.utils;
 
+import org.javasimon.Simon;
 import org.javasimon.Split;
 import org.javasimon.StopwatchSample;
 import org.javasimon.callback.CallbackSkeleton;
@@ -27,7 +28,13 @@ public class LoggingCallback extends CallbackSkeleton {
 	/** Logs Simon stop on a specified log level. */
 	@Override
 	public void onStopwatchStop(Split split, StopwatchSample sample) {
-		logger.log(level, "SIMON STOP: " + sample.stopwatchToString() + " (" + split.runningFor() + ")");
+		logger.log(level, "SIMON STOP: " + sample.simonToString() + " (" + split.runningFor() + ")");
+	}
+
+	@Override
+	@Deprecated
+	public void onSimonReset(Simon simon) {
+		super.onSimonReset(simon);
 	}
 
 	/**

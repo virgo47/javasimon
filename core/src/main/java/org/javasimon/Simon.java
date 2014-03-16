@@ -67,7 +67,10 @@ public interface Simon extends HasAttributes {
 	 * Resets the Simon values related to the measuring, timestamps and so on - usage timestamps, state,
 	 * attributes are not affected. Timestamp of the last reset can be obtained by the method {@link #getLastReset()}.
 	 * Reset is performed even for disabled Simons.
+	 *
+	 * @deprecated will be removed in 4.0 - use {@link #sampleIncrement(Object)} for similar purposes
 	 */
+	@Deprecated
 	void reset();
 
 	/**
@@ -77,7 +80,9 @@ public interface Simon extends HasAttributes {
 	 * client code could store the timestamp too it is not necessary with this method.
 	 *
 	 * @return ms timestamp of the last reset or 0 if reset was not called yet
+	 * @deprecated will be removed in 4.0
 	 */
+	@Deprecated
 	long getLastReset();
 
 	/**
@@ -126,8 +131,34 @@ public interface Simon extends HasAttributes {
 	 * and resets the Simon. Operation is synchronized to assure atomicity.
 	 *
 	 * @return sample containing all Simon values
+	 * @deprecated will be removed in 4.0 - use {@link #sampleIncrement(Object)} instead
 	 */
+	@Deprecated
 	Sample sampleAndReset();
 
-//	Sample sample(Object key);
+	/**
+	 * Samples increment in Simon values since the previous call of this method with the
+	 * same key. When the method is called the first time for the key, current values
+	 * are returned (same like from {@link #sample()}. Any subsequent calls with the key
+	 * provide increments.
+	 * <p/>
+	 * Clients can use any key (any Object) which enables safe access to their own increments.
+	 * Using String does not guarantee this as any client can potentially guess the key. This
+	 * may or may not be an issue.
+	 *
+	 *
+	 * @param key key used to access incremental sample
+	 * @return {@link org.javasimon.Sample} with value increments
+	 */
+	Sample sampleIncrement(Object key);
+
+	/**
+	 * Stops incremental sampling for the key, removing any internal information for the key.
+	 * Next call to {@link #sampleIncrement(Object)} for the key will be considered the first
+	 * call for the key.
+	 *
+	 * @param key key used to access incremental sample
+	 * @return true if incremental information for the key existed, false otherwise
+	 */
+	boolean stopIncrementalSampling(Object key);
 }

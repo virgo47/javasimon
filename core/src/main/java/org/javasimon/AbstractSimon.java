@@ -1,5 +1,7 @@
 package org.javasimon;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +40,8 @@ abstract class AbstractSimon implements Simon {
 	private long resetTimestamp;
 
 	private AttributesSupport attributesSupport = new AttributesSupport();
+
+	private Map<Object, Simon> incrementalSimons;
 
 	/**
 	 * Constructor of the abstract Simon is used internally by subclasses.
@@ -133,8 +137,11 @@ abstract class AbstractSimon implements Simon {
 	 * <p/>
 	 * <b>Thread-safety:</b> May be called with write lock already acquired (from {@link #sampleAndReset()} for instance.
 	 * Must not re-acquire write lock, but always releases it, as it calls callbacks out of the critical section already.
+	 *
+	 * @deprecated will be removed in 4.0
 	 */
 	@Override
+	@Deprecated
 	public void reset() {
 		synchronized (this) {
 			resetTimestamp = System.currentTimeMillis();
@@ -145,9 +152,22 @@ abstract class AbstractSimon implements Simon {
 		}
 	}
 
+	/**
+	 * Updates usage statistics.
+	 *
+	 * @param now current millis timestamp
+	 */
+	void updateUsages(long now) {
+		lastUsage = now;
+		if (firstUsage == 0) {
+			firstUsage = lastUsage;
+		}
+	}
+
 	abstract void concreteReset();
 
 	@Override
+	@Deprecated
 	public synchronized long getLastReset() {
 		return resetTimestamp;
 	}
@@ -263,6 +283,34 @@ abstract class AbstractSimon implements Simon {
 		sample.setFirstUsage(firstUsage);
 		sample.setLastUsage(lastUsage);
 		sample.setLastReset(resetTimestamp);
+	}
+
+	// incremental Simons methods
+	Collection<Simon> incrementalSimons() {
+		return incrementalSimons != null ? incrementalSimons.values() : null;
+	}
+
+	Simon getAndResetSampleKey(Object key, Simon newSimon) {
+		if (incrementalSimons == null) {
+			incrementalSimons = new HashMap<Object, Simon>();
+		}
+		Simon simon = incrementalSimons.get(key);
+		incrementalSimons.put(key, newSimon);
+		return simon;
+	}
+
+	Sample sampleIncrementHelper(Object key, Simon newSimon) {
+		Simon simon = getAndResetSampleKey(key, newSimon);
+		if (simon != null) {
+			return simon.sample();
+		} else {
+			return sample();
+		}
+	}
+
+	@Override
+	public synchronized boolean stopIncrementalSampling(Object key) {
+		return incrementalSimons != null && incrementalSimons.remove(key) != null;
 	}
 
 	/**

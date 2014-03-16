@@ -3,11 +3,14 @@ package org.javasimon;
 import org.javasimon.utils.SimonUtils;
 
 /**
- * CounterSample.
+ * Object holds all relevant data from {@link Counter} Simon. Whenever it is important to get more values
+ * in a synchronous manner, {@link org.javasimon.Counter#sample()} (or {@link Stopwatch#sampleIncrement(Object)}
+ * should be used to obtain this Java Bean object.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public class CounterSample extends Sample {
+
 	private long counter;
 	private long min;
 	private long max;
@@ -161,26 +164,28 @@ public class CounterSample extends Sample {
 	@Override
 	public String toString() {
 		final StringBuilder sb = new StringBuilder();
-		sb.append("CounterSample");
-		sb.append("{name=").append(getName());
-		sb.append(", counter=").append(counter);
+		sb.append("CounterSample{");
+		if (getName() != null) {
+			sb.append("name=").append(getName()).append(", ");
+		}
+		sb.append("counter=").append(counter);
 		sb.append(", min=").append(SimonUtils.presentMinMaxCount(min));
 		sb.append(", max=").append(SimonUtils.presentMinMaxCount(max));
 		sb.append(", minTimestamp=").append(SimonUtils.presentTimestamp(minTimestamp));
 		sb.append(", maxTimestamp=").append(SimonUtils.presentTimestamp(maxTimestamp));
 		sb.append(", incrementSum=").append(incrementSum);
 		sb.append(", decrementSum=").append(decrementSum);
-		finishWithUsagesAndNote(sb);
+		toStringCommon(sb);
 		return sb.toString();
 	}
 
 	/**
 	 * Equivalent to {@link org.javasimon.CounterImpl#toString()} without state.
 	 */
-	public String counterToString() {
+	public synchronized String simonToString() {
 		return "Simon Counter: counter=" + counter +
 			", max=" + SimonUtils.presentMinMaxCount(max) +
 			", min=" + SimonUtils.presentMinMaxCount(min) +
-			simonToString();
+			simonToStringCommon();
 	}
 }

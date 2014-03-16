@@ -4,7 +4,7 @@ import org.javasimon.utils.SimonUtils;
 
 /**
  * Sample contains all relevant values of the Simon that are obtained by the
- * {@link org.javasimon.Simon#sample()} and {@link org.javasimon.Simon#sampleAndReset()} methods.
+ * {@link org.javasimon.Simon#sample()} and {@link org.javasimon.Simon#sampleIncrement(Object)} methods.
  * Returned object contains consistent set of Simon values as both operations are synchronized.
  * However Sample is a Java Bean and it can be modified afterwards so no consistency is guaranteed
  * when the object is used in an inappropriate context. As a Java Bean object can be
@@ -97,7 +97,9 @@ public abstract class Sample {
 	 * Timestamp of the last reset from the sampled Simon.
 	 *
 	 * @return Simon's last reset timestamp
+	 * @deprecated will be removed in 4.0
 	 */
+	@Deprecated
 	public long getLastReset() {
 		return lastReset;
 	}
@@ -106,22 +108,25 @@ public abstract class Sample {
 	 * Sets the timestamp of the last reset from the sampled Simon.
 	 *
 	 * @param lastReset Simon's last reset timestamp
+	 * @deprecated will be removed in 4.0
 	 */
+	@Deprecated
 	public void setLastReset(long lastReset) {
 		this.lastReset = lastReset;
 	}
 
 	// common part of the toString method
-	void finishWithUsagesAndNote(StringBuilder sb) {
+	void toStringCommon(StringBuilder sb) {
 		sb.append(", firstUsage=").append(SimonUtils.presentTimestamp(getFirstUsage()));
 		sb.append(", lastUsage=").append(SimonUtils.presentTimestamp(getLastUsage()));
-		sb.append(", lastReset=").append(SimonUtils.presentTimestamp(getLastReset()));
 		sb.append(", note=").append(getNote());
 		sb.append('}');
 	}
 
 	/** Similar to {@link org.javasimon.AbstractSimon#toString()} except for the state missing in the output. */
-	public synchronized String simonToString() {
+	public abstract String simonToString();
+
+	String simonToStringCommon() {
 		return " [" + name + (getNote() != null && getNote().length() != 0 ? " \"" + getNote() + "\"]" : "]");
 	}
 }

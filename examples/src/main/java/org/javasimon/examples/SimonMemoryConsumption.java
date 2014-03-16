@@ -71,21 +71,21 @@ public class SimonMemoryConsumption {
 	private static void something(Stopwatch stopwatch) {
 		stopwatch.sample();
 		stopwatch.addSplit(Split.create(55));
-		stopwatch.sample("1");
+		stopwatch.sampleIncrement("1");
 
 		stopwatch.addSplit(Split.create(47));
-		stopwatch.sample("1");
+		stopwatch.sampleIncrement("1");
 
 		stopwatch.addSplit(Split.create(33));
-		stopwatch.sample("1");
-		stopwatch.sample("2");
+		stopwatch.sampleIncrement("1");
+		stopwatch.sampleIncrement("2");
 
 		stopwatch.addSplit(Split.create(100));
-		stopwatch.sample("1");
-		stopwatch.sample("2");
-		stopwatch.sample("3");
+		stopwatch.sampleIncrement("1");
+		stopwatch.sampleIncrement("2");
+		stopwatch.sampleIncrement("3");
 
-		stopwatch.removeSampleKey("1");
+		stopwatch.stopIncrementalSampling("1");
 		stopwatch.addSplit(Split.create(12));
 	}
 }
