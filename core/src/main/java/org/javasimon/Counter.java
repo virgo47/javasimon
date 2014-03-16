@@ -51,7 +51,9 @@ public interface Counter extends Simon {
 	Counter decrease();
 
 	/**
-	 * Increments the counter by the specified value.
+	 * Increments the counter by the specified value. Using negative values is possible but may provide
+	 * unexpected results - this method updates only incrementSum and max, never decrementSum and min.
+	 * Also incrementSum is decreased when negative number is used.
 	 *
 	 * @param inc added value
 	 * @return this
@@ -59,7 +61,9 @@ public interface Counter extends Simon {
 	Counter increase(long inc);
 
 	/**
-	 * Increments the counter by the specified value.
+	 * Increments the counter by the specified value. Using negative values is possible but may provide
+	 * unexpected results - this method updates only decrementSum and min, never incrementSum and max.
+	 * Also decrementSum is decreased when negative number is used.
 	 *
 	 * @param dec subtracted value
 	 * @return this
@@ -74,7 +78,7 @@ public interface Counter extends Simon {
 	long getCounter();
 
 	/**
-	 * Returns minimal value of counter.
+	 * Returns minimal value of counter. Updated by {@link #decrease()}, {@link #decrease(long)} and {@link #set(long)}.
 	 *
 	 * @return maximal reached value
 	 */
@@ -88,7 +92,7 @@ public interface Counter extends Simon {
 	long getMinTimestamp();
 
 	/**
-	 * Returns maximal value of counter.
+	 * Returns maximal value of counter. Updated by {@link #increase()}, {@link #increase(long)} and {@link #set(long)}.
 	 *
 	 * @return maximal reached value
 	 */

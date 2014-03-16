@@ -8,7 +8,7 @@ import org.javasimon.Stopwatch;
 import org.javasimon.StopwatchSample;
 import org.javasimon.callback.CallbackSkeleton;
 
-public class KeyedSampling {
+public class IncrementalSampling {
 
 	public static void main(String[] args) {
 
@@ -21,6 +21,11 @@ public class KeyedSampling {
 			@Override
 			public void onCounterIncrease(Counter counter, long inc, CounterSample sample) {
 				System.out.println("\nCounter increase: " + counter);
+			}
+
+			@Override
+			public void onCounterSet(Counter counter, long val, CounterSample sample) {
+				System.out.println("\nCounter set: " + counter);
 			}
 		});
 
@@ -79,14 +84,14 @@ public class KeyedSampling {
 		System.out.println("1: " + counter.sampleIncrement("1"));
 		System.out.println("2: " + counter.sampleIncrement("2"));
 
-		counter.increase(4);
+		counter.set(4);
 		System.out.println("sample=" + counter.sample());
 		System.out.println("1: " + counter.sampleIncrement("1"));
 		System.out.println("2: " + counter.sampleIncrement("2"));
 		System.out.println("3: " + counter.sampleIncrement("3"));
 
 		counter.stopIncrementalSampling("1");
-		counter.increase(5);
+		counter.increase(-5);
 		System.out.println("sample=" + counter.sample());
 		System.out.println("1: " + counter.sampleIncrement("1"));
 		System.out.println("2: " + counter.sampleIncrement("2"));

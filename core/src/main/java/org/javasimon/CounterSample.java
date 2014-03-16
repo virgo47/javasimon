@@ -169,10 +169,10 @@ public class CounterSample extends Sample {
 			sb.append("name=").append(getName()).append(", ");
 		}
 		sb.append("counter=").append(counter);
-		sb.append(", min=").append(SimonUtils.presentMinMaxCount(min));
 		sb.append(", max=").append(SimonUtils.presentMinMaxCount(max));
-		sb.append(", minTimestamp=").append(SimonUtils.presentTimestamp(minTimestamp));
+		sb.append(", min=").append(SimonUtils.presentMinMaxCount(min));
 		sb.append(", maxTimestamp=").append(SimonUtils.presentTimestamp(maxTimestamp));
+		sb.append(", minTimestamp=").append(SimonUtils.presentTimestamp(minTimestamp));
 		sb.append(", incrementSum=").append(incrementSum);
 		sb.append(", decrementSum=").append(decrementSum);
 		toStringCommon(sb);
