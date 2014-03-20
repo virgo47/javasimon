@@ -3,6 +3,9 @@ package org.javasimon;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 /**
  * Tests for {@link SimonPattern}.
  *
@@ -109,4 +112,41 @@ public final class SimonPatternTest extends SimonUnitTest {
 	public void testDoubleWildcardInvalidName() {
 		SimonPattern.create("*//*");
 	}
+
+	@Test
+	public void testStopwatchPattern() {
+		SimonPattern pattern = SimonPattern.createForStopwatch("start*");
+
+		Assert.assertTrue(pattern.accept(stopwatch("start.end")));
+		Assert.assertTrue(pattern.accept(stopwatch("start.e")));
+
+		Assert.assertFalse(pattern.accept(stopwatch("end")));
+		Assert.assertFalse(pattern.accept(counter("start.end")));
+		Assert.assertFalse(pattern.accept(counter("end")));
+	}
+
+	private Counter counter(String name) {
+		Counter counter = mock(Counter.class);
+		when(counter.getName()).thenReturn(name);
+		return counter;
+	}
+
+	private Stopwatch stopwatch(String name) {
+		Stopwatch stopwatch = mock(Stopwatch.class);
+		when(stopwatch.getName()).thenReturn(name);
+		return stopwatch;
+	}
+
+	@Test
+	public void testCounterPattern() {
+		SimonPattern pattern = SimonPattern.createForCounter("start*");
+
+		Assert.assertTrue(pattern.accept(counter("start.end")));
+		Assert.assertTrue(pattern.accept(counter("start.e")));
+
+		Assert.assertFalse(pattern.accept(counter("end")));
+		Assert.assertFalse(pattern.accept(stopwatch("start.end")));
+		Assert.assertFalse(pattern.accept(stopwatch("end")));
+	}
+
 }
