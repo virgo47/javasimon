@@ -313,6 +313,22 @@ abstract class AbstractSimon implements Simon {
 		return incrementalSimons != null && incrementalSimons.remove(key) != null;
 	}
 
+	synchronized void purgeIncrementalSimonsOlderThan(long thresholdMs) {
+		if (incrementalSimons == null) {
+			return;
+		}
+		Iterator<Map.Entry<Object, Simon>> iterator = incrementalSimons.entrySet().iterator();
+		while (iterator.hasNext()) {
+			Map.Entry<Object, Simon> entry = iterator.next();
+			if (entry.getValue().getLastUsage() < thresholdMs) {
+				iterator.remove();
+			}
+		}
+		if (incrementalSimons.isEmpty()) {
+			incrementalSimons = null;
+		}
+	}
+
 	/**
 	 * Returns name and state of the Simon as a human readable string.
 	 *
