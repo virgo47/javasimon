@@ -126,8 +126,25 @@ public interface SimonManagerMXBean {
 	 * @param name name of the Simon
 	 * @return sample object or null if Simon with entered name doesn't exist
 	 * @see org.javasimon.CounterSample
+	 * @deprecated use {@link org.javasimon.jmx.SimonManagerMXBean#getIncrementCounterSample(String, String)}
 	 */
+	@Deprecated
 	CounterSample getCounterSampleAndReset(String name);
+
+	/**
+	 * Samples increment in Counter values since the previous call of this method with the
+	 * same key. When the method is called the first time for the key, current values
+	 * are returned (same like from {@link #getCounterSample(String)} }. Any subsequent calls with the key
+	 * provide increments.
+	 * <p/>
+	 * Clients should use a unique key (GUID, host name, etc.), to avoid interference
+	 * with other clients.
+	 *
+	 * @param name name of the stopwatch
+	 * @param key name of an incremental sample
+	 * @return sample collected for a specified key if it was created before
+	 */
+	CounterSample getIncrementCounterSample(String name, String key);
 
 	/**
 	 * Retrieves sample data object for a particular Stopwatch and resets it.
@@ -135,14 +152,33 @@ public interface SimonManagerMXBean {
 	 * @param name name of the Simon
 	 * @return sample object or null if Simon with entered name doesn't exist
 	 * @see org.javasimon.StopwatchSample
+	 * @deprecated use {@link #getIncrementStopwatchSample(String, String)}  instead.
 	 */
+	@Deprecated
 	StopwatchSample getStopwatchSampleAndReset(String name);
+
+
+	/**
+	 * Samples increment in Stopwatch values since the previous call of this method with the
+	 * same key. When the method is called the first time for the key, current values
+	 * are returned (same like from {@link #getCounterSample(String)} }. Any subsequent calls with the key
+	 * provide increments.
+	 * <p/>
+	 * Clients should use a unique key (GUID, host name, etc.), to avoid interference
+	 * with other clients.
+	 *
+	 * @param name name of the stopwatch
+	 * @param key name of an incremental sample
+	 * @return sample collected for a specified key if it was created before
+	 */
+	org.javasimon.jmx.StopwatchSample getIncrementStopwatchSample(String name, String key);
 
 	/**
 	 * Resets the particular Simon by its name.
 	 *
 	 * @param name name of the Simon
 	 */
+	@Deprecated
 	void reset(String name);
 
 	/**
@@ -160,12 +196,31 @@ public interface SimonManagerMXBean {
 	List<CounterSample> getCounterSamples();
 
 	/**
+	 * Increment sample all Counters.
+	 *
+	 * @param key name of an incremental sample
+	 * @return one Sample for each Counter
+	 * @see {@link #getIncrementCounterSample(String, String)}
+	 */
+	List<CounterSample> getIncrementCounterSamples(String key);
+
+	/**
 	 * Sample all Counters whose name matches given pattern
 	 *
 	 * @param namePattern Name pattern, null means all Counters
 	 * @return One Sample for each Counter
 	 */
 	List<CounterSample> getCounterSamples(String namePattern);
+
+	/**
+	 * Incremental sample for all Counters whose name matches given pattern.     *
+	 *
+	 * @param namePattern name pattern ({@link org.javasimon.SimonPattern}), {@code null} means all Counters
+	 * @param key name of an incremental sample
+	 * @return one Sample for each Counter whose name matches given pattern
+	 * @see {@link #getIncrementCounterSample(String, String)}
+	 */
+	List<CounterSample> getIncrementCounterSamples(String namePattern, String key);
 
 	/**
 	 * Sample all Stopwatches whose name matches given pattern.
@@ -176,9 +231,28 @@ public interface SimonManagerMXBean {
 	List<org.javasimon.jmx.StopwatchSample> getStopwatchSamples(String namePattern);
 
 	/**
+	 * Increment sample all Stopwatches whose name matches given pattern.
+	 *
+	 * @param namePattern name pattern ({@link org.javasimon.SimonPattern}), {@code null} means all Stopwatches
+	 * @param key name of an incremental sample
+	 * @return one Sample for each Stopwatch whose name matches given pattern
+	 * @see {@link #getIncrementStopwatchSample(String, String)}
+	 */
+	List<org.javasimon.jmx.StopwatchSample> getIncrementStopwatchSamples(String namePattern, String key);
+
+	/**
 	 * Sample all Stopwatches.
 	 *
 	 * @return one Sample for each Stopwatch
 	 */
 	List<org.javasimon.jmx.StopwatchSample> getStopwatchSamples();
+
+	/**
+	 * Increment sample all Stopwatches.
+	 *
+	 * @param key name of an incremental sample
+	 * @return one Sample for each Stopwatch
+	 * @see {@link #getIncrementStopwatchSample(String, String)}
+	 */
+	List<org.javasimon.jmx.StopwatchSample> getIncrementStopwatchSamples(String key);
 }

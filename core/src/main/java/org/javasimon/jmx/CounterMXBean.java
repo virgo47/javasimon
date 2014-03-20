@@ -116,5 +116,9 @@ public interface CounterMXBean extends SimonSuperMXBean {
 	CounterSample sample();
 
 	@Override
+	@Deprecated
 	CounterSample sampleAndReset();
+
+	@Override
+	CounterSample sampleIncrement(String key);
 }

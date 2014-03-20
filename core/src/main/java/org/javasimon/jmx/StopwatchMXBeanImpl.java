@@ -113,8 +113,18 @@ public class StopwatchMXBeanImpl extends AbstractSimonMXBeanImpl implements Stop
 	}
 
 	@Override
+	public StopwatchSample sampleIncrement(String key) {
+		return new StopwatchSample(stopwatch.sampleIncrement(key));
+	}
+
+	@Override
 	public final String getType() {
 		return SimonInfo.STOPWATCH;
+	}
+
+	@Override
+	public boolean stopIncrementalSampling(String key) {
+		return stopwatch.stopIncrementalSampling(key);
 	}
 
 	@Override

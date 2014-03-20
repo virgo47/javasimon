@@ -1,10 +1,5 @@
 package org.javasimon.jmx;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-
 import org.javasimon.Counter;
 import org.javasimon.Manager;
 import org.javasimon.Simon;
@@ -12,6 +7,11 @@ import org.javasimon.SimonPattern;
 import org.javasimon.SimonState;
 import org.javasimon.Stopwatch;
 import org.javasimon.utils.SimonUtils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Simon MXBean implementation. See {@link SimonManagerMXBean} for interface
@@ -25,6 +25,7 @@ import org.javasimon.utils.SimonUtils;
  * @since 2.0
  */
 public class SimonManagerMXBeanImpl implements SimonManagerMXBean {
+
 	private Manager manager;
 
 	/**
@@ -130,6 +131,18 @@ public class SimonManagerMXBeanImpl implements SimonManagerMXBean {
 		return null;
 	}
 
+	@Override
+	public CounterSample getIncrementCounterSample(String name, String key) {
+		Simon simon = manager.getSimon(name);
+
+		if (simon instanceof Counter) {
+			Counter counter = (Counter) simon;
+			return new CounterSample(counter.sampleIncrement(key));
+		}
+
+		return null;
+	}
+
 	/**
 	 * Sample all Counters whose name matches given pattern
 	 *
@@ -147,6 +160,19 @@ public class SimonManagerMXBeanImpl implements SimonManagerMXBean {
 		return counterSamples;
 	}
 
+	@Override
+	public List<CounterSample> getIncrementCounterSamples(String namePattern, String key) {
+		List<CounterSample> counterSamples = new ArrayList<CounterSample>();
+		for (Simon simon : manager.getSimons(SimonPattern.create(namePattern))) {
+			if (simon instanceof Counter) {
+				Counter counter = (Counter) simon;
+				counterSamples.add(new CounterSample(counter.sampleIncrement(key)));
+			}
+		}
+
+		return counterSamples;
+	}
+
 	/**
 	 * Sample all Counters
 	 *
@@ -155,6 +181,11 @@ public class SimonManagerMXBeanImpl implements SimonManagerMXBean {
 	@Override
 	public List<CounterSample> getCounterSamples() {
 		return getCounterSamples(null);
+	}
+
+	@Override
+	public List<CounterSample> getIncrementCounterSamples(String key) {
+		return getIncrementCounterSamples(null, key);
 	}
 
 	/**
@@ -185,6 +216,17 @@ public class SimonManagerMXBeanImpl implements SimonManagerMXBean {
 	}
 
 	@Override
+	public StopwatchSample getIncrementStopwatchSample(String name, String key) {
+		Simon simon = manager.getSimon(name);
+		if (simon instanceof Stopwatch) {
+			Stopwatch stopwatch = (Stopwatch) simon;
+			return new StopwatchSample(stopwatch.sampleIncrement(key));
+		}
+
+		return null;
+	}
+
+	@Override
 	public List<StopwatchSample> getStopwatchSamples(String namePattern) {
 		List<StopwatchSample> stopwatchSamples = new ArrayList<StopwatchSample>();
 		for (Simon simon : manager.getSimons(SimonPattern.create(namePattern))) {
@@ -196,8 +238,26 @@ public class SimonManagerMXBeanImpl implements SimonManagerMXBean {
 	}
 
 	@Override
+	public List<StopwatchSample> getIncrementStopwatchSamples(String namePattern, String key) {
+		List<StopwatchSample> stopwatchSamples = new ArrayList<StopwatchSample>();
+		for (Simon simon : manager.getSimons(SimonPattern.create(namePattern))) {
+			if (simon instanceof Stopwatch) {
+				Stopwatch stopwatch = (Stopwatch) simon;
+				stopwatchSamples.add(new StopwatchSample(stopwatch.sampleIncrement(key)));
+			}
+		}
+
+		return stopwatchSamples;
+	}
+
+	@Override
 	public List<StopwatchSample> getStopwatchSamples() {
 		return getStopwatchSamples(null);
+	}
+
+	@Override
+	public List<StopwatchSample> getIncrementStopwatchSamples(String key) {
+		return getIncrementStopwatchSamples(null, key);
 	}
 
 	@Override

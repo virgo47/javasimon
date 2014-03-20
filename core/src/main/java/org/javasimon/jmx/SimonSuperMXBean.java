@@ -127,8 +127,24 @@ public interface SimonSuperMXBean {
 	 * and resets the Simon. Operation is synchronized to assure atomicity.
 	 *
 	 * @return sample containing all Simon values
+	 * @deprecated use {@link #sampleIncrement(String)}
 	 */
+	@Deprecated
 	Sample sampleAndReset();
+
+	/**
+	 * Samples increment in Simon values since the previous call of this method with the
+	 * same key. When the method is called the first time for the key, current values
+	 * are returned (same like from {@link #sample()}. Any subsequent calls with the key
+	 * provide increments.
+	 * <p/>
+	 * Clients should use a unique key (GUID, host name, etc.), to avoid interference
+	 * with other clients.
+	 *
+	 * @param key key used to access incremental sample
+	 * @return {@link org.javasimon.Sample} with value increments
+	 */
+	Sample sampleIncrement(String key);
 
 	/**
 	 * Returns Simon type used as a property in the {@link javax.management.ObjectName}.
@@ -136,4 +152,14 @@ public interface SimonSuperMXBean {
 	 * @return Simon type
 	 */
 	String getType();
+
+	/**
+	 * Stops incremental sampling for the key, removing any internal information for the key.
+	 * Next call to {@link #sampleIncrement(String)} for the key will be considered the first
+	 * call for the key.
+	 *
+	 * @param key key used to access incremental sample
+	 * @return true if incremental information for the key existed, false otherwise
+	 */
+	boolean stopIncrementalSampling(String key);
 }

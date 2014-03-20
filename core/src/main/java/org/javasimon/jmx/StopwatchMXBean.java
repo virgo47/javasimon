@@ -146,5 +146,9 @@ public interface StopwatchMXBean extends SimonSuperMXBean {
 	StopwatchSample sample();
 
 	@Override
+	@Deprecated
 	StopwatchSample sampleAndReset();
+
+	@Override
+	StopwatchSample sampleIncrement(String key);
 }

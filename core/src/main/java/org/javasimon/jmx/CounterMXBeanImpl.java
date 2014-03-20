@@ -97,8 +97,18 @@ public class CounterMXBeanImpl extends AbstractSimonMXBeanImpl implements Counte
 	}
 
 	@Override
+	public CounterSample sampleIncrement(String key) {
+		return new CounterSample(counter.sampleIncrement(key));
+	}
+
+	@Override
 	public final String getType() {
 		return SimonInfo.COUNTER;
+	}
+
+	@Override
+	public boolean stopIncrementalSampling(String key) {
+		return counter.stopIncrementalSampling(key);
 	}
 
 	@Override
