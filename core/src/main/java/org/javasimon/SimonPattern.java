@@ -104,8 +104,7 @@ public final class SimonPattern implements SimonFilter {
 	 * @param simon Simon to be tested
 	 * @return true if Simon's name matches this pattern
 	 */
-	public boolean accept(Simon simon)
-	{
+	public boolean accept(Simon simon) {
 		return matches(simon.getName());
 	}
 

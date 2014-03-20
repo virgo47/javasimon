@@ -94,4 +94,19 @@ public final class SimonPatternTest extends SimonUnitTest {
 	public void testDoubleWildcard() {
 		SimonPattern.create("**");
 	}
+
+	@Test(expectedExceptions = SimonException.class, expectedExceptionsMessageRegExp = "Invalid Simon pattern: \\*//")
+	public void testStartWildcardIllegalName() {
+		SimonPattern.create("*//");
+	}
+
+	@Test(expectedExceptions = SimonException.class, expectedExceptionsMessageRegExp = "Invalid Simon pattern: //\\*")
+	public void testEndWildcardIllegalName() {
+		SimonPattern.create("//*");
+	}
+
+	@Test(expectedExceptions = SimonException.class, expectedExceptionsMessageRegExp = "Invalid Simon pattern: \\*//\\*")
+	public void testDoubleWildcardInvalidName() {
+		SimonPattern.create("*//*");
+	}
 }
