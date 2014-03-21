@@ -1,11 +1,6 @@
 package org.javasimon.jmx;
 
-import org.javasimon.Counter;
-import org.javasimon.Manager;
-import org.javasimon.Simon;
-import org.javasimon.SimonPattern;
-import org.javasimon.SimonState;
-import org.javasimon.Stopwatch;
+import org.javasimon.*;
 import org.javasimon.utils.SimonUtils;
 
 import java.util.ArrayList;
@@ -19,6 +14,8 @@ import java.util.List;
  * Most methods are implemented by calling the {@link Manager}.
  *
  * @author Radovan Sninsky
+ * @author <a href="mailto:ivan.mushketyk@gmail.com">Ivan Mushketyk</a>
+ *
  * @see Manager
  * @see Simon
  * @see SimonUtils
@@ -91,56 +88,65 @@ public class SimonManagerMXBeanImpl implements SimonManagerMXBean {
 
 	@Override
 	public final void enableSimon(String name) {
-		manager.getSimon(name).setState(SimonState.ENABLED, false);
+		setSimonState(name, SimonState.ENABLED);
+	}
+
+	private void setSimonState(String name, SimonState newState) {
+		Simon simon = manager.getSimon(name);
+		if (simon == null) {
+			throw new SimonException("Unknown Simon: " + name);
+		}
+		simon.setState(newState, false);
 	}
 
 	@Override
 	public final void disableSimon(String name) {
-		manager.getSimon(name).setState(SimonState.DISABLED, false);
+		setSimonState(name, SimonState.DISABLED);
 	}
 
 	@Override
 	public final void inheritState(String name) {
-		manager.getSimon(name).setState(SimonState.INHERIT, false);
+		setSimonState(name, SimonState.INHERIT);
 	}
 
 	/**
 	 * Create a JMX Counter Sample from a Sample
 	 *
-	 * @param s Counter
+	 * @param counter Counter
 	 */
-	private org.javasimon.jmx.CounterSample sampleCounter(Simon s) {
-		return new CounterSample((org.javasimon.CounterSample) s.sample());
+	private org.javasimon.jmx.CounterSample sampleCounter(Simon counter) {
+		return new CounterSample((org.javasimon.CounterSample) counter.sample());
 	}
 
 	@Override
 	public final CounterSample getCounterSample(String name) {
-		Simon s = manager.getSimon(name);
-		if (s != null && s instanceof Counter) {
-			return sampleCounter(s);
+		Counter counter = getSimonOfType(name, Counter.class);
+		return sampleCounter(counter);
+	}
+
+	private <T extends Simon> T getSimonOfType(String name, Class<T> simonType) {
+		Simon simon = manager.getSimon(name);
+		if (simon == null) {
+			throw new SimonException("Unknown Simon: " + name);
 		}
-		return null;
+
+		if (!simonType.isInstance(simon)) {
+			throw new SimonException("Wrong Simon type");
+		}
+
+		return simonType.cast(simon);
 	}
 
 	@Override
 	public final CounterSample getCounterSampleAndReset(String name) {
-		Simon s = manager.getSimon(name);
-		if (s != null && s instanceof Counter) {
-			return new CounterSample((org.javasimon.CounterSample) s.sampleAndReset());
-		}
-		return null;
+		Counter counter = getSimonOfType(name, Counter.class);
+		return new CounterSample(counter.sampleAndReset());
 	}
 
 	@Override
 	public CounterSample getIncrementCounterSample(String name, String key) {
-		Simon simon = manager.getSimon(name);
-
-		if (simon instanceof Counter) {
-			Counter counter = (Counter) simon;
-			return new CounterSample(counter.sampleIncrement(key));
-		}
-
-		return null;
+		Counter counter = getSimonOfType(name, Counter.class);
+		return new CounterSample(counter.sampleIncrement(key));
 	}
 
 	/**
@@ -195,31 +201,20 @@ public class SimonManagerMXBeanImpl implements SimonManagerMXBean {
 
 	@Override
 	public final StopwatchSample getStopwatchSample(String name) {
-		Simon s = manager.getSimon(name);
-		if (s != null && s instanceof Stopwatch) {
-			return sampleStopwatch(s);
-		}
-		return null;
+		Stopwatch stopwatch = getSimonOfType(name, Stopwatch.class);
+		return sampleStopwatch(stopwatch);
 	}
 
 	@Override
 	public final StopwatchSample getStopwatchSampleAndReset(String name) {
-		Simon s = manager.getSimon(name);
-		if (s != null && s instanceof Stopwatch) {
-			return new StopwatchSample((org.javasimon.StopwatchSample) s.sampleAndReset());
-		}
-		return null;
+		Stopwatch stopwatch = getSimonOfType(name, Stopwatch.class);
+		return new StopwatchSample(stopwatch.sampleAndReset());
 	}
 
 	@Override
 	public StopwatchSample getIncrementStopwatchSample(String name, String key) {
-		Simon simon = manager.getSimon(name);
-		if (simon instanceof Stopwatch) {
-			Stopwatch stopwatch = (Stopwatch) simon;
-			return new StopwatchSample(stopwatch.sampleIncrement(key));
-		}
-
-		return null;
+		Stopwatch stopwatch = getSimonOfType(name, Stopwatch.class);
+		return new StopwatchSample(stopwatch.sampleIncrement(key));
 	}
 
 	@Override
