@@ -138,6 +138,18 @@ public final class SimonPatternTest extends SimonUnitTest {
 	}
 
 	@Test
+	public void testStopwatchNullPattern() {
+		SimonPattern pattern = SimonPattern.createForStopwatch(null);
+
+		Assert.assertTrue(pattern.accept(stopwatch("start.end")));
+		Assert.assertTrue(pattern.accept(stopwatch("start.e")));
+		Assert.assertTrue(pattern.accept(stopwatch("end")));
+
+		Assert.assertFalse(pattern.accept(counter("start.end")));
+		Assert.assertFalse(pattern.accept(counter("end")));
+	}
+
+	@Test
 	public void testCounterPattern() {
 		SimonPattern pattern = SimonPattern.createForCounter("start*");
 
@@ -145,6 +157,18 @@ public final class SimonPatternTest extends SimonUnitTest {
 		Assert.assertTrue(pattern.accept(counter("start.e")));
 
 		Assert.assertFalse(pattern.accept(counter("end")));
+		Assert.assertFalse(pattern.accept(stopwatch("start.end")));
+		Assert.assertFalse(pattern.accept(stopwatch("end")));
+	}
+
+	@Test
+	public void testCounterNullPattern() {
+		SimonPattern pattern = SimonPattern.createForCounter(null);
+
+		Assert.assertTrue(pattern.accept(counter("start.end")));
+		Assert.assertTrue(pattern.accept(counter("start.e")));
+		Assert.assertTrue(pattern.accept(counter("end")));
+
 		Assert.assertFalse(pattern.accept(stopwatch("start.end")));
 		Assert.assertFalse(pattern.accept(stopwatch("end")));
 	}

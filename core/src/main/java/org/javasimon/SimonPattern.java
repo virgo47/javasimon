@@ -47,31 +47,37 @@ public final class SimonPattern implements SimonFilter {
 	 * @return Simon name pattern or {@code null} if pattern parameter is {@code null}
 	 */
 	public static SimonPattern create(String pattern) {
+		if (pattern == null) {
+			return null;
+		}
+
 		return createForType(pattern, Simon.class);
 	}
 
 	private static SimonPattern createForType(String pattern, Class<? extends Simon> expectedType) {
 		if (pattern == null) {
-			return null;
+			return new SimonPattern("*", expectedType);
 		}
 		return new SimonPattern(pattern, expectedType);
 	}
 
 	/**
-	 * Factory method that creates Counter name pattern - or returns {@code null} if parameter is {@code null}.
+	 * Factory method that creates Counter name pattern - or returns a pattern
+	 * that accepts all Counters if parameter is {@code null}.
 	 *
 	 * @param pattern Counter name pattern as string
-	 * @return Counter name pattern or {@code null} if pattern parameter is {@code null}
+	 * @return Counter name pattern
 	 */
 	public static SimonPattern createForCounter(String pattern) {
 		return createForType(pattern, Counter.class);
 	}
 
 	/**
-	 * Factory method that creates Stopwatch name pattern - or returns {@code null} if parameter is {@code null}.
+	 * Factory method that creates Stopwatch name pattern - or returns a pattern
+	 * that accepts all Stopwatches if parameter is {@code null}.
 	 *
 	 * @param pattern Stopwatch name pattern as string
-	 * @return Stopwatch name pattern or {@code null} if pattern parameter is {@code null}
+	 * @return Stopwatch name pattern
 	 */
 	public static SimonPattern createForStopwatch(String pattern) {
 		return createForType(pattern, Stopwatch.class);
