@@ -152,10 +152,8 @@ public class SimonManagerMXBeanImpl implements SimonManagerMXBean {
 	@Override
 	public List<CounterSample> getCounterSamples(String namePattern) {
 		List<CounterSample> counterSamples = new ArrayList<CounterSample>();
-		for (Simon simon : manager.getSimons(SimonPattern.create(namePattern))) {
-			if (simon instanceof Counter) {
-				counterSamples.add(sampleCounter(simon));
-			}
+		for (Simon simon : manager.getSimons(SimonPattern.createForCounter(namePattern))) {
+			counterSamples.add(sampleCounter(simon));
 		}
 		return counterSamples;
 	}
@@ -163,11 +161,9 @@ public class SimonManagerMXBeanImpl implements SimonManagerMXBean {
 	@Override
 	public List<CounterSample> getIncrementCounterSamples(String namePattern, String key) {
 		List<CounterSample> counterSamples = new ArrayList<CounterSample>();
-		for (Simon simon : manager.getSimons(SimonPattern.create(namePattern))) {
-			if (simon instanceof Counter) {
-				Counter counter = (Counter) simon;
-				counterSamples.add(new CounterSample(counter.sampleIncrement(key)));
-			}
+		for (Simon simon : manager.getSimons(SimonPattern.createForCounter(namePattern))) {
+			Counter counter = (Counter) simon;
+			counterSamples.add(new CounterSample(counter.sampleIncrement(key)));
 		}
 
 		return counterSamples;
@@ -229,10 +225,8 @@ public class SimonManagerMXBeanImpl implements SimonManagerMXBean {
 	@Override
 	public List<StopwatchSample> getStopwatchSamples(String namePattern) {
 		List<StopwatchSample> stopwatchSamples = new ArrayList<StopwatchSample>();
-		for (Simon simon : manager.getSimons(SimonPattern.create(namePattern))) {
-			if (simon instanceof Stopwatch) {
-				stopwatchSamples.add(sampleStopwatch(simon));
-			}
+		for (Simon simon : manager.getSimons(SimonPattern.createForStopwatch(namePattern))) {
+			stopwatchSamples.add(sampleStopwatch(simon));
 		}
 		return stopwatchSamples;
 	}
@@ -240,11 +234,9 @@ public class SimonManagerMXBeanImpl implements SimonManagerMXBean {
 	@Override
 	public List<StopwatchSample> getIncrementStopwatchSamples(String namePattern, String key) {
 		List<StopwatchSample> stopwatchSamples = new ArrayList<StopwatchSample>();
-		for (Simon simon : manager.getSimons(SimonPattern.create(namePattern))) {
-			if (simon instanceof Stopwatch) {
-				Stopwatch stopwatch = (Stopwatch) simon;
-				stopwatchSamples.add(new StopwatchSample(stopwatch.sampleIncrement(key)));
-			}
+		for (Simon simon : manager.getSimons(SimonPattern.createForStopwatch(namePattern))) {
+			Stopwatch stopwatch = (Stopwatch) simon;
+			stopwatchSamples.add(new StopwatchSample(stopwatch.sampleIncrement(key)));
 		}
 
 		return stopwatchSamples;
