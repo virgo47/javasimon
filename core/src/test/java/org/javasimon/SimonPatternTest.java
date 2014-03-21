@@ -173,4 +173,35 @@ public final class SimonPatternTest extends SimonUnitTest {
 		Assert.assertFalse(pattern.accept(stopwatch("end")));
 	}
 
+	@Test
+	public void testSameSimonPatternAreEquals() {
+		String pattern = "*abc*";
+		SimonPattern pattern1 = SimonPattern.create(pattern);
+		SimonPattern pattern2 = SimonPattern.create(pattern);
+		Assert.assertEquals(pattern1, pattern2);
+	}
+
+	@Test
+	public void testDifferentSimonPatternAreNotEquals() {
+		SimonPattern pattern1 = SimonPattern.create("*abc*");
+		SimonPattern pattern2 = SimonPattern.create("*cba*");
+		Assert.assertNotEquals(pattern1, pattern2);
+	}
+
+	@Test
+	public void testSameStopwatchPatternAreEquals() {
+		String pattern = "*abc*";
+		SimonPattern pattern1 = SimonPattern.createForStopwatch(pattern);
+		SimonPattern pattern2 = SimonPattern.createForStopwatch(pattern);
+		Assert.assertEquals(pattern1, pattern2);
+	}
+
+	@Test
+	public void testDifferentTypePatternAreNotEquals() {
+		String pattern = "*abc*";
+		SimonPattern pattern1 = SimonPattern.createForStopwatch(pattern);
+		SimonPattern pattern2 = SimonPattern.createForCounter(pattern);
+		Assert.assertNotEquals(pattern1, pattern2);
+	}
+
 }

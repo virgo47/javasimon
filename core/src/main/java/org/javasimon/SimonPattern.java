@@ -21,6 +21,8 @@ import org.javasimon.utils.SimonUtils;
 public final class SimonPattern implements SimonFilter {
 
 	private static final String WILDCARD_STAR = "*";
+
+	/** Expected Simon type */
 	private final Class<? extends Simon> expectedType;
 
 	/** Original pattern from the configuration. */
@@ -190,16 +192,29 @@ public final class SimonPattern implements SimonFilter {
 
 		SimonPattern that = (SimonPattern) o;
 
-		return !(pattern != null ? !pattern.equals(that.pattern) : that.pattern != null);
+		if (pattern != null ? !pattern.equals(that.pattern) : that.pattern != null) {
+			return false;
+		}
+
+		if (expectedType != null ? !expectedType.equals(that.expectedType) : that.expectedType != null) {
+			return false;
+		}
+
+		return true;
 	}
 
 	@Override
 	public int hashCode() {
-		return (pattern != null ? pattern.hashCode() : 0);
+		int result = expectedType != null ? expectedType.hashCode() : 0;
+		result = 31 * result + (pattern != null ? pattern.hashCode() : 0);
+		return result;
 	}
 
 	@Override
 	public String toString() {
-		return "ConfigPattern: " + pattern;
+		return "SimonPattern {" +
+				"pattern='" + pattern + '\'' +
+				", expectedType=" + expectedType +
+				'}';
 	}
 }
