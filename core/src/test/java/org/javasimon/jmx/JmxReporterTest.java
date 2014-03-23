@@ -5,7 +5,6 @@ import org.javasimon.SimonException;
 import org.javasimon.SimonManager;
 import org.javasimon.callback.Callback;
 import org.javasimon.callback.CompositeCallback;
-import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatcher;
 import org.mockito.InOrder;
 import org.testng.Assert;
@@ -15,7 +14,6 @@ import org.testng.annotations.Test;
 import javax.management.*;
 
 import java.lang.management.ManagementFactory;
-import java.util.Objects;
 
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
