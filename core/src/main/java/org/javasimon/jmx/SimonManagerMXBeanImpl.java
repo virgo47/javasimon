@@ -256,4 +256,8 @@ public class SimonManagerMXBeanImpl implements SimonManagerMXBean {
 	public final void reset(String name) {
 		manager.getSimon(name).reset();
 	}
+
+	Manager getManager() {
+		return manager;
+	}
 }

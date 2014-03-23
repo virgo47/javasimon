@@ -173,4 +173,12 @@ public class JmxRegisterCallback extends CallbackSkeleton {
 		}
 		return type;
 	}
+
+	String getDomain() {
+		return domain;
+	}
+
+	MBeanServer getBeanServer() {
+		return mBeanServer;
+	}
 }

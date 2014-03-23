@@ -24,4 +24,14 @@ public final class SimonException extends RuntimeException {
 	public SimonException(Throwable cause) {
 		super(cause);
 	}
+
+	/**
+	 * Creates SimonException with message and the chained exception causing this exception.
+	 *
+	 * @param message exception message
+	 * @param cause chained exception
+	 */
+	public SimonException(String message, Throwable cause) {
+		super(message, cause);
+	}
 }
