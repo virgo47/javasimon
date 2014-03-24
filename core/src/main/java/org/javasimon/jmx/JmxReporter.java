@@ -44,6 +44,7 @@ public final class JmxReporter {
 
 	/** Domain of JMX beans for separate Simons */
 	private String simonDomain;
+	private JmxRegisterCallback jmxRegisterCallback;
 
 	/**
 	 * Start building JmxReporter for the specified manager.
@@ -98,7 +99,7 @@ public final class JmxReporter {
 		/**
 		 * Specify domain for registered JMX for separate Simons. Is used only if {@link #registerSimons} set to true.
 		 *
- 		 * @param simonDomain domain for separate JMX beans for separate Simons
+		 * @param simonDomain domain for separate JMX beans for separate Simons
 		 * @return builder for JmxReporter
 		 */
 		public JmxReporterBuilder simonDomain(String simonDomain) {
@@ -186,7 +187,7 @@ public final class JmxReporter {
 		registerMXBean(simonManagerMXBean, beanName);
 
 		if (registerSimons) {
-			JmxRegisterCallback jmxRegisterCallback = new JmxRegisterCallback(beanServer, simonDomain);
+			jmxRegisterCallback = new JmxRegisterCallback(beanServer, simonDomain);
 			manager.callback().addCallback(jmxRegisterCallback);
 		}
 	}
@@ -210,6 +211,18 @@ public final class JmxReporter {
 	 * Stop JMX reporter. Unregister all previously registered beans.
 	 */
 	public void stop() {
+		unregisterManagerBean();
+		unregisterSimonBeans();
+	}
+
+	private void unregisterSimonBeans() {
+		if (jmxRegisterCallback != null) {
+			manager.callback().removeCallback(jmxRegisterCallback);
+			jmxRegisterCallback.stop();
+		}
+	}
+
+	private void unregisterManagerBean() {
 		try {
 			ObjectName beanObjectName = new ObjectName(beanName);
 			if (beanServer.isRegistered(beanObjectName)) {
@@ -220,6 +233,5 @@ public final class JmxReporter {
 		} catch (JMException e) {
 			throw new SimonException("Failed to unregister SimonManager MX bean", e);
 		}
-
 	}
 }

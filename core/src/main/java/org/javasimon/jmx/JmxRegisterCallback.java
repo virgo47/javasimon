@@ -5,14 +5,13 @@ import org.javasimon.Simon;
 import org.javasimon.Stopwatch;
 import org.javasimon.callback.CallbackSkeleton;
 
+import javax.management.JMException;
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
 import java.lang.management.ManagementFactory;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-
-import javax.management.JMException;
-import javax.management.MBeanServer;
-import javax.management.ObjectName;
 
 /**
  * Callback that registers MXBeans for Simons after their creation. It is
@@ -30,7 +29,11 @@ public class JmxRegisterCallback extends CallbackSkeleton {
 	/** MBean server instance specified for this callback (or default platform one) - protected for subclasses. */
 	protected MBeanServer mBeanServer;
 
+	/** Names of all beans registered for separate Simons */
 	private Set<String> registeredNames = new HashSet<String>();
+
+	/** Is JmxRegisterCallback was stopped */
+	private volatile boolean stopped;
 
 	/**
 	 * Default constructor uses default MBeanServer.
@@ -60,7 +63,7 @@ public class JmxRegisterCallback extends CallbackSkeleton {
 	 */
 	@Override
 	public final void onSimonCreated(Simon simon) {
-		if (simon.getName() == null) {
+		if (simon.getName() == null || stopped) {
 			return;
 		}
 		register(simon);
@@ -73,7 +76,13 @@ public class JmxRegisterCallback extends CallbackSkeleton {
 	 */
 	@Override
 	public final void onSimonDestroyed(Simon simon) {
-		String name = constructObjectName(simon);
+		if (!stopped) {
+			String name = constructObjectName(simon);
+			unregisterSimon(name);
+		}
+	}
+
+	private synchronized void unregisterSimon(String name) {
 		try {
 			ObjectName objectName = new ObjectName(name);
 			mBeanServer.unregisterMBean(objectName);
@@ -87,6 +96,13 @@ public class JmxRegisterCallback extends CallbackSkeleton {
 	/** When the manager is cleared, all MX beans for its Simons are unregistered. */
 	@Override
 	public final void onManagerClear() {
+		unregisterAllSimons();
+	}
+
+	/**
+	 * Unregister all previously registered Simons.
+	 */
+	private synchronized void unregisterAllSimons() {
 		Iterator<String> namesIter = registeredNames.iterator();
 		while (namesIter.hasNext()) {
 			String name = namesIter.next();
@@ -103,6 +119,14 @@ public class JmxRegisterCallback extends CallbackSkeleton {
 	}
 
 	/**
+	 * Stop operation and clear all registered beans.
+	 */
+	public void stop() {
+		stopped = true;
+		unregisterAllSimons();
+	}
+
+	/**
 	 * Method registering Simon MX Bean - can not be overridden, but can be used in subclasses.
 	 *
 	 * @param simon Simon MX Bean to be registered
@@ -111,7 +135,11 @@ public class JmxRegisterCallback extends CallbackSkeleton {
 	protected final void register(Simon simon) {
 		Object mBean = constructObject(simon);
 		String name = constructObjectName(simon);
-		if (mBean != null && name != null) {
+		registerSimonBean(mBean, name);
+	}
+
+	private synchronized void registerSimonBean(Object simonBean, String name) {
+		if (simonBean != null && name != null) {
 			try {
 				ObjectName objectName = new ObjectName(name);
 				if (mBeanServer.isRegistered(objectName)) {
@@ -119,7 +147,7 @@ public class JmxRegisterCallback extends CallbackSkeleton {
 				} else {
 					registeredNames.add(name);
 				}
-				mBeanServer.registerMBean(mBean, objectName);
+				mBeanServer.registerMBean(simonBean, objectName);
 				onManagerMessage("Simon registered under the name: " + objectName);
 			} catch (JMException e) {
 				onManagerWarning("JMX registration failed for: " + name, e);

@@ -3,8 +3,10 @@ package org.javasimon.jmx;
 import org.javasimon.Manager;
 import org.javasimon.SimonException;
 import org.javasimon.SimonManager;
+import org.javasimon.Stopwatch;
 import org.javasimon.callback.Callback;
 import org.javasimon.callback.CompositeCallback;
+import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatcher;
 import org.mockito.InOrder;
 import org.testng.Assert;
@@ -178,6 +180,47 @@ public class JmxReporterTest {
 
 		verify(compositeCallback).addCallback(argThat(new JmxRegistrationCallbackVerifier(simonDomain, beanServer)));
 	}
+
+	@Test
+	public void testSimonBeanUnregisteredOnStop() throws Exception {
+		String simonDomain = "simonDomain";
+
+		JmxReporter reporter = JmxReporter
+				.forManager(manager)
+				.beanName(CUSTOM_BEAN_NAME)
+				.beanServer(beanServer)
+				.registerSimons(true)
+				.simonDomain(simonDomain)
+				.build();
+		reporter.start();
+
+		// Capture instance of registered JmxRegisterCallback
+		ArgumentCaptor<Callback> callbackArgumentCaptor = ArgumentCaptor.forClass(Callback.class);
+		verify(compositeCallback).addCallback(callbackArgumentCaptor.capture());
+		JmxRegisterCallback jmxRegisterCallback = (JmxRegisterCallback) callbackArgumentCaptor.getValue();
+
+		// Mock stopwatch registration
+		Stopwatch stopwatch = mock(Stopwatch.class);
+		when(stopwatch.getName()).thenReturn("test.bean.name");
+		jmxRegisterCallback.onSimonCreated(stopwatch);
+
+		when(beanServer.isRegistered(customObjectName)).thenReturn(true);
+
+		reporter.stop();
+
+		InOrder inOrder = inOrder(beanServer, compositeCallback);
+		inOrder.verify(beanServer).unregisterMBean(customObjectName);
+
+		// Check if Simon bean was unregistered
+		inOrder.verify(compositeCallback).removeCallback(jmxRegisterCallback);
+		ArgumentCaptor<ObjectName> objectNameArgumentCaptor = ArgumentCaptor.forClass(ObjectName.class);
+		inOrder.verify(beanServer).unregisterMBean(objectNameArgumentCaptor.capture());
+		ObjectName objectName = objectNameArgumentCaptor.getValue();
+
+		Assert.assertEquals(objectName.getDomain(), simonDomain);
+	}
+
+
 
 	@Test
 	public void testRegisterManagerInGlobalBeanServer() {
