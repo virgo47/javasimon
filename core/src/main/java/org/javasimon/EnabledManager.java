@@ -239,4 +239,13 @@ public final class EnabledManager implements Manager {
 	public void warning(String warning, Exception cause) {
 		callback.onManagerWarning(warning, cause);
 	}
+
+	synchronized void purgeIncrementalSimonsOlderThan(long thresholdMs) {
+		for (Simon simon : allSimons.values()) {
+			if (simon instanceof AbstractSimon) {
+				AbstractSimon abstractSimon = (AbstractSimon) simon;
+				abstractSimon.purgeIncrementalSimonsOlderThan(thresholdMs);
+			}
+		}
+	}
 }

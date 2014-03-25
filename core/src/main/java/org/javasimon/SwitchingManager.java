@@ -99,4 +99,13 @@ public final class SwitchingManager implements Manager {
 	public void warning(String warning, Exception cause) {
 		manager.warning(warning, cause);
 	}
+
+	public void purgeIncrementalSimonsOlderThan(long thresholdMs) {
+		// Store reference to current manager to avoid check-than-act
+		Manager currentManager = manager;
+
+		if (currentManager instanceof EnabledManager) {
+			((EnabledManager) currentManager).purgeIncrementalSimonsOlderThan(thresholdMs);
+		}
+	}
 }

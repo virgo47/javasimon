@@ -183,4 +183,17 @@ public final class ManagerTest extends SimonUnitTest {
 		Assert.assertEquals(messages.poll(), "SimonManager initialization error");
 		System.getProperties().remove(SimonManager.PROPERTY_CONFIG_RESOURCE_NAME);
 	}
+
+	@Test
+	public void testRemoveIncrementalSimons() {
+		EnabledManager enabledManager = new EnabledManager();
+		Stopwatch stopwatch = enabledManager.getStopwatch("stopwatch");
+		String key = "key";
+		stopwatch.sampleIncrement(key);
+
+		long timeInTheFuture = System.currentTimeMillis() + 1000;
+		enabledManager.purgeIncrementalSimonsOlderThan(timeInTheFuture);
+		boolean incrementalSimonExisted = stopwatch.stopIncrementalSampling(key);
+		Assert.assertFalse(incrementalSimonExisted);
+	}
 }
