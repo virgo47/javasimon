@@ -11,10 +11,10 @@ import java.lang.management.ManagementFactory;
 
 /**
  * Utility class for registering JMX beans that can be used to access Simon manager and Simons.
- * To create JmxReporter one need to first to acquire {@link org.javasimon.jmx.JmxReporter.JmxReporterBuilder} instance
+ * To create JmxReporter one need to first to acquire {@link org.javasimon.jmx.JmxReporter.Builder} instance
  * using one of {@link org.javasimon.jmx.JmxReporter#forManager(org.javasimon.Manager)}
  * or {@link JmxReporter#forDefaultManager()} methods. Using the builder instance a JmxReporter instance can be configured.
- * Then JmxReporter can be built and started using methods {@link org.javasimon.jmx.JmxReporter.JmxReporterBuilder#build()} and
+ * Then JmxReporter can be built and started using methods {@link org.javasimon.jmx.JmxReporter.Builder#build()} and
  * {@link JmxReporter#start()} respectively.
  * When JmxReporter should be stopped one need to call {@link JmxReporter#stop()} method.
  *
@@ -52,7 +52,7 @@ public final class JmxReporter {
 	 * @param manager manager that will be used by JmxReporter
 	 * @return builder for JmxReporter
 	 */
-	static public JmxReporterBuilder forManager(Manager manager) {
+	static public Builder forManager(Manager manager) {
 		JmxReporter reporter = new JmxReporter(manager);
 
 		reporter.setBeanName(DEFAULT_BEAN_NAME);
@@ -61,7 +61,7 @@ public final class JmxReporter {
 		reporter.setSimonDomain(DEFAULT_SIMON_DOMAIN);
 		reporter.setBeanServer(ManagementFactory.getPlatformMBeanServer());
 
-		return new JmxReporterBuilder(reporter);
+		return new Builder(reporter);
 	}
 
 	/**
@@ -69,19 +69,19 @@ public final class JmxReporter {
 	 *
 	 * @return builder for JmxReporter
 	 */
-	public static JmxReporterBuilder forDefaultManager() {
+	public static Builder forDefaultManager() {
 		return forManager(SimonManager.manager());
 	}
 
 	/**
 	 * Class for configuring JmxReporter. When configuration is sepcified,
-	 * {@link org.javasimon.jmx.JmxReporter.JmxReporterBuilder#build()}
+	 * {@link org.javasimon.jmx.JmxReporter.Builder#build()}
 	 * method should be used to create JmxReporter
 	 */
-	public static final class JmxReporterBuilder {
+	public static final class Builder {
 		private final JmxReporter reporter;
 
-		private JmxReporterBuilder(JmxReporter reporter) {
+		private Builder(JmxReporter reporter) {
 			this.reporter = reporter;
 		}
 
@@ -91,7 +91,7 @@ public final class JmxReporter {
 		 * @param toRegister register all Simons if true, none otherwise
 		 * @return builder for JmxReporter
 		 */
-		public JmxReporterBuilder registerSimons(boolean toRegister) {
+		public Builder registerSimons(boolean toRegister) {
 			reporter.setRegisterSimons(toRegister);
 			return this;
 		}
@@ -102,7 +102,7 @@ public final class JmxReporter {
 		 * @param simonDomain domain for separate JMX beans for separate Simons
 		 * @return builder for JmxReporter
 		 */
-		public JmxReporterBuilder simonDomain(String simonDomain) {
+		public Builder simonDomain(String simonDomain) {
 			reporter.setSimonDomain(simonDomain);
 			return this;
 		}
@@ -114,7 +114,7 @@ public final class JmxReporter {
 		 *                  false otherwise
 		 * @return builder for JmxReporter
 		 */
-		public JmxReporterBuilder replaceExisting(boolean toReplace) {
+		public Builder replaceExisting(boolean toReplace) {
 			reporter.setReplaceExisting(toReplace);
 			return this;
 		}
@@ -125,12 +125,12 @@ public final class JmxReporter {
 		 * @param beanName bean name that will be used to register JMX bean for Simon manager
 		 * @return builder for JmxReporter
 		 */
-		public JmxReporterBuilder beanName(String beanName) {
+		public Builder beanName(String beanName) {
 			reporter.setBeanName(beanName);
 			return this;
 		}
 
-		JmxReporterBuilder beanServer(MBeanServer beanServer) {
+		Builder beanServer(MBeanServer beanServer) {
 			reporter.setBeanServer(beanServer);
 			return this;
 		}
