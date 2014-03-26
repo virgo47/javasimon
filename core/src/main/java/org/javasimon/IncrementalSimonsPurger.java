@@ -17,6 +17,16 @@ import java.util.concurrent.*;
  *
  * This class is thread safe.
  *
+ * Here is a code example of how to configure {@link org.javasimon.IncrementalSimonsPurger} to clean all outdated incremental
+ * Simons once a day for default manager:
+ * <pre>
+ * {@code
+ * Manager manager = SimonManager.manager();
+ * IncrementalSimonsPurger incrementalSimonsPurger = new IncrementalSimonsPurger(manager);
+ * incrementalSimonsPurger.start(1, TimeUnit.DAYS);
+ * }
+ * </pre>
+ *
  * @author <a href="mailto:ivan.mushketyk@gmail.com">Ivan Mushketyk</a>
  */
 public final class IncrementalSimonsPurger {
