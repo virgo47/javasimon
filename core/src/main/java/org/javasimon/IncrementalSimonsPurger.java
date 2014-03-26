@@ -151,11 +151,15 @@ public final class IncrementalSimonsPurger {
 	 * Thread factory that creates daemon thread for each Runnable. Using this factory
 	 * for executor service will not prevent application stopping.
 	 */
-	private static class DaemonThreadFactory implements ThreadFactory {
+	static class DaemonThreadFactory implements ThreadFactory {
+
+		private int threadNumber;
+
 		@Override
 		public Thread newThread(Runnable runnable) {
 			Thread daemonThread = new Thread(runnable);
 			daemonThread.setDaemon(true);
+			daemonThread.setName("javasimon-simonsPurger-" + (++threadNumber));
 			return daemonThread;
 		}
 	}

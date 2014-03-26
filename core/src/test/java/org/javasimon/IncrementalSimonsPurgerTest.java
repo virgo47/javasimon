@@ -1,6 +1,7 @@
 package org.javasimon;
 
 import org.mockito.ArgumentMatcher;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -9,10 +10,12 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyLong;
+import static org.mockito.Matchers.argThat;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.same;
+import static org.mockito.Mockito.*;
 
 /**
  * @author <a href="mailto:ivan.mushketyk@gmail.com">Ivan Mushketyk</a>
@@ -102,6 +105,34 @@ public class IncrementalSimonsPurgerTest {
 		runnable.run();
 
 		verify(managerPurger).purgeManager(same(manager), anyLong());
+	}
+
+	@Test
+	public void testDaemonThreadFactoryCreatesDaemonThread() {
+		IncrementalSimonsPurger.DaemonThreadFactory threadFactory = new IncrementalSimonsPurger.DaemonThreadFactory();
+		Runnable runnable = mock(Runnable.class);
+		Thread thread = threadFactory.newThread(runnable);
+		Assert.assertTrue(thread.isDaemon());
+	}
+
+	@Test
+	public void testDaemonThreadFactorySetName() {
+		IncrementalSimonsPurger.DaemonThreadFactory threadFactory = new IncrementalSimonsPurger.DaemonThreadFactory();
+		Runnable runnable = mock(Runnable.class);
+		Thread thread = threadFactory.newThread(runnable);
+		Assert.assertEquals(thread.getName(), "javasimon-simonsPurger-1");
+	}
+
+	@Test
+	public void testDaemonThreadFactoryThreadNameChanges() {
+		IncrementalSimonsPurger.DaemonThreadFactory threadFactory = new IncrementalSimonsPurger.DaemonThreadFactory();
+		Runnable runnable = mock(Runnable.class);
+
+		Thread thread1 = threadFactory.newThread(runnable);
+		Thread thread2 = threadFactory.newThread(runnable);
+
+		Assert.assertEquals(thread1.getName(), "javasimon-simonsPurger-1");
+		Assert.assertEquals(thread2.getName(), "javasimon-simonsPurger-2");
 	}
 
 	private class PurgerRunnableMatcher extends ArgumentMatcher<Runnable> {
