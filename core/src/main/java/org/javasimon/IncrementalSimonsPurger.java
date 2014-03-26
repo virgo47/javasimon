@@ -1,5 +1,8 @@
 package org.javasimon;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.concurrent.*;
 
 /**
@@ -117,10 +120,13 @@ public final class IncrementalSimonsPurger {
 		}
 	}
 
-	/** Task submitted to scheduled executor. It is periodically executed to remove
+	/**
+	 * Task submitted to scheduled executor. It is periodically executed to remove
 	 * old incremental Simons.
 	 */
 	static class PurgerRunnable implements Runnable {
+
+		private static final Logger logger = LoggerFactory.getLogger(PurgerRunnable.class);
 
 		private Manager manager;
 		private ManagerPurger managerPurger;
@@ -134,6 +140,7 @@ public final class IncrementalSimonsPurger {
 
 		@Override
 		public void run() {
+			logger.debug("Purging old incremental Simons");
 			managerPurger.purgeManager(manager, periodStartMs);
 			periodStartMs = System.currentTimeMillis();
 		}
