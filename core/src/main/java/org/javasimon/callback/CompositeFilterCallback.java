@@ -2,6 +2,7 @@ package org.javasimon.callback;
 
 import org.javasimon.Counter;
 import org.javasimon.CounterSample;
+import org.javasimon.Manager;
 import org.javasimon.Simon;
 import org.javasimon.SimonPattern;
 import org.javasimon.Split;
@@ -65,8 +66,8 @@ public final class CompositeFilterCallback implements FilterCallback, CompositeC
 	}
 
 	@Override
-	public void initialize() {
-		callback.initialize();
+	public void initialize(Manager manager) {
+		callback.initialize(manager);
 	}
 
 	@Override

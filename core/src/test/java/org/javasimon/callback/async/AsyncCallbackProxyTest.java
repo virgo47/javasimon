@@ -10,6 +10,7 @@ import org.javasimon.callback.Callback;
 import org.javasimon.callback.CallbackSkeleton;
 import org.javasimon.proxy.Delegating;
 import org.javasimon.utils.SimonUtils;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -34,10 +35,12 @@ public class AsyncCallbackProxyTest extends SimonUnitTest {
 		callbackProxy = new AsyncCallbackProxyFactory(callbackMock).newProxy();
 	}
 
-	/**
-	 * Check that calling any method on proxy call the method on the
-	 * delegate
-	 */
+	@AfterClass
+	public void tearDown() {
+		Executors.shutdownAsync();
+	}
+
+	/** Check that calling any method on proxy call the method on the delegate. */
 	@Test
 	public void testOnMessage() throws Exception {
 		final String message = "Hello";
@@ -48,10 +51,7 @@ public class AsyncCallbackProxyTest extends SimonUnitTest {
 		verify(callbackMock).onManagerMessage(eq(message));
 	}
 
-	/**
-	 * Checks that calling getDelegate method on proxy returns delegate
-	 * implementation
-	 */
+	/** Checks that calling getDelegate method on proxy returns delegate implementation. */
 	@Test
 	public void testGetDelegate() throws Exception {
 		@SuppressWarnings("unchecked")
@@ -131,5 +131,4 @@ public class AsyncCallbackProxyTest extends SimonUnitTest {
 		System.out.println("Performance, async=" + SimonUtils.presentNanoTime(timeAsync) + ", normal=" + SimonUtils.presentNanoTime(timeNormal));
 		executorService.shutdown();
 	}
-
 }

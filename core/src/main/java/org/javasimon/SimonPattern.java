@@ -22,7 +22,7 @@ public final class SimonPattern implements SimonFilter {
 
 	private static final String WILDCARD_STAR = "*";
 
-	/** Expected Simon type */
+	/** Expected Simon type. */
 	private final Class<? extends Simon> expectedType;
 
 	/** Original pattern from the configuration. */

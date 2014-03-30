@@ -2,6 +2,7 @@ package org.javasimon.callback;
 
 import org.javasimon.Counter;
 import org.javasimon.CounterSample;
+import org.javasimon.Manager;
 import org.javasimon.Simon;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
@@ -15,7 +16,7 @@ import org.javasimon.StopwatchSample;
  */
 public class CallbackSkeleton implements Callback {
 	@Override
-	public void initialize() {
+	public void initialize(Manager manager) {
 	}
 
 	@Override

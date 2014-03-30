@@ -1,16 +1,15 @@
 package org.javasimon.console.action;
 
-import java.util.regex.Pattern;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import org.javasimon.console.SimonData;
 import org.javasimon.console.TestActionContext;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import java.util.regex.Pattern;
 
 /**
  * Unit test for {@link DetailHtmlAction}
@@ -18,6 +17,7 @@ import static org.testng.Assert.assertTrue;
  * @author gerald
  */
 public class DetailHtmlActionTest {
+
 	private TestActionContext actionContext;
 	private DetailHtmlAction action;
 

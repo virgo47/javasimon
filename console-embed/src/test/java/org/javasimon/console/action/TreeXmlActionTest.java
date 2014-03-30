@@ -1,14 +1,10 @@
 package org.javasimon.console.action;
 
-import java.io.ByteArrayInputStream;
-import java.util.HashSet;
-import java.util.Set;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import org.javasimon.console.SimonData;
 import org.javasimon.console.TestActionContext;
-
 import org.json.JSONException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -17,11 +13,15 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import java.io.ByteArrayInputStream;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 /**
- * Unit test for {@link UglyTableJsonAction}
+ * Unit test for {@link org.javasimon.console.action.TreeXmlAction}.
  *
  * @author gquintana
  */

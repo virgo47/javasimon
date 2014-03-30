@@ -34,29 +34,4 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
-	<profiles>
-		<profile>
-			<id>netbeans-private-testng</id>
-			<activation>
-				<property>
-					<name>netbeans.testng.action</name>
-				</property>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<version>${version.surefire-plugin}</version>
-						<configuration>
-							<suiteXmlFiles>
-								<suiteXmlFile>target/nb-private/testng-suite.xml</suiteXmlFile>
-							</suiteXmlFiles>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
 </project>

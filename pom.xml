@@ -99,10 +99,6 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
 					<version>${version.surefire-plugin}</version>
-					<!-- <configuration>
-						<jvm>${env.JDK6.HOME}/bin/java</jvm>
-						<forkMode>once</forkMode>
-					</configuration> -->
 				</plugin>
 			</plugins>
 		</pluginManagement>

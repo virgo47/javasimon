@@ -1,13 +1,12 @@
 package org.javasimon.console.action;
 
-import org.javasimon.console.SimonData;
-import org.javasimon.console.TestActionContext;
-
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
+
+import org.javasimon.console.SimonData;
+import org.javasimon.console.TestActionContext;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 /**
  * Unit test for {@link TableHtmlAction}.
@@ -15,6 +14,7 @@ import static org.testng.Assert.assertTrue;
  * @author gquintana
  */
 public class TableHtmlActionTest {
+
 	@BeforeClass
 	public static void setUpClass() {
 		SimonData.initialize();

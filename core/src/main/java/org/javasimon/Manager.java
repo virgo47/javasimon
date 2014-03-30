@@ -72,7 +72,7 @@ public interface Manager {
 
 	/**
 	 * Returns collection containing all existing Simons accepted by specified {@link SimonFilter}.
-	 * If {@code null} pattern is provided all Simons are returned in an unmodifiable Collection.
+	 * If {@code null} filter is provided all Simons are returned in an unmodifiable Collection.
 	 * Otherwise new collection with matching Simons is returned.
 	 *
 	 * @param simonFilter filter accepting the Simons to result collection

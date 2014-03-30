@@ -83,7 +83,7 @@ public final class Executors {
 	}
 
 	/** Stops thread used by default async executor. */
-	public void shutdownAsync() {
+	public static synchronized void shutdownAsync() {
 		if (ASYNC_EXECUTOR_SERVICE != null) {
 			ASYNC_EXECUTOR_SERVICE.shutdown();
 		}

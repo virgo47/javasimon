@@ -28,4 +28,24 @@
 			<artifactId>mockito-core</artifactId>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${version.surefire-plugin}</version>
+				<configuration>
+					<!--TODO: experiments to find out why surefire hangs for a long time after they are all finished -->
+					<includes>
+						<include>**/org/javasimon/StopwatchTest.java</include>
+						<include>**/org/javasimon/CounterTest.java</include>
+						<include>**/org/javasimon/ConfigurationTest.java</include>
+						<include>**/org/javasimon/utils/SimonUtilsTest.java</include>
+						<include>**/org/javasimon/utils/*.java</include>
+					</includes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

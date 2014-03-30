@@ -1,13 +1,10 @@
 package org.javasimon.console.action;
 
-//import org.javasimon.console.TestActionContext;
-
-import java.util.HashSet;
-import java.util.Set;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import org.javasimon.console.SimonData;
 import org.javasimon.console.TestActionContext;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,8 +12,8 @@ import org.json.JSONTokener;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Unit test for {@link org.javasimon.console.action.TreeJsonAction}.
@@ -24,6 +21,7 @@ import static org.testng.Assert.assertTrue;
  * @author gquintana
  */
 public class TreeJsonActionTest {
+
 	@BeforeClass
 	public static void setUpClass() {
 		SimonData.initialize();

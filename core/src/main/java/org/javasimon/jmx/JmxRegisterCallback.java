@@ -1,17 +1,19 @@
 package org.javasimon.jmx;
 
 import org.javasimon.Counter;
+import org.javasimon.Manager;
 import org.javasimon.Simon;
 import org.javasimon.Stopwatch;
 import org.javasimon.callback.CallbackSkeleton;
 
-import javax.management.JMException;
-import javax.management.MBeanServer;
-import javax.management.ObjectName;
 import java.lang.management.ManagementFactory;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+
+import javax.management.JMException;
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
 
 /**
  * Callback that registers MXBeans for Simons after their creation. It is
@@ -32,8 +34,10 @@ public class JmxRegisterCallback extends CallbackSkeleton {
 	/** Names of all beans registered for separate Simons */
 	private Set<String> registeredNames = new HashSet<String>();
 
-	/** Is JmxRegisterCallback was stopped */
-	private volatile boolean stopped;
+	/** Whether all existing Simons from Manager should be registered after callback is added to a Manager. */
+	private boolean registerExisting;
+
+	private Manager manager;
 
 	/**
 	 * Default constructor uses default MBeanServer.
@@ -56,6 +60,19 @@ public class JmxRegisterCallback extends CallbackSkeleton {
 		this.domain = domain;
 	}
 
+	@Override
+	public synchronized void initialize(Manager manager) {
+		if (this.manager != null) {
+			throw new IllegalStateException("Callback was already initialized");
+		}
+		this.manager = manager;
+		if (registerExisting) {
+			for (Simon simon : manager.getSimons(null)) {
+				register(simon);
+			}
+		}
+	}
+
 	/**
 	 * After Simon is created respective MX bean is registered for it according to its type.
 	 *
@@ -63,7 +80,7 @@ public class JmxRegisterCallback extends CallbackSkeleton {
 	 */
 	@Override
 	public final void onSimonCreated(Simon simon) {
-		if (simon.getName() == null || stopped) {
+		if (simon.getName() == null) {
 			return;
 		}
 		register(simon);
@@ -76,10 +93,8 @@ public class JmxRegisterCallback extends CallbackSkeleton {
 	 */
 	@Override
 	public final void onSimonDestroyed(Simon simon) {
-		if (!stopped) {
-			String name = constructObjectName(simon);
-			unregisterSimon(name);
-		}
+		String name = constructObjectName(simon);
+		unregisterSimon(name);
 	}
 
 	private synchronized void unregisterSimon(String name) {
@@ -99,9 +114,7 @@ public class JmxRegisterCallback extends CallbackSkeleton {
 		unregisterAllSimons();
 	}
 
-	/**
-	 * Unregister all previously registered Simons.
-	 */
+	/** Unregister all previously registered Simons. */
 	private synchronized void unregisterAllSimons() {
 		Iterator<String> namesIter = registeredNames.iterator();
 		while (namesIter.hasNext()) {
@@ -118,11 +131,8 @@ public class JmxRegisterCallback extends CallbackSkeleton {
 		}
 	}
 
-	/**
-	 * Stop operation and clear all registered beans.
-	 */
-	public void stop() {
-		stopped = true;
+	/** Stop operation and clear all registered beans. Callback should be removed from Simon Manager. */
+	public void cleanup() {
 		unregisterAllSimons();
 	}
 
@@ -208,5 +218,15 @@ public class JmxRegisterCallback extends CallbackSkeleton {
 
 	MBeanServer getBeanServer() {
 		return mBeanServer;
+	}
+
+	/**
+	 * If set to true before initialization callback registers all Simons already existing in the Manager
+	 * during initialization.
+	 *
+	 * @param registerExisting true if all already existing simons should be registered
+	 */
+	public void setRegisterExisting(boolean registerExisting) {
+		this.registerExisting = registerExisting;
 	}
 }
