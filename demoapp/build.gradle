@@ -5,8 +5,6 @@ sourceSets {
     main { compileClasspath += configurations.provided }
 }
 
-
-
 String jdkVersion = getJdkVersion()
 String jdbcDependencyName = getJdbcDependencyName(jdkVersion)
 
@@ -38,6 +36,7 @@ dependencies {
     }
     compile libs.spring_web
     compile libs.h2
+    compile libs.gson
     compile 'commons-dbcp:commons-dbcp:1.4'
     compile project(jdbcDependencyName)
     compile project(':javaee')
