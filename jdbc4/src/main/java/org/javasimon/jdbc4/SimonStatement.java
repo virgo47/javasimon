@@ -14,7 +14,7 @@ import org.javasimon.Split;
 import org.javasimon.Stopwatch;
 
 /**
- * Simon JDBC4 proxy statement implementation class.
+ * Simon JDBC proxy statement implementation class.
  *
  * @author Radovan Sninsky
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>

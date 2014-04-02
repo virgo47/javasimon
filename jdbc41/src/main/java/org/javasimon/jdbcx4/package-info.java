@@ -1,5 +1,5 @@
 /**
- * Simon DataSources for JavaEE JDBC4 monitoring.
+ * Simon DataSources for JavaEE JDBC monitoring.
  * <p>
  * Basic principle behind Java Simon implementation of DataSources for JDBC monitoring inside JavaEE
  * compliant application servers is mostly similar like in case of JavaSE JDBC monitoring. With same

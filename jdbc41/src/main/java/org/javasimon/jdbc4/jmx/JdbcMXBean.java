@@ -9,8 +9,8 @@ import org.javasimon.jmx.StopwatchSample;
  * and operations to retrieve gathered statistics from special JDBC hierarchy of Simons.<br>
  * This JDBC hierarchy of Simon is well known and specified in JDBC javadoc
  * ({@link org.javasimon.jdbc4}). There is prefix of this hierarchy that is associated with
- * one instance of monitored JDBC driver. Typically, thare is only one driver instance used
- * in application, becouse of connection to one type of database. If application is connected
+ * one instance of monitored JDBC driver. Typically, there is only one driver instance used
+ * in application, because of connection to one type of database. If application is connected
  * to different types of database (i.e. oracle and mysql), there is possibility to differentiate
  * each used driver by specifying Simon hierarchy prefix for driver.<br>
  * Jdbc mxbean has prefix associated with it. It's is initialized through mxbean implementation
@@ -19,7 +19,7 @@ import org.javasimon.jmx.StopwatchSample;
  * for each prefix.
  * <p/>
  * Monitoring of the JDBC driver is enabled only if Java Simon JDBC proxy driver is used
- * over orginal JDBC driver (eg. Oracle, PostgreSQL, MySQL etc.). For more details how to do
+ * over original JDBC driver (eg. Oracle, PostgreSQL, MySQL etc.). For more details how to do
  * that, please look at {@link org.javasimon.jdbc4.Driver} a package {@link org.javasimon.jdbc4}
  * javadoc.
  *

@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
 
 /**
- * Unit test for {@link SimonDataSource} and {@link AbstractSimonDataSource
+ * Unit test for {@link org.javasimon.jdbcx4.SimonDataSource} and {@link org.javasimon.jdbcx4.AbstractSimonDataSource
  */
 public class SimonDataSourceTest {	
 	@Test

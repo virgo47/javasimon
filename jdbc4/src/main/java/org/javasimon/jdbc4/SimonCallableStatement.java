@@ -21,7 +21,7 @@ import java.util.Calendar;
 import java.util.Map;
 
 /**
- * Simon JDBC4 proxy callable statement implementation class.
+ * Simon JDBC proxy callable statement implementation class.
  *
  * @author Radovan Sninsky
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>

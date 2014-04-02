@@ -11,8 +11,8 @@ import java.util.regex.Pattern;
  * JDBC configuration contains Simon JDBC connection URL, real JDBC connection URL and Simon properties.
  * <p/>
  * It parses given url and than provides getters for driver's properties if provided or default values.
- * Prior to Simon 3.4, this class was known as org.javasimon.jdbc4.Driver.Url and only used in {@link org.javasimon.jdbc4.Driver}.
- * It was externalized and is now used in both {@code org.javasimon.jdbc4.Driver} 
+ * Prior to Simon 3.4, this class was known as org.javasimon.jdbc4.Driver.Url and only used in {@link Driver}.
+ * It was externalized and is now used in both {@code org.javasimon.jdbc4.Driver}
  * and {@link org.javasimon.jdbcx4.SimonDataSource} and other Simon DataSources.
  * @author Radovan Sninsky
  * @author gquintana

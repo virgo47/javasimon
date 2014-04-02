@@ -16,7 +16,7 @@ import static org.testng.Assert.assertSame;
 import static org.testng.Assert.assertTrue;
 
 /**
- * Unit test for {@link WrapperSupport} class
+ * Unit test for {@link org.javasimon.jdbc4.WrapperSupport} class
  */
 public class WrapperSupportTest {
 	private Connection realConnection;

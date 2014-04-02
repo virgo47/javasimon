@@ -89,7 +89,7 @@ public class StandaloneExample {
 		register();
 
 		// The following is client part of code.
-		// Becouse, this is same VM, we don't need to create JMXConnector object and
+		// Because, this is same VM, we don't need to create JMXConnector object and
 		// than obtain MBeanServerConnection. Platform MBeanServer is a MBeanServerConnection
 		// already, so it's used.
 		// So we use JMX.newMXBeanProxy method to make JMX create new client proxy of SimonManagerMXBean

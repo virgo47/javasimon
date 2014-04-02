@@ -84,11 +84,11 @@ subprojects {
     sourceCompatibility = '1.6'
     targetCompatibility = '1.6'
 
-    compileJava {
-        options.compilerArgs << '-bootclasspath' << getBootstrapPath("1.6")
-        options.fork = true
-        options.forkOptions.executable = 'javac'
-    }
+//    compileJava {
+//        options.compilerArgs << '-bootclasspath' << getBootstrapPath("1.6")
+//        options.fork = true
+//        options.forkOptions.executable = 'javac'
+//    }
 
     jar {
         manifest.attributes provider: 'gradle'

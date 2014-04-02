@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 /**
- * Simon JDBC4 Proxy Driver.
+ * Simon JDBC Proxy Driver.
  * <p>
  * An application should not use this class directly. The application (if standalone)
  * should use {@link java.sql.DriverManager} only. For example:

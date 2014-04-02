@@ -9,7 +9,7 @@ import java.util.Properties;
 import java.util.logging.Logger;
 
 /**
- * Simon JDBC4 Proxy Driver.
+ * Simon JDBC 4.1 Proxy Driver (Java SE 7).
  * <p>
  * An application should not use this class directly. The application (if standalone)
  * should use {@link java.sql.DriverManager} only. For example:
@@ -92,7 +92,7 @@ public final class Driver implements java.sql.Driver {
 	 * @param info properties for connection
 	 * @return open connection to database or null if provided url is not accepted by this driver
 	 * @throws java.sql.SQLException if there is no real driver registered/recognized or opening real connection fails
-	 * @see org.javasimon.jdbc4.Driver
+	 * @see Driver
 	 */
 	@Override
 	public Connection connect(String simonUrl, Properties info) throws SQLException {
@@ -108,7 +108,7 @@ public final class Driver implements java.sql.Driver {
 
 	/**
 	 * Tries to determine driver class, instantiate it and register if already not registered.
-	 * For more detail look at {@link org.javasimon.jdbc4.Driver} class javadoc.
+	 * For more detail look at {@link Driver} class javadoc.
 	 *
 	 * @param configuration instance of url object that represents url
 	 * @param info parameters from {@link #connect(String, java.util.Properties)} method

@@ -7,11 +7,11 @@ String jdbcDependencyName = getJdbcDependencyName(jdkVersion)
 sourceCompatibility = jdkVersion
 targetCompatibility = jdkVersion
 
-compileJava {
-    options.compilerArgs << '-bootclasspath' << getBootstrapPath(jdkVersion)
-    options.fork = true
-    options.forkOptions.executable = 'javac'
-}
+//compileJava {
+//    options.compilerArgs << '-bootclasspath' << getBootstrapPath(jdkVersion)
+//    options.fork = true
+//    options.forkOptions.executable = 'javac'
+//}
 
 dependencies {
     compile project(':core')
