@@ -98,8 +98,12 @@ public final class IncrementalSimonsPurger {
 		private long periodStartMs;
 
 		public PurgerRunnable(Manager manager) {
+			this(manager, System.currentTimeMillis());
+		}
+
+		PurgerRunnable(Manager manager, long periodStartMs) {
 			this.manager = manager;
-			periodStartMs = System.currentTimeMillis();
+			this.periodStartMs = periodStartMs;
 		}
 
 		@Override

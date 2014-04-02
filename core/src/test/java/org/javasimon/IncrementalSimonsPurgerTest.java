@@ -12,9 +12,6 @@ import java.util.concurrent.TimeUnit;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
-import static org.mockito.Matchers.argThat;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Matchers.same;
 import static org.mockito.Mockito.*;
 
 /**
@@ -34,16 +31,6 @@ public class IncrementalSimonsPurgerTest {
 				.thenReturn(scheduledFuture);
 	}
 
-	/*
-	@DataProvider(name = "managersDataProvider")
-	public Object[][] managersDataProvider() {
-		return new Object[][] {
-			{new EnabledManager(), IncrementalSimonsPurger.ENABLED_MANAGER_PURGER},
-			{new SwitchingManager(), IncrementalSimonsPurger.SWITCH_MANAGER_PURGER},
-			{new DisabledManager(), IncrementalSimonsPurger.DISABLED_MANAGER_PURGER}
-		};
-	}
-
 	@Test(dataProvider = "managersDataProvider")
 	public void testPeriodicalIncrementalSimonsPurge(Manager manager) {
 		IncrementalSimonsPurger incrementalSimonsPurger = new IncrementalSimonsPurger(manager, executorService);
@@ -53,9 +40,24 @@ public class IncrementalSimonsPurgerTest {
 		incrementalSimonsPurger.start(duration, timeUnit);
 
 		verify(executorService).scheduleWithFixedDelay(
-				argThat(new PurgerRunnableMatcher(manager, expectedManagerPurger)), eq(duration), eq(duration), eq(timeUnit));
+				argThat(new PurgerRunnableMatcher(manager)), eq(duration), eq(duration), eq(timeUnit));
 	}
-	*/
+
+	private class PurgerRunnableMatcher extends ArgumentMatcher<Runnable> {
+
+		private final Manager expectedManager;
+
+		public PurgerRunnableMatcher(Manager expectedManager) {
+			this.expectedManager = expectedManager;
+		}
+
+		@Override
+		public boolean matches(Object o) {
+			IncrementalSimonsPurger.PurgerRunnable purger = (IncrementalSimonsPurger.PurgerRunnable) o;
+
+			return purger.getManager() == expectedManager;
+		}
+	}
 
 	@Test
 	public void testCancel() {
@@ -98,18 +100,29 @@ public class IncrementalSimonsPurgerTest {
 		incrementalSimonsPurger.cancel();
 	}
 
-	/*
-	@Test
-	public void testPurgerRunnable() {
-		Manager manager = mock(Manager.class);
-		IncrementalSimonsPurger.ManagerPurger managerPurger = mock(IncrementalSimonsPurger.ManagerPurger.class);
-		IncrementalSimonsPurger.PurgerRunnable runnable = new IncrementalSimonsPurger.PurgerRunnable(manager, managerPurger);
+	@DataProvider(name = "managersProvider")
+	public Object[][] managersDataProvider() {
 
+		return new Object[][] {
+				{new EnabledManager()},
+				{new SwitchingManager()}
+		};
+	}
+
+	@Test(dataProvider = "managersProvider")
+	public void testPurging(Manager manager) {
+		Stopwatch stopwatch = manager.getStopwatch("stopwatch");
+		stopwatch.sampleIncrement("key");
+		stopwatch.start().stop();
+
+		long timeInFuture = System.currentTimeMillis() + 1000;
+
+		IncrementalSimonsPurger.PurgerRunnable runnable = new IncrementalSimonsPurger.PurgerRunnable(manager, timeInFuture);
 		runnable.run();
 
-		verify(managerPurger).purgeManager(same(manager), anyLong());
+		// should return false if it was removed by purger runnable
+		Assert.assertFalse(stopwatch.stopIncrementalSampling("key"));
 	}
-	*/
 
 	@Test
 	public void testDaemonThreadFactoryCreatesDaemonThread() {
@@ -139,24 +152,4 @@ public class IncrementalSimonsPurgerTest {
 		Assert.assertEquals(thread1.getName(), "javasimon-simonsPurger-1");
 		Assert.assertEquals(thread2.getName(), "javasimon-simonsPurger-2");
 	}
-
-	/*
-	private class PurgerRunnableMatcher extends ArgumentMatcher<Runnable> {
-
-		private final Manager expectedManager;
-		private final IncrementalSimonsPurger.ManagerPurger expectedManagerPurger;
-
-		public PurgerRunnableMatcher(Manager expectedManager, IncrementalSimonsPurger.ManagerPurger managerPurger) {
-			this.expectedManager = expectedManager;
-			this.expectedManagerPurger = managerPurger;
-		}
-
-		@Override
-		public boolean matches(Object o) {
-			IncrementalSimonsPurger.PurgerRunnable purger = (IncrementalSimonsPurger.PurgerRunnable) o;
-
-			return purger.getManager() == expectedManager && purger.getManagerPurger() == expectedManagerPurger;
-		}
-	}
-	*/
 }
