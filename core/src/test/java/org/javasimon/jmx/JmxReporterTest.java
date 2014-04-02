@@ -1,15 +1,5 @@
 package org.javasimon.jmx;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.argThat;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.inOrder;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import org.javasimon.Manager;
 import org.javasimon.SimonException;
 import org.javasimon.SimonManager;
@@ -24,13 +14,22 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.lang.management.ManagementFactory;
-
 import javax.management.InstanceNotFoundException;
 import javax.management.JMException;
 import javax.management.MBeanServer;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
+import java.lang.management.ManagementFactory;
+
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.argThat;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * @author <a href="mailto:ivan.mushketyk@gmail.com">Ivan Mushketyk</a>
@@ -212,13 +211,8 @@ public class JmxReporterTest extends SimonUnitTest {
 		InOrder inOrder = inOrder(beanServer, compositeCallback);
 		inOrder.verify(beanServer).unregisterMBean(customObjectName);
 
-		// Check if Simon bean was unregistered
+		// Check if JmxRegisterCallback was removed
 		inOrder.verify(compositeCallback).removeCallback(jmxRegisterCallback);
-//		TODO: new version unregisters beans in removeCallback - should it be mocked here somehow?
-//		ArgumentCaptor<ObjectName> objectNameArgumentCaptor = ArgumentCaptor.forClass(ObjectName.class);
-//		inOrder.verify(beanServer).unregisterMBean(objectNameArgumentCaptor.capture());
-//		ObjectName objectName = objectNameArgumentCaptor.getValue();
-//		Assert.assertEquals(objectName.getDomain(), simonDomain);
 	}
 
 	@Test
