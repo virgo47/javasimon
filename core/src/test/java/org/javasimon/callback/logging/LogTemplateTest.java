@@ -110,16 +110,16 @@ public class LogTemplateTest extends SimonUnitTest implements LogMessageSource<O
 		logMessage = "Test Periodic";
 		Clock clock = mock(Clock.class);
 		long startTime = 1000;
-		when(clock.timeMillis()).thenReturn(startTime);
+		when(clock.milliTime()).thenReturn(startTime);
 
 		PeriodicLogTemplate logTemplate2 = everyNMilliseconds(logTemplate1, 500L, clock);
 		// Before
-		when(clock.timeMillis()).thenReturn(startTime + 300L);
+		when(clock.milliTime()).thenReturn(startTime + 300L);
 
 		assertFalse(logTemplate2.log(null, this));
 		assertNull(logTemplate1.getMessage());
 		// Wait
-		when(clock.timeMillis()).thenReturn(startTime + 550L);
+		when(clock.milliTime()).thenReturn(startTime + 550L);
 		// After
 		assertTrue(logTemplate2.log(null, this));
 		assertEquals(logTemplate1.getMessage(), logMessage);
@@ -129,7 +129,7 @@ public class LogTemplateTest extends SimonUnitTest implements LogMessageSource<O
 		assertFalse(logTemplate2.log(null, this));
 		assertNull(logTemplate1.getMessage());
 		// Wait
-		when(clock.timeMillis()).thenReturn(startTime + 1550L);
+		when(clock.milliTime()).thenReturn(startTime + 1550L);
 		// After
 		assertTrue(logTemplate2.log(null, this));
 		assertEquals(logTemplate1.getMessage(), logMessage);

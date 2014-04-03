@@ -200,7 +200,7 @@ final class NullStopwatch extends NullSimon implements Stopwatch {
 	 */
 	static final NullStopwatch INSTANCE = new NullStopwatch();
 
-	private static final Split NULL_SPLIT = new Split(INSTANCE);
+	private static final Split NULL_SPLIT = new Split(INSTANCE, Clock.SYSTEM);
 
 	private NullStopwatch() {
 	}

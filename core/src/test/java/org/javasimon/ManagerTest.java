@@ -186,12 +186,13 @@ public final class ManagerTest extends SimonUnitTest {
 
 	@Test
 	public void testRemoveIncrementalSimons() {
-		EnabledManager enabledManager = new EnabledManager();
+		TestClock testClock = new TestClock();
+		EnabledManager enabledManager = new EnabledManager(testClock);
 		Stopwatch stopwatch = enabledManager.getStopwatch("stopwatch");
 		String key = "key";
 		stopwatch.sampleIncrement(key);
 
-		long timeInTheFuture = System.currentTimeMillis() + 1000;
+		long timeInTheFuture = 1000;
 		enabledManager.purgeIncrementalSimonsOlderThan(timeInTheFuture);
 		boolean incrementalSimonExisted = stopwatch.stopIncrementalSampling(key);
 		Assert.assertFalse(incrementalSimonExisted);

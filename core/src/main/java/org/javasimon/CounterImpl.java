@@ -47,7 +47,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 			return this;
 		}
 
-		long now = System.currentTimeMillis();
+		long now = manager.milliTime();
 		CounterSample sample;
 		synchronized (this) {
 			setPrivate(val, now);
@@ -99,7 +99,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 			return this;
 		}
 
-		long now = System.currentTimeMillis();
+		long now = manager.milliTime();
 		CounterSample sample;
 		synchronized (this) {
 			increasePrivate(inc, now);
@@ -141,7 +141,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 			return this;
 		}
 
-		long now = System.currentTimeMillis();
+		long now = manager.milliTime();
 		CounterSample sample;
 		synchronized (this) {
 			decreasePrivate(dec, now);

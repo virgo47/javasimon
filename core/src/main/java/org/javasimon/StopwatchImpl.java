@@ -42,10 +42,11 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		}
 
 		long splitNs = split.runningFor();
+		long nowNanos = nanoTimeFromSplit(split, splitNs);
+
 		StopwatchSample sample = null;
 		synchronized (this) {
 			// using parameter version saves one currentTimeMillis call
-			long nowNanos = split.getStart() + splitNs;
 			updateUsagesNanos(nowNanos);
 			addSplit(splitNs);
 			if (!manager.callback().callbacks().isEmpty()) {
@@ -55,6 +56,14 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		}
 		manager.callback().onStopwatchAdd(this, split, sample);
 		return this;
+	}
+
+	private long nanoTimeFromSplit(Split split, long splitNs) {
+		if (split.getStopwatch() != null) {
+			return split.getStart() + splitNs;
+		} else {
+			return manager.nanoTime();
+		}
 	}
 
 	private void updateIncrementalSimons(long splitNs, long nowNanos) {
@@ -71,16 +80,16 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	@Override
 	public Split start() {
 		if (!enabled) {
-			return new Split(this);
+			return new Split(this, manager);
 		}
 
-		long nowNanos = System.nanoTime();
+		long nowNanos = manager.nanoTime();
 		Split split;
 		synchronized (this) {
 			updateUsagesNanos(nowNanos);
 			activeStart();
 		}
-		split = new Split(this, nowNanos);
+		split = new Split(this, manager, nowNanos);
 		manager.callback().onStopwatchStart(split);
 		return split;
 	}

@@ -115,7 +115,7 @@ public class IncrementalSimonsPurgerTest {
 		stopwatch.sampleIncrement("key");
 		stopwatch.start().stop();
 
-		long timeInFuture = System.currentTimeMillis() + 1000;
+		long timeInFuture = manager.milliTime() + 1000;
 
 		IncrementalSimonsPurger.PurgerRunnable runnable = new IncrementalSimonsPurger.PurgerRunnable(manager, timeInFuture);
 		runnable.run();

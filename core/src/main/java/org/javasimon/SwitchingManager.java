@@ -100,7 +100,17 @@ public final class SwitchingManager implements Manager {
 		manager.warning(warning, cause);
 	}
 
-	public void purgeIncrementalSimonsOlderThan(long thresholdMs) {
+	@Override
+	public long milliTime() {
+		return manager.milliTime();
+	}
+
+	@Override
+	public long nanoTime() {
+		return manager.nanoTime();
+	}
+
+	void purgeIncrementalSimonsOlderThan(long thresholdMs) {
 		// Store reference to current manager to avoid check-than-act
 		Manager currentManager = manager;
 

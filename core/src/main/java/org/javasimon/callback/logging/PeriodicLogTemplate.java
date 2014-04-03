@@ -1,7 +1,6 @@
 package org.javasimon.callback.logging;
 
 import org.javasimon.Clock;
-import org.javasimon.Clocks;
 
 /**
  * Log template that logs something after every N milliseconds.
@@ -27,7 +26,7 @@ public class PeriodicLogTemplate<C> extends DelegateLogTemplate<C> {
 	 * @param period logging period in milliseconds
 	 */
 	public PeriodicLogTemplate(LogTemplate delegate, long period) {
-		this(delegate, period, Clocks.getSystemClock());
+		this(delegate, period, Clock.SYSTEM);
 	}
 
 	public PeriodicLogTemplate(LogTemplate delegate, long period, Clock clock) {
@@ -36,7 +35,6 @@ public class PeriodicLogTemplate<C> extends DelegateLogTemplate<C> {
 		this.clock = clock;
 		initNextTime();
 	}
-
 
 
 	/**
@@ -54,7 +52,7 @@ public class PeriodicLogTemplate<C> extends DelegateLogTemplate<C> {
 	 * @return current timestamp
 	 */
 	long getCurrentTime() {
-		return clock.timeMillis();
+		return clock.milliTime();
 	}
 
 	/** Computes the next timestamp. */

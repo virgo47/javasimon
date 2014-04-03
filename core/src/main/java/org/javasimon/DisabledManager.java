@@ -127,4 +127,14 @@ public final class DisabledManager implements Manager {
 	@Override
 	public void warning(String message, Exception cause) {
 	}
+
+	@Override
+	public long nanoTime() {
+		return 0;
+	}
+
+	@Override
+	public long milliTime() {
+		return 0;
+	}
 }

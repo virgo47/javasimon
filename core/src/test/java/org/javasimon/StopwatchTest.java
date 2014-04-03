@@ -1,6 +1,5 @@
 package org.javasimon;
 
-import org.javasimon.utils.SimonUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -45,7 +44,9 @@ public final class StopwatchTest extends SimonUnitTest {
 	public void resetTest() throws Exception {
 		// with raw current millis this test is unstable - this is not a problem in real-life situations though
 		// point is to check that timestamps are set, not that they are set off by 1 ms or so
-		long ts = SimonUtils.millisForNano(System.currentTimeMillis());
+		TestClock testClock = new TestClock();
+		testClock.setMillisNanosFollow(1000);
+		long ts = testClock.milliTime();
 		Stopwatch stopwatch = SimonManager.getStopwatch(null);
 		stopwatch.reset();
 		stopwatch.addSplit(Split.create(100));

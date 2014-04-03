@@ -19,7 +19,7 @@ import java.util.Collection;
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
-public interface Manager {
+public interface Manager extends Clock {
 
 	/** Name of the root Simon. */
 	String ROOT_SIMON_NAME = "";

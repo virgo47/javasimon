@@ -144,7 +144,7 @@ abstract class AbstractSimon implements Simon {
 	@Deprecated
 	public void reset() {
 		synchronized (this) {
-			resetTimestamp = System.currentTimeMillis();
+			resetTimestamp = manager.milliTime();
 			concreteReset();
 		}
 		if (manager != null) {

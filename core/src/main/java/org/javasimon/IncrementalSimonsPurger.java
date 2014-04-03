@@ -98,7 +98,7 @@ public final class IncrementalSimonsPurger {
 		private long periodStartMs;
 
 		public PurgerRunnable(Manager manager) {
-			this(manager, System.currentTimeMillis());
+			this(manager, manager.milliTime());
 		}
 
 		PurgerRunnable(Manager manager, long periodStartMs) {
@@ -114,7 +114,7 @@ public final class IncrementalSimonsPurger {
 			} else if (manager instanceof SwitchingManager) {
 				((SwitchingManager) manager).purgeIncrementalSimonsOlderThan(periodStartMs);
 			}
-			periodStartMs = System.currentTimeMillis();
+			periodStartMs = manager.milliTime();
 		}
 
 		Manager getManager() {

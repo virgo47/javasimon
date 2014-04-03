@@ -20,16 +20,23 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public final class EnabledManager implements Manager {
 
-	private final Map<String, AbstractSimon> allSimons = new ConcurrentHashMap<String, AbstractSimon>();
-
 	private UnknownSimon rootSimon;
 
-	private CompositeCallback callback = new CompositeCallbackImpl();
+	private final Map<String, AbstractSimon> allSimons = new ConcurrentHashMap<String, AbstractSimon>();
 
-	private ManagerConfiguration configuration;
+	private final CompositeCallback callback = new CompositeCallbackImpl();
+
+	private final ManagerConfiguration configuration;
+
+	private final Clock clock;
 
 	/** Creates new enabled manager. */
 	public EnabledManager() {
+		this(Clock.SYSTEM);
+	}
+
+	public EnabledManager(Clock clock) {
+		this.clock = clock;
 		rootSimon = new UnknownSimon(ROOT_SIMON_NAME, this);
 		allSimons.put(ROOT_SIMON_NAME, rootSimon);
 		configuration = new ManagerConfiguration(this);
@@ -238,6 +245,16 @@ public final class EnabledManager implements Manager {
 	@Override
 	public void warning(String warning, Exception cause) {
 		callback.onManagerWarning(warning, cause);
+	}
+
+	@Override
+	public long nanoTime() {
+		return clock.nanoTime();
+	}
+
+	@Override
+	public long milliTime() {
+		return clock.milliTime();
 	}
 
 	synchronized void purgeIncrementalSimonsOlderThan(long thresholdMs) {
