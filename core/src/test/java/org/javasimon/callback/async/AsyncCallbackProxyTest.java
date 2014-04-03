@@ -1,23 +1,26 @@
 package org.javasimon.callback.async;
 
-import static org.mockito.Mockito.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.testng.Assert.assertSame;
-
 import org.javasimon.SimonUnitTest;
 import org.javasimon.callback.Callback;
 import org.javasimon.callback.CallbackSkeleton;
 import org.javasimon.proxy.Delegating;
+import org.javasimon.proxy.DelegatingMethodInvocation;
 import org.javasimon.utils.SimonUtils;
+import org.mockito.ArgumentCaptor;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.testng.Assert.assertSame;
 
 /**
  * Unit test for {@link org.javasimon.callback.async.AsyncCallbackProxyFactory}.
@@ -28,11 +31,13 @@ public class AsyncCallbackProxyTest extends SimonUnitTest {
 
 	private Callback callbackMock;
 	private Callback callbackProxy;
+	private Executor executor;
 
 	@BeforeMethod
 	public void setUpMethod() throws Exception {
 		callbackMock = mock(Callback.class);
-		callbackProxy = new AsyncCallbackProxyFactory(callbackMock).newProxy();
+		executor = mock(Executor.class);
+		callbackProxy = new AsyncCallbackProxyFactory(callbackMock, executor).newProxy();
 	}
 
 	@AfterClass
@@ -40,15 +45,22 @@ public class AsyncCallbackProxyTest extends SimonUnitTest {
 		Executors.shutdownAsync();
 	}
 
-	/** Check that calling any method on proxy call the method on the delegate. */
+	/**
+	 * Check that calling any method on proxy call the method on the delegate.
+	 * We are not checking interaction with actual Executor to avoid possible race conditions.
+	 * Instead we just check that proper method invocation was submitted to the specified Executor.
+	 */
 	@Test
-	public void testOnMessage() throws Exception {
+	public void testOnMessage() throws Throwable {
 		final String message = "Hello";
 		callbackProxy.onManagerMessage(message);
-		// TODO this is not a good way to test things, async should not be tested at all - but rather avoided/worked around
-		// Virgo says: this test also failed me once (randomly)
-		Thread.sleep(10L); // Let the async thread do it's job
-		verify(callbackMock).onManagerMessage(eq(message));
+		ArgumentCaptor<Callable> captor = ArgumentCaptor.forClass(Callable.class);
+		verify(executor).execute(captor.capture());
+
+		DelegatingMethodInvocation methodInvocation = (DelegatingMethodInvocation) captor.getValue();
+		Assert.assertSame(methodInvocation.getDelegate(), callbackMock);
+		Assert.assertEquals(methodInvocation.getMethod().getName(), "onManagerMessage");
+		Assert.assertEquals(methodInvocation.getArgs(), new Object[] {message});
 	}
 
 	/** Checks that calling getDelegate method on proxy returns delegate implementation. */
