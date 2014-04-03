@@ -1,19 +1,21 @@
 package org.javasimon.callback.logging;
 
+import org.javasimon.Clock;
+import org.javasimon.SimonUnitTest;
+import org.testng.annotations.Test;
+
+import java.util.logging.Level;
+
 import static org.javasimon.callback.logging.LogTemplates.everyNMilliseconds;
 import static org.javasimon.callback.logging.LogTemplates.everyNSplits;
 import static org.javasimon.callback.logging.LogTemplates.toJUL;
 import static org.javasimon.callback.logging.LogTemplates.toSLF4J;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
-
-import org.javasimon.SimonUnitTest;
-import org.javasimon.utils.SimonUtils;
-import org.testng.annotations.Test;
-
-import java.util.logging.Level;
 
 /**
  * Unit test for all {@link LogTemplate} implementations.
@@ -106,23 +108,28 @@ public class LogTemplateTest extends SimonUnitTest implements LogMessageSource<O
 	public void testPeriodic() throws InterruptedException {
 		TestLogTemplate logTemplate1 = new TestLogTemplate();
 		logMessage = "Test Periodic";
-		PeriodicLogTemplate logTemplate2 = everyNMilliseconds(logTemplate1, 500L);
-		String nextTime = SimonUtils.presentTimestamp(logTemplate2.getNextTime());
+		Clock clock = mock(Clock.class);
+		long startTime = 1000;
+		when(clock.timeMillis()).thenReturn(startTime);
+
+		PeriodicLogTemplate logTemplate2 = everyNMilliseconds(logTemplate1, 500L, clock);
 		// Before
+		when(clock.timeMillis()).thenReturn(startTime + 300L);
+
 		assertFalse(logTemplate2.log(null, this));
 		assertNull(logTemplate1.getMessage());
 		// Wait
-		Thread.sleep(550L);
+		when(clock.timeMillis()).thenReturn(startTime + 550L);
 		// After
 		assertTrue(logTemplate2.log(null, this));
 		assertEquals(logTemplate1.getMessage(), logMessage);
 		logTemplate1.clear();
-		nextTime = SimonUtils.presentTimestamp(logTemplate2.getNextTime());
+
 		// Before
 		assertFalse(logTemplate2.log(null, this));
 		assertNull(logTemplate1.getMessage());
 		// Wait
-		Thread.sleep(550L);
+		when(clock.timeMillis()).thenReturn(startTime + 1550L);
 		// After
 		assertTrue(logTemplate2.log(null, this));
 		assertEquals(logTemplate1.getMessage(), logMessage);

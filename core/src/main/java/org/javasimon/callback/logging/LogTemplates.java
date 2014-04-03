@@ -1,9 +1,10 @@
 package org.javasimon.callback.logging;
 
-import java.util.logging.Level;
-
+import org.javasimon.Clock;
 import org.javasimon.Split;
 import org.javasimon.utils.SimonUtils;
+
+import java.util.logging.Level;
 
 /**
  * Factory of {@link LogTemplate}s.
@@ -39,6 +40,18 @@ public class LogTemplates {
 	 */
 	public static <C> PeriodicLogTemplate<C> everyNMilliseconds(LogTemplate<C> delegateLogger, long period) {
 		return new PeriodicLogTemplate<C>(delegateLogger, period);
+	}
+
+	/**
+	 * Produces a log template which logs something at most every N milliseconds
+	 *
+	 * @param delegateLogger Concrete log template
+	 * @param period N value in milliseconds, maximum period
+	 * @param clock clock to get current system time
+	 * @return Logger
+	 */
+	static <C> PeriodicLogTemplate<C> everyNMilliseconds(LogTemplate<C> delegateLogger, long period, Clock clock) {
+		return new PeriodicLogTemplate<C>(delegateLogger, period, clock);
 	}
 
 	/**
