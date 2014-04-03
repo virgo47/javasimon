@@ -22,7 +22,7 @@ import java.util.Map;
 public final class Split implements HasAttributes {
 
 	/** Disabled split (implies not running) for cases where monitoring is disabled and {@code null} value is not an option. */
-	public static final Split DISABLED = new Split(false);
+	public static final Split DISABLED = new Split();
 
 	/** Attribute name under which effectively used stopwatch is stored if the split was stopped with {@link #stop(String)}. */
 	public static final String ATTR_EFFECTIVE_STOPWATCH = "effective-stopwatch";
@@ -37,19 +37,22 @@ public final class Split implements HasAttributes {
 
 	private AttributesSupport attributesSupport = new AttributesSupport();
 
-	private Split(boolean enabled) {
-		this(enabled, Clock.SYSTEM);
+	private Split() {
+		enabled = false;
+		clock = null;
 	}
 
 	private Split(boolean enabled, Clock clock) {
 		this.enabled = enabled;
 		this.clock = clock;
+		start = clock.nanoTime();
 	}
 
 	/**
 	 * Creates a new Split for an enabled Stopwatch with a specific timestamp in nanoseconds - <b>called internally only</b>.
 	 *
 	 * @param stopwatch owning Stopwatch (enabled)
+	 * @param clock Clock for this Split
 	 * @param start start timestamp in nanoseconds
 	 */
 	Split(Stopwatch stopwatch, Clock clock, long start) {
@@ -66,6 +69,7 @@ public final class Split implements HasAttributes {
 	 * Creates a new Split for a disabled Stopwatch - <b>called internally only</b>.
 	 *
 	 * @param stopwatch owning Stopwatch (disabled)
+	 * @param clock Clock for this Split
 	 */
 	Split(Stopwatch stopwatch, Clock clock) {
 		assert !(stopwatch.isEnabled()) : "stopwatch must be disabled in this constructor!";
@@ -75,9 +79,9 @@ public final class Split implements HasAttributes {
 	}
 
 	/**
-	 * Creates a new Split for direct use without {@link Stopwatch} ("anonymous split"). Stop will not update any Stopwatch,
-	 * value can be added to any chosen Stopwatch using {@link Stopwatch#addSplit(Split)} - even in conjunction with
-	 * {@link #stop()} like this:
+	 * Creates a new Split for direct use without {@link Stopwatch} ("anonymous split") based on specified {@link Clock}.
+	 * Stop will not update any Stopwatch, value can be added to any chosen Stopwatch using
+	 * {@link Stopwatch#addSplit(Split)} - even in conjunction with {@link #stop()} like this:
 	 * <p/>
 	 * <pre>Split split = Split.start();
 	 * ...
@@ -91,53 +95,52 @@ public final class Split implements HasAttributes {
 	 * <p/>
 	 * No callbacks are called for this Split.
 	 *
-	 * @since 3.4
+	 * @param clock Clock for this Split
+	 * @since 3.5
 	 */
 	public static Split start(Clock clock) {
 		Split split = new Split(true, clock);
 		split.running = true;
-		split.start = clock.nanoTime();
 		return split;
 	}
 
 	/**
-	 * Creates a new Split for direct use without {@link Stopwatch} ("anonymous split"). Stop will not update any Stopwatch,
-	 * value can be added to any chosen Stopwatch using {@link Stopwatch#addSplit(Split)} - even in conjunction with
-	 * {@link #stop()} like this:
-	 * <p/>
-	 * <pre>Split split = Split.start();
-	 * ...
-	 * stopwatch.addSplit(split.stop());</pre>
-	 * <p/>
-	 * If the split is not needed afterwards (subject to garbage collection) calling {@link #stop()} is not necessary:
-	 * <p/>
-	 * <pre>Split split = Split.start();
-	 * ...
-	 * stopwatch.addSplit(split);</pre>
-	 * <p/>
-	 * No callbacks are called for this Split.
+	 * Creates a new Split for direct use without {@link Stopwatch} ("anonymous split") based on system time.
+	 * Equivalent of {@code Split.start(Clock.SYSTEM)}.
 	 *
 	 * @since 3.4
+	 * @see #start(Clock)
 	 */
 	public static Split start() {
-		Split split = new Split(true);
-		split.running = true;
-		split.start = Clock.SYSTEM.nanoTime();
+		return start(Clock.SYSTEM);
+	}
+
+	/**
+	 * Creates simulated non-running Split that took specific time in nanos.
+	 * No callbacks are called for this Split. Start of this Split is set {@code clock.nanoTime()}.
+	 *
+	 * @param nanos Split's total time in nanos
+	 * @param clock Clock for this Split
+	 * @return created Split
+	 * @since 3.5
+	 */
+	public static Split create(long nanos, Clock clock) {
+		Split split = new Split(false, clock);
+		split.total = nanos;
 		return split;
 	}
 
 	/**
 	 * Creates simulated non-running Split that took specific time in nanos.
-	 * No callbacks are called for this Split.
+	 * No callbacks are called for this Split. Start of this Split is based on {@link Clock#SYSTEM}.
 	 *
 	 * @param nanos Split's total time in nanos
 	 * @return created Split
 	 * @since 3.5
+	 * @see #create(long, Clock)
 	 */
 	public static Split create(long nanos) {
-		Split split = new Split(false);
-		split.total = nanos;
-		return split;
+		return create(nanos, Clock.SYSTEM);
 	}
 
 	/**
