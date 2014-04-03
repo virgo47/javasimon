@@ -65,6 +65,6 @@ public class LastSplitsCallbackTest extends SimonUnitTest {
 	}
 
 	private void addSplit(long length) {
-		getStopwatch().addSplit(Split.create(length));
+		getStopwatch().addSplit(Split.create(length, manager));
 	}
 }
