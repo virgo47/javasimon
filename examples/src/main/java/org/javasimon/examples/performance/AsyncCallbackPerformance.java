@@ -1,4 +1,4 @@
-package org.javasimon.examples;
+package org.javasimon.examples.performance;
 
 import org.javasimon.callback.Callback;
 import org.javasimon.callback.CallbackSkeleton;
