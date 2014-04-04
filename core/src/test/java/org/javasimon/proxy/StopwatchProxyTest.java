@@ -91,14 +91,4 @@ public class StopwatchProxyTest extends SimonUnitTest {
 		MonitoredInterface monitoredProxy = newMonitoredProxy(disabledStopwatchSource);
 		doTest(monitoredProxy, false);
 	}
-
-
-
-	/**
-	 * Performance test
-	 */
-	@Test
-	public void testPerformance() {
-
-	}
 }
