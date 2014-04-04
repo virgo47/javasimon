@@ -1,16 +1,12 @@
 package org.javasimon.callback.lastsplits;
 
-import static org.testng.Assert.assertEquals;
-
-import org.javasimon.SimonManager;
 import org.javasimon.SimonUnitTest;
-import org.javasimon.Split;
-import org.javasimon.Stopwatch;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
+
+import static org.testng.Assert.assertEquals;
 
 /**
  * @author gquintana
@@ -84,28 +80,5 @@ public class CircularListTest extends SimonUnitTest {
 		assertArrayEquals(new String[]{"A", "B", "C", "D", "E"}, list.toArray());
 		list.addAll(Arrays.asList("F", "G"));
 		assertArrayEquals(new String[]{"C", "D", "E", "F", "G"}, list.toArray());
-	}
-
-	@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
-	@Test
-	public void testAddPerformance() {
-		final int iterations = 1000000;
-		List<Integer> circularList = new CircularList<Integer>(10);
-		Stopwatch stopwatch = SimonManager.getStopwatch(getClass().getName() + ".testAddPerformance");
-		Split split = stopwatch.start();
-		for (int i = 0; i < iterations; i++) {
-			circularList.add(i);
-		}
-		long circular = split.stop().runningFor();
-		LinkedList<Integer> linkedList = new LinkedList<Integer>();
-		split = stopwatch.start();
-		for (int i = 0; i < iterations; i++) {
-			linkedList.add(i);
-			if (linkedList.size() > 10) {
-				linkedList.removeFirst();
-			}
-		}
-		long linked = split.stop().runningFor();
-		System.out.println("Circular " + circular + " /Linked " + linked + " " + ((linked - circular) * 100 / circular) + "%");
 	}
 }
