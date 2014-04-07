@@ -24,7 +24,11 @@ public final class StopwatchTest extends SimonUnitTest {
 
 	@Test
 	public void usagesTest() throws Exception {
-		Stopwatch stopwatch = SimonManager.getStopwatch(null);
+		TestClock clock = new TestClock();
+		clock.setMillisNanosFollow(10);
+		EnabledManager manager = new EnabledManager(clock);
+
+		Stopwatch stopwatch = manager.getStopwatch(null);
 		Assert.assertEquals(stopwatch.getFirstUsage(), 0);
 		Assert.assertEquals(stopwatch.getLastUsage(), 0);
 		Split split = stopwatch.start();
@@ -32,7 +36,9 @@ public final class StopwatchTest extends SimonUnitTest {
 		split.stop();
 		assertStopwatchAndSampleAreEqual(stopwatch);
 		Assert.assertTrue(stopwatch.getFirstUsage() <= stopwatch.getLastUsage());
-		Thread.sleep(20);
+
+		clock.setMillisNanosFollow(30);
+
 		stopwatch.addSplit(Split.create(0));
 		Assert.assertTrue(stopwatch.getFirstUsage() < stopwatch.getLastUsage());
 		assertStopwatchAndSampleAreEqual(stopwatch);
