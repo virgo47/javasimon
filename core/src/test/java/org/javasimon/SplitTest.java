@@ -34,21 +34,25 @@ public final class SplitTest extends SimonUnitTest {
 
 	@Test
 	public void anonymousSplitTest() throws InterruptedException {
-		Split split = Split.start();
+		TestClock clock = new TestClock();
+		clock.setMillisNanosFollow(10);
+		Split split = Split.start(clock);
+
 		Assert.assertNull(split.getStopwatch());
 		Assert.assertTrue(split.isEnabled());
 		Assert.assertTrue(split.isRunning());
 		Assert.assertTrue(split.getStart() > 0);
 		Assert.assertTrue(split.runningFor() >= 0);
 
-		Thread.sleep(10);
+		clock.setMillisNanosFollow(20);
 		long runningFor = split.runningFor();
-		Assert.assertTrue(runningFor >= 9 * SimonUtils.NANOS_IN_MILLIS, "Unexpectedly short running for: " + runningFor);
+		Assert.assertTrue(runningFor == 10 * SimonUtils.NANOS_IN_MILLIS, "Unexpectedly short running for: " + runningFor);
 
 		Assert.assertEquals(split.stop(), split);
 		runningFor = split.runningFor();
-		Assert.assertTrue(runningFor >= 9 * SimonUtils.NANOS_IN_MILLIS, "Unexpectedly short running for");
-		Thread.sleep(10);
+		Assert.assertTrue(runningFor == 10 * SimonUtils.NANOS_IN_MILLIS, "Unexpectedly short running for");
+
+		clock.setMillisNanosFollow(30);
 		Assert.assertEquals(runningFor, split.runningFor());
 	}
 
