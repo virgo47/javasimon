@@ -5,8 +5,7 @@ dependencies {
     testCompile ('com.h2database:h2:1.3.170')
 }
 
-println System.properties['JAVA7_HOME'] + "/bin/javac"
-
+/* Simply build with JDK 7 only
 sourceCompatibility = '1.7'
 targetCompatibility = '1.7'
 
@@ -18,3 +17,4 @@ compileTestJava {
     options.fork = true
     options.forkOptions.executable = System.properties['JAVA7_HOME'] + "/bin/javac"
 }
+*/

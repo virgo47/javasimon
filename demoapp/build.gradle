@@ -5,17 +5,7 @@ sourceSets {
     main { compileClasspath += configurations.provided }
 }
 
-String jdkVersion = getJdkVersion()
-String jdbcDependencyName = getJdbcDependencyName(jdkVersion)
-
-sourceCompatibility = jdkVersion
-targetCompatibility = jdkVersion
-
-//compileJava {
-//    options.compilerArgs << '-bootclasspath' << getBootstrapPath(jdkVersion)
-//    options.fork = true
-//    options.forkOptions.executable = 'javac'
-//}
+String jdbcDependencyName = getJdbcDependencyName()
 
 ext.wicketVersion = '1.5.3'
 ext.jettyVersion = '7.5.0.v20110901'
