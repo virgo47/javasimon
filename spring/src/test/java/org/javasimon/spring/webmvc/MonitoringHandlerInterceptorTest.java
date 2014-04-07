@@ -63,7 +63,6 @@ public class MonitoringHandlerInterceptorTest {
 
 		ModelAndView modelAndView = new ModelAndView(viewName);
 		interceptor.postHandle(request, response, handler, modelAndView);
-		Thread.sleep(viewSleep); // View doing its job
 
 		// View doing its job
 		currentTime += viewSleep;
