@@ -13,7 +13,7 @@ import org.javasimon.callback.logging.LogTemplate;
 
 /**
  * Callback which stores data in buckets to compute quantiles.
- * The {@link #createBuckets(org.javasimon.Stopwatch) should be
+ * The {@link #createBuckets(org.javasimon.Stopwatch)} should be
  * implemented to configure the width and resolution of buckets.
  * Then {@link Buckets} are stored among Simon attributes.
  * There are 2 implementations:
@@ -23,10 +23,10 @@ import org.javasimon.callback.logging.LogTemplate;
  * </ul>
  *
  * @author gquintana
- * @noinspection UnusedDeclaration
  * @see Buckets
  * @since 3.2
  */
+@SuppressWarnings("UnusedDeclaration")
 public abstract class QuantilesCallback extends CallbackSkeleton {
 
 	/** Simon attribute name of the buckets stored in Simons after warmup time. */
@@ -112,7 +112,7 @@ public abstract class QuantilesCallback extends CallbackSkeleton {
 
 	/**
 	 * Create Buckets for given stopwatch.
-	 * Call {@link #createBuckets(org.javasimon.Stopwatch, long, long, int) to create a new buckets object.
+	 * Call {@link #createBuckets(org.javasimon.Stopwatch, long, long, int)} to create a new buckets object.
 	 *
 	 * @param stopwatch Stopwatch
 	 * @return Buckets

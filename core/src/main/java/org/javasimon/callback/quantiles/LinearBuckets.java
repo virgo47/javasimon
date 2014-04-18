@@ -1,7 +1,7 @@
 package org.javasimon.callback.quantiles;
 
 /**
- * Linearly organized {@see Buckets}
+ * Linearly organized {@link Buckets}.
  * For 100-600 range and 5 bucket count, the following buckets are created:
  * <table>
  * <tr>

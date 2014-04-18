@@ -200,7 +200,7 @@ public interface SimonManagerMXBean {
 	 *
 	 * @param key name of an incremental sample
 	 * @return one Sample for each Counter
-	 * @see {@link #getIncrementCounterSample(String, String)}
+	 * @see #getIncrementCounterSample(String, String)
 	 */
 	List<CounterSample> getIncrementCounterSamples(String key);
 
@@ -218,7 +218,7 @@ public interface SimonManagerMXBean {
 	 * @param namePattern name pattern ({@link org.javasimon.SimonPattern}), {@code null} means all Counters
 	 * @param key name of an incremental sample
 	 * @return one Sample for each Counter whose name matches given pattern
-	 * @see {@link #getIncrementCounterSample(String, String)}
+	 * @see #getIncrementCounterSample(String, String)
 	 */
 	List<CounterSample> getIncrementCounterSamples(String namePattern, String key);
 
@@ -236,7 +236,7 @@ public interface SimonManagerMXBean {
 	 * @param namePattern name pattern ({@link org.javasimon.SimonPattern}), {@code null} means all Stopwatches
 	 * @param key name of an incremental sample
 	 * @return one Sample for each Stopwatch whose name matches given pattern
-	 * @see {@link #getIncrementStopwatchSample(String, String)}
+	 * @see #getIncrementStopwatchSample(String, String)
 	 */
 	List<org.javasimon.jmx.StopwatchSample> getIncrementStopwatchSamples(String namePattern, String key);
 
@@ -252,7 +252,7 @@ public interface SimonManagerMXBean {
 	 *
 	 * @param key name of an incremental sample
 	 * @return one Sample for each Stopwatch
-	 * @see {@link #getIncrementStopwatchSample(String, String)}
+	 * @see #getIncrementStopwatchSample(String, String)
 	 */
 	List<org.javasimon.jmx.StopwatchSample> getIncrementStopwatchSamples(String key);
 }

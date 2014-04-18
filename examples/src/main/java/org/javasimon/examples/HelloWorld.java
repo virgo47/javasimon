@@ -13,7 +13,6 @@ import org.javasimon.Stopwatch;
  * check total time, or whatever.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @version $Revision$ $Date$
  * @since 1.0
  */
 public final class HelloWorld {

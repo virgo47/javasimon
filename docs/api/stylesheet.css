@@ -9,7 +9,6 @@ body, dd, dl, dt, td, table, th, tr, li, ol, ul, p, br, a, input, form, textarea
 	line-height: normal;
 	font-size-adjust: none;
 	font-stretch: normal;
-	-x-system-font: none;
 	color: #333333;
 	text-decoration: none;
 }
@@ -44,19 +43,23 @@ h1 {
 .NavBarCell1 {
 	background-color:#ffeeee;
 	color:#000000;
+    border-radius: 4px;
 }
 
 .NavBarCell1Rev {
 	background-color: #ffbbbb;
     font-weight: bold;
+    border-radius: 4px;
 }
 
 .NavBarCell2 {
 	background-color:#FFFFFF;
+    border-radius: 4px;
 }
 
 .NavBarCell3 {
 	background-color:#FFFFFF;
+    border-radius: 4px;
 }
 
 li {
@@ -75,6 +78,7 @@ a:hover {
 
 a:hover>code {
 	background-color: #ffcccc;
+    border-radius: 4px;
 }
 
 th font b {
@@ -86,10 +90,8 @@ th font b {
 pre {
 	font-size: 90%;
 	padding: 5px;
-	border-style: solid;
-	border-width: 1px;
-	border-color: #888888;
-	background-color: #F4F4F4;
+    border: 1px solid #888888;
+    background-color: #F4F4F4;
 	border-radius: 4px;
     overflow-x: auto;
 	line-height: 140%;
@@ -114,9 +116,11 @@ code {
 a code {
 	font-weight: bold;
 	color: #1122aa;
+    border-radius: 4px;
 }
 
 table code {
 	background-color: transparent;
     border: none;
+    border-radius: 4px;
 }

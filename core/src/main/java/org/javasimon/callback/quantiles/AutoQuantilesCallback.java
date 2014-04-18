@@ -31,10 +31,10 @@ import java.util.List;
  * </li></ol>
  *
  * @author gquintana
- * @noinspection UnusedDeclaration
  * @see Buckets
  * @since 3.2
  */
+@SuppressWarnings("UnusedDeclaration")
 public class AutoQuantilesCallback extends QuantilesCallback {
 
 	/** Simon attribute name of the list of split values stored in Simons before warmup time. */

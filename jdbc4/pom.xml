@@ -7,6 +7,7 @@
 	<artifactId>javasimon-jdbc4</artifactId>
 	<packaging>jar</packaging>
 	<name>JavaSimon JDBC 4 Support</name>
+	<description>Java Simon JDBC 4.0 (Java SE 6) proxy driver - must be compiled with JDK 1.6</description>
 
 	<parent>
 		<groupId>org.javasimon</groupId>
