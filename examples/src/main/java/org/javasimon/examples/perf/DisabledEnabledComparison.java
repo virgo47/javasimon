@@ -1,4 +1,4 @@
-package org.javasimon.examples;
+package org.javasimon.examples.perf;
 
 import org.javasimon.SimonManager;
 import org.javasimon.SimonState;

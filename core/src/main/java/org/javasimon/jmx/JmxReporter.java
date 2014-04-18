@@ -3,7 +3,6 @@ package org.javasimon.jmx;
 import org.javasimon.Manager;
 import org.javasimon.SimonException;
 import org.javasimon.SimonManager;
-import org.javasimon.callback.CompositeCallback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

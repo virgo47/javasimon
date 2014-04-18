@@ -3,10 +3,7 @@ package org.javasimon.examples;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.javasimon.Counter;
 import org.javasimon.SimonManager;
-import org.javasimon.Split;
-import org.javasimon.Stopwatch;
 import org.javasimon.callback.CompositeCallback;
 import org.javasimon.callback.CompositeCallbackImpl;
 import org.javasimon.callback.async.AsyncCallbackProxyFactory;
@@ -17,13 +14,6 @@ import org.javasimon.console.SimonConsoleServlet;
 import org.javasimon.console.plugin.CallTreeDetailPlugin;
 import org.javasimon.console.plugin.QuantilesDetailPlugin;
 import org.javasimon.console.plugin.TimelineDetailPlugin;
-import org.javasimon.utils.SimonUtils;
-
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Example of using Jetty to run Simon Console.
@@ -31,10 +21,24 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author gquintana
  */
 public class SimonConsoleJettyDemo {
+
 	/** Jetty Server. */
 	private Server server;
 	/** Initialize Jetty Server. */
-	private final SimonDataGenerator dataGenerator=new SimonDataGenerator();
+	private final SimonDataGenerator dataGenerator = new SimonDataGenerator();
+
+	/** Main method. */
+	public static void main(String[] args) {
+		try {
+			SimonConsoleJettyDemo main = new SimonConsoleJettyDemo();
+			main.initServer();
+			main.initData();
+			main.runAndWait();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	private void initServer() {
 		// Server
 		server = new Server(8080);
@@ -77,17 +81,5 @@ public class SimonConsoleJettyDemo {
 		// Start server thread
 		server.start();
 		server.join();
-	}
-
-	/** Main method. */
-	public static void main(String[] args) {
-		try {
-			SimonConsoleJettyDemo main = new SimonConsoleJettyDemo();
-			main.initServer();
-			main.initData();
-			main.runAndWait();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 }

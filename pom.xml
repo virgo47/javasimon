@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.javasimon</groupId>
 	<artifactId>javasimon-parent</artifactId>
 	<packaging>pom</packaging>
-	<version>3.4.1-SNAPSHOT</version>
 	<name>Java Simon</name>
 	<description>Java Simon - simple monitoring library</description>
 	<url>http://code.google.com/p/javasimon/</url>
+	<version>3.4.1-SNAPSHOT</version>
 
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
@@ -24,6 +25,7 @@
 		<module>console-embed</module>
 		<module>console-webapp</module>
 		<module>examples</module>
+		<module>demoapp</module>
 	</modules>
 
 	<properties>
@@ -137,7 +139,7 @@
 				<version>2.9.1</version>
 				<configuration>
 					<excludePackageNames>
-						org.javasimon.examples:org.javasimon.examples.*
+						org.javasimon.examples:org.javasimon.examples.*:org.javasimon.demoapp:org.javasimon.demoapp.*
 					</excludePackageNames>
 					<!-- Begin:
 					These resources are usually in src/main/javadoc instead of docs/api -->

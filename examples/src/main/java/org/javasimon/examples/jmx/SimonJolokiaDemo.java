@@ -1,8 +1,5 @@
-package org.javasimon.examples;
+package org.javasimon.examples.jmx;
 
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
 import org.javasimon.SimonManager;
 import org.javasimon.callback.CompositeCallback;
 import org.javasimon.callback.CompositeCallbackImpl;
@@ -10,10 +7,7 @@ import org.javasimon.callback.async.AsyncCallbackProxyFactory;
 import org.javasimon.callback.calltree.CallTreeCallback;
 import org.javasimon.callback.quantiles.AutoQuantilesCallback;
 import org.javasimon.callback.timeline.TimelineCallback;
-import org.javasimon.console.SimonConsoleServlet;
-import org.javasimon.console.plugin.CallTreeDetailPlugin;
-import org.javasimon.console.plugin.QuantilesDetailPlugin;
-import org.javasimon.console.plugin.TimelineDetailPlugin;
+import org.javasimon.examples.SimonDataGenerator;
 import org.javasimon.jmx.JmxRegisterCallback;
 import org.javasimon.jmx.SimonManagerMXBeanImpl;
 import org.jolokia.jvmagent.JolokiaServer;
@@ -21,9 +15,6 @@ import org.jolokia.jvmagent.JolokiaServerConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.management.JMException;
-import javax.management.MBeanServer;
-import javax.management.ObjectName;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -31,9 +22,13 @@ import java.lang.management.ManagementFactory;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.management.JMException;
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
+
 /**
- * Example of using Jolokia with JavaSimon
- *
+ * Example of using Jolokia with JavaSimon.
+ * <p/>
  * Jolokia Agent starts on http://localhost:8778/jolokia/
  * Search http://localhost:8778/jolokia/search/org.javasimon:*
  * Manager http://localhost:8778/jolokia/read/org.javasimon:type=Manager
@@ -43,10 +38,24 @@ import java.util.Map;
  * @author G Quintana
  */
 public class SimonJolokiaDemo {
+
 	/** Jolokia Server. */
 	private JolokiaServer server;
 	/** Initialize Jetty Server. */
-	private final SimonDataGenerator dataGenerator=new SimonDataGenerator();
+	private final SimonDataGenerator dataGenerator = new SimonDataGenerator();
+
+	/** Main method. */
+	public static void main(String[] args) {
+		try {
+			SimonJolokiaDemo main = new SimonJolokiaDemo();
+			main.initServer();
+			main.initData();
+			main.runAndWait();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	private void initServer() throws IOException, JMException {
 		// Register JMX
 		MBeanServer beanServer = ManagementFactory.getPlatformMBeanServer();
@@ -54,8 +63,8 @@ public class SimonJolokiaDemo {
 		SimonManagerMXBeanImpl bean = new SimonManagerMXBeanImpl(SimonManager.manager());
 		beanServer.registerMBean(bean, beanObjectName);
 		// Server
-		Map<String, String> serverConfigMap=new HashMap<String, String>();
-		JolokiaServerConfig serverConfig=new JolokiaServerConfig(serverConfigMap);
+		Map<String, String> serverConfigMap = new HashMap<String, String>();
+		JolokiaServerConfig serverConfig = new JolokiaServerConfig(serverConfigMap);
 		server = new JolokiaServer(serverConfig, true);
 		// Callbacks
 		CompositeCallback compositeCallback = new CompositeCallbackImpl();
@@ -65,9 +74,9 @@ public class SimonJolokiaDemo {
 		// compositeCallback.addCallback(new FixedQuantilesCallback(0L, 200L, 5));
 		// TimelineCallback 10 time range buckets of 1 minute each
 		compositeCallback.addCallback(new TimelineCallback(10, 60000L));
-		compositeCallback.addCallback(new JmxRegisterCallback(beanServer,"org.javasimon"));
+		compositeCallback.addCallback(new JmxRegisterCallback(beanServer, "org.javasimon"));
 		SimonManager.callback().addCallback(new AsyncCallbackProxyFactory(compositeCallback).newProxy());
-		// CallTreeCallback doesn't support asynchronism
+		// CallTreeCallback doesn't support asynchronous operation
 		SimonManager.callback().addCallback(new CallTreeCallback(50));
 	}
 
@@ -91,21 +100,10 @@ public class SimonJolokiaDemo {
 		logger.info("Counter http://localhost:8778/jolokia/read/org.javasimon:name=X,type=Counter");
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-		String line=null;
-		boolean stop=false;
-		while(!stop && (line=reader.readLine())!=null) {
-			stop=line.toLowerCase().contains("stop");
-		}
-	}
-	/** Main method. */
-	public static void main(String[] args) {
-		try {
-			SimonJolokiaDemo main = new SimonJolokiaDemo();
-			main.initServer();
-			main.initData();
-			main.runAndWait();
-		} catch (Exception e) {
-			e.printStackTrace();
+		String line;
+		boolean stop = false;
+		while (!stop && (line = reader.readLine()) != null) {
+			stop = line.toLowerCase().contains("stop");
 		}
 	}
 }
