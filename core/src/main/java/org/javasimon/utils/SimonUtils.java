@@ -318,7 +318,9 @@ public final class SimonUtils {
 	 * (which is thread-safe in all current implementations).
 	 *
 	 * @param simon subtree root
+	 * @deprecated will be removed in 4.0
 	 */
+	@Deprecated
 	public static void recursiveReset(Simon simon) {
 		simon.reset();
 		for (Simon child : simon.getChildren()) {

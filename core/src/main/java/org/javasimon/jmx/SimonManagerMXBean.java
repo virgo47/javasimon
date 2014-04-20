@@ -177,6 +177,7 @@ public interface SimonManagerMXBean {
 	 * Resets the particular Simon by its name.
 	 *
 	 * @param name name of the Simon
+	 * @deprecated will be removed in 4.0
 	 */
 	@Deprecated
 	void reset(String name);

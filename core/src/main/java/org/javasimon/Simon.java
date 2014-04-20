@@ -146,9 +146,9 @@ public interface Simon extends HasAttributes {
 	 * Using String does not guarantee this as any client can potentially guess the key. This
 	 * may or may not be an issue.
 	 *
-	 *
 	 * @param key key used to access incremental sample
 	 * @return {@link org.javasimon.Sample} with value increments
+	 * @since 3.5
 	 */
 	Sample sampleIncrement(Object key);
 
@@ -159,6 +159,7 @@ public interface Simon extends HasAttributes {
 	 *
 	 * @param key key used to access incremental sample
 	 * @return true if incremental information for the key existed, false otherwise
+	 * @since 3.5
 	 */
 	boolean stopIncrementalSampling(Object key);
 }

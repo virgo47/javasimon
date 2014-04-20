@@ -52,6 +52,7 @@ public abstract class AbstractSimonMXBeanImpl implements SimonSuperMXBean {
 	}
 
 	@Override
+	@Deprecated
 	public final void reset() {
 		simon().reset();
 	}

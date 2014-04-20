@@ -251,6 +251,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	}
 
 	@Override
+	@Deprecated
 	public synchronized StopwatchSample sampleAndReset() {
 		StopwatchSample sample = sample();
 		reset();

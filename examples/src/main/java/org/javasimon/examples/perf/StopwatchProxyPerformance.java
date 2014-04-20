@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
  * @author gquintana
  * @author <a href="mailto:ivan.mushketyk@gmail.com">Ivan Mushketyk</a>
  */
@@ -43,7 +42,7 @@ public class StopwatchProxyPerformance {
 
 	private static MonitoredImplementation monitoredTarget = new MonitoredImplementation();
 	private static StopwatchSource<DelegatingMethodInvocation<MonitoredInterface>> disabledStopwatchSource
-			= DisabledStopwatchSource.get();
+		= DisabledStopwatchSource.get();
 
 	private static MonitoredInterface newMonitoredProxy(StopwatchSource<DelegatingMethodInvocation<MonitoredInterface>> stopwatchSource) {
 		return new StopwatchProxyFactory<MonitoredInterface>(monitoredTarget, stopwatchSource).newProxy(MonitoredInterface.class);
@@ -55,22 +54,22 @@ public class StopwatchProxyPerformance {
 
 	public static void main(String... args) {
 		// 1) Without proxy
-		long implementation = doTestPerformance(monitoredTarget, ITERATIONS, false);
+		long implementation = doTestPerformance(monitoredTarget, ITERATIONS);
 		logPerformanceTime("No proxy", implementation, implementation, ITERATIONS);
 
 		// 2) With proxy
 		MonitoredInterface monitoredProxy = newMonitoredProxy();
-		long proxy = doTestPerformance(monitoredProxy, ITERATIONS, true);
+		long proxy = doTestPerformance(monitoredProxy, ITERATIONS);
 		logPerformanceTime("Proxy", implementation, proxy, ITERATIONS);
 
 		// 3) With proxy and disable
 		monitoredProxy = newMonitoredProxy(disabledStopwatchSource);
-		long disabledProxy = doTestPerformance(monitoredProxy, ITERATIONS, false);
+		long disabledProxy = doTestPerformance(monitoredProxy, ITERATIONS);
 		logPerformanceTime("Proxy disabled", implementation, disabledProxy, ITERATIONS);
 
 		// 4) With proxy and cache
 		monitoredProxy = newMonitoredProxy(new ProxyStopwatchSource<MonitoredInterface>().cache());
-		long cacheProxy = doTestPerformance(monitoredProxy, ITERATIONS, true);
+		long cacheProxy = doTestPerformance(monitoredProxy, ITERATIONS);
 		logPerformanceTime("Proxy cached", implementation, cacheProxy, ITERATIONS);
 
 		// 5) With proxy, cache and disable
@@ -81,11 +80,11 @@ public class StopwatchProxyPerformance {
 			}
 		}.cache();
 		monitoredProxy = newMonitoredProxy(disabledCachedStopwatchSource);
-		long cacheDisabledProxy = doTestPerformance(monitoredProxy, ITERATIONS, false);
+		long cacheDisabledProxy = doTestPerformance(monitoredProxy, ITERATIONS);
 		logPerformanceTime("Proxy cached & disabled", implementation, cacheDisabledProxy, ITERATIONS);
 	}
 
-	private static long doTestPerformance(MonitoredInterface monitoredInterface, int iterations, boolean enabled) {
+	private static long doTestPerformance(MonitoredInterface monitoredInterface, int iterations) {
 		Stopwatch stopwatch = SimonManager.getStopwatch(StopwatchProxyPerformance.class.getName() + ".testPerformance");
 		Split split = stopwatch.start();
 
@@ -101,10 +100,9 @@ public class StopwatchProxyPerformance {
 	private static void logPerformanceTime(String name, long reference, long measure, int iterations) {
 		long delta = (measure - reference) / iterations;
 		long ratio = (measure - reference) * 100L / reference;
-		LOGGER.info(
-				name
-						+ " " + SimonUtils.presentNanoTime(measure)
-						+ " " + (delta > 0 ? "+" : "") + SimonUtils.presentNanoTime(delta)
-						+ " " + (ratio > 0 ? "+" : "") + ratio + "%");
+		LOGGER.info(name +
+			" " + SimonUtils.presentNanoTime(measure) +
+			" " + (delta > 0 ? "+" : "") + SimonUtils.presentNanoTime(delta) +
+			" " + (ratio > 0 ? "+" : "") + ratio + "%");
 	}
 }

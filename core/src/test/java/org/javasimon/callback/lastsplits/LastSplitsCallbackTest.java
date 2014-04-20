@@ -8,7 +8,6 @@ import org.javasimon.Manager;
 import org.javasimon.SimonUnitTest;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -19,14 +18,10 @@ public class LastSplitsCallbackTest extends SimonUnitTest {
 
 	private Manager manager = new EnabledManager();
 
-	@BeforeClass
-	public void addCallback() {
-		manager.callback().addCallback(new LastSplitsCallback(5));
-	}
-
 	@BeforeMethod
 	public void resetStopwatch() {
-		getStopwatch().reset();
+		manager.clear();
+		manager.callback().addCallback(new LastSplitsCallback(5));
 	}
 
 	@Test

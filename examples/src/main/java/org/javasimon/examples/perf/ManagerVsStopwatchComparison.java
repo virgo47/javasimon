@@ -46,7 +46,6 @@ public final class ManagerVsStopwatchComparison {
 				@Override
 				public void perform() throws Exception {
 					Stopwatch stopwatch = SimonManager.getStopwatch(NAME);
-					stopwatch.reset();
 					for (int i = 0; i < LOOP; i++) {
 						stopwatch.start().stop();
 					}
@@ -55,7 +54,7 @@ public final class ManagerVsStopwatchComparison {
 			new BenchmarkUtils.Task("get-start-stop") {
 				@Override
 				public void perform() throws Exception {
-					SimonManager.getStopwatch(NAME).reset();
+					SimonManager.getStopwatch(NAME);
 					for (int i = 0; i < LOOP; i++) {
 						SimonManager.getStopwatch(NAME).start().stop();
 					}
@@ -65,7 +64,7 @@ public final class ManagerVsStopwatchComparison {
 				@Override
 				public void perform() throws Exception {
 					SimonManager.clear(); // has to be recreated (only once though) + all other 100k simons are gone
-					SimonManager.getStopwatch(NAME).reset();
+					SimonManager.getStopwatch(NAME);
 					for (int i = 0; i < LOOP; i++) {
 						SimonManager.getStopwatch(NAME).start().stop();
 					}

@@ -253,6 +253,7 @@ public class SimonManagerMXBeanImpl implements SimonManagerMXBean {
 	}
 
 	@Override
+	@Deprecated
 	public final void reset(String name) {
 		manager.getSimon(name).reset();
 	}

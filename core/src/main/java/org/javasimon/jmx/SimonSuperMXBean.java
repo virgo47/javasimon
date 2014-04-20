@@ -64,7 +64,10 @@ public interface SimonSuperMXBean {
 	/**
 	 * Resets the Simon, its usages and stat processor - concrete values depend
 	 * on the type and the implementation.
+	 *
+	 * @deprecated will be removed in 4.0
 	 */
+	@Deprecated
 	void reset();
 
 	/**
