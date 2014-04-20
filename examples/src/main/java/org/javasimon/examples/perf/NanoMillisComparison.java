@@ -3,10 +3,10 @@ package org.javasimon.examples.perf;
 import org.javasimon.SimonManager;
 import org.javasimon.Stopwatch;
 import org.javasimon.StopwatchSample;
+import org.javasimon.clock.ClockUtils;
 import org.javasimon.examples.ExampleUtils;
 import org.javasimon.utils.BenchmarkUtils;
 import org.javasimon.utils.GoogleChartImageGenerator;
-import org.javasimon.utils.SimonUtils;
 
 /**
  * Various timer calles compared along with stopwatch start/stop calls.
@@ -98,8 +98,8 @@ public final class NanoMillisComparison {
 		);
 
 		System.out.println("\nGoogle Chart avg:\n" + GoogleChartImageGenerator.barChart(
-			results, "10M-loop duration", SimonUtils.NANOS_IN_MILLIS, "ms", false));
+			results, "10M-loop duration", ClockUtils.NANOS_IN_MILLIS, "ms", false));
 		System.out.println("\nGoogle Chart avg/max/min:\n" + GoogleChartImageGenerator.barChart(
-			results, "10M-loop duration", SimonUtils.NANOS_IN_MILLIS, "ms", true));
+			results, "10M-loop duration", ClockUtils.NANOS_IN_MILLIS, "ms", true));
 	}
 }

@@ -1,11 +1,12 @@
-package org.javasimon;
-
-import org.javasimon.utils.SimonUtils;
+package org.javasimon.clock;
 
 /**
  * TestClock allows setting any arbitrary values for millis and nanos.
+ * Available for non-test code too, if for nothing else then it's easier to use in tests in other modules too.
+ *
+ * @since 3.5
  */
-public class TestClock implements org.javasimon.Clock {
+public class TestClock implements Clock {
 
 	private long millis;
 	private long nanos;
@@ -20,6 +21,12 @@ public class TestClock implements org.javasimon.Clock {
 		return millis;
 	}
 
+	/** Here millis are simply nanos divided by {@link ClockUtils#NANOS_IN_MILLIS}. */
+	@Override
+	public long millisForNano(long nanos) {
+		return nanos / ClockUtils.NANOS_IN_MILLIS;
+	}
+
 	public void setMillis(long millis) {
 		this.millis = millis;
 	}
@@ -30,6 +37,6 @@ public class TestClock implements org.javasimon.Clock {
 
 	public void setMillisNanosFollow(long millis) {
 		this.millis = millis;
-		this.nanos = millis * SimonUtils.NANOS_IN_MILLIS;
+		this.nanos = millis * ClockUtils.NANOS_IN_MILLIS;
 	}
 }

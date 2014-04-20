@@ -1,6 +1,7 @@
 package org.javasimon;
 
 import org.javasimon.callback.CallbackSkeleton;
+import org.javasimon.clock.TestClock;
 import org.javasimon.utils.SimonUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;

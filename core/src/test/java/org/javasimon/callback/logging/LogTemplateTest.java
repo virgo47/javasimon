@@ -1,6 +1,6 @@
 package org.javasimon.callback.logging;
 
-import org.javasimon.Clock;
+import org.javasimon.clock.Clock;
 import org.javasimon.SimonUnitTest;
 import org.testng.annotations.Test;
 

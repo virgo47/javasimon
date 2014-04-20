@@ -1,10 +1,10 @@
 package org.javasimon.spring.webmvc;
 
-import org.javasimon.Clock;
+import org.javasimon.clock.Clock;
 import org.javasimon.EnabledManager;
 import org.javasimon.SimonManager;
 import org.javasimon.Stopwatch;
-import org.javasimon.utils.SimonUtils;
+import org.javasimon.clock.ClockUtils;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -74,7 +74,7 @@ public class MonitoringHandlerInterceptorTest {
 
 	private void setMockTime(long currentTime) {
 		when(clock.milliTime()).thenReturn(currentTime);
-		when(clock.nanoTime()).thenReturn(currentTime * SimonUtils.NANOS_IN_MILLIS);
+		when(clock.nanoTime()).thenReturn(currentTime * ClockUtils.NANOS_IN_MILLIS);
 	}
 
 	/**

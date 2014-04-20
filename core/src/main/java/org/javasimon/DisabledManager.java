@@ -137,4 +137,9 @@ public final class DisabledManager implements Manager {
 	public long milliTime() {
 		return 0;
 	}
+
+	@Override
+	public long millisForNano(long nanos) {
+		return 0;
+	}
 }

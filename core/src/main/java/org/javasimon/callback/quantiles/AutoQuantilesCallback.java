@@ -3,7 +3,7 @@ package org.javasimon.callback.quantiles;
 import org.javasimon.Simon;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
-import org.javasimon.utils.SimonUtils;
+import org.javasimon.clock.ClockUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,10 +113,10 @@ public class AutoQuantilesCallback extends QuantilesCallback {
 		// Compute min
 		long min = stopwatch.getMin() * 90L / 100L; // min -10%
 		min = Math.max(0, min); // no negative mins
-		min = (min / SimonUtils.NANOS_IN_MILLIS) * SimonUtils.NANOS_IN_MILLIS; // round to lower millisecond
+		min = (min / ClockUtils.NANOS_IN_MILLIS) * ClockUtils.NANOS_IN_MILLIS; // round to lower millisecond
 		// Compute max
 		long max = (stopwatch.getMax() * 110L) / 100L; // max +10%
-		max = (max / SimonUtils.NANOS_IN_MILLIS + 1) * SimonUtils.NANOS_IN_MILLIS; // round to upper millisecond
+		max = (max / ClockUtils.NANOS_IN_MILLIS + 1) * ClockUtils.NANOS_IN_MILLIS; // round to upper millisecond
 		return createBuckets(stopwatch, min, max, bucketNb);
 	}
 

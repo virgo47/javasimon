@@ -9,6 +9,7 @@ import org.javasimon.callback.timeline.TimeRange;
 import org.javasimon.callback.timeline.Timeline;
 import org.javasimon.callback.timeline.TimelineCallback;
 import org.javasimon.callback.timeline.TimelineSample;
+import org.javasimon.clock.ClockUtils;
 import org.javasimon.console.ActionContext;
 import org.javasimon.console.SimonCallbacks;
 import org.javasimon.console.action.DetailHtmlBuilder;
@@ -17,7 +18,6 @@ import org.javasimon.console.html.HtmlResourceType;
 import org.javasimon.console.json.ArrayJS;
 import org.javasimon.console.json.ObjectJS;
 import org.javasimon.console.text.StringifierFactory;
-import org.javasimon.utils.SimonUtils;
 
 /**
  * Detail plugin to display {@link TimelineCallback} information
@@ -85,7 +85,7 @@ public class TimelineDetailPlugin extends DetailPlugin {
 					.labelCell("Capacity")
 					.valueCell(htmlStringifierFactory.toString(timelineSample.getCapacity()))
 					.labelCell("Width")
-					.valueCell(htmlStringifierFactory.toString(timelineSample.getWidth()*SimonUtils.NANOS_IN_MILLIS,"Time"))
+					.valueCell(htmlStringifierFactory.toString(timelineSample.getWidth()* ClockUtils.NANOS_IN_MILLIS,"Time"))
 					.endRow();
 				htmlBuilder.beginRow().labelCell("Evolution").beginValueCell(" colspan=\"3\"");
 				htmlBuilder.begin("table").begin("thead")

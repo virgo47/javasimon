@@ -1,5 +1,6 @@
 package org.javasimon;
 
+import org.javasimon.clock.TestClock;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

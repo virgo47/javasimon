@@ -1,5 +1,6 @@
 package org.javasimon;
 
+import org.javasimon.clock.Clock;
 import org.javasimon.utils.SimonUtils;
 
 import java.util.Iterator;
@@ -9,7 +10,7 @@ import java.util.Map;
  * Represents single time split - one Stopwatch measurement. Object is obtained by {@link org.javasimon.Stopwatch#start()}
  * and the measurement is ended using {@link #stop()} method on this object. Split will return 0 as the result
  * if the related Stopwatch was disabled when the Split was obtained. The Split can be stopped in any other thread.
- * Split measures real time (based on {@link Clock#nanoTime()}), it does not measure CPU time. Split can be garbage collected
+ * Split measures real time (based on {@link org.javasimon.clock.Clock#nanoTime()}), it does not measure CPU time. Split can be garbage collected
  * and no resource leak occurs if it is not stopped, however Stopwatch's active counter ({@link org.javasimon.Stopwatch#getActive()})
  * will be stay incremented.
  * <p/>
@@ -239,14 +240,23 @@ public final class Split implements HasAttributes {
 	}
 
 	/**
-	 * Returns start nano timer value - can be converted to ms timestamp using {@link org.javasimon.utils.SimonUtils#millisForNano(long)}.
-	 * Returns 0 if the split is not enabled (started for disabled Stopwatch).
+	 * Returns start nano timer value or 0 if the Split is not enabled (started for disabled Stopwatch).
 	 *
-	 * @return nano timer value when the Split was started or 0 if the split is not enabled
+	 * @return nano timer value when the Split was started or 0 if the Split is not enabled
 	 * @since 3.1
 	 */
 	public long getStart() {
 		return start;
+	}
+
+	/**
+	 * Returns millis timestamp when this Split was started - or 0 if the Split is not enabled (started for disabled Stopwatch).
+	 *
+	 * @return nano timer value when the Split was started or 0 if the Split is not enabled
+	 * @since 3.1
+	 */
+	public long getStartMillis() {
+		return clock != null ? clock.millisForNano(start) : 0;
 	}
 
 	/**

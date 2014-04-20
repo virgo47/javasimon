@@ -93,6 +93,10 @@ abstract class AbstractSimon implements Simon {
 		return name;
 	}
 
+	public final Manager getManager() {
+		return manager;
+	}
+
 	public synchronized final void setState(SimonState state, boolean overrule) {
 		if (state == null) {
 			throw new IllegalArgumentException();

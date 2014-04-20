@@ -250,7 +250,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 
 	@Override
 	public CounterSample sampleIncrement(Object key) {
-		return (CounterSample) sampleIncrementHelper(key, new CounterImpl(null, null));
+		return (CounterSample) sampleIncrementHelper(key, new CounterImpl(null, manager));
 	}
 
 	/**

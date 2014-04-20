@@ -1,6 +1,6 @@
 package org.javasimon.callback.logging;
 
-import org.javasimon.Clock;
+import org.javasimon.clock.Clock;
 
 /**
  * Log template that logs something after every N milliseconds.

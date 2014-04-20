@@ -2,7 +2,7 @@ package org.javasimon.callback.timeline;
 
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
-import org.javasimon.utils.SimonUtils;
+import org.javasimon.clock.ClockUtils;
 
 /**
  * Timeline for Stopwatches, historicize {@link Stopwatch} state on a rolling period of time.
@@ -43,7 +43,7 @@ public final class StopwatchTimeline extends Timeline<StopwatchTimeRange> {
 	 * @param split Split
 	 */
 	public void addSplit(Split split) {
-		final long timestamp = SimonUtils.millisForNano(split.getStart());
+		final long timestamp = split.getStartMillis();
 		StopwatchTimeRange timeRange;
 		synchronized (this) {
 			timeRange = getOrCreateTimeRange(timestamp);
@@ -68,6 +68,6 @@ public final class StopwatchTimeline extends Timeline<StopwatchTimeRange> {
 			timeRangesCopy = timeRanges.toArray(new StopwatchTimeRange[timeRanges.size()]);
 		}
 		// TODO sample each time-range by making a copy of it
-		return new TimelineSample<StopwatchTimeRange>(timeRanges.getCapacity(), timeRangeWidth * SimonUtils.NANOS_IN_MILLIS, timeRangesCopy);
+		return new TimelineSample<StopwatchTimeRange>(timeRanges.getCapacity(), timeRangeWidth * ClockUtils.NANOS_IN_MILLIS, timeRangesCopy);
 	}
 }

@@ -1,6 +1,7 @@
 package org.javasimon;
 
 import org.javasimon.callback.CompositeCallback;
+import org.javasimon.clock.Clock;
 
 import java.util.Collection;
 

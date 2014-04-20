@@ -3,6 +3,7 @@ package org.javasimon.examples.perf;
 import org.javasimon.SimonManager;
 import org.javasimon.Stopwatch;
 import org.javasimon.StopwatchSample;
+import org.javasimon.clock.ClockUtils;
 import org.javasimon.examples.ExampleUtils;
 import org.javasimon.utils.BenchmarkUtils;
 import org.javasimon.utils.GoogleChartImageGenerator;
@@ -73,6 +74,6 @@ public final class ManagerVsStopwatchComparison {
 		);
 
 		System.out.println("\nGoogle Chart avg:\n" + GoogleChartImageGenerator.barChart(
-			results, "10M-loop duration", SimonUtils.NANOS_IN_MILLIS, "ms", false));
+			results, "10M-loop duration", ClockUtils.NANOS_IN_MILLIS, "ms", false));
 	}
 }

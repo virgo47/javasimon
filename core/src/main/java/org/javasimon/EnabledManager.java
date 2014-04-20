@@ -2,6 +2,7 @@ package org.javasimon;
 
 import org.javasimon.callback.CompositeCallback;
 import org.javasimon.callback.CompositeCallbackImpl;
+import org.javasimon.clock.Clock;
 import org.javasimon.utils.SimonUtils;
 
 import java.lang.reflect.Constructor;
@@ -255,6 +256,11 @@ public final class EnabledManager implements Manager {
 	@Override
 	public long milliTime() {
 		return clock.milliTime();
+	}
+
+	@Override
+	public long millisForNano(long nanos) {
+		return clock.millisForNano(nanos);
 	}
 
 	synchronized void purgeIncrementalSimonsOlderThan(long thresholdMs) {

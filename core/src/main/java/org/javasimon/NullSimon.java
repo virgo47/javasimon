@@ -1,5 +1,7 @@
 package org.javasimon;
 
+import org.javasimon.clock.Clock;
+
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -37,6 +39,11 @@ class NullSimon implements Simon {
 
 	@Override
 	public String getName() {
+		return null;
+	}
+
+	@Override
+	public Manager getManager() {
 		return null;
 	}
 

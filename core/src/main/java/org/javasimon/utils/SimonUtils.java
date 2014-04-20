@@ -18,18 +18,23 @@ import java.util.regex.Pattern;
 
 /**
  * SimonUtils provides static utility methods.
+ * <p/>
  * <h3>Human readable outputs</h3>
  * Both {@link org.javasimon.Stopwatch} and {@link org.javasimon.Counter} provide human readable
  * {@code toString} outputs. All nanosecond values are converted into few valid digits with
  * proper unit (ns, us, ms, s) - this is done via method {@link #presentNanoTime(long)}.
  * Max/min counter values are checked for undefined state (max/min long value is converted
  * to string "undef") - via method {@link #presentMinMaxCount(long)}.
+ * <p/>
+ * <h3>Aggregation utilities</h3>
+ * It is possible to sum up (aggregate) values for a subtree for a particular Simon type using
+ * {@link #calculateCounterAggregate(org.javasimon.Simon)} or {@link #calculateStopwatchAggregate(org.javasimon.Simon)}.
+ * Methods come also in versions allowing to filter by {@link org.javasimon.SimonFilter}.
+ * <p/>
  * <h3>Simon tree operations</h3>
- * Method for recursive reset of the {@link org.javasimon.Simon} and all its children is provided -
- * {@link #recursiveReset(org.javasimon.Simon)}. For various debug purposes there is a method
- * that creates string displaying the whole Simon sub-tree. Here is example code that initializes
- * two random Simons and prints the whole Simon hierarchy (note that the method can be used to
- * obtain any sub-tree of the hierarchy):
+ * For various debug purposes there is a method that creates string displaying the whole Simon sub-tree.
+ * Here is example code that initializes two random Simons and prints the whole Simon hierarchy
+ * (note that the method can be used to obtain any sub-tree of the hierarchy):
  * <pre>
  * Split split = SimonManager.getStopwatch("com.my.other.stopwatch").start();
  * SimonManager.getCounter("com.my.counter").setState(SimonState.DISABLED, false);
@@ -45,6 +50,7 @@ import java.util.regex.Pattern;
  *       counter(-): Simon Counter: counter=0, max=undef, min=undef [com.my.counter DISABLED]</pre>
  * Notice +/- signs in parenthesis that displays effective Simon state (enabled/disabled), further
  * details are printed via each Simon's {@code toString} method.
+ *
  * <h3>Other utilities</h3>
  * It is possible to obtain "local name" of the Simon (behind the last dot) via {@link #localName(String)}
  * or check if the name is valid Simon name via {@link #checkName(String)}.
@@ -55,15 +61,6 @@ import java.util.regex.Pattern;
  */
 @SuppressWarnings({"UnusedDeclaration"})
 public final class SimonUtils {
-
-	/** Number of milliseconds in one second. */
-	public static final long MILLIS_IN_SECOND = 1000;
-
-	/** Number of nanoseconds in one millisecond. */
-	public static final long NANOS_IN_MILLIS = 1000000;
-
-	/** Number of nanoseconds in one second. */
-	public static final long NANOS_IN_SECOND = NANOS_IN_MILLIS * MILLIS_IN_SECOND;
 
 	/** Regex character class content for {@link #NAME_PATTERN}. */
 	public static final String NAME_PATTERN_CHAR_CLASS_CONTENT = "-_\\[\\]A-Za-z0-9.,@$%)(<>";
@@ -88,36 +85,6 @@ public final class SimonUtils {
 	 * @since 3.2
 	 */
 	public static final String MANAGER_SERVLET_CTX_ATTRIBUTE = "manager-servlet-ctx-attribute";
-
-	/**
-	 * Value of {@link System#nanoTime()} at a particular time, when {@link #INIT_MILLIS} is initialized as well.
-	 * Used in {@link #millisForNano(long)}.
-	 *
-	 * @since 3.3
-	 */
-	public static final long INIT_NANOS = Calibration.initNanos;
-
-	/**
-	 * Value of {@link System#currentTimeMillis()} at a particular time, when {@link #INIT_NANOS} is initialized as well.
-	 * Used in {@link #millisForNano(long)}.
-	 *
-	 * @since 3.3
-	 */
-	public static final long INIT_MILLIS = Calibration.initMillis;
-
-	/**
-	 * Measured difference in {@link System#currentTimeMillis()} during calibration.
-	 *
-	 * @since 3.5
-	 */
-	public static final long MILLIS_GRANULARITY = Calibration.millisGranularity;
-
-	/**
-	 * Average difference in {@link System#nanoTime()} during calibration.
-	 *
-	 * @since 3.5
-	 */
-	public static final long NANOS_GRANULARITY = Calibration.nanosGranularity;
 
 	private static final SimpleDateFormat TIMESTAMP_FORMAT = new SimpleDateFormat("yyMMdd-HHmmss.SSS");
 
@@ -446,15 +413,14 @@ public final class SimonUtils {
 	}
 
 	/**
-	 * Converts nano timer value into millis timestamp compatible with {@link System#currentTimeMillis()}. Method does not
-	 * just divide nanos by one million, but also works with remembered values for milli- and nano-timers at one particular moment.
+	 * Aggregate statistics from all stopwatches in hierarchy of simons.
 	 *
-	 * @param nanos nano timer value
-	 * @return ms timestamp
-	 * @since 3.3 (moved from SimonManager where it was since 3.1)
+	 * @param simon root of the hierarchy of simons for which statistics will be aggregated
+	 * @return aggregated statistics
+	 * @since 3.5
 	 */
-	public static long millisForNano(long nanos) {
-		return INIT_MILLIS + (nanos - INIT_NANOS) / NANOS_IN_MILLIS;
+	public static StopwatchAggregate calculateStopwatchAggregate(Simon simon) {
+		return calculateStopwatchAggregate(simon, null);
 	}
 
 	/**
@@ -470,27 +436,15 @@ public final class SimonUtils {
 	public static StopwatchAggregate calculateStopwatchAggregate(Simon simon, SimonFilter filter) {
 		StopwatchAggregate stopwatchAggregate = new StopwatchAggregate();
 		if (filter != null) {
-			calculateAggregate(stopwatchAggregate, simon, filter);
+			aggregateStopwatches(stopwatchAggregate, simon, filter);
 		} else {
-			calculateAggregate(stopwatchAggregate, simon, ACCEPT_ALL_FILTER);
+			aggregateStopwatches(stopwatchAggregate, simon, ACCEPT_ALL_FILTER);
 		}
-
 
 		return stopwatchAggregate;
 	}
 
-	/**
-	 * Aggregate statistics from all stopwatches in hierarchy of simons.
-	 *
-	 * @param simon root of the hierarchy of simons for which statistics will be aggregated
-	 * @return aggregated statistics
-	 * @since 3.5
-	 */
-	public static StopwatchAggregate calculateStopwatchAggregate(Simon simon) {
-		return calculateStopwatchAggregate(simon, null);
-	}
-
-	private static void calculateAggregate(StopwatchAggregate aggregate, Simon simon, SimonFilter filter) {
+	private static void aggregateStopwatches(StopwatchAggregate aggregate, Simon simon, SimonFilter filter) {
 		if (filter.accept(simon)) {
 			if (simon instanceof Stopwatch) {
 				Stopwatch stopwatch = (Stopwatch) simon;
@@ -498,7 +452,7 @@ public final class SimonUtils {
 			}
 
 			for (Simon child : simon.getChildren()) {
-				calculateAggregate(aggregate, child, filter);
+				aggregateStopwatches(aggregate, child, filter);
 			}
 		}
 	}
@@ -527,14 +481,14 @@ public final class SimonUtils {
 	public static CounterAggregate calculateCounterAggregate(Simon simon, SimonFilter filter) {
 		CounterAggregate aggregate = new CounterAggregate();
 		if (filter != null) {
-			calculateCounterAggregate(aggregate, simon, filter);
+			aggregateCounters(aggregate, simon, filter);
 		} else {
-			calculateCounterAggregate(aggregate, simon, ACCEPT_ALL_FILTER);
+			aggregateCounters(aggregate, simon, ACCEPT_ALL_FILTER);
 		}
 		return aggregate;
 	}
 
-	private static void calculateCounterAggregate(CounterAggregate aggregate, Simon simon, SimonFilter filter) {
+	private static void aggregateCounters(CounterAggregate aggregate, Simon simon, SimonFilter filter) {
 		if (filter.accept(simon)) {
 			if (simon instanceof Counter) {
 				Counter counter = (Counter) simon;
@@ -542,60 +496,8 @@ public final class SimonUtils {
 			}
 
 			for (Simon child : simon.getChildren()) {
-				calculateCounterAggregate(aggregate, child, filter);
+				aggregateCounters(aggregate, child, filter);
 			}
-		}
-	}
-
-	private static class Calibration {
-
-		private static final int TENTH_OF_MILLIS = 1000000;
-		private static final int NANO_CHANGES = 100;
-
-		private static long initNanos;
-		private static long initMillis;
-		private static long nanosGranularity;
-
-		private static long millisGranularity;
-
-		static {
-			initMillis = System.currentTimeMillis();
-			long oldNanos;
-			while (true) {
-				oldNanos = System.nanoTime();
-				long nextMillis = System.currentTimeMillis();
-				if (nextMillis > initMillis) {
-					millisGranularity = nextMillis - initMillis;
-					initMillis = nextMillis;
-					break;
-				} else {
-					// this ensures that we should get the last possible nano value before initMillis
-					initNanos = oldNanos;
-				}
-			}
-
-			long sumOfNanoDiffs = 0;
-			int nanoChanges = 0;
-			int nanoMeasurements = 0;
-			// we will reuse oldNanos from before
-			while (nanoChanges < NANO_CHANGES) {
-				long nextNanos = System.nanoTime();
-				nanoMeasurements++;
-				if (nextNanos > oldNanos) {
-					nanoChanges++;
-					sumOfNanoDiffs += nextNanos - oldNanos;
-					oldNanos = nextNanos;
-				}
-			}
-			nanosGranularity = sumOfNanoDiffs / nanoChanges;
-			/*
-			Produces funny results when repeated - granularity differences are striking even during a single Maven build:
-            nanosGranularity = 460 (based on 100 changes and 327 measurements)
-            nanosGranularity = 1198 (based on 100 changes and 324 measurements)
-            nanosGranularity = 605 (based on 100 changes and 328 measurements)
-			System.out.println("nanosGranularity = " + nanosGranularity + " (based on " + nanoChanges + " changes and " + nanoMeasurements + " measurements)");
-			System.out.println("millisGranularity = " + millisGranularity);
-			*/
 		}
 	}
 }

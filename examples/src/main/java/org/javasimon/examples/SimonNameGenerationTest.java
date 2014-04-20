@@ -2,6 +2,7 @@ package org.javasimon.examples;
 
 import org.javasimon.SimonManager;
 import org.javasimon.StopwatchSample;
+import org.javasimon.clock.ClockUtils;
 import org.javasimon.utils.BenchmarkUtils;
 import org.javasimon.utils.GoogleChartImageGenerator;
 import org.javasimon.utils.SimonUtils;
@@ -65,8 +66,8 @@ public final class SimonNameGenerationTest {
 		);
 
 		System.out.println("\nGoogle Chart avg:\n" + GoogleChartImageGenerator.barChart(
-			results, "200k-loop duration", SimonUtils.NANOS_IN_MILLIS, "ms", false));
+			results, "200k-loop duration", ClockUtils.NANOS_IN_MILLIS, "ms", false));
 		System.out.println("\nGoogle Chart avg/max/min:\n" + GoogleChartImageGenerator.barChart(
-			results, "200k-loop duration", SimonUtils.NANOS_IN_MILLIS, "ms", true));
+			results, "200k-loop duration", ClockUtils.NANOS_IN_MILLIS, "ms", true));
 	}
 }

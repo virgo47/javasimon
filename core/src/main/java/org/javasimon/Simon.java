@@ -38,6 +38,14 @@ public interface Simon extends HasAttributes {
 	List<Simon> getChildren();
 
 	/**
+	 * Returns Simon's {@link Manager}.
+	 *
+	 * @return Simon's {@link Manager}
+	 * @since 3.5
+	 */
+	Manager getManager();
+
+	/**
 	 * Returns state of the Simon that can be enabled, disabled or inherited.
 	 *
 	 * @return state of the Simon
@@ -142,11 +150,11 @@ public interface Simon extends HasAttributes {
 	 * are returned (same like from {@link #sample()}. Any subsequent calls with the key
 	 * provide increments.
 	 * <p/>
-	 * Clients can use any key (any Object) which enables safe access to their own increments.
+	 * Clients can use any sampling key (any Object) which enables safe access to their own increments.
 	 * Using String does not guarantee this as any client can potentially guess the key. This
 	 * may or may not be an issue.
 	 *
-	 * @param key key used to access incremental sample
+	 * @param key sampling key used to access incremental sample
 	 * @return {@link org.javasimon.Sample} with value increments
 	 * @since 3.5
 	 */
@@ -157,7 +165,7 @@ public interface Simon extends HasAttributes {
 	 * Next call to {@link #sampleIncrement(Object)} for the key will be considered the first
 	 * call for the key.
 	 *
-	 * @param key key used to access incremental sample
+	 * @param key sampling key used to access incremental sample
 	 * @return true if incremental information for the key existed, false otherwise
 	 * @since 3.5
 	 */

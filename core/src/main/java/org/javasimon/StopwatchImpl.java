@@ -281,7 +281,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 
 	@Override
 	public synchronized StopwatchSample sampleIncrement(Object key) {
-		return (StopwatchSample) sampleIncrementHelper(key, new StopwatchImpl(null, null));
+		return (StopwatchSample) sampleIncrementHelper(key, new StopwatchImpl(null, manager));
 	}
 
 	/**
@@ -291,7 +291,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	 * @param nowNanos current value of nano timer
 	 */
 	private void updateUsagesNanos(long nowNanos) {
-		updateUsages(SimonUtils.millisForNano(nowNanos));
+		updateUsages(manager.millisForNano(nowNanos));
 	}
 
 	/**

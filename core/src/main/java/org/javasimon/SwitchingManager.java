@@ -110,6 +110,11 @@ public final class SwitchingManager implements Manager {
 		return manager.nanoTime();
 	}
 
+	@Override
+	public long millisForNano(long nanos) {
+		return manager.millisForNano(nanos);
+	}
+
 	void purgeIncrementalSimonsOlderThan(long thresholdMs) {
 		// Store reference to current manager to avoid check-than-act
 		Manager currentManager = manager;

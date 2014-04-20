@@ -4,7 +4,7 @@ import org.javasimon.Counter;
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
-import org.javasimon.utils.SimonUtils;
+import org.javasimon.clock.ClockUtils;
 
 /**
  * Generates Simon Data for unit testing
@@ -17,7 +17,7 @@ public class SimonData {
 
 	private static void addTime(String name, long sleep) {
 		Stopwatch stopwatch = SimonManager.manager().getStopwatch(name);
-		stopwatch.addSplit(Split.create(sleep * SimonUtils.NANOS_IN_MILLIS));
+		stopwatch.addSplit(Split.create(sleep * ClockUtils.NANOS_IN_MILLIS));
 	}
 
 	private static void initStopwatches() {

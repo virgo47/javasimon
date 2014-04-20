@@ -1,6 +1,7 @@
 package org.javasimon;
 
-import org.javasimon.utils.SimonUtils;
+import org.javasimon.clock.ClockUtils;
+import org.javasimon.clock.TestClock;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -41,16 +42,17 @@ public final class SplitTest extends SimonUnitTest {
 		Assert.assertNull(split.getStopwatch());
 		Assert.assertTrue(split.isEnabled());
 		Assert.assertTrue(split.isRunning());
-		Assert.assertTrue(split.getStart() > 0);
-		Assert.assertTrue(split.runningFor() >= 0);
+		Assert.assertEquals(split.getStart(), 10000000);
+		Assert.assertEquals(split.getStartMillis(), 10);
+		Assert.assertEquals(split.runningFor(), 0);
 
 		clock.setMillisNanosFollow(20);
 		long runningFor = split.runningFor();
-		Assert.assertTrue(runningFor == 10 * SimonUtils.NANOS_IN_MILLIS, "Unexpectedly short running for: " + runningFor);
+		Assert.assertTrue(runningFor == 10 * ClockUtils.NANOS_IN_MILLIS);
 
 		Assert.assertEquals(split.stop(), split);
 		runningFor = split.runningFor();
-		Assert.assertTrue(runningFor == 10 * SimonUtils.NANOS_IN_MILLIS, "Unexpectedly short running for");
+		Assert.assertTrue(runningFor == 10 * ClockUtils.NANOS_IN_MILLIS);
 
 		clock.setMillisNanosFollow(30);
 		Assert.assertEquals(runningFor, split.runningFor());

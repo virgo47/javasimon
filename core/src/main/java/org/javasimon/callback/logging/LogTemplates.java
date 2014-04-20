@@ -1,8 +1,8 @@
 package org.javasimon.callback.logging;
 
-import org.javasimon.Clock;
+import org.javasimon.clock.Clock;
 import org.javasimon.Split;
-import org.javasimon.utils.SimonUtils;
+import org.javasimon.clock.ClockUtils;
 
 import java.util.logging.Level;
 
@@ -62,7 +62,7 @@ public class LogTemplates {
 	 * @return Logger
 	 */
 	public static <C> PeriodicLogTemplate<C> everyNSeconds(LogTemplate<C> delegateLogger, long period) {
-		return everyNMilliseconds(delegateLogger, period * SimonUtils.MILLIS_IN_SECOND);
+		return everyNMilliseconds(delegateLogger, period * ClockUtils.MILLIS_IN_SECOND);
 	}
 
 	/**
@@ -127,6 +127,6 @@ public class LogTemplates {
 	 * @return Logger
 	 */
 	public static SplitThresholdLogTemplate whenSplitLongerThanMilliseconds(LogTemplate<Split> delegateLogger, long threshold) {
-		return whenSplitLongerThanNanoseconds(delegateLogger, threshold * SimonUtils.NANOS_IN_MILLIS);
+		return whenSplitLongerThanNanoseconds(delegateLogger, threshold * ClockUtils.NANOS_IN_MILLIS);
 	}
 }
