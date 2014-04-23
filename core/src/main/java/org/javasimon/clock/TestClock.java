@@ -6,7 +6,7 @@ package org.javasimon.clock;
  *
  * @since 3.5
  */
-public class TestClock implements Clock {
+public final class TestClock implements Clock {
 
 	private long millis;
 	private long nanos;

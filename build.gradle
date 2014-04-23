@@ -59,7 +59,7 @@ subprojects {
         testCompile libs.spring_test
     }
 
-    version = '3.4.1-SNAPSHOT'
+    version = '3.5.0-SNAPSHOT'
 
     sourceCompatibility = '1.6'
     targetCompatibility = '1.6'

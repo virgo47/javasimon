@@ -52,4 +52,7 @@ public interface Clock {
 			return ClockUtils.millisForNano(nanos);
 		}
 	};
+
+	/** Clock implementation measuring CPU time. */
+	Clock CPU = new CpuClock();
 }
