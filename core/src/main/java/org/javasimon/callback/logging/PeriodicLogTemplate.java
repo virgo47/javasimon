@@ -25,11 +25,11 @@ public class PeriodicLogTemplate<C> extends DelegateLogTemplate<C> {
 	 * @param delegate concrete log template
 	 * @param period logging period in milliseconds
 	 */
-	public PeriodicLogTemplate(LogTemplate delegate, long period) {
+	public PeriodicLogTemplate(LogTemplate<C> delegate, long period) {
 		this(delegate, period, Clock.SYSTEM);
 	}
 
-	public PeriodicLogTemplate(LogTemplate delegate, long period, Clock clock) {
+	public PeriodicLogTemplate(LogTemplate<C> delegate, long period, Clock clock) {
 		super(delegate);
 		this.period = period;
 		this.clock = clock;
@@ -71,7 +71,7 @@ public class PeriodicLogTemplate<C> extends DelegateLogTemplate<C> {
 	 * @return true if delegate is true and enough time passed since last log
 	 */
 	@Override
-	public boolean isEnabled(C context) {
+	protected boolean isEnabled(C context) {
 		return super.isEnabled(context) && isNextTimePassed();
 	}
 
@@ -81,7 +81,7 @@ public class PeriodicLogTemplate<C> extends DelegateLogTemplate<C> {
 	 * Next time is updated after delegate log is called.
 	 */
 	@Override
-	public void log(String message) {
+	protected void log(String message) {
 		super.log(message);
 		initNextTime();
 	}

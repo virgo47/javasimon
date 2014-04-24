@@ -10,7 +10,7 @@ import org.javasimon.callback.CallbackSkeleton;
 import org.javasimon.utils.SimonUtils;
 
 /**
- * Callback which log stopwatch splits and manager warnings.
+ * Callback which logs stopwatch splits and manager warnings.
  * By default every split is logged, but one can configure this callback to log
  * only:<ul>
  * <li>Splits too long (longer that threshold)</li>

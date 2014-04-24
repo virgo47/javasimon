@@ -18,18 +18,17 @@ public class SplitThresholdLogTemplate extends DelegateLogTemplate<Split> {
 	 * @param delegate Concreate log template
 	 * @param threshold Theshold
 	 */
-	public SplitThresholdLogTemplate(LogTemplate delegate, long threshold) {
+	public SplitThresholdLogTemplate(LogTemplate<Split> delegate, long threshold) {
 		super(delegate);
 		this.threshold = threshold;
 	}
 
 	@Override
-	public boolean isEnabled(Split split) {
+	protected boolean isEnabled(Split split) {
 		return split.runningFor() > threshold && super.isEnabled(split);
 	}
 
-	public long getThreshold() {
+	protected long getThreshold() {
 		return threshold;
 	}
-
 }

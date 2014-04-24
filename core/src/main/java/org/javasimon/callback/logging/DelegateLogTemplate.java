@@ -28,11 +28,11 @@ public abstract class DelegateLogTemplate<C> extends LogTemplate<C> {
 		return delegate;
 	}
 
-	public boolean isEnabled(C context) {
+	protected boolean isEnabled(C context) {
 		return delegate.isEnabled(context);
 	}
 
-	public void log(String message) {
+	protected void log(String message) {
 		delegate.log(message);
 	}
 }

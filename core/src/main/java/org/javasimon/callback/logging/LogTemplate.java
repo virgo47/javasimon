@@ -8,17 +8,11 @@ package org.javasimon.callback.logging;
 public abstract class LogTemplate<C> {
 
 	/**
-	 * Tells whether logging is enabled.
-	 *
-	 * @return Logging enabled
-	 */
-	protected abstract boolean isEnabled(C context);
-
-	/**
-	 * If enabled, get message for context and log id.
+	 * If enabled, logs the message for context.
 	 *
 	 * @param context Context
 	 * @param messageSource Message producer
+	 * @return true if logging is enabled, false otherwise
 	 */
 	public final boolean log(C context, LogMessageSource<C> messageSource) {
 		final boolean enabled = isEnabled(context);
@@ -28,6 +22,13 @@ public abstract class LogTemplate<C> {
 		return enabled;
 	}
 
-	/** Log a message. */
+	/**
+	 * Tells whether logging is enabled.
+	 *
+	 * @return Logging enabled
+	 */
+	protected abstract boolean isEnabled(C context);
+
+	/** Logs a message. */
 	protected abstract void log(String message);
 }

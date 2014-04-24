@@ -33,8 +33,7 @@ public class JULLogTemplate<C> extends LogTemplate<C> {
 	 * @param level Level
 	 */
 	public JULLogTemplate(String loggerName, Level level) {
-		this.logger = Logger.getLogger(loggerName);
-		this.level = level;
+		this(Logger.getLogger(loggerName), level);
 	}
 
 	/**
@@ -69,11 +68,11 @@ public class JULLogTemplate<C> extends LogTemplate<C> {
 	 * <p/>
 	 * Logger is enabled if underlying logger is {@link Logger#isLoggable} is true for current level.
 	 */
-	public boolean isEnabled(C context) {
+	protected boolean isEnabled(C context) {
 		return logger.isLoggable(level);
 	}
 
-	public void log(String message) {
+	protected void log(String message) {
 		logger.log(level, message);
 	}
 }

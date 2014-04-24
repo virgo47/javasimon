@@ -12,19 +12,15 @@ import org.javasimon.callback.logging.LogMessageSource;
  * @since 3.2
  */
 public class CallTree implements LogMessageSource<Split> {
-	/**
-	 * Log threshold. // TODO in what unit?
-	 */
+
+	// TODO in what unit?
+	/** Log threshold. */
 	private final Long logThreshold;
 
-	/**
-	 * Call stack is the path (made of tree nodes) from root tree node to the current tree node.
-	 */
+	/** Call stack is the path (made of tree nodes) from root tree node to the current tree node. */
 	private final LinkedList<CallTreeNode> callStack = new LinkedList<CallTreeNode>();
 
-	/**
-	 * Root call tree node.
-	 */
+	/** Root call tree node. */
 	private CallTreeNode rootNode;
 
 	/**

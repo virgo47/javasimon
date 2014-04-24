@@ -54,12 +54,12 @@ public class CounterLogTemplate<C> extends DelegateLogTemplate<C> {
 	}
 
 	@Override
-	public boolean isEnabled(C context) {
+	protected boolean isEnabled(C context) {
 		return super.isEnabled(context) && incrementCounter();
 	}
 
 	@Override
-	public void log(String message) {
+	protected void log(String message) {
 		super.log(message);
 	}
 }

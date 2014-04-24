@@ -54,15 +54,15 @@ public class LogTemplateTest extends SimonUnitTest implements LogMessageSource<O
 		private boolean enabled = true;
 		private String message;
 
-		public boolean isEnabled(Object context) {
-			return enabled;
-		}
-
 		public void setEnabled(boolean loggingEnabled) {
 			this.enabled = loggingEnabled;
 		}
 
-		public void log(String message) {
+		protected boolean isEnabled(Object context) {
+			return enabled;
+		}
+
+		protected void log(String message) {
 			this.message = message;
 		}
 
@@ -80,7 +80,7 @@ public class LogTemplateTest extends SimonUnitTest implements LogMessageSource<O
 	public void testCounter() {
 		TestLogTemplate logTemplate1 = new TestLogTemplate();
 		logMessage = "Test Counter";
-		CounterLogTemplate<Object> logTemplate2 = everyNSplits(logTemplate1, 3);
+		LogTemplate<Object> logTemplate2 = everyNSplits(logTemplate1, 3);
 		// One
 		assertFalse(logTemplate2.log(null, this));
 		assertNull(logTemplate1.getMessage());
@@ -112,7 +112,7 @@ public class LogTemplateTest extends SimonUnitTest implements LogMessageSource<O
 		long startTime = 1000;
 		when(clock.milliTime()).thenReturn(startTime);
 
-		PeriodicLogTemplate logTemplate2 = everyNMilliseconds(logTemplate1, 500L, clock);
+		LogTemplate logTemplate2 = everyNMilliseconds(logTemplate1, 500L, clock);
 		// Before
 		when(clock.milliTime()).thenReturn(startTime + 300L);
 
