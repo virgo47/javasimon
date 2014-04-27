@@ -77,6 +77,13 @@ public final class SplitTest extends SimonUnitTest {
 		Assert.assertSame(split, splitAfterStop);
 	}
 
+	@Test(expectedExceptions = SimonException.class, expectedExceptionsMessageRegExp = "Simon name must match following pattern.*")
+	public void stopWithSubSimonWithWrongName() {
+		Stopwatch stopwatch = SimonManager.getStopwatch(STOPWATCH_NAME);
+		Split split = stopwatch.start();
+		split.stop("subs; asd imon");
+	}
+
 	@Test
 	public void stopWithSubSimon() {
 		String tag = "error";

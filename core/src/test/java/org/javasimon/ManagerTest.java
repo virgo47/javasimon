@@ -152,7 +152,7 @@ public final class ManagerTest extends SimonUnitTest {
 		Assert.assertEquals(messages.size(), 2);
 	}
 
-	@Test(expectedExceptions = SimonException.class)
+	@Test(expectedExceptions = SimonException.class, expectedExceptionsMessageRegExp = "Simon name must match following pattern.*")
 	public void testInvalidName() {
 		SimonManager.getStopwatch("Inv@lid name!@#$%");
 	}
