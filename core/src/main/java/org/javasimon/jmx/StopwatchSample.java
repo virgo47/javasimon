@@ -127,7 +127,7 @@ public final class StopwatchSample extends org.javasimon.StopwatchSample {
 	 * @return minimal time split in nanoseconds as string
 	 */
 	public final String getMinAsString() {
-		return SimonUtils.presentMinMaxSplit(getMin());
+		return SimonUtils.presentNanoTime(getMin());
 	}
 
 	/**
@@ -136,7 +136,7 @@ public final class StopwatchSample extends org.javasimon.StopwatchSample {
 	 * @return maximal time split in nanoseconds as string
 	 */
 	public final String getMaxAsString() {
-		return SimonUtils.presentMinMaxSplit(getMax());
+		return SimonUtils.presentNanoTime(getMax());
 	}
 
 	/**

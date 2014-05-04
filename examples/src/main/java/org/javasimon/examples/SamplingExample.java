@@ -12,6 +12,7 @@ import org.javasimon.Stopwatch;
  */
 @SuppressWarnings({"InfiniteLoopStatement"})
 public final class SamplingExample {
+
 	private SamplingExample() {
 	}
 

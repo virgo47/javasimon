@@ -16,8 +16,10 @@ import java.util.concurrent.locks.ReentrantLock;
  * Fills Simon manager with random data for demo purpose
  */
 public class SimonDataGenerator {
-	private final Random random = new Random();
+
 	private static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+	private final Random random = new Random();
 	private Lock lock = new ReentrantLock();
 	/** Time for changing Simons. */
 	private Timer timer = new Timer();
@@ -58,12 +60,6 @@ public class SimonDataGenerator {
 		counter.set(value);
 	}
 
-	private static void initStopwatches() {
-	}
-
-	public void initialize() {
-		SimonManager.clear();
-	}
 	/**
 	 * Add basic simons A, B, C and X.
 	 * X is used to test Counter rendering.

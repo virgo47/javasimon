@@ -293,8 +293,8 @@ public class StopwatchSample extends Sample {
 		}
 		sb.append("total=").append(SimonUtils.presentNanoTime(total));
 		sb.append(", counter=").append(counter);
-		sb.append(", max=").append(SimonUtils.presentMinMaxSplit(max));
-		sb.append(", min=").append(SimonUtils.presentMinMaxSplit(min));
+		sb.append(", max=").append(SimonUtils.presentNanoTime(max));
+		sb.append(", min=").append(SimonUtils.presentNanoTime(min));
 		sb.append(", maxTimestamp=").append(SimonUtils.presentTimestamp(maxTimestamp));
 		sb.append(", minTimestamp=").append(SimonUtils.presentTimestamp(minTimestamp));
 		sb.append(", active=").append(active);

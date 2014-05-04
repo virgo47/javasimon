@@ -55,7 +55,7 @@ public class SimonConsoleJettyDemo {
 		// TimelineCallback 10 time range buckets of 1 minute each
 		compositeCallback.addCallback(new TimelineCallback(10, 60000L));
 		SimonManager.callback().addCallback(new AsyncCallbackProxyFactory(compositeCallback).newProxy());
-		// CallTreeCallback doesn't support asynchronism
+		// CallTreeCallback doesn't support asynchronous operation
 		SimonManager.callback().addCallback(new CallTreeCallback(50));
 		// Simon Servlet
 		final SimonConsoleServlet simonConsoleServlet = new SimonConsoleServlet();

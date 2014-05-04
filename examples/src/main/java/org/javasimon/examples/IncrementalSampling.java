@@ -11,7 +11,6 @@ import org.javasimon.callback.CallbackSkeleton;
 public class IncrementalSampling {
 
 	public static void main(String[] args) {
-
 		SimonManager.callback().addCallback(new CallbackSkeleton() {
 			@Override
 			public void onStopwatchAdd(Stopwatch stopwatch, Split split, StopwatchSample sample) {

@@ -124,16 +124,17 @@ public final class SimonUtils {
 
 	/**
 	 * Returns nano-time in human readable form with unit. Number is always from 10 to 9999
-	 * except for seconds that are the biggest unit used.
+	 * except for seconds that are the biggest unit used. In case of undefined value ({@link Long#MAX_VALUE} or
+	 * {@link Long#MIN_VALUE}) string {@link #UNDEF_STRING} is returned, so it can be used for min/max values as well.
 	 *
 	 * @param nanos time in nanoseconds
 	 * @return human readable time string
 	 */
 	public static String presentNanoTime(long nanos) {
-		if (nanos == Long.MAX_VALUE) {
+		if (nanos == Long.MAX_VALUE || nanos == Long.MIN_VALUE) {
 			return UNDEF_STRING;
 		}
-		return presentOverNanoTime((double) nanos);
+		return presentNanoTimePrivate((double) nanos);
 	}
 
 	/**
@@ -147,10 +148,10 @@ public final class SimonUtils {
 		if (nanos == Double.MAX_VALUE) {
 			return UNDEF_STRING;
 		}
-		return presentOverNanoTime(nanos);
+		return presentNanoTimePrivate(nanos);
 	}
 
-	private static String presentOverNanoTime(double time) {
+	private static String presentNanoTimePrivate(double time) {
 		if (Math.abs(time) < 1d) {
 			return "0";
 		}
@@ -218,7 +219,9 @@ public final class SimonUtils {
 	 *
 	 * @param minmax split extreme value
 	 * @return extreme value or "undef" if extreme contains {@code Long.MIN_VALUE} or {@code Long.MAX_VALUE}
+	 * @deprecated use {@link #presentNanoTime(long)} instead, will be removed in 4.0
 	 */
+	@Deprecated
 	public static String presentMinMaxSplit(long minmax) {
 		if (minmax == Long.MAX_VALUE || minmax == Long.MIN_VALUE) {
 			return UNDEF_STRING;

@@ -1,6 +1,10 @@
 package org.javasimon.examples;
 
-import org.javasimon.*;
+import org.javasimon.IncrementalSimonsPurger;
+import org.javasimon.Manager;
+import org.javasimon.SimonManager;
+import org.javasimon.Split;
+import org.javasimon.Stopwatch;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -9,7 +13,7 @@ import java.util.concurrent.TimeUnit;
  * This demos shows how IncrementalSimonsPurger class can be used to periodically
  * remove old incremental keys. If incremental sampling key was not used for a long
  * period of time it will be removed by IncrementalSimonsPurger.
- *
+ * <p/>
  * Output of this demo shows how IncrementalSimonsPurger removes incremental Simons
  * if they were not used for some period of time. IncrementalSimonsPurger logs a message
  * with DEBUG level when purging is performed.
@@ -51,6 +55,5 @@ public class IncrementalSimonsPurgerDemo {
 			Thread.sleep(random.nextInt(SLEEP_TIME));
 			split.stop();
 		}
-
 	}
 }

@@ -15,6 +15,7 @@ import org.javasimon.utils.SimonUtils;
  * to the number of threads.
  */
 public class MultithreadedTester extends Thread {
+
 	// name of the Simon will be the same like the name of this class
 	private static final String NAME = SimonUtils.generateName();
 
@@ -76,6 +77,7 @@ public class MultithreadedTester extends Thread {
 				Stopwatch stopwatch = SimonManager.getStopwatch(NAME);
 				Split split = stopwatch.start();
 				StopwatchSample sample = stopwatch.sample();
+				//noinspection ResultOfMethodCallIgnored
 				sample.toString();
 				split.stop();
 			}

@@ -45,12 +45,12 @@
 			<artifactId>jetty-deploy</artifactId>
 			<version>7.5.4.v20111024</version>
 		</dependency>
-        <dependency>
-            <groupId>org.jolokia</groupId>
-            <artifactId>jolokia-jvm</artifactId>
-            <version>1.2.0</version>
-        </dependency>
-    </dependencies>
+		<dependency>
+			<groupId>org.jolokia</groupId>
+			<artifactId>jolokia-jvm</artifactId>
+			<version>1.2.0</version>
+		</dependency>
+	</dependencies>
 
 	<build>
 		<plugins>

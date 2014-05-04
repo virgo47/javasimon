@@ -167,14 +167,14 @@ public class StopwatchAggregate {
 
 	@Override
 	public String toString() {
-		return "StopwatchAggregate{total= " + total +
+		return "StopwatchAggregate{total= " + SimonUtils.presentNanoTime(total) +
 			", counter=" + counter +
-			", min=" + min +
-			", max=" + max +
-			", minTimestamp=" + minTimestamp +
-			", maxTimestamp=" + maxTimestamp +
+			", min=" + SimonUtils.presentNanoTime(min) +
+			", max=" + SimonUtils.presentNanoTime(max) +
+			", minTimestamp=" + SimonUtils.presentTimestamp(minTimestamp) +
+			", maxTimestamp=" + SimonUtils.presentTimestamp(maxTimestamp) +
 			", active=" + active +
 			", maxActive=" + maxActive +
-			", maxActiveTimestamp=" + maxActiveTimestamp + '}';
+			", maxActiveTimestamp=" + SimonUtils.presentTimestamp(maxActiveTimestamp) + '}';
 	}
 }

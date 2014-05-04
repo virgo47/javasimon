@@ -136,10 +136,10 @@ public class CounterAggregate {
 			"counter=" + counter +
 			", incrementSum=" + incrementSum +
 			", decrementSum=" + decrementSum +
-			", max=" + max +
-			", min=" + min +
-			", maxTimestamp=" + maxTimestamp +
-			", minTimestamp=" + minTimestamp +
+			", max=" + SimonUtils.presentMinMaxCount(max) +
+			", min=" + SimonUtils.presentMinMaxCount(min) +
+			", maxTimestamp=" + SimonUtils.presentTimestamp(maxTimestamp) +
+			", minTimestamp=" + SimonUtils.presentTimestamp(minTimestamp) +
 			'}';
 	}
 }

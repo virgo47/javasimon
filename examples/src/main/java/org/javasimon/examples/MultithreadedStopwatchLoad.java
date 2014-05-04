@@ -1,12 +1,12 @@
 package org.javasimon.examples;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import org.javasimon.StopwatchSample;
 import org.javasimon.clock.ClockUtils;
 import org.javasimon.utils.BenchmarkUtils;
 import org.javasimon.utils.GoogleChartImageGenerator;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Measures how long it takes to execute a lot of get-start-stop cycles in heavily multithreaded environment.
