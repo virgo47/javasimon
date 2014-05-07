@@ -2,7 +2,7 @@
 
 = Java Simon - Simple Monitors for Java =
 
-Version: 3.4.0
+Version: 3.5.0
 
 This software is distributed under the terms of the The BSD 3-Clause License:
   * check "license.txt" in the root directory of the project
@@ -58,27 +58,10 @@ Project is hosted on Google Code as "javasimon":
   * Homepage: http://www.javasimon.org (Google+ http://gplus.to/javasimon, https://plus.google.com/b/115141838919870730025/115141838919870730025)
   * Project page: http://code.google.com/p/javasimon/
   * Download: http://code.google.com/p/javasimon/downloads/list
-  * Javadoc API: http://javasimon.googlecode.com/svn/javadoc/api-3.3/index.html
+  * Javadoc API: http://javasimon.googlecode.com/svn/javadoc/api-3.5/index.html
   * Source browser: http://code.google.com/p/javasimon/source/browse/
   * Issue tracker: http://code.google.com/p/javasimon/issues/list
   * Ohloh page: http://www.ohloh.net/p/javasimon
-
-Project uses following libraries (for Ant build, check dependencies in POMs for Maven build):
-  * TestNG: http://testng.org/ (test only)
-    * `testng-6.5.2.jar`
-    * `jcommander-1.5.jar`
-  * Spring (core/aop/beans/web/webmvc/test/...): http://www.springsource.org/ (Spring integration)
-    * `org.springframework.*-3.2.0.RELEASE.jar`
-    * `aopalliance-1.0.jar`
-    * `commons-logging-1.1.1.jar`
-  * SLF4J logging: http://www.slf4j.org/ (logging callback in core module, may not be required during runtime)
-    * `slf4j-api-1.7.2.jar`
-  * H2 Database: http://www.h2database.com/ (examples)
-    * `h2-1.3.168.jar`
-  * Java EE libraries for Java EE module compilation:
-    * `servlet-api-2.5.jar`
-    * `javaee-api-6.0.jar`
-    * `geronimo-servlet_3.0_spec-1.0.jar` (this one is needed for test run)
 
 == Java Simon name ==
 
