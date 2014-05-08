@@ -2,6 +2,8 @@ package org.javasimon;
 
 import org.javasimon.utils.SimonUtils;
 
+import java.util.Collection;
+
 /**
  * Class implements {@link org.javasimon.Counter} interface - see there for how to use Counter.
  *
@@ -9,37 +11,28 @@ import org.javasimon.utils.SimonUtils;
  * @see org.javasimon.Counter
  */
 final class CounterImpl extends AbstractSimon implements Counter {
-	/**
-	 * An internal counter.
-	 */
+
+	/** An internal counter. */
 	private long counter;
 
-	/**
-	 * Sum of all increments.
-	 */
+	/** Sum of all increments. */
 	private long incrementSum;
 
-	/**
-	 * Sum of all decrements.
-	 */
+	/** Sum of all decrements. */
 	private long decrementSum;
 
-	/**
-	 * A maximum tracker.
-	 */
+	/** A maximum tracker. */
 	private long max = Long.MIN_VALUE;
 
 	private long maxTimestamp;
 
-	/**
-	 * A minimum tracker - only negative values.
-	 */
+	/** A minimum tracker - only negative values. */
 	private long min = Long.MAX_VALUE;
 
 	private long minTimestamp;
 
 	/**
-	 * Construts Counter Simon with a specified name and for the specified manager.
+	 * Constructs Counter Simon with a specified name and for the specified manager.
 	 *
 	 * @param name Simon's name
 	 * @param manager owning manager
@@ -54,90 +47,50 @@ final class CounterImpl extends AbstractSimon implements Counter {
 			return this;
 		}
 
-		long now = System.currentTimeMillis();
-		CounterSample sample = null;
+		long now = manager.milliTime();
+		CounterSample sample;
 		synchronized (this) {
-			privateSet(val, now);
-			if (!manager.callback().callbacks().isEmpty()) {
-				sample = sample();
-			}
+			setPrivate(val, now);
+			updateIncrementalSimonsSet(val, now);
+			sample = sampleIfCallbacksNotEmpty();
 		}
 		manager.callback().onCounterSet(this, val, sample);
 		return this;
 	}
 
-	// must be called from synchronized block
-	private void privateSet(long val, long now) {
+	private void setPrivate(long val, long now) {
 		updateUsages(now);
 		counter = val;
-		if (counter >= max) {
-			max = counter;
-			maxTimestamp = getLastUsage();
+		updateMax();
+		updateMin();
+	}
+
+	private void updateIncrementalSimonsSet(long val, long now) {
+		Collection<Simon> simons = incrementalSimons();
+		if (simons != null) {
+			for (Simon simon : simons) {
+				((CounterImpl) simon).setPrivate(val, now);
+			}
 		}
+	}
+
+	private void updateMin() {
 		if (counter <= min) {
 			min = counter;
 			minTimestamp = getLastUsage();
 		}
 	}
 
+	private void updateMax() {
+		if (counter >= max) {
+			max = counter;
+			maxTimestamp = getLastUsage();
+		}
+	}
+
 	@Override
 	public Counter increase() {
-		if (!enabled) {
-			return this;
-		}
-
-		long now = System.currentTimeMillis();
-		CounterSample sample = null;
-		synchronized (this) {
-			updateUsages(now);
-			counter++;
-			incrementSum++;
-			if (counter >= max) {
-				max = counter;
-				maxTimestamp = getLastUsage();
-			}
-			if (!manager.callback().callbacks().isEmpty()) {
-				sample = sample();
-			}
-		}
-		manager.callback().onCounterIncrease(this, 1, sample);
-		return this;
-	}
-
-	@Override
-	public Counter decrease() {
-		if (!enabled) {
-			return this;
-		}
-
-		long now = System.currentTimeMillis();
-		CounterSample sample = null;
-		synchronized (this) {
-			updateUsages(now);
-			counter--;
-			decrementSum++;
-			if (counter <= min) {
-				min = counter;
-				minTimestamp = getLastUsage();
-			}
-			if (!manager.callback().callbacks().isEmpty()) {
-				sample = sample();
-			}
-		}
-		manager.callback().onCounterDecrease(this, 1, sample);
-		return this;
-	}
-
-	/**
-	 * Updates usage statistics.
-	 *
-	 * @param now current millis timestamp
-	 */
-	private void updateUsages(long now) {
-		lastUsage = now;
-		if (firstUsage == 0) {
-			firstUsage = lastUsage;
-		}
+		return increase(1);
 	}
 
 	@Override
@@ -146,15 +99,40 @@ final class CounterImpl extends AbstractSimon implements Counter {
 			return this;
 		}
 
-		long now = System.currentTimeMillis();
+		long now = manager.milliTime();
 		CounterSample sample;
 		synchronized (this) {
-			incrementSum += inc;
-			privateSet(counter + inc, now);
-			sample = sample();
+			increasePrivate(inc, now);
+			updateIncrementalSimonsIncrease(inc, now);
+			sample = sampleIfCallbacksNotEmpty();
 		}
 		manager.callback().onCounterIncrease(this, inc, sample);
 		return this;
+	}
+
+	private void increasePrivate(long inc, long now) {
+		updateUsages(now);
+		incrementSum += inc;
+		counter += inc;
+		if (inc > 0) {
+			updateMax();
+		} else {
+			updateMin();
+		}
+	}
+
+	private void updateIncrementalSimonsIncrease(long inc, long now) {
+		Collection<Simon> simons = incrementalSimons();
+		if (simons != null) {
+			for (Simon simon : simons) {
+				((CounterImpl) simon).increasePrivate(inc, now);
+			}
+		}
+	}
+
+	@Override
+	public Counter decrease() {
+		return decrease(1);
 	}
 
 	@Override
@@ -163,49 +141,42 @@ final class CounterImpl extends AbstractSimon implements Counter {
 			return this;
 		}
 
-		long now = System.currentTimeMillis();
+		long now = manager.milliTime();
 		CounterSample sample;
 		synchronized (this) {
-			decrementSum += dec;
-			privateSet(counter - dec, now);
-			sample = sample();
+			decreasePrivate(dec, now);
+			sample = sampleIfCallbacksNotEmpty();
+			updateIncrementalSimonsDecrease(dec, now);
 		}
 		manager.callback().onCounterDecrease(this, dec, sample);
 		return this;
 	}
 
-	@Override
-	public synchronized Counter reset() {
-		counter = 0;
-		max = Long.MIN_VALUE;
-		maxTimestamp = 0;
-		min = Long.MAX_VALUE;
-		minTimestamp = 0;
-		incrementSum = 0;
-		decrementSum = 0;
-		resetCommon();
-		return this;
+	private void decreasePrivate(long dec, long now) {
+		updateUsages(now);
+		decrementSum += dec;
+		counter -= dec;
+		if (dec > 0) {
+			updateMin();
+		} else {
+			updateMax();
+		}
 	}
 
-	@Override
-	public synchronized CounterSample sampleAndReset() {
-		CounterSample sample = sample();
-		reset();
-		return sample;
+	private void updateIncrementalSimonsDecrease(long dec, long now) {
+		Collection<Simon> simons = incrementalSimons();
+		if (simons != null) {
+			for (Simon simon : simons) {
+				((CounterImpl) simon).decreasePrivate(dec, now);
+			}
+		}
 	}
 
-	@Override
-	public synchronized CounterSample sample() {
-		CounterSample sample = new CounterSample();
-		sample.setCounter(counter);
-		sample.setMin(min);
-		sample.setMax(max);
-		sample.setMinTimestamp(minTimestamp);
-		sample.setMaxTimestamp(maxTimestamp);
-		sample.setIncrementSum(incrementSum);
-		sample.setDecrementSum(decrementSum);
-		sampleCommon(sample);
-		return sample;
+	private CounterSample sampleIfCallbacksNotEmpty() {
+		if (!manager.callback().callbacks().isEmpty()) {
+			return sample();
+		}
+		return null;
 	}
 
 	@Override
@@ -241,6 +212,45 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	@Override
 	public synchronized long getDecrementSum() {
 		return decrementSum;
+	}
+
+	@Override
+	@Deprecated
+	void concreteReset() {
+		counter = 0;
+		max = Long.MIN_VALUE;
+		maxTimestamp = 0;
+		min = Long.MAX_VALUE;
+		minTimestamp = 0;
+		incrementSum = 0;
+		decrementSum = 0;
+	}
+
+	@Override
+	@Deprecated
+	public synchronized CounterSample sampleAndReset() {
+		CounterSample sample = sample();
+		reset();
+		return sample;
+	}
+
+	@Override
+	public synchronized CounterSample sample() {
+		CounterSample sample = new CounterSample();
+		sample.setCounter(counter);
+		sample.setMin(min);
+		sample.setMax(max);
+		sample.setMinTimestamp(minTimestamp);
+		sample.setMaxTimestamp(maxTimestamp);
+		sample.setIncrementSum(incrementSum);
+		sample.setDecrementSum(decrementSum);
+		sampleCommon(sample);
+		return sample;
+	}
+
+	@Override
+	public CounterSample sampleIncrement(Object key) {
+		return (CounterSample) sampleIncrementHelper(key, new CounterImpl(null, manager));
 	}
 
 	/**

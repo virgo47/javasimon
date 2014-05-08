@@ -1,15 +1,28 @@
 package org.javasimon.console;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.javasimon.Manager;
 import org.javasimon.SimonManager;
-import org.javasimon.console.action.*;
+import org.javasimon.console.action.ClearAction;
+import org.javasimon.console.action.DetailHtmlAction;
+import org.javasimon.console.action.DetailJsonAction;
+import org.javasimon.console.action.ErrorAction;
+import org.javasimon.console.action.ListJsonAction;
+import org.javasimon.console.action.PluginsJsonAction;
+import org.javasimon.console.action.RedirectAction;
+import org.javasimon.console.action.ResetAction;
+import org.javasimon.console.action.ResourceAction;
+import org.javasimon.console.action.TableCsvAction;
+import org.javasimon.console.action.TableHtmlAction;
+import org.javasimon.console.action.TableJsonAction;
+import org.javasimon.console.action.TreeJsonAction;
+import org.javasimon.console.action.TreeXmlAction;
 
 /**
  * Common part processing the request for {@link SimonConsoleServlet} or {@link SimonConsoleFilter}.

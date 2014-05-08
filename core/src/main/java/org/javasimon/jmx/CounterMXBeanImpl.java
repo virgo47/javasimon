@@ -1,11 +1,11 @@
 package org.javasimon.jmx;
 
-import org.javasimon.Simon;
 import org.javasimon.Counter;
+import org.javasimon.Simon;
 
 /**
  * MX Bean representing a particular {@link org.javasimon.Counter}. It is not created
- * by default when JMX is activated - it must be created explicitely.
+ * by default when JMX is activated - it must be created explicitly.
  * {@link JmxRegisterCallback} can be used to automate this.
  * <p/>
  * Class can be subclassed to override default behavior if desired, {@link #counter} is declared protected for this reason.
@@ -13,9 +13,8 @@ import org.javasimon.Counter;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public class CounterMXBeanImpl extends AbstractSimonMXBeanImpl implements CounterMXBean {
-	/**
-	 * Wrapped {@link Counter} instance - protected for subclasses.
-	 */
+
+	/** Wrapped {@link Counter} instance - protected for subclasses. */
 	protected Counter counter;
 
 	/**
@@ -98,8 +97,18 @@ public class CounterMXBeanImpl extends AbstractSimonMXBeanImpl implements Counte
 	}
 
 	@Override
+	public CounterSample sampleIncrement(String key) {
+		return new CounterSample(counter.sampleIncrement(key));
+	}
+
+	@Override
 	public final String getType() {
 		return SimonInfo.COUNTER;
+	}
+
+	@Override
+	public boolean stopIncrementalSampling(String key) {
+		return counter.stopIncrementalSampling(key);
 	}
 
 	@Override

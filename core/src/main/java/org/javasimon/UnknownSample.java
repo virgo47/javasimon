@@ -15,10 +15,11 @@ public class UnknownSample extends Sample {
 	 */
 	@Override
 	public String toString() {
-		final StringBuilder sb = new StringBuilder();
-		sb.append("UnknownSample");
-		sb.append("{name=").append(getName());
-		sb.append(", note=").append(getNote()).append('}');
-		return sb.toString();
+		return "UnknownSample" + "{name=" + getName() + ", note=" + getNote() + '}';
+	}
+
+	@Override
+	public String simonToString() {
+		return null;
 	}
 }

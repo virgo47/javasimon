@@ -1,11 +1,18 @@
 package org.javasimon.examples;
 
-import org.javasimon.*;
+import org.javasimon.SimonManager;
+import org.javasimon.Split;
+import org.javasimon.Stopwatch;
+import org.javasimon.StopwatchSample;
 import org.javasimon.callback.CallbackSkeleton;
-import org.javasimon.utils.SimonUtils;
+import org.javasimon.clock.ClockUtils;
 
 /**
- * Shows how to get outputs similar to Perf4J with Simon. This solution does not support "message" part.
+ * Shows how to get outputs similar to Perf4J with Simon.
+ * This example demonstrates the flexibility of Simon's Callbacks and Split's stop method with sub-stopwatch
+ * ({@link Split#stop(String)}. It does not support "message" part, but even that can be achieved using Split's
+ * attributes (Split implements {@link org.javasimon.HasAttributes}).
+ * <p/>
  * Result may look like this:
  * <pre>INFO: start[1321403641356] time[527] tag[codeBlock2.failure]
 INFO: start[1321403641884] time[528] tag[codeBlock2.failure]
@@ -50,7 +57,7 @@ public class Perf4JLikeExample {
 			}
 
 			private void printPerf4JLog(Split split, StopwatchSample sample) {
-				System.out.println("INFO: start[" + SimonUtils.millisForNano(split.getStart()) + "] time[" + (split.runningFor() / SimonUtils.NANOS_IN_MILLIS ) + "] tag[" + sample.getName() + "]");
+				System.out.println("INFO: start[" + split.getStartMillis() + "] time[" + (split.runningFor() / ClockUtils.NANOS_IN_MILLIS) + "] tag[" + sample.getName() + "]");
 			}
 		});
 		for (int i = 0; i < 20; i++) {
@@ -72,10 +79,10 @@ public class Perf4JLikeExample {
 				throw new Exception("Throwing exception");
 			}
 
-			split.stop("success"); //, "Sleep time was < 500 ms");
+			split.stop("success");
 //			stopWatch.stop("codeBlock2.success", "Sleep time was < 500 ms");
 		} catch (Exception e) {
-			split.stop("failure"); //, "Exception was: " + e);
+			split.stop("failure");
 //			stopWatch.stop("codeBlock2.failure", "Exception was: " + e);
 		}
 	}

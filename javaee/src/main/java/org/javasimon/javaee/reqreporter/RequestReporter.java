@@ -1,7 +1,7 @@
 package org.javasimon.javaee.reqreporter;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 import org.javasimon.Split;
 import org.javasimon.javaee.SimonServletFilter;

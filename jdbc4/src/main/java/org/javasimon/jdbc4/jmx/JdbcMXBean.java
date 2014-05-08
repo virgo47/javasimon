@@ -10,7 +10,7 @@ import org.javasimon.jmx.StopwatchSample;
  * This JDBC hierarchy of Simon is well known and specified in JDBC javadoc
  * ({@link org.javasimon.jdbc4}). There is prefix of this hierarchy that is associated with
  * one instance of monitored JDBC driver. Typically, thare is only one driver instance used
- * in application, becouse of connection to one type of database. If application is connected
+ * in application, because of connection to one type of database. If application is connected
  * to different types of database (i.e. oracle and mysql), there is possibility to differentiate
  * each used driver by specifying Simon hierarchy prefix for driver.<br>
  * Jdbc mxbean has prefix associated with it. It's is initialized through mxbean implementation

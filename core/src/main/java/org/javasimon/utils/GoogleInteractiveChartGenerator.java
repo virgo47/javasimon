@@ -13,7 +13,7 @@ public final class GoogleInteractiveChartGenerator {
 	private static final int ONE_BAR_WIDTH = 100;
 
 	private GoogleInteractiveChartGenerator() {
-		throw new UnsupportedOperationException();
+		throw new AssertionError();
 	}
 
 	/**

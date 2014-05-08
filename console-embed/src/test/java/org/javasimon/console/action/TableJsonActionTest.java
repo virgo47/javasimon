@@ -1,27 +1,27 @@
 package org.javasimon.console.action;
 
-import java.util.HashSet;
-import java.util.Set;
-import org.javasimon.SimonManager;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
+import org.javasimon.SimonManager;
 import org.javasimon.console.SimonData;
 import org.javasimon.console.TestActionContext;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
- * Unit test for {@link TableJsonAction}
+ * Unit test for {@link TableJsonAction}.
  *
  * @author gquintana
  */
 public class TableJsonActionTest {
+
 	@BeforeClass
 	public static void setUpClass() {
 		SimonData.initialize();
@@ -35,8 +35,8 @@ public class TableJsonActionTest {
 		action.execute();
 		assertEquals(context.getContentType(), "application/json");
 		String json = context.toString();
-		assertTrue(json.contains("{\"name\":\"A\",\"type\":\"STOPWATCH\",\"counter\":3,\"total\":600,\"min\":100,\"mean\":200,\"last\":300,\"max\":300,\"standardDeviation\":82"));
-		assertTrue(json.contains("{\"name\":\"B\",\"type\":\"STOPWATCH\",\"counter\":2,\"total\":300,\"min\":100,\"mean\":150,\"last\":100,\"max\":200,\"standardDeviation\":50"));
+		assertTrue(json.contains("{\"name\":\"A\",\"type\":\"STOPWATCH\",\"counter\":3,\"total\":600,\"min\":100,\"mean\":200,\"last\":300,\"max\":300,\"standardDeviation\":100"));
+		assertTrue(json.contains("{\"name\":\"B\",\"type\":\"STOPWATCH\",\"counter\":2,\"total\":300,\"min\":100,\"mean\":150,\"last\":100,\"max\":200,\"standardDeviation\":71"));
 		assertTrue(json.contains("{\"name\":\"C\",\"type\":\"STOPWATCH\",\"counter\":1,\"total\":300,\"min\":300,\"mean\":300,\"last\":300,\"max\":300,\"standardDeviation\":0"));
 		assertTrue(json.contains("{\"name\":\"X\",\"type\":\"COUNTER\",\"counter\":2,\"total\":\"\",\"min\":1,\"mean\":\"\",\"last\":\"\",\"max\":4"));
 		// Test JSON format with an external library
@@ -59,6 +59,7 @@ public class TableJsonActionTest {
 		}
 		assertTrue(names.isEmpty());
 	}
+
 	@Test
 	public void testReset() throws Exception {
 		SimonManager.getSimon("B").reset();
@@ -67,6 +68,6 @@ public class TableJsonActionTest {
 		action.readParameters();
 		action.execute();
 		String json = context.toString();
-		assertTrue(json.contains("{\"name\":\"B\",\"type\":\"STOPWATCH\",\"counter\":0,\"total\":0,\"min\":\"\",\"mean\":0,\"last\":100,\"max\":0,\"standardDeviation\":0"));
+		assertTrue(json.contains("{\"name\":\"B\",\"type\":\"STOPWATCH\",\"counter\":0,\"total\":0,\"min\":\"\",\"mean\":0,\"last\":100,\"max\":0,\"standardDeviation\":\"\""));
 	}
 }

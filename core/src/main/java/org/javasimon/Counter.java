@@ -15,8 +15,8 @@ package org.javasimon;
  * Output is:
  * <pre>
  * counter = Simon Counter: [com.my.counter INHERIT] counter=0, max=undef, min=undef</pre>
- * <p/>
- * This behavior allows the counter to be initialized before it is used and its exteremes are
+ *
+ * This behavior allows the counter to be initialized before it is used and its extremes are
  * tracked - first initialization also sets max/min (extreme) values:
  * <pre>
  * Counter counter = SimonManager.getCounter("com.my.counter").set(47);
@@ -24,7 +24,7 @@ package org.javasimon;
  * Output is:
  * <pre>
  * counter = Simon Counter: [com.my.counter INHERIT] counter=47, max=47, min=47</pre>
- * <p/>
+ *
  * <h3>Usage</h3>
  * Typical Counter usage is based on {@link #increase()} and {@link #decrease()} methods when
  * it is possible to track the monitored value - this can be used for example to count users logged
@@ -35,6 +35,7 @@ package org.javasimon;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public interface Counter extends Simon {
+
 	/**
 	 * Increments the counter by one.
 	 *
@@ -50,7 +51,9 @@ public interface Counter extends Simon {
 	Counter decrease();
 
 	/**
-	 * Increments the counter by the specified value.
+	 * Increments the counter by the specified value. Using negative values is possible but may provide
+	 * unexpected results - this method updates only incrementSum, it is decreased when negative number is used.
+	 * Min and max are updated as expected.
 	 *
 	 * @param inc added value
 	 * @return this
@@ -58,7 +61,9 @@ public interface Counter extends Simon {
 	Counter increase(long inc);
 
 	/**
-	 * Increments the counter by the specified value.
+	 * Increments the counter by the specified value. Using negative values is possible but may provide
+	 * unexpected results - this method updates only decrementSum, it is decreased when negative number is used.
+	 * Min and max are updated as expected.
 	 *
 	 * @param dec subtracted value
 	 * @return this
@@ -73,7 +78,7 @@ public interface Counter extends Simon {
 	long getCounter();
 
 	/**
-	 * Returns minimal value of counter.
+	 * Returns minimal value of counter. Updated by {@link #decrease()}, {@link #decrease(long)} and {@link #set(long)}.
 	 *
 	 * @return maximal reached value
 	 */
@@ -87,7 +92,7 @@ public interface Counter extends Simon {
 	long getMinTimestamp();
 
 	/**
-	 * Returns maximal value of counter.
+	 * Returns maximal value of counter. Updated by {@link #increase()}, {@link #increase(long)} and {@link #set(long)}.
 	 *
 	 * @return maximal reached value
 	 */
@@ -107,9 +112,6 @@ public interface Counter extends Simon {
 	 * @return this
 	 */
 	Counter set(long val);
-
-	@Override
-	Counter reset();
 
 	/**
 	 * Returns the sum of all incremented values. If incremented value was negative, sum
@@ -131,5 +133,8 @@ public interface Counter extends Simon {
 	CounterSample sample();
 
 	@Override
+	@Deprecated
 	CounterSample sampleAndReset();
+
+	CounterSample sampleIncrement(Object key);
 }

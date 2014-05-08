@@ -1,15 +1,16 @@
 package org.javasimon.callback.timeline;
 
+import org.javasimon.Split;
+import org.javasimon.clock.ClockUtils;
+
 import java.lang.reflect.Field;
 import java.util.Calendar;
-
-import org.javasimon.Split;
-import org.javasimon.utils.SimonUtils;
 
 /**
  * @author gerald
  */
-public class TimeUtil {
+public final class TimeUtil {
+
 	public static long createTimestamp(int year, int month, int day, int hour, int minutes, int seconds) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.clear();
@@ -23,7 +24,7 @@ public class TimeUtil {
 	}
 
 	public static long millisToNano(long millis) {
-		return SimonUtils.INIT_NANOS + (millis - SimonUtils.INIT_MILLIS) * SimonUtils.NANOS_IN_MILLIS;
+		return ClockUtils.INIT_NANOS + (millis - ClockUtils.INIT_MILLIS) * ClockUtils.NANOS_IN_MILLIS;
 	}
 
 	private static void setField(Object object, String fieldName, Object fieldValue) {
@@ -47,5 +48,4 @@ public class TimeUtil {
 		setField(split, "total", total);
 		return split;
 	}
-
 }

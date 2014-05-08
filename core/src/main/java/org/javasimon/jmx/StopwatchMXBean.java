@@ -2,31 +2,24 @@ package org.javasimon.jmx;
 
 /**
  * Interface for MX Bean representing a particular {@link org.javasimon.Stopwatch}. It is not created
- * by default when JMX is activated - it must be created explicitely.
+ * by default when JMX is activated - it must be created explicitly.
  * {@link JmxRegisterCallback} can be used to automate this.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public interface StopwatchMXBean extends SimonSuperMXBean {
-	/**
-	 * Adds split time in nanoseconds to total time of the stopwatch.
-	 *
-	 * @param ns split time
-	 * @see org.javasimon.Stopwatch#addTime(long)
-	 */
-	void addTime(long ns);
 
 	/**
 	 * Returns total sum of all split times in nanoseconds.
 	 *
 	 * @return total time of the stopwatch in nanoseconds
-	 * @since 3.3
 	 * @see org.javasimon.Stopwatch#getTotal()
+	 * @since 3.3
 	 */
 	long getTotal();
 
 	/**
-	 * Returns value of the last added split - wheter it was added directly or with stop method.
+	 * Returns value of the last added split - whether it was added directly or with stop method.
 	 *
 	 * @return value of the last added split
 	 * @see org.javasimon.Stopwatch#getLast()
@@ -45,8 +38,8 @@ public interface StopwatchMXBean extends SimonSuperMXBean {
 	 * {@code stop} - that means that it's updated every time the next time split is added.
 	 *
 	 * @return count of time splits
-	 * @since 3.3
 	 * @see org.javasimon.Stopwatch#getCounter()
+	 * @since 3.3
 	 */
 	long getCounter();
 
@@ -54,8 +47,8 @@ public interface StopwatchMXBean extends SimonSuperMXBean {
 	 * Returns maximal time split value in nanoseconds.
 	 *
 	 * @return maximal time split in nanoseconds
-	 * @since 3.3
 	 * @see org.javasimon.Stopwatch#getMax()
+	 * @since 3.3
 	 */
 	long getMax();
 
@@ -63,8 +56,8 @@ public interface StopwatchMXBean extends SimonSuperMXBean {
 	 * Returns minimal time split value in nanoseconds.
 	 *
 	 * @return minimal time split in nanoseconds
-	 * @since 3.3
 	 * @see org.javasimon.Stopwatch#getMin()
+	 * @since 3.3
 	 */
 	long getMin();
 
@@ -72,8 +65,8 @@ public interface StopwatchMXBean extends SimonSuperMXBean {
 	 * Returns ms timestamp when the max value was measured.
 	 *
 	 * @return ms timestamp of the max value measurement
-	 * @since 3.3
 	 * @see org.javasimon.Stopwatch#getMaxTimestamp()
+	 * @since 3.3
 	 */
 	long getMaxTimestamp();
 
@@ -81,8 +74,8 @@ public interface StopwatchMXBean extends SimonSuperMXBean {
 	 * Returns ms timestamp when the min value was measured.
 	 *
 	 * @return ms timestamp of the min value measurement
-	 * @since 3.3
 	 * @see org.javasimon.Stopwatch#getMinTimestamp()
+	 * @since 3.3
 	 */
 	long getMinTimestamp();
 
@@ -90,8 +83,8 @@ public interface StopwatchMXBean extends SimonSuperMXBean {
 	 * Returns current number of measured splits (concurrently running).
 	 *
 	 * @return current number of active splits
-	 * @since 3.3
 	 * @see org.javasimon.Stopwatch#getActive()
+	 * @since 3.3
 	 */
 	long getActive();
 
@@ -99,17 +92,17 @@ public interface StopwatchMXBean extends SimonSuperMXBean {
 	 * Returns peek value of active concurrent splits.
 	 *
 	 * @return maximum reached value of active splits
-	 * @since 3.3
 	 * @see org.javasimon.Stopwatch#getMaxActive()
+	 * @since 3.3
 	 */
 	long getMaxActive();
 
 	/**
-	 * Retruns ms timestamp when the last peek of the active split count occured.
+	 * Returns ms timestamp when the last peek of the active split count occurred.
 	 *
 	 * @return ms timestamp of the last peek of the active split count
-	 * @since 3.3
 	 * @see org.javasimon.Stopwatch#getMaxActiveTimestamp()
+	 * @since 3.3
 	 */
 	long getMaxActiveTimestamp();
 
@@ -117,8 +110,8 @@ public interface StopwatchMXBean extends SimonSuperMXBean {
 	 * Returns mean value (average) of all measured values.
 	 *
 	 * @return mean value
-	 * @since 3.3
 	 * @see org.javasimon.Stopwatch#getMean()
+	 * @since 3.3
 	 */
 	double getMean();
 
@@ -126,8 +119,8 @@ public interface StopwatchMXBean extends SimonSuperMXBean {
 	 * Returns standard deviation for all measured values.
 	 *
 	 * @return standard deviation
-	 * @since 3.3
 	 * @see org.javasimon.Stopwatch#getStandardDeviation()
+	 * @since 3.3
 	 */
 	double getStandardDeviation();
 
@@ -135,8 +128,8 @@ public interface StopwatchMXBean extends SimonSuperMXBean {
 	 * Returns unbiased estimate of the population variance.
 	 *
 	 * @return unbiased estimated variance
-	 * @since 3.3
 	 * @see org.javasimon.Stopwatch#getVariance()
+	 * @since 3.3
 	 */
 	double getVariance();
 
@@ -144,8 +137,8 @@ public interface StopwatchMXBean extends SimonSuperMXBean {
 	 * Returns variance value of all measured values (entire population).
 	 *
 	 * @return entire population variance
-	 * @since 3.3
 	 * @see org.javasimon.Stopwatch#getVarianceN()
+	 * @since 3.3
 	 */
 	double getVarianceN();
 
@@ -153,5 +146,9 @@ public interface StopwatchMXBean extends SimonSuperMXBean {
 	StopwatchSample sample();
 
 	@Override
+	@Deprecated
 	StopwatchSample sampleAndReset();
+
+	@Override
+	StopwatchSample sampleIncrement(String key);
 }

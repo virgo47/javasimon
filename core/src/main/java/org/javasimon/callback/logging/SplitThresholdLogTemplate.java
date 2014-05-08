@@ -4,30 +4,31 @@ import org.javasimon.Split;
 
 /**
  * Log template which awakes only when split is longer than given threshold.
+ *
  * @author gquintana
  */
 public class SplitThresholdLogTemplate extends DelegateLogTemplate<Split> {
-	/**
-	 * Split duration theshold
-	 */
+
+	/** Split duration theshold. */
 	private final long threshold;
+
 	/**
-	 * Constructor
+	 * Constructor.
+	 *
 	 * @param delegate Concreate log template
 	 * @param threshold Theshold
 	 */
-	public SplitThresholdLogTemplate(LogTemplate delegate, long threshold) {
+	public SplitThresholdLogTemplate(LogTemplate<Split> delegate, long threshold) {
 		super(delegate);
 		this.threshold = threshold;
 	}
-	
+
 	@Override
-	public boolean isEnabled(Split split) {
-		return split.runningFor()>threshold&&super.isEnabled(split);
+	protected boolean isEnabled(Split split) {
+		return split.runningFor() > threshold && super.isEnabled(split);
 	}
 
-	public long getThreshold() {
+	protected long getThreshold() {
 		return threshold;
 	}
-	
 }

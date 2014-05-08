@@ -1,10 +1,10 @@
 package org.javasimon.javaee;
 
+import java.lang.reflect.Method;
+import javax.interceptor.InvocationContext;
+
 import org.javasimon.Manager;
 import org.javasimon.source.AbstractMethodStopwatchSource;
-
-import javax.interceptor.InvocationContext;
-import java.lang.reflect.Method;
 
 /**
  * Provide stopwatch source for EJB and CDI invocation context.

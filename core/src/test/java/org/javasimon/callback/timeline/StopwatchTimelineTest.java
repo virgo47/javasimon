@@ -1,16 +1,24 @@
 package org.javasimon.callback.timeline;
 
+import org.javasimon.EnabledManager;
+import org.javasimon.Manager;
+import org.javasimon.SimonUnitTest;
+import org.javasimon.Stopwatch;
+
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import static org.javasimon.callback.timeline.TimeUtil.*;
-import static org.testng.Assert.*;
+import static org.javasimon.callback.timeline.TimeUtil.createSplit;
+import static org.javasimon.callback.timeline.TimeUtil.createTimestamp;
+import static org.testng.Assert.assertEquals;
 
 /**
  * Unit test for {@link StopwatchTimeline} and {@link Timeline}
  *
  * @author gerald
  */
-public class StopwatchTimelineTest {
+public class StopwatchTimelineTest extends SimonUnitTest {
+
 	@Test
 	public void testAddSplit() {
 		// 10 ranges of 5 minutes
@@ -34,12 +42,23 @@ public class StopwatchTimelineTest {
 		timeline.addSplit(createSplit(createTimestamp(2012, 7, 12, 21, 54, 22), 250));
 		// Date is ready, let's check the result
 		StopwatchTimeRange[] timeRanges = timeline.sample().getTimeRanges();
-		for(StopwatchTimeRange timeRange:timeRanges) {
+		for (StopwatchTimeRange timeRange : timeRanges) {
 			System.out.println(timeRange.toString());
 		}
 		assertEquals(timeRanges.length, 3);
 		assertEquals(timeRanges[0].getCounter(), 5);
 		assertEquals(timeRanges[1].getCounter(), 2);
 		assertEquals(timeRanges[2].getCounter(), 3);
+	}
+
+	@Test
+	public void issue113() {
+		Manager manager = new EnabledManager();
+		Stopwatch before = manager.getStopwatch("before");
+		manager.callback().addCallback(new TimelineCallback());
+		Stopwatch after = manager.getStopwatch("after");
+		Assert.assertNotNull(after.getAttribute(TimelineCallback.TIMELINE_ATTRIBUTE_NAME));
+		Assert.assertNull(before.getAttribute(TimelineCallback.TIMELINE_ATTRIBUTE_NAME));
+		before.start().stop(); // caused NPE before the fix
 	}
 }

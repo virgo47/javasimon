@@ -1,6 +1,7 @@
 package org.javasimon;
 
 import org.javasimon.callback.CompositeCallback;
+import org.javasimon.clock.Clock;
 
 import java.util.Collection;
 
@@ -19,15 +20,12 @@ import java.util.Collection;
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
-public interface Manager {
-	/**
-	 * Name of the root Simon.
-	 */
+public interface Manager extends Clock {
+
+	/** Name of the root Simon. */
 	String ROOT_SIMON_NAME = "";
 
-	/**
-	 * Hierarchy delimiter in Simon name.
-	 */
+	/** Hierarchy delimiter in Simon name. */
 	String HIERARCHY_DELIMITER = ".";
 
 	/**
@@ -74,16 +72,16 @@ public interface Manager {
 	Collection<String> getSimonNames();
 
 	/**
-	 * Returns collection containing all existing Simons matching the pattern (can be {@code null}).
-	 * Collection is unmodifiable if {@code null} pattern is provided and all Simons are returned,
-	 * otherwise new collection with matching Simons is returned.
+	 * Returns collection containing all existing Simons accepted by specified {@link SimonFilter}.
+	 * If {@code null} filter is provided all Simons are returned in an unmodifiable Collection.
+	 * Otherwise new collection with matching Simons is returned.
 	 *
-	 * @param pattern Simon name pattern (see {@link SimonPattern}
-	 * @return collection of all Simons matching the pattern
+	 * @param simonFilter filter accepting the Simons to result collection
+	 * @return collection of all Simons which pass the filter
 	 * @see SimonPattern to find out more about possible patterns
 	 * @since 3.2
 	 */
-	Collection<Simon> getSimons(SimonPattern pattern);
+	Collection<Simon> getSimons(SimonFilter simonFilter);
 
 	/**
 	 * Removes Simon from the Manager. If Simon has some children it will be replaced

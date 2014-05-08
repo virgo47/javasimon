@@ -1,12 +1,13 @@
 package org.javasimon.console.action;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import org.javasimon.Sample;
 import org.javasimon.console.ActionContext;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+
 /**
- * Export Simons as a flat CSV table
+ * Export Simons as a flat CSV table.
  *
  * @author gquintana
  */
@@ -16,14 +17,13 @@ public class TableCsvAction extends AbstractTableAction {
 
 	/**
 	 * Column separator (defaults to comma).
-	 * Excel uses semicolon (hence they should have called this format SCSV ;-) )
 	 */
-	private String columnSeparator=",";
+	private static final String columnSeparator = ",";
 
 	/**
 	 * Row separator (defaults to CRLF).
 	 */
-	private String rowSeparator="\r\n";
+	private static final String rowSeparator = "\r\n";
 
 	public TableCsvAction(ActionContext context) {
 		super(context, "text/csv");

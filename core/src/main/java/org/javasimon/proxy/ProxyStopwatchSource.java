@@ -12,9 +12,8 @@ import java.lang.reflect.Method;
  * @author gquintana
  */
 public class ProxyStopwatchSource<T> extends AbstractMethodStopwatchSource<DelegatingMethodInvocation<T>> {
-	/**
-	 * Prefix used for simon name
-	 */
+
+	/** Prefix used for simon name. */
 	private String prefix = "org.javasimon.proxy";
 
 	public ProxyStopwatchSource() {

@@ -7,7 +7,9 @@ import org.javasimon.StopwatchSample;
 import org.javasimon.callback.CallbackSkeleton;
 import org.javasimon.callback.logging.LogTemplate;
 
-import static org.javasimon.callback.logging.LogTemplates.*;
+import static org.javasimon.callback.logging.LogTemplates.disabled;
+import static org.javasimon.callback.logging.LogTemplates.everyNSplits;
+import static org.javasimon.callback.logging.LogTemplates.toSLF4J;
 
 /**
  * Callback retaining the last N stopwatch splits.
@@ -85,6 +87,13 @@ public class LastSplitsCallback extends CallbackSkeleton {
 	@Override
 	public void onStopwatchStop(Split split, StopwatchSample sample) {
 		LastSplits lastSplits = getLastSplits(split.getStopwatch());
+		lastSplits.add(split);
+		lastSplits.log(split);
+	}
+
+	@Override
+	public void onStopwatchAdd(Stopwatch stopwatch, Split split, StopwatchSample sample) {
+		LastSplits lastSplits = getLastSplits(stopwatch);
 		lastSplits.add(split);
 		lastSplits.log(split);
 	}

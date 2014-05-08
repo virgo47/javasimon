@@ -2,12 +2,17 @@ package org.javasimon.console;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
+
 import org.javasimon.console.action.DetailJsonAction;
 import org.javasimon.console.action.ResourceAction;
 import org.javasimon.console.action.TableJsonAction;
 import org.javasimon.console.action.TreeJsonAction;
-import static org.testng.Assert.*;
+
 import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 /**
  * Unit test for {@link SimonConsoleRequestProcessor}.
  * @author gquintana

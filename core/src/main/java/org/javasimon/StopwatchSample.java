@@ -3,13 +3,14 @@ package org.javasimon;
 import org.javasimon.utils.SimonUtils;
 
 /**
- * Object holds all relevant data from Stopwatch Simon. Whenever it is important to get more values
- * in a synchronous manner, {@link org.javasimon.Stopwatch#sample()} (or {@link Stopwatch#sampleAndReset()}
+ * Object holds all relevant data from {@link Stopwatch} Simon. Whenever it is important to get more values
+ * in a synchronous manner, {@link org.javasimon.Stopwatch#sample()} (or {@link Stopwatch#sampleIncrement(Object)}
  * should be used to obtain this Java Bean object.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public class StopwatchSample extends Sample {
+
 	private long total;
 	private long counter;
 	private long min;
@@ -171,7 +172,7 @@ public class StopwatchSample extends Sample {
 	}
 
 	/**
-	 * Returns ms timestamp when the last peek of the active split count occured.
+	 * Returns ms timestamp when the last peek of the active split count occurred.
 	 *
 	 * @return ms timestamp of the last peek of the active split count
 	 */
@@ -180,7 +181,7 @@ public class StopwatchSample extends Sample {
 	}
 
 	/**
-	 * Sets the ms timestamp when the last peek of the active split count occured.
+	 * Sets the ms timestamp when the last peek of the active split count occurred.
 	 *
 	 * @param maxActiveTimestamp ms timestamp of the last peek of the active split count
 	 */
@@ -225,18 +226,18 @@ public class StopwatchSample extends Sample {
 	}
 
 	/**
-	 * Returns standard deviation for all measured values.
+	 * Returns unbiased estimate of standard deviation.
 	 *
-	 * @return standard deviation
+	 * @return unbiased estimate of standard deviation
 	 */
 	public final double getStandardDeviation() {
 		return standardDeviation;
 	}
 
 	/**
-	 * Sets the standard deviation for all measured values.
+	 * Sets unbiased estimate of standard deviation.
 	 *
-	 * @param standardDeviation standard deviation
+	 * @param standardDeviation unbiased estimate of standard deviation
 	 */
 	public final void setStandardDeviation(double standardDeviation) {
 		this.standardDeviation = standardDeviation;
@@ -286,14 +287,16 @@ public class StopwatchSample extends Sample {
 	@Override
 	public String toString() {
 		final StringBuilder sb = new StringBuilder();
-		sb.append("StopwatchSample");
-		sb.append("{name=").append(getName());
-		sb.append(", total=").append(SimonUtils.presentNanoTime(total));
+		sb.append("StopwatchSample{");
+		if (getName() != null) {
+			sb.append("name=").append(getName()).append(", ");
+		}
+		sb.append("total=").append(SimonUtils.presentNanoTime(total));
 		sb.append(", counter=").append(counter);
-		sb.append(", min=").append(SimonUtils.presentMinMaxSplit(min));
-		sb.append(", max=").append(SimonUtils.presentMinMaxSplit(max));
-		sb.append(", minTimestamp=").append(SimonUtils.presentTimestamp(minTimestamp));
+		sb.append(", max=").append(SimonUtils.presentNanoTime(max));
+		sb.append(", min=").append(SimonUtils.presentNanoTime(min));
 		sb.append(", maxTimestamp=").append(SimonUtils.presentTimestamp(maxTimestamp));
+		sb.append(", minTimestamp=").append(SimonUtils.presentTimestamp(minTimestamp));
 		sb.append(", active=").append(active);
 		sb.append(", maxActive=").append(maxActive);
 		sb.append(", maxActiveTimestamp=").append(SimonUtils.presentTimestamp(maxActiveTimestamp));
@@ -302,19 +305,17 @@ public class StopwatchSample extends Sample {
 		sb.append(", standardDeviation=").append(SimonUtils.presentNanoTime((long) getStandardDeviation()));
 		sb.append(", variance=").append(getVariance());
 		sb.append(", varianceN=").append(getVarianceN());
-		finishWithUsagesAndNote(sb);
+		toStringCommon(sb);
 		return sb.toString();
 	}
 
-	/**
-	 * Equivalent to {@link org.javasimon.StopwatchImpl#toString()} without state.
-	 */
-	public String stopwatchToString() {
+	/** Equivalent to {@link org.javasimon.StopwatchImpl#toString()} without state. */
+	public String simonToString() {
 		return "Simon Stopwatch: total " + SimonUtils.presentNanoTime(total) +
 			", counter " + counter +
 			", max " + SimonUtils.presentNanoTime(max) +
 			", min " + SimonUtils.presentNanoTime(min) +
 			", mean " + SimonUtils.presentNanoTime((long) mean) +
-			simonToString();
+			simonToStringCommon();
 	}
 }

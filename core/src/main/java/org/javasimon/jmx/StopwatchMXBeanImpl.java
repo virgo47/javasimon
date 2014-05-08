@@ -1,7 +1,7 @@
 package org.javasimon.jmx;
 
-import org.javasimon.Stopwatch;
 import org.javasimon.Simon;
+import org.javasimon.Stopwatch;
 import org.javasimon.utils.SimonUtils;
 
 /**
@@ -14,9 +14,8 @@ import org.javasimon.utils.SimonUtils;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public class StopwatchMXBeanImpl extends AbstractSimonMXBeanImpl implements StopwatchMXBean {
-	/**
-	 * Wrapped {@link Stopwatch} instance - protected for subclasses.
-	 */
+
+	/** Wrapped {@link Stopwatch} instance - protected for subclasses. */
 	protected Stopwatch stopwatch;
 
 	/**
@@ -26,11 +25,6 @@ public class StopwatchMXBeanImpl extends AbstractSimonMXBeanImpl implements Stop
 	 */
 	public StopwatchMXBeanImpl(Stopwatch stopwatch) {
 		this.stopwatch = stopwatch;
-	}
-
-	@Override
-	public final void addTime(long ns) {
-		stopwatch.addTime(ns);
 	}
 
 	@Override
@@ -119,8 +113,18 @@ public class StopwatchMXBeanImpl extends AbstractSimonMXBeanImpl implements Stop
 	}
 
 	@Override
+	public StopwatchSample sampleIncrement(String key) {
+		return new StopwatchSample(stopwatch.sampleIncrement(key));
+	}
+
+	@Override
 	public final String getType() {
 		return SimonInfo.STOPWATCH;
+	}
+
+	@Override
+	public boolean stopIncrementalSampling(String key) {
+		return stopwatch.stopIncrementalSampling(key);
 	}
 
 	@Override

@@ -1,7 +1,12 @@
 package org.javasimon.console.text;
 
-import java.text.*;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import org.javasimon.SimonState;
 import org.javasimon.console.SimonType;
 import org.javasimon.console.TimeFormatType;
@@ -17,39 +22,35 @@ import org.javasimon.utils.SimonUtils;
  * @author gquintana
  */
 public class StringifierFactory {
-	/**
-	 * Value used to identify Date (=timestamp) sub type.
-	 */
+
+	/** Value used to identify Date (=timestamp) sub type. */
 	public static final String DATE_SUBTYPE = "Date";
-	/**
-	 * Value used to identify Time (=duration) sub type.
-	 */
+
+	/** Value used to identify Time (=duration) sub type. */
 	public static final String TIME_SUBTYPE = "Time";
+
 	/**
-	 * Value used to identify None (=disabled=hidden) sub type.
+	 * Value used to identify None (=disabled=hidden) sub type
+	 *
 	 * @see NoneStringifier
 	 */
 	public static final String NONE_SUBTYPE = "None";
-	/**
-	 * Default number pattern of Integers and Longs
-	 */
-	public static final String INTEGER_NUMBER_PATTERN="0";
-	/**
-	 * Default number pattern of Doubles and Floats
-	 */
-	public static final String READABLE_NUMBER_PATTERN="0.000";
-	/**
-	 * Date+Time pattern used aimed human reading
-	 */
-	public static final String READABLE_DATE_PATTERN="yyyy-MM-dd HH:mm:ss";
-	/**
-	 * Date+Time pattern used aimed XML parsers (ISO)
-	 */
-	public static final String ISO_DATE_PATTERN="yyyy-MM-dd'T'HH:mm:ss";
-	/**
-	 * Stringifier dictionnary
-	 */
-	protected final  CompositeStringifier compositeStringifier = new CompositeStringifier();
+
+	/** Default number pattern of Integers and Longs. */
+	public static final String INTEGER_NUMBER_PATTERN = "0";
+
+	/** Default number pattern of Doubles and Floats. */
+	public static final String READABLE_NUMBER_PATTERN = "0.000";
+
+	/** Date+Time pattern used aimed human reading. */
+	public static final String READABLE_DATE_PATTERN = "yyyy-MM-dd HH:mm:ss";
+
+	/** Date+Time pattern used aimed XML parsers (ISO). */
+	public static final String ISO_DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss";
+
+	/** Stringifier dictionary. */
+	protected final CompositeStringifier compositeStringifier = new CompositeStringifier();
+
 	/**
 	 * Register a stringifier for null values.
 	 * Method aimed at being overridden. Should call {@link #registerNullStringifier(java.lang.String) }.
@@ -57,9 +58,8 @@ public class StringifierFactory {
 	protected Stringifier registerNullStringifier() {
 		return registerNullStringifier("");
 	}
-	/**
-	 * Register a stringifier for null values.
-	 */
+
+	/** Register a stringifier for null values. */
 	protected final Stringifier registerNullStringifier(final String nullValue) {
 		Stringifier nullStringifier = new Stringifier() {
 			public String toString(Object object) {
@@ -69,12 +69,13 @@ public class StringifierFactory {
 		compositeStringifier.setNullStringifier(nullStringifier);
 		return nullStringifier;
 	}
+
 	/**
 	 * Register a stringifier for String values.
 	 * Method aimed at being overridden.
 	 */
 	protected Stringifier<String> registerStringStringifier(Stringifier nullStringifier) {
-		Stringifier<String> stringStringifier=new BaseStringifier<String>(nullStringifier) {
+		Stringifier<String> stringStringifier = new BaseStringifier<String>(nullStringifier) {
 			@Override
 			protected String doToString(String s) {
 				return s;
@@ -83,14 +84,14 @@ public class StringifierFactory {
 		compositeStringifier.add(String.class, stringStringifier);
 		return stringStringifier;
 	}
-	/**
-	 * Register a stringifier for Long and long  values.
-	 */
+
+	/** Register a stringifier for Long and long values. */
 	protected final Stringifier<Long> registerLongStringifier(String name, Stringifier<Long> longStringifier) {
 		compositeStringifier.add(Long.class, name, longStringifier);
 		compositeStringifier.add(Long.TYPE, name, longStringifier);
 		return longStringifier;
 	}
+
 	/**
 	 * Register a stringifier for Double and double values.
 	 */
@@ -99,13 +100,14 @@ public class StringifierFactory {
 		compositeStringifier.add(Double.TYPE, name, doubleStringifier);
 		return doubleStringifier;
 	}
+
 	/**
 	 * Register a stringifier for various types and subtypes
 	 * Method aimed at being overridden.
 	 */
 	public void init(TimeFormatType timeFormat, String datePattern, String numberPattern) {
 		// Null
-		final Stringifier nullStringifier=registerNullStringifier();
+		final Stringifier nullStringifier = registerNullStringifier();
 
 		// Default
 		compositeStringifier.setDefaultStringifier(new BaseStringifier(nullStringifier));
@@ -191,48 +193,46 @@ public class StringifierFactory {
 			}
 		};
 		compositeStringifier.add(Boolean.class, booleanStringifier);
-		compositeStringifier.add(Boolean.TYPE,  booleanStringifier);
+		compositeStringifier.add(Boolean.TYPE, booleanStringifier);
 	}
 
-	/**
-	 * Stringifier implementation for {@link Date} type.
-	 */
+	/** Stringifier implementation for {@link Date} type. */
 	protected static class DateStringifier extends BaseStringifier<Date> {
 		private final DateFormat dateFormat;
 		private final Stringifier<String> stringStringifier;
+
 		public DateStringifier(Stringifier nullStringifier, Stringifier<String> stringStringifier, String datePattern) {
 			super(nullStringifier);
 			this.dateFormat = new SimpleDateFormat(datePattern);
 			this.stringStringifier = stringStringifier;
 		}
+
 		@Override
 		protected String doToString(Date d) {
 			return stringStringifier.toString(dateFormat.format(d));
 		}
 	}
 
-	/**
-	 * Stringifier implementation for {@link Number} type.
-	 */
+	/** Stringifier implementation for {@link Number} type. */
 	protected static class NumberStringifier<T extends Number> extends BaseStringifier<T> {
 		private final NumberFormat numberFormat;
+
 		public NumberStringifier(Stringifier nullStringifier, String numberPattern) {
 			super(nullStringifier);
 			DecimalFormat decimalFormat = new DecimalFormat(numberPattern);
-			DecimalFormatSymbols decimalFormatSymbols=decimalFormat.getDecimalFormatSymbols();
+			DecimalFormatSymbols decimalFormatSymbols = decimalFormat.getDecimalFormatSymbols();
 			decimalFormatSymbols.setDecimalSeparator('.');
 			decimalFormat.setDecimalFormatSymbols(decimalFormatSymbols);
-			this.numberFormat=decimalFormat;
+			this.numberFormat = decimalFormat;
 		}
+
 		@Override
 		protected String doToString(T n) {
 			return numberFormat.format(n.doubleValue());
 		}
 	}
 
-	/**
-	 * Stringifier implementation for {@link Long} type reprensenting a timestamp.
-	 */
+	/** Stringifier implementation for {@link Long} type representing a timestamp. */
 	protected static class LongDateStringifier extends BaseStringifier<Long> {
 
 		private final Stringifier<Date> dateStringifier;
@@ -253,9 +253,7 @@ public class StringifierFactory {
 		}
 	}
 
-	/**
-	 * Stringifier implementation for {@link Long} type reprensenting a duration.
-	 */
+	/** Stringifier implementation for {@link Long} type representing a duration. */
 	protected static class LongTimeStringifier extends BaseStringifier<Long> {
 
 		private final TimeFormatType timeFormatType;
@@ -285,9 +283,7 @@ public class StringifierFactory {
 		}
 	}
 
-	/**
-	 * Stringifier implementation for {@link Double} type reprensenting a duration.
-	 */
+	/** Stringifier implementation for {@link Double} type representing a duration. */
 	protected static class DoubleTimeStringifier extends BaseStringifier<Double> {
 
 		private final TimeFormatType timeFormatType;
@@ -317,38 +313,28 @@ public class StringifierFactory {
 		}
 	}
 
-	/**
-	 * Get the stringifier for null values.
-	 */
+	/** Get the stringifier for null values. */
 	@SuppressWarnings("unchecked")
 	public <T> Stringifier<T> getNullStringifier() {
 		return compositeStringifier.getNullStringifier();
 	}
 
-	/**
-	 * Get the stringifier for given type.
-	 */
+	/** Get the stringifier for given type. */
 	public <T> Stringifier<T> getStringifier(Class<? extends T> type) {
 		return compositeStringifier.getForType(type);
 	}
 
-	/**
-	 * Get the stringifier for given type and sub type.
-	 */
+	/** Get the stringifier for given type and sub type. */
 	public <T> Stringifier<T> getStringifier(Class<? extends T> type, String subType) {
 		return compositeStringifier.getForType(type, subType);
 	}
 
-	/**
-	 * Get the stringifier for given instance and use it to format value.
-	 */
+	/** Get the stringifier for given instance and use it to format value. */
 	public <T> String toString(T value) {
 		return compositeStringifier.toString(value);
 	}
 
-	/**
-	 * Get the stringifier for given instance and subtype and use it to format value.
-	 */
+	/** Get the stringifier for given instance and subtype and use it to format value. */
 	public <T> String toString(T value, String subType) {
 		return compositeStringifier.toString(value, subType);
 	}

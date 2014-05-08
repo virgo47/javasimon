@@ -1,18 +1,17 @@
 package org.javasimon.callback.quantiles;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.javasimon.Simon;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
+import org.javasimon.clock.ClockUtils;
 
-import org.javasimon.utils.SimonUtils;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Callback which stores data in buckets to compute quantiles.
  * Quantiles can only be obtained after warmup period, after which buckets are
- * initialized. 
+ * initialized.
  * For each Simon the following lifecycle occurs:<ol>
  * <li><em>Warm up</em>:<ul>
  * <li>Buckets do not exist</li>
@@ -32,14 +31,13 @@ import org.javasimon.utils.SimonUtils;
  * </li></ol>
  *
  * @author gquintana
- * @since 3.2
  * @see Buckets
+ * @since 3.2
  */
+@SuppressWarnings("UnusedDeclaration")
 public class AutoQuantilesCallback extends QuantilesCallback {
 
-	/**
-	 * Simon attribute name of the list of split values stored in Simons before warmup time.
-	 */
+	/** Simon attribute name of the list of split values stored in Simons before warmup time. */
 	public static final String ATTR_NAME_BUCKETS_VALUES = "bucketsValues";
 
 	/**
@@ -48,42 +46,35 @@ public class AutoQuantilesCallback extends QuantilesCallback {
 	 */
 	private final long warmupCounter;
 
-	/**
-	 * Number of buckets of data for each Simon.
-	 */
+	/** Number of buckets of data for each Simon. */
 	private final int bucketNb;
 
-	/**
-	 * Default constructor.
-	 */
+	/** Default constructor. */
 	public AutoQuantilesCallback() {
 		this.warmupCounter = 10;
 		this.bucketNb = 8;
 	}
 
-	/**
-	 * Constructor with warmup counter and number of linear buckets for each Simon.
-	 */
+	/** Constructor with warmup counter and number of linear buckets for each Simon. */
 	public AutoQuantilesCallback(long warmupCounter, int bucketNb) {
 		this.warmupCounter = warmupCounter;
 		this.bucketNb = bucketNb;
 	}
 
-    /**
-     * Constructor with all configuration
-     * @param bucketsType Linear or exponential
-     * @param warmupCounter Number of splits before init
-     * @param bucketNb Bucket number
-     */
-    public AutoQuantilesCallback(BucketsType bucketsType, long warmupCounter, int bucketNb) {
-        super(bucketsType);
-        this.warmupCounter = warmupCounter;
-        this.bucketNb = bucketNb;
-    }
-
-    /**
-	 * Get the bucket values attribute or create it if it does not exist.
+	/**
+	 * Constructor with all configuration.
+	 *
+	 * @param bucketsType Linear or exponential
+	 * @param warmupCounter Number of splits before init
+	 * @param bucketNb Bucket number
 	 */
+	public AutoQuantilesCallback(BucketsType bucketsType, long warmupCounter, int bucketNb) {
+		super(bucketsType);
+		this.warmupCounter = warmupCounter;
+		this.bucketNb = bucketNb;
+	}
+
+	/** Get the bucket values attribute or create it if it does not exist. */
 	@SuppressWarnings("SynchronizationOnLocalVariableOrMethodParameter")
 	private List<Long> getOrCreateBucketsValues(final Stopwatch stopwatch) {
 		synchronized (stopwatch) {
@@ -96,18 +87,13 @@ public class AutoQuantilesCallback extends QuantilesCallback {
 		}
 	}
 
-	/**
-	 * Get the bucket values attribute.
-	 */
+	/** Get the bucket values attribute. */
 	@SuppressWarnings("unchecked")
 	private List<Long> getBucketsValues(final Stopwatch stopwatch) {
 		return (List<Long>) stopwatch.getAttribute(ATTR_NAME_BUCKETS_VALUES);
 	}
 
-
-	/**
-	 * Remove the bucket values attribute (after warmup).
-	 */
+	/** Remove the bucket values attribute (after warmup). */
 	private void removeBucketsValues(final Stopwatch stopwatch) {
 		stopwatch.removeAttribute(ATTR_NAME_BUCKETS_VALUES);
 	}
@@ -127,16 +113,14 @@ public class AutoQuantilesCallback extends QuantilesCallback {
 		// Compute min
 		long min = stopwatch.getMin() * 90L / 100L; // min -10%
 		min = Math.max(0, min); // no negative mins
-		min = (min / SimonUtils.NANOS_IN_MILLIS) * SimonUtils.NANOS_IN_MILLIS; // round to lower millisecond
+		min = (min / ClockUtils.NANOS_IN_MILLIS) * ClockUtils.NANOS_IN_MILLIS; // round to lower millisecond
 		// Compute max
 		long max = (stopwatch.getMax() * 110L) / 100L; // max +10%
-		max = (max / SimonUtils.NANOS_IN_MILLIS + 1) * SimonUtils.NANOS_IN_MILLIS; // round to upper millisecond
+		max = (max / ClockUtils.NANOS_IN_MILLIS + 1) * ClockUtils.NANOS_IN_MILLIS; // round to upper millisecond
 		return createBuckets(stopwatch, min, max, bucketNb);
 	}
-	/**
-	 * When warmup ends, buckets are create and retained splits are
-	 * sorted in the buckets.
-	 */
+
+	/** When warmup ends, buckets are create and retained splits are sorted in the buckets. */
 	protected final Buckets createBuckets(Stopwatch stopwatch) {
 		if (stopwatch.getCounter() > warmupCounter) {
 			Buckets buckets = createBucketsAfterWarmup(stopwatch);
@@ -149,9 +133,7 @@ public class AutoQuantilesCallback extends QuantilesCallback {
 		}
 	}
 
-	/**
-	 * When simon is created, the list containing Split values is added to stopwatch attributes.
-	 */
+	/** When simon is created, the list containing Split values is added to stopwatch attributes. */
 	@Override
 	public void onSimonCreated(Simon simon) {
 		if (simon instanceof Stopwatch) {
@@ -180,28 +162,9 @@ public class AutoQuantilesCallback extends QuantilesCallback {
 		}
 	}
 
-	/**
-	 * Called when there is a new split on a Stopwatch, either
-	 * {@link #onStopwatchStop} or {@link #onStopwatchAdd}.
-	 * If buckets have been initialized, the value is added to appropriate bucket.
-	 * Else if stopwatch is warming up value is added to value list.
-	 */
+	/** When the Stopwatch is reset, so are the buckets. */
 	@Override
-	protected void onStopwatchSplit(Stopwatch stopwatch, long value) {
-		Buckets buckets = getOrCreateBuckets(stopwatch);
-		if (buckets == null) {
-			// Warming up
-			getOrCreateBucketsValues(stopwatch).add(value);
-		} else {
-			// Warm
-			buckets.addValue(value);
-		}
-	}
-	
-	/**
-	 * When the Stopwatch is reset, so are the buckets.
-	 */
-	@Override
+	@Deprecated
 	public void onSimonReset(Simon simon) {
 		if (simon instanceof Stopwatch) {
 			Stopwatch stopwatch = (Stopwatch) simon;

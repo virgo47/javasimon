@@ -13,14 +13,11 @@ import org.slf4j.MarkerFactory;
  */
 @SuppressWarnings("UnusedDeclaration")
 public abstract class SLF4JLogTemplate<C> extends LogTemplate<C> {
-	/**
-	 * Logger
-	 */
+
+	/** Logger. */
 	protected final Logger logger;
 
-	/**
-	 * Marker, can be null
-	 */
+	/** Marker, can be null. */
 	protected final Marker marker;
 
 	/**
@@ -63,9 +60,7 @@ public abstract class SLF4JLogTemplate<C> extends LogTemplate<C> {
 		return marker;
 	}
 
-	/**
-	 * SLF4J Log template with DEBUG level.
-	 */
+	/** SLF4J Log template with DEBUG level. */
 	public static class Debug<C> extends SLF4JLogTemplate<C> {
 		public Debug(String loggerName, String markerName) {
 			super(loggerName, markerName);
@@ -75,26 +70,18 @@ public abstract class SLF4JLogTemplate<C> extends LogTemplate<C> {
 			super(logger, marker);
 		}
 
-		/**
-		 * {@inheritDoc }
-		 */
 		@Override
 		protected boolean isEnabled(C context) {
 			return logger.isDebugEnabled(marker);
 		}
 
-		/**
-		 * {@inheritDoc }
-		 */
 		@Override
 		protected void log(String message) {
 			logger.debug(marker, message);
 		}
 	}
 
-	/**
-	 * SLF4J Log template with INFO level.
-	 */
+	/** SLF4J Log template with INFO level. */
 	public static class Info<C> extends SLF4JLogTemplate<C> {
 		public Info(String loggerName, String markerName) {
 			super(loggerName, markerName);
@@ -104,26 +91,18 @@ public abstract class SLF4JLogTemplate<C> extends LogTemplate<C> {
 			super(logger, marker);
 		}
 
-		/**
-		 * {@inheritDoc }
-		 */
 		@Override
 		protected boolean isEnabled(C context) {
 			return logger.isInfoEnabled(marker);
 		}
 
-		/**
-		 * {@inheritDoc }
-		 */
 		@Override
 		protected void log(String message) {
 			logger.info(marker, message);
 		}
 	}
 
-	/**
-	 * SLF4J Log template with WARN level.
-	 */
+	/** SLF4J Log template with WARN level. */
 	public static class Warn<C> extends SLF4JLogTemplate<C> {
 		public Warn(String loggerName, String markerName) {
 			super(loggerName, markerName);
@@ -133,17 +112,11 @@ public abstract class SLF4JLogTemplate<C> extends LogTemplate<C> {
 			super(logger, marker);
 		}
 
-		/**
-		 * {@inheritDoc }
-		 */
 		@Override
 		protected boolean isEnabled(C context) {
 			return logger.isWarnEnabled(marker);
 		}
 
-		/**
-		 * {@inheritDoc }
-		 */
 		@Override
 		protected void log(String message) {
 			logger.warn(marker, message);

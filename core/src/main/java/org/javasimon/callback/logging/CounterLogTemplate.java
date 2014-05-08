@@ -6,17 +6,14 @@ package org.javasimon.callback.logging;
  * @author gquintana
  */
 public class CounterLogTemplate<C> extends DelegateLogTemplate<C> {
-	/**
-	 * Counter max value corresponds to N value
-	 */
+
+	/** Counter max value corresponds to N value. */
 	private final int counterMax;
-	/**
-	 * Counter value
-	 */
+	/** Counter value. */
 	private int counter;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @param delegate Concrete log template
 	 * @param counterMax Logging period
@@ -28,7 +25,7 @@ public class CounterLogTemplate<C> extends DelegateLogTemplate<C> {
 	}
 
 	/**
-	 * Get counter max value, corresponding to logging period
+	 * Returns counter max value, corresponding to logging period.
 	 *
 	 * @return Counter max
 	 */
@@ -37,16 +34,16 @@ public class CounterLogTemplate<C> extends DelegateLogTemplate<C> {
 	}
 
 	/**
-	 * Get counter value
+	 * Returns counter value.
 	 *
-	 * @return Counter
+	 * @return counter value
 	 */
 	public int getCounter() {
 		return counter;
 	}
 
 	/**
-	 * Increment counter
+	 * Increments counter.
 	 *
 	 * @return true if counter looped and returned to 0
 	 */
@@ -56,20 +53,13 @@ public class CounterLogTemplate<C> extends DelegateLogTemplate<C> {
 		return loop;
 	}
 
-	/**
-	 * {@inheritDoc }
-	 */
 	@Override
-	public boolean isEnabled(C context) {
+	protected boolean isEnabled(C context) {
 		return super.isEnabled(context) && incrementCounter();
 	}
 
-	/**
-	 * {@inheritDoc }
-	 * Increases counter on each call, if delegate log template is enabled
-	 */
 	@Override
-	public void log(String message) {
+	protected void log(String message) {
 		super.log(message);
 	}
 }

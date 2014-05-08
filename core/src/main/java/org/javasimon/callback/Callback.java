@@ -2,6 +2,7 @@ package org.javasimon.callback;
 
 import org.javasimon.Counter;
 import org.javasimon.CounterSample;
+import org.javasimon.Manager;
 import org.javasimon.Simon;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
@@ -21,22 +22,24 @@ import java.util.Map;
  * <p/>
  * Callbacks can be configured via Manager configuration facility. (Configuration part is still rather WIP.)
  * <p/>
- * Callback can have a lifecycle supported with methods {@link #initialize()} and {@link #cleanup()}.
+ * Callback can have a lifecycle supported with methods {@link #initialize(Manager)} and {@link #cleanup()}.
  * Callback is initialized when it is attached to the manager (anywhere in the callback tree) and
  * deinitialized when the callback is removed from the callback tree.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public interface Callback {
-	/**
-	 * Lifecycle method called when the callback is added to a manager.
-	 */
-	void initialize();
+
+	/** Lifecycle method called when the callback is added to a manager. */
+	void initialize(Manager manager);
 
 	/**
 	 * Lifecycle method called when the callback is removed from the manager. It should implement
 	 * any necessary cleanup or resources - e.g. release JDBC connection if one was used for Callback
 	 * functionality.
+	 * <p/>
+	 * <b>It is important to realize that this method is not guaranteed to be called for all callbacks, only for
+	 * callbacks removed from Manager's callback tree.</b>
 	 */
 	void cleanup();
 
@@ -44,9 +47,9 @@ public interface Callback {
 	 * Stopwatch start event. <b>Duration of all callbacks is included into the split time!</b>
 	 * {@link StopwatchSample} valid for the moment after the start is provided because the callback
 	 * is executed out of synchronized block.
+	 * It is guaranteed that {@link org.javasimon.Split#getStopwatch()} will not return {@code null}.
 	 *
 	 * @param split started Split
-	 *
 	 */
 	void onStopwatchStart(Split split);
 
@@ -54,6 +57,7 @@ public interface Callback {
 	 * Stopwatch stop event. This action is executed after the split time is calculated and does not
 	 * affect the measuring. {@link StopwatchSample} valid for the moment after the stop is provided
 	 * because the callback is executed out of synchronized block.
+	 * It is guaranteed that {@link org.javasimon.Split#getStopwatch()} will not return {@code null}.
 	 *
 	 * @param split stopped Split
 	 * @param sample stopwatch sampled after the stop
@@ -64,22 +68,16 @@ public interface Callback {
 	 * Simon reset event.
 	 *
 	 * @param simon reset Simon
+	 * @deprecated will be removed in 4.0. Use {@link org.javasimon.Stopwatch#sampleIncrement(Object)} (keyed sampling) instead.
+	 * TODO change link to Simon when done
 	 */
+	@Deprecated
 	void onSimonReset(Simon simon);
-
-	/**
-	 * Stopwatch add time event. {@link StopwatchSample} valid for the moment after the add is provided
-	 * because the callback is executed out of synchronized block.
-	 *
-	 * @param stopwatch modified Stopwatch
-	 * @param ns added split time in ns
-	 * @param sample stopwatch sampled after the add
-	 */
-	void onStopwatchAdd(Stopwatch stopwatch, long ns, StopwatchSample sample);
 
 	/**
 	 * Stopwatch add split event. {@link StopwatchSample} valid for the moment after the add is provided
 	 * because the callback is executed out of synchronized block.
+	 * It is guaranteed that {@link org.javasimon.Split#getStopwatch()} will not return {@code null}.
 	 *
 	 * @param stopwatch modified Stopwatch
 	 * @param split added split object
@@ -120,6 +118,8 @@ public interface Callback {
 
 	/**
 	 * Simon created event is called when Simon is successfully created by the Manager.
+	 * <b>Runs within the block synchronized on the Manager</b> - this results in high consistency, but it also
+	 * means that <b>implementations of this method should not take much time.</b>
 	 *
 	 * @param simon created Simon
 	 */
@@ -127,6 +127,8 @@ public interface Callback {
 
 	/**
 	 * Simon destroyed event is called when Simon is successfully destroyed by the Manager.
+	 * <b>Runs within the block synchronized on the Manager</b> - this results in high consistency, but it also
+	 * means that <b>implementations of this method should not take much time.</b>
 	 *
 	 * @param simon destroyed Simon
 	 */
@@ -134,6 +136,8 @@ public interface Callback {
 
 	/**
 	 * Event called when the manager is cleared.
+	 * <b>Runs within the block synchronized on the Manager</b> - this results in high consistency, but it also
+	 * means that <b>implementations of this method should not take much time.</b>
 	 */
 	void onManagerClear();
 
@@ -153,7 +157,6 @@ public interface Callback {
 	 */
 	void onManagerWarning(String warning, Exception cause);
 
-
 	/**
 	 * Enumeration of all supported callback actions. {@link #ALL} is meta-action usable in
 	 * configurations meaning that the configuration entry applies to all actions (any action).
@@ -163,69 +166,49 @@ public interface Callback {
 	 * Event codes are used for configuration purposes instead of enum literals.
 	 */
 	enum Event {
-		/**
-		 * Meta-action designating all actions (or any action in rules).
-		 */
+		/** Meta-action designating all actions (or any action in rules). */
 		ALL("all"),
 
 		/**
 		 * Reset of the Simon.
+		 *
+		 * @deprecated Will be removed in 4.0. Use {@link org.javasimon.Stopwatch#sampleIncrement(Object)} (keyed sampling) instead.
+		 * TODO change link to Simon when done
 		 */
+		@Deprecated
 		RESET("reset"),
 
-		/**
-		 * Start of the stopwatch.
-		 */
+		/** Start of the stopwatch. */
 		STOPWATCH_START("start"),
 
-		/**
-		 * Stop of the stopwatch.
-		 */
+		/** Stop of the stopwatch. */
 		STOPWATCH_STOP("stop"),
 
-		/**
-		 * Adding value to the stopwatch.
-		 */
+		/** Adding value to the stopwatch. */
 		STOPWATCH_ADD("add"),
 
-		/**
-		 * Counter increased.
-		 */
+		/** Counter increased. */
 		COUNTER_INCREASE("increase"),
 
-		/**
-		 * Counter decreased.
-		 */
+		/** Counter decreased. */
 		COUNTER_DECREASE("decrease"),
 
-		/**
-		 * Counter set to arbitrary value.
-		 */
+		/** Counter set to arbitrary value. */
 		COUNTER_SET("set"),
 
-		/**
-		 * Creation of a Simon.
-		 */
+		/** Creation of a Simon. */
 		CREATED("created"),
 
-		/**
-		 * Removing of a Simon.
-		 */
+		/** Removing of a Simon. */
 		DESTROYED("destroyed"),
 
-		/**
-		 * Clearing of the manager.
-		 */
+		/** Clearing of the manager. */
 		MANAGER_CLEAR("clearManager"),
 
-		/**
-		 * Event producing arbitrary message.
-		 */
+		/** Event producing arbitrary message. */
 		MESSAGE("message"),
 
-		/**
-		 * Warning related to the manager.
-		 */
+		/** Warning related to the manager. */
 		WARNING("warning");
 
 		private static Map<String, Event> codeValues = new HashMap<String, Event>();

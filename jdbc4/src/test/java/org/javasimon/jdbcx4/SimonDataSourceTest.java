@@ -3,9 +3,11 @@ package org.javasimon.jdbcx4;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
+
 import org.h2.jdbcx.JdbcDataSource;
 import org.testng.annotations.Test;
-import static org.testng.Assert.*;
+
+import static org.testng.Assert.assertEquals;
 
 /**
  * Unit test for {@link SimonDataSource} and {@link AbstractSimonDataSource

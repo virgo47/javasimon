@@ -15,6 +15,7 @@ import java.util.Locale;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public final class GoogleChartImageGenerator {
+
 	private static final int FIXED_WIDTH = 100;
 	private static final int BAR_WIDTH = 80;
 	private static final int BAR_SPACING = 40;

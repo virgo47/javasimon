@@ -1,7 +1,23 @@
 package org.javasimon.console.action;
 
+import org.javasimon.Sample;
+import org.javasimon.Simon;
+import org.javasimon.console.Action;
+import org.javasimon.console.ActionContext;
+import org.javasimon.console.ActionException;
+import org.javasimon.console.SimonType;
+import org.javasimon.console.SimonTypeFactory;
+import org.javasimon.console.TimeFormatType;
+import org.javasimon.console.reflect.Getter;
+import org.javasimon.console.reflect.GetterFactory;
+import org.javasimon.console.text.Stringifier;
+import org.javasimon.console.text.StringifierFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import java.io.IOException;
 import java.util.Iterator;
+
 import javax.servlet.ServletException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -12,18 +28,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.javasimon.Sample;
-import org.javasimon.Simon;
-import org.javasimon.console.*;
-import org.javasimon.console.reflect.Getter;
-import org.javasimon.console.reflect.GetterFactory;
-import org.javasimon.console.text.Stringifier;
-import org.javasimon.console.text.StringifierFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 /**
- * Base for actions returing data in XML format
+ * Base for actions returning data in XML format.
  *
  * @author gquintana
  */
@@ -32,13 +38,10 @@ public abstract class AbstractXmlAction extends Action {
 	protected AbstractXmlAction(ActionContext context) {
 		super(context);
 	}
-	/**
-	 * Converter Object &rarr; HTML String
-	 */
+
+	/** Converter Object &rarr; HTML String. */
 	protected final StringifierFactory stringifierFactory = new StringifierFactory();
-	/**
-	 * Flag indicating  if simons should be reset during sampling
-	 */
+	/** Flag indicating if simons should be reset during sampling. */
 	protected boolean reset;
 
 	@Override
@@ -48,11 +51,11 @@ public abstract class AbstractXmlAction extends Action {
 			StringifierFactory.ISO_DATE_PATTERN,
 			StringifierFactory.READABLE_NUMBER_PATTERN
 		);
-		reset=getContext().getParameterAsBoolean("reset", Boolean.FALSE);
+		reset = getContext().getParameterAsBoolean("reset", Boolean.FALSE);
 	}
 
 	/**
-	 * Transforms a Simon into a JSON object
+	 * Transforms a Simon into a JSON object.
 	 *
 	 * @param simon Simon
 	 * @return JSON object
@@ -60,7 +63,7 @@ public abstract class AbstractXmlAction extends Action {
 	@SuppressWarnings("unchecked")
 	protected Element createElement(Document document, Simon simon) {
 		// Simon type is used as element name
-		Sample sample = reset?simon.sampleAndReset():simon.sample();
+		Sample sample = reset ? simon.sampleAndReset() : simon.sample();
 		SimonType lType = SimonTypeFactory.getValueFromInstance(sample);
 		Element element = document.createElement(lType.name().toLowerCase());
 		// Only to have the name as first attribute

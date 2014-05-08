@@ -13,6 +13,7 @@ import java.util.Collections;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public final class DisabledManager implements Manager {
+
 	/**
 	 * Returns "Null Simon" that always returns empty/null values and cannot measure anything.
 	 * Null Simon returned by this method is neither {@link Stopwatch} nor {@link Counter}.
@@ -82,21 +83,17 @@ public final class DisabledManager implements Manager {
 	}
 
 	@Override
-	public Collection<Simon> getSimons(SimonPattern pattern) {
+	public Collection<Simon> getSimons(SimonFilter simonFilter) {
 		return Collections.emptyList();
 	}
 
-	/**
-	 * Throws {@link UnsupportedOperationException}.
-	 */
+	/** Throws {@link UnsupportedOperationException}. */
 	@Override
 	public void enable() {
 		throw new UnsupportedOperationException("Only SwitchingManager supports this operation.");
 	}
 
-	/**
-	 * Throws {@link UnsupportedOperationException}.
-	 */
+	/** Throws {@link UnsupportedOperationException}. */
 	@Override
 	public void disable() {
 		throw new UnsupportedOperationException("Only SwitchingManager supports this operation.");
@@ -129,5 +126,20 @@ public final class DisabledManager implements Manager {
 	 */
 	@Override
 	public void warning(String message, Exception cause) {
+	}
+
+	@Override
+	public long nanoTime() {
+		return 0;
+	}
+
+	@Override
+	public long milliTime() {
+		return 0;
+	}
+
+	@Override
+	public long millisForNano(long nanos) {
+		return 0;
 	}
 }

@@ -2,6 +2,7 @@ package org.javasimon.utils;
 
 import org.javasimon.CounterSample;
 import org.javasimon.Sample;
+import org.javasimon.SimonUnitTest;
 import org.javasimon.StopwatchSample;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -17,7 +18,8 @@ import java.util.List;
 /**
  * Unit test of {@link SampleHtmlGenerator}.
  */
-public class SampleHtmlGeneratorTest {
+public class SampleHtmlGeneratorTest extends SimonUnitTest {
+
 	@Test
 	public void testSamplesToHtmlTable() throws Exception {
 		SampleHtmlGenerator.setLineSeparator("\r\n"); // in case it runs on Unix/Linux

@@ -2,6 +2,7 @@ package org.javasimon.callback;
 
 import org.javasimon.Counter;
 import org.javasimon.CounterSample;
+import org.javasimon.Manager;
 import org.javasimon.Simon;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
@@ -17,9 +18,26 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public final class CompositeCallbackImpl implements CompositeCallback {
+
 	private List<Callback> callbacks = new CopyOnWriteArrayList<Callback>();
 
-	private boolean initialized; // should also indicate whether this callback is joined to manager
+	private Manager manager; // not null indicates, that this callback is initialized (joined to manager)
+
+	/** Calls initialize on all children. */
+	@Override
+	public synchronized void initialize(Manager manager) {
+		if (this.manager != null) {
+			throw new IllegalStateException("Callback was already initialized");
+		}
+		this.manager = manager;
+		for (Callback callback : callbacks) {
+			try {
+				callback.initialize(manager);
+			} catch (Exception e) {
+				onManagerWarning("Callback initialization error", e);
+			}
+		}
+	}
 
 	/**
 	 * Returns the list of all child-callbacks.
@@ -38,8 +56,8 @@ public final class CompositeCallbackImpl implements CompositeCallback {
 	 */
 	@Override
 	public void addCallback(Callback callback) {
-		if (initialized) {
-			callback.initialize();
+		if (manager != null) {
+			callback.initialize(manager);
 		}
 		callbacks.add(callback);
 	}
@@ -52,14 +70,12 @@ public final class CompositeCallbackImpl implements CompositeCallback {
 	@Override
 	public void removeCallback(Callback callback) {
 		callbacks.remove(callback);
-		if (initialized) {
+		if (manager != null) {
 			callback.cleanup();
 		}
 	}
 
-	/**
-	 * Removes specified callback from this callback, properly cleans up all the removed callbacks.
-	 */
+	/** Removes specified callback from this callback, properly cleans up all the removed callbacks. */
 	@Override
 	public void removeAllCallbacks() {
 		for (Callback callback : callbacks) {
@@ -67,27 +83,10 @@ public final class CompositeCallbackImpl implements CompositeCallback {
 		}
 	}
 
-	/**
-	 * Calls initialize on all children.
-	 */
-	@Override
-	public void initialize() {
-		initialized = true;
-		for (Callback callback : callbacks) {
-			try {
-				callback.initialize();
-			} catch (Exception e) {
-				onManagerWarning("Callback initialization error", e);
-			}
-		}
-	}
-
-	/**
-	 * Calls deactivate on all children.
-	 */
+	/** Calls deactivate on all children. */
 	@Override
 	public void cleanup() {
-		initialized = false;
+		manager = null;
 		for (Callback callback : callbacks) {
 			try {
 				callback.cleanup();
@@ -101,13 +100,6 @@ public final class CompositeCallbackImpl implements CompositeCallback {
 	public void onSimonReset(Simon simon) {
 		for (Callback callback : callbacks) {
 			callback.onSimonReset(simon);
-		}
-	}
-
-	@Override
-	public void onStopwatchAdd(Stopwatch stopwatch, long ns, StopwatchSample sample) {
-		for (Callback callback : callbacks) {
-			callback.onStopwatchAdd(stopwatch, ns, sample);
 		}
 	}
 

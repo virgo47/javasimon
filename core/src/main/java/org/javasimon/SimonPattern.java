@@ -15,35 +15,29 @@ import org.javasimon.utils.SimonUtils;
  * <li>{@code something*else} - matches if tested name starts with {@code something} and ends with {@code else}
  * <li>anything else will throw {@link SimonException} with the message about invalid Simon pattern
  * </ul>
- * Without wildcard exact match is required. Every wildcarded pattern always matches with the same string
+ * Without wildcard exact match is required. Every pattern with wildcards always matches with the same string
  * without wildcards (in other words - wildcards matches with nothing as well).
  */
-public final class SimonPattern {
+public final class SimonPattern implements SimonFilter {
+
 	private static final String WILDCARD_STAR = "*";
 
-	/**
-	 * Original pattern from the configuration.
-	 */
+	/** Expected Simon type. */
+	private final Class<? extends Simon> expectedType;
+
+	/** Original pattern from the configuration. */
 	private String pattern;
 
-	/**
-	 * Used if complete match is expected.
-	 */
+	/** Used if complete match is expected. */
 	private String all;
 
-	/**
-	 * Used if head should match.
-	 */
+	/** Used if head should match. */
 	private String start;
 
-	/**
-	 * Used if tail should match.
-	 */
+	/** Used if tail should match. */
 	private String end;
 
-	/**
-	 * Used if anything inside (or everything) should match.
-	 */
+	/** Used if anything inside (or everything) should match. */
 	private String middle;
 
 	private static final String INVALID_PATTERN = "Invalid Simon pattern: ";
@@ -58,7 +52,37 @@ public final class SimonPattern {
 		if (pattern == null) {
 			return null;
 		}
-		return new SimonPattern(pattern);
+
+		return createForType(pattern, Simon.class);
+	}
+
+	private static SimonPattern createForType(String pattern, Class<? extends Simon> expectedType) {
+		if (pattern == null) {
+			return new SimonPattern("*", expectedType);
+		}
+		return new SimonPattern(pattern, expectedType);
+	}
+
+	/**
+	 * Factory method that creates Counter name pattern - or returns a pattern
+	 * that accepts all Counters if parameter is {@code null}.
+	 *
+	 * @param pattern Counter name pattern as string
+	 * @return Counter name pattern
+	 */
+	public static SimonPattern createForCounter(String pattern) {
+		return createForType(pattern, Counter.class);
+	}
+
+	/**
+	 * Factory method that creates Stopwatch name pattern - or returns a pattern
+	 * that accepts all Stopwatches if parameter is {@code null}.
+	 *
+	 * @param pattern Stopwatch name pattern as string
+	 * @return Stopwatch name pattern
+	 */
+	public static SimonPattern createForStopwatch(String pattern) {
+		return createForType(pattern, Stopwatch.class);
 	}
 
 	/**
@@ -68,7 +92,21 @@ public final class SimonPattern {
 	 * @throws SimonException if pattern is not valid (runtime exception)
 	 */
 	public SimonPattern(String pattern) {
+		this(pattern, Simon.class);
+	}
+
+	/**
+	 * Creates Simon pattern that used to match Simons of specified type with names that correspond to
+	 * the pattern.
+	 *
+	 * @param pattern Simon name pattern
+	 * @param expectedType expected type of Simon
+	 * @throws SimonException if pattern is not valid (runtime exception)
+	 */
+	public SimonPattern(String pattern, Class<? extends Simon> expectedType) {
+		this.expectedType = expectedType;
 		this.pattern = pattern;
+
 		if (!pattern.contains(WILDCARD_STAR)) {
 			// no wildcard, we're going for complete match (all)
 			all = pattern;
@@ -106,6 +144,21 @@ public final class SimonPattern {
 		}
 	}
 
+	@Override
+	/**
+	 * Checks if Simon's name matches this pattern.
+	 *
+	 * @param simon Simon to be tested
+	 * @return true if Simon's name matches this pattern
+	 */
+	public boolean accept(Simon simon) {
+		return isCorrectType(simon) && matches(simon.getName());
+	}
+
+	private boolean isCorrectType(Simon simon) {
+		return expectedType.isInstance(simon);
+	}
+
 	/**
 	 * Checks if Simon name matches this pattern.
 	 *
@@ -139,16 +192,29 @@ public final class SimonPattern {
 
 		SimonPattern that = (SimonPattern) o;
 
-		return !(pattern != null ? !pattern.equals(that.pattern) : that.pattern != null);
+		if (pattern != null ? !pattern.equals(that.pattern) : that.pattern != null) {
+			return false;
+		}
+
+		if (expectedType != null ? !expectedType.equals(that.expectedType) : that.expectedType != null) {
+			return false;
+		}
+
+		return true;
 	}
 
 	@Override
 	public int hashCode() {
-		return (pattern != null ? pattern.hashCode() : 0);
+		int result = expectedType != null ? expectedType.hashCode() : 0;
+		result = 31 * result + (pattern != null ? pattern.hashCode() : 0);
+		return result;
 	}
 
 	@Override
 	public String toString() {
-		return "ConfigPattern: " + pattern;
+		return "SimonPattern {" +
+				"pattern='" + pattern + '\'' +
+				", expectedType=" + expectedType +
+				'}';
 	}
 }

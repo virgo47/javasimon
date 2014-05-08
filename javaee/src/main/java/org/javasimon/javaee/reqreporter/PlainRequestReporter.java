@@ -1,7 +1,7 @@
 package org.javasimon.javaee.reqreporter;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 import org.javasimon.Split;
 import org.javasimon.javaee.SimonServletFilter;
@@ -32,8 +32,8 @@ public class PlainRequestReporter implements RequestReporter {
 
 		for (Split split : splits) {
 			if (shouldBeAddedSplit(split)) {
-			messageBuilder.append("\n\t").append(split.getStopwatch().getName()).append(": ").
-				append(SimonUtils.presentNanoTime(split.runningFor()));
+				messageBuilder.append("\n\t").append(split.getStopwatch().getName()).append(": ").
+					append(SimonUtils.presentNanoTime(split.runningFor()));
 			}
 		}
 

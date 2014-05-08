@@ -1,14 +1,14 @@
 package org.javasimon.examples;
 
+import java.util.concurrent.CountDownLatch;
+
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
 import org.javasimon.utils.SimonUtils;
 
-import java.util.concurrent.CountDownLatch;
-
 /**
- * MultithreadSleeping shows that total stopwatch time can be easily much bigger
+ * MultithreadedSleeping shows that total stopwatch time can be easily much bigger
  * than total run-time of the application. Typical output of this program is:
  * <pre>
  * Simon: Simon Stopwatch: [org.javasimon.examples.MultithreadedSleeping INHERIT] total 100.0 s, counter 100, max 1.00 s, min 999 ms</pre>

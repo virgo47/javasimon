@@ -12,6 +12,7 @@ import java.util.Arrays;
  */
 @SuppressWarnings("JavaDoc")
 public class SampleHtmlGenerator {
+
 	private static String lineSeparator = System.getProperty("line.separator");
 
 	private final Iterable<Sample> samples;
@@ -78,8 +79,8 @@ public class SampleHtmlGenerator {
 
 			indent(2).append("<td>").append(stopwatchSample.getActive()).append("</td>").append(lineSeparator);
 			indent(2).append("<td>").append(stopwatchSample.getCounter()).append("</td>").append(lineSeparator);
-			indent(2).append("<td>").append(SimonUtils.presentMinMaxSplit(stopwatchSample.getMin())).append("</td>").append(lineSeparator);
-			indent(2).append("<td>").append(SimonUtils.presentMinMaxSplit(stopwatchSample.getMax())).append("</td>").append(lineSeparator);
+			indent(2).append("<td>").append(SimonUtils.presentNanoTime(stopwatchSample.getMin())).append("</td>").append(lineSeparator);
+			indent(2).append("<td>").append(SimonUtils.presentNanoTime(stopwatchSample.getMax())).append("</td>").append(lineSeparator);
 			indent(2).append("<td>").append(SimonUtils.presentNanoTime(stopwatchSample.getMean())).append("</td>").append(lineSeparator);
 			indent(2).append("<td>").append(SimonUtils.presentNanoTime(stopwatchSample.getTotal())).append("</td>").append(lineSeparator);
 		} else {

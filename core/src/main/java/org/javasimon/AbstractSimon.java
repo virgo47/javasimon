@@ -1,5 +1,7 @@
 package org.javasimon;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -12,24 +14,17 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 abstract class AbstractSimon implements Simon {
-	/**
-	 * Owning manager of this Simon.
-	 */
+
+	/** Owning manager of this Simon. */
 	protected Manager manager;
 
-	/**
-	 * Simon's effective state.
-	 */
+	/** Simon's effective state. */
 	protected volatile boolean enabled;
 
-	/**
-	 * Timestamp of the first usage.
-	 */
+	/** Timestamp of the first usage. */
 	protected long firstUsage;
 
-	/**
-	 * Timestamp of the last usage.
-	 */
+	/** Timestamp of the last usage. */
 	protected long lastUsage;
 
 	private final String name;
@@ -45,6 +40,8 @@ abstract class AbstractSimon implements Simon {
 	private long resetTimestamp;
 
 	private AttributesSupport attributesSupport = new AttributesSupport();
+
+	private Map<Object, Simon> incrementalSimons;
 
 	/**
 	 * Constructor of the abstract Simon is used internally by subclasses.
@@ -96,11 +93,10 @@ abstract class AbstractSimon implements Simon {
 		return name;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @throws IllegalArgumentException if {@code state} is {@code null}.
-	 */
+	public final Manager getManager() {
+		return manager;
+	}
+
 	public synchronized final void setState(SimonState state, boolean overrule) {
 		if (state == null) {
 			throw new IllegalArgumentException();
@@ -141,15 +137,41 @@ abstract class AbstractSimon implements Simon {
 	}
 
 	/**
-	 * Saves the timestamp when the Simon was reset and calls {@link org.javasimon.callback.Callback#onSimonReset(Simon)}.
-	 * Called only from synchronized method {@link #reset()}.
+	 * {@inheritDoc}
+	 * <p/>
+	 * <b>Thread-safety:</b> May be called with write lock already acquired (from {@link #sampleAndReset()} for instance.
+	 * Must not re-acquire write lock, but always releases it, as it calls callbacks out of the critical section already.
+	 *
+	 * @deprecated will be removed in 4.0
 	 */
-	protected void resetCommon() {
-		resetTimestamp = System.currentTimeMillis();
-		manager.callback().onSimonReset(this);
+	@Override
+	@Deprecated
+	public void reset() {
+		synchronized (this) {
+			resetTimestamp = manager.milliTime();
+			concreteReset();
+		}
+		if (manager != null) {
+			manager.callback().onSimonReset(this);
+		}
 	}
 
+	/**
+	 * Updates usage statistics.
+	 *
+	 * @param now current millis timestamp
+	 */
+	void updateUsages(long now) {
+		lastUsage = now;
+		if (firstUsage == 0) {
+			firstUsage = lastUsage;
+		}
+	}
+
+	abstract void concreteReset();
+
 	@Override
+	@Deprecated
 	public synchronized long getLastReset() {
 		return resetTimestamp;
 	}
@@ -254,11 +276,6 @@ abstract class AbstractSimon implements Simon {
 		return attributesSupport.getAttributeNames();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @since 3.4
-	 */
 	@Override
 	public Map<String, Object> getCopyAsSortedMap() {
 		return attributesSupport.getCopyAsSortedMap();
@@ -270,6 +287,50 @@ abstract class AbstractSimon implements Simon {
 		sample.setFirstUsage(firstUsage);
 		sample.setLastUsage(lastUsage);
 		sample.setLastReset(resetTimestamp);
+	}
+
+	// incremental Simons methods
+	Collection<Simon> incrementalSimons() {
+		return incrementalSimons != null ? incrementalSimons.values() : null;
+	}
+
+	Simon getAndResetSampleKey(Object key, Simon newSimon) {
+		if (incrementalSimons == null) {
+			incrementalSimons = new HashMap<Object, Simon>();
+		}
+		Simon simon = incrementalSimons.get(key);
+		incrementalSimons.put(key, newSimon);
+		return simon;
+	}
+
+	Sample sampleIncrementHelper(Object key, Simon newSimon) {
+		Simon simon = getAndResetSampleKey(key, newSimon);
+		if (simon != null) {
+			return simon.sample();
+		} else {
+			return sample();
+		}
+	}
+
+	@Override
+	public synchronized boolean stopIncrementalSampling(Object key) {
+		return incrementalSimons != null && incrementalSimons.remove(key) != null;
+	}
+
+	synchronized void purgeIncrementalSimonsOlderThan(long thresholdMs) {
+		if (incrementalSimons == null) {
+			return;
+		}
+		Iterator<Map.Entry<Object, Simon>> iterator = incrementalSimons.entrySet().iterator();
+		while (iterator.hasNext()) {
+			Map.Entry<Object, Simon> entry = iterator.next();
+			if (entry.getValue().getLastUsage() < thresholdMs) {
+				iterator.remove();
+			}
+		}
+		if (incrementalSimons.isEmpty()) {
+			incrementalSimons = null;
+		}
 	}
 
 	/**

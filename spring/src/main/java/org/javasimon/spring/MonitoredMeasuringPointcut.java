@@ -3,6 +3,7 @@ package org.javasimon.spring;
 import java.lang.reflect.Method;
 
 import org.javasimon.aop.Monitored;
+
 import org.springframework.aop.ClassFilter;
 import org.springframework.aop.MethodMatcher;
 import org.springframework.aop.Pointcut;

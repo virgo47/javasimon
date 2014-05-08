@@ -1,17 +1,22 @@
 package org.javasimon.examples.jmx;
 
+import java.io.IOException;
+import java.lang.management.ManagementFactory;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Random;
+import javax.management.JMException;
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
+
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
 import org.javasimon.jmx.SimonManagerMXBeanImpl;
 import org.javasimon.utils.SimonUtils;
-
-import javax.management.MBeanServer;
-import javax.management.ObjectName;
-import javax.management.JMException;
-import java.util.Random;
-import java.sql.*;
-import java.io.IOException;
-import java.lang.management.ManagementFactory;
 
 /**
  * Application that can be monitored through JMX.

@@ -4,7 +4,9 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 
 import org.javasimon.SimonManager;
+import org.javasimon.Split;
 import org.javasimon.Stopwatch;
+import org.javasimon.StopwatchSample;
 import org.javasimon.utils.SimonUtils;
 
 /**
@@ -13,6 +15,7 @@ import org.javasimon.utils.SimonUtils;
  * to the number of threads.
  */
 public class MultithreadedTester extends Thread {
+
 	// name of the Simon will be the same like the name of this class
 	private static final String NAME = SimonUtils.generateName();
 
@@ -67,13 +70,16 @@ public class MultithreadedTester extends Thread {
 	}
 
 	class TestTask implements Runnable {
-		/**
-		 * Run method implementing the code performed by the thread.
-		 */
+		/** Run method implementing the code performed by the thread. */
 		@Override
 		public void run() {
 			for (int i = 0; i < loop; i++) {
-				SimonManager.getStopwatch(NAME).start().stop();
+				Stopwatch stopwatch = SimonManager.getStopwatch(NAME);
+				Split split = stopwatch.start();
+				StopwatchSample sample = stopwatch.sample();
+				//noinspection ResultOfMethodCallIgnored
+				sample.toString();
+				split.stop();
 			}
 			// signal to latch that the thread is finished
 			latch.countDown();

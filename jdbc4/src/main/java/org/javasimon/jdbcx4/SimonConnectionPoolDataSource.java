@@ -1,8 +1,8 @@
 package org.javasimon.jdbcx4;
 
+import java.sql.SQLException;
 import javax.sql.ConnectionPoolDataSource;
 import javax.sql.PooledConnection;
-import java.sql.SQLException;
 
 /**
  * Wrapper class for real ConnectionPoolDataSource implementation, produces pooled

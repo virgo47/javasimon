@@ -1,16 +1,16 @@
 package org.javasimon.callback.quantiles;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import static org.javasimon.callback.logging.LogTemplates.disabled;
+import static org.javasimon.utils.SimonUtils.presentNanoTime;
 
 import org.javasimon.Split;
 import org.javasimon.callback.logging.LogMessageSource;
 import org.javasimon.callback.logging.LogTemplate;
 
-import static org.javasimon.callback.logging.LogTemplates.disabled;
-import static org.javasimon.utils.SimonUtils.presentNanoTime;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * List of buckets and quantiles computer.
@@ -26,6 +26,7 @@ import static org.javasimon.utils.SimonUtils.presentNanoTime;
  * @since 3.2
  */
 public abstract class Buckets implements LogMessageSource<Split> {
+
 	/**
 	 * Array of buckets, sorted by ranges.
 	 * The first and last buckets are special:
@@ -35,24 +36,13 @@ public abstract class Buckets implements LogMessageSource<Split> {
 	 */
 	protected final Bucket[] buckets;
 
-	/**
-	 * Number of real buckets (=buckets.length-2).
-	 */
+	/** Number of real buckets (=buckets.length-2). */
 	protected final int bucketNb;
-
-	/**
-	 * Lower bound of all real buckets.
-	 */
+	/** Lower bound of all real buckets. */
 	protected final long min;
-
-	/**
-	 * Upper bound of all real buckets.
-	 */
+	/** Upper bound of all real buckets. */
 	protected final long max;
-
-	/**
-	 * Log template used to log quantiles.
-	 */
+	/** Log template used to log quantiles. */
 	private LogTemplate<Split> logTemplate = disabled();
 
 	/**
@@ -74,15 +64,13 @@ public abstract class Buckets implements LogMessageSource<Split> {
 		this.min = min;
 		this.max = max;
 		this.bucketNb = bucketNb;
-        // Initialize bucket array
+		// Initialize bucket array
 		this.buckets = new Bucket[bucketNb + 2];
 		buckets[0] = new Bucket(Long.MIN_VALUE, min);
 		buckets[bucketNb + 1] = new Bucket(max, Long.MAX_VALUE);
 	}
 
-	/**
-	 * Computes expected count and check used buckets number.
-	 */
+	/** Computes expected count and check used buckets number. */
 	private int checkAndGetTotalCount() throws IllegalStateException {
 		int usedBuckets = 0;
 		int totalCount = buckets[0].getCount();
@@ -137,26 +125,28 @@ public abstract class Buckets implements LogMessageSource<Split> {
 		return estimateQuantile(bucket, expectedCount, lastCount);
 	}
 
-    /**
-     * Interpolate quantile located in given Bucket using linear regression.
-     * <ul>
-     *     <li>Quantile is between {@link Bucket#min} and {@link Bucket#max}</li>
-     *     <li>Expected count is between last count and last count+{@link Bucket#count}</li>
-     * </ul>
-     * @param bucket Current bucket containing the quantile
-     * @param expectedCount Searched value
-     * @param lastCount Value of the bucket lower bound
-     * @return Compute quantile
-     */
-    protected double estimateQuantile(Bucket bucket, double expectedCount, double lastCount) {
-        return bucket.getMin() + (expectedCount - lastCount) * (bucket.getMax() - bucket.getMin()) / bucket.getCount();
-    }
+	/**
+	 * Interpolate quantile located in given Bucket using linear regression.
+	 * <ul>
+	 * <li>Quantile is between {@link Bucket#min} and {@link Bucket#max}</li>
+	 * <li>Expected count is between last count and last count+{@link Bucket#count}</li>
+	 * </ul>
+	 *
+	 * @param bucket Current bucket containing the quantile
+	 * @param expectedCount Searched value
+	 * @param lastCount Value of the bucket lower bound
+	 * @return Compute quantile
+	 */
+	protected double estimateQuantile(Bucket bucket, double expectedCount, double lastCount) {
+		return bucket.getMin() + (expectedCount - lastCount) * (bucket.getMax() - bucket.getMin()) / bucket.getCount();
+	}
 
-    /**
+	/**
 	 * Get the bucket containing the given value.
-     * Bucket should be sorted, the bucket whose min/max bounds are around the value is returned.
-     * @param value Value
-     * @return Bucket containing given value
+	 * Bucket should be sorted, the bucket whose min/max bounds are around the value is returned.
+	 *
+	 * @param value Value
+	 * @return Bucket containing given value
 	 */
 	protected Bucket getBucketForValue(long value) {
 		for (Bucket bucket : buckets) {
@@ -167,18 +157,14 @@ public abstract class Buckets implements LogMessageSource<Split> {
 		throw new IllegalStateException("Non continuous buckets.");
 	}
 
-	/**
-	 * Searches the appropriate bucket and add the value in it.
-	 */
+	/** Searches the appropriate bucket and add the value in it. */
 	public void addValue(long value) {
 		synchronized (buckets) {
 			getBucketForValue(value).incrementCount();
 		}
 	}
 
-	/**
-	 * For each value, search the appropriate bucket and add the value in it.
-	 */
+	/** For each value, search the appropriate bucket and add the value in it. */
 	public void addValues(Collection<Long> values) {
 		synchronized (buckets) {
 			for (Long value : values) {
@@ -209,9 +195,7 @@ public abstract class Buckets implements LogMessageSource<Split> {
 		return getQuantile(0.5D);
 	}
 
-	/**
-	 * Computes first (=0.25), second (=median=0.5) and third (=0.75) quartiles.
-	 */
+	/** Computes first (=0.25), second (=median=0.5) and third (=0.75) quartiles. */
 	public Double[] getQuartiles() {
 		return getQuantiles(0.25D, 0.50D, 0.75D);
 	}
@@ -248,9 +232,7 @@ public abstract class Buckets implements LogMessageSource<Split> {
 		this.logTemplate = logTemplate;
 	}
 
-	/**
-	 * Sample buckets and quantiles state.
-	 */
+	/** Sample buckets and quantiles state. */
 	public BucketsSample sample() {
 		synchronized (buckets) {
 			BucketSample[] bucketSamples = new BucketSample[buckets.length];
@@ -317,9 +299,7 @@ public abstract class Buckets implements LogMessageSource<Split> {
 		return stringBuilder.toString();
 	}
 
-	/**
-	 * Clears all buckets.
-	 */
+	/** Clears all buckets. */
 	public void clear() {
 		synchronized (buckets) {
 			for (Bucket bucket : buckets) {
@@ -337,29 +317,25 @@ public abstract class Buckets implements LogMessageSource<Split> {
 		return Collections.unmodifiableList(Arrays.asList(buckets));
 	}
 
-	/**
-	 * Transforms buckets and quantiles into a loggable message.
-	 */
+	/** Transforms buckets and quantiles into a loggable message. */
 	public String getLogMessage(Split lastSplit) {
 		return lastSplit.getStopwatch().getName() + " " + toString(true);
 	}
 
-	/**
-	 * Logs eventually buckets config and quantiles.
-	 */
+	/** Logs eventually buckets config and quantiles. */
 	public void log(Split lastSplit) {
 		logTemplate.log(lastSplit, this);
 	}
 
-    public int getBucketNb() {
-        return bucketNb;
-    }
+	public int getBucketNb() {
+		return bucketNb;
+	}
 
-    public long getMin() {
-        return min;
-    }
+	public long getMin() {
+		return min;
+	}
 
-    public long getMax() {
-        return max;
-    }
+	public long getMax() {
+		return max;
+	}
 }

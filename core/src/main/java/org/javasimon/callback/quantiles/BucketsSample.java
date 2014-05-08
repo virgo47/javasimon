@@ -2,6 +2,7 @@ package org.javasimon.callback.quantiles;
 
 /**
  * Snapshot of {@link Buckets}
+ *
  * @author gquintana
  */
 public class BucketsSample {
@@ -32,9 +33,11 @@ public class BucketsSample {
 	public Double getPercentile90() {
 		return percentile90;
 	}
+
 	private boolean hasNoBuckets() {
 		return buckets == null || buckets.length == 0;
 	}
+
 	public Integer getMaxCount() {
 		Integer maxCount;
 		if (hasNoBuckets()) {
@@ -47,6 +50,7 @@ public class BucketsSample {
 		}
 		return maxCount;
 	}
+
 	public Integer getTotalCount() {
 		Integer totalCount;
 		if (hasNoBuckets()) {

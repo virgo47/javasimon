@@ -4,16 +4,16 @@ import org.javasimon.Simon;
 import org.javasimon.SimonState;
 import org.javasimon.utils.SimonUtils;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Common functionality for JMX bean for a signle Simon that corresponds to AbstractSimon
- * in the core package.
+ * Common functionality for JMX bean for a single Simon that corresponds to AbstractSimon in the core package.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public abstract class AbstractSimonMXBeanImpl implements SimonSuperMXBean {
+
 	@Override
 	public final String getName() {
 		return simon().getName();
@@ -52,6 +52,7 @@ public abstract class AbstractSimonMXBeanImpl implements SimonSuperMXBean {
 	}
 
 	@Override
+	@Deprecated
 	public final void reset() {
 		simon().reset();
 	}

@@ -1,13 +1,20 @@
 package org.javasimon.callback;
 
-import javax.script.ScriptException;
+import org.javasimon.Counter;
+import org.javasimon.CounterSample;
+import org.javasimon.Manager;
+import org.javasimon.Simon;
+import org.javasimon.SimonPattern;
+import org.javasimon.Split;
+import org.javasimon.Stopwatch;
+import org.javasimon.StopwatchSample;
 
-import org.javasimon.*;
-
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
-import java.util.EnumMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+
+import javax.script.ScriptException;
 
 /**
  * This callback combines Composite and Filter behavior. Filter can be configured
@@ -25,13 +32,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @see FilterRule
  */
 public final class CompositeFilterCallback implements FilterCallback, CompositeCallback {
+
 	private CompositeCallbackImpl callback = new CompositeCallbackImpl();
 
 	private Map<Event, List<FilterRule>> rules;
 
-	/**
-	 * Constructs composite filter callback.
-	 */
+	/** Constructs composite filter callback. */
 	public CompositeFilterCallback() {
 		rules = new EnumMap<Event, List<FilterRule>>(Event.class);
 		for (Event event : Event.values()) {
@@ -60,8 +66,8 @@ public final class CompositeFilterCallback implements FilterCallback, CompositeC
 	}
 
 	@Override
-	public void initialize() {
-		callback.initialize();
+	public void initialize(Manager manager) {
+		callback.initialize(manager);
 	}
 
 	@Override
@@ -77,13 +83,6 @@ public final class CompositeFilterCallback implements FilterCallback, CompositeC
 	}
 
 	@Override
-	public void onStopwatchAdd(Stopwatch stopwatch, long ns, StopwatchSample sample) {
-		if (rulesApplyTo(stopwatch, Event.STOPWATCH_ADD, ns)) {
-			callback.onStopwatchAdd(stopwatch, ns, sample);
-		}
-	}
-
-	@Override
 	public void onStopwatchAdd(Stopwatch stopwatch, Split split, StopwatchSample sample) {
 		if (rulesApplyTo(stopwatch, Event.STOPWATCH_ADD, split.runningFor())) {
 			callback.onStopwatchAdd(stopwatch, split, sample);
@@ -92,14 +91,16 @@ public final class CompositeFilterCallback implements FilterCallback, CompositeC
 
 	@Override
 	public void onStopwatchStart(Split split) {
-		if (rulesApplyTo(split.getStopwatch(), Event.STOPWATCH_START, split)) {
+		Stopwatch stopwatch = split.getStopwatch();
+		if (stopwatch != null && rulesApplyTo(stopwatch, Event.STOPWATCH_START, split)) {
 			callback.onStopwatchStart(split);
 		}
 	}
 
 	@Override
 	public void onStopwatchStop(Split split, StopwatchSample sample) {
-		if (rulesApplyTo(split.getStopwatch(), Event.STOPWATCH_STOP, split)) {
+		Stopwatch stopwatch = split.getStopwatch();
+		if (stopwatch != null && rulesApplyTo(stopwatch, Event.STOPWATCH_STOP, split)) {
 			callback.onStopwatchStop(split, sample);
 		}
 	}
@@ -212,7 +213,8 @@ public final class CompositeFilterCallback implements FilterCallback, CompositeC
 	}
 
 	private boolean patternAndConditionCheck(Simon simon, FilterRule rule, Object... params) throws ScriptException {
-		if (simon != null && rule.getPattern() != null && !rule.getPattern().matches(simon.getName())) {
+		//noinspection SimplifiableIfStatement
+		if (simon != null && rule.getPattern() != null && !rule.getPattern().accept(simon)) {
 			return false;
 		}
 		return rule.checkCondition(simon, params);

@@ -1,33 +1,34 @@
 package org.javasimon.console.action;
 
-import java.io.IOException;
-import java.util.Set;
-import javax.servlet.ServletException;
 import org.javasimon.Simon;
 import org.javasimon.SimonManager;
-import org.javasimon.console.*;
+import org.javasimon.console.Action;
+import org.javasimon.console.ActionContext;
+import org.javasimon.console.ActionException;
+import org.javasimon.console.SimonType;
+import org.javasimon.console.SimonVisitor;
+import org.javasimon.console.SimonVisitors;
+
+import java.io.IOException;
+import java.util.Set;
+
+import javax.servlet.ServletException;
 
 /**
- * Action to reset one or many simons
+ * Action to reset one or many simons.
  *
  * @author gquintana
  */
 public class ResetAction extends Action {
-	/**
-	 * URI Path
-	 */
-	public static final String PATH="/data/reset";
-	/**
-	 * Pattern for Simon name filtering
-	 */
+
+	/** URI for reset action. */
+	public static final String PATH = "/data/reset";
+
+	/** Pattern for Simon name filtering. */
 	private String pattern;
-	/**
-	 * Types for Simon type filtering
-	 */
+	/** Types for Simon type filtering. */
 	private Set<SimonType> types;
-	/**
-	 * Name for Simon type filtering
-	 */
+	/** Name for Simon type filtering. */
 	private String name;
 
 	public ResetAction(ActionContext context) {
@@ -43,7 +44,7 @@ public class ResetAction extends Action {
 
 	@Override
 	public void execute() throws ServletException, IOException, ActionException {
-		SimonVisitorImpl visitor=new SimonVisitorImpl();
+		SimonVisitorImpl visitor = new SimonVisitorImpl();
 		if (name != null) {
 			Simon simon = SimonManager.getSimon(name);
 			if (simon == null) {
@@ -54,16 +55,18 @@ public class ResetAction extends Action {
 		} else {
 			SimonVisitors.visitList(getContext().getManager(), pattern, types, visitor);
 		}
-		getContext().getWriter().print("{count:"+visitor.getCount()+"}");
+		getContext().getWriter().print("{count:" + visitor.getCount() + "}");
 	}
 
 	private static class SimonVisitorImpl implements SimonVisitor {
 		private int count;
+
 		@Override
 		public void visit(Simon simon) throws IOException {
 			simon.reset();
 			count++;
 		}
+
 		public int getCount() {
 			return count;
 		}

@@ -1,23 +1,24 @@
 package org.javasimon;
 
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
-import java.io.IOException;
-import java.io.Reader;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.javasimon.callback.Callback;
 import org.javasimon.callback.CompositeCallback;
 import org.javasimon.callback.CompositeCallbackImpl;
 import org.javasimon.callback.CompositeFilterCallback;
 import org.javasimon.callback.FilterCallback;
 import org.javasimon.callback.FilterRule;
+import org.javasimon.utils.bean.SimonBeanUtils;
+
+import java.io.IOException;
+import java.io.Reader;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 
 /**
  * Holds configuration for one Simon Manager. Configuration is read from the stream
@@ -39,9 +40,10 @@ import org.javasimon.callback.FilterRule;
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
-// TODO: This class needs serious rethinking, also manager config itself should be independant from the reading
+// TODO: This class needs serious rethinking, also manager config itself should be independent from the reading
 // of the config - so it can be set up by Spring for instance
 public final class ManagerConfiguration {
+
 	private Map<SimonPattern, SimonConfiguration> configs;
 
 	private final Manager manager;
@@ -49,22 +51,20 @@ public final class ManagerConfiguration {
 	/**
 	 * Creates manager configuration for a specified manager.
 	 *
-	 * @param manager manager on whos behalf this configuration is created
+	 * @param manager manager on whose behalf this configuration is created
 	 */
 	ManagerConfiguration(Manager manager) {
 		this.manager = manager;
 		clear();
 	}
 
-	/**
-	 * Clears any previously loaded configuration.
-	 */
+	/** Clears any previously loaded configuration. */
 	public void clear() {
 		configs = new LinkedHashMap<SimonPattern, SimonConfiguration>();
 	}
 
 	/**
-	 * Reads config from provided buffered reader. Package level because of tests.
+	 * Reads config from provided buffered reader. Reader is not closed after this method finishes.
 	 *
 	 * @param reader reader containing configuration
 	 * @throws IOException thrown if problem occurs while reading from the reader
@@ -212,8 +212,7 @@ public final class ManagerConfiguration {
 	private void setProperty(Callback callback, String property, String value) {
 		try {
 			if (value != null) {
-				Method setter = callback.getClass().getMethod(setterName(property), String.class);
-				setter.invoke(callback, value);
+				SimonBeanUtils.getInstance().setProperty(callback, property, value);
 			} else {
 				callback.getClass().getMethod(setterName(property)).invoke(callback);
 			}

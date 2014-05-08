@@ -1,5 +1,6 @@
 package org.javasimon.utils;
 
+import org.javasimon.Simon;
 import org.javasimon.Split;
 import org.javasimon.StopwatchSample;
 import org.javasimon.callback.CallbackSkeleton;
@@ -14,23 +15,26 @@ import java.util.logging.Logger;
  */
 @SuppressWarnings("UnusedDeclaration")
 public class LoggingCallback extends CallbackSkeleton {
+
 	private Logger logger = Logger.getAnonymousLogger();
 	private Level level = Level.FINE;
 
-	/**
-	 * Logs Simon start on a sprecified log level.
-	 */
+	/** Logs Simon start on a specified log level. */
 	@Override
 	public void onStopwatchStart(Split split) {
 		logger.log(level, "SIMON START: " + split.getStopwatch());
 	}
 
-	/**
-	 * Logs Simon stop on a specified log level.
-	 */
+	/** Logs Simon stop on a specified log level. */
 	@Override
 	public void onStopwatchStop(Split split, StopwatchSample sample) {
-		logger.log(level, "SIMON STOP: " + sample.stopwatchToString() + " (" + split.runningFor() + ")");
+		logger.log(level, "SIMON STOP: " + sample.simonToString() + " (" + split.runningFor() + ")");
+	}
+
+	@Override
+	@Deprecated
+	public void onSimonReset(Simon simon) {
+		super.onSimonReset(simon);
 	}
 
 	/**

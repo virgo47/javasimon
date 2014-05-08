@@ -1,5 +1,7 @@
 package org.javasimon;
 
+import org.javasimon.clock.Clock;
+
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -8,20 +10,20 @@ import java.util.Map;
 /**
  * Null Simon implements Simon returned by the disabled {@link Manager#getSimon(String)}
  * or {@link org.javasimon.Manager#getRootSimon()}. Null Simon does nothing, returns {@code null}
- * or zeroes wherever return value is expected and has minimal performance impact on the system.
+ * or zeroes wherever return value is expected ({@code Double.NaN} for statistics)
+ * and has minimal performance impact on the system.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 class NullSimon implements Simon {
+
 	/**
 	 * Internal singleton value of the null Simon. Null Simon is never directly used in the client code,
 	 * it is always hidden behind the {@link Simon} interface - only its behavior manifests to the client.
 	 */
 	static final NullSimon INSTANCE = new NullSimon();
 
-	/**
-	 * Used only by the subclasses, otherwise should not be used at all except for a single {@link #INSTANCE}.
-	 */
+	/** Used only by the subclasses, otherwise should not be used at all except for a single {@link #INSTANCE}. */
 	NullSimon() {
 	}
 
@@ -41,6 +43,11 @@ class NullSimon implements Simon {
 	}
 
 	@Override
+	public Manager getManager() {
+		return null;
+	}
+
+	@Override
 	public SimonState getState() {
 		return null;
 	}
@@ -55,8 +62,8 @@ class NullSimon implements Simon {
 	}
 
 	@Override
-	public NullSimon reset() {
-		return this;
+	public void reset() {
+		// nothing to do
 	}
 
 	@Override
@@ -101,6 +108,16 @@ class NullSimon implements Simon {
 	@Override
 	public Sample sampleAndReset() {
 		return null;
+	}
+
+	@Override
+	public Sample sampleIncrement(Object key) {
+		return null;
+	}
+
+	@Override
+	public boolean stopIncrementalSampling(Object key) {
+		return false;
 	}
 
 	/**
@@ -183,20 +200,16 @@ class NullSimon implements Simon {
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 final class NullStopwatch extends NullSimon implements Stopwatch {
+
 	/**
 	 * Internal singleton value of the null Stopwatch. Null Stopwatch is never directly used in the client code,
 	 * it is always hidden behind the {@link Stopwatch} interface - only its behavior manifests to the client.
 	 */
 	static final NullStopwatch INSTANCE = new NullStopwatch();
 
-	private static final Split NULL_SPLIT = new Split(INSTANCE);
+	private static final Split NULL_SPLIT = new Split(INSTANCE, Clock.SYSTEM);
 
 	private NullStopwatch() {
-	}
-
-	@Override
-	public NullStopwatch reset() {
-		return null;
 	}
 
 	@Override
@@ -222,11 +235,6 @@ final class NullStopwatch extends NullSimon implements Stopwatch {
 	@Override
 	public long getMinTimestamp() {
 		return 0;
-	}
-
-	@Override
-	public Stopwatch addTime(long ns) {
-		return this;
 	}
 
 	@Override
@@ -265,43 +273,43 @@ final class NullStopwatch extends NullSimon implements Stopwatch {
 	}
 
 	/**
-	 * Returns zero.
+	 * Returns {@code Double.NaN}.
 	 *
-	 * @return zero
+	 * @return {@code Double.NaN}
 	 */
 	@Override
 	public double getMean() {
-		return 0;
+		return Double.NaN;
 	}
 
 	/**
-	 * Returns zero.
+	 * Returns {@code Double.NaN}.
 	 *
-	 * @return zero
+	 * @return {@code Double.NaN}
 	 */
 	@Override
 	public double getStandardDeviation() {
-		return 0;
+		return Double.NaN;
 	}
 
 	/**
-	 * Returns zero.
+	 * Returns {@code Double.NaN}.
 	 *
-	 * @return zero
+	 * @return {@code Double.NaN}
 	 */
 	@Override
 	public double getVariance() {
-		return 0;
+		return Double.NaN;
 	}
 
 	/**
-	 * Returns zero.
+	 * Returns {@code Double.NaN}.
 	 *
-	 * @return zero
+	 * @return {@code Double.NaN}
 	 */
 	@Override
 	public double getVarianceN() {
-		return 0;
+		return Double.NaN;
 	}
 
 	@Override
@@ -313,6 +321,11 @@ final class NullStopwatch extends NullSimon implements Stopwatch {
 	public StopwatchSample sampleAndReset() {
 		return null;
 	}
+
+	@Override
+	public StopwatchSample sampleIncrement(Object key) {
+		return null;
+	}
 }
 
 /**
@@ -322,6 +335,7 @@ final class NullStopwatch extends NullSimon implements Stopwatch {
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 final class NullCounter extends NullSimon implements Counter {
+
 	/**
 	 * Internal singleton value of the null Counter. Null Counter is never directly used in the client code,
 	 * it is always hidden behind the {@link Counter} interface - only its behavior manifests to the client.
@@ -329,11 +343,6 @@ final class NullCounter extends NullSimon implements Counter {
 	static final NullCounter INSTANCE = new NullCounter();
 
 	private NullCounter() {
-	}
-
-	@Override
-	public NullCounter reset() {
-		return null;
 	}
 
 	@Override
@@ -403,6 +412,11 @@ final class NullCounter extends NullSimon implements Counter {
 
 	@Override
 	public CounterSample sampleAndReset() {
+		return null;
+	}
+
+	@Override
+	public CounterSample sampleIncrement(Object key) {
 		return null;
 	}
 }

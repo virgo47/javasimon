@@ -1,6 +1,10 @@
 package org.javasimon;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Attributes implementation that creates attributes map lazily. Is synchronized to ensure thread-safety.

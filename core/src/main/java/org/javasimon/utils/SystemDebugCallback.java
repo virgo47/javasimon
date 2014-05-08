@@ -28,17 +28,12 @@ public final class SystemDebugCallback extends CallbackSkeleton {
 
 	@Override
 	public void onStopwatchStop(Split split, StopwatchSample sample) {
-		out("Stopwatch stop (" + split + "): " + sample.stopwatchToString());
-	}
-
-	@Override
-	public void onStopwatchAdd(Stopwatch stopwatch, long ns, StopwatchSample sample) {
-		out("Stopwatch add (" + ns + "): " + sample.stopwatchToString());
+		out("Stopwatch stop (" + split + "): " + sample.simonToString());
 	}
 
 	@Override
 	public void onStopwatchAdd(Stopwatch stopwatch, Split split, StopwatchSample sample) {
-		out("Stopwatch add (" + split + "): " + sample.stopwatchToString());
+		out("Stopwatch add (" + split + "): " + sample.simonToString());
 	}
 
 	@Override

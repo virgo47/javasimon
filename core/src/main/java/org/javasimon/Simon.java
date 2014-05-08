@@ -13,6 +13,7 @@ import java.util.List;
  * @see Stopwatch for Simon measuring time spans
  */
 public interface Simon extends HasAttributes {
+
 	/**
 	 * Returns Simon name. Simon name is always fully qualified
 	 * and determines also position of the Simon in the monitor hierarchy.
@@ -37,7 +38,15 @@ public interface Simon extends HasAttributes {
 	List<Simon> getChildren();
 
 	/**
-	 * Returns state of the Simon that can be enabled, disabled or ihnerited.
+	 * Returns Simon's {@link Manager}.
+	 *
+	 * @return Simon's {@link Manager}
+	 * @since 3.5
+	 */
+	Manager getManager();
+
+	/**
+	 * Returns state of the Simon that can be enabled, disabled or inherited.
 	 *
 	 * @return state of the Simon
 	 */
@@ -51,6 +60,7 @@ public interface Simon extends HasAttributes {
 	 *
 	 * @param state a new state.
 	 * @param overrule specifies whether this change is forced to the whole subtree.
+	 * @throws IllegalArgumentException if {@code state} is {@code null}.
 	 */
 	void setState(SimonState state, boolean overrule);
 
@@ -62,12 +72,14 @@ public interface Simon extends HasAttributes {
 	boolean isEnabled();
 
 	/**
-	 * Resets the Simon values related to the measuring, timestamps and so on - usage timestamps, state, attributes are not affected.
-	 * Timestamp of the last reset can be obtained by the method {@link #getLastReset()}. Reset is perfomed even for disabled Simons.
+	 * Resets the Simon values related to the measuring, timestamps and so on - usage timestamps, state,
+	 * attributes are not affected. Timestamp of the last reset can be obtained by the method {@link #getLastReset()}.
+	 * Reset is performed even for disabled Simons.
 	 *
-	 * @return returns this
+	 * @deprecated will be removed in 4.0 - use {@link #sampleIncrement(Object)} for similar purposes
 	 */
-	Simon reset();
+	@Deprecated
+	void reset();
 
 	/**
 	 * Returns ms timestamp of the last recent usage of the {@link #reset()} method on the Simon.
@@ -76,7 +88,9 @@ public interface Simon extends HasAttributes {
 	 * client code could store the timestamp too it is not necessary with this method.
 	 *
 	 * @return ms timestamp of the last reset or 0 if reset was not called yet
+	 * @deprecated will be removed in 4.0
 	 */
+	@Deprecated
 	long getLastReset();
 
 	/**
@@ -125,6 +139,35 @@ public interface Simon extends HasAttributes {
 	 * and resets the Simon. Operation is synchronized to assure atomicity.
 	 *
 	 * @return sample containing all Simon values
+	 * @deprecated will be removed in 4.0 - use {@link #sampleIncrement(Object)} instead
 	 */
+	@Deprecated
 	Sample sampleAndReset();
+
+	/**
+	 * Samples increment in Simon values since the previous call of this method with the
+	 * same key. When the method is called the first time for the key, current values
+	 * are returned (same like from {@link #sample()}. Any subsequent calls with the key
+	 * provide increments.
+	 * <p/>
+	 * Clients can use any sampling key (any Object) which enables safe access to their own increments.
+	 * Using String does not guarantee this as any client can potentially guess the key. This
+	 * may or may not be an issue.
+	 *
+	 * @param key sampling key used to access incremental sample
+	 * @return {@link org.javasimon.Sample} with value increments
+	 * @since 3.5
+	 */
+	Sample sampleIncrement(Object key);
+
+	/**
+	 * Stops incremental sampling for the key, removing any internal information for the key.
+	 * Next call to {@link #sampleIncrement(Object)} for the key will be considered the first
+	 * call for the key.
+	 *
+	 * @param key sampling key used to access incremental sample
+	 * @return true if incremental information for the key existed, false otherwise
+	 * @since 3.5
+	 */
+	boolean stopIncrementalSampling(Object key);
 }

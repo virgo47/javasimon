@@ -3,8 +3,8 @@ package org.javasimon.source;
 import org.javasimon.Manager;
 import org.javasimon.Simon;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Monitor source playing the role of cache for delegate monitor source.
@@ -15,14 +15,11 @@ import java.util.Map;
  * @author gquintana
  */
 public abstract class CachedMonitorSource<L, M extends Simon, K> implements MonitorSource<L, M> {
-	/**
-	 * Real monitor source.
-	 */
+
+	/** Real monitor source. */
 	private final MonitorSource<L, M> delegate;
 
-	/**
-	 * Monitor/location information.
-	 */
+	/** Monitor/location information. */
 	private static class MonitorInformation {
 		private final boolean monitored;
 		private final String name;
@@ -53,15 +50,11 @@ public abstract class CachedMonitorSource<L, M extends Simon, K> implements Moni
 		}
 	}
 
-	/**
-	 * Not monitored monitor information.
-	 */
+	/** Not monitored monitor information. */
 	private static final MonitorInformation NULL_MONITOR_INFORMATION = new MonitorInformation(false, null);
 
-	/**
-	 * Map location key &rarr; monitor information.
-	 */
-	private final Map<K, MonitorInformation> monitorInformations = new HashMap<K, MonitorInformation>();
+	/** Map location key &rarr; monitor information. */
+	private final Map<K, MonitorInformation> monitorInformations = new ConcurrentHashMap<K, MonitorInformation>();
 
 	/**
 	 * Constructor with real {@link MonitorSource}.
@@ -72,9 +65,7 @@ public abstract class CachedMonitorSource<L, M extends Simon, K> implements Moni
 		this.delegate = delegate;
 	}
 
-	/**
-	 * Get location for given location.
-	 */
+	/** Get location for given location. */
 	protected abstract K getLocationKey(L location);
 
 	/**
@@ -100,9 +91,7 @@ public abstract class CachedMonitorSource<L, M extends Simon, K> implements Moni
 		return monitorInformation;
 	}
 
-	/**
-	 * Remove monitor information for given location.
-	 */
+	/** Remove monitor information for given location. */
 	private void removeMonitorInformation(L location) {
 		monitorInformations.remove(getLocationKey(location));
 	}

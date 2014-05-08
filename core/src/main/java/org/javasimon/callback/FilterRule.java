@@ -1,14 +1,5 @@
 package org.javasimon.callback;
 
-import javax.script.Bindings;
-import javax.script.Compilable;
-import javax.script.CompiledScript;
-import javax.script.ScriptContext;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
-import java.math.BigDecimal;
-
 import org.javasimon.Counter;
 import org.javasimon.Simon;
 import org.javasimon.SimonException;
@@ -17,8 +8,18 @@ import org.javasimon.Split;
 import org.javasimon.Stopwatch;
 import org.javasimon.utils.Replacer;
 
+import java.math.BigDecimal;
+
+import javax.script.Bindings;
+import javax.script.Compilable;
+import javax.script.CompiledScript;
+import javax.script.ScriptContext;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+
 /**
- * Represents filtering rule that checks whether subcallbacks will get the event.
+ * Represents filtering rule that checks whether sub-callbacks will get the event.
  * Rule can be one of the following types:
  * <ul>
  * <li>{@link Type#MUST} - rule MUST be true and following rules are checked
@@ -33,13 +34,10 @@ import org.javasimon.utils.Replacer;
  * @since 3.1 (previously was {@code FilterCallback.Rule})
  */
 public class FilterRule {
-	/**
-	 * Enumeration of rule types that determines the evaluation of mutliple rules in a chain.
-	 */
+
+	/** Enumeration of rule types that determines the evaluation of multiple rules in a chain. */
 	public enum Type {
-		/**
-		 * Rule must pass and next rule is consulted.
-		 */
+		/** Rule must pass and next rule is consulted. */
 		MUST,
 
 		/**
@@ -55,49 +53,33 @@ public class FilterRule {
 		MUST_NOT
 	}
 
-	/**
-	 * Name of the rule variable for last split time in ns (split).
-	 */
+	/** Name of the rule variable for last split time in ns (split). */
 	public static final String VAR_SPLIT = "split";
 
-	/**
-	 * Name of the rule variable for number of concurrently active splits of a particular Simon (active).
-	 */
+	/** Name of the rule variable for number of concurrently active splits of a particular Simon (active). */
 	public static final String VAR_ACTIVE = "active";
 
-	/**
-	 * Name of the rule variable for maximal number of concurrently active splits (maxactive).
-	 */
+	/** Name of the rule variable for maximal number of concurrently active splits (maxactive). */
 	public static final String VAR_MAX_ACTIVE = "maxactive";
 
-	/**
-	 * Name of the rule variable for current value of the counter (counter).
-	 */
+	/** Name of the rule variable for current value of the counter (counter). */
 	public static final String VAR_COUNTER = "counter";
 
-	/**
-	 * Name of the rule variable for maximal value of the Simon - stopwatch in ns, counter without unit (max).
-	 */
+	/** Name of the rule variable for maximal value of the Simon - stopwatch in ns, counter without unit (max). */
 	public static final String VAR_MAX = "max";
 
-	/**
-	 * Name of the rule variable for minimal value of the Simon - stopwatch in ns, counter without unit (min).
-	 */
+	/** Name of the rule variable for minimal value of the Simon - stopwatch in ns, counter without unit (min). */
 	public static final String VAR_MIN = "min";
 
-	/**
-	 * Name of the rule variable for total split time (total).
-	 */
+	/** Name of the rule variable for total split time (total). */
 	public static final String VAR_TOTAL = "total";
 
-	/**
-	 * Name of the rule variable for increment or decrement value (value).
-	 */
+	/** Name of the rule variable for increment or decrement value (value). */
 	public static final String VAR_VALUE = "value";
 
 	private static final ScriptEngine ECMA_SCRIPT_ENGINE = new ScriptEngineManager().getEngineByName("ecmascript");
 
-	private static final Replacer[] CONDITION_REPLACERS = new Replacer[] {
+	private static final Replacer[] CONDITION_REPLACERS = new Replacer[]{
 		new Replacer(" lt ", " < "),
 		new Replacer(" le ", " <= "),
 		new Replacer(" eq ", " == "),
@@ -174,7 +156,7 @@ public class FilterRule {
 	}
 
 	/**
-	 * Retruns the Simon pattern of this rule.
+	 * Returns the Simon pattern of this rule.
 	 *
 	 * @return Simon pattern of this rule
 	 */

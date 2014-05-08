@@ -1,6 +1,9 @@
 package org.javasimon.examples.jmx;
 
-import org.javasimon.*;
+import org.javasimon.Counter;
+import org.javasimon.SimonManager;
+import org.javasimon.Split;
+import org.javasimon.Stopwatch;
 import org.javasimon.examples.ExampleUtils;
 import org.javasimon.jmx.JmxRegisterCallback;
 

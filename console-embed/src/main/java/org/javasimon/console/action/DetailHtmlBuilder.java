@@ -1,13 +1,15 @@
 package org.javasimon.console.action;
 
-import java.io.IOException;
-import java.io.Writer;
 import org.javasimon.Simon;
 import org.javasimon.console.html.HtmlBuilder;
 import org.javasimon.console.text.StringifierFactory;
 
+import java.io.IOException;
+import java.io.Writer;
+
 /**
- * HTML generator for Detail view
+ * HTML generator for Detail view.
+ *
  * @author gquintana
  */
 public class DetailHtmlBuilder extends HtmlBuilder<DetailHtmlBuilder> {
@@ -49,12 +51,15 @@ public class DetailHtmlBuilder extends HtmlBuilder<DetailHtmlBuilder> {
 	public DetailHtmlBuilder endValueCell() throws IOException {
 		return end("td");
 	}
+
 	public DetailHtmlBuilder valueCell(String text) throws IOException {
 		return beginValueCell().write(text).endValueCell();
 	}
+
 	public DetailHtmlBuilder valueCell(String extraAttr, String text) throws IOException {
 		return beginValueCell(extraAttr).write(text).endValueCell();
 	}
+
 	public DetailHtmlBuilder simonProperty(Simon simon, String propertyLabel, String propertyName) throws IOException {
 		return labelCell(propertyLabel).beginValueCell().simonProperty(simon, propertyName).endValueCell();
 	}
@@ -62,5 +67,4 @@ public class DetailHtmlBuilder extends HtmlBuilder<DetailHtmlBuilder> {
 	public DetailHtmlBuilder simonProperty(Simon simon, String propertyLabel, String propertyName, Integer colSpan) throws IOException {
 		return labelCell(propertyLabel).beginValueCell(" colspan=\"" + colSpan + "\"").simonProperty(simon, propertyName).endValueCell();
 	}
-    
 }

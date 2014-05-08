@@ -1,17 +1,17 @@
 package org.javasimon.jdbcx4;
 
-import org.javasimon.jdbc4.SimonConnectionConfiguration;
-
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import org.javasimon.jdbc4.SimonConnectionConfiguration;
+
 /**
  * SimonCommonDataSource is parent for all three datasource implementation classes.
  * <p/>
  * It contains getters and setters for basic properties which all three datasource types
- * needs to impelement.
+ * needs to implement.
  *
  * @author Radovan Sninsky
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
@@ -30,6 +30,7 @@ public abstract class AbstractSimonDataSource {
 	 * Properties specific to the real datasource
 	 */
 	private Properties properties;
+
 	/**
 	 * Retrieves the log writer for this <code>DataSource</code> object.
 	 *
@@ -82,7 +83,7 @@ public abstract class AbstractSimonDataSource {
 	}
 
 	/**
-	 * Returns database user to autenticate connection.
+	 * Returns database user to authenticate connection.
 	 *
 	 * @return database user
 	 */
@@ -100,7 +101,7 @@ public abstract class AbstractSimonDataSource {
 	}
 
 	/**
-	 * Returns database password to autenticate connection.
+	 * Returns database password to authenticate connection.
 	 *
 	 * @return database password
 	 */
@@ -243,9 +244,9 @@ public abstract class AbstractSimonDataSource {
 	public final void setPrefix(String prefix) {
 		this.prefix = prefix;
 	}
+
 	/**
 	 * Get properties specific to the real datasource.
-	 * @return Properties
 	 */
 	public Properties getProperties() {
 		return properties;
@@ -253,33 +254,41 @@ public abstract class AbstractSimonDataSource {
 
 	/**
 	 * Set properties specific to the real datasource.
-	 * @return Properties
 	 */
 	public void setProperties(Properties properties) {
 		this.properties = properties;
 	}
+
 	/**
-	 * Get property from {@link #properties} and convert it to given type
-	 * @param <T> Property type
-	 * @param propertyName Property name
-	 * @param propertyType Property type
-	 * @return Property value
+	 * Returns property from {@link #properties} and convert it to given type.
+	 *
+	 * @param <T> property type
+	 * @param propertyName property name
+	 * @param propertyType property type
+	 * @return property value
 	 */
+	@SuppressWarnings("unchecked")
 	private <T> T getPropertyAs(String propertyName, Class<T> propertyType) {
-		final String sValue = properties==null?null : properties.getProperty(propertyName);
+		final String sValue = properties == null ? null : properties.getProperty(propertyName);
 		final T value;
-		if (sValue==null) {
-			value=null;
+		if (sValue == null) {
+			value = null;
 		} else if (propertyType.equals(String.class)) {
-			value=propertyType.cast(sValue);
+			value = propertyType.cast(sValue);
 		} else if (propertyType.equals(Integer.class)) {
-			value=propertyType.cast(Integer.valueOf(sValue));
+			value = propertyType.cast(Integer.valueOf(sValue));
+		} else if (propertyType.equals(int.class)) {
+			value = (T) Integer.valueOf(sValue);
 		} else if (propertyType.equals(Long.class)) {
-			value=propertyType.cast(Long.valueOf(sValue));
+			value = propertyType.cast(Long.valueOf(sValue));
+		} else if (propertyType.equals(long.class)) {
+			value = (T) Long.valueOf(sValue);
 		} else if (propertyType.equals(Boolean.class)) {
-			value=propertyType.cast(Boolean.valueOf(sValue));
+			value = propertyType.cast(Boolean.valueOf(sValue));
+		} else if (propertyType.equals(boolean.class)) {
+			value = (T) Boolean.valueOf(sValue);
 		} else {
-			value=null;
+			value = null;
 		}
 		return value;
 	}

@@ -1,13 +1,18 @@
 package org.javasimon.console.action;
 
-import java.io.IOException;
-import java.util.Set;
-import javax.servlet.ServletException;
-
 import org.javasimon.Simon;
-import org.javasimon.console.*;
+import org.javasimon.console.ActionContext;
+import org.javasimon.console.ActionException;
+import org.javasimon.console.SimonType;
+import org.javasimon.console.SimonVisitor;
+import org.javasimon.console.SimonVisitors;
 import org.javasimon.console.json.ArrayJS;
 import org.javasimon.console.json.ObjectJS;
+
+import java.io.IOException;
+import java.util.Set;
+
+import javax.servlet.ServletException;
 
 /**
  * Export Simons as a flat JSON array.
@@ -19,14 +24,10 @@ public class ListJsonAction extends AbstractJsonAction {
 
 	public static final String PATH = "/data/list.json";
 
-	/**
-	 * Pattern for Simon name filtering.
-	 */
+	/** Pattern for Simon name filtering. */
 	private String pattern;
 
-	/**
-	 * Types for Simon type filtering.
-	 */
+	/** Types for Simon type filtering. */
 	private Set<SimonType> types;
 
 	public ListJsonAction(ActionContext context) {

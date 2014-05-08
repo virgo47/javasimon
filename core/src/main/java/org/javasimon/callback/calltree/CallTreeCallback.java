@@ -1,14 +1,14 @@
 package org.javasimon.callback.calltree;
 
+import static org.javasimon.callback.logging.LogTemplates.toSLF4J;
+import static org.javasimon.callback.logging.LogTemplates.whenSplitLongerThanMilliseconds;
+
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
 import org.javasimon.StopwatchSample;
 import org.javasimon.callback.CallbackSkeleton;
 import org.javasimon.callback.logging.LogTemplate;
 import org.javasimon.callback.logging.SplitThresholdLogTemplate;
-
-import static org.javasimon.callback.logging.LogTemplates.toSLF4J;
-import static org.javasimon.callback.logging.LogTemplates.whenSplitLongerThanMilliseconds;
 
 /**
  * Callback which logs the call tree when the main call is bigger than specified threshold.
@@ -22,7 +22,7 @@ import static org.javasimon.callback.logging.LogTemplates.whenSplitLongerThanMil
  * 	org.javasimon.business.FirstService.work 75ms, 75%
  * 		org.javasimon.data.FirstDAO.findAll 50 ms, 82%
  * 		org.javasimon.data.SecondDAO.findByRelation 20ms, 10%, 3
- * 	org.javasimon.business.SecodeService.do 10ms, 5%
+ * 	org.javasimon.business.SecondService.do 10ms, 5%
  * </pre>
  *
  * @author gquintana
@@ -30,29 +30,20 @@ import static org.javasimon.callback.logging.LogTemplates.whenSplitLongerThanMil
  * @since 3.2
  */
 public class CallTreeCallback extends CallbackSkeleton {
-	/**
-	 * Call tree of current thread.
-	 */
+
+	/** Call tree of current thread. */
 	private final ThreadLocal<CallTree> threadCallTree = new ThreadLocal<CallTree>();
 
-	/**
-	 * Log template used for printing call tree.
-	 */
+	/** Log template used for printing call tree. */
 	private LogTemplate<Split> callTreeLogTemplate;
 
-	/**
-	 * Simon attribute name used to store last significant call tree.
-	 */
+	/** Simon attribute name used to store last significant call tree. */
 	public static final String ATTR_NAME_LAST = "lastCallTree";
 
-	/**
-	 * Duration threshold used to trigger logging and remembering.
-	 */
+	/** Duration threshold used to trigger logging and remembering. */
 	private Long logThreshold;
 
-	/**
-	 * Default constructor.
-	 */
+	/** Default constructor. */
 	public CallTreeCallback() {
 		initLogThreshold(500L);
 	}
@@ -75,9 +66,7 @@ public class CallTreeCallback extends CallbackSkeleton {
 		this.callTreeLogTemplate = callTreeLogTemplate;
 	}
 
-	/**
-	 * Configures {@link #callTreeLogTemplate} with a {@link SplitThresholdLogTemplate}.
-	 */
+	/** Configures {@link #callTreeLogTemplate} with a {@link SplitThresholdLogTemplate}. */
 	private void initLogThreshold(Long threshold) {
 		this.logThreshold = threshold;
 		final LogTemplate<Split> toLogger = toSLF4J(getClass().getName(), "debug");
@@ -88,9 +77,7 @@ public class CallTreeCallback extends CallbackSkeleton {
 		}
 	}
 
-	/**
-	 * Returns log threshold when {@link #callTreeLogTemplate} is a {@link SplitThresholdLogTemplate}.
-	 */
+	/** Returns log threshold when {@link #callTreeLogTemplate} is a {@link SplitThresholdLogTemplate}. */
 	public Long getLogThreshold() {
 		return logThreshold;
 	}
@@ -128,16 +115,11 @@ public class CallTreeCallback extends CallbackSkeleton {
 		return callTree;
 	}
 
-	/**
-	 * Removes call tree for current thread.
-	 */
+	/** Removes call tree for current thread. */
 	private void removeCallTree() {
 		threadCallTree.remove();
 	}
 
-	/**
-	 * {@inheritDoc }
-	 */
 	@Override
 	public void onStopwatchStart(Split split) {
 		CallTree callTree = getCallTree();
@@ -148,9 +130,6 @@ public class CallTreeCallback extends CallbackSkeleton {
 		callTree.onStopwatchStart(split);
 	}
 
-	/**
-	 * {@inheritDoc }
-	 */
 	@Override
 	public void onStopwatchStop(Split split, StopwatchSample sample) {
 		getCallTree().onStopwatchStop(split);

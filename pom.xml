@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.javasimon</groupId>
 	<artifactId>javasimon-parent</artifactId>
 	<packaging>pom</packaging>
-	<version>3.4.0-SNAPSHOT</version>
 	<name>Java Simon</name>
 	<description>Java Simon - simple monitoring library</description>
 	<url>http://code.google.com/p/javasimon/</url>
+	<version>3.5.1-SNAPSHOT</version>
 
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
 		<artifactId>oss-parent</artifactId>
-		<version>7</version>
+		<version>9</version>
 	</parent>
 
 	<modules>
@@ -23,6 +25,7 @@
 		<module>console-embed</module>
 		<module>console-webapp</module>
 		<module>examples</module>
+		<module>demoapp</module>
 	</modules>
 
 	<properties>
@@ -31,12 +34,14 @@
 		<version.testng>6.5.2</version.testng>
 		<version.h2database>1.3.168</version.h2database>
 		<version.slf4j>1.7.2</version.slf4j>
+		<version.surefire-plugin>2.17</version.surefire-plugin>
+		<version.compiler-plugin>2.5.1</version.compiler-plugin>
 	</properties>
 
 	<scm>
 		<url>https://javasimon.googlecode.com/svn/trunk/</url>
-		<connection>scm:svn:https://javasimon.googlecode.com/svn/trunk/</connection>
-		<developerConnection>scm:svn:https://javasimon.googlecode.com/svn/trunk/</developerConnection>
+		<connection>scm:git:https://code.google.com/p/javasimon/</connection>
+		<developerConnection>scm:git:https://code.google.com/p/javasimon/</developerConnection>
 	</scm>
 
 	<licenses>
@@ -49,44 +54,6 @@
 	<prerequisites>
 		<maven>3.0.0</maven>
 	</prerequisites>
-
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.5</version>
-				<configuration>
-					<encoding>UTF-8</encoding>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.8</version>
-				<configuration>
-					<encoding>UTF-8</encoding>
-					<show>private</show>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.5.1</version>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
-			</plugin>
-		</plugins>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<artifactId>maven-assembly-plugin</artifactId>
-					<version>2.3</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
 
 	<dependencyManagement>
 		<dependencies>
@@ -124,7 +91,7 @@
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-web</artifactId>
 				<version>${version.spring}</version>
-				<scope>provided</scope>
+				<!--<scope>provided</scope>-->
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
@@ -158,6 +125,44 @@
 		</dependencies>
 	</dependencyManagement>
 
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.5</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9.1</version>
+				<configuration>
+					<excludePackageNames>
+						org.javasimon.examples:org.javasimon.examples.*:org.javasimon.demoapp:org.javasimon.demoapp.*
+					</excludePackageNames>
+					<!-- Begin:
+					These resources are usually in src/main/javadoc instead of docs/api -->
+					<javadocDirectory>docs/api</javadocDirectory>
+					<stylesheetfile>docs/api/stylesheet.css</stylesheetfile>
+					<overview>overview.html</overview>
+					<!-- End -->
+					<docfilessubdirs>true</docfilessubdirs>
+					<show>protected</show>
+					<linksource>true</linksource>
+					<doctitle>Java Simon API</doctitle>
+					<windowtitle>Java Simon API</windowtitle>
+					<header>&lt;table&gt;&lt;tr&gt;&lt;td style='valign: middle;'&gt;&lt;span style='font-weight: bold;
+						margin-right: 16px;'&gt;Java
+						Simon ${project.version}&lt;/span&gt;&lt;/td&gt;&lt;td&gt;&lt;div
+						class='logo'/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</header>
+					<finalName>javasimon-all-${project.version}</finalName>
+					<attach>true</attach>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
 	<developers>
 		<developer>
 			<id>virgo47</id>
@@ -169,75 +174,4 @@
 			</roles>
 		</developer>
 	</developers>
-
-	<profiles>
-		<profile>
-			<id>dist</id>
-			<modules>
-				<module>core</module>
-				<module>jdbc4</module>
-				<module>javaee</module>
-				<module>spring</module>
-				<module>console-embed</module>
-				<module>console-webapp</module>
-				<module>examples</module>
-				<module>dist</module>
-			</modules>
-			<build>
-				<plugins>
-					<plugin>
-						<artifactId>maven-source-plugin</artifactId>
-						<version>2.1.2</version>
-						<executions>
-							<execution>
-								<id>all-sources</id>
-								<goals>
-									<goal>aggregate</goal>
-								</goals>
-								<phase>package</phase>
-								<configuration>
-									<finalName>javasimon-all-${project.version}</finalName>
-									<attach>true</attach>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<artifactId>maven-javadoc-plugin</artifactId>
-						<version>2.8.1</version>
-						<executions>
-							<execution>
-								<id>all-javadoc</id>
-								<goals>
-									<goal>aggregate-jar</goal>
-								</goals>
-								<phase>package</phase>
-								<configuration>
-									<excludePackageNames>
-										org.javasimon.examples:org.javasimon.examples.*
-									</excludePackageNames>
-									<!-- Begin: 
-									These resources are usually in src/main/javadoc instead of docs/api -->
-									<javadocDirectory>docs/api</javadocDirectory>
-									<stylesheetfile>docs/api/stylesheet.css</stylesheetfile>
-									<overview>overview.html</overview>
-									<!-- End -->
-									<docfilessubdirs>true</docfilessubdirs>
-									<show>protected</show>
-									<linksource>true</linksource>
-									<doctitle>Java Simon API</doctitle>
-									<windowtitle>Java Simon API</windowtitle>
-									<header>&lt;table&gt;&lt;tr&gt;&lt;td style='valign: middle;'&gt;&lt;span style='font-weight: bold; margin-right: 16px;'&gt;Java
-										Simon ${project.version}&lt;/span&gt;&lt;/td&gt;&lt;td&gt;&lt;div
-										class='logo'/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</header>
-									<finalName>javasimon-all-${project.version}</finalName>
-									<attach>true</attach>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
 </project>

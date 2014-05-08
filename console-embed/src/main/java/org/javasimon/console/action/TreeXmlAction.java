@@ -7,13 +7,14 @@ import org.w3c.dom.Element;
 
 /**
  * Export Simons as a hierarchical XML document.
- * All attributes of simons are exported
+ * All attributes of simons are exported.
  *
  * @author gquintana
  */
 public class TreeXmlAction extends AbstractXmlAction {
 
 	public static final String PATH = "/data/tree.xml";
+
 	/**
 	 * Name of the simon from where to start.
 	 * {@code null} means root.

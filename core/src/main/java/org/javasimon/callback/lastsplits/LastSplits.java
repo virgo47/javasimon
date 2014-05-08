@@ -1,10 +1,11 @@
 package org.javasimon.callback.lastsplits;
 
+import static org.javasimon.callback.logging.LogTemplates.disabled;
+import static org.javasimon.utils.SimonUtils.presentNanoTime;
+
 import org.javasimon.Split;
 import org.javasimon.callback.logging.LogMessageSource;
 import org.javasimon.callback.logging.LogTemplate;
-import static org.javasimon.callback.logging.LogTemplates.disabled;
-import static org.javasimon.utils.SimonUtils.presentNanoTime;
 
 /**
  * Object stored among Stopwatch's attributes in charge of <ul>
@@ -17,17 +18,14 @@ import static org.javasimon.utils.SimonUtils.presentNanoTime;
  * @since 3.2
  */
 public class LastSplits implements LogMessageSource<Split> {
-	/**
-	 * Ring buffer containing splits
-	 */
+	/** Ring buffer containing splits. */
 	private final CircularList<Split> splits;
 
+	/** Log template used to log this list of splits. */
+	private LogTemplate<Split> logTemplate = disabled();
+
 	/**
-	 * Log template used to log this list of splits
-	 */
-	private LogTemplate<Split> logTemplate=disabled();
-	/**
-	 * Constructor with ring buffer size
+	 * Constructor with ring buffer size.
 	 *
 	 * @param capacity Buffer size
 	 */
@@ -36,7 +34,7 @@ public class LastSplits implements LogMessageSource<Split> {
 	}
 
 	/**
-	 * Add split to the buffer
+	 * Adds split to the buffer.
 	 *
 	 * @param split Split
 	 */
@@ -46,9 +44,7 @@ public class LastSplits implements LogMessageSource<Split> {
 		}
 	}
 
-	/**
-	 * Remove all splits from buffer
-	 */
+	/** Removes all splits from buffer. */
 	public void clear() {
 		synchronized (splits) {
 			splits.clear();
@@ -62,9 +58,9 @@ public class LastSplits implements LogMessageSource<Split> {
 	public void setLogTemplate(LogTemplate<Split> logTemplate) {
 		this.logTemplate = logTemplate;
 	}
-	
+
 	/**
-	 * Get number of splits in the buffer
+	 * Gets number of splits in the buffer.
 	 *
 	 * @return Split number
 	 */
@@ -75,7 +71,7 @@ public class LastSplits implements LogMessageSource<Split> {
 	}
 
 	/**
-	 * Evaluate a function over the list of splits
+	 * Evaluate a function over the list of splits.
 	 *
 	 * @param <T> Function result type
 	 * @param function Function to evaluate
@@ -94,20 +90,20 @@ public class LastSplits implements LogMessageSource<Split> {
 	}
 
 	/**
-	 * Function
+	 * Function.
 	 *
 	 * @param <T> Result type
 	 */
 	private static interface SplitFunction<T> {
 		/**
-		 * Called for each split
+		 * Called for each split.
 		 *
 		 * @param split Current split
 		 */
 		void evaluate(Split split);
 
 		/**
-		 * Called after all splits
+		 * Called after all splits.
 		 *
 		 * @return Function result
 		 */
@@ -115,32 +111,28 @@ public class LastSplits implements LogMessageSource<Split> {
 	}
 
 	/**
-	 * Base implementation of functions
+	 * Base implementation of functions.
 	 *
 	 * @param <T> Function return type
 	 */
 	private static abstract class AbstractSplitFunction<T> implements SplitFunction<T> {
-		/**
-		 * Function result
-		 */
+		/** Function result. */
 		protected T result;
 
-		/**
-		 * Initial function result
-		 */
+		/** Initial function result. */
 		public AbstractSplitFunction(T result) {
 			this.result = result;
 		}
 
 		/**
-		 * Running for duration of the split
+		 * Running for duration of the split.
 		 *
 		 * @param runningFor Running for
 		 */
 		public abstract void evaluate(long runningFor);
 
 		/**
-		 * Calls evaluate with split running for duration
+		 * Calls evaluate with split running for duration.
 		 *
 		 * @param split Current split
 		 */
@@ -148,9 +140,7 @@ public class LastSplits implements LogMessageSource<Split> {
 			evaluate(split.runningFor());
 		}
 
-		/**
-		 * Final result
-		 */
+		/** Final result. */
 		public T result() {
 			return result;
 		}
@@ -223,7 +213,7 @@ public class LastSplits implements LogMessageSource<Split> {
 	 * Compute a trend of duration: the average delta of splits between
 	 * 2 split spaced of at least the given threshold.
 	 * The threshold is only here to avoid computing a delta between 2 splits
-	 * occuring at the same time by 2 different threads.
+	 * occurring at the same time by 2 different threads.
 	 * Sum(splits(t[n])-splits(t[n-1])/SizeOf(splits)
 	 *
 	 * @param timeDeltaThreshold Accepted splits space
@@ -257,15 +247,17 @@ public class LastSplits implements LogMessageSource<Split> {
 
 	/**
 	 * Transforms split values into a String
+	 *
 	 * @return Splits presented in a String
 	 */
 	private String getSplitsAsString() {
 		return processFunction(new AbstractSplitFunction<StringBuilder>(new StringBuilder()) {
-			private boolean first=true;
+			private boolean first = true;
+
 			@Override
 			public void evaluate(long runningFor) {
 				if (first) {
-					first=false;
+					first = false;
 				} else {
 					result.append(',');
 				}
@@ -273,6 +265,7 @@ public class LastSplits implements LogMessageSource<Split> {
 			}
 		}).toString();
 	}
+
 	/**
 	 * String containing: count, min, mean, max and trend(1ms).
 	 * This method can be expensive, because many computations are done.
@@ -283,7 +276,7 @@ public class LastSplits implements LogMessageSource<Split> {
 	public String toString() {
 		int count;
 		long min = 0, mean = 0, max = 0, trend = 0;
-		String values=null;
+		String values = null;
 		// First extract data
 		synchronized (splits) {
 			count = getCount();
@@ -291,9 +284,9 @@ public class LastSplits implements LogMessageSource<Split> {
 				min = getMin();
 				mean = getMean().longValue();
 				max = getMax();
-				values=getSplitsAsString();
-				if (count>1) {
-					trend=getTrend().longValue();
+				values = getSplitsAsString();
+				if (count > 1) {
+					trend = getTrend().longValue();
 				}
 			}
 		}
@@ -305,19 +298,21 @@ public class LastSplits implements LogMessageSource<Split> {
 				.append(",min=").append(presentNanoTime(min))
 				.append(",mean=").append(presentNanoTime(mean))
 				.append(",max=").append(presentNanoTime(max));
-			if (count>1) {
+			if (count > 1) {
 				stringBuilder.append(",trend=").append(presentNanoTime(trend));
 			}
 		}
 		stringBuilder.append("]");
 		return stringBuilder.toString();
 	}
+
 	/**
-	 * Transform this list of splits into a loggable message
+	 * Transforms this list of splits into a loggable message.
 	 */
 	public String getLogMessage(Split lastSplit) {
-		return lastSplit.getStopwatch().getName()+" "+toString();
+		return lastSplit.getStopwatch().getName() + " " + toString();
 	}
+
 	/**
 	 * Log eventually this list of splits into log template
 	 */

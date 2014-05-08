@@ -1,15 +1,19 @@
 package org.javasimon.utils;
 
+
+import org.javasimon.SimonUnitTest;
+import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import org.testng.Assert;
+
 
 /**
  * OtherTestNG.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
-public final class SimonUtilsTest {
+public final class SimonUtilsTest extends SimonUnitTest {
+
 	@DataProvider(name = "test-data-utils")
 	public Object[][] testDataUtilsProvider() {
 		return new Object[][]{

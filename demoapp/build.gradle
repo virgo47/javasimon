@@ -1,0 +1,35 @@
+configurations {
+    provided
+}
+sourceSets {
+    main { compileClasspath += configurations.provided }
+}
+
+String jdbcDependencyName = getJdbcDependencyName()
+
+ext.wicketVersion = '1.5.3'
+ext.jettyVersion = '7.5.0.v20110901'
+
+dependencies {
+    compile project(':core')
+    compile "org.apache.wicket:wicket-core:$wicketVersion"
+    compile "org.apache.wicket:wicket-spring:$wicketVersion"
+
+    provided libs.slf4j
+    compile "org.slf4j:slf4j-log4j12:$slf4jVersion"
+
+    compile "org.eclipse.jetty.aggregate:jetty-all-server:$jettyVersion"
+    compile libs.spring_core
+    compile(libs.spring_jdbc) {
+        exclude module: 'spring-asm'
+        exclude module: 'spring-aop'
+    }
+    compile libs.spring_web
+    compile libs.h2
+    compile libs.gson
+    compile 'commons-dbcp:commons-dbcp:1.4'
+    compile project(jdbcDependencyName)
+    compile project(':javaee')
+    compile project(':console-embed')
+
+}

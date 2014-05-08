@@ -2,6 +2,7 @@ package org.javasimon.spring.webmvc;
 
 import org.javasimon.Manager;
 import org.javasimon.source.AbstractStopwatchSource;
+
 import org.springframework.web.method.HandlerMethod;
 
 /**

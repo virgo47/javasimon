@@ -1,12 +1,12 @@
 package org.javasimon.examples;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import org.javasimon.StopwatchSample;
+import org.javasimon.clock.ClockUtils;
 import org.javasimon.utils.BenchmarkUtils;
 import org.javasimon.utils.GoogleChartImageGenerator;
-import org.javasimon.utils.SimonUtils;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Measures how long it takes to execute a lot of get-start-stop cycles in heavily multithreaded environment.
@@ -15,7 +15,7 @@ import org.javasimon.utils.SimonUtils;
  * @since 3.1
  */
 public final class MultithreadedStopwatchLoad extends Thread {
-	public static final int TOTAL_TASK_RUNS = 10000000;
+	public static final int TOTAL_TASK_RUNS = 300000;
 
 	private MultithreadedStopwatchLoad() {
 	}
@@ -42,10 +42,22 @@ public final class MultithreadedStopwatchLoad extends Thread {
 					new MultithreadedTester(TOTAL_TASK_RUNS, 2, executorService).execute();
 				}
 			},
-			new BenchmarkUtils.Task("10") {
+			new BenchmarkUtils.Task("3") {
 				@Override
 				public void perform() throws Exception {
-					new MultithreadedTester(TOTAL_TASK_RUNS, 10, executorService).execute();
+					new MultithreadedTester(TOTAL_TASK_RUNS, 3, executorService).execute();
+				}
+			},
+			new BenchmarkUtils.Task("4") {
+				@Override
+				public void perform() throws Exception {
+					new MultithreadedTester(TOTAL_TASK_RUNS, 4, executorService).execute();
+				}
+			},
+			new BenchmarkUtils.Task("5") {
+				@Override
+				public void perform() throws Exception {
+					new MultithreadedTester(TOTAL_TASK_RUNS, 5, executorService).execute();
 				}
 			},
 			new BenchmarkUtils.Task("100") {
@@ -53,24 +65,12 @@ public final class MultithreadedStopwatchLoad extends Thread {
 				public void perform() throws Exception {
 					new MultithreadedTester(TOTAL_TASK_RUNS, 100, executorService).execute();
 				}
-			},
-			new BenchmarkUtils.Task("1000") {
-				@Override
-				public void perform() throws Exception {
-					new MultithreadedTester(TOTAL_TASK_RUNS, 1000, executorService).execute();
-				}
-			},
-			new BenchmarkUtils.Task("1000thr") {
-				@Override
-				public void perform() throws Exception {
-					new MultithreadedTester(TOTAL_TASK_RUNS, 1000, null).execute();
-				}
 			}
 		);
 		executorService.shutdown();
 
 		System.out.println("\nGoogle Chart avg:\n" + GoogleChartImageGenerator.barChart(
-			results, "Multithreaded test", SimonUtils.NANOS_IN_MILLIS, "ms", false));
+			results, "Multithreaded test", ClockUtils.NANOS_IN_MILLIS, "ms", false));
 	}
 }
 

@@ -12,7 +12,7 @@ public final class SimonConfiguration {
 	/**
 	 * Creates SimonConfiguration item.
 	 *
-	 * @param state prefered state - SimonManager sets ihnerit if null is specified here
+	 * @param state preferred state - SimonManager sets inherit if null is specified here
 	 */
 	SimonConfiguration(SimonState state) {
 		this.state = state;

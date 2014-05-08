@@ -2,11 +2,14 @@ package org.javasimon.callback.logging;
 
 /**
  * Message provider, converts context into a loggable string.
+ *
  * @author gquintana
  */
 public interface LogMessageSource<C> {
+
 	/**
-	 * Get message for given context
+	 * Returns message for given context.
+	 *
 	 * @param context Context
 	 * @return Message
 	 */

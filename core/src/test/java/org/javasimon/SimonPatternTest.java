@@ -3,12 +3,15 @@ package org.javasimon;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 /**
  * Tests for {@link SimonPattern}.
  *
  * @author virgo47@gmail.com
  */
-public final class SimonPatternTest {
+public final class SimonPatternTest extends SimonUnitTest {
 
 	@Test(expectedExceptions = SimonException.class, expectedExceptionsMessageRegExp = "Invalid Simon pattern: ")
 	public void testEmpty() {
@@ -94,4 +97,111 @@ public final class SimonPatternTest {
 	public void testDoubleWildcard() {
 		SimonPattern.create("**");
 	}
+
+	@Test(expectedExceptions = SimonException.class, expectedExceptionsMessageRegExp = "Invalid Simon pattern: \\*//")
+	public void testStartWildcardIllegalName() {
+		SimonPattern.create("*//");
+	}
+
+	@Test(expectedExceptions = SimonException.class, expectedExceptionsMessageRegExp = "Invalid Simon pattern: //\\*")
+	public void testEndWildcardIllegalName() {
+		SimonPattern.create("//*");
+	}
+
+	@Test(expectedExceptions = SimonException.class, expectedExceptionsMessageRegExp = "Invalid Simon pattern: \\*//\\*")
+	public void testDoubleWildcardInvalidName() {
+		SimonPattern.create("*//*");
+	}
+
+	@Test
+	public void testStopwatchPattern() {
+		SimonPattern pattern = SimonPattern.createForStopwatch("start*");
+
+		Assert.assertTrue(pattern.accept(stopwatch("start.end")));
+		Assert.assertTrue(pattern.accept(stopwatch("start.e")));
+
+		Assert.assertFalse(pattern.accept(stopwatch("end")));
+		Assert.assertFalse(pattern.accept(counter("start.end")));
+		Assert.assertFalse(pattern.accept(counter("end")));
+	}
+
+	private Counter counter(String name) {
+		Counter counter = mock(Counter.class);
+		when(counter.getName()).thenReturn(name);
+		return counter;
+	}
+
+	private Stopwatch stopwatch(String name) {
+		Stopwatch stopwatch = mock(Stopwatch.class);
+		when(stopwatch.getName()).thenReturn(name);
+		return stopwatch;
+	}
+
+	@Test
+	public void testStopwatchNullPattern() {
+		SimonPattern pattern = SimonPattern.createForStopwatch(null);
+
+		Assert.assertTrue(pattern.accept(stopwatch("start.end")));
+		Assert.assertTrue(pattern.accept(stopwatch("start.e")));
+		Assert.assertTrue(pattern.accept(stopwatch("end")));
+
+		Assert.assertFalse(pattern.accept(counter("start.end")));
+		Assert.assertFalse(pattern.accept(counter("end")));
+	}
+
+	@Test
+	public void testCounterPattern() {
+		SimonPattern pattern = SimonPattern.createForCounter("start*");
+
+		Assert.assertTrue(pattern.accept(counter("start.end")));
+		Assert.assertTrue(pattern.accept(counter("start.e")));
+
+		Assert.assertFalse(pattern.accept(counter("end")));
+		Assert.assertFalse(pattern.accept(stopwatch("start.end")));
+		Assert.assertFalse(pattern.accept(stopwatch("end")));
+	}
+
+	@Test
+	public void testCounterNullPattern() {
+		SimonPattern pattern = SimonPattern.createForCounter(null);
+
+		Assert.assertTrue(pattern.accept(counter("start.end")));
+		Assert.assertTrue(pattern.accept(counter("start.e")));
+		Assert.assertTrue(pattern.accept(counter("end")));
+
+		Assert.assertFalse(pattern.accept(stopwatch("start.end")));
+		Assert.assertFalse(pattern.accept(stopwatch("end")));
+	}
+
+	@Test
+	public void testSameSimonPatternAreEquals() {
+		String pattern = "*abc*";
+		SimonPattern pattern1 = SimonPattern.create(pattern);
+		SimonPattern pattern2 = SimonPattern.create(pattern);
+		Assert.assertEquals(pattern1, pattern2);
+	}
+
+	@Test
+	public void testDifferentSimonPatternAreNotEquals() {
+		SimonPattern pattern1 = SimonPattern.create("*abc*");
+		SimonPattern pattern2 = SimonPattern.create("*cba*");
+		Assert.assertNotEquals(pattern1, pattern2);
+	}
+
+	@Test
+	public void testSameStopwatchPatternAreEquals() {
+		String pattern = "*abc*";
+		SimonPattern pattern1 = SimonPattern.createForStopwatch(pattern);
+		SimonPattern pattern2 = SimonPattern.createForStopwatch(pattern);
+		Assert.assertEquals(pattern1, pattern2);
+	}
+
+	@Test
+	public void testDifferentTypePatternAreNotEquals() {
+		String pattern = "*abc*";
+		SimonPattern pattern1 = SimonPattern.createForStopwatch(pattern);
+		SimonPattern pattern2 = SimonPattern.createForCounter(pattern);
+		Assert.assertNotEquals(pattern1, pattern2);
+	}
+
 }

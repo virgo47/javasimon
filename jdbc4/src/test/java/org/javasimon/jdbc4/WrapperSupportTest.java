@@ -2,10 +2,18 @@ package org.javasimon.jdbc4;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import static org.testng.Assert.*;
-import static org.mockito.Mockito.*;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertSame;
+import static org.testng.Assert.assertTrue;
 
 /**
  * Unit test for {@link WrapperSupport} class

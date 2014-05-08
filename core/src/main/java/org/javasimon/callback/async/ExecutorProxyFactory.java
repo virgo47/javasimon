@@ -2,18 +2,21 @@ package org.javasimon.callback.async;
 
 import org.javasimon.proxy.DelegatingMethodInvocation;
 import org.javasimon.proxy.DelegatingProxyFactory;
+
 /**
  * Proxy factory which can be used make any class asynchronous.
+ *
+ * @param <T>
  * @author gerald
- * @param <T> 
  */
 public class ExecutorProxyFactory<T> extends DelegatingProxyFactory<T> {
-	/**
-	 * Executor used for invoking methods on delegate object
-	 */
+
+	/** Executor used for invoking methods on delegate object. */
 	private Executor executor;
+
 	/**
-	 * Constructor
+	 * Constructor.
+	 *
 	 * @param delegate Delegate object
 	 */
 	public ExecutorProxyFactory(T delegate) {
@@ -21,7 +24,8 @@ public class ExecutorProxyFactory<T> extends DelegatingProxyFactory<T> {
 	}
 
 	/**
-	 * Constructor
+	 * Constructor.
+	 *
 	 * @param delegate Delegate object
 	 * @param executor Executor used, see {@link Executors}
 	 */
@@ -29,15 +33,19 @@ public class ExecutorProxyFactory<T> extends DelegatingProxyFactory<T> {
 		super(delegate);
 		this.executor = executor;
 	}
+
 	/**
-	 * Get used executor
+	 * Returns used executor.
+	 *
 	 * @return Executor
 	 */
 	public Executor getExecutor() {
 		return executor;
 	}
+
 	/**
-	 * Set used executor
+	 * Sets used executor.
+	 *
 	 * @param executor Executor
 	 */
 	public void setExecutor(Executor executor) {

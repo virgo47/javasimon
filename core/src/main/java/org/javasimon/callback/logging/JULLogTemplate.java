@@ -5,19 +5,19 @@ import java.util.logging.Logger;
 
 /**
  * Concrete log template using {@link Logger}.
+ *
  * @author gquintana
  */
 public class JULLogTemplate<C> extends LogTemplate<C> {
-	/**
-	 * Target log template
-	 */
+
+	/** Target log template. */
 	private final Logger logger;
-	/**
-	 * Logging level
-	 */
+	/** Logging level. */
 	private Level level;
+
 	/**
-	 * Constructor
+	 * Constructor.
+	 *
 	 * @param logger Logger
 	 * @param level Level
 	 */
@@ -25,50 +25,54 @@ public class JULLogTemplate<C> extends LogTemplate<C> {
 		this.logger = logger;
 		this.level = level;
 	}
+
 	/**
-	 * Constructor
+	 * Constructor.
+	 *
 	 * @param loggerName Logger name
 	 * @param level Level
 	 */
 	public JULLogTemplate(String loggerName, Level level) {
-		this.logger = Logger.getLogger(loggerName);
-		this.level = level;
+		this(Logger.getLogger(loggerName), level);
 	}
+
 	/**
-	 * Get level
-	 * @return Level
+	 * Returns log level.
+	 *
+	 * @return log level
 	 */
 	public Level getLevel() {
 		return level;
 	}
+
 	/**
-	 * Change level
-	 * @param level Level 
+	 * Changes log level.
+	 *
+	 * @param level new log level
 	 */
 	public void setLevel(Level level) {
 		this.level = level;
 	}
-	
+
 	/**
 	 * Get logger
+	 *
 	 * @return Logger
 	 */
 	public Logger getLogger() {
 		return logger;
 	}
-	/**
-	 * {@inheritDoc }
-	 * Logger is enabled if underlying logger is {@link Logger#isLoggable} is true
-	 * for current level
-	 */
-	public boolean isEnabled(C context) {
-		return logger.isLoggable(level);
-	}
 
 	/**
 	 * {@inheritDoc }
+	 * <p/>
+	 * Logger is enabled if underlying logger is {@link Logger#isLoggable} is true for current level.
 	 */
-	public void log(String message) {
+	protected boolean isEnabled(C context) {
+		return logger.isLoggable(level);
+	}
+
+	protected void log(String message) {
 		logger.log(level, message);
 	}
 }

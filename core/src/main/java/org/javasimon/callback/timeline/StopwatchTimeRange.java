@@ -1,6 +1,5 @@
 package org.javasimon.callback.timeline;
 
-import org.javasimon.Split;
 import org.javasimon.utils.SimonUtils;
 
 /**
@@ -10,42 +9,35 @@ import org.javasimon.utils.SimonUtils;
  * @author gerald
  */
 public class StopwatchTimeRange extends TimeRange {
-	/**
-	 * Last value
-	 */
+
+	/** Last value. */
 	private long last;
-	/**
-	 * Minimum
-	 */
+
+	/** Minimum value. */
 	private long min = Long.MAX_VALUE;
-	/**
-	 * Minimum
-	 */
+
+	/** Maximum value. */
 	private long max = Long.MIN_VALUE;
-	/**
-	 * Total (Sum of all values)
-	 */
+
+	/** Total sum of all values. */
 	private long total;
-	/**
-	 * (Sum of square of all values)
-	 */
+
+	/** Sum of squares. */
 	private long squareTotal;
-	/**
-	 * Counter (Number of values)
-	 */
+
+	/** Counter - number of values. */
 	private long counter;
 
-	/**
-	 * Main constructor.
-	 */
+	/** Main constructor. */
 	public StopwatchTimeRange(long startTimestamp, long endTimestamp) {
 		super(startTimestamp, endTimestamp);
 	}
 
 	/**
 	 * Add stopwatch split information.
-	 * @param timestampInMs When the split started, expressed in milliseconds
-	 * @param durationInNs How long the split was, expressed in nanoseconds
+	 *
+	 * @param timestampInMs when the split started, expressed in milliseconds
+	 * @param durationInNs how long the split was, expressed in nanoseconds
 	 */
 	public void addSplit(long timestampInMs, long durationInNs) {
 		last = durationInNs;
@@ -80,42 +72,44 @@ public class StopwatchTimeRange extends TimeRange {
 	public long getCounter() {
 		return counter;
 	}
-	/**
-	 * Compute mean/average using total and counter
-	 */
+
+	/** Computes mean (average) using total and non-zero counter. */
 	private double computeMean() {
-		return ((double) total) / ((double) counter);
+		return ((double) total) / counter;
 	}
 
 	/**
-	 * Compute mean/average.
-	 * @return mean/average duration.
+	 * Compute mean (average) duration.
+	 *
+	 * @return mean (average) duration.
 	 */
 	public Double getMean() {
-		return counter == 0 ? null : computeMean();
+		return counter == 0 ? Double.NaN : computeMean();
 	}
 
 	/**
 	 * Compute variance.
+	 *
 	 * @return variance
 	 */
 	public Double getVariance() {
 		if (counter == 0) {
-			return null;
+			return Double.NaN;
 		} else {
 			final double mean = computeMean();
 			final double meanSquare = mean * mean;
-			final double squareMean = ((double) squareTotal) / ((double) counter);
+			final double squareMean = ((double) squareTotal) / counter;
 			return squareMean - meanSquare;
 		}
 	}
+
 	/**
-	 * Compute standard deviation.
-	 * @return Standard deviation
+	 * Computes standard deviation.
+	 *
+	 * @return standard deviation
 	 */
 	public Double getStandardDeviation() {
-		final Double variance = getVariance();
-		return variance == null ? null : Math.sqrt(variance);
+		return Math.sqrt(getVariance());
 	}
 
 	@Override
@@ -129,5 +123,4 @@ public class StopwatchTimeRange extends TimeRange {
 			.append(" max=").append(SimonUtils.presentNanoTime(max))
 			.append(" stddev=").append(SimonUtils.presentNanoTime(getStandardDeviation()));
 	}
-
 }

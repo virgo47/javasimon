@@ -1,6 +1,7 @@
 package org.javasimon.console.plugin;
 
 import java.io.IOException;
+
 import org.javasimon.Simon;
 import org.javasimon.console.ActionContext;
 import org.javasimon.console.action.DetailHtmlBuilder;

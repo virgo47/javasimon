@@ -1,5 +1,10 @@
 package org.javasimon;
 
+import org.javasimon.callback.CompositeCallback;
+import org.javasimon.callback.CompositeCallbackImpl;
+import org.javasimon.clock.Clock;
+import org.javasimon.utils.SimonUtils;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -8,10 +13,6 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.javasimon.callback.CompositeCallback;
-import org.javasimon.callback.CompositeCallbackImpl;
-import org.javasimon.utils.SimonUtils;
-
 /**
  * Implements fully functional {@link Manager} in the enabled state. Does not support
  * {@link #enable()}/{@link #disable()} - for this use {@link SwitchingManager}.
@@ -19,22 +20,28 @@ import org.javasimon.utils.SimonUtils;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public final class EnabledManager implements Manager {
-	private final Map<String, AbstractSimon> allSimons = new ConcurrentHashMap<String, AbstractSimon>();
 
 	private UnknownSimon rootSimon;
 
-	private CompositeCallback callback = new CompositeCallbackImpl();
+	private final Map<String, AbstractSimon> allSimons = new ConcurrentHashMap<String, AbstractSimon>();
 
-	private ManagerConfiguration configuration;
+	private final CompositeCallback callback = new CompositeCallbackImpl();
 
-	/**
-	 * Creates new enabled manager.
-	 */
+	private final ManagerConfiguration configuration;
+
+	private final Clock clock;
+
+	/** Creates new enabled manager. */
 	public EnabledManager() {
+		this(Clock.SYSTEM);
+	}
+
+	public EnabledManager(Clock clock) {
+		this.clock = clock;
 		rootSimon = new UnknownSimon(ROOT_SIMON_NAME, this);
 		allSimons.put(ROOT_SIMON_NAME, rootSimon);
 		configuration = new ManagerConfiguration(this);
-		callback.initialize();
+		callback.initialize(this);
 	}
 
 	@Override
@@ -86,14 +93,14 @@ public final class EnabledManager implements Manager {
 
 	@SuppressWarnings({"unchecked"})
 	@Override
-	public Collection<Simon> getSimons(SimonPattern pattern) {
-		if (pattern == null) {
+	public Collection<Simon> getSimons(SimonFilter simonFilter) {
+		if (simonFilter == null) {
 			return Collections.unmodifiableCollection((Collection) allSimons.values());
 		}
 		Collection<Simon> simons = new ArrayList<Simon>();
-		for (Map.Entry<String, AbstractSimon> entry : allSimons.entrySet()) {
-			if (pattern.matches(entry.getKey())) {
-				simons.add(entry.getValue());
+		for (AbstractSimon simon : allSimons.values()) {
+			if (simonFilter.accept(simon)) {
+				simons.add(simon);
 			}
 		}
 		return simons;
@@ -209,17 +216,13 @@ public final class EnabledManager implements Manager {
 		return configuration;
 	}
 
-	/**
-	 * Throws {@link UnsupportedOperationException}.
-	 */
+	/** Throws {@link UnsupportedOperationException}. */
 	@Override
 	public void enable() {
 		throw new UnsupportedOperationException("Only SwitchingManager supports this operation.");
 	}
 
-	/**
-	 * Throws {@link UnsupportedOperationException}.
-	 */
+	/** Throws {@link UnsupportedOperationException}. */
 	@Override
 	public void disable() {
 		throw new UnsupportedOperationException("Only SwitchingManager supports this operation.");
@@ -243,5 +246,29 @@ public final class EnabledManager implements Manager {
 	@Override
 	public void warning(String warning, Exception cause) {
 		callback.onManagerWarning(warning, cause);
+	}
+
+	@Override
+	public long nanoTime() {
+		return clock.nanoTime();
+	}
+
+	@Override
+	public long milliTime() {
+		return clock.milliTime();
+	}
+
+	@Override
+	public long millisForNano(long nanos) {
+		return clock.millisForNano(nanos);
+	}
+
+	synchronized void purgeIncrementalSimonsOlderThan(long thresholdMs) {
+		for (Simon simon : allSimons.values()) {
+			if (simon instanceof AbstractSimon) {
+				AbstractSimon abstractSimon = (AbstractSimon) simon;
+				abstractSimon.purgeIncrementalSimonsOlderThan(thresholdMs);
+			}
+		}
 	}
 }

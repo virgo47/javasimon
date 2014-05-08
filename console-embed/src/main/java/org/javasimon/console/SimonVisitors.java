@@ -1,7 +1,11 @@
 package org.javasimon.console;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
 
 import org.javasimon.Manager;
 import org.javasimon.Simon;
@@ -19,13 +23,13 @@ public class SimonVisitors {
 
 	/**
 	 * Visit simons as a list.
-	 * Calls {@link  Manager#getSimons(org.javasimon.SimonPattern)} method
+	 * Calls {@link  Manager#getSimons(org.javasimon.SimonFilter)} method
 	 * then Simons are sorted by name and filtered by type
 	 * finally the visitor is called on each of them.
 	 *
 	 * @param manager Simon manager
 	 * @param pattern Pattern
-	 * @param type Type
+	 * @param types set of Simon types
 	 * @param visitor Visitor
 	 * @throws IOException
 	 */

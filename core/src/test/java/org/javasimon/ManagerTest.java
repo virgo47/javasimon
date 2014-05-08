@@ -1,20 +1,21 @@
- package org.javasimon;
+package org.javasimon;
 
 import org.javasimon.callback.CallbackSkeleton;
-import org.testng.annotations.Test;
-import org.testng.annotations.BeforeMethod;
-import org.testng.Assert;
+import org.javasimon.clock.TestClock;
 import org.javasimon.utils.SimonUtils;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
-import java.util.Queue;
 import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * Tests SimonManager behavior.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
-public final class ManagerTest {
+public final class ManagerTest extends SimonUnitTest {
+
 	private static final int FRESH_MANAGER_SIMON_LIST_SIZE = 1;
 	private static final int SIMON_COUNT_AFTER_COUNTER_ADDED = 5;
 
@@ -22,12 +23,6 @@ public final class ManagerTest {
 	private static final String ORG_JAVASIMON_INHERIT_SW1 = "org.javasimon.inherit.sw1";
 	private static final String ORG_JAVASIMON_ENABLED_SW1 = "org.javasimon.enabled.sw1";
 	private static final String ORG_JAVASIMON_DISABLED_SW1 = "org.javasimon.disabled.sw1";
-
-	@BeforeMethod
-	public void resetAndEnable() {
-		SimonManager.enable();
-		SimonManager.clear();
-	}
 
 	@Test
 	public void testSimonCreation() {
@@ -157,7 +152,7 @@ public final class ManagerTest {
 		Assert.assertEquals(messages.size(), 2);
 	}
 
-	@Test(expectedExceptions = SimonException.class)
+	@Test(expectedExceptions = SimonException.class, expectedExceptionsMessageRegExp = "Simon name must match following pattern.*")
 	public void testInvalidName() {
 		SimonManager.getStopwatch("Inv@lid name!@#$%");
 	}
@@ -188,5 +183,19 @@ public final class ManagerTest {
 		SimonManager.init();
 		Assert.assertEquals(messages.poll(), "SimonManager initialization error");
 		System.getProperties().remove(SimonManager.PROPERTY_CONFIG_RESOURCE_NAME);
+	}
+
+	@Test
+	public void testRemoveIncrementalSimons() {
+		TestClock testClock = new TestClock();
+		EnabledManager enabledManager = new EnabledManager(testClock);
+		Stopwatch stopwatch = enabledManager.getStopwatch("stopwatch");
+		String key = "key";
+		stopwatch.sampleIncrement(key);
+
+		long timeInTheFuture = 1000;
+		enabledManager.purgeIncrementalSimonsOlderThan(timeInTheFuture);
+		boolean incrementalSimonExisted = stopwatch.stopIncrementalSampling(key);
+		Assert.assertFalse(incrementalSimonExisted);
 	}
 }

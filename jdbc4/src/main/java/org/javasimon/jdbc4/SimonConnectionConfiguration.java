@@ -8,72 +8,55 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * JDBC configuration contains Simon JDBC connnection URL, real JDBC connection URL and Simon properties.
+ * JDBC configuration contains Simon JDBC connection URL, real JDBC connection URL and Simon properties.
  * <p/>
- * It parses given url and than provides getters for driver's propreties if provided or default values.
+ * It parses given url and than provides getters for driver's properties if provided or default values.
  * Prior to Simon 3.4, this class was known as org.javasimon.jdbc4.Driver.Url and only used in {@code org.javasimon.jdbc4.Driver}.
- * It was externalized and is now used in both {@code org.javasimon.jdbc4.Driver} 
+ * It was externalized and is now used in both {@code org.javasimon.jdbc4.Driver}
  * and {@code org.javasimon.jdbcx4.SimonDataSource} and other Simon DataSources.
+ *
  * @author Radovan Sninsky
  * @author gquintana
  * @since 3.4
  */
 public class SimonConnectionConfiguration {
+
 	/**
 	 * Default hierarchy prefix for Simon JDBC driver. All Simons created by Simon JDBC
 	 * driver without explicitly specified prefix are started with default prefix.
 	 */
 	public static final String DEFAULT_PREFIX = "org.javasimon.jdbc";
 
-	/**
-	 * Prefix used in JDBC connection URLs.
-	 */
+	/** Prefix used in JDBC connection URLs. */
 	public static final String URL_PREFIX = "jdbc:simon";
 
-	/**
-	 * Regex used to parse JDBC connection URL.
-	 */
+	/** Regex used to parse JDBC connection URL. */
 	private static final Pattern URL_PATTERN = Pattern.compile("jdbc:(simon:)?([\\w]*):.*");
 
-	/**
-	 * Name for the property holding the real driver class value.
-	 */
+	/** Name for the property holding the real driver class value. */
 	public static final String REAL_DRIVER = "simon_real_drv";
-	/**
-	 * Name for the driver property holding the hierarchy prefix given to JDBC Simons.
-	 */
+
+	/** Name for the driver property holding the hierarchy prefix given to JDBC Simons. */
 	public static final String PREFIX = "simon_prefix";
 
 	private static final Properties PROPERTIES = initProperties();
 
-	/**
-	 * JDBC connection URL with Simon prefix.
-	 */
+	/** JDBC connection URL with Simon prefix. */
 	private final String simonUrl;
 
-	/**
-	 * JDBC connection URL without Simon prefix.
-	 */
+	/** JDBC connection URL without Simon prefix. */
 	private final String realUrl;
 
-	/**
-	 * Driver Id.
-	 */
+	/** Driver Id. */
 	private final String driverId;
 
-	/**
-	 * Real Driver class name.
-	 */
+	/** Real Driver class name. */
 	private final String realDriver;
 
-	/**
-	 * Simon hierarchy prefix.
-	 */
+	/** Simon hierarchy prefix. */
 	private final String prefix;
 
-	/**
-	 * Loads {@code driver.properties} file.
-	 */
+	/** Loads {@code driver.properties} file. */
 	private static Properties initProperties() {
 		InputStream stream = null;
 		try {
@@ -162,7 +145,7 @@ public class SimonConnectionConfiguration {
 	}
 
 	/**
-	 * Returns orignal JDBC connection URL without any Simon stuff.
+	 * Returns original JDBC connection URL without any Simon stuff.
 	 *
 	 * @return original JDBC connection URL
 	 */
@@ -206,30 +189,22 @@ public class SimonConnectionConfiguration {
 		return simonUrl;
 	}
 
-	/**
-	 * Tests whether URL is a Simon JDBC connection URL.
-	 */
+	/** Tests whether URL is a Simon JDBC connection URL. */
 	public static boolean isSimonUrl(String url) {
 		return url != null && url.toLowerCase().startsWith(SimonConnectionConfiguration.URL_PREFIX);
 	}
 
-	/**
-	 * Gets the name of the class implementing {@link javax.sql.ConnectionPoolDataSource}.
-	 */
+	/** Gets the name of the class implementing {@link javax.sql.ConnectionPoolDataSource}. */
 	public String getRealConnectionPoolDataSourceName() {
 		return getProperty(driverId, "cpdatasource");
 	}
 
-	/**
-	 * Gets the name of the class implementing {@link javax.sql.DataSource}.
-	 */
+	/** Gets the name of the class implementing {@link javax.sql.DataSource}. */
 	public String getRealDataSourceName() {
 		return getProperty(driverId, "datasource");
 	}
 
-	/**
-	 * Gets the name of the class implementing {@link javax.sql.XADataSource}.
-	 */
+	/** Gets the name of the class implementing {@link javax.sql.XADataSource}. */
 	public String getRealXADataSourceName() {
 		return getProperty(driverId, "xadatasource");
 	}

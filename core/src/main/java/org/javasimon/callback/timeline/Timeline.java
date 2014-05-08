@@ -1,7 +1,5 @@
 package org.javasimon.callback.timeline;
 
-import java.util.List;
-
 import org.javasimon.callback.lastsplits.CircularList;
 
 /**
@@ -10,21 +8,18 @@ import org.javasimon.callback.lastsplits.CircularList;
  * @author gerald
  */
 public abstract class Timeline<TR extends TimeRange> {
-	/**
-	 * List of time ranges
-	 */
+
+	/** List of time ranges. */
 	protected final CircularList<TR> timeRanges;
-	/**
-	 * Time range width in milliseconds
-	 */
+	/** Time range width in milliseconds. */
 	protected final long timeRangeWidth;
-	/**
-	 * Last used time range
-	 */
+
+	/** Last used time range. */
 	private TR lastTimeRange;
 
 	/**
 	 * Main constructor.
+	 *
 	 * @param capacity Number of time ranges
 	 * @param timeRangeWidth Width of each time range
 	 */
@@ -34,19 +29,16 @@ public abstract class Timeline<TR extends TimeRange> {
 	}
 
 	/**
-	 * Create an time range (factory method).
+	 * Creates time range (factory method).
 	 *
 	 * @param startTimestamp Time range start
 	 * @param endTimestamp Time range end
-	 * @return
+	 * @return created time range
 	 */
 	protected abstract TR createTimeRange(long startTimestamp, long endTimestamp);
 
 	/**
-	 * Get existing time range if it already exists or create a new one
-	 *
-	 * @param timestamp
-	 * @return
+	 * Returns existing time range if it already exists or create a new one.
 	 */
 	protected final TR getOrCreateTimeRange(long timestamp) {
 		TR timeRange;

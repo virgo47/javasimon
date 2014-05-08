@@ -1,19 +1,22 @@
 package org.javasimon.callback.logging;
 
+import org.javasimon.clock.Clock;
+
 /**
- * Log template that logs something after every N milliseconds. The {@link #isEnabled(Object)} is only true after N milliseconds from the last log.
+ * Log template that logs something after every N milliseconds.
+ * The {@link #isEnabled(Object)} is only true after N milliseconds from the last log.
  *
  * @author gquintana
  */
 public class PeriodicLogTemplate<C> extends DelegateLogTemplate<C> {
-	/**
-	 * Maximum time between two calls to log method.
-	 */
+
+	/** Maximum time between two calls to log method. */
 	private final long period;
 
-	/**
-	 * Timestamp of next invocation.
-	 */
+	/** Clock object used to get current time */
+	private final Clock clock;
+
+	/** Timestamp of next invocation. */
 	private long nextTime;
 
 	/**
@@ -22,11 +25,17 @@ public class PeriodicLogTemplate<C> extends DelegateLogTemplate<C> {
 	 * @param delegate concrete log template
 	 * @param period logging period in milliseconds
 	 */
-	public PeriodicLogTemplate(LogTemplate delegate, long period) {
+	public PeriodicLogTemplate(LogTemplate<C> delegate, long period) {
+		this(delegate, period, Clock.SYSTEM);
+	}
+
+	public PeriodicLogTemplate(LogTemplate<C> delegate, long period, Clock clock) {
 		super(delegate);
 		this.period = period;
+		this.clock = clock;
 		initNextTime();
 	}
+
 
 	/**
 	 * Get next invocation time time.
@@ -42,20 +51,16 @@ public class PeriodicLogTemplate<C> extends DelegateLogTemplate<C> {
 	 *
 	 * @return current timestamp
 	 */
-	private long getCurrentTime() {
-		return System.currentTimeMillis();
+	long getCurrentTime() {
+		return clock.milliTime();
 	}
 
-	/**
-	 * Computes the next timestamp.
-	 */
+	/** Computes the next timestamp. */
 	private synchronized void initNextTime() {
 		nextTime = getCurrentTime() + period;
 	}
 
-	/**
-	 * Indicates whether next timestamp is in past.
-	 */
+	/** Indicates whether next timestamp is in past. */
 	public synchronized boolean isNextTimePassed() {
 		return nextTime < getCurrentTime();
 	}
@@ -66,17 +71,17 @@ public class PeriodicLogTemplate<C> extends DelegateLogTemplate<C> {
 	 * @return true if delegate is true and enough time passed since last log
 	 */
 	@Override
-	public boolean isEnabled(C context) {
+	protected boolean isEnabled(C context) {
 		return super.isEnabled(context) && isNextTimePassed();
 	}
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * <p/>
 	 * Next time is updated after delegate log is called.
 	 */
 	@Override
-	public void log(String message) {
+	protected void log(String message) {
 		super.log(message);
 		initNextTime();
 	}

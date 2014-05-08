@@ -1,9 +1,8 @@
 package org.javasimon.utils;
 
+import org.javasimon.Split;
 import org.javasimon.StopwatchSample;
 import org.javasimon.callback.CallbackSkeleton;
-import org.javasimon.Split;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
@@ -18,14 +17,14 @@ import org.slf4j.MarkerFactory;
  */
 @SuppressWarnings("UnusedDeclaration")
 public class SLF4JLoggingCallback extends CallbackSkeleton {
+
 	private Logger logger = LoggerFactory.getLogger(SLF4JLoggingCallback.class);
 	private Marker marker = MarkerFactory.getMarker("FINE");
 
 	/**
-	 * Logs Simon start on a sprecified log marker.
+	 * Logs Simon start on a specified log marker.
 	 *
 	 * @param split started split
-	 *
 	 */
 	@Override
 	public void onStopwatchStart(Split split) {
@@ -36,11 +35,11 @@ public class SLF4JLoggingCallback extends CallbackSkeleton {
 	 * Logs Simon stop on a specified log marker.
 	 *
 	 * @param split stopped split
-	 * @param sample
+	 * @param sample stopwatch sample
 	 */
 	@Override
 	public void onStopwatchStop(Split split, StopwatchSample sample) {
-		logger.debug(marker, "SIMON STOP: " + sample.stopwatchToString() + " (" + split.runningFor() + ")");
+		logger.debug(marker, "SIMON STOP: " + sample.simonToString() + " (" + split.runningFor() + ")");
 	}
 
 	/**

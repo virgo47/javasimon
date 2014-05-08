@@ -1,16 +1,16 @@
 package org.javasimon.examples.jmx;
 
-import org.javasimon.jmx.SimonManagerMXBean;
-import org.javasimon.jmx.SimonInfo;
-
-import javax.management.remote.JMXServiceURL;
-import javax.management.remote.JMXConnectorFactory;
-import javax.management.remote.JMXConnector;
-import javax.management.MBeanServerConnection;
-import javax.management.JMX;
-import javax.management.ObjectName;
-import javax.management.MalformedObjectNameException;
 import java.io.IOException;
+import javax.management.JMX;
+import javax.management.MBeanServerConnection;
+import javax.management.MalformedObjectNameException;
+import javax.management.ObjectName;
+import javax.management.remote.JMXConnector;
+import javax.management.remote.JMXConnectorFactory;
+import javax.management.remote.JMXServiceURL;
+
+import org.javasimon.jmx.SimonInfo;
+import org.javasimon.jmx.SimonManagerMXBean;
 
 /**
  * Trieda ExampleClient.

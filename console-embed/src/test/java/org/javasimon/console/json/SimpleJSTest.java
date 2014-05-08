@@ -1,6 +1,7 @@
 package org.javasimon.console.json;
 
 import org.javasimon.console.TimeFormatType;
+
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;

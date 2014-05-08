@@ -1,8 +1,8 @@
 package org.javasimon.examples;
 
 import org.javasimon.SimonManager;
-import org.javasimon.Stopwatch;
 import org.javasimon.Split;
+import org.javasimon.Stopwatch;
 
 /**
  * SamplingExample uses one stopwatch to measure one method (random duration) and this stopwatch is sampled
@@ -12,6 +12,7 @@ import org.javasimon.Split;
  */
 @SuppressWarnings({"InfiniteLoopStatement"})
 public final class SamplingExample {
+
 	private SamplingExample() {
 	}
 

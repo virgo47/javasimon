@@ -4,7 +4,8 @@ package org.javasimon;
  * Stopwatch Simon measures time spans and holds related statistics.
  * Methods {@link #start} creates new {@link org.javasimon.Split} object.
  * On this object you can call {@link org.javasimon.Split#stop()} - this demarcates measured interval.
- * Alternatively method {@link #addTime} can be used to add split time to the stopwatch. Both ways effectively
+ * Alternatively method {@link #addSplit(Split)} can be used to add split to the stopwatch ({@link Split#create(long)}
+ * can be used to create finished Split for any nanos value). Both ways effectively
  * updates usage times, increase usage counter by one and updates total time of the stopwatch.
  * Split object enables multiple time-splits to be measured in parallel.
  * <p/>
@@ -62,22 +63,14 @@ public interface Stopwatch extends Simon {
 	Split start();
 
 	/**
-	 * Adds split time in nanoseconds to total time of the stopwatch.
-	 *
-	 * @param ns split time
-	 * @return this stopwatch
-	 */
-	Stopwatch addTime(long ns);
-
-	/**
 	 * Adds {@link Split} to the stopwatch which is useful for aggregation of splits created for other stopwatch.
 	 * Split object should be stopped. Main difference is the callback method called as
 	 * {@link org.javasimon.callback.Callback#onStopwatchAdd(Stopwatch, Split, StopwatchSample)} provides split object to the callback.
 	 * <p/>
 	 * Usage examples:
 	 * <pre>Split split = Split.start(); // no stopwatch needed
-...
-someStopwatch.addSplit(split.stop()); // you may omit stop(), if you does not use the split after this point</pre>
+	 * ...
+	 * someStopwatch.addSplit(split.stop()); // you may omit stop(), if you does not use the split after this point</pre>
 	 *
 	 * @param split split object (should be stopped)
 	 * @return this stopwatch
@@ -93,7 +86,7 @@ someStopwatch.addSplit(split.stop()); // you may omit stop(), if you does not us
 	long getTotal();
 
 	/**
-	 * Returns value of the last added split - wheter it was added directly or with stop method.
+	 * Returns value of the last added split - whether it was added directly or with stop method.
 	 *
 	 * @return value of the last added split
 	 */
@@ -139,10 +132,8 @@ someStopwatch.addSplit(split.stop()); // you may omit stop(), if you does not us
 	 * Resets the Simon - clears total time, min, max, usage stats, etc. Split times that
 	 * started before reset will be counted when appropriate stop is called, so no split
 	 * time is ignored by the stopwatch. Active count is not reset.
-	 *
-	 * @return returns this
 	 */
-	Stopwatch reset();
+	void reset();
 
 	/**
 	 * Returns current number of measured splits (concurrently running). This counter can show more
@@ -162,7 +153,7 @@ someStopwatch.addSplit(split.stop()); // you may omit stop(), if you does not us
 	long getMaxActive();
 
 	/**
-	 * Retruns ms timestamp when the last peek of the active split count occured.
+	 * Returns ms timestamp when the last peek of the active split count occurred.
 	 *
 	 * @return ms timestamp of the last peek of the active split count
 	 */
@@ -170,20 +161,23 @@ someStopwatch.addSplit(split.stop()); // you may omit stop(), if you does not us
 
 	/**
 	 * Returns mean value (average) of all measured values.
+	 * If {@link #getCounter()} is 0 it should return {@code Double.NaN}, but for practical reasons returns 0.
 	 *
 	 * @return mean value
 	 */
 	double getMean();
 
 	/**
-	 * Returns standard deviation for all measured values.
+	 * Returns unbiased estimate of standard deviation. If {@link #getCounter()} is 0 returns {@code Double.NaN}.
+	 * http://en.wikipedia.org/wiki/Unbiased_estimation_of_standard_deviation
 	 *
-	 * @return standard deviation
+	 * @return unbiased estimate of standard deviation
 	 */
 	double getStandardDeviation();
 
 	/**
-	 * Returns unbiased estimate of the population variance.
+	 * Returns unbiased estimate of the population variance. If {@link #getCounter()} is 0 returns {@code Double.NaN}.
+	 * http://en.wikipedia.org/wiki/Variance#Population_variance_and_sample_variance
 	 *
 	 * @return unbiased estimated variance
 	 */
@@ -191,6 +185,8 @@ someStopwatch.addSplit(split.stop()); // you may omit stop(), if you does not us
 
 	/**
 	 * Returns variance value of all measured values (entire population).
+	 * If {@link #getCounter()} is 0 returns {@code Double.NaN}.
+	 * http://en.wikipedia.org/wiki/Variance#Population_variance_and_sample_variance
 	 *
 	 * @return entire population variance
 	 */
@@ -200,5 +196,8 @@ someStopwatch.addSplit(split.stop()); // you may omit stop(), if you does not us
 	StopwatchSample sample();
 
 	@Override
+	@Deprecated
 	StopwatchSample sampleAndReset();
+
+	StopwatchSample sampleIncrement(Object key);
 }

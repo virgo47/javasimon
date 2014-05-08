@@ -7,8 +7,9 @@ package org.javasimon;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 final class UnknownSimon extends AbstractSimon {
+
 	/**
-	 * Construts unknown Simon with a specified name and for the specified manager.
+	 * Constructs unknown Simon with a specified name and for the specified manager.
 	 *
 	 * @param name Simon's name
 	 * @param manager owning manager
@@ -18,8 +19,9 @@ final class UnknownSimon extends AbstractSimon {
 	}
 
 	@Override
-	public Simon reset() {
-		return this;
+	@Deprecated
+	void concreteReset() {
+		// nothing to do
 	}
 
 	@Override
@@ -31,9 +33,20 @@ final class UnknownSimon extends AbstractSimon {
 	}
 
 	@Override
+	@Deprecated
 	public synchronized Sample sampleAndReset() {
 		// reset is not needed
 		return sample();
+	}
+
+	@Override
+	public Sample sampleIncrement(Object key) {
+		return sample();
+	}
+
+	@Override
+	public boolean stopIncrementalSampling(Object key) {
+		return false;
 	}
 
 	/**

@@ -1,13 +1,16 @@
 package org.javasimon.jmx;
 
+import java.lang.management.ManagementFactory;
+import javax.management.MBeanServer;
+import javax.management.MalformedObjectNameException;
+import javax.management.ObjectName;
+
 import org.javasimon.SimonManager;
 
+import org.javasimon.SimonUnitTest;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import javax.management.*;
-import java.lang.management.ManagementFactory;
 
 /**
  * JmxRegistrationCallbackTest.
@@ -17,16 +20,14 @@ import java.lang.management.ManagementFactory;
  * @author joshcanfiel
  * @since 1.0
  */
-public class JmxRegistrationCallbackTest {
+public class JmxRegistrationCallbackTest extends SimonUnitTest {
+
 	private static final String DOMAIN = "org.javasimon.jmx.JmxRegistrationCallbackTest";
 	private MBeanServer mbs;
 
 	@BeforeMethod
 	public void setUp() throws Exception {
-		SimonManager.clear();
-
 		mbs = ManagementFactory.getPlatformMBeanServer();
-
 		SimonManager.callback().addCallback(new JmxRegisterCallback(DOMAIN));
 	}
 

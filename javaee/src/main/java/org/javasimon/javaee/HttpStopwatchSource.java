@@ -22,15 +22,35 @@ import org.javasimon.utils.Replacer;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public class HttpStopwatchSource extends AbstractStopwatchSource<HttpServletRequest> {
+
+	/**
+	 * Enum that represents modes of preserving HTTP methods names in Simons' names
+	 */
+	public static enum IncludeHttpMethodName {
+		// Always append name of HTTP method to simon name
+		ALWAYS,
+		// Never append name of HTTP method to simon name
+		NEVER,
+		// Append name of all HTTP methods except GET method
+		NON_GET
+	}
+
 	/**
 	 * Default prefix for web filter Simons if no "prefix" init parameter is used.
 	 */
 	public static final String DEFAULT_SIMON_PREFIX = "org.javasimon.web";
 
 	/**
+	 * Name of HTTP GET method.
+	 */
+	private static final String GET_METHOD = "GET";
+
+	/**
 	 * Simon prefix, can be set to {@code null}.
 	 */
 	private String prefix = DEFAULT_SIMON_PREFIX;
+
+	private IncludeHttpMethodName includeHttpMethodName = IncludeHttpMethodName.NEVER;
 
 	private Replacer unallowedCharacterReplacer = SimonServletFilterUtils.createUnallowedCharsReplacer("_");
 	private Replacer jsessionParameterReplacer = new Replacer("[;&]?JSESSIONID=[^;?/&]*", "", Replacer.Modificator.IGNORE_CASE);
@@ -57,6 +77,24 @@ public class HttpStopwatchSource extends AbstractStopwatchSource<HttpServletRequ
 	}
 
 	/**
+	 * Returns current mode of preserving HTTP method names in simons' names
+	 *
+	 * @return current mode of preserving HTTP method names
+	 */
+	public IncludeHttpMethodName getIncludeHttpMethodName() {
+		return includeHttpMethodName;
+	}
+
+	/**
+	 *  Set current mode of preserving HTTP method names in simons' names
+	 *
+	 * @param includeHttpMethodName current mode of preserving HTTP method names
+	 */
+	public void setIncludeHttpMethodName(IncludeHttpMethodName includeHttpMethodName) {
+		this.includeHttpMethodName = includeHttpMethodName;
+	}
+
+	/**
 	 * Returns Simon name for the specified HTTP request with the specified prefix. By default it contains URI without parameters with
 	 * all slashes replaced for dots (slashes then determines position in Simon hierarchy). Method can NOT be overridden, but some of the
 	 * following steps can:
@@ -70,13 +108,26 @@ public class HttpStopwatchSource extends AbstractStopwatchSource<HttpServletRequ
 	 * @return fully qualified name of the Simon
 	 * @see #requestToStringForMonitorName(javax.servlet.http.HttpServletRequest)
 	 */
-	protected final String getMonitorName(HttpServletRequest request) {
+	protected String getMonitorName(HttpServletRequest request) {
 		String uri = requestToStringForMonitorName(request);
 		String localName = SimonServletFilterUtils.getSimonName(uri, unallowedCharacterReplacer);
+		String monitorName;
 		if (prefix == null || prefix.isEmpty()) {
-			return localName;
+			monitorName = localName;
+		} else {
+			monitorName = prefix + Manager.HIERARCHY_DELIMITER + localName;
 		}
-		return prefix + Manager.HIERARCHY_DELIMITER + localName;
+
+		if (includeMethodName(request)) {
+			monitorName += Manager.HIERARCHY_DELIMITER + request.getMethod();
+		}
+
+		return monitorName;
+	}
+
+	private boolean includeMethodName(HttpServletRequest request) {
+		return includeHttpMethodName == IncludeHttpMethodName.ALWAYS ||
+				(includeHttpMethodName == IncludeHttpMethodName.NON_GET && !request.getMethod().equals(GET_METHOD));
 	}
 
 	/**

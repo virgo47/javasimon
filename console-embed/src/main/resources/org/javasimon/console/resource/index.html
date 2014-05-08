@@ -12,8 +12,16 @@
         <script src="resource/js/jquery-getUrlParam.js" type="text/javascript"></script>
         <script src="resource/js/javasimon-filter.js" type="text/javascript"></script>
         <script src="resource/js/javasimon-service.js" type="text/javascript"></script>
+        <script src="resource/js/javasimon-autorefresh.js" type="text/javascript"></script>
+        <script src="resource/js/javasimon-customization.js" type="text/javascript"></script>
         <script type="text/javascript">
 $(document).ready(function() {
+	var onTableData = javasimon.onTableData || function() {};
+	var timeFormatSelect = $('#timeFormatSelect');
+	var autorefreshController = new javasimon.AutoRefreshController($("#autorefreshSelect"), function() {
+		oDataTable.fnReloadAjax();	
+	});
+
 	javasimon.SettingsService.load();
 	var oFilterCtrl=new javasimon.FilterController(
 		$('#patternText'),
@@ -82,6 +90,7 @@ $(document).ready(function() {
 						json = {aaData:json};
 					}
 					fnCallback(json);
+                    onTableData(json.aaData, timeFormatSelect.val());
 				}
 			});
 		},
@@ -138,6 +147,7 @@ $(document).ready(function() {
 		document.oDataTable.fnAdjustColumnSizing();
 	} );
 	$("#mainTabs").tabs({selected:0});
+
 } );
 
         </script>
@@ -186,6 +196,16 @@ $(document).ready(function() {
 									<option value="NANOSECOND">ns</option>
 								</select>
 							</td>
+							<td class="label">Auto refresh</td>
+							<td class="value">
+								<select id="autorefreshSelect" name="type">
+									<option value="1 sec">1 sec</option>
+									<option value="10 sec">10 sec</option>
+									<option value="30 sec">30 sec</option>
+									<option value="60 sec">60 sec</option>
+									<option value="never">never</option>
+								</select>
+							</td>
 						</tr>
 					</table>
 					<div class="filterButtons ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix">
@@ -208,3 +228,4 @@ $(document).ready(function() {
         </div>
     </body>
 </html>
+
