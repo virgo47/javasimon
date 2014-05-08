@@ -19,7 +19,7 @@ mvn source:aggregate
 
 # DISTRIBUTION ZIP (rename as needed)
 if [ -f dist.zip ]; then
-  del dist.zip
+  rm dist.zip
 fi
 
 zip -j dist.zip console-embed/target/javasimon*.jar console-webapp/target/javasimon*.war \
