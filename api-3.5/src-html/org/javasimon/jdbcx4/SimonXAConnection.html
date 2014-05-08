@@ -1,0 +1,116 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    package org.javasimon.jdbcx4;<a name="line.1"></a>
+<FONT color="green">002</FONT>    <a name="line.2"></a>
+<FONT color="green">003</FONT>    import java.sql.SQLException;<a name="line.3"></a>
+<FONT color="green">004</FONT>    import javax.sql.StatementEventListener;<a name="line.4"></a>
+<FONT color="green">005</FONT>    import javax.sql.XAConnection;<a name="line.5"></a>
+<FONT color="green">006</FONT>    import javax.transaction.xa.XAResource;<a name="line.6"></a>
+<FONT color="green">007</FONT>    <a name="line.7"></a>
+<FONT color="green">008</FONT>    /**<a name="line.8"></a>
+<FONT color="green">009</FONT>     * Simon implementation of &lt;code&gt;XAConnection&lt;/code&gt;, needed for<a name="line.9"></a>
+<FONT color="green">010</FONT>     * Simon XADataSource implementation.<a name="line.10"></a>
+<FONT color="green">011</FONT>     * &lt;p/&gt;<a name="line.11"></a>
+<FONT color="green">012</FONT>     * All method invokes its real implementation.<a name="line.12"></a>
+<FONT color="green">013</FONT>     * &lt;p/&gt;<a name="line.13"></a>
+<FONT color="green">014</FONT>     * See the {@link org.javasimon.jdbcx4 package description} for more<a name="line.14"></a>
+<FONT color="green">015</FONT>     * information.<a name="line.15"></a>
+<FONT color="green">016</FONT>     *<a name="line.16"></a>
+<FONT color="green">017</FONT>     * @author Radovan Sninsky<a name="line.17"></a>
+<FONT color="green">018</FONT>     * @author &lt;a href="mailto:virgo47@gmail.com"&gt;Richard "Virgo" Richter&lt;/a&gt;<a name="line.18"></a>
+<FONT color="green">019</FONT>     * @since 2.4<a name="line.19"></a>
+<FONT color="green">020</FONT>     */<a name="line.20"></a>
+<FONT color="green">021</FONT>    public final class SimonXAConnection extends SimonPooledConnection implements XAConnection {<a name="line.21"></a>
+<FONT color="green">022</FONT>            private final XAConnection realConn;<a name="line.22"></a>
+<FONT color="green">023</FONT>    <a name="line.23"></a>
+<FONT color="green">024</FONT>            /**<a name="line.24"></a>
+<FONT color="green">025</FONT>             * Class constructor.<a name="line.25"></a>
+<FONT color="green">026</FONT>             *<a name="line.26"></a>
+<FONT color="green">027</FONT>             * @param connection real xa connection<a name="line.27"></a>
+<FONT color="green">028</FONT>             * @param prefix Simon prefix<a name="line.28"></a>
+<FONT color="green">029</FONT>             */<a name="line.29"></a>
+<FONT color="green">030</FONT>            public SimonXAConnection(XAConnection connection, String prefix) {<a name="line.30"></a>
+<FONT color="green">031</FONT>                    super(connection, prefix);<a name="line.31"></a>
+<FONT color="green">032</FONT>    <a name="line.32"></a>
+<FONT color="green">033</FONT>                    this.realConn = connection;<a name="line.33"></a>
+<FONT color="green">034</FONT>            }<a name="line.34"></a>
+<FONT color="green">035</FONT>    <a name="line.35"></a>
+<FONT color="green">036</FONT>            @Override<a name="line.36"></a>
+<FONT color="green">037</FONT>            public XAResource getXAResource() throws SQLException {<a name="line.37"></a>
+<FONT color="green">038</FONT>                    return realConn.getXAResource();<a name="line.38"></a>
+<FONT color="green">039</FONT>            }<a name="line.39"></a>
+<FONT color="green">040</FONT>    <a name="line.40"></a>
+<FONT color="green">041</FONT>            @Override<a name="line.41"></a>
+<FONT color="green">042</FONT>            public void addStatementEventListener(StatementEventListener listener) {<a name="line.42"></a>
+<FONT color="green">043</FONT>                    realConn.addStatementEventListener(listener);<a name="line.43"></a>
+<FONT color="green">044</FONT>            }<a name="line.44"></a>
+<FONT color="green">045</FONT>    <a name="line.45"></a>
+<FONT color="green">046</FONT>            @Override<a name="line.46"></a>
+<FONT color="green">047</FONT>            public void removeStatementEventListener(StatementEventListener listener) {<a name="line.47"></a>
+<FONT color="green">048</FONT>                    realConn.removeStatementEventListener(listener);<a name="line.48"></a>
+<FONT color="green">049</FONT>            }<a name="line.49"></a>
+<FONT color="green">050</FONT>    }<a name="line.50"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,107 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    package org.javasimon.callback;<a name="line.1"></a>
+<FONT color="green">002</FONT>    <a name="line.2"></a>
+<FONT color="green">003</FONT>    import java.util.List;<a name="line.3"></a>
+<FONT color="green">004</FONT>    <a name="line.4"></a>
+<FONT color="green">005</FONT>    /**<a name="line.5"></a>
+<FONT color="green">006</FONT>     * Composite {@link Callback} can hold more callbacks which allows to form callback trees where events are passed to<a name="line.6"></a>
+<FONT color="green">007</FONT>     * sub-callbacks. Events can be filtered using {@link FilterCallback} which may be set up to pass only specific<a name="line.7"></a>
+<FONT color="green">008</FONT>     * events under certain circumstances.<a name="line.8"></a>
+<FONT color="green">009</FONT>     * This can be configured via Manager configuration facility. (Configuration part is still rather WIP.)<a name="line.9"></a>
+<FONT color="green">010</FONT>     * &lt;p/&gt;<a name="line.10"></a>
+<FONT color="green">011</FONT>     * Callback tree has no correlation with Simon tree in the {@link org.javasimon.Manager}).<a name="line.11"></a>
+<FONT color="green">012</FONT>     *<a name="line.12"></a>
+<FONT color="green">013</FONT>     * @author &lt;a href="mailto:virgo47@gmail.com"&gt;Richard "Virgo" Richter&lt;/a&gt;<a name="line.13"></a>
+<FONT color="green">014</FONT>     * @since 3.2<a name="line.14"></a>
+<FONT color="green">015</FONT>     */<a name="line.15"></a>
+<FONT color="green">016</FONT>    public interface CompositeCallback extends Callback {<a name="line.16"></a>
+<FONT color="green">017</FONT>    <a name="line.17"></a>
+<FONT color="green">018</FONT>            /**<a name="line.18"></a>
+<FONT color="green">019</FONT>             * Returns the list of all child-callbacks.<a name="line.19"></a>
+<FONT color="green">020</FONT>             *<a name="line.20"></a>
+<FONT color="green">021</FONT>             * @return children list<a name="line.21"></a>
+<FONT color="green">022</FONT>             */<a name="line.22"></a>
+<FONT color="green">023</FONT>            List&lt;Callback&gt; callbacks();<a name="line.23"></a>
+<FONT color="green">024</FONT>    <a name="line.24"></a>
+<FONT color="green">025</FONT>            /**<a name="line.25"></a>
+<FONT color="green">026</FONT>             * Adds another callback as a child to this callback.<a name="line.26"></a>
+<FONT color="green">027</FONT>             *<a name="line.27"></a>
+<FONT color="green">028</FONT>             * @param callback added callback<a name="line.28"></a>
+<FONT color="green">029</FONT>             */<a name="line.29"></a>
+<FONT color="green">030</FONT>            void addCallback(Callback callback);<a name="line.30"></a>
+<FONT color="green">031</FONT>    <a name="line.31"></a>
+<FONT color="green">032</FONT>            /**<a name="line.32"></a>
+<FONT color="green">033</FONT>             * Removes specified callback from this callback.<a name="line.33"></a>
+<FONT color="green">034</FONT>             *<a name="line.34"></a>
+<FONT color="green">035</FONT>             * @param callback removed child-callback<a name="line.35"></a>
+<FONT color="green">036</FONT>             */<a name="line.36"></a>
+<FONT color="green">037</FONT>            void removeCallback(Callback callback);<a name="line.37"></a>
+<FONT color="green">038</FONT>    <a name="line.38"></a>
+<FONT color="green">039</FONT>            /** Removes all callbacks from this callback. */<a name="line.39"></a>
+<FONT color="green">040</FONT>            void removeAllCallbacks();<a name="line.40"></a>
+<FONT color="green">041</FONT>    }<a name="line.41"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

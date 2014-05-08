@@ -1,0 +1,116 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    package org.javasimon.console.action;<a name="line.1"></a>
+<FONT color="green">002</FONT>    <a name="line.2"></a>
+<FONT color="green">003</FONT>    import org.javasimon.Simon;<a name="line.3"></a>
+<FONT color="green">004</FONT>    import org.javasimon.console.ActionContext;<a name="line.4"></a>
+<FONT color="green">005</FONT>    import org.w3c.dom.Document;<a name="line.5"></a>
+<FONT color="green">006</FONT>    import org.w3c.dom.Element;<a name="line.6"></a>
+<FONT color="green">007</FONT>    <a name="line.7"></a>
+<FONT color="green">008</FONT>    /**<a name="line.8"></a>
+<FONT color="green">009</FONT>     * Export Simons as a hierarchical XML document.<a name="line.9"></a>
+<FONT color="green">010</FONT>     * All attributes of simons are exported.<a name="line.10"></a>
+<FONT color="green">011</FONT>     *<a name="line.11"></a>
+<FONT color="green">012</FONT>     * @author gquintana<a name="line.12"></a>
+<FONT color="green">013</FONT>     */<a name="line.13"></a>
+<FONT color="green">014</FONT>    public class TreeXmlAction extends AbstractXmlAction {<a name="line.14"></a>
+<FONT color="green">015</FONT>    <a name="line.15"></a>
+<FONT color="green">016</FONT>            public static final String PATH = "/data/tree.xml";<a name="line.16"></a>
+<FONT color="green">017</FONT>    <a name="line.17"></a>
+<FONT color="green">018</FONT>            /**<a name="line.18"></a>
+<FONT color="green">019</FONT>             * Name of the simon from where to start.<a name="line.19"></a>
+<FONT color="green">020</FONT>             * {@code null} means root.<a name="line.20"></a>
+<FONT color="green">021</FONT>             */<a name="line.21"></a>
+<FONT color="green">022</FONT>            private String name;<a name="line.22"></a>
+<FONT color="green">023</FONT>    <a name="line.23"></a>
+<FONT color="green">024</FONT>            public TreeXmlAction(ActionContext context) {<a name="line.24"></a>
+<FONT color="green">025</FONT>                    super(context);<a name="line.25"></a>
+<FONT color="green">026</FONT>            }<a name="line.26"></a>
+<FONT color="green">027</FONT>    <a name="line.27"></a>
+<FONT color="green">028</FONT>            @Override<a name="line.28"></a>
+<FONT color="green">029</FONT>            public void readParameters() {<a name="line.29"></a>
+<FONT color="green">030</FONT>                    super.readParameters();<a name="line.30"></a>
+<FONT color="green">031</FONT>                    name = getContext().getParameterAsString("name", null);<a name="line.31"></a>
+<FONT color="green">032</FONT>            }<a name="line.32"></a>
+<FONT color="green">033</FONT>    <a name="line.33"></a>
+<FONT color="green">034</FONT>            @Override<a name="line.34"></a>
+<FONT color="green">035</FONT>            protected Element createElement(Document document, Simon simon) {<a name="line.35"></a>
+<FONT color="green">036</FONT>                    Element element = super.createElement(document, simon);<a name="line.36"></a>
+<FONT color="green">037</FONT>                    for (Simon child : simon.getChildren()) {<a name="line.37"></a>
+<FONT color="green">038</FONT>                            Element childElement = createElement(document, child);<a name="line.38"></a>
+<FONT color="green">039</FONT>                            element.appendChild(childElement);<a name="line.39"></a>
+<FONT color="green">040</FONT>                    }<a name="line.40"></a>
+<FONT color="green">041</FONT>                    return element;<a name="line.41"></a>
+<FONT color="green">042</FONT>            }<a name="line.42"></a>
+<FONT color="green">043</FONT>    <a name="line.43"></a>
+<FONT color="green">044</FONT>            @Override<a name="line.44"></a>
+<FONT color="green">045</FONT>            protected void fillDocument(Document document) {<a name="line.45"></a>
+<FONT color="green">046</FONT>                    Simon simon = name == null ? getContext().getManager().getRootSimon() : getContext().getManager().getSimon(name);<a name="line.46"></a>
+<FONT color="green">047</FONT>                    Element rootElement = createElement(document, simon);<a name="line.47"></a>
+<FONT color="green">048</FONT>                    document.appendChild(rootElement);<a name="line.48"></a>
+<FONT color="green">049</FONT>            }<a name="line.49"></a>
+<FONT color="green">050</FONT>    }<a name="line.50"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

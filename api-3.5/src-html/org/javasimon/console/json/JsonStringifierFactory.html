@@ -1,0 +1,96 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    package org.javasimon.console.json;<a name="line.1"></a>
+<FONT color="green">002</FONT>    <a name="line.2"></a>
+<FONT color="green">003</FONT>    import org.javasimon.console.text.BaseStringifier;<a name="line.3"></a>
+<FONT color="green">004</FONT>    import org.javasimon.console.text.Stringifier;<a name="line.4"></a>
+<FONT color="green">005</FONT>    import org.javasimon.console.text.StringifierFactory;<a name="line.5"></a>
+<FONT color="green">006</FONT>    <a name="line.6"></a>
+<FONT color="green">007</FONT>    /**<a name="line.7"></a>
+<FONT color="green">008</FONT>     * Value formatter for JSON responses.<a name="line.8"></a>
+<FONT color="green">009</FONT>     *<a name="line.9"></a>
+<FONT color="green">010</FONT>     * @author gquintana<a name="line.10"></a>
+<FONT color="green">011</FONT>     */<a name="line.11"></a>
+<FONT color="green">012</FONT>    public class JsonStringifierFactory extends StringifierFactory {<a name="line.12"></a>
+<FONT color="green">013</FONT>    <a name="line.13"></a>
+<FONT color="green">014</FONT>            @Override<a name="line.14"></a>
+<FONT color="green">015</FONT>            protected Stringifier registerNullStringifier() {<a name="line.15"></a>
+<FONT color="green">016</FONT>                    return registerNullStringifier("\"\"");<a name="line.16"></a>
+<FONT color="green">017</FONT>            }<a name="line.17"></a>
+<FONT color="green">018</FONT>    <a name="line.18"></a>
+<FONT color="green">019</FONT>            @Override<a name="line.19"></a>
+<FONT color="green">020</FONT>            protected Stringifier&lt;String&gt; registerStringStringifier(Stringifier nullStringifier) {<a name="line.20"></a>
+<FONT color="green">021</FONT>                    Stringifier&lt;String&gt; stringStringifier = new BaseStringifier&lt;String&gt;(nullStringifier) {<a name="line.21"></a>
+<FONT color="green">022</FONT>                            @Override<a name="line.22"></a>
+<FONT color="green">023</FONT>                            protected String doToString(String s) {<a name="line.23"></a>
+<FONT color="green">024</FONT>                                    return "\"" + s.replace("\\", "\\\\").replace("\"", "\\\"").replace("/", "\\/") + "\"";<a name="line.24"></a>
+<FONT color="green">025</FONT>                            }<a name="line.25"></a>
+<FONT color="green">026</FONT>                    };<a name="line.26"></a>
+<FONT color="green">027</FONT>                    compositeStringifier.add(String.class, stringStringifier);<a name="line.27"></a>
+<FONT color="green">028</FONT>                    return stringStringifier;<a name="line.28"></a>
+<FONT color="green">029</FONT>            }<a name="line.29"></a>
+<FONT color="green">030</FONT>    }<a name="line.30"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

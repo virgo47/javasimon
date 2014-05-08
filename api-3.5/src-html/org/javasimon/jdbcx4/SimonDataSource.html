@@ -1,0 +1,157 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    package org.javasimon.jdbcx4;<a name="line.1"></a>
+<FONT color="green">002</FONT>    <a name="line.2"></a>
+<FONT color="green">003</FONT>    import java.sql.Connection;<a name="line.3"></a>
+<FONT color="green">004</FONT>    import java.sql.SQLException;<a name="line.4"></a>
+<FONT color="green">005</FONT>    import javax.sql.DataSource;<a name="line.5"></a>
+<FONT color="green">006</FONT>    <a name="line.6"></a>
+<FONT color="green">007</FONT>    import org.javasimon.jdbc4.SimonConnection;<a name="line.7"></a>
+<FONT color="green">008</FONT>    import org.javasimon.jdbc4.WrapperSupport;<a name="line.8"></a>
+<FONT color="green">009</FONT>    <a name="line.9"></a>
+<FONT color="green">010</FONT>    /**<a name="line.10"></a>
+<FONT color="green">011</FONT>     * Wrapper class for real DataSource implementation, produces standard {@link java.sql.Connection}<a name="line.11"></a>
+<FONT color="green">012</FONT>     * object.<a name="line.12"></a>
+<FONT color="green">013</FONT>     * &lt;p/&gt;<a name="line.13"></a>
+<FONT color="green">014</FONT>     * To use SimonDataSource, &lt;b&gt;MUST&lt;/b&gt; properties are:<a name="line.14"></a>
+<FONT color="green">015</FONT>     * &lt;ul&gt;<a name="line.15"></a>
+<FONT color="green">016</FONT>     * &lt;li&gt;&lt;code&gt;realDataSourceClassName&lt;/code&gt; - full qualified classname of real Datasource<a name="line.16"></a>
+<FONT color="green">017</FONT>     * implementation&lt;/li&gt;<a name="line.17"></a>
+<FONT color="green">018</FONT>     * &lt;li&gt;&lt;code&gt;url&lt;/code&gt; - JDBC connection URL (no special Simon added tags are needed)&lt;/li&gt;<a name="line.18"></a>
+<FONT color="green">019</FONT>     * &lt;li&gt;&lt;code&gt;user&lt;/code&gt; - DB user name&lt;/li&gt;<a name="line.19"></a>
+<FONT color="green">020</FONT>     * &lt;li&gt;&lt;code&gt;password&lt;/code&gt; - DB user name&lt;/li&gt;<a name="line.20"></a>
+<FONT color="green">021</FONT>     * &lt;/ul&gt;<a name="line.21"></a>
+<FONT color="green">022</FONT>     * &lt;b&gt;MAY&lt;/b&gt; properties are:<a name="line.22"></a>
+<FONT color="green">023</FONT>     * &lt;ul&gt;<a name="line.23"></a>
+<FONT color="green">024</FONT>     * &lt;li&gt;&lt;code&gt;prefix&lt;/code&gt; - Simon prefix (default: &lt;code&gt;org.javasimon.jdbcx4&lt;/code&gt;&lt;/li&gt;<a name="line.24"></a>
+<FONT color="green">025</FONT>     * &lt;/ul&gt;<a name="line.25"></a>
+<FONT color="green">026</FONT>     * &lt;p/&gt;<a name="line.26"></a>
+<FONT color="green">027</FONT>     * As mentioned in package description all &lt;code&gt;getConnection&lt;/code&gt; methods<a name="line.27"></a>
+<FONT color="green">028</FONT>     * just invokes real {@link javax.sql.DataSource} object methods and wraps obtained<a name="line.28"></a>
+<FONT color="green">029</FONT>     * {@link java.sql.Connection} with {@link org.javasimon.jdbc4.SimonConnection} object.<a name="line.29"></a>
+<FONT color="green">030</FONT>     * &lt;p/&gt;<a name="line.30"></a>
+<FONT color="green">031</FONT>     * Real {@link javax.sql.DataSource} is obtained in method {@link #datasource()}. It tries<a name="line.31"></a>
+<FONT color="green">032</FONT>     * to instantiate real datasource object by property &lt;code&gt;realDataSourceClassName&lt;/code&gt;<a name="line.32"></a>
+<FONT color="green">033</FONT>     * (setters and getters for properties are in {@link AbstractSimonDataSource}) and then sets<a name="line.33"></a>
+<FONT color="green">034</FONT>     * basic properties (&lt;code&gt;url&lt;/code&gt;, &lt;code&gt;user&lt;/code&gt;, &lt;code&gt;password&lt;/code&gt;).<a name="line.34"></a>
+<FONT color="green">035</FONT>     *<a name="line.35"></a>
+<FONT color="green">036</FONT>     * @author Radovan Sninsky<a name="line.36"></a>
+<FONT color="green">037</FONT>     * @author &lt;a href="mailto:virgo47@gmail.com"&gt;Richard "Virgo" Richter&lt;/a&gt;<a name="line.37"></a>
+<FONT color="green">038</FONT>     * @since 2.4<a name="line.38"></a>
+<FONT color="green">039</FONT>     */<a name="line.39"></a>
+<FONT color="green">040</FONT>    public final class SimonDataSource extends AbstractSimonDataSource implements DataSource {<a name="line.40"></a>
+<FONT color="green">041</FONT>            private DataSource ds;<a name="line.41"></a>
+<FONT color="green">042</FONT>            private WrapperSupport&lt;DataSource&gt; wrapperSupport;<a name="line.42"></a>
+<FONT color="green">043</FONT>    <a name="line.43"></a>
+<FONT color="green">044</FONT>            DataSource datasource() throws SQLException {<a name="line.44"></a>
+<FONT color="green">045</FONT>                    if (ds == null) {<a name="line.45"></a>
+<FONT color="green">046</FONT>                            ds = createDataSource(DataSource.class);<a name="line.46"></a>
+<FONT color="green">047</FONT>                            ds.setLogWriter(logWriter);<a name="line.47"></a>
+<FONT color="green">048</FONT>                            wrapperSupport = new WrapperSupport&lt;DataSource&gt;(ds, DataSource.class);<a name="line.48"></a>
+<FONT color="green">049</FONT>                    }<a name="line.49"></a>
+<FONT color="green">050</FONT>                    return ds;<a name="line.50"></a>
+<FONT color="green">051</FONT>            }<a name="line.51"></a>
+<FONT color="green">052</FONT>    <a name="line.52"></a>
+<FONT color="green">053</FONT>            /**<a name="line.53"></a>
+<FONT color="green">054</FONT>             * Attempts to establish a connection with the data source that this {@code DataSource} object represents.<a name="line.54"></a>
+<FONT color="green">055</FONT>             *<a name="line.55"></a>
+<FONT color="green">056</FONT>             * @return a connection to the data source<a name="line.56"></a>
+<FONT color="green">057</FONT>             * @throws java.sql.SQLException if a database access error occurs<a name="line.57"></a>
+<FONT color="green">058</FONT>             */<a name="line.58"></a>
+<FONT color="green">059</FONT>            @Override<a name="line.59"></a>
+<FONT color="green">060</FONT>            public Connection getConnection() throws SQLException {<a name="line.60"></a>
+<FONT color="green">061</FONT>                    return new SimonConnection(datasource().getConnection(), getPrefix());<a name="line.61"></a>
+<FONT color="green">062</FONT>            }<a name="line.62"></a>
+<FONT color="green">063</FONT>    <a name="line.63"></a>
+<FONT color="green">064</FONT>            /**<a name="line.64"></a>
+<FONT color="green">065</FONT>             * Attempts to establish a connection with the data source that this {@code DataSource} object represents.<a name="line.65"></a>
+<FONT color="green">066</FONT>             *<a name="line.66"></a>
+<FONT color="green">067</FONT>             * @param user the database user on whose behalf the connection is being made<a name="line.67"></a>
+<FONT color="green">068</FONT>             * @param password the user's password<a name="line.68"></a>
+<FONT color="green">069</FONT>             * @return a connection to the data source<a name="line.69"></a>
+<FONT color="green">070</FONT>             * @throws java.sql.SQLException if a database access error occurs<a name="line.70"></a>
+<FONT color="green">071</FONT>             */<a name="line.71"></a>
+<FONT color="green">072</FONT>            @Override<a name="line.72"></a>
+<FONT color="green">073</FONT>            public Connection getConnection(String user, String password) throws SQLException {<a name="line.73"></a>
+<FONT color="green">074</FONT>                    return new SimonConnection(datasource().getConnection(user, password), getPrefix());<a name="line.74"></a>
+<FONT color="green">075</FONT>            }<a name="line.75"></a>
+<FONT color="green">076</FONT>    <a name="line.76"></a>
+<FONT color="green">077</FONT>            @Override<a name="line.77"></a>
+<FONT color="green">078</FONT>            public &lt;T&gt; T unwrap(Class&lt;T&gt; iface) throws SQLException {<a name="line.78"></a>
+<FONT color="green">079</FONT>                    return wrapperSupport.unwrap(iface);<a name="line.79"></a>
+<FONT color="green">080</FONT>            }<a name="line.80"></a>
+<FONT color="green">081</FONT>    <a name="line.81"></a>
+<FONT color="green">082</FONT>            @Override<a name="line.82"></a>
+<FONT color="green">083</FONT>            public boolean isWrapperFor(Class&lt;?&gt; iface) throws SQLException {<a name="line.83"></a>
+<FONT color="green">084</FONT>                    return wrapperSupport.isWrapperFor(iface);<a name="line.84"></a>
+<FONT color="green">085</FONT>            }<a name="line.85"></a>
+<FONT color="green">086</FONT>    <a name="line.86"></a>
+<FONT color="green">087</FONT>            @Override<a name="line.87"></a>
+<FONT color="green">088</FONT>            protected String doGetRealDataSourceClassName() {<a name="line.88"></a>
+<FONT color="green">089</FONT>                    return this.configuration.getRealDataSourceName();<a name="line.89"></a>
+<FONT color="green">090</FONT>            }<a name="line.90"></a>
+<FONT color="green">091</FONT>    }<a name="line.91"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

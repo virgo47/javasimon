@@ -1,0 +1,206 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    package org.javasimon;<a name="line.1"></a>
+<FONT color="green">002</FONT>    <a name="line.2"></a>
+<FONT color="green">003</FONT>    /**<a name="line.3"></a>
+<FONT color="green">004</FONT>     * Counter tracks the single integer value and watches its max/min values. It can be used<a name="line.4"></a>
+<FONT color="green">005</FONT>     * for values starting with 0 - in that case min might not be important if counter does not<a name="line.5"></a>
+<FONT color="green">006</FONT>     * go bellow 0. Counter can also start from any other arbitrary number that is set after the<a name="line.6"></a>
+<FONT color="green">007</FONT>     * first change (increment, decrement, set) - this is more typical case for tracking also the<a name="line.7"></a>
+<FONT color="green">008</FONT>     * min value.<a name="line.8"></a>
+<FONT color="green">009</FONT>     * &lt;p/&gt;<a name="line.9"></a>
+<FONT color="green">010</FONT>     * &lt;h3&gt;Initialization&lt;/h3&gt;<a name="line.10"></a>
+<FONT color="green">011</FONT>     * When a counter is created, it is set to 0, but its maximum/minimum values are undefined:<a name="line.11"></a>
+<FONT color="green">012</FONT>     * &lt;pre&gt;<a name="line.12"></a>
+<FONT color="green">013</FONT>     * Counter counter = SimonManager.getCounter("com.my.counter");<a name="line.13"></a>
+<FONT color="green">014</FONT>     * System.out.println("counter = " + counter);&lt;/pre&gt;<a name="line.14"></a>
+<FONT color="green">015</FONT>     * Output is:<a name="line.15"></a>
+<FONT color="green">016</FONT>     * &lt;pre&gt;<a name="line.16"></a>
+<FONT color="green">017</FONT>     * counter = Simon Counter: [com.my.counter INHERIT] counter=0, max=undef, min=undef&lt;/pre&gt;<a name="line.17"></a>
+<FONT color="green">018</FONT>     *<a name="line.18"></a>
+<FONT color="green">019</FONT>     * This behavior allows the counter to be initialized before it is used and its extremes are<a name="line.19"></a>
+<FONT color="green">020</FONT>     * tracked - first initialization also sets max/min (extreme) values:<a name="line.20"></a>
+<FONT color="green">021</FONT>     * &lt;pre&gt;<a name="line.21"></a>
+<FONT color="green">022</FONT>     * Counter counter = SimonManager.getCounter("com.my.counter").set(47);<a name="line.22"></a>
+<FONT color="green">023</FONT>     * System.out.println("counter = " + counter);&lt;/pre&gt;<a name="line.23"></a>
+<FONT color="green">024</FONT>     * Output is:<a name="line.24"></a>
+<FONT color="green">025</FONT>     * &lt;pre&gt;<a name="line.25"></a>
+<FONT color="green">026</FONT>     * counter = Simon Counter: [com.my.counter INHERIT] counter=47, max=47, min=47&lt;/pre&gt;<a name="line.26"></a>
+<FONT color="green">027</FONT>     *<a name="line.27"></a>
+<FONT color="green">028</FONT>     * &lt;h3&gt;Usage&lt;/h3&gt;<a name="line.28"></a>
+<FONT color="green">029</FONT>     * Typical Counter usage is based on {@link #increase()} and {@link #decrease()} methods when<a name="line.29"></a>
+<FONT color="green">030</FONT>     * it is possible to track the monitored value - this can be used for example to count users logged<a name="line.30"></a>
+<FONT color="green">031</FONT>     * in. If the value changes by more than 1 than it is possible to use methods with arguments -<a name="line.31"></a>
+<FONT color="green">032</FONT>     * {@link #increase(long)} and {@link #decrease(long)}. Finally method {@link #set(long)} is<a name="line.32"></a>
+<FONT color="green">033</FONT>     * always available to set the counter to the particular value when needed.<a name="line.33"></a>
+<FONT color="green">034</FONT>     *<a name="line.34"></a>
+<FONT color="green">035</FONT>     * @author &lt;a href="mailto:virgo47@gmail.com"&gt;Richard "Virgo" Richter&lt;/a&gt;<a name="line.35"></a>
+<FONT color="green">036</FONT>     */<a name="line.36"></a>
+<FONT color="green">037</FONT>    public interface Counter extends Simon {<a name="line.37"></a>
+<FONT color="green">038</FONT>    <a name="line.38"></a>
+<FONT color="green">039</FONT>            /**<a name="line.39"></a>
+<FONT color="green">040</FONT>             * Increments the counter by one.<a name="line.40"></a>
+<FONT color="green">041</FONT>             *<a name="line.41"></a>
+<FONT color="green">042</FONT>             * @return this<a name="line.42"></a>
+<FONT color="green">043</FONT>             */<a name="line.43"></a>
+<FONT color="green">044</FONT>            Counter increase();<a name="line.44"></a>
+<FONT color="green">045</FONT>    <a name="line.45"></a>
+<FONT color="green">046</FONT>            /**<a name="line.46"></a>
+<FONT color="green">047</FONT>             * Decrements the counter by one.<a name="line.47"></a>
+<FONT color="green">048</FONT>             *<a name="line.48"></a>
+<FONT color="green">049</FONT>             * @return this<a name="line.49"></a>
+<FONT color="green">050</FONT>             */<a name="line.50"></a>
+<FONT color="green">051</FONT>            Counter decrease();<a name="line.51"></a>
+<FONT color="green">052</FONT>    <a name="line.52"></a>
+<FONT color="green">053</FONT>            /**<a name="line.53"></a>
+<FONT color="green">054</FONT>             * Increments the counter by the specified value. Using negative values is possible but may provide<a name="line.54"></a>
+<FONT color="green">055</FONT>             * unexpected results - this method updates only incrementSum, it is decreased when negative number is used.<a name="line.55"></a>
+<FONT color="green">056</FONT>             * Min and max are updated as expected.<a name="line.56"></a>
+<FONT color="green">057</FONT>             *<a name="line.57"></a>
+<FONT color="green">058</FONT>             * @param inc added value<a name="line.58"></a>
+<FONT color="green">059</FONT>             * @return this<a name="line.59"></a>
+<FONT color="green">060</FONT>             */<a name="line.60"></a>
+<FONT color="green">061</FONT>            Counter increase(long inc);<a name="line.61"></a>
+<FONT color="green">062</FONT>    <a name="line.62"></a>
+<FONT color="green">063</FONT>            /**<a name="line.63"></a>
+<FONT color="green">064</FONT>             * Increments the counter by the specified value. Using negative values is possible but may provide<a name="line.64"></a>
+<FONT color="green">065</FONT>             * unexpected results - this method updates only decrementSum, it is decreased when negative number is used.<a name="line.65"></a>
+<FONT color="green">066</FONT>             * Min and max are updated as expected.<a name="line.66"></a>
+<FONT color="green">067</FONT>             *<a name="line.67"></a>
+<FONT color="green">068</FONT>             * @param dec subtracted value<a name="line.68"></a>
+<FONT color="green">069</FONT>             * @return this<a name="line.69"></a>
+<FONT color="green">070</FONT>             */<a name="line.70"></a>
+<FONT color="green">071</FONT>            Counter decrease(long dec);<a name="line.71"></a>
+<FONT color="green">072</FONT>    <a name="line.72"></a>
+<FONT color="green">073</FONT>            /**<a name="line.73"></a>
+<FONT color="green">074</FONT>             * Returns the current value of the counter.<a name="line.74"></a>
+<FONT color="green">075</FONT>             *<a name="line.75"></a>
+<FONT color="green">076</FONT>             * @return counter value<a name="line.76"></a>
+<FONT color="green">077</FONT>             */<a name="line.77"></a>
+<FONT color="green">078</FONT>            long getCounter();<a name="line.78"></a>
+<FONT color="green">079</FONT>    <a name="line.79"></a>
+<FONT color="green">080</FONT>            /**<a name="line.80"></a>
+<FONT color="green">081</FONT>             * Returns minimal value of counter. Updated by {@link #decrease()}, {@link #decrease(long)} and {@link #set(long)}.<a name="line.81"></a>
+<FONT color="green">082</FONT>             *<a name="line.82"></a>
+<FONT color="green">083</FONT>             * @return maximal reached value<a name="line.83"></a>
+<FONT color="green">084</FONT>             */<a name="line.84"></a>
+<FONT color="green">085</FONT>            long getMin();<a name="line.85"></a>
+<FONT color="green">086</FONT>    <a name="line.86"></a>
+<FONT color="green">087</FONT>            /**<a name="line.87"></a>
+<FONT color="green">088</FONT>             * Returns ms timestamp when the min value was reached.<a name="line.88"></a>
+<FONT color="green">089</FONT>             *<a name="line.89"></a>
+<FONT color="green">090</FONT>             * @return ms timestamp of the min value decremented<a name="line.90"></a>
+<FONT color="green">091</FONT>             */<a name="line.91"></a>
+<FONT color="green">092</FONT>            long getMinTimestamp();<a name="line.92"></a>
+<FONT color="green">093</FONT>    <a name="line.93"></a>
+<FONT color="green">094</FONT>            /**<a name="line.94"></a>
+<FONT color="green">095</FONT>             * Returns maximal value of counter. Updated by {@link #increase()}, {@link #increase(long)} and {@link #set(long)}.<a name="line.95"></a>
+<FONT color="green">096</FONT>             *<a name="line.96"></a>
+<FONT color="green">097</FONT>             * @return maximal reached value<a name="line.97"></a>
+<FONT color="green">098</FONT>             */<a name="line.98"></a>
+<FONT color="green">099</FONT>            long getMax();<a name="line.99"></a>
+<FONT color="green">100</FONT>    <a name="line.100"></a>
+<FONT color="green">101</FONT>            /**<a name="line.101"></a>
+<FONT color="green">102</FONT>             * Returns ms timestamp when the max value was reached.<a name="line.102"></a>
+<FONT color="green">103</FONT>             *<a name="line.103"></a>
+<FONT color="green">104</FONT>             * @return ms timestamp of the max value incremented<a name="line.104"></a>
+<FONT color="green">105</FONT>             */<a name="line.105"></a>
+<FONT color="green">106</FONT>            long getMaxTimestamp();<a name="line.106"></a>
+<FONT color="green">107</FONT>    <a name="line.107"></a>
+<FONT color="green">108</FONT>            /**<a name="line.108"></a>
+<FONT color="green">109</FONT>             * Sets the value of the counter to specified value.<a name="line.109"></a>
+<FONT color="green">110</FONT>             *<a name="line.110"></a>
+<FONT color="green">111</FONT>             * @param val new counter value<a name="line.111"></a>
+<FONT color="green">112</FONT>             * @return this<a name="line.112"></a>
+<FONT color="green">113</FONT>             */<a name="line.113"></a>
+<FONT color="green">114</FONT>            Counter set(long val);<a name="line.114"></a>
+<FONT color="green">115</FONT>    <a name="line.115"></a>
+<FONT color="green">116</FONT>            /**<a name="line.116"></a>
+<FONT color="green">117</FONT>             * Returns the sum of all incremented values. If incremented value was negative, sum<a name="line.117"></a>
+<FONT color="green">118</FONT>             * is lowered by this value.<a name="line.118"></a>
+<FONT color="green">119</FONT>             *<a name="line.119"></a>
+<FONT color="green">120</FONT>             * @return sum of all incremented values<a name="line.120"></a>
+<FONT color="green">121</FONT>             */<a name="line.121"></a>
+<FONT color="green">122</FONT>            long getIncrementSum();<a name="line.122"></a>
+<FONT color="green">123</FONT>    <a name="line.123"></a>
+<FONT color="green">124</FONT>            /**<a name="line.124"></a>
+<FONT color="green">125</FONT>             * Returns the sum of all decremented values (as a positive number). If decremented value was negative, sum<a name="line.125"></a>
+<FONT color="green">126</FONT>             * is lowered by this value.<a name="line.126"></a>
+<FONT color="green">127</FONT>             *<a name="line.127"></a>
+<FONT color="green">128</FONT>             * @return sum of all decremented values<a name="line.128"></a>
+<FONT color="green">129</FONT>             */<a name="line.129"></a>
+<FONT color="green">130</FONT>            long getDecrementSum();<a name="line.130"></a>
+<FONT color="green">131</FONT>    <a name="line.131"></a>
+<FONT color="green">132</FONT>            @Override<a name="line.132"></a>
+<FONT color="green">133</FONT>            CounterSample sample();<a name="line.133"></a>
+<FONT color="green">134</FONT>    <a name="line.134"></a>
+<FONT color="green">135</FONT>            @Override<a name="line.135"></a>
+<FONT color="green">136</FONT>            @Deprecated<a name="line.136"></a>
+<FONT color="green">137</FONT>            CounterSample sampleAndReset();<a name="line.137"></a>
+<FONT color="green">138</FONT>    <a name="line.138"></a>
+<FONT color="green">139</FONT>            CounterSample sampleIncrement(Object key);<a name="line.139"></a>
+<FONT color="green">140</FONT>    }<a name="line.140"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,109 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    package org.javasimon.source;<a name="line.1"></a>
+<FONT color="green">002</FONT>    <a name="line.2"></a>
+<FONT color="green">003</FONT>    import org.javasimon.Manager;<a name="line.3"></a>
+<FONT color="green">004</FONT>    import org.javasimon.Simon;<a name="line.4"></a>
+<FONT color="green">005</FONT>    <a name="line.5"></a>
+<FONT color="green">006</FONT>    /**<a name="line.6"></a>
+<FONT color="green">007</FONT>     * Disabled monitor source.<a name="line.7"></a>
+<FONT color="green">008</FONT>     *<a name="line.8"></a>
+<FONT color="green">009</FONT>     * @author gquintana<a name="line.9"></a>
+<FONT color="green">010</FONT>     */<a name="line.10"></a>
+<FONT color="green">011</FONT>    public class DisabledMonitorSource&lt;L, M extends Simon&gt; implements MonitorSource&lt;L, M&gt; {<a name="line.11"></a>
+<FONT color="green">012</FONT>            /**<a name="line.12"></a>
+<FONT color="green">013</FONT>             * Singleton instance.<a name="line.13"></a>
+<FONT color="green">014</FONT>             */<a name="line.14"></a>
+<FONT color="green">015</FONT>            private static final DisabledMonitorSource INSTANCE = new DisabledMonitorSource();<a name="line.15"></a>
+<FONT color="green">016</FONT>    <a name="line.16"></a>
+<FONT color="green">017</FONT>            /**<a name="line.17"></a>
+<FONT color="green">018</FONT>             * Returns a singleton instance.<a name="line.18"></a>
+<FONT color="green">019</FONT>             */<a name="line.19"></a>
+<FONT color="green">020</FONT>            @SuppressWarnings("unchecked")<a name="line.20"></a>
+<FONT color="green">021</FONT>            public static &lt;L, M extends Simon&gt; DisabledMonitorSource&lt;L, M&gt; get() {<a name="line.21"></a>
+<FONT color="green">022</FONT>                    return (DisabledMonitorSource&lt;L, M&gt;) INSTANCE;<a name="line.22"></a>
+<FONT color="green">023</FONT>            }<a name="line.23"></a>
+<FONT color="green">024</FONT>    <a name="line.24"></a>
+<FONT color="green">025</FONT>            /**<a name="line.25"></a>
+<FONT color="green">026</FONT>             * Always returns null.<a name="line.26"></a>
+<FONT color="green">027</FONT>             */<a name="line.27"></a>
+<FONT color="green">028</FONT>            public M getMonitor(L location) {<a name="line.28"></a>
+<FONT color="green">029</FONT>                    return null;<a name="line.29"></a>
+<FONT color="green">030</FONT>            }<a name="line.30"></a>
+<FONT color="green">031</FONT>    <a name="line.31"></a>
+<FONT color="green">032</FONT>            /**<a name="line.32"></a>
+<FONT color="green">033</FONT>             * Always returns false.<a name="line.33"></a>
+<FONT color="green">034</FONT>             */<a name="line.34"></a>
+<FONT color="green">035</FONT>            public boolean isMonitored(L location) {<a name="line.35"></a>
+<FONT color="green">036</FONT>                    return false;<a name="line.36"></a>
+<FONT color="green">037</FONT>            }<a name="line.37"></a>
+<FONT color="green">038</FONT>    <a name="line.38"></a>
+<FONT color="green">039</FONT>            @Override<a name="line.39"></a>
+<FONT color="green">040</FONT>            public Manager getManager() {<a name="line.40"></a>
+<FONT color="green">041</FONT>                    return null;<a name="line.41"></a>
+<FONT color="green">042</FONT>            }<a name="line.42"></a>
+<FONT color="green">043</FONT>    }<a name="line.43"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

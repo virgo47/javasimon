@@ -1,0 +1,199 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    package org.javasimon.jdbc4.jmx;<a name="line.1"></a>
+<FONT color="green">002</FONT>    <a name="line.2"></a>
+<FONT color="green">003</FONT>    import org.javasimon.jmx.StopwatchSample;<a name="line.3"></a>
+<FONT color="green">004</FONT>    <a name="line.4"></a>
+<FONT color="green">005</FONT>    /**<a name="line.5"></a>
+<FONT color="green">006</FONT>     * Interface of JDBC management bean (MXBean).<a name="line.6"></a>
+<FONT color="green">007</FONT>     * &lt;p/&gt;<a name="line.7"></a>
+<FONT color="green">008</FONT>     * JDBC MXBean provides management operations for monitoring JDBC driver<a name="line.8"></a>
+<FONT color="green">009</FONT>     * and operations to retrieve gathered statistics from special JDBC hierarchy of Simons.&lt;br&gt;<a name="line.9"></a>
+<FONT color="green">010</FONT>     * This JDBC hierarchy of Simon is well known and specified in JDBC javadoc<a name="line.10"></a>
+<FONT color="green">011</FONT>     * ({@link org.javasimon.jdbc4}). There is prefix of this hierarchy that is associated with<a name="line.11"></a>
+<FONT color="green">012</FONT>     * one instance of monitored JDBC driver. Typically, thare is only one driver instance used<a name="line.12"></a>
+<FONT color="green">013</FONT>     * in application, because of connection to one type of database. If application is connected<a name="line.13"></a>
+<FONT color="green">014</FONT>     * to different types of database (i.e. oracle and mysql), there is possibility to differentiate<a name="line.14"></a>
+<FONT color="green">015</FONT>     * each used driver by specifying Simon hierarchy prefix for driver.&lt;br&gt;<a name="line.15"></a>
+<FONT color="green">016</FONT>     * Jdbc mxbean has prefix associated with it. It's is initialized through mxbean implementation<a name="line.16"></a>
+<FONT color="green">017</FONT>     * class constructor ({@link JdbcMXBeanImpl#JdbcMXBeanImpl(org.javasimon.Manager, String)})<a name="line.17"></a>
+<FONT color="green">018</FONT>     * or later through setter ({@link #setPrefix(String)}). Then is also possible to register Jdbc mxbean<a name="line.18"></a>
+<FONT color="green">019</FONT>     * for each prefix.<a name="line.19"></a>
+<FONT color="green">020</FONT>     * &lt;p/&gt;<a name="line.20"></a>
+<FONT color="green">021</FONT>     * Monitoring of the JDBC driver is enabled only if Java Simon JDBC proxy driver is used<a name="line.21"></a>
+<FONT color="green">022</FONT>     * over orginal JDBC driver (eg. Oracle, PostgreSQL, MySQL etc.). For more details how to do<a name="line.22"></a>
+<FONT color="green">023</FONT>     * that, please look at {@link org.javasimon.jdbc4.Driver} a package {@link org.javasimon.jdbc4}<a name="line.23"></a>
+<FONT color="green">024</FONT>     * javadoc.<a name="line.24"></a>
+<FONT color="green">025</FONT>     *<a name="line.25"></a>
+<FONT color="green">026</FONT>     * @author Radovan Sninsky<a name="line.26"></a>
+<FONT color="green">027</FONT>     * @author &lt;a href="mailto:virgo47@gmail.com"&gt;Richard "Virgo" Richter&lt;/a&gt;<a name="line.27"></a>
+<FONT color="green">028</FONT>     * @see JdbcMXBeanImpl<a name="line.28"></a>
+<FONT color="green">029</FONT>     * @since 2<a name="line.29"></a>
+<FONT color="green">030</FONT>     */<a name="line.30"></a>
+<FONT color="green">031</FONT>    public interface JdbcMXBean {<a name="line.31"></a>
+<FONT color="green">032</FONT>            /**<a name="line.32"></a>
+<FONT color="green">033</FONT>             * Returns actual prefix associated with mxbean.<a name="line.33"></a>
+<FONT color="green">034</FONT>             *<a name="line.34"></a>
+<FONT color="green">035</FONT>             * @return actual prefix<a name="line.35"></a>
+<FONT color="green">036</FONT>             */<a name="line.36"></a>
+<FONT color="green">037</FONT>            String getPrefix();<a name="line.37"></a>
+<FONT color="green">038</FONT>    <a name="line.38"></a>
+<FONT color="green">039</FONT>            /**<a name="line.39"></a>
+<FONT color="green">040</FONT>             * Sets custom prefix of JDBC Simon hierarchy, see more {@link JdbcMXBean}.<a name="line.40"></a>
+<FONT color="green">041</FONT>             *<a name="line.41"></a>
+<FONT color="green">042</FONT>             * @param value new prefix<a name="line.42"></a>
+<FONT color="green">043</FONT>             */<a name="line.43"></a>
+<FONT color="green">044</FONT>            void setPrefix(String value);<a name="line.44"></a>
+<FONT color="green">045</FONT>    <a name="line.45"></a>
+<FONT color="green">046</FONT>            /**<a name="line.46"></a>
+<FONT color="green">047</FONT>             * Enables monitoring (gathering statistics) by associated JDBC Simon hierarchy, see<a name="line.47"></a>
+<FONT color="green">048</FONT>             * ({@code org.javasimon.jdbc}). Works if SimonManager is enabled, look<a name="line.48"></a>
+<FONT color="green">049</FONT>             * {@link org.javasimon.SimonManager#isEnabled()}.<a name="line.49"></a>
+<FONT color="green">050</FONT>             */<a name="line.50"></a>
+<FONT color="green">051</FONT>            void enableMonitoring();<a name="line.51"></a>
+<FONT color="green">052</FONT>    <a name="line.52"></a>
+<FONT color="green">053</FONT>            /**<a name="line.53"></a>
+<FONT color="green">054</FONT>             * Disables monitoring (gathering statistics) by associated JDBC Simon hierarchy, see<a name="line.54"></a>
+<FONT color="green">055</FONT>             * ({@code org.javasimon.jdbc}). If SimonManager is already disabled has no effect,<a name="line.55"></a>
+<FONT color="green">056</FONT>             * look {@link org.javasimon.SimonManager#disable()}.<a name="line.56"></a>
+<FONT color="green">057</FONT>             */<a name="line.57"></a>
+<FONT color="green">058</FONT>            void disableMonitoring();<a name="line.58"></a>
+<FONT color="green">059</FONT>    <a name="line.59"></a>
+<FONT color="green">060</FONT>            /**<a name="line.60"></a>
+<FONT color="green">061</FONT>             * Returns state of monitoring JDBC driver.<a name="line.61"></a>
+<FONT color="green">062</FONT>             *<a name="line.62"></a>
+<FONT color="green">063</FONT>             * @return {@code true} if associated prefix is enabled; otherwise {@code false}<a name="line.63"></a>
+<FONT color="green">064</FONT>             */<a name="line.64"></a>
+<FONT color="green">065</FONT>            boolean isMonitoringEnabled();<a name="line.65"></a>
+<FONT color="green">066</FONT>    <a name="line.66"></a>
+<FONT color="green">067</FONT>            /**<a name="line.67"></a>
+<FONT color="green">068</FONT>             * Retrieves summary data about JDBC connection objects.<a name="line.68"></a>
+<FONT color="green">069</FONT>             *<a name="line.69"></a>
+<FONT color="green">070</FONT>             * @return value object {@link JdbcObjectInfo}<a name="line.70"></a>
+<FONT color="green">071</FONT>             */<a name="line.71"></a>
+<FONT color="green">072</FONT>            JdbcObjectInfo connectionsStat();<a name="line.72"></a>
+<FONT color="green">073</FONT>    <a name="line.73"></a>
+<FONT color="green">074</FONT>            /**<a name="line.74"></a>
+<FONT color="green">075</FONT>             * Retrieves summary data about JDBC statement objects.<a name="line.75"></a>
+<FONT color="green">076</FONT>             *<a name="line.76"></a>
+<FONT color="green">077</FONT>             * @return value object {@link JdbcObjectInfo}<a name="line.77"></a>
+<FONT color="green">078</FONT>             */<a name="line.78"></a>
+<FONT color="green">079</FONT>            JdbcObjectInfo statementsStat();<a name="line.79"></a>
+<FONT color="green">080</FONT>    <a name="line.80"></a>
+<FONT color="green">081</FONT>            /**<a name="line.81"></a>
+<FONT color="green">082</FONT>             * Retrieves summary data about JDBC result set objects.<a name="line.82"></a>
+<FONT color="green">083</FONT>             *<a name="line.83"></a>
+<FONT color="green">084</FONT>             * @return value object {@link JdbcObjectInfo}<a name="line.84"></a>
+<FONT color="green">085</FONT>             */<a name="line.85"></a>
+<FONT color="green">086</FONT>            JdbcObjectInfo resultsetsStat();<a name="line.86"></a>
+<FONT color="green">087</FONT>    <a name="line.87"></a>
+<FONT color="green">088</FONT>            /**<a name="line.88"></a>
+<FONT color="green">089</FONT>             * Returns SQL command types ({@code select}, {@code insert}, {@code delete}, etc).<a name="line.89"></a>
+<FONT color="green">090</FONT>             * If client application uses DDL commands like {@code create}, {@code alter} and other,<a name="line.90"></a>
+<FONT color="green">091</FONT>             * those are included too. Special case are batch-es, they are referenced as {@code batch}.<a name="line.91"></a>
+<FONT color="green">092</FONT>             *<a name="line.92"></a>
+<FONT color="green">093</FONT>             * @return list of string (references to used SQL command types in monitored (simoned) application)<a name="line.93"></a>
+<FONT color="green">094</FONT>             * @see #getSqlCommandStat(String)<a name="line.94"></a>
+<FONT color="green">095</FONT>             * @see #getSqls(String)<a name="line.95"></a>
+<FONT color="green">096</FONT>             */<a name="line.96"></a>
+<FONT color="green">097</FONT>            String[] getSqlCommands();<a name="line.97"></a>
+<FONT color="green">098</FONT>    <a name="line.98"></a>
+<FONT color="green">099</FONT>            /**<a name="line.99"></a>
+<FONT color="green">100</FONT>             * Retrieves summary data about all executed SQL commands of eneterd type (for instance<a name="line.100"></a>
+<FONT color="green">101</FONT>             * summary data of all executed selects).<a name="line.101"></a>
+<FONT color="green">102</FONT>             *<a name="line.102"></a>
+<FONT color="green">103</FONT>             * @param cmd SQL command type<a name="line.103"></a>
+<FONT color="green">104</FONT>             * @return populated object {@link org.javasimon.jmx.StopwatchSample}, or {@code null} if<a name="line.104"></a>
+<FONT color="green">105</FONT>             *         entered sql command type has no associated javasimon (it means, no sql of this type was<a name="line.105"></a>
+<FONT color="green">106</FONT>             *         executed yet, for instance no update was executed yet)<a name="line.106"></a>
+<FONT color="green">107</FONT>             * @see #connectionsStat()<a name="line.107"></a>
+<FONT color="green">108</FONT>             */<a name="line.108"></a>
+<FONT color="green">109</FONT>            StopwatchSample getSqlCommandStat(String cmd);<a name="line.109"></a>
+<FONT color="green">110</FONT>    <a name="line.110"></a>
+<FONT color="green">111</FONT>            /**<a name="line.111"></a>
+<FONT color="green">112</FONT>             * Returns hashs of different SQL commands of one type ({@code select}, {@code insert},<a name="line.112"></a>
+<FONT color="green">113</FONT>             * {@code delete}, etc). Each hash represent one sql command with (and its many executions).<a name="line.113"></a>
+<FONT color="green">114</FONT>             *<a name="line.114"></a>
+<FONT color="green">115</FONT>             * @param cmd cmd SQL command type ({@code select}, {@code insert}, {@code delete}, etc)<a name="line.115"></a>
+<FONT color="green">116</FONT>             * @return list of string (hash references to used SQL command in monitored (simoned) application)<a name="line.116"></a>
+<FONT color="green">117</FONT>             * @see #getSqlCommands()<a name="line.117"></a>
+<FONT color="green">118</FONT>             * @see #getSqlStat(String)<a name="line.118"></a>
+<FONT color="green">119</FONT>             */<a name="line.119"></a>
+<FONT color="green">120</FONT>            String[] getSqls(String cmd);<a name="line.120"></a>
+<FONT color="green">121</FONT>    <a name="line.121"></a>
+<FONT color="green">122</FONT>            /**<a name="line.122"></a>
+<FONT color="green">123</FONT>             * Retrieves summary data about all same executed SQLs (for instance<a name="line.123"></a>
+<FONT color="green">124</FONT>             * summary data of all executed {@code select * from foo where bar =&gt; 0}).<a name="line.124"></a>
+<FONT color="green">125</FONT>             *<a name="line.125"></a>
+<FONT color="green">126</FONT>             * @param sql hash code of sql command<a name="line.126"></a>
+<FONT color="green">127</FONT>             * @return populated object {@link org.javasimon.jmx.StopwatchSample}, or {@code null} if<a name="line.127"></a>
+<FONT color="green">128</FONT>             *         entered sql has no associated javasimon (it means, no sql like this was executed yet,<a name="line.128"></a>
+<FONT color="green">129</FONT>             *         for instance no update was executed yet)<a name="line.129"></a>
+<FONT color="green">130</FONT>             * @see #getSqls(String)<a name="line.130"></a>
+<FONT color="green">131</FONT>             */<a name="line.131"></a>
+<FONT color="green">132</FONT>            StopwatchSample getSqlStat(String sql);<a name="line.132"></a>
+<FONT color="green">133</FONT>    }<a name="line.133"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

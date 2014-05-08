@@ -1,0 +1,137 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    package org.javasimon.callback.timeline;<a name="line.1"></a>
+<FONT color="green">002</FONT>    <a name="line.2"></a>
+<FONT color="green">003</FONT>    import org.javasimon.callback.lastsplits.CircularList;<a name="line.3"></a>
+<FONT color="green">004</FONT>    <a name="line.4"></a>
+<FONT color="green">005</FONT>    /**<a name="line.5"></a>
+<FONT color="green">006</FONT>     * Collection of values sorted on a time line.<a name="line.6"></a>
+<FONT color="green">007</FONT>     *<a name="line.7"></a>
+<FONT color="green">008</FONT>     * @author gerald<a name="line.8"></a>
+<FONT color="green">009</FONT>     */<a name="line.9"></a>
+<FONT color="green">010</FONT>    public abstract class Timeline&lt;TR extends TimeRange&gt; {<a name="line.10"></a>
+<FONT color="green">011</FONT>    <a name="line.11"></a>
+<FONT color="green">012</FONT>            /** List of time ranges. */<a name="line.12"></a>
+<FONT color="green">013</FONT>            protected final CircularList&lt;TR&gt; timeRanges;<a name="line.13"></a>
+<FONT color="green">014</FONT>            /** Time range width in milliseconds. */<a name="line.14"></a>
+<FONT color="green">015</FONT>            protected final long timeRangeWidth;<a name="line.15"></a>
+<FONT color="green">016</FONT>    <a name="line.16"></a>
+<FONT color="green">017</FONT>            /** Last used time range. */<a name="line.17"></a>
+<FONT color="green">018</FONT>            private TR lastTimeRange;<a name="line.18"></a>
+<FONT color="green">019</FONT>    <a name="line.19"></a>
+<FONT color="green">020</FONT>            /**<a name="line.20"></a>
+<FONT color="green">021</FONT>             * Main constructor.<a name="line.21"></a>
+<FONT color="green">022</FONT>             *<a name="line.22"></a>
+<FONT color="green">023</FONT>             * @param capacity Number of time ranges<a name="line.23"></a>
+<FONT color="green">024</FONT>             * @param timeRangeWidth Width of each time range<a name="line.24"></a>
+<FONT color="green">025</FONT>             */<a name="line.25"></a>
+<FONT color="green">026</FONT>            protected Timeline(int capacity, long timeRangeWidth) {<a name="line.26"></a>
+<FONT color="green">027</FONT>                    this.timeRanges = new CircularList&lt;TR&gt;(capacity);<a name="line.27"></a>
+<FONT color="green">028</FONT>                    this.timeRangeWidth = timeRangeWidth;<a name="line.28"></a>
+<FONT color="green">029</FONT>            }<a name="line.29"></a>
+<FONT color="green">030</FONT>    <a name="line.30"></a>
+<FONT color="green">031</FONT>            /**<a name="line.31"></a>
+<FONT color="green">032</FONT>             * Creates time range (factory method).<a name="line.32"></a>
+<FONT color="green">033</FONT>             *<a name="line.33"></a>
+<FONT color="green">034</FONT>             * @param startTimestamp Time range start<a name="line.34"></a>
+<FONT color="green">035</FONT>             * @param endTimestamp Time range end<a name="line.35"></a>
+<FONT color="green">036</FONT>             * @return created time range<a name="line.36"></a>
+<FONT color="green">037</FONT>             */<a name="line.37"></a>
+<FONT color="green">038</FONT>            protected abstract TR createTimeRange(long startTimestamp, long endTimestamp);<a name="line.38"></a>
+<FONT color="green">039</FONT>    <a name="line.39"></a>
+<FONT color="green">040</FONT>            /**<a name="line.40"></a>
+<FONT color="green">041</FONT>             * Returns existing time range if it already exists or create a new one.<a name="line.41"></a>
+<FONT color="green">042</FONT>             */<a name="line.42"></a>
+<FONT color="green">043</FONT>            protected final TR getOrCreateTimeRange(long timestamp) {<a name="line.43"></a>
+<FONT color="green">044</FONT>                    TR timeRange;<a name="line.44"></a>
+<FONT color="green">045</FONT>                    if (lastTimeRange == null || timestamp &gt; lastTimeRange.getEndTimestamp()) {<a name="line.45"></a>
+<FONT color="green">046</FONT>                            // New time range<a name="line.46"></a>
+<FONT color="green">047</FONT>                            long roundedTimestamp = timestamp - timestamp % timeRangeWidth;<a name="line.47"></a>
+<FONT color="green">048</FONT>                            timeRange = createTimeRange(roundedTimestamp, roundedTimestamp + timeRangeWidth);<a name="line.48"></a>
+<FONT color="green">049</FONT>                            timeRanges.add(timeRange);<a name="line.49"></a>
+<FONT color="green">050</FONT>                            lastTimeRange = timeRange;<a name="line.50"></a>
+<FONT color="green">051</FONT>                    } else if (timestamp &gt;= lastTimeRange.getStartTimestamp()) {<a name="line.51"></a>
+<FONT color="green">052</FONT>                            // Current time range<a name="line.52"></a>
+<FONT color="green">053</FONT>                            timeRange = lastTimeRange;<a name="line.53"></a>
+<FONT color="green">054</FONT>                    } else {<a name="line.54"></a>
+<FONT color="green">055</FONT>                            // Old time range<a name="line.55"></a>
+<FONT color="green">056</FONT>                            timeRange = null;<a name="line.56"></a>
+<FONT color="green">057</FONT>                            // Not very good from performance point of view<a name="line.57"></a>
+<FONT color="green">058</FONT>                            // iterating from end till start would be a better solution<a name="line.58"></a>
+<FONT color="green">059</FONT>                            for (TR oldTimeRange : timeRanges) {<a name="line.59"></a>
+<FONT color="green">060</FONT>                                    if (oldTimeRange.containsTimestamp(timestamp)) {<a name="line.60"></a>
+<FONT color="green">061</FONT>                                            timeRange = oldTimeRange;<a name="line.61"></a>
+<FONT color="green">062</FONT>                                            break;<a name="line.62"></a>
+<FONT color="green">063</FONT>                                    }<a name="line.63"></a>
+<FONT color="green">064</FONT>                            }<a name="line.64"></a>
+<FONT color="green">065</FONT>                    }<a name="line.65"></a>
+<FONT color="green">066</FONT>    <a name="line.66"></a>
+<FONT color="green">067</FONT>                    return timeRange;<a name="line.67"></a>
+<FONT color="green">068</FONT>            }<a name="line.68"></a>
+<FONT color="green">069</FONT>    <a name="line.69"></a>
+<FONT color="green">070</FONT>            public abstract TimelineSample&lt;TR&gt; sample();<a name="line.70"></a>
+<FONT color="green">071</FONT>    }<a name="line.71"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

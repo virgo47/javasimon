@@ -1,0 +1,88 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    package org.javasimon.console;<a name="line.1"></a>
+<FONT color="green">002</FONT>    <a name="line.2"></a>
+<FONT color="green">003</FONT>    /**<a name="line.3"></a>
+<FONT color="green">004</FONT>     * Interface describing the binding between an HTTP Request and an {@link Action}<a name="line.4"></a>
+<FONT color="green">005</FONT>     * @author gquintana<a name="line.5"></a>
+<FONT color="green">006</FONT>     */<a name="line.6"></a>
+<FONT color="green">007</FONT>    public interface ActionBinding&lt;T extends Action&gt; {<a name="line.7"></a>
+<FONT color="green">008</FONT>            /**<a name="line.8"></a>
+<FONT color="green">009</FONT>             * Indicates whether this action binding is applicable for this action<a name="line.9"></a>
+<FONT color="green">010</FONT>             * context (=HTTP Request)<a name="line.10"></a>
+<FONT color="green">011</FONT>             * @param actionContext Action context<a name="line.11"></a>
+<FONT color="green">012</FONT>             * @return true if this binding is in charge of this request<a name="line.12"></a>
+<FONT color="green">013</FONT>             */<a name="line.13"></a>
+<FONT color="green">014</FONT>            public boolean supports(ActionContext actionContext);<a name="line.14"></a>
+<FONT color="green">015</FONT>            /**<a name="line.15"></a>
+<FONT color="green">016</FONT>             * Create an action of this action context, this method will be<a name="line.16"></a>
+<FONT color="green">017</FONT>             * called only if this binding {@link #supports} this context.<a name="line.17"></a>
+<FONT color="green">018</FONT>             * @param actionContext Action context<a name="line.18"></a>
+<FONT color="green">019</FONT>             * @return New instance of an action<a name="line.19"></a>
+<FONT color="green">020</FONT>             */<a name="line.20"></a>
+<FONT color="green">021</FONT>            public T create(ActionContext actionContext);<a name="line.21"></a>
+<FONT color="green">022</FONT>    }<a name="line.22"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,188 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    package org.javasimon.utils;<a name="line.1"></a>
+<FONT color="green">002</FONT>    <a name="line.2"></a>
+<FONT color="green">003</FONT>    import java.util.Arrays;<a name="line.3"></a>
+<FONT color="green">004</FONT>    import java.util.regex.Pattern;<a name="line.4"></a>
+<FONT color="green">005</FONT>    <a name="line.5"></a>
+<FONT color="green">006</FONT>    /**<a name="line.6"></a>
+<FONT color="green">007</FONT>     * Replacer stores {@code from} regex as pattern and its {@link #process} method than returns<a name="line.7"></a>
+<FONT color="green">008</FONT>     * string with all {@code from} replaced with {@code to}. Using the replacer should be faster<a name="line.8"></a>
+<FONT color="green">009</FONT>     * because the regex is compiled only once. {@link java.util.regex.Pattern#matcher(CharSequence)}<a name="line.9"></a>
+<FONT color="green">010</FONT>     * and {@link java.util.regex.Matcher#replaceAll(String)} is used internally, hence {@code to}<a name="line.10"></a>
+<FONT color="green">011</FONT>     * parameter is regex as well and can reference matched group from the {@code from} String.<a name="line.11"></a>
+<FONT color="green">012</FONT>     * &lt;p/&gt;<a name="line.12"></a>
+<FONT color="green">013</FONT>     * Behavior can be further modified by {@link Modificator}s.<a name="line.13"></a>
+<FONT color="green">014</FONT>     *<a name="line.14"></a>
+<FONT color="green">015</FONT>     * @author &lt;a href="mailto:virgo47@gmail.com"&gt;Richard "Virgo" Richter&lt;/a&gt;<a name="line.15"></a>
+<FONT color="green">016</FONT>     */<a name="line.16"></a>
+<FONT color="green">017</FONT>    public final class Replacer {<a name="line.17"></a>
+<FONT color="green">018</FONT>            private final Pattern from;<a name="line.18"></a>
+<FONT color="green">019</FONT>            private String to;<a name="line.19"></a>
+<FONT color="green">020</FONT>            private boolean repeatUntilUnchanged;<a name="line.20"></a>
+<FONT color="green">021</FONT>            private boolean ignoreCase;<a name="line.21"></a>
+<FONT color="green">022</FONT>            private Modificator[] modificators;<a name="line.22"></a>
+<FONT color="green">023</FONT>    <a name="line.23"></a>
+<FONT color="green">024</FONT>            /**<a name="line.24"></a>
+<FONT color="green">025</FONT>             * Creates the replacer with from-&gt;to regex specification.<a name="line.25"></a>
+<FONT color="green">026</FONT>             *<a name="line.26"></a>
+<FONT color="green">027</FONT>             * @param from replaced regex<a name="line.27"></a>
+<FONT color="green">028</FONT>             * @param to replacement string<a name="line.28"></a>
+<FONT color="green">029</FONT>             * @param modificators list of modificators of the behavior or pattern treatment<a name="line.29"></a>
+<FONT color="green">030</FONT>             */<a name="line.30"></a>
+<FONT color="green">031</FONT>            public Replacer(final String from, final String to, Modificator... modificators) {<a name="line.31"></a>
+<FONT color="green">032</FONT>                    processModificators(modificators);<a name="line.32"></a>
+<FONT color="green">033</FONT>    <a name="line.33"></a>
+<FONT color="green">034</FONT>                    this.from = ignoreCase ? Pattern.compile(from, Pattern.CASE_INSENSITIVE) : Pattern.compile(from);<a name="line.34"></a>
+<FONT color="green">035</FONT>                    this.to = to;<a name="line.35"></a>
+<FONT color="green">036</FONT>                    this.modificators = modificators;<a name="line.36"></a>
+<FONT color="green">037</FONT>            }<a name="line.37"></a>
+<FONT color="green">038</FONT>    <a name="line.38"></a>
+<FONT color="green">039</FONT>            private void processModificators(Modificator... modificators) {<a name="line.39"></a>
+<FONT color="green">040</FONT>                    for (Modificator modificator : modificators) {<a name="line.40"></a>
+<FONT color="green">041</FONT>                            switch (modificator) {<a name="line.41"></a>
+<FONT color="green">042</FONT>                                    case IGNORE_CASE:<a name="line.42"></a>
+<FONT color="green">043</FONT>                                            ignoreCase = true;<a name="line.43"></a>
+<FONT color="green">044</FONT>                                            break;<a name="line.44"></a>
+<FONT color="green">045</FONT>                                    case REPEAT_UNTIL_UNCHANGED:<a name="line.45"></a>
+<FONT color="green">046</FONT>                                            repeatUntilUnchanged = true;<a name="line.46"></a>
+<FONT color="green">047</FONT>                                            break;<a name="line.47"></a>
+<FONT color="green">048</FONT>                                    default:<a name="line.48"></a>
+<FONT color="green">049</FONT>                            }<a name="line.49"></a>
+<FONT color="green">050</FONT>                    }<a name="line.50"></a>
+<FONT color="green">051</FONT>            }<a name="line.51"></a>
+<FONT color="green">052</FONT>    <a name="line.52"></a>
+<FONT color="green">053</FONT>            /**<a name="line.53"></a>
+<FONT color="green">054</FONT>             * Returns replacement string.<a name="line.54"></a>
+<FONT color="green">055</FONT>             *<a name="line.55"></a>
+<FONT color="green">056</FONT>             * @return replacement string<a name="line.56"></a>
+<FONT color="green">057</FONT>             */<a name="line.57"></a>
+<FONT color="green">058</FONT>            public String getTo() {<a name="line.58"></a>
+<FONT color="green">059</FONT>                    return to;<a name="line.59"></a>
+<FONT color="green">060</FONT>            }<a name="line.60"></a>
+<FONT color="green">061</FONT>    <a name="line.61"></a>
+<FONT color="green">062</FONT>            /**<a name="line.62"></a>
+<FONT color="green">063</FONT>             * Sets replacement string - this can be changed anytime with any subsequent {@link #process(String)} calls<a name="line.63"></a>
+<FONT color="green">064</FONT>             * reflecting this change immediatelly.<a name="line.64"></a>
+<FONT color="green">065</FONT>             *<a name="line.65"></a>
+<FONT color="green">066</FONT>             * @param to new replacement string<a name="line.66"></a>
+<FONT color="green">067</FONT>             */<a name="line.67"></a>
+<FONT color="green">068</FONT>            public void setTo(String to) {<a name="line.68"></a>
+<FONT color="green">069</FONT>                    this.to = to;<a name="line.69"></a>
+<FONT color="green">070</FONT>            }<a name="line.70"></a>
+<FONT color="green">071</FONT>    <a name="line.71"></a>
+<FONT color="green">072</FONT>            /**<a name="line.72"></a>
+<FONT color="green">073</FONT>             * Processes input, replaces all as expected and returns the result.<a name="line.73"></a>
+<FONT color="green">074</FONT>             *<a name="line.74"></a>
+<FONT color="green">075</FONT>             * @param in input string<a name="line.75"></a>
+<FONT color="green">076</FONT>             * @return replaced string<a name="line.76"></a>
+<FONT color="green">077</FONT>             */<a name="line.77"></a>
+<FONT color="green">078</FONT>            public String process(final String in) {<a name="line.78"></a>
+<FONT color="green">079</FONT>                    if (repeatUntilUnchanged) {<a name="line.79"></a>
+<FONT color="green">080</FONT>                            String retVal = in;<a name="line.80"></a>
+<FONT color="green">081</FONT>                            String old = "";<a name="line.81"></a>
+<FONT color="green">082</FONT>                            while (!old.equals(retVal)) {<a name="line.82"></a>
+<FONT color="green">083</FONT>                                    old = retVal;<a name="line.83"></a>
+<FONT color="green">084</FONT>                                    retVal = from.matcher(retVal).replaceAll(to);<a name="line.84"></a>
+<FONT color="green">085</FONT>                            }<a name="line.85"></a>
+<FONT color="green">086</FONT>                            return retVal;<a name="line.86"></a>
+<FONT color="green">087</FONT>                    }<a name="line.87"></a>
+<FONT color="green">088</FONT>                    return from.matcher(in).replaceAll(to);<a name="line.88"></a>
+<FONT color="green">089</FONT>            }<a name="line.89"></a>
+<FONT color="green">090</FONT>    <a name="line.90"></a>
+<FONT color="green">091</FONT>            /**<a name="line.91"></a>
+<FONT color="green">092</FONT>             * Flags for modifying the default replacer behavior.<a name="line.92"></a>
+<FONT color="green">093</FONT>             */<a name="line.93"></a>
+<FONT color="green">094</FONT>            public enum Modificator {<a name="line.94"></a>
+<FONT color="green">095</FONT>                    /**<a name="line.95"></a>
+<FONT color="green">096</FONT>                     * Enforces repetitive replacer application until there is no other change to perform.<a name="line.96"></a>
+<FONT color="green">097</FONT>                     * Attention should be paid to provide from/to combination that converges to the final<a name="line.97"></a>
+<FONT color="green">098</FONT>                     * result otherwise the process method may trigger infinite loop and/or excessive<a name="line.98"></a>
+<FONT color="green">099</FONT>                     * memory consumption.<a name="line.99"></a>
+<FONT color="green">100</FONT>                     */<a name="line.100"></a>
+<FONT color="green">101</FONT>                    REPEAT_UNTIL_UNCHANGED,<a name="line.101"></a>
+<FONT color="green">102</FONT>    <a name="line.102"></a>
+<FONT color="green">103</FONT>                    /**<a name="line.103"></a>
+<FONT color="green">104</FONT>                     * Applies {@link Pattern#CASE_INSENSITIVE} flag to the pattern.<a name="line.104"></a>
+<FONT color="green">105</FONT>                     */<a name="line.105"></a>
+<FONT color="green">106</FONT>                    IGNORE_CASE<a name="line.106"></a>
+<FONT color="green">107</FONT>            }<a name="line.107"></a>
+<FONT color="green">108</FONT>    <a name="line.108"></a>
+<FONT color="green">109</FONT>            /**<a name="line.109"></a>
+<FONT color="green">110</FONT>             * Returns from, to and untilUnchanged fields as a human readable string.<a name="line.110"></a>
+<FONT color="green">111</FONT>             *<a name="line.111"></a>
+<FONT color="green">112</FONT>             * @return internal details of the replacer as a string<a name="line.112"></a>
+<FONT color="green">113</FONT>             */<a name="line.113"></a>
+<FONT color="green">114</FONT>            @Override<a name="line.114"></a>
+<FONT color="green">115</FONT>            public String toString() {<a name="line.115"></a>
+<FONT color="green">116</FONT>                    return "Replacer{" +<a name="line.116"></a>
+<FONT color="green">117</FONT>                            "from='" + from.pattern() + '\'' +<a name="line.117"></a>
+<FONT color="green">118</FONT>                            ", to='" + to + '\'' +<a name="line.118"></a>
+<FONT color="green">119</FONT>                            ", mods=" + Arrays.toString(modificators) +<a name="line.119"></a>
+<FONT color="green">120</FONT>                            '}';<a name="line.120"></a>
+<FONT color="green">121</FONT>            }<a name="line.121"></a>
+<FONT color="green">122</FONT>    }<a name="line.122"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

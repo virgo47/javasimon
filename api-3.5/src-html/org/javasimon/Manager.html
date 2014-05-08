@@ -1,0 +1,215 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    package org.javasimon;<a name="line.1"></a>
+<FONT color="green">002</FONT>    <a name="line.2"></a>
+<FONT color="green">003</FONT>    import org.javasimon.callback.CompositeCallback;<a name="line.3"></a>
+<FONT color="green">004</FONT>    import org.javasimon.clock.Clock;<a name="line.4"></a>
+<FONT color="green">005</FONT>    <a name="line.5"></a>
+<FONT color="green">006</FONT>    import java.util.Collection;<a name="line.6"></a>
+<FONT color="green">007</FONT>    <a name="line.7"></a>
+<FONT color="green">008</FONT>    /**<a name="line.8"></a>
+<FONT color="green">009</FONT>     * Manager provides access to Simons and manages them in a tree structure. Any number of Managers<a name="line.9"></a>
+<FONT color="green">010</FONT>     * can be created. There is also one special Manager (called "default manager") that is accessible<a name="line.10"></a>
+<FONT color="green">011</FONT>     * via convenient static utility class {@link SimonManager}.<a name="line.11"></a>
+<FONT color="green">012</FONT>     * &lt;p/&gt;<a name="line.12"></a>
+<FONT color="green">013</FONT>     * Three different implementations exist:<a name="line.13"></a>
+<FONT color="green">014</FONT>     * &lt;ul&gt;<a name="line.14"></a>
+<FONT color="green">015</FONT>     * &lt;li&gt;{@link EnabledManager} represents fully functional manager in the enabled state;&lt;/li&gt;<a name="line.15"></a>
+<FONT color="green">016</FONT>     * &lt;li&gt;{@link DisabledManager} is manager implementation in the disabled state;&lt;/li&gt;<a name="line.16"></a>
+<FONT color="green">017</FONT>     * &lt;li&gt;{@link SwitchingManager} is manager implementation with both enabled and disabled manager in the background,<a name="line.17"></a>
+<FONT color="green">018</FONT>     * only this implementation supports {@link #enable()} and {@link #disable()} method.&lt;/li&gt;<a name="line.18"></a>
+<FONT color="green">019</FONT>     * &lt;/ul&gt;<a name="line.19"></a>
+<FONT color="green">020</FONT>     *<a name="line.20"></a>
+<FONT color="green">021</FONT>     * @author &lt;a href="mailto:virgo47@gmail.com"&gt;Richard "Virgo" Richter&lt;/a&gt;<a name="line.21"></a>
+<FONT color="green">022</FONT>     */<a name="line.22"></a>
+<FONT color="green">023</FONT>    public interface Manager extends Clock {<a name="line.23"></a>
+<FONT color="green">024</FONT>    <a name="line.24"></a>
+<FONT color="green">025</FONT>            /** Name of the root Simon. */<a name="line.25"></a>
+<FONT color="green">026</FONT>            String ROOT_SIMON_NAME = "";<a name="line.26"></a>
+<FONT color="green">027</FONT>    <a name="line.27"></a>
+<FONT color="green">028</FONT>            /** Hierarchy delimiter in Simon name. */<a name="line.28"></a>
+<FONT color="green">029</FONT>            String HIERARCHY_DELIMITER = ".";<a name="line.29"></a>
+<FONT color="green">030</FONT>    <a name="line.30"></a>
+<FONT color="green">031</FONT>            /**<a name="line.31"></a>
+<FONT color="green">032</FONT>             * Returns root Simon. Type of the Simon is unknown at the start but it can be replaced<a name="line.32"></a>
+<FONT color="green">033</FONT>             * by the real Simon later. Specific get method with root Simon name constant can be used<a name="line.33"></a>
+<FONT color="green">034</FONT>             * in that case.<a name="line.34"></a>
+<FONT color="green">035</FONT>             *<a name="line.35"></a>
+<FONT color="green">036</FONT>             * @return root Simon<a name="line.36"></a>
+<FONT color="green">037</FONT>             */<a name="line.37"></a>
+<FONT color="green">038</FONT>            Simon getRootSimon();<a name="line.38"></a>
+<FONT color="green">039</FONT>    <a name="line.39"></a>
+<FONT color="green">040</FONT>            /**<a name="line.40"></a>
+<FONT color="green">041</FONT>             * Returns Simon by its name if it exists.<a name="line.41"></a>
+<FONT color="green">042</FONT>             *<a name="line.42"></a>
+<FONT color="green">043</FONT>             * @param name name of the Simon<a name="line.43"></a>
+<FONT color="green">044</FONT>             * @return Simon object<a name="line.44"></a>
+<FONT color="green">045</FONT>             */<a name="line.45"></a>
+<FONT color="green">046</FONT>            Simon getSimon(String name);<a name="line.46"></a>
+<FONT color="green">047</FONT>    <a name="line.47"></a>
+<FONT color="green">048</FONT>            /**<a name="line.48"></a>
+<FONT color="green">049</FONT>             * Returns existing Counter or creates new if necessary. "Anonymous" Counter can<a name="line.49"></a>
+<FONT color="green">050</FONT>             * be obtained if null name is specified - then it is not added to the Simon hierarchy.<a name="line.50"></a>
+<FONT color="green">051</FONT>             *<a name="line.51"></a>
+<FONT color="green">052</FONT>             * @param name name of the Counter<a name="line.52"></a>
+<FONT color="green">053</FONT>             * @return counter object<a name="line.53"></a>
+<FONT color="green">054</FONT>             */<a name="line.54"></a>
+<FONT color="green">055</FONT>            Counter getCounter(String name);<a name="line.55"></a>
+<FONT color="green">056</FONT>    <a name="line.56"></a>
+<FONT color="green">057</FONT>            /**<a name="line.57"></a>
+<FONT color="green">058</FONT>             * Returns existing Stopwatch or creates new if necessary. "Anonymous" Stopwatch can<a name="line.58"></a>
+<FONT color="green">059</FONT>             * be obtained if null name is specified - then it is not added to the Simon hierarchy.<a name="line.59"></a>
+<FONT color="green">060</FONT>             *<a name="line.60"></a>
+<FONT color="green">061</FONT>             * @param name name of the Stopwatch<a name="line.61"></a>
+<FONT color="green">062</FONT>             * @return stopwatch object<a name="line.62"></a>
+<FONT color="green">063</FONT>             */<a name="line.63"></a>
+<FONT color="green">064</FONT>            Stopwatch getStopwatch(String name);<a name="line.64"></a>
+<FONT color="green">065</FONT>    <a name="line.65"></a>
+<FONT color="green">066</FONT>            /**<a name="line.66"></a>
+<FONT color="green">067</FONT>             * Returns unmodifiable collection containing names of all existing Simons. Collection is not ordered.<a name="line.67"></a>
+<FONT color="green">068</FONT>             *<a name="line.68"></a>
+<FONT color="green">069</FONT>             * @return collection of all Simon names<a name="line.69"></a>
+<FONT color="green">070</FONT>             * @since 3.1<a name="line.70"></a>
+<FONT color="green">071</FONT>             */<a name="line.71"></a>
+<FONT color="green">072</FONT>            Collection&lt;String&gt; getSimonNames();<a name="line.72"></a>
+<FONT color="green">073</FONT>    <a name="line.73"></a>
+<FONT color="green">074</FONT>            /**<a name="line.74"></a>
+<FONT color="green">075</FONT>             * Returns collection containing all existing Simons accepted by specified {@link SimonFilter}.<a name="line.75"></a>
+<FONT color="green">076</FONT>             * If {@code null} filter is provided all Simons are returned in an unmodifiable Collection.<a name="line.76"></a>
+<FONT color="green">077</FONT>             * Otherwise new collection with matching Simons is returned.<a name="line.77"></a>
+<FONT color="green">078</FONT>             *<a name="line.78"></a>
+<FONT color="green">079</FONT>             * @param simonFilter filter accepting the Simons to result collection<a name="line.79"></a>
+<FONT color="green">080</FONT>             * @return collection of all Simons which pass the filter<a name="line.80"></a>
+<FONT color="green">081</FONT>             * @see SimonPattern to find out more about possible patterns<a name="line.81"></a>
+<FONT color="green">082</FONT>             * @since 3.2<a name="line.82"></a>
+<FONT color="green">083</FONT>             */<a name="line.83"></a>
+<FONT color="green">084</FONT>            Collection&lt;Simon&gt; getSimons(SimonFilter simonFilter);<a name="line.84"></a>
+<FONT color="green">085</FONT>    <a name="line.85"></a>
+<FONT color="green">086</FONT>            /**<a name="line.86"></a>
+<FONT color="green">087</FONT>             * Removes Simon from the Manager. If Simon has some children it will be replaced<a name="line.87"></a>
+<FONT color="green">088</FONT>             * by UnknownSimon.<a name="line.88"></a>
+<FONT color="green">089</FONT>             *<a name="line.89"></a>
+<FONT color="green">090</FONT>             * @param name name of the Simon<a name="line.90"></a>
+<FONT color="green">091</FONT>             */<a name="line.91"></a>
+<FONT color="green">092</FONT>            void destroySimon(String name);<a name="line.92"></a>
+<FONT color="green">093</FONT>    <a name="line.93"></a>
+<FONT color="green">094</FONT>            /**<a name="line.94"></a>
+<FONT color="green">095</FONT>             * Clears the whole manager and starts again with a single newly created Root Simon.<a name="line.95"></a>
+<FONT color="green">096</FONT>             */<a name="line.96"></a>
+<FONT color="green">097</FONT>            void clear();<a name="line.97"></a>
+<FONT color="green">098</FONT>    <a name="line.98"></a>
+<FONT color="green">099</FONT>            /**<a name="line.99"></a>
+<FONT color="green">100</FONT>             * Accesses default composite callback of this manager. Default callback can't be removed or replaced,<a name="line.100"></a>
+<FONT color="green">101</FONT>             * only other callbacks can be added or removed.<a name="line.101"></a>
+<FONT color="green">102</FONT>             *<a name="line.102"></a>
+<FONT color="green">103</FONT>             * @return Simon callback<a name="line.103"></a>
+<FONT color="green">104</FONT>             */<a name="line.104"></a>
+<FONT color="green">105</FONT>            CompositeCallback callback();<a name="line.105"></a>
+<FONT color="green">106</FONT>    <a name="line.106"></a>
+<FONT color="green">107</FONT>            /**<a name="line.107"></a>
+<FONT color="green">108</FONT>             * Accesses configuration of this manager.<a name="line.108"></a>
+<FONT color="green">109</FONT>             *<a name="line.109"></a>
+<FONT color="green">110</FONT>             * @return configuration of this manager<a name="line.110"></a>
+<FONT color="green">111</FONT>             */<a name="line.111"></a>
+<FONT color="green">112</FONT>            ManagerConfiguration configuration();<a name="line.112"></a>
+<FONT color="green">113</FONT>    <a name="line.113"></a>
+<FONT color="green">114</FONT>            /**<a name="line.114"></a>
+<FONT color="green">115</FONT>             * Enables the Simon Manager. Enabled manager provides real Simons.<a name="line.115"></a>
+<FONT color="green">116</FONT>             * Only {@link org.javasimon.SwitchingManager} supports this operation.<a name="line.116"></a>
+<FONT color="green">117</FONT>             */<a name="line.117"></a>
+<FONT color="green">118</FONT>            void enable();<a name="line.118"></a>
+<FONT color="green">119</FONT>    <a name="line.119"></a>
+<FONT color="green">120</FONT>            /**<a name="line.120"></a>
+<FONT color="green">121</FONT>             * Disables the Simon Manager. Disabled manager provides null Simons that actually do nothing.<a name="line.121"></a>
+<FONT color="green">122</FONT>             * Only {@link org.javasimon.SwitchingManager} supports this operation.<a name="line.122"></a>
+<FONT color="green">123</FONT>             */<a name="line.123"></a>
+<FONT color="green">124</FONT>            void disable();<a name="line.124"></a>
+<FONT color="green">125</FONT>    <a name="line.125"></a>
+<FONT color="green">126</FONT>            /**<a name="line.126"></a>
+<FONT color="green">127</FONT>             * Returns true if the Java Simon API is enabled.<a name="line.127"></a>
+<FONT color="green">128</FONT>             *<a name="line.128"></a>
+<FONT color="green">129</FONT>             * @return true if the API is enabled<a name="line.129"></a>
+<FONT color="green">130</FONT>             */<a name="line.130"></a>
+<FONT color="green">131</FONT>            boolean isEnabled();<a name="line.131"></a>
+<FONT color="green">132</FONT>    <a name="line.132"></a>
+<FONT color="green">133</FONT>            /**<a name="line.133"></a>
+<FONT color="green">134</FONT>             * Method propagates message to manager's {@link org.javasimon.callback.Callback}. This allows user to report any<a name="line.134"></a>
+<FONT color="green">135</FONT>             * message if they implement {@link org.javasimon.callback.Callback#onManagerMessage(String)}.<a name="line.135"></a>
+<FONT color="green">136</FONT>             *<a name="line.136"></a>
+<FONT color="green">137</FONT>             * @param message message text<a name="line.137"></a>
+<FONT color="green">138</FONT>             */<a name="line.138"></a>
+<FONT color="green">139</FONT>            void message(String message);<a name="line.139"></a>
+<FONT color="green">140</FONT>    <a name="line.140"></a>
+<FONT color="green">141</FONT>            /**<a name="line.141"></a>
+<FONT color="green">142</FONT>             * Method propagates warning to manager's {@link org.javasimon.callback.Callback}. This allows user to report any<a name="line.142"></a>
+<FONT color="green">143</FONT>             * warning and/or exception if they implement {@link org.javasimon.callback.Callback#onManagerWarning(String, Exception)}.<a name="line.143"></a>
+<FONT color="green">144</FONT>             *<a name="line.144"></a>
+<FONT color="green">145</FONT>             * @param warning arbitrary warning message<a name="line.145"></a>
+<FONT color="green">146</FONT>             * @param cause exception causing this warning<a name="line.146"></a>
+<FONT color="green">147</FONT>             */<a name="line.147"></a>
+<FONT color="green">148</FONT>            void warning(String warning, Exception cause);<a name="line.148"></a>
+<FONT color="green">149</FONT>    }<a name="line.149"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

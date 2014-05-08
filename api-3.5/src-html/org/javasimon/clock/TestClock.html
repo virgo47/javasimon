@@ -1,0 +1,108 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    package org.javasimon.clock;<a name="line.1"></a>
+<FONT color="green">002</FONT>    <a name="line.2"></a>
+<FONT color="green">003</FONT>    /**<a name="line.3"></a>
+<FONT color="green">004</FONT>     * TestClock allows setting any arbitrary values for millis and nanos.<a name="line.4"></a>
+<FONT color="green">005</FONT>     * Available for non-test code too, if for nothing else then it's easier to use in tests in other modules too.<a name="line.5"></a>
+<FONT color="green">006</FONT>     *<a name="line.6"></a>
+<FONT color="green">007</FONT>     * @since 3.5<a name="line.7"></a>
+<FONT color="green">008</FONT>     */<a name="line.8"></a>
+<FONT color="green">009</FONT>    public final class TestClock implements Clock {<a name="line.9"></a>
+<FONT color="green">010</FONT>    <a name="line.10"></a>
+<FONT color="green">011</FONT>            private long millis;<a name="line.11"></a>
+<FONT color="green">012</FONT>            private long nanos;<a name="line.12"></a>
+<FONT color="green">013</FONT>    <a name="line.13"></a>
+<FONT color="green">014</FONT>            @Override<a name="line.14"></a>
+<FONT color="green">015</FONT>            public long nanoTime() {<a name="line.15"></a>
+<FONT color="green">016</FONT>                    return nanos;<a name="line.16"></a>
+<FONT color="green">017</FONT>            }<a name="line.17"></a>
+<FONT color="green">018</FONT>    <a name="line.18"></a>
+<FONT color="green">019</FONT>            @Override<a name="line.19"></a>
+<FONT color="green">020</FONT>            public long milliTime() {<a name="line.20"></a>
+<FONT color="green">021</FONT>                    return millis;<a name="line.21"></a>
+<FONT color="green">022</FONT>            }<a name="line.22"></a>
+<FONT color="green">023</FONT>    <a name="line.23"></a>
+<FONT color="green">024</FONT>            /** Here millis are simply nanos divided by {@link ClockUtils#NANOS_IN_MILLIS}. */<a name="line.24"></a>
+<FONT color="green">025</FONT>            @Override<a name="line.25"></a>
+<FONT color="green">026</FONT>            public long millisForNano(long nanos) {<a name="line.26"></a>
+<FONT color="green">027</FONT>                    return nanos / ClockUtils.NANOS_IN_MILLIS;<a name="line.27"></a>
+<FONT color="green">028</FONT>            }<a name="line.28"></a>
+<FONT color="green">029</FONT>    <a name="line.29"></a>
+<FONT color="green">030</FONT>            public void setMillis(long millis) {<a name="line.30"></a>
+<FONT color="green">031</FONT>                    this.millis = millis;<a name="line.31"></a>
+<FONT color="green">032</FONT>            }<a name="line.32"></a>
+<FONT color="green">033</FONT>    <a name="line.33"></a>
+<FONT color="green">034</FONT>            public void setNanos(long nanos) {<a name="line.34"></a>
+<FONT color="green">035</FONT>                    this.nanos = nanos;<a name="line.35"></a>
+<FONT color="green">036</FONT>            }<a name="line.36"></a>
+<FONT color="green">037</FONT>    <a name="line.37"></a>
+<FONT color="green">038</FONT>            public void setMillisNanosFollow(long millis) {<a name="line.38"></a>
+<FONT color="green">039</FONT>                    this.millis = millis;<a name="line.39"></a>
+<FONT color="green">040</FONT>                    this.nanos = millis * ClockUtils.NANOS_IN_MILLIS;<a name="line.40"></a>
+<FONT color="green">041</FONT>            }<a name="line.41"></a>
+<FONT color="green">042</FONT>    }<a name="line.42"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

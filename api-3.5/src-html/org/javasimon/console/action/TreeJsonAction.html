@@ -1,0 +1,124 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    package org.javasimon.console.action;<a name="line.1"></a>
+<FONT color="green">002</FONT>    <a name="line.2"></a>
+<FONT color="green">003</FONT>    import org.javasimon.Simon;<a name="line.3"></a>
+<FONT color="green">004</FONT>    import org.javasimon.console.ActionContext;<a name="line.4"></a>
+<FONT color="green">005</FONT>    import org.javasimon.console.ActionException;<a name="line.5"></a>
+<FONT color="green">006</FONT>    import org.javasimon.console.json.ArrayJS;<a name="line.6"></a>
+<FONT color="green">007</FONT>    import org.javasimon.console.json.ObjectJS;<a name="line.7"></a>
+<FONT color="green">008</FONT>    <a name="line.8"></a>
+<FONT color="green">009</FONT>    import java.io.IOException;<a name="line.9"></a>
+<FONT color="green">010</FONT>    <a name="line.10"></a>
+<FONT color="green">011</FONT>    import javax.servlet.ServletException;<a name="line.11"></a>
+<FONT color="green">012</FONT>    <a name="line.12"></a>
+<FONT color="green">013</FONT>    /**<a name="line.13"></a>
+<FONT color="green">014</FONT>     * Export Simons as a hierarchical JSON object for display in a tree-table.<a name="line.14"></a>
+<FONT color="green">015</FONT>     * All attributes of simons are exported.<a name="line.15"></a>
+<FONT color="green">016</FONT>     *<a name="line.16"></a>
+<FONT color="green">017</FONT>     * @author gquintana<a name="line.17"></a>
+<FONT color="green">018</FONT>     */<a name="line.18"></a>
+<FONT color="green">019</FONT>    public class TreeJsonAction extends AbstractJsonAction {<a name="line.19"></a>
+<FONT color="green">020</FONT>    <a name="line.20"></a>
+<FONT color="green">021</FONT>            public static final String PATH = "/data/tree.json";<a name="line.21"></a>
+<FONT color="green">022</FONT>    <a name="line.22"></a>
+<FONT color="green">023</FONT>            /**<a name="line.23"></a>
+<FONT color="green">024</FONT>             * Name of the simon from where to start.<a name="line.24"></a>
+<FONT color="green">025</FONT>             * {@code null} means root.<a name="line.25"></a>
+<FONT color="green">026</FONT>             */<a name="line.26"></a>
+<FONT color="green">027</FONT>            private String name;<a name="line.27"></a>
+<FONT color="green">028</FONT>    <a name="line.28"></a>
+<FONT color="green">029</FONT>            public TreeJsonAction(ActionContext context) {<a name="line.29"></a>
+<FONT color="green">030</FONT>                    super(context);<a name="line.30"></a>
+<FONT color="green">031</FONT>            }<a name="line.31"></a>
+<FONT color="green">032</FONT>    <a name="line.32"></a>
+<FONT color="green">033</FONT>            @Override<a name="line.33"></a>
+<FONT color="green">034</FONT>            public void readParameters() {<a name="line.34"></a>
+<FONT color="green">035</FONT>                    super.readParameters();<a name="line.35"></a>
+<FONT color="green">036</FONT>                    name = getContext().getParameterAsString("name", null);<a name="line.36"></a>
+<FONT color="green">037</FONT>            }<a name="line.37"></a>
+<FONT color="green">038</FONT>    <a name="line.38"></a>
+<FONT color="green">039</FONT>            @Override<a name="line.39"></a>
+<FONT color="green">040</FONT>            protected ObjectJS createObjectJS(Simon simon) {<a name="line.40"></a>
+<FONT color="green">041</FONT>                    ObjectJS simonJS = super.createObjectJS(simon);<a name="line.41"></a>
+<FONT color="green">042</FONT>                    ArrayJS childrenJS = new ArrayJS();<a name="line.42"></a>
+<FONT color="green">043</FONT>                    for (Simon child : simon.getChildren()) {<a name="line.43"></a>
+<FONT color="green">044</FONT>                            ObjectJS childJS = createObjectJS(child);<a name="line.44"></a>
+<FONT color="green">045</FONT>                            childrenJS.addElement(childJS);<a name="line.45"></a>
+<FONT color="green">046</FONT>                    }<a name="line.46"></a>
+<FONT color="green">047</FONT>                    simonJS.setAttribute("children", childrenJS);<a name="line.47"></a>
+<FONT color="green">048</FONT>                    return simonJS;<a name="line.48"></a>
+<FONT color="green">049</FONT>            }<a name="line.49"></a>
+<FONT color="green">050</FONT>    <a name="line.50"></a>
+<FONT color="green">051</FONT>            @Override<a name="line.51"></a>
+<FONT color="green">052</FONT>            public void execute() throws ServletException, IOException, ActionException {<a name="line.52"></a>
+<FONT color="green">053</FONT>                    getContext().setContentType("application/json");<a name="line.53"></a>
+<FONT color="green">054</FONT>                    Simon simon = name == null ? getContext().getManager().getRootSimon() : getContext().getManager().getSimon(name);<a name="line.54"></a>
+<FONT color="green">055</FONT>                    ObjectJS simonRootJS = createObjectJS(simon);<a name="line.55"></a>
+<FONT color="green">056</FONT>                    simonRootJS.write(getContext().getWriter());<a name="line.56"></a>
+<FONT color="green">057</FONT>            }<a name="line.57"></a>
+<FONT color="green">058</FONT>    }<a name="line.58"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

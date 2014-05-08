@@ -1,0 +1,95 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    package org.javasimon.javaee.reqreporter;<a name="line.1"></a>
+<FONT color="green">002</FONT>    <a name="line.2"></a>
+<FONT color="green">003</FONT>    import java.util.List;<a name="line.3"></a>
+<FONT color="green">004</FONT>    import javax.servlet.http.HttpServletRequest;<a name="line.4"></a>
+<FONT color="green">005</FONT>    <a name="line.5"></a>
+<FONT color="green">006</FONT>    import org.javasimon.Split;<a name="line.6"></a>
+<FONT color="green">007</FONT>    import org.javasimon.javaee.SimonServletFilter;<a name="line.7"></a>
+<FONT color="green">008</FONT>    <a name="line.8"></a>
+<FONT color="green">009</FONT>    /**<a name="line.9"></a>
+<FONT color="green">010</FONT>     * RequestReporter interface .<a name="line.10"></a>
+<FONT color="green">011</FONT>     *<a name="line.11"></a>
+<FONT color="green">012</FONT>     * @author &lt;a href="mailto:virgo47@gmail.com"&gt;Richard "Virgo" Richter&lt;/a&gt;<a name="line.12"></a>
+<FONT color="green">013</FONT>     */<a name="line.13"></a>
+<FONT color="green">014</FONT>    public interface RequestReporter {<a name="line.14"></a>
+<FONT color="green">015</FONT>            /**<a name="line.15"></a>
+<FONT color="green">016</FONT>             * Reports request that exceeds the threshold.<a name="line.16"></a>
+<FONT color="green">017</FONT>             *<a name="line.17"></a>
+<FONT color="green">018</FONT>             * @param request offending HTTP request<a name="line.18"></a>
+<FONT color="green">019</FONT>             * @param requestSplit split measuring the offending request<a name="line.19"></a>
+<FONT color="green">020</FONT>             * @param splits list of all splits started for this request<a name="line.20"></a>
+<FONT color="green">021</FONT>             */<a name="line.21"></a>
+<FONT color="green">022</FONT>            void reportRequest(HttpServletRequest request, Split requestSplit, List&lt;Split&gt; splits);<a name="line.22"></a>
+<FONT color="green">023</FONT>    <a name="line.23"></a>
+<FONT color="green">024</FONT>            /**<a name="line.24"></a>
+<FONT color="green">025</FONT>             * Called by initialization after the instance creation. Useful when {@link org.javasimon.Manager} is needed<a name="line.25"></a>
+<FONT color="green">026</FONT>             * ({@link org.javasimon.javaee.SimonServletFilter#getManager()}) and possibly for other scenarios.<a name="line.26"></a>
+<FONT color="green">027</FONT>             */<a name="line.27"></a>
+<FONT color="green">028</FONT>            void setSimonServletFilter(SimonServletFilter simonServletFilter);<a name="line.28"></a>
+<FONT color="green">029</FONT>    }<a name="line.29"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

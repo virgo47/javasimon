@@ -1,0 +1,114 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    package org.javasimon.aop;<a name="line.1"></a>
+<FONT color="green">002</FONT>    <a name="line.2"></a>
+<FONT color="green">003</FONT>    import java.lang.annotation.ElementType;<a name="line.3"></a>
+<FONT color="green">004</FONT>    import java.lang.annotation.Retention;<a name="line.4"></a>
+<FONT color="green">005</FONT>    import java.lang.annotation.RetentionPolicy;<a name="line.5"></a>
+<FONT color="green">006</FONT>    import java.lang.annotation.Target;<a name="line.6"></a>
+<FONT color="green">007</FONT>    <a name="line.7"></a>
+<FONT color="green">008</FONT>    /**<a name="line.8"></a>
+<FONT color="green">009</FONT>     * Annotation to mark classes and/or methods that should be monitored. A method is monitored when it is annotated,<a name="line.9"></a>
+<FONT color="green">010</FONT>     * or when it is in a class that is annotated (or any of it's subclasses). {@link org.javasimon.Stopwatch} is used<a name="line.10"></a>
+<FONT color="green">011</FONT>     * as a monitor.<a name="line.11"></a>
+<FONT color="green">012</FONT>     * &lt;p/&gt;<a name="line.12"></a>
+<FONT color="green">013</FONT>     * The Stopwatch name consists of a "name" part and a "suffix" part - these parts are provided using parameters of<a name="line.13"></a>
+<FONT color="green">014</FONT>     * the annotation. Rules are as follows:<a name="line.14"></a>
+<FONT color="green">015</FONT>     * &lt;ul&gt;<a name="line.15"></a>
+<FONT color="green">016</FONT>     * &lt;li&gt;If method annotation has the name parameter it will be the name of the Stopwatch (suffix is ignored).&lt;/li&gt;<a name="line.16"></a>
+<FONT color="green">017</FONT>     * &lt;li&gt;Default name part is the fully qualified class name.&lt;/li&gt;<a name="line.17"></a>
+<FONT color="green">018</FONT>     * &lt;li&gt;Default suffix part is the name of the current method.&lt;/li&gt;<a name="line.18"></a>
+<FONT color="green">019</FONT>     * &lt;li&gt;Name can be overruled by class annotation parameter, this can be overruled by method annotation parameter.&lt;/li&gt;<a name="line.19"></a>
+<FONT color="green">020</FONT>     * &lt;li&gt;Suffix parameter overrules default method name. Suffix parameter is ignored on the class annotation.&lt;/li&gt;<a name="line.20"></a>
+<FONT color="green">021</FONT>     * &lt;/ul&gt;<a name="line.21"></a>
+<FONT color="green">022</FONT>     * If no parameter is used, name of the Stopwatch will be: {@code fully.qualified.ClassName.methodName}<a name="line.22"></a>
+<FONT color="green">023</FONT>     * &lt;p/&gt;<a name="line.23"></a>
+<FONT color="green">024</FONT>     * Current name resolution applies since version 3.1.<a name="line.24"></a>
+<FONT color="green">025</FONT>     *<a name="line.25"></a>
+<FONT color="green">026</FONT>     * @author Erik van Oosten<a name="line.26"></a>
+<FONT color="green">027</FONT>     * @author &lt;a href="mailto:virgo47@gmail.com"&gt;Richard "Virgo" Richter&lt;/a&gt;<a name="line.27"></a>
+<FONT color="green">028</FONT>     */<a name="line.28"></a>
+<FONT color="green">029</FONT>    @Retention(value = RetentionPolicy.RUNTIME)<a name="line.29"></a>
+<FONT color="green">030</FONT>    @Target({ElementType.METHOD, ElementType.TYPE})<a name="line.30"></a>
+<FONT color="green">031</FONT>    public @interface Monitored {<a name="line.31"></a>
+<FONT color="green">032</FONT>            /**<a name="line.32"></a>
+<FONT color="green">033</FONT>             * Returns the name for the {@link org.javasimon.Stopwatch} without its possible suffix - default is the class name.<a name="line.33"></a>
+<FONT color="green">034</FONT>             * Using the parameter on the method annotation overrides name from the class.<a name="line.34"></a>
+<FONT color="green">035</FONT>             *<a name="line.35"></a>
+<FONT color="green">036</FONT>             * @return name of the used monitor<a name="line.36"></a>
+<FONT color="green">037</FONT>             */<a name="line.37"></a>
+<FONT color="green">038</FONT>            String name() default "";<a name="line.38"></a>
+<FONT color="green">039</FONT>    <a name="line.39"></a>
+<FONT color="green">040</FONT>            /**<a name="line.40"></a>
+<FONT color="green">041</FONT>             * Part added after the name part (which defaults to the class name or is specified on the class annotation). This<a name="line.41"></a>
+<FONT color="green">042</FONT>             * parameter is ignored for the class annotation or if the name parameter was specified on the method<a name="line.42"></a>
+<FONT color="green">043</FONT>             * annotation. If not ignored, it is added to the Stopwatch name after the Simon name separator (.).<a name="line.43"></a>
+<FONT color="green">044</FONT>             *<a name="line.44"></a>
+<FONT color="green">045</FONT>             * @return suffix to be added to the name of the monitor<a name="line.45"></a>
+<FONT color="green">046</FONT>             */<a name="line.46"></a>
+<FONT color="green">047</FONT>            String suffix() default "";<a name="line.47"></a>
+<FONT color="green">048</FONT>    }<a name="line.48"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

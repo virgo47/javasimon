@@ -1,0 +1,126 @@
+/* Javadoc stylesheet */
+
+body, dd, dl, dt, td, table, th, tr, li, ol, ul, p, br, a, input, form, textarea, select {
+	font-family: verdana,arial,helvetica,sans-serif;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	font-size: 12px;
+	line-height: normal;
+	font-size-adjust: none;
+	font-stretch: normal;
+	color: #333333;
+	text-decoration: none;
+}
+
+code, pre, tt {
+	font-family: consolas, monospace;
+	font-size: 13px;
+}
+
+body {
+	background-color: #FFFFFF;
+}
+
+/* Headings */
+h1 {
+	font-size: 180%
+}
+
+/* Table colors */
+.TableHeadingColor     { background: #aabbff }
+.TableSubHeadingColor  { background: #ddddff }
+.TableRowColor         { background: #ffffff }
+.TableRowColor:hover   { background: #ffeeee }
+
+/* Font used in left-hand frame lists */
+.FrameTitleFont { font-size: 100%; }
+.FrameHeadingFont, .FrameItemFont {
+	font-size: 90%;
+}
+
+/* Navigation bar fonts and colors */
+.NavBarCell1 {
+	background-color:#ffeeee;
+	color:#000000;
+    border-radius: 4px;
+}
+
+.NavBarCell1Rev {
+	background-color: #ffbbbb;
+    font-weight: bold;
+    border-radius: 4px;
+}
+
+.NavBarCell2 {
+	background-color:#FFFFFF;
+    border-radius: 4px;
+}
+
+.NavBarCell3 {
+	background-color:#FFFFFF;
+    border-radius: 4px;
+}
+
+li {
+	margin: 5px;
+}
+
+a {
+	text-decoration: none;
+	color: #1122cc;
+}
+
+a:hover {
+	background-color: #ffcccc;
+	border-radius: 4px;
+}
+
+a:hover>code {
+	background-color: #ffcccc;
+    border-radius: 4px;
+}
+
+th font b {
+	font-size: 14px;
+	color: #333333;
+	font-weight: bold;
+}
+
+pre {
+	font-size: 90%;
+	padding: 5px;
+    border: 1px solid #888888;
+    background-color: #F4F4F4;
+	border-radius: 4px;
+    overflow-x: auto;
+	line-height: 140%;
+}
+
+div.logo {
+	margin: 0;
+	padding: 0;
+	width: 120px;
+	height: 36px;
+	background-image: url("resources/simonlogo120.png");
+}
+
+code {
+	font-weight: bold;
+	background-color: #FFF8F8;
+	border: thin solid #FFAAAA;
+	border-radius: 4px;
+	padding: 0 2px;
+}
+
+a code {
+	font-weight: bold;
+	color: #1122aa;
+    border-radius: 4px;
+}
+
+table code {
+	background-color: transparent;
+    border: none;
+    border-radius: 4px;
+}

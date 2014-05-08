@@ -1,0 +1,252 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    package org.javasimon.jdbc4;<a name="line.1"></a>
+<FONT color="green">002</FONT>    <a name="line.2"></a>
+<FONT color="green">003</FONT>    import java.sql.Connection;<a name="line.3"></a>
+<FONT color="green">004</FONT>    import java.sql.DriverManager;<a name="line.4"></a>
+<FONT color="green">005</FONT>    import java.sql.DriverPropertyInfo;<a name="line.5"></a>
+<FONT color="green">006</FONT>    import java.sql.SQLException;<a name="line.6"></a>
+<FONT color="green">007</FONT>    import java.util.Properties;<a name="line.7"></a>
+<FONT color="green">008</FONT>    <a name="line.8"></a>
+<FONT color="green">009</FONT>    /**<a name="line.9"></a>
+<FONT color="green">010</FONT>     * Simon JDBC Proxy Driver.<a name="line.10"></a>
+<FONT color="green">011</FONT>     * &lt;p&gt;<a name="line.11"></a>
+<FONT color="green">012</FONT>     * An application should not use this class directly. The application (if standalone)<a name="line.12"></a>
+<FONT color="green">013</FONT>     * should use {@link java.sql.DriverManager} only. For example:<a name="line.13"></a>
+<FONT color="green">014</FONT>     * &lt;/p&gt;<a name="line.14"></a>
+<FONT color="green">015</FONT>     * &lt;pre&gt;<a name="line.15"></a>
+<FONT color="green">016</FONT>     * Connection conn = DriverManager.getConnection("jdbc:simon:oracle:thin:...", "scott", "tiger");&lt;/pre&gt;<a name="line.16"></a>
+<FONT color="green">017</FONT>     *<a name="line.17"></a>
+<FONT color="green">018</FONT>     * Simon driver has following format of JDBC connection string:<a name="line.18"></a>
+<FONT color="green">019</FONT>     * &lt;pre&gt;{@literal<a name="line.19"></a>
+<FONT color="green">020</FONT>     * jdbc:simon:&lt;real driver conn string&gt;;&lt;param1&gt;=&lt;value1&gt;;...}&lt;/pre&gt;<a name="line.20"></a>
+<FONT color="green">021</FONT>     * Simon driver recognizes two parameters:<a name="line.21"></a>
+<FONT color="green">022</FONT>     * &lt;ul&gt;<a name="line.22"></a>
+<FONT color="green">023</FONT>     * &lt;li&gt;<a name="line.23"></a>
+<FONT color="green">024</FONT>     * {@code SIMON_REAL_DRV} - if you don't want or can't register real driver for any<a name="line.24"></a>
+<FONT color="green">025</FONT>     * reason, you can use this parameter and Simon proxy driver will do the registration<a name="line.25"></a>
+<FONT color="green">026</FONT>     * for you. You don't need to specify real driver parameter for some well known databases.<a name="line.26"></a>
+<FONT color="green">027</FONT>     * Simon proxy driver recognize database by first key word after JDBC and register.<a name="line.27"></a>
+<FONT color="green">028</FONT>     * &lt;/li&gt;<a name="line.28"></a>
+<FONT color="green">029</FONT>     * &lt;li&gt;<a name="line.29"></a>
+<FONT color="green">030</FONT>     * {@code SIMON_PREFIX} - setting this parameter you can choose different prefix<a name="line.30"></a>
+<FONT color="green">031</FONT>     * for all monitors for one instance of driver. For example, setting<a name="line.31"></a>
+<FONT color="green">032</FONT>     * {@code SIMON_PREFIX=com.foo} will ensure that all proxy related Simons are located<a name="line.32"></a>
+<FONT color="green">033</FONT>     * under the subtree specified by the prefix, e.g. {@code com.foo.conn}, &lt;code&gt;com.foo.stmt&lt;/code&gt;,<a name="line.33"></a>
+<FONT color="green">034</FONT>     * &lt;code&gt;com.foo.select&lt;/code&gt;, etc. If no prefix is set, default {@code org.javasimon.jdbc} prefix<a name="line.34"></a>
+<FONT color="green">035</FONT>     * is used.<a name="line.35"></a>
+<FONT color="green">036</FONT>     * &lt;/li&gt;<a name="line.36"></a>
+<FONT color="green">037</FONT>     * &lt;/ul&gt;                                `<a name="line.37"></a>
+<FONT color="green">038</FONT>     *<a name="line.38"></a>
+<FONT color="green">039</FONT>     * By default, there is no need to load any driver explicitly, because drivers are loaded automatically<a name="line.39"></a>
+<FONT color="green">040</FONT>     * (since JDK 1.5) if they are in class path and jar have appropriate<a name="line.40"></a>
+<FONT color="green">041</FONT>     * meta information (see {@link java.sql.DriverManager}).<a name="line.41"></a>
+<FONT color="green">042</FONT>     *<a name="line.42"></a>
+<FONT color="green">043</FONT>     * If this is not a case for any reason, you need to register Simon proxy driver at least.<a name="line.43"></a>
+<FONT color="green">044</FONT>     * For real driver Simon proxy driver contains following procedure for find and register it:<a name="line.44"></a>
+<FONT color="green">045</FONT>     * &lt;ol&gt;<a name="line.45"></a>
+<FONT color="green">046</FONT>     * &lt;li&gt;Simon proxy driver tries if there is registered driver for driver key word.<a name="line.46"></a>
+<FONT color="green">047</FONT>     * &lt;li&gt;If not, driver tries if there is real driver parameter in info properties and then registers it.<a name="line.47"></a>
+<FONT color="green">048</FONT>     * &lt;li&gt;If not, driver tries to find driver by key word within internal list of well known drivers and<a name="line.48"></a>
+<FONT color="green">049</FONT>     * then registers it. For now, list contains default drivers for Oracle, PostgreSQL, Enterprise DB, H2,<a name="line.49"></a>
+<FONT color="green">050</FONT>     * MySQL.<a name="line.50"></a>
+<FONT color="green">051</FONT>     * &lt;li&gt;If not, driver tries to find real driver param within connection string and then registers it.<a name="line.51"></a>
+<FONT color="green">052</FONT>     * &lt;li&gt;If not, getting new connection fails.<a name="line.52"></a>
+<FONT color="green">053</FONT>     * &lt;/ol&gt;<a name="line.53"></a>
+<FONT color="green">054</FONT>     * The safest way to get Simon proxy driver work is to load the drivers, the real one (i.e. oracle)<a name="line.54"></a>
+<FONT color="green">055</FONT>     * and a Simon proxy driver explicitly. This can be done using Class.forName. To load the driver and open a<a name="line.55"></a>
+<FONT color="green">056</FONT>     * database connection, use following code:<a name="line.56"></a>
+<FONT color="green">057</FONT>     * &lt;pre&gt;<a name="line.57"></a>
+<FONT color="green">058</FONT>     * Class.forName("oracle.jdbc.driver.OracleDriver");  // loads real driver<a name="line.58"></a>
+<FONT color="green">059</FONT>     * Class.forName("org.javasimon.jdbc4.Driver");  // loads Simon proxy driver<a name="line.59"></a>
+<FONT color="green">060</FONT>     * Connection conn = DriverManager.getConnection(<a name="line.60"></a>
+<FONT color="green">061</FONT>     *      "jdbc:simon:oracle:thin:...", "scott", "tiger");&lt;/pre&gt;<a name="line.61"></a>
+<FONT color="green">062</FONT>     *<a name="line.62"></a>
+<FONT color="green">063</FONT>     * @author Radovan Sninsky<a name="line.63"></a>
+<FONT color="green">064</FONT>     * @author &lt;a href="mailto:virgo47@gmail.com"&gt;Richard "Virgo" Richter&lt;/a&gt;<a name="line.64"></a>
+<FONT color="green">065</FONT>     * @see java.sql.DriverManager#getConnection(String)<a name="line.65"></a>
+<FONT color="green">066</FONT>     * @since 2.4<a name="line.66"></a>
+<FONT color="green">067</FONT>     */<a name="line.67"></a>
+<FONT color="green">068</FONT>    public final class Driver implements java.sql.Driver {<a name="line.68"></a>
+<FONT color="green">069</FONT>            static {<a name="line.69"></a>
+<FONT color="green">070</FONT>                    try {<a name="line.70"></a>
+<FONT color="green">071</FONT>                            DriverManager.registerDriver(new Driver());<a name="line.71"></a>
+<FONT color="green">072</FONT>                    } catch (Exception e) {<a name="line.72"></a>
+<FONT color="green">073</FONT>                            // don't know what to do yet, maybe throw RuntimeException ???<a name="line.73"></a>
+<FONT color="green">074</FONT>                            e.printStackTrace();<a name="line.74"></a>
+<FONT color="green">075</FONT>                    }<a name="line.75"></a>
+<FONT color="green">076</FONT>            }<a name="line.76"></a>
+<FONT color="green">077</FONT>    <a name="line.77"></a>
+<FONT color="green">078</FONT>            /**<a name="line.78"></a>
+<FONT color="green">079</FONT>             * Class constructor. It loads well known driver list from resource file drivers.properties.<a name="line.79"></a>
+<FONT color="green">080</FONT>             */<a name="line.80"></a>
+<FONT color="green">081</FONT>            public Driver() {<a name="line.81"></a>
+<FONT color="green">082</FONT>            }<a name="line.82"></a>
+<FONT color="green">083</FONT>    <a name="line.83"></a>
+<FONT color="green">084</FONT>            /**<a name="line.84"></a>
+<FONT color="green">085</FONT>             * Opens new Simon proxy driver connection associated with real connection to the specified database.<a name="line.85"></a>
+<FONT color="green">086</FONT>             *<a name="line.86"></a>
+<FONT color="green">087</FONT>             * @param simonUrl JDBC connection string (i.e. jdbc:simon:h2:file:test)<a name="line.87"></a>
+<FONT color="green">088</FONT>             * @param info properties for connection<a name="line.88"></a>
+<FONT color="green">089</FONT>             * @return open connection to database or null if provided url is not accepted by this driver<a name="line.89"></a>
+<FONT color="green">090</FONT>             * @throws java.sql.SQLException if there is no real driver registered/recognized or opening real connection fails<a name="line.90"></a>
+<FONT color="green">091</FONT>             * @see org.javasimon.jdbc4.Driver<a name="line.91"></a>
+<FONT color="green">092</FONT>             */<a name="line.92"></a>
+<FONT color="green">093</FONT>            @Override<a name="line.93"></a>
+<FONT color="green">094</FONT>            public Connection connect(String simonUrl, Properties info) throws SQLException {<a name="line.94"></a>
+<FONT color="green">095</FONT>                    if (!acceptsURL(simonUrl)) {<a name="line.95"></a>
+<FONT color="green">096</FONT>                            return null;<a name="line.96"></a>
+<FONT color="green">097</FONT>                    }<a name="line.97"></a>
+<FONT color="green">098</FONT>    <a name="line.98"></a>
+<FONT color="green">099</FONT>                    SimonConnectionConfiguration url = new SimonConnectionConfiguration(simonUrl);<a name="line.99"></a>
+<FONT color="green">100</FONT>                    java.sql.Driver driver = getRealDriver(url, info);<a name="line.100"></a>
+<FONT color="green">101</FONT>    <a name="line.101"></a>
+<FONT color="green">102</FONT>                    return new SimonConnection(driver.connect(url.getRealUrl(), info), url.getPrefix());<a name="line.102"></a>
+<FONT color="green">103</FONT>            }<a name="line.103"></a>
+<FONT color="green">104</FONT>    <a name="line.104"></a>
+<FONT color="green">105</FONT>            /**<a name="line.105"></a>
+<FONT color="green">106</FONT>             * Tries to determine driver class, instantiate it and register if already not registered.<a name="line.106"></a>
+<FONT color="green">107</FONT>             * For more detail look at {@link org.javasimon.jdbc4.Driver} class javadoc.<a name="line.107"></a>
+<FONT color="green">108</FONT>             *<a name="line.108"></a>
+<FONT color="green">109</FONT>             * @param configuration instance of url object that represents url<a name="line.109"></a>
+<FONT color="green">110</FONT>             * @param info parameters from {@link #connect(String, java.util.Properties)} method<a name="line.110"></a>
+<FONT color="green">111</FONT>             * @return instance of real driver<a name="line.111"></a>
+<FONT color="green">112</FONT>             * @throws java.sql.SQLException if real driver can't be determined or is not registerd<a name="line.112"></a>
+<FONT color="green">113</FONT>             */<a name="line.113"></a>
+<FONT color="green">114</FONT>            private java.sql.Driver getRealDriver(SimonConnectionConfiguration configuration, Properties info) throws SQLException {<a name="line.114"></a>
+<FONT color="green">115</FONT>                    java.sql.Driver drv = null;<a name="line.115"></a>
+<FONT color="green">116</FONT>                    try {<a name="line.116"></a>
+<FONT color="green">117</FONT>                            drv = DriverManager.getDriver(configuration.getRealUrl());<a name="line.117"></a>
+<FONT color="green">118</FONT>                    } catch (SQLException e) {<a name="line.118"></a>
+<FONT color="green">119</FONT>                            // nothing, not an error<a name="line.119"></a>
+<FONT color="green">120</FONT>                    }<a name="line.120"></a>
+<FONT color="green">121</FONT>    <a name="line.121"></a>
+<FONT color="green">122</FONT>                    if (drv == null &amp;&amp; info != null &amp;&amp; info.keySet().contains(SimonConnectionConfiguration.REAL_DRIVER)) {<a name="line.122"></a>
+<FONT color="green">123</FONT>                            drv = registerDriver(info.getProperty(SimonConnectionConfiguration.REAL_DRIVER));<a name="line.123"></a>
+<FONT color="green">124</FONT>                    }<a name="line.124"></a>
+<FONT color="green">125</FONT>    <a name="line.125"></a>
+<FONT color="green">126</FONT>                    if (drv == null &amp;&amp; configuration.getRealDriver() != null) {<a name="line.126"></a>
+<FONT color="green">127</FONT>                            drv = registerDriver(configuration.getRealDriver());<a name="line.127"></a>
+<FONT color="green">128</FONT>                    }<a name="line.128"></a>
+<FONT color="green">129</FONT>    <a name="line.129"></a>
+<FONT color="green">130</FONT>                    if (drv == null) {<a name="line.130"></a>
+<FONT color="green">131</FONT>                            if (configuration.getRealDriver() != null) {<a name="line.131"></a>
+<FONT color="green">132</FONT>                                    drv = registerDriver(configuration.getRealDriver());<a name="line.132"></a>
+<FONT color="green">133</FONT>                            }<a name="line.133"></a>
+<FONT color="green">134</FONT>                    }<a name="line.134"></a>
+<FONT color="green">135</FONT>    <a name="line.135"></a>
+<FONT color="green">136</FONT>                    if (drv == null) {<a name="line.136"></a>
+<FONT color="green">137</FONT>                            throw new SQLException("Real driver is not registered and can't determine real driver class name for registration.");<a name="line.137"></a>
+<FONT color="green">138</FONT>                    }<a name="line.138"></a>
+<FONT color="green">139</FONT>                    return drv;<a name="line.139"></a>
+<FONT color="green">140</FONT>            }<a name="line.140"></a>
+<FONT color="green">141</FONT>    <a name="line.141"></a>
+<FONT color="green">142</FONT>            /**<a name="line.142"></a>
+<FONT color="green">143</FONT>             * Registers real driver through {@link java.sql.DriverManager}.<a name="line.143"></a>
+<FONT color="green">144</FONT>             *<a name="line.144"></a>
+<FONT color="green">145</FONT>             * @param name real driver class name<a name="line.145"></a>
+<FONT color="green">146</FONT>             * @return instance of registered real driver<a name="line.146"></a>
+<FONT color="green">147</FONT>             * @throws java.sql.SQLException if registration fails<a name="line.147"></a>
+<FONT color="green">148</FONT>             */<a name="line.148"></a>
+<FONT color="green">149</FONT>            private java.sql.Driver registerDriver(String name) throws SQLException {<a name="line.149"></a>
+<FONT color="green">150</FONT>                    try {<a name="line.150"></a>
+<FONT color="green">151</FONT>                            java.sql.Driver d = (java.sql.Driver) Class.forName(name).newInstance();<a name="line.151"></a>
+<FONT color="green">152</FONT>                            DriverManager.registerDriver(d);<a name="line.152"></a>
+<FONT color="green">153</FONT>                            return d;<a name="line.153"></a>
+<FONT color="green">154</FONT>                    } catch (SQLException e) {<a name="line.154"></a>
+<FONT color="green">155</FONT>                            throw e;<a name="line.155"></a>
+<FONT color="green">156</FONT>                    } catch (Exception e) {<a name="line.156"></a>
+<FONT color="green">157</FONT>                            return null;<a name="line.157"></a>
+<FONT color="green">158</FONT>                    }<a name="line.158"></a>
+<FONT color="green">159</FONT>            }<a name="line.159"></a>
+<FONT color="green">160</FONT>    <a name="line.160"></a>
+<FONT color="green">161</FONT>            @Override<a name="line.161"></a>
+<FONT color="green">162</FONT>            public boolean acceptsURL(String url) throws SQLException {<a name="line.162"></a>
+<FONT color="green">163</FONT>                    return SimonConnectionConfiguration.isSimonUrl(url);<a name="line.163"></a>
+<FONT color="green">164</FONT>            }<a name="line.164"></a>
+<FONT color="green">165</FONT>    <a name="line.165"></a>
+<FONT color="green">166</FONT>            @Override<a name="line.166"></a>
+<FONT color="green">167</FONT>            public DriverPropertyInfo[] getPropertyInfo(String s, Properties properties) throws SQLException {<a name="line.167"></a>
+<FONT color="green">168</FONT>                    return new DriverPropertyInfo[0];<a name="line.168"></a>
+<FONT color="green">169</FONT>            }<a name="line.169"></a>
+<FONT color="green">170</FONT>    <a name="line.170"></a>
+<FONT color="green">171</FONT>            @Override<a name="line.171"></a>
+<FONT color="green">172</FONT>            public int getMajorVersion() {<a name="line.172"></a>
+<FONT color="green">173</FONT>                    return 2;<a name="line.173"></a>
+<FONT color="green">174</FONT>            }<a name="line.174"></a>
+<FONT color="green">175</FONT>    <a name="line.175"></a>
+<FONT color="green">176</FONT>            @Override<a name="line.176"></a>
+<FONT color="green">177</FONT>            public int getMinorVersion() {<a name="line.177"></a>
+<FONT color="green">178</FONT>                    return 4;<a name="line.178"></a>
+<FONT color="green">179</FONT>            }<a name="line.179"></a>
+<FONT color="green">180</FONT>    <a name="line.180"></a>
+<FONT color="green">181</FONT>            @Override<a name="line.181"></a>
+<FONT color="green">182</FONT>            public boolean jdbcCompliant() {<a name="line.182"></a>
+<FONT color="green">183</FONT>                    return true;<a name="line.183"></a>
+<FONT color="green">184</FONT>            }<a name="line.184"></a>
+<FONT color="green">185</FONT>    <a name="line.185"></a>
+<FONT color="green">186</FONT>    }<a name="line.186"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

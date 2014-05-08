@@ -1,0 +1,142 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    package org.javasimon.javaee;<a name="line.1"></a>
+<FONT color="green">002</FONT>    <a name="line.2"></a>
+<FONT color="green">003</FONT>    import javax.interceptor.AroundInvoke;<a name="line.3"></a>
+<FONT color="green">004</FONT>    import javax.interceptor.InvocationContext;<a name="line.4"></a>
+<FONT color="green">005</FONT>    <a name="line.5"></a>
+<FONT color="green">006</FONT>    import org.javasimon.Manager;<a name="line.6"></a>
+<FONT color="green">007</FONT>    import org.javasimon.SimonManager;<a name="line.7"></a>
+<FONT color="green">008</FONT>    import org.javasimon.Split;<a name="line.8"></a>
+<FONT color="green">009</FONT>    <a name="line.9"></a>
+<FONT color="green">010</FONT>    /**<a name="line.10"></a>
+<FONT color="green">011</FONT>     * Simon Interceptor measuring method execution time - can be used in EJB, or CDI in general.<a name="line.11"></a>
+<FONT color="green">012</FONT>     *<a name="line.12"></a>
+<FONT color="green">013</FONT>     * @author &lt;a href="mailto:richard.richter@siemens-enterprise.com"&gt;Richard "Virgo" Richter&lt;/a&gt;<a name="line.13"></a>
+<FONT color="green">014</FONT>     * @since 2.3<a name="line.14"></a>
+<FONT color="green">015</FONT>     */<a name="line.15"></a>
+<FONT color="green">016</FONT>    @SuppressWarnings("UnusedParameters")<a name="line.16"></a>
+<FONT color="green">017</FONT>    public class SimonInterceptor {<a name="line.17"></a>
+<FONT color="green">018</FONT>            /**<a name="line.18"></a>
+<FONT color="green">019</FONT>             * Default prefix for interceptor Simons if no "prefix" init parameter is used.<a name="line.19"></a>
+<FONT color="green">020</FONT>             */<a name="line.20"></a>
+<FONT color="green">021</FONT>            public static final String DEFAULT_INTERCEPTOR_PREFIX = "org.javasimon.business";<a name="line.21"></a>
+<FONT color="green">022</FONT>    <a name="line.22"></a>
+<FONT color="green">023</FONT>            /**<a name="line.23"></a>
+<FONT color="green">024</FONT>             * Simon name prefix - can be overridden in subclasses.<a name="line.24"></a>
+<FONT color="green">025</FONT>             */<a name="line.25"></a>
+<FONT color="green">026</FONT>            protected String prefix = DEFAULT_INTERCEPTOR_PREFIX;<a name="line.26"></a>
+<FONT color="green">027</FONT>    <a name="line.27"></a>
+<FONT color="green">028</FONT>            /**<a name="line.28"></a>
+<FONT color="green">029</FONT>             * Returns Simon name for the specified Invocation context.<a name="line.29"></a>
+<FONT color="green">030</FONT>             * By default it contains the prefix + method name.<a name="line.30"></a>
+<FONT color="green">031</FONT>             * This method can be overridden.<a name="line.31"></a>
+<FONT color="green">032</FONT>             *<a name="line.32"></a>
+<FONT color="green">033</FONT>             * @param context Invocation context<a name="line.33"></a>
+<FONT color="green">034</FONT>             * @return fully qualified name of the Simon<a name="line.34"></a>
+<FONT color="green">035</FONT>             * @since 3.1<a name="line.35"></a>
+<FONT color="green">036</FONT>             */<a name="line.36"></a>
+<FONT color="green">037</FONT>            protected String getSimonName(InvocationContext context) {<a name="line.37"></a>
+<FONT color="green">038</FONT>                    String className = context.getMethod().getDeclaringClass().getSimpleName();<a name="line.38"></a>
+<FONT color="green">039</FONT>                    String methodName = context.getMethod().getName();<a name="line.39"></a>
+<FONT color="green">040</FONT>                    return prefix + Manager.HIERARCHY_DELIMITER + className + Manager.HIERARCHY_DELIMITER + methodName;<a name="line.40"></a>
+<FONT color="green">041</FONT>            }<a name="line.41"></a>
+<FONT color="green">042</FONT>    <a name="line.42"></a>
+<FONT color="green">043</FONT>            /**<a name="line.43"></a>
+<FONT color="green">044</FONT>             * Indicates whether the method invocation should be monitored.<a name="line.44"></a>
+<FONT color="green">045</FONT>             * Default behavior always returns true.<a name="line.45"></a>
+<FONT color="green">046</FONT>             * This method can be overridden<a name="line.46"></a>
+<FONT color="green">047</FONT>             *<a name="line.47"></a>
+<FONT color="green">048</FONT>             * @param context Method invocation context<a name="line.48"></a>
+<FONT color="green">049</FONT>             * @return true to enable Simon, false either<a name="line.49"></a>
+<FONT color="green">050</FONT>             */<a name="line.50"></a>
+<FONT color="green">051</FONT>            protected boolean isMonitored(InvocationContext context) {<a name="line.51"></a>
+<FONT color="green">052</FONT>                    return true;<a name="line.52"></a>
+<FONT color="green">053</FONT>            }<a name="line.53"></a>
+<FONT color="green">054</FONT>    <a name="line.54"></a>
+<FONT color="green">055</FONT>            /**<a name="line.55"></a>
+<FONT color="green">056</FONT>             * Around invoke method that measures the split for one method invocation.<a name="line.56"></a>
+<FONT color="green">057</FONT>             *<a name="line.57"></a>
+<FONT color="green">058</FONT>             * @param context invocation context<a name="line.58"></a>
+<FONT color="green">059</FONT>             * @return return value from the invocation<a name="line.59"></a>
+<FONT color="green">060</FONT>             * @throws Exception exception thrown from the invocation<a name="line.60"></a>
+<FONT color="green">061</FONT>             */<a name="line.61"></a>
+<FONT color="green">062</FONT>            @AroundInvoke<a name="line.62"></a>
+<FONT color="green">063</FONT>            public Object monitor(InvocationContext context) throws Exception {<a name="line.63"></a>
+<FONT color="green">064</FONT>                    if (isMonitored(context)) {<a name="line.64"></a>
+<FONT color="green">065</FONT>                            String simonName = getSimonName(context);<a name="line.65"></a>
+<FONT color="green">066</FONT>                            Split split = SimonManager.getStopwatch(simonName).start();<a name="line.66"></a>
+<FONT color="green">067</FONT>                            try {<a name="line.67"></a>
+<FONT color="green">068</FONT>                                    return context.proceed();<a name="line.68"></a>
+<FONT color="green">069</FONT>                            } finally {<a name="line.69"></a>
+<FONT color="green">070</FONT>                                    split.stop();<a name="line.70"></a>
+<FONT color="green">071</FONT>                            }<a name="line.71"></a>
+<FONT color="green">072</FONT>                    } else {<a name="line.72"></a>
+<FONT color="green">073</FONT>                            return context.proceed();<a name="line.73"></a>
+<FONT color="green">074</FONT>                    }<a name="line.74"></a>
+<FONT color="green">075</FONT>            }<a name="line.75"></a>
+<FONT color="green">076</FONT>    }<a name="line.76"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

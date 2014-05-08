@@ -1,0 +1,325 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    package org.javasimon.jmx;<a name="line.1"></a>
+<FONT color="green">002</FONT>    <a name="line.2"></a>
+<FONT color="green">003</FONT>    import org.javasimon.Manager;<a name="line.3"></a>
+<FONT color="green">004</FONT>    import org.javasimon.SimonException;<a name="line.4"></a>
+<FONT color="green">005</FONT>    import org.javasimon.SimonManager;<a name="line.5"></a>
+<FONT color="green">006</FONT>    import org.slf4j.Logger;<a name="line.6"></a>
+<FONT color="green">007</FONT>    import org.slf4j.LoggerFactory;<a name="line.7"></a>
+<FONT color="green">008</FONT>    <a name="line.8"></a>
+<FONT color="green">009</FONT>    import java.lang.management.ManagementFactory;<a name="line.9"></a>
+<FONT color="green">010</FONT>    <a name="line.10"></a>
+<FONT color="green">011</FONT>    import javax.management.JMException;<a name="line.11"></a>
+<FONT color="green">012</FONT>    import javax.management.MBeanServer;<a name="line.12"></a>
+<FONT color="green">013</FONT>    import javax.management.ObjectName;<a name="line.13"></a>
+<FONT color="green">014</FONT>    <a name="line.14"></a>
+<FONT color="green">015</FONT>    /**<a name="line.15"></a>
+<FONT color="green">016</FONT>     * Utility class for registering JMX beans that can be used to access Simon manager and Simons.<a name="line.16"></a>
+<FONT color="green">017</FONT>     * JmxReporter is created by either {@link org.javasimon.jmx.JmxReporter#forManager(org.javasimon.Manager)}<a name="line.17"></a>
+<FONT color="green">018</FONT>     * or {@link JmxReporter#forDefaultManager()}. Additional configuration methods can be called using fluent<a name="line.18"></a>
+<FONT color="green">019</FONT>     * API ().<a name="line.19"></a>
+<FONT color="green">020</FONT>     * Finally {@link JmxReporter#start()} will set up all expected MX beans and system is ready for monitoring<a name="line.20"></a>
+<FONT color="green">021</FONT>     * through JMX. Method {@link JmxReporter#stop()} unregisters all related MX beans when monitoring is no<a name="line.21"></a>
+<FONT color="green">022</FONT>     * longer required.<a name="line.22"></a>
+<FONT color="green">023</FONT>     *<a name="line.23"></a>
+<FONT color="green">024</FONT>     * @author &lt;a href="mailto:ivan.mushketyk@gmail.com"&gt;Ivan Mushketyk&lt;/a&gt;<a name="line.24"></a>
+<FONT color="green">025</FONT>     * @author &lt;a href="mailto:virgo47@gmail.com"&gt;Richard "Virgo" Richter&lt;/a&gt;<a name="line.25"></a>
+<FONT color="green">026</FONT>     */<a name="line.26"></a>
+<FONT color="green">027</FONT>    public final class JmxReporter {<a name="line.27"></a>
+<FONT color="green">028</FONT>    <a name="line.28"></a>
+<FONT color="green">029</FONT>            public static final String DEFAULT_BEAN_NAME = "org.javasimon.jmx.JmxReporter:type=Simon";<a name="line.29"></a>
+<FONT color="green">030</FONT>            public static final String DEFAULT_SIMON_DOMAIN = "org.javasimon.jmx.simons";<a name="line.30"></a>
+<FONT color="green">031</FONT>    <a name="line.31"></a>
+<FONT color="green">032</FONT>            private static final Logger logger = LoggerFactory.getLogger(JmxReporter.class);<a name="line.32"></a>
+<FONT color="green">033</FONT>    <a name="line.33"></a>
+<FONT color="green">034</FONT>            /** Simon manager that will be accessed through registered JMX bean */<a name="line.34"></a>
+<FONT color="green">035</FONT>            private final Manager manager;<a name="line.35"></a>
+<FONT color="green">036</FONT>    <a name="line.36"></a>
+<FONT color="green">037</FONT>            /** JMX bean server used by JmxReporter */<a name="line.37"></a>
+<FONT color="green">038</FONT>            private MBeanServer beanServer;<a name="line.38"></a>
+<FONT color="green">039</FONT>    <a name="line.39"></a>
+<FONT color="green">040</FONT>            /** Name of a new JMX bean for Simon manager */<a name="line.40"></a>
+<FONT color="green">041</FONT>            private String beanName;<a name="line.41"></a>
+<FONT color="green">042</FONT>    <a name="line.42"></a>
+<FONT color="green">043</FONT>            /** Should already registered bean with the specified name be replaced. */<a name="line.43"></a>
+<FONT color="green">044</FONT>            private boolean replaceExistingMxBeans;<a name="line.44"></a>
+<FONT color="green">045</FONT>    <a name="line.45"></a>
+<FONT color="green">046</FONT>            /** Should JMX beans for separate Simons be registered. */<a name="line.46"></a>
+<FONT color="green">047</FONT>            private boolean registerSimons;<a name="line.47"></a>
+<FONT color="green">048</FONT>    <a name="line.48"></a>
+<FONT color="green">049</FONT>            /**<a name="line.49"></a>
+<FONT color="green">050</FONT>             * Should JMX beans for already existing Simons be registered ({@link #registerSimons} must be true<a name="line.50"></a>
+<FONT color="green">051</FONT>             * for this to have effect).<a name="line.51"></a>
+<FONT color="green">052</FONT>             */<a name="line.52"></a>
+<FONT color="green">053</FONT>            private boolean registerExistingSimons;<a name="line.53"></a>
+<FONT color="green">054</FONT>    <a name="line.54"></a>
+<FONT color="green">055</FONT>            /** Domain of JMX beans for separate Simons. */<a name="line.55"></a>
+<FONT color="green">056</FONT>            private String simonDomain;<a name="line.56"></a>
+<FONT color="green">057</FONT>    <a name="line.57"></a>
+<FONT color="green">058</FONT>            private JmxRegisterCallback jmxRegisterCallback;<a name="line.58"></a>
+<FONT color="green">059</FONT>    <a name="line.59"></a>
+<FONT color="green">060</FONT>            private JmxReporter(Manager manager) {<a name="line.60"></a>
+<FONT color="green">061</FONT>                    if (manager == null) {<a name="line.61"></a>
+<FONT color="green">062</FONT>                            throw new IllegalArgumentException("Manager is null");<a name="line.62"></a>
+<FONT color="green">063</FONT>                    }<a name="line.63"></a>
+<FONT color="green">064</FONT>    <a name="line.64"></a>
+<FONT color="green">065</FONT>                    this.manager = manager;<a name="line.65"></a>
+<FONT color="green">066</FONT>            }<a name="line.66"></a>
+<FONT color="green">067</FONT>    <a name="line.67"></a>
+<FONT color="green">068</FONT>            /**<a name="line.68"></a>
+<FONT color="green">069</FONT>             * Creates new JmxReporter for the specified manager with default values.<a name="line.69"></a>
+<FONT color="green">070</FONT>             *<a name="line.70"></a>
+<FONT color="green">071</FONT>             * @param manager manager that will be used by JmxReporter<a name="line.71"></a>
+<FONT color="green">072</FONT>             * @return new JmxReporter<a name="line.72"></a>
+<FONT color="green">073</FONT>             */<a name="line.73"></a>
+<FONT color="green">074</FONT>            static public JmxReporter forManager(Manager manager) {<a name="line.74"></a>
+<FONT color="green">075</FONT>                    JmxReporter reporter = new JmxReporter(manager);<a name="line.75"></a>
+<FONT color="green">076</FONT>    <a name="line.76"></a>
+<FONT color="green">077</FONT>                    reporter.setBeanName(DEFAULT_BEAN_NAME);<a name="line.77"></a>
+<FONT color="green">078</FONT>                    reporter.simonDomain = DEFAULT_SIMON_DOMAIN;<a name="line.78"></a>
+<FONT color="green">079</FONT>                    reporter.beanServer = ManagementFactory.getPlatformMBeanServer();<a name="line.79"></a>
+<FONT color="green">080</FONT>    <a name="line.80"></a>
+<FONT color="green">081</FONT>                    return reporter;<a name="line.81"></a>
+<FONT color="green">082</FONT>            }<a name="line.82"></a>
+<FONT color="green">083</FONT>    <a name="line.83"></a>
+<FONT color="green">084</FONT>            /**<a name="line.84"></a>
+<FONT color="green">085</FONT>             * Creates new JmxReporter for the default manager with default values.<a name="line.85"></a>
+<FONT color="green">086</FONT>             *<a name="line.86"></a>
+<FONT color="green">087</FONT>             * @return new JmxReporter<a name="line.87"></a>
+<FONT color="green">088</FONT>             */<a name="line.88"></a>
+<FONT color="green">089</FONT>            public static JmxReporter forDefaultManager() {<a name="line.89"></a>
+<FONT color="green">090</FONT>                    return forManager(SimonManager.manager());<a name="line.90"></a>
+<FONT color="green">091</FONT>            }<a name="line.91"></a>
+<FONT color="green">092</FONT>    <a name="line.92"></a>
+<FONT color="green">093</FONT>    <a name="line.93"></a>
+<FONT color="green">094</FONT>            /**<a name="line.94"></a>
+<FONT color="green">095</FONT>             * Specify domain for registered JMX for separate Simons. Is used only if {@link #registerSimons} set to true.<a name="line.95"></a>
+<FONT color="green">096</FONT>             *<a name="line.96"></a>
+<FONT color="green">097</FONT>             * @param simonDomain domain for separate JMX beans for separate Simons<a name="line.97"></a>
+<FONT color="green">098</FONT>             * @return this<a name="line.98"></a>
+<FONT color="green">099</FONT>             */<a name="line.99"></a>
+<FONT color="green">100</FONT>            public JmxReporter simonDomain(String simonDomain) {<a name="line.100"></a>
+<FONT color="green">101</FONT>                    setSimonDomain(simonDomain);<a name="line.101"></a>
+<FONT color="green">102</FONT>                    return this;<a name="line.102"></a>
+<FONT color="green">103</FONT>            }<a name="line.103"></a>
+<FONT color="green">104</FONT>    <a name="line.104"></a>
+<FONT color="green">105</FONT>            /**<a name="line.105"></a>
+<FONT color="green">106</FONT>             * Specifies that previously registered bean with the same name should be replaced.<a name="line.106"></a>
+<FONT color="green">107</FONT>             *<a name="line.107"></a>
+<FONT color="green">108</FONT>             * @return this<a name="line.108"></a>
+<FONT color="green">109</FONT>             */<a name="line.109"></a>
+<FONT color="green">110</FONT>            public JmxReporter replaceExisting() {<a name="line.110"></a>
+<FONT color="green">111</FONT>                    replaceExistingMxBeans = true;<a name="line.111"></a>
+<FONT color="green">112</FONT>                    return this;<a name="line.112"></a>
+<FONT color="green">113</FONT>            }<a name="line.113"></a>
+<FONT color="green">114</FONT>    <a name="line.114"></a>
+<FONT color="green">115</FONT>            /**<a name="line.115"></a>
+<FONT color="green">116</FONT>             * Specifies that separate JMX beans should be registered for each Simon in current manager.<a name="line.116"></a>
+<FONT color="green">117</FONT>             *<a name="line.117"></a>
+<FONT color="green">118</FONT>             * @return this<a name="line.118"></a>
+<FONT color="green">119</FONT>             */<a name="line.119"></a>
+<FONT color="green">120</FONT>            public JmxReporter registerSimons() {<a name="line.120"></a>
+<FONT color="green">121</FONT>                    registerSimons = true;<a name="line.121"></a>
+<FONT color="green">122</FONT>                    return this;<a name="line.122"></a>
+<FONT color="green">123</FONT>            }<a name="line.123"></a>
+<FONT color="green">124</FONT>    <a name="line.124"></a>
+<FONT color="green">125</FONT>            public JmxReporter registerExistingSimons() {<a name="line.125"></a>
+<FONT color="green">126</FONT>                    this.registerExistingSimons = true;<a name="line.126"></a>
+<FONT color="green">127</FONT>                    return this;<a name="line.127"></a>
+<FONT color="green">128</FONT>            }<a name="line.128"></a>
+<FONT color="green">129</FONT>    <a name="line.129"></a>
+<FONT color="green">130</FONT>            /**<a name="line.130"></a>
+<FONT color="green">131</FONT>             * Bean name that will be used to register JMX bean for Simon manager.<a name="line.131"></a>
+<FONT color="green">132</FONT>             *<a name="line.132"></a>
+<FONT color="green">133</FONT>             * @param beanName bean name that will be used to register JMX bean for Simon manager<a name="line.133"></a>
+<FONT color="green">134</FONT>             * @return this<a name="line.134"></a>
+<FONT color="green">135</FONT>             */<a name="line.135"></a>
+<FONT color="green">136</FONT>            public JmxReporter beanName(String beanName) {<a name="line.136"></a>
+<FONT color="green">137</FONT>                    setBeanName(beanName);<a name="line.137"></a>
+<FONT color="green">138</FONT>                    return this;<a name="line.138"></a>
+<FONT color="green">139</FONT>            }<a name="line.139"></a>
+<FONT color="green">140</FONT>    <a name="line.140"></a>
+<FONT color="green">141</FONT>            JmxReporter beanServer(MBeanServer beanServer) {<a name="line.141"></a>
+<FONT color="green">142</FONT>                    setBeanServer(beanServer);<a name="line.142"></a>
+<FONT color="green">143</FONT>                    return this;<a name="line.143"></a>
+<FONT color="green">144</FONT>            }<a name="line.144"></a>
+<FONT color="green">145</FONT>    <a name="line.145"></a>
+<FONT color="green">146</FONT>            private void setBeanName(String beanName) {<a name="line.146"></a>
+<FONT color="green">147</FONT>                    if (beanName == null || beanName.isEmpty()) {<a name="line.147"></a>
+<FONT color="green">148</FONT>                            throw new IllegalArgumentException("Bean name is null or empty");<a name="line.148"></a>
+<FONT color="green">149</FONT>                    }<a name="line.149"></a>
+<FONT color="green">150</FONT>    <a name="line.150"></a>
+<FONT color="green">151</FONT>                    this.beanName = beanName;<a name="line.151"></a>
+<FONT color="green">152</FONT>            }<a name="line.152"></a>
+<FONT color="green">153</FONT>    <a name="line.153"></a>
+<FONT color="green">154</FONT>            public Manager getManager() {<a name="line.154"></a>
+<FONT color="green">155</FONT>                    return manager;<a name="line.155"></a>
+<FONT color="green">156</FONT>            }<a name="line.156"></a>
+<FONT color="green">157</FONT>    <a name="line.157"></a>
+<FONT color="green">158</FONT>            public MBeanServer getBeanServer() {<a name="line.158"></a>
+<FONT color="green">159</FONT>                    return beanServer;<a name="line.159"></a>
+<FONT color="green">160</FONT>            }<a name="line.160"></a>
+<FONT color="green">161</FONT>    <a name="line.161"></a>
+<FONT color="green">162</FONT>            public void setBeanServer(MBeanServer beanServer) {<a name="line.162"></a>
+<FONT color="green">163</FONT>                    this.beanServer = beanServer;<a name="line.163"></a>
+<FONT color="green">164</FONT>            }<a name="line.164"></a>
+<FONT color="green">165</FONT>    <a name="line.165"></a>
+<FONT color="green">166</FONT>            public String getBeanName() {<a name="line.166"></a>
+<FONT color="green">167</FONT>                    return beanName;<a name="line.167"></a>
+<FONT color="green">168</FONT>            }<a name="line.168"></a>
+<FONT color="green">169</FONT>    <a name="line.169"></a>
+<FONT color="green">170</FONT>            public String getSimonDomain() {<a name="line.170"></a>
+<FONT color="green">171</FONT>                    return simonDomain;<a name="line.171"></a>
+<FONT color="green">172</FONT>            }<a name="line.172"></a>
+<FONT color="green">173</FONT>    <a name="line.173"></a>
+<FONT color="green">174</FONT>            public void setSimonDomain(String simonDomain) {<a name="line.174"></a>
+<FONT color="green">175</FONT>                    if (simonDomain == null || simonDomain.isEmpty()) {<a name="line.175"></a>
+<FONT color="green">176</FONT>                            throw new IllegalArgumentException("Simon domain is null or empty");<a name="line.176"></a>
+<FONT color="green">177</FONT>                    }<a name="line.177"></a>
+<FONT color="green">178</FONT>                    this.simonDomain = simonDomain;<a name="line.178"></a>
+<FONT color="green">179</FONT>            }<a name="line.179"></a>
+<FONT color="green">180</FONT>    <a name="line.180"></a>
+<FONT color="green">181</FONT>            public boolean isReplaceExistingMxBeans() {<a name="line.181"></a>
+<FONT color="green">182</FONT>                    return replaceExistingMxBeans;<a name="line.182"></a>
+<FONT color="green">183</FONT>            }<a name="line.183"></a>
+<FONT color="green">184</FONT>    <a name="line.184"></a>
+<FONT color="green">185</FONT>            public void setReplaceExistingMxBeans(boolean replaceExistingMxBeans) {<a name="line.185"></a>
+<FONT color="green">186</FONT>                    this.replaceExistingMxBeans = replaceExistingMxBeans;<a name="line.186"></a>
+<FONT color="green">187</FONT>            }<a name="line.187"></a>
+<FONT color="green">188</FONT>    <a name="line.188"></a>
+<FONT color="green">189</FONT>            public boolean isRegisterSimons() {<a name="line.189"></a>
+<FONT color="green">190</FONT>                    return registerSimons;<a name="line.190"></a>
+<FONT color="green">191</FONT>            }<a name="line.191"></a>
+<FONT color="green">192</FONT>    <a name="line.192"></a>
+<FONT color="green">193</FONT>            public void setRegisterSimons(boolean registerSimons) {<a name="line.193"></a>
+<FONT color="green">194</FONT>                    this.registerSimons = registerSimons;<a name="line.194"></a>
+<FONT color="green">195</FONT>            }<a name="line.195"></a>
+<FONT color="green">196</FONT>    <a name="line.196"></a>
+<FONT color="green">197</FONT>            public boolean isRegisterExistingSimons() {<a name="line.197"></a>
+<FONT color="green">198</FONT>                    return registerExistingSimons;<a name="line.198"></a>
+<FONT color="green">199</FONT>            }<a name="line.199"></a>
+<FONT color="green">200</FONT>    <a name="line.200"></a>
+<FONT color="green">201</FONT>            public void setRegisterExistingSimons(boolean registerExistingSimons) {<a name="line.201"></a>
+<FONT color="green">202</FONT>                    this.registerExistingSimons = registerExistingSimons;<a name="line.202"></a>
+<FONT color="green">203</FONT>            }<a name="line.203"></a>
+<FONT color="green">204</FONT>    <a name="line.204"></a>
+<FONT color="green">205</FONT>            /** Starts JmxReporter - registers all required beans in JMX bean server. */<a name="line.205"></a>
+<FONT color="green">206</FONT>            public JmxReporter start() {<a name="line.206"></a>
+<FONT color="green">207</FONT>                    SimonManagerMXBean simonManagerMXBean = new SimonManagerMXBeanImpl(manager);<a name="line.207"></a>
+<FONT color="green">208</FONT>                    registerMXBean(simonManagerMXBean, beanName);<a name="line.208"></a>
+<FONT color="green">209</FONT>    <a name="line.209"></a>
+<FONT color="green">210</FONT>                    if (registerSimons) {<a name="line.210"></a>
+<FONT color="green">211</FONT>                            jmxRegisterCallback = new JmxRegisterCallback(beanServer, simonDomain);<a name="line.211"></a>
+<FONT color="green">212</FONT>                            if (registerExistingSimons) {<a name="line.212"></a>
+<FONT color="green">213</FONT>                                    jmxRegisterCallback.setRegisterExisting(true);<a name="line.213"></a>
+<FONT color="green">214</FONT>                            }<a name="line.214"></a>
+<FONT color="green">215</FONT>                            manager.callback().addCallback(jmxRegisterCallback);<a name="line.215"></a>
+<FONT color="green">216</FONT>                    }<a name="line.216"></a>
+<FONT color="green">217</FONT>                    return this;<a name="line.217"></a>
+<FONT color="green">218</FONT>            }<a name="line.218"></a>
+<FONT color="green">219</FONT>    <a name="line.219"></a>
+<FONT color="green">220</FONT>            private void registerMXBean(Object bean, String newBeanName) {<a name="line.220"></a>
+<FONT color="green">221</FONT>                    try {<a name="line.221"></a>
+<FONT color="green">222</FONT>                            ObjectName beanObjectName = new ObjectName(newBeanName);<a name="line.222"></a>
+<FONT color="green">223</FONT>                            if (replaceExistingMxBeans &amp;&amp; beanServer.isRegistered(beanObjectName)) {<a name="line.223"></a>
+<FONT color="green">224</FONT>                                    logger.warn("Replacing existing SimonManager JMX bean");<a name="line.224"></a>
+<FONT color="green">225</FONT>                                    beanServer.unregisterMBean(beanObjectName);<a name="line.225"></a>
+<FONT color="green">226</FONT>                            }<a name="line.226"></a>
+<FONT color="green">227</FONT>    <a name="line.227"></a>
+<FONT color="green">228</FONT>                            logger.info("Registering new SimonManager JMX bean with name {}", newBeanName);<a name="line.228"></a>
+<FONT color="green">229</FONT>                            beanServer.registerMBean(bean, beanObjectName);<a name="line.229"></a>
+<FONT color="green">230</FONT>                    } catch (JMException e) {<a name="line.230"></a>
+<FONT color="green">231</FONT>                            throw new SimonException("Failed to register Jmx reporter", e);<a name="line.231"></a>
+<FONT color="green">232</FONT>                    }<a name="line.232"></a>
+<FONT color="green">233</FONT>            }<a name="line.233"></a>
+<FONT color="green">234</FONT>    <a name="line.234"></a>
+<FONT color="green">235</FONT>            /** Stop JMX reporter. Unregister all previously registered beans. */<a name="line.235"></a>
+<FONT color="green">236</FONT>            public void stop() {<a name="line.236"></a>
+<FONT color="green">237</FONT>                    unregisterManagerBean();<a name="line.237"></a>
+<FONT color="green">238</FONT>                    unregisterSimonBeans();<a name="line.238"></a>
+<FONT color="green">239</FONT>            }<a name="line.239"></a>
+<FONT color="green">240</FONT>    <a name="line.240"></a>
+<FONT color="green">241</FONT>            private void unregisterManagerBean() {<a name="line.241"></a>
+<FONT color="green">242</FONT>                    try {<a name="line.242"></a>
+<FONT color="green">243</FONT>                            ObjectName beanObjectName = new ObjectName(beanName);<a name="line.243"></a>
+<FONT color="green">244</FONT>                            if (beanServer.isRegistered(beanObjectName)) {<a name="line.244"></a>
+<FONT color="green">245</FONT>                                    beanServer.unregisterMBean(beanObjectName);<a name="line.245"></a>
+<FONT color="green">246</FONT>                            } else {<a name="line.246"></a>
+<FONT color="green">247</FONT>                                    logger.warn("SimonManager JMX bean with name {} was not registered", beanName);<a name="line.247"></a>
+<FONT color="green">248</FONT>                            }<a name="line.248"></a>
+<FONT color="green">249</FONT>                    } catch (JMException e) {<a name="line.249"></a>
+<FONT color="green">250</FONT>                            throw new SimonException("Failed to unregister SimonManager MX bean", e);<a name="line.250"></a>
+<FONT color="green">251</FONT>                    }<a name="line.251"></a>
+<FONT color="green">252</FONT>            }<a name="line.252"></a>
+<FONT color="green">253</FONT>    <a name="line.253"></a>
+<FONT color="green">254</FONT>            private void unregisterSimonBeans() {<a name="line.254"></a>
+<FONT color="green">255</FONT>                    if (jmxRegisterCallback != null) {<a name="line.255"></a>
+<FONT color="green">256</FONT>                            manager.callback().removeCallback(jmxRegisterCallback);<a name="line.256"></a>
+<FONT color="green">257</FONT>                    }<a name="line.257"></a>
+<FONT color="green">258</FONT>            }<a name="line.258"></a>
+<FONT color="green">259</FONT>    }<a name="line.259"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

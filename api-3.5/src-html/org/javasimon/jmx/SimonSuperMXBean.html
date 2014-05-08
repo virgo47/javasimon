@@ -1,0 +1,234 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    package org.javasimon.jmx;<a name="line.1"></a>
+<FONT color="green">002</FONT>    <a name="line.2"></a>
+<FONT color="green">003</FONT>    import org.javasimon.Sample;<a name="line.3"></a>
+<FONT color="green">004</FONT>    <a name="line.4"></a>
+<FONT color="green">005</FONT>    import java.util.List;<a name="line.5"></a>
+<FONT color="green">006</FONT>    <a name="line.6"></a>
+<FONT color="green">007</FONT>    /**<a name="line.7"></a>
+<FONT color="green">008</FONT>     * Interface with common methods for JMX beans for a single Simon that corresponds<a name="line.8"></a>
+<FONT color="green">009</FONT>     * to AbstractSimon in the core package.<a name="line.9"></a>
+<FONT color="green">010</FONT>     *<a name="line.10"></a>
+<FONT color="green">011</FONT>     * @author &lt;a href="mailto:virgo47@gmail.com"&gt;Richard "Virgo" Richter&lt;/a&gt;<a name="line.11"></a>
+<FONT color="green">012</FONT>     */<a name="line.12"></a>
+<FONT color="green">013</FONT>    public interface SimonSuperMXBean {<a name="line.13"></a>
+<FONT color="green">014</FONT>    <a name="line.14"></a>
+<FONT color="green">015</FONT>            /**<a name="line.15"></a>
+<FONT color="green">016</FONT>             * Returns Simon name. While Simon names can be {@code null} for anonymous<a name="line.16"></a>
+<FONT color="green">017</FONT>             * Simons, such Simons are never registered hence this method never returns<a name="line.17"></a>
+<FONT color="green">018</FONT>             * {@code null}.<a name="line.18"></a>
+<FONT color="green">019</FONT>             *<a name="line.19"></a>
+<FONT color="green">020</FONT>             * @return name of the Simon<a name="line.20"></a>
+<FONT color="green">021</FONT>             */<a name="line.21"></a>
+<FONT color="green">022</FONT>            String getName();<a name="line.22"></a>
+<FONT color="green">023</FONT>    <a name="line.23"></a>
+<FONT color="green">024</FONT>            /**<a name="line.24"></a>
+<FONT color="green">025</FONT>             * Returns name of the parent Simon.<a name="line.25"></a>
+<FONT color="green">026</FONT>             *<a name="line.26"></a>
+<FONT color="green">027</FONT>             * @return name of the parent Simon<a name="line.27"></a>
+<FONT color="green">028</FONT>             */<a name="line.28"></a>
+<FONT color="green">029</FONT>            String getParentName();<a name="line.29"></a>
+<FONT color="green">030</FONT>    <a name="line.30"></a>
+<FONT color="green">031</FONT>            /**<a name="line.31"></a>
+<FONT color="green">032</FONT>             * Returns list of children names.<a name="line.32"></a>
+<FONT color="green">033</FONT>             *<a name="line.33"></a>
+<FONT color="green">034</FONT>             * @return list of children names<a name="line.34"></a>
+<FONT color="green">035</FONT>             */<a name="line.35"></a>
+<FONT color="green">036</FONT>            List&lt;String&gt; getChildrenNames();<a name="line.36"></a>
+<FONT color="green">037</FONT>    <a name="line.37"></a>
+<FONT color="green">038</FONT>            /**<a name="line.38"></a>
+<FONT color="green">039</FONT>             * Returns state of the Simon that can be ENABLED, DISABLED or INHERITED. State is returned<a name="line.39"></a>
+<FONT color="green">040</FONT>             * as a String that matches values of the {@link org.javasimon.SimonState} enumeration.<a name="line.40"></a>
+<FONT color="green">041</FONT>             *<a name="line.41"></a>
+<FONT color="green">042</FONT>             * @return state of the Simon as a String<a name="line.42"></a>
+<FONT color="green">043</FONT>             */<a name="line.43"></a>
+<FONT color="green">044</FONT>            String getState();<a name="line.44"></a>
+<FONT color="green">045</FONT>    <a name="line.45"></a>
+<FONT color="green">046</FONT>            /**<a name="line.46"></a>
+<FONT color="green">047</FONT>             * Sets the state of the Simon. It must be specified whether to propagate the change<a name="line.47"></a>
+<FONT color="green">048</FONT>             * and overrule states of all sub-simons which effectively sets the same state to the whole<a name="line.48"></a>
+<FONT color="green">049</FONT>             * subtree. If subtree is not overruled, some Simons (with their subtrees) may not be affected<a name="line.49"></a>
+<FONT color="green">050</FONT>             * by this change.<a name="line.50"></a>
+<FONT color="green">051</FONT>             *<a name="line.51"></a>
+<FONT color="green">052</FONT>             * @param state a new state as a valid String for {@link org.javasimon.SimonState#valueOf(String)}<a name="line.52"></a>
+<FONT color="green">053</FONT>             * @param overrule specifies whether this change is forced to the whole subtree.<a name="line.53"></a>
+<FONT color="green">054</FONT>             */<a name="line.54"></a>
+<FONT color="green">055</FONT>            void setState(String state, boolean overrule);<a name="line.55"></a>
+<FONT color="green">056</FONT>    <a name="line.56"></a>
+<FONT color="green">057</FONT>            /**<a name="line.57"></a>
+<FONT color="green">058</FONT>             * Returns true, if the Simon is enabled or if the enabled state is inherited.<a name="line.58"></a>
+<FONT color="green">059</FONT>             *<a name="line.59"></a>
+<FONT color="green">060</FONT>             * @return true, if the Simon is effectively enabled<a name="line.60"></a>
+<FONT color="green">061</FONT>             */<a name="line.61"></a>
+<FONT color="green">062</FONT>            boolean isEnabled();<a name="line.62"></a>
+<FONT color="green">063</FONT>    <a name="line.63"></a>
+<FONT color="green">064</FONT>            /**<a name="line.64"></a>
+<FONT color="green">065</FONT>             * Resets the Simon, its usages and stat processor - concrete values depend<a name="line.65"></a>
+<FONT color="green">066</FONT>             * on the type and the implementation.<a name="line.66"></a>
+<FONT color="green">067</FONT>             *<a name="line.67"></a>
+<FONT color="green">068</FONT>             * @deprecated will be removed in 4.0<a name="line.68"></a>
+<FONT color="green">069</FONT>             */<a name="line.69"></a>
+<FONT color="green">070</FONT>            @Deprecated<a name="line.70"></a>
+<FONT color="green">071</FONT>            void reset();<a name="line.71"></a>
+<FONT color="green">072</FONT>    <a name="line.72"></a>
+<FONT color="green">073</FONT>            /**<a name="line.73"></a>
+<FONT color="green">074</FONT>             * Returns note for the Simon. Note enables Simon with an additional information in human<a name="line.74"></a>
+<FONT color="green">075</FONT>             * readable form.<a name="line.75"></a>
+<FONT color="green">076</FONT>             *<a name="line.76"></a>
+<FONT color="green">077</FONT>             * @return note for the Simon.<a name="line.77"></a>
+<FONT color="green">078</FONT>             */<a name="line.78"></a>
+<FONT color="green">079</FONT>            String getNote();<a name="line.79"></a>
+<FONT color="green">080</FONT>    <a name="line.80"></a>
+<FONT color="green">081</FONT>            /**<a name="line.81"></a>
+<FONT color="green">082</FONT>             * Sets note for the Simon. Note enables Simon with an additional information in human<a name="line.82"></a>
+<FONT color="green">083</FONT>             * readable form.<a name="line.83"></a>
+<FONT color="green">084</FONT>             *<a name="line.84"></a>
+<FONT color="green">085</FONT>             * @param note note for the Simon.<a name="line.85"></a>
+<FONT color="green">086</FONT>             */<a name="line.86"></a>
+<FONT color="green">087</FONT>            void setNote(String note);<a name="line.87"></a>
+<FONT color="green">088</FONT>    <a name="line.88"></a>
+<FONT color="green">089</FONT>            /**<a name="line.89"></a>
+<FONT color="green">090</FONT>             * Returns ms timestamp of the first usage of this Simon. First and last usage<a name="line.90"></a>
+<FONT color="green">091</FONT>             * are updated when monitor performs the measuring (start/stop/count/etc). They<a name="line.91"></a>
+<FONT color="green">092</FONT>             * are not updated when values are obtained from the monitor.<a name="line.92"></a>
+<FONT color="green">093</FONT>             *<a name="line.93"></a>
+<FONT color="green">094</FONT>             * @return ms timestamp of the first usage<a name="line.94"></a>
+<FONT color="green">095</FONT>             */<a name="line.95"></a>
+<FONT color="green">096</FONT>            long getFirstUsage();<a name="line.96"></a>
+<FONT color="green">097</FONT>    <a name="line.97"></a>
+<FONT color="green">098</FONT>            /**<a name="line.98"></a>
+<FONT color="green">099</FONT>             * Returns nicely formatted timestamp of the first usage of this Simon.<a name="line.99"></a>
+<FONT color="green">100</FONT>             *<a name="line.100"></a>
+<FONT color="green">101</FONT>             * @return formatted date and time of the first usage<a name="line.101"></a>
+<FONT color="green">102</FONT>             */<a name="line.102"></a>
+<FONT color="green">103</FONT>            String getFirstUsageAsString();<a name="line.103"></a>
+<FONT color="green">104</FONT>    <a name="line.104"></a>
+<FONT color="green">105</FONT>            /**<a name="line.105"></a>
+<FONT color="green">106</FONT>             * Returns ms timestamp of the last usage of this Simon. First and last usage<a name="line.106"></a>
+<FONT color="green">107</FONT>             * are updated when monitor performs the measuring (start/stop/count/etc). They<a name="line.107"></a>
+<FONT color="green">108</FONT>             * are not updated when values are obtained from the monitor.<a name="line.108"></a>
+<FONT color="green">109</FONT>             *<a name="line.109"></a>
+<FONT color="green">110</FONT>             * @return ms timestamp of the last usage<a name="line.110"></a>
+<FONT color="green">111</FONT>             */<a name="line.111"></a>
+<FONT color="green">112</FONT>            long getLastUsage();<a name="line.112"></a>
+<FONT color="green">113</FONT>    <a name="line.113"></a>
+<FONT color="green">114</FONT>            /**<a name="line.114"></a>
+<FONT color="green">115</FONT>             * Returns nicely formatted timestamp of the last usage of this Simon.<a name="line.115"></a>
+<FONT color="green">116</FONT>             *<a name="line.116"></a>
+<FONT color="green">117</FONT>             * @return formatted date and time of the last usage<a name="line.117"></a>
+<FONT color="green">118</FONT>             */<a name="line.118"></a>
+<FONT color="green">119</FONT>            String getLastUsageAsString();<a name="line.119"></a>
+<FONT color="green">120</FONT>    <a name="line.120"></a>
+<FONT color="green">121</FONT>            /**<a name="line.121"></a>
+<FONT color="green">122</FONT>             * Samples Simon values and returns them in a Java Bean derived from Sample interface.<a name="line.122"></a>
+<FONT color="green">123</FONT>             *<a name="line.123"></a>
+<FONT color="green">124</FONT>             * @return sample containing all Simon values<a name="line.124"></a>
+<FONT color="green">125</FONT>             */<a name="line.125"></a>
+<FONT color="green">126</FONT>            Sample sample();<a name="line.126"></a>
+<FONT color="green">127</FONT>    <a name="line.127"></a>
+<FONT color="green">128</FONT>            /**<a name="line.128"></a>
+<FONT color="green">129</FONT>             * Samples Simon values and returns them in a Java Bean derived from Sample interface<a name="line.129"></a>
+<FONT color="green">130</FONT>             * and resets the Simon. Operation is synchronized to assure atomicity.<a name="line.130"></a>
+<FONT color="green">131</FONT>             *<a name="line.131"></a>
+<FONT color="green">132</FONT>             * @return sample containing all Simon values<a name="line.132"></a>
+<FONT color="green">133</FONT>             * @deprecated use {@link #sampleIncrement(String)}<a name="line.133"></a>
+<FONT color="green">134</FONT>             */<a name="line.134"></a>
+<FONT color="green">135</FONT>            @Deprecated<a name="line.135"></a>
+<FONT color="green">136</FONT>            Sample sampleAndReset();<a name="line.136"></a>
+<FONT color="green">137</FONT>    <a name="line.137"></a>
+<FONT color="green">138</FONT>            /**<a name="line.138"></a>
+<FONT color="green">139</FONT>             * Samples increment in Simon values since the previous call of this method with the<a name="line.139"></a>
+<FONT color="green">140</FONT>             * same key. When the method is called the first time for the key, current values<a name="line.140"></a>
+<FONT color="green">141</FONT>             * are returned (same like from {@link #sample()}. Any subsequent calls with the key<a name="line.141"></a>
+<FONT color="green">142</FONT>             * provide increments.<a name="line.142"></a>
+<FONT color="green">143</FONT>             * &lt;p/&gt;<a name="line.143"></a>
+<FONT color="green">144</FONT>             * Clients should use a unique key (GUID, host name, etc.), to avoid interference<a name="line.144"></a>
+<FONT color="green">145</FONT>             * with other clients.<a name="line.145"></a>
+<FONT color="green">146</FONT>             *<a name="line.146"></a>
+<FONT color="green">147</FONT>             * @param key key used to access incremental sample<a name="line.147"></a>
+<FONT color="green">148</FONT>             * @return {@link org.javasimon.Sample} with value increments<a name="line.148"></a>
+<FONT color="green">149</FONT>             */<a name="line.149"></a>
+<FONT color="green">150</FONT>            Sample sampleIncrement(String key);<a name="line.150"></a>
+<FONT color="green">151</FONT>    <a name="line.151"></a>
+<FONT color="green">152</FONT>            /**<a name="line.152"></a>
+<FONT color="green">153</FONT>             * Returns Simon type used as a property in the {@link javax.management.ObjectName}.<a name="line.153"></a>
+<FONT color="green">154</FONT>             *<a name="line.154"></a>
+<FONT color="green">155</FONT>             * @return Simon type<a name="line.155"></a>
+<FONT color="green">156</FONT>             */<a name="line.156"></a>
+<FONT color="green">157</FONT>            String getType();<a name="line.157"></a>
+<FONT color="green">158</FONT>    <a name="line.158"></a>
+<FONT color="green">159</FONT>            /**<a name="line.159"></a>
+<FONT color="green">160</FONT>             * Stops incremental sampling for the key, removing any internal information for the key.<a name="line.160"></a>
+<FONT color="green">161</FONT>             * Next call to {@link #sampleIncrement(String)} for the key will be considered the first<a name="line.161"></a>
+<FONT color="green">162</FONT>             * call for the key.<a name="line.162"></a>
+<FONT color="green">163</FONT>             *<a name="line.163"></a>
+<FONT color="green">164</FONT>             * @param key key used to access incremental sample<a name="line.164"></a>
+<FONT color="green">165</FONT>             * @return true if incremental information for the key existed, false otherwise<a name="line.165"></a>
+<FONT color="green">166</FONT>             */<a name="line.166"></a>
+<FONT color="green">167</FONT>            boolean stopIncrementalSampling(String key);<a name="line.167"></a>
+<FONT color="green">168</FONT>    }<a name="line.168"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>
