@@ -1,6 +1,0 @@
-archivesBaseName = 'javasimon-jdbc4'
-
-dependencies {
-	compile project(':core')
-	testCompile (libs.h2)
-}

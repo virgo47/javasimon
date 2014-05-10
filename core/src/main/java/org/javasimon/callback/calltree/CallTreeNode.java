@@ -31,7 +31,7 @@ public class CallTreeNode {
 	 * Splits.
 	 * Size defaults to 1, because most of the time there are no loops.
 	 */
-	private final List<Split> splits = new ArrayList<Split>(1);
+	private final List<Split> splits = new ArrayList<>(1);
 
 	/**
 	 * Child tree nodes.
@@ -116,7 +116,7 @@ public class CallTreeNode {
 	 */
 	public CallTreeNode addChild(String name) {
 		if (children == null) {
-			children = new HashMap<String, CallTreeNode>();
+			children = new HashMap<>();
 		}
 		CallTreeNode child = new CallTreeNode(name);
 		children.put(name, child);

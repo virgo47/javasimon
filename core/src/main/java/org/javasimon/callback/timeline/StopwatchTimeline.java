@@ -68,6 +68,6 @@ public final class StopwatchTimeline extends Timeline<StopwatchTimeRange> {
 			timeRangesCopy = timeRanges.toArray(new StopwatchTimeRange[timeRanges.size()]);
 		}
 		// TODO sample each time-range by making a copy of it
-		return new TimelineSample<StopwatchTimeRange>(timeRanges.getCapacity(), timeRangeWidth * ClockUtils.NANOS_IN_MILLIS, timeRangesCopy);
+		return new TimelineSample<>(timeRanges.getCapacity(), timeRangeWidth * ClockUtils.NANOS_IN_MILLIS, timeRangesCopy);
 	}
 }

@@ -24,7 +24,7 @@ public abstract class Timeline<TR extends TimeRange> {
 	 * @param timeRangeWidth Width of each time range
 	 */
 	protected Timeline(int capacity, long timeRangeWidth) {
-		this.timeRanges = new CircularList<TR>(capacity);
+		this.timeRanges = new CircularList<>(capacity);
 		this.timeRangeWidth = timeRangeWidth;
 	}
 

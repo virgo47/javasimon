@@ -22,7 +22,7 @@ public class TestActionContext extends ActionContext {
 	private StringWriter stringWriter;
 	private PrintWriter printWriter;
 	private ByteArrayOutputStream byteArrayOutputStream;
-	private Map<String, Object> parameters = new HashMap<String, Object>();
+	private Map<String, Object> parameters = new HashMap<>();
 	private String contentType;
 	public TestActionContext(String path) {
 		super(mock(HttpServletRequest.class), mock(HttpServletResponse.class), path);

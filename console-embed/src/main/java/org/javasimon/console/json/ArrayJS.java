@@ -19,11 +19,11 @@ public class ArrayJS extends AnyJS {
 	private List<AnyJS> elements;
 
 	public ArrayJS() {
-		this.elements = new ArrayList<AnyJS>();
+		this.elements = new ArrayList<>();
 	}
 
 	public ArrayJS(int size) {
-		this.elements = new ArrayList<AnyJS>(size);
+		this.elements = new ArrayList<>(size);
 	}
 
 	public ArrayJS(List<AnyJS> elements) {

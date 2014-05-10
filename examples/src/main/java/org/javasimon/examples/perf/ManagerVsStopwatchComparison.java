@@ -14,12 +14,13 @@ import org.javasimon.utils.SimonUtils;
  * It also measures loop containing get+start/stop construction, so you can get the idea of how fast
  * it is. Generally - it's not necessary to hold the Simon in a class field but if you measure something
  * critical, you can do that and get some time. All the measuring follows after inserting 100000 stopwatches
- * into the SM's internal HashMap (sorted map was much slower). Last run is done with SM after reset
+ * into the SM's internal HashMap (sorted map was much slower). Last run is done with Manager after clear
  * (nearly empty HashMap).
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public final class ManagerVsStopwatchComparison {
+
 	private static final int LOOP = 10000000;
 
 	private static final String NAME = SimonUtils.generateNameForClass("-stopwatch");

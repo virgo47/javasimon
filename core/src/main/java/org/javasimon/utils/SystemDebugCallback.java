@@ -17,11 +17,6 @@ public final class SystemDebugCallback extends CallbackSkeleton {
 	public static final String DEBUG_PREFIX = "SIMON DEBUG: ";
 
 	@Override
-	public void onSimonReset(Simon simon) {
-		out("Simon reset: " + simon);
-	}
-
-	@Override
 	public void onStopwatchStart(Split split) {
 		out("Start split: " + split);
 	}

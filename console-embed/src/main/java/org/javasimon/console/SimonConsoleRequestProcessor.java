@@ -1,12 +1,5 @@
 package org.javasimon.console;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.javasimon.Manager;
 import org.javasimon.SimonManager;
 import org.javasimon.console.action.ClearAction;
@@ -16,13 +9,20 @@ import org.javasimon.console.action.ErrorAction;
 import org.javasimon.console.action.ListJsonAction;
 import org.javasimon.console.action.PluginsJsonAction;
 import org.javasimon.console.action.RedirectAction;
-import org.javasimon.console.action.ResetAction;
 import org.javasimon.console.action.ResourceAction;
 import org.javasimon.console.action.TableCsvAction;
 import org.javasimon.console.action.TableHtmlAction;
 import org.javasimon.console.action.TableJsonAction;
 import org.javasimon.console.action.TreeJsonAction;
 import org.javasimon.console.action.TreeXmlAction;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Common part processing the request for {@link SimonConsoleServlet} or {@link SimonConsoleFilter}.
@@ -59,7 +59,7 @@ class SimonConsoleRequestProcessor {
 	/**
 	 * List of action bindings.
 	 */
-	private final List<ActionBinding> actionBindings = new ArrayList<ActionBinding>();
+	private final List<ActionBinding> actionBindings = new ArrayList<>();
 
 	/**
 	 * Plugin manager.
@@ -90,7 +90,7 @@ class SimonConsoleRequestProcessor {
 	 * @param actionClass Class of the action
 	 */
 	public final <T extends Action> void addSimpleActionBinding(String actionPath, Class<T> actionClass) {
-		this.addActionBinding(new SimpleActionBinding<T>(actionPath, actionClass));
+		this.addActionBinding(new SimpleActionBinding<>(actionPath, actionClass));
 	}
 
 	/**
@@ -161,7 +161,6 @@ class SimonConsoleRequestProcessor {
 		addSimpleActionBinding(TableHtmlAction.PATH, TableHtmlAction.class);
 		addSimpleActionBinding(TableCsvAction.PATH, TableCsvAction.class);
 		addSimpleActionBinding(TreeXmlAction.PATH, TreeXmlAction.class);
-		addSimpleActionBinding(ResetAction.PATH, ResetAction.class);
 		addSimpleActionBinding(ClearAction.PATH, ClearAction.class);
 		addSimpleActionBinding(DetailHtmlAction.PATH, DetailHtmlAction.class);
 		addSimpleActionBinding(DetailJsonAction.PATH, DetailJsonAction.class);

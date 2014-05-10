@@ -41,8 +41,6 @@ public abstract class AbstractXmlAction extends Action {
 
 	/** Converter Object &rarr; HTML String. */
 	protected final StringifierFactory stringifierFactory = new StringifierFactory();
-	/** Flag indicating if simons should be reset during sampling. */
-	protected boolean reset;
 
 	@Override
 	public void readParameters() {
@@ -51,7 +49,6 @@ public abstract class AbstractXmlAction extends Action {
 			StringifierFactory.ISO_DATE_PATTERN,
 			StringifierFactory.READABLE_NUMBER_PATTERN
 		);
-		reset = getContext().getParameterAsBoolean("reset", Boolean.FALSE);
 	}
 
 	/**
@@ -63,7 +60,7 @@ public abstract class AbstractXmlAction extends Action {
 	@SuppressWarnings("unchecked")
 	protected Element createElement(Document document, Simon simon) {
 		// Simon type is used as element name
-		Sample sample = reset ? simon.sampleAndReset() : simon.sample();
+		Sample sample = simon.sample();
 		SimonType lType = SimonTypeFactory.getValueFromInstance(sample);
 		Element element = document.createElement(lType.name().toLowerCase());
 		// Only to have the name as first attribute
@@ -113,10 +110,8 @@ public abstract class AbstractXmlAction extends Action {
 			Transformer transformer = transformerFactory.newTransformer();
 			transformer.transform(new DOMSource(document),
 				new StreamResult(getContext().getOutputStream()));
-		} catch (ParserConfigurationException parserConfigurationException) {
+		} catch (ParserConfigurationException | TransformerException parserConfigurationException) {
 			throw new ActionException("XML Parser error", parserConfigurationException);
-		} catch (TransformerException transformerException) {
-			throw new ActionException("XML Parser error", transformerException);
 		} finally {
 			getContext().getOutputStream().flush();
 		}

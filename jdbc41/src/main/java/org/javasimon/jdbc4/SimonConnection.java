@@ -65,7 +65,7 @@ public final class SimonConnection implements Connection {
 	 */
 	public SimonConnection(Connection conn, String prefix) {
 		this.conn = conn;
-		this.wrapperSupport = new WrapperSupport<Connection>(this.conn, Connection.class);
+		this.wrapperSupport = new WrapperSupport<>(this.conn, Connection.class);
 		this.suffix = prefix;
 
 		commits = SimonManager.getCounter(prefix + ".conn.commits");

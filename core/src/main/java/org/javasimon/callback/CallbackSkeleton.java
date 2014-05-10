@@ -36,11 +36,6 @@ public class CallbackSkeleton implements Callback {
 	}
 
 	@Override
-	@Deprecated
-	public void onSimonReset(Simon simon) {
-	}
-
-	@Override
 	public void onCounterDecrease(Counter counter, long dec, CounterSample sample) {
 	}
 

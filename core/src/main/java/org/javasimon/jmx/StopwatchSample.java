@@ -32,7 +32,6 @@ public final class StopwatchSample extends org.javasimon.StopwatchSample {
 	 * @param varN variance N (provided optionally)
 	 * @param firstUsage first usage ms timestamp
 	 * @param lastUsage last usage ms timestamp
-	 * @param lastReset last reset ms timestamp
 	 * @param total sum of all measured times
 	 * @param note note (provided optionally)
 	 * @param counter count of measures
@@ -46,10 +45,10 @@ public final class StopwatchSample extends org.javasimon.StopwatchSample {
 	 * @param last last split value in ns
 	 */
 	@ConstructorProperties({"name", "mean", "standardDeviation", "variance", "varianceN", "note", "firstUsage", "lastUsage",
-		"lastReset", "total", "counter", "min", "max", "minTimestamp", "maxTimestamp", "active", "maxActive",
+		"total", "counter", "min", "max", "minTimestamp", "maxTimestamp", "active", "maxActive",
 		"maxActiveTimestamp", "last"})
 	public StopwatchSample(String name, double mean, double stdDev, double var, double varN, String note, long firstUsage,
-		long lastUsage, long lastReset, long total, long counter, long min, long max, long minTimestamp,
+		long lastUsage, long total, long counter, long min, long max, long minTimestamp,
 		long maxTimestamp, long active, long maxActive, long maxActiveTimestamp, long last)
 	{
 		setName(name);
@@ -60,7 +59,6 @@ public final class StopwatchSample extends org.javasimon.StopwatchSample {
 		setNote(note);
 		setFirstUsage(firstUsage);
 		setLastUsage(lastUsage);
-		setLastReset(lastReset);
 
 		setTotal(total);
 		setCounter(counter);
@@ -89,7 +87,6 @@ public final class StopwatchSample extends org.javasimon.StopwatchSample {
 		setNote(sample.getNote());
 		setFirstUsage(sample.getFirstUsage());
 		setLastUsage(sample.getLastUsage());
-		setLastReset(sample.getLastReset());
 
 		setCounter(sample.getCounter());
 		setTotal(sample.getTotal());
@@ -236,23 +233,5 @@ public final class StopwatchSample extends org.javasimon.StopwatchSample {
 	 */
 	public Date getLastUsageAsDate() {
 		return new Date(getLastUsage());
-	}
-
-	/**
-	 * Timestamp of the last reset from the sampled Simon as a formatted string.
-	 *
-	 * @return Simon's last reset timestamp as string
-	 */
-	public String getLastResetAsString() {
-		return SimonUtils.presentTimestamp(getLastReset());
-	}
-
-	/**
-	 * Timestamp of the last reset from the sampled Simon as a formatted date.
-	 *
-	 * @return Simon's last reset timestamp as date
-	 */
-	public Date getLastResetAsDate() {
-		return new Date(getLastReset());
 	}
 }

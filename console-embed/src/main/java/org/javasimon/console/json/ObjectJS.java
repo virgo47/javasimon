@@ -23,8 +23,8 @@ public class ObjectJS extends AnyJS {
 	private Map<String, Attribute> attributesByName;
 
 	public ObjectJS() {
-		this.attributes = new ArrayList<Attribute>();
-		this.attributesByName = new HashMap<String, Attribute>();
+		this.attributes = new ArrayList<>();
+		this.attributesByName = new HashMap<>();
 	}
 
 	public void setAttribute(String name, AnyJS value) {
@@ -41,7 +41,7 @@ public class ObjectJS extends AnyJS {
 	}
 
 	public <T> void setSimpleAttribute(String name, T value, Stringifier<T> stringifier) {
-		SimpleJS propertyJS = new SimpleJS<T>(value, stringifier);
+		SimpleJS propertyJS = new SimpleJS<>(value, stringifier);
 		setAttribute(name, propertyJS);
 	}
 

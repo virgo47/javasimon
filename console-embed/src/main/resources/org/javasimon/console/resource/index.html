@@ -41,14 +41,6 @@ $(document).ready(function() {
 	$('#noteButton')
 		.button({label:"Name/Note", icons: {primary: "ui-icon-note"}})
 		.click(function() {document.oFilterCtrl.fnToggleNoteColumnVis(); return false; });
-	$('#resetAllButton')
-		.button({label:"Reset All", icons: {primary: "ui-icon-trash"}})
-		.click(function() {
-			document.oFilterCtrl.fnResetAll(function() {
-				document.oDataTable.fnReloadAjax();
-			});
-			return false;
-		});
 	$('#clearAllButton')
 		.button({label:"Clear All", icons: {primary: "ui-icon-circle-minus"}})
 		.click(function() {
@@ -136,11 +128,6 @@ $(document).ready(function() {
 		],
 		aaSorting: [[ 0, "asc" ]]
 	} );
-	oDataTable.fnReset=function(sName) {
-		javasimon.ResetService.fnResetOne(sName, function() {
-			document.oDataTable.fnReloadAjax();
-		})
-	};
 	oFilterCtrl.oDataTable=oDataTable;
 	document.oDataTable=oDataTable;
 	$(window).bind('resize', function () {
@@ -211,7 +198,6 @@ $(document).ready(function() {
 					<div class="filterButtons ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix">
 						<button id="filterButton" name="filterButton">Refresh</button>
 						<button id="noteButton" name="noteButton">Name/Note</button>
-						<button id="resetAllButton" name="resetAllButton">Reset All</button>
 						<button id="clearAllButton" name="clearAllButton">Clear All</button>
 						<span id="exportSpan">Export:</span>
 						<button id="csvButton" name="csvButton">CSV</button>

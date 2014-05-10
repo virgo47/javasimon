@@ -121,17 +121,6 @@ public interface SimonManagerMXBean {
 	StopwatchSample getStopwatchSample(String name);
 
 	/**
-	 * Retrieves sample data object for a particular Counter and resets it.
-	 *
-	 * @param name name of the Simon
-	 * @return sample object or null if Simon with entered name doesn't exist
-	 * @see org.javasimon.CounterSample
-	 * @deprecated use {@link org.javasimon.jmx.SimonManagerMXBean#getIncrementCounterSample(String, String)}
-	 */
-	@Deprecated
-	CounterSample getCounterSampleAndReset(String name);
-
-	/**
 	 * Samples increment in Counter values since the previous call of this method with the
 	 * same key. When the method is called the first time for the key, current values
 	 * are returned (same like from {@link #getCounterSample(String)} }. Any subsequent calls with the key
@@ -147,18 +136,6 @@ public interface SimonManagerMXBean {
 	CounterSample getIncrementCounterSample(String name, String key);
 
 	/**
-	 * Retrieves sample data object for a particular Stopwatch and resets it.
-	 *
-	 * @param name name of the Simon
-	 * @return sample object or null if Simon with entered name doesn't exist
-	 * @see org.javasimon.StopwatchSample
-	 * @deprecated use {@link #getIncrementStopwatchSample(String, String)}  instead.
-	 */
-	@Deprecated
-	StopwatchSample getStopwatchSampleAndReset(String name);
-
-
-	/**
 	 * Samples increment in Stopwatch values since the previous call of this method with the
 	 * same key. When the method is called the first time for the key, current values
 	 * are returned (same like from {@link #getCounterSample(String)} }. Any subsequent calls with the key
@@ -172,15 +149,6 @@ public interface SimonManagerMXBean {
 	 * @return sample collected for a specified key if it was created before
 	 */
 	org.javasimon.jmx.StopwatchSample getIncrementStopwatchSample(String name, String key);
-
-	/**
-	 * Resets the particular Simon by its name.
-	 *
-	 * @param name name of the Simon
-	 * @deprecated will be removed in 4.0
-	 */
-	@Deprecated
-	void reset(String name);
 
 	/**
 	 * Prints multi-line string containing Simon tree starting with the specified Simon to standard output.

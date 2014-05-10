@@ -62,15 +62,6 @@ public interface SimonSuperMXBean {
 	boolean isEnabled();
 
 	/**
-	 * Resets the Simon, its usages and stat processor - concrete values depend
-	 * on the type and the implementation.
-	 *
-	 * @deprecated will be removed in 4.0
-	 */
-	@Deprecated
-	void reset();
-
-	/**
 	 * Returns note for the Simon. Note enables Simon with an additional information in human
 	 * readable form.
 	 *
@@ -124,16 +115,6 @@ public interface SimonSuperMXBean {
 	 * @return sample containing all Simon values
 	 */
 	Sample sample();
-
-	/**
-	 * Samples Simon values and returns them in a Java Bean derived from Sample interface
-	 * and resets the Simon. Operation is synchronized to assure atomicity.
-	 *
-	 * @return sample containing all Simon values
-	 * @deprecated use {@link #sampleIncrement(String)}
-	 */
-	@Deprecated
-	Sample sampleAndReset();
 
 	/**
 	 * Samples increment in Simon values since the previous call of this method with the

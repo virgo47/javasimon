@@ -22,14 +22,14 @@ public class SimpleJSTest {
 
 	@Test
 	public void testLong() {
-		SimpleJS<Long> simpleJS = new SimpleJS<Long>(12345L, stringifierFactory.getStringifier(Long.class));
+		SimpleJS<Long> simpleJS = new SimpleJS<>(12345L, stringifierFactory.getStringifier(Long.class));
 		String json = simpleJS.toString();
 		assertEquals(json, "12345");
 	}
 
 	private void testTime(long inputTime, TimeFormatType timeFormat, String outputTime) {
 		stringifierFactory = createStringifierFactory(timeFormat);
-		SimpleJS<Long> simpleJS = new SimpleJS<Long>(inputTime, stringifierFactory.getStringifier(Long.class, JsonStringifierFactory.TIME_SUBTYPE));
+		SimpleJS<Long> simpleJS = new SimpleJS<>(inputTime, stringifierFactory.getStringifier(Long.class, JsonStringifierFactory.TIME_SUBTYPE));
 		String json = simpleJS.toString();
 		assertEquals(json, outputTime);
 	}
@@ -44,7 +44,7 @@ public class SimpleJSTest {
 
 	@Test
 	public void testString() {
-		SimpleJS<String> simpleJS = new SimpleJS<String>("Hello world! \"\\/", stringifierFactory.getStringifier(String.class));
+		SimpleJS<String> simpleJS = new SimpleJS<>("Hello world! \"\\/", stringifierFactory.getStringifier(String.class));
 		String json = simpleJS.toString();
 		assertEquals(json, "\"Hello world! \\\"\\\\\\/\"");
 	}

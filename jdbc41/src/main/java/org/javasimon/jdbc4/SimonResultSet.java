@@ -54,7 +54,7 @@ public final class SimonResultSet implements ResultSet {
 	 */
 	public SimonResultSet(ResultSet rset, SimonStatement stmt, String prefix, String stmtPrefix) {
 		this.rset = rset;
-		this.wrapperSupport = new WrapperSupport<ResultSet>(rset, ResultSet.class);
+		this.wrapperSupport = new WrapperSupport<>(rset, ResultSet.class);
 		this.stmt = stmt;
 		this.stmtPrefix = stmtPrefix;
 

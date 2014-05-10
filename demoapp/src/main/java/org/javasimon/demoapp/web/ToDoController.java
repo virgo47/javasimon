@@ -41,9 +41,9 @@ public class ToDoController {
     public ResponseEntity<String> deleteItem(@PathVariable("id") long id) {
         try {
             toDoItemDao.delete(id);
-            return new ResponseEntity<String>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (DaoException ex) {
-            return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 

@@ -32,7 +32,7 @@ public class JmxRegisterCallback extends CallbackSkeleton {
 	protected MBeanServer mBeanServer;
 
 	/** Names of all beans registered for separate Simons */
-	private Set<String> registeredNames = new HashSet<String>();
+	private Set<String> registeredNames = new HashSet<>();
 
 	/** Whether all existing Simons from Manager should be registered after callback is added to a Manager. */
 	private boolean registerExisting;

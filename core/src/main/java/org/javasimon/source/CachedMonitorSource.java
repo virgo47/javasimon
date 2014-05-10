@@ -54,7 +54,7 @@ public abstract class CachedMonitorSource<L, M extends Simon, K> implements Moni
 	private static final MonitorInformation NULL_MONITOR_INFORMATION = new MonitorInformation(false, null);
 
 	/** Map location key &rarr; monitor information. */
-	private final Map<K, MonitorInformation> monitorInformations = new ConcurrentHashMap<K, MonitorInformation>();
+	private final Map<K, MonitorInformation> monitorInformations = new ConcurrentHashMap<>();
 
 	/**
 	 * Constructor with real {@link MonitorSource}.

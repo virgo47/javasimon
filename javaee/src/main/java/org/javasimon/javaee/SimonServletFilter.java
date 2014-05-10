@@ -135,7 +135,7 @@ public class SimonServletFilter implements Filter {
 	 * the callback that servlet is registering. Then even more callbacks registered from various
 	 * servlets in the same manager do not interfere.
 	 */
-	private final ThreadLocal<List<Split>> splitsThreadLocal = new ThreadLocal<List<Split>>();
+	private final ThreadLocal<List<Split>> splitsThreadLocal = new ThreadLocal<>();
 
 	/**
 	 * Callback that saves all splits in {@link #splitsThreadLocal} if {@link #reportThresholdNanos} is configured.

@@ -18,7 +18,7 @@ final class AttributesSupport implements HasAttributes {
 	@Override
 	public synchronized void setAttribute(String name, Object value) {
 		if (attributes == null) {
-			attributes = new HashMap<String, Object>();
+			attributes = new HashMap<>();
 		}
 		attributes.put(name, value);
 	}
@@ -54,6 +54,6 @@ final class AttributesSupport implements HasAttributes {
 
 	@Override
 	public Map<String, Object> getCopyAsSortedMap() {
-		return new TreeMap<String, Object>(attributes);
+		return new TreeMap<>(attributes);
 	}
 }

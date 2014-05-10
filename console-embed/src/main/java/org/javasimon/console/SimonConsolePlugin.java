@@ -27,7 +27,7 @@ public abstract class SimonConsolePlugin {
 	/**
 	 * JavaScript and CSS resources used by this plugin
 	 */
-	private List<HtmlResource> resources=new ArrayList<HtmlResource>();
+	private List<HtmlResource> resources=new ArrayList<>();
 	/**
 	 * Default constructor.
 	 */
@@ -66,7 +66,7 @@ public abstract class SimonConsolePlugin {
 	 * @return Detail plugins resources.
 	 */
 	public static List<HtmlResource> getResources(ActionContext context, Class<? extends SimonConsolePlugin> pluginType) {
-		List<HtmlResource> resources=new ArrayList<HtmlResource>();
+		List<HtmlResource> resources=new ArrayList<>();
 		for(SimonConsolePlugin plugin:context.getPluginManager().getPluginsByType(pluginType)) {
 			resources.addAll(plugin.getResources());
 		}

@@ -19,7 +19,6 @@ public abstract class Sample {
 	private String note;
 	private long firstUsage;
 	private long lastUsage;
-	private long lastReset;
 
 	/**
 	 * Name of the sampled Simon.
@@ -91,28 +90,6 @@ public abstract class Sample {
 	 */
 	public void setLastUsage(long lastUsage) {
 		this.lastUsage = lastUsage;
-	}
-
-	/**
-	 * Timestamp of the last reset from the sampled Simon.
-	 *
-	 * @return Simon's last reset timestamp
-	 * @deprecated will be removed in 4.0
-	 */
-	@Deprecated
-	public long getLastReset() {
-		return lastReset;
-	}
-
-	/**
-	 * Sets the timestamp of the last reset from the sampled Simon.
-	 *
-	 * @param lastReset Simon's last reset timestamp
-	 * @deprecated will be removed in 4.0
-	 */
-	@Deprecated
-	public void setLastReset(long lastReset) {
-		this.lastReset = lastReset;
 	}
 
 	// common part of the toString method

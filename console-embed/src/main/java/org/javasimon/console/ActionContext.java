@@ -178,7 +178,7 @@ public class ActionContext {
 		if (enumNames == null) {
 			return defaultValue;
 		} else {
-			Collection<T> enums = new ArrayList<T>();
+			Collection<T> enums = new ArrayList<>();
 			for (String enumName : enumNames) {
 				T enumValue = stringToEnum(blankToNull(enumName), type);
 				if (enumValue != null) {

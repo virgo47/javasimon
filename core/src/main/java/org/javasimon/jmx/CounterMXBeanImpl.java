@@ -92,11 +92,6 @@ public class CounterMXBeanImpl extends AbstractSimonMXBeanImpl implements Counte
 	}
 
 	@Override
-	public final CounterSample sampleAndReset() {
-		return new CounterSample(counter.sampleAndReset());
-	}
-
-	@Override
 	public CounterSample sampleIncrement(String key) {
 		return new CounterSample(counter.sampleIncrement(key));
 	}

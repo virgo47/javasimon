@@ -7,20 +7,6 @@ repositories {
     mavenCentral()
 }
 
-def getJdbcDependencyName() {
-    def jdkVersion = System.getProperty("java.specification.version")
-    switch (jdkVersion) {
-        case '1.6':
-            ':jdbc4'
-            break
-        case '1.7':
-            ':jdbc41'
-            break
-        default:
-            throw new GradleException("Unknown JDK version: " + jdkVersion);
-    }
-}
-
 ext.springVersion = '3.2.0.RELEASE'
 ext.slf4jVersion = '1.7.2'
 ext.javaEeVersion = '6.0'

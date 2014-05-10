@@ -12,7 +12,7 @@ public class SimonConsolePluginManager {
 	/**
 	 * List of plugins
 	 */
-	private final List<SimonConsolePlugin> plugins=new ArrayList<SimonConsolePlugin>();
+	private final List<SimonConsolePlugin> plugins=new ArrayList<>();
 	/**
 	 * Return plugin list.
 	 */
@@ -23,7 +23,7 @@ public class SimonConsolePluginManager {
 	 * Return plugin list, filtered by plugin type.
 	 */
 	public <T extends SimonConsolePlugin> List<T> getPluginsByType(Class<T> pluginType) {
-		List<T> specPlugins=new ArrayList<T>();
+		List<T> specPlugins=new ArrayList<>();
 		for(SimonConsolePlugin plugin:plugins) {
 			if (pluginType.isInstance(plugin)) {
 				specPlugins.add(pluginType.cast(plugin));
@@ -111,7 +111,7 @@ public class SimonConsolePluginManager {
 	 * Get all action bindings of all plugins.
 	 */
 	public List<ActionBinding> getActionBindings() {
-		List<ActionBinding> actionBindings=new ArrayList<ActionBinding>();
+		List<ActionBinding> actionBindings=new ArrayList<>();
 		for(SimonConsolePlugin plugin: plugins) {
 			actionBindings.addAll(plugin.getActionBindings());
 		}

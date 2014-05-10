@@ -37,7 +37,7 @@ public class SampleHtmlGeneratorTest extends SimonUnitTest {
 	}
 
 	private static Sample[] makeStopwatchSamples(int count) {
-		List<Sample> samples = new ArrayList<Sample>();
+		List<Sample> samples = new ArrayList<>();
 
 		for (int i = 0; i < count; i++) {
 			createSample(samples, i);

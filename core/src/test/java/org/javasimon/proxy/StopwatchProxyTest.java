@@ -41,7 +41,7 @@ public class StopwatchProxyTest extends SimonUnitTest {
 		= DisabledStopwatchSource.get();
 
 	private MonitoredInterface newMonitoredProxy(StopwatchSource<DelegatingMethodInvocation<MonitoredInterface>> stopwatchSource) {
-		return new StopwatchProxyFactory<MonitoredInterface>(monitoredTarget, stopwatchSource).newProxy(MonitoredInterface.class);
+		return new StopwatchProxyFactory<>(monitoredTarget, stopwatchSource).newProxy(MonitoredInterface.class);
 	}
 
 	private MonitoredInterface newMonitoredProxy() {

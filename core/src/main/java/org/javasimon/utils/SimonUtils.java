@@ -214,22 +214,6 @@ public final class SimonUtils {
 	}
 
 	/**
-	 * Returns min/max split values in human readable form - if the value is max or min long value
-	 * it is considered unused and string "undef" is returned.
-	 *
-	 * @param minmax split extreme value
-	 * @return extreme value or "undef" if extreme contains {@code Long.MIN_VALUE} or {@code Long.MAX_VALUE}
-	 * @deprecated use {@link #presentNanoTime(long)} instead, will be removed in 4.0
-	 */
-	@Deprecated
-	public static String presentMinMaxSplit(long minmax) {
-		if (minmax == Long.MAX_VALUE || minmax == Long.MIN_VALUE) {
-			return UNDEF_STRING;
-		}
-		return presentNanoTime(minmax);
-	}
-
-	/**
 	 * Returns multi-line string containing Simon tree starting with the specified Simon.
 	 * Root Simon can be used to obtain tree with all Simons. Returns {@code null} for
 	 * input value of null or for NullSimon or any Simon with name equal to null (anonymous
@@ -279,23 +263,6 @@ public final class SimonUtils {
 			return name;
 		}
 		return name.substring(ix + 1);
-	}
-
-	/**
-	 * Resets the whole Simon subtree - calls {@link org.javasimon.Simon#reset()} on the
-	 * Simon and recursively on all its children. Operation is not truly atomic as a whole,
-	 * consistency on the Simon level depends on the implementation of {@link org.javasimon.Simon#reset()}
-	 * (which is thread-safe in all current implementations).
-	 *
-	 * @param simon subtree root
-	 * @deprecated will be removed in 4.0
-	 */
-	@Deprecated
-	public static void recursiveReset(Simon simon) {
-		simon.reset();
-		for (Simon child : simon.getChildren()) {
-			recursiveReset(child);
-		}
 	}
 
 	/**

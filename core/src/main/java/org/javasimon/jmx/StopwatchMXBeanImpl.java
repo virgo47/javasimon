@@ -108,11 +108,6 @@ public class StopwatchMXBeanImpl extends AbstractSimonMXBeanImpl implements Stop
 	}
 
 	@Override
-	public final StopwatchSample sampleAndReset() {
-		return new StopwatchSample(stopwatch.sampleAndReset());
-	}
-
-	@Override
 	public StopwatchSample sampleIncrement(String key) {
 		return new StopwatchSample(stopwatch.sampleIncrement(key));
 	}

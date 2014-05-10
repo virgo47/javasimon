@@ -21,14 +21,6 @@ $(document).ready(function() {
 		$('#refreshButton')
 			.button({label:"Refresh",icons: {primary: "ui-icon-search"}})
 			.click(function() {document.oDetailViewCtrl.fnReloadAjax(); return false; });
-		$('#resetButton')
-			.button({label:"Reset", icons: {primary: "ui-icon-trash"}})
-			.click(function() {
-				javasimon.ResetService.fnResetOne(document.oDetailViewCtrl.oSimon.name, function() {
-					document.oDetailViewCtrl.fnReloadAjax();
-				});
-				return false;
-			});
 		$('#htmlButton')
 			.button({label:"HTML",icons: {primary: "ui-icon-print"}})
 			.click(function() {
@@ -64,7 +56,6 @@ $(document).ready(function() {
 			    <div id="filterPanel">
 				    <div class="filterButtons fg-toolbar ui-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-corner-bl ui-corner-br ui-helper-clearfix">
 					    <button id="refreshButton" name="refreshButton">Refresh</button>
-					    <button id="resetButton" name="resetButton">Reset</button>
 					    <span id="exportSpan">Export:</span>
 					    <button id="htmlButton" name="htmlButton">HTML</button>
 				    </div>

@@ -19,7 +19,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public final class CompositeCallbackImpl implements CompositeCallback {
 
-	private List<Callback> callbacks = new CopyOnWriteArrayList<Callback>();
+	private List<Callback> callbacks = new CopyOnWriteArrayList<>();
 
 	private Manager manager; // not null indicates, that this callback is initialized (joined to manager)
 
@@ -93,13 +93,6 @@ public final class CompositeCallbackImpl implements CompositeCallback {
 			} catch (Exception e) {
 				onManagerWarning("Callback cleanup error", e);
 			}
-		}
-	}
-
-	@Override
-	public void onSimonReset(Simon simon) {
-		for (Callback callback : callbacks) {
-			callback.onSimonReset(simon);
 		}
 	}
 

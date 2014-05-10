@@ -57,7 +57,7 @@ public class TreeXmlActionTest {
 		DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = builderFactory.newDocumentBuilder();
 		Document document = builder.parse(new ByteArrayInputStream(bytes));
-		Set<String> names = new HashSet<String>();
+		Set<String> names = new HashSet<>();
 		names.add("A");
 		names.add("B");
 		names.add("C");

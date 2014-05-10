@@ -63,7 +63,7 @@ public class SimonJolokiaDemo {
 		SimonManagerMXBeanImpl bean = new SimonManagerMXBeanImpl(SimonManager.manager());
 		beanServer.registerMBean(bean, beanObjectName);
 		// Server
-		Map<String, String> serverConfigMap = new HashMap<String, String>();
+		Map<String, String> serverConfigMap = new HashMap<>();
 		JolokiaServerConfig serverConfig = new JolokiaServerConfig(serverConfigMap);
 		server = new JolokiaServer(serverConfig, true);
 		// Callbacks

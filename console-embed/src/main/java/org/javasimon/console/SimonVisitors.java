@@ -34,7 +34,7 @@ public class SimonVisitors {
 	 * @throws IOException
 	 */
 	public static void visitList(Manager manager, String pattern, Set<SimonType> types, SimonVisitor visitor) throws IOException {
-		List<Simon> simons = new ArrayList<Simon>(manager.getSimons(SimonPattern.create(pattern)));
+		List<Simon> simons = new ArrayList<>(manager.getSimons(SimonPattern.create(pattern)));
 		Collections.sort(simons, new Comparator<Simon>() {
 			public int compare(Simon s1, Simon s2) {
 				return s1.getName().compareTo(s2.getName());

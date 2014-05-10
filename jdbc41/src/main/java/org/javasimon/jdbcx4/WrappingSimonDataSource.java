@@ -41,7 +41,7 @@ public class WrappingSimonDataSource extends AbstractSimonDataSource implements 
 
 	public void setDataSource(DataSource ds) {
 		this.ds = ds;
-		this.wrapperSupport = new WrapperSupport<DataSource>(ds, DataSource.class);
+		this.wrapperSupport = new WrapperSupport<>(ds, DataSource.class);
 	}
 
 	/**

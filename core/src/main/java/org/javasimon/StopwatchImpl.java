@@ -236,29 +236,6 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	}
 
 	@Override
-	void concreteReset() {
-		total = 0;
-		counter = 0;
-		max = 0;
-		min = Long.MAX_VALUE;
-		maxTimestamp = 0;
-		minTimestamp = 0;
-		// active is not reset, because active Splits do not know about this reset
-		maxActive = active;
-		maxActiveTimestamp = 0;
-		mean = 0;
-		mean2 = 0;
-	}
-
-	@Override
-	@Deprecated
-	public synchronized StopwatchSample sampleAndReset() {
-		StopwatchSample sample = sample();
-		reset();
-		return sample;
-	}
-
-	@Override
 	public synchronized StopwatchSample sample() {
 		StopwatchSample sample = new StopwatchSample();
 		sample.setTotal(total);

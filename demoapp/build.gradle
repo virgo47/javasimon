@@ -5,8 +5,6 @@ sourceSets {
     main { compileClasspath += configurations.provided }
 }
 
-String jdbcDependencyName = getJdbcDependencyName()
-
 ext.wicketVersion = '1.5.3'
 ext.jettyVersion = '7.5.0.v20110901'
 
@@ -28,7 +26,7 @@ dependencies {
     compile libs.h2
     compile libs.gson
     compile 'commons-dbcp:commons-dbcp:1.4'
-    compile project(jdbcDependencyName)
+    compile project(':jdbc41')
     compile project(':javaee')
     compile project(':console-embed')
 

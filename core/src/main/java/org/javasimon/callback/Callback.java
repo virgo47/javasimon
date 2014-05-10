@@ -65,16 +65,6 @@ public interface Callback {
 	void onStopwatchStop(Split split, StopwatchSample sample);
 
 	/**
-	 * Simon reset event.
-	 *
-	 * @param simon reset Simon
-	 * @deprecated will be removed in 4.0. Use {@link org.javasimon.Stopwatch#sampleIncrement(Object)} (keyed sampling) instead.
-	 * TODO change link to Simon when done
-	 */
-	@Deprecated
-	void onSimonReset(Simon simon);
-
-	/**
 	 * Stopwatch add split event. {@link StopwatchSample} valid for the moment after the add is provided
 	 * because the callback is executed out of synchronized block.
 	 * It is guaranteed that {@link org.javasimon.Split#getStopwatch()} will not return {@code null}.
@@ -169,15 +159,6 @@ public interface Callback {
 		/** Meta-action designating all actions (or any action in rules). */
 		ALL("all"),
 
-		/**
-		 * Reset of the Simon.
-		 *
-		 * @deprecated Will be removed in 4.0. Use {@link org.javasimon.Stopwatch#sampleIncrement(Object)} (keyed sampling) instead.
-		 * TODO change link to Simon when done
-		 */
-		@Deprecated
-		RESET("reset"),
-
 		/** Start of the stopwatch. */
 		STOPWATCH_START("start"),
 
@@ -211,7 +192,7 @@ public interface Callback {
 		/** Warning related to the manager. */
 		WARNING("warning");
 
-		private static Map<String, Event> codeValues = new HashMap<String, Event>();
+		private static Map<String, Event> codeValues = new HashMap<>();
 
 		private String code;
 

@@ -19,7 +19,7 @@ public class LastSplitsCallbackTest extends SimonUnitTest {
 	private Manager manager = new EnabledManager();
 
 	@BeforeMethod
-	public void resetStopwatch() {
+	public void resetManager() {
 		manager.clear();
 		manager.callback().addCallback(new LastSplitsCallback(5));
 	}
@@ -43,7 +43,7 @@ public class LastSplitsCallbackTest extends SimonUnitTest {
 		addSplit(150L);
 		LastSplits lastSplits = getLastSplits();
 		assertTrue(lastSplits.getTrend() > 0, "Positive trend");
-		resetStopwatch();
+		resetManager();
 		addSplit(150L);
 		addSplit(125L);
 		addSplit(100L);

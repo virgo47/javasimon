@@ -98,16 +98,6 @@ public class LastSplitsCallback extends CallbackSkeleton {
 		lastSplits.log(split);
 	}
 
-	/**
-	 * When the Stopwatch is reseted, the Last splits attribute as well.
-	 */
-	@Override
-	public void onSimonReset(Simon simon) {
-		if (simon instanceof Stopwatch) {
-			getLastSplits((Stopwatch) simon).clear();
-		}
-	}
-
 	public boolean isLogEnabled() {
 		return logEnabled;
 	}

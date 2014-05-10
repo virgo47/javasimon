@@ -78,7 +78,7 @@ class ClassUtils {
 	 */
 	static Set<Method> getSetters(Class<?> targetClass, String propertyName) {
 		String setterName = setterName(propertyName);
-		Set<Method> setters = new HashSet<Method>();
+		Set<Method> setters = new HashSet<>();
 
 		while (targetClass != null) {
 			for (Method method : targetClass.getDeclaredMethods()) {

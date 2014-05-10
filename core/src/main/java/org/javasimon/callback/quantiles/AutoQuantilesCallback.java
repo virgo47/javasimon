@@ -80,7 +80,7 @@ public class AutoQuantilesCallback extends QuantilesCallback {
 		synchronized (stopwatch) {
 			List<Long> values = getBucketsValues(stopwatch);
 			if (values == null) {
-				values = new ArrayList<Long>((int) warmupCounter);
+				values = new ArrayList<>((int) warmupCounter);
 				stopwatch.setAttribute(ATTR_NAME_BUCKETS_VALUES, values);
 			}
 			return values;
@@ -159,27 +159,6 @@ public class AutoQuantilesCallback extends QuantilesCallback {
 			// Warm
 			buckets.addValue(value);
 			buckets.log(split);
-		}
-	}
-
-	/** When the Stopwatch is reset, so are the buckets. */
-	@Override
-	@Deprecated
-	public void onSimonReset(Simon simon) {
-		if (simon instanceof Stopwatch) {
-			Stopwatch stopwatch = (Stopwatch) simon;
-			Buckets buckets = getBuckets(stopwatch);
-			if (buckets == null) {
-				// Cold
-				List<Long> values = getBucketsValues(stopwatch);
-				if (values != null) {
-					// Warming up
-					values.clear();
-				}
-			} else {
-				// Warm
-				buckets.clear();
-			}
 		}
 	}
 }

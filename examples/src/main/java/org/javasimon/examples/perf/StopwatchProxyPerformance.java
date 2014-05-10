@@ -45,7 +45,7 @@ public class StopwatchProxyPerformance {
 		= DisabledStopwatchSource.get();
 
 	private static MonitoredInterface newMonitoredProxy(StopwatchSource<DelegatingMethodInvocation<MonitoredInterface>> stopwatchSource) {
-		return new StopwatchProxyFactory<MonitoredInterface>(monitoredTarget, stopwatchSource).newProxy(MonitoredInterface.class);
+		return new StopwatchProxyFactory<>(monitoredTarget, stopwatchSource).newProxy(MonitoredInterface.class);
 	}
 
 	private static MonitoredInterface newMonitoredProxy() {
@@ -88,7 +88,7 @@ public class StopwatchProxyPerformance {
 		Stopwatch stopwatch = SimonManager.getStopwatch(StopwatchProxyPerformance.class.getName() + ".testPerformance");
 		Split split = stopwatch.start();
 
-		stopwatch.reset();
+//		stopwatch.reset();
 		for (int i = 0; i < iterations; i++) {
 			monitoredInterface.welcome("world");
 		}

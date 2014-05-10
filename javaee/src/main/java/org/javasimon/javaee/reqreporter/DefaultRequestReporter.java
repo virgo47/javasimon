@@ -57,7 +57,7 @@ public class DefaultRequestReporter implements RequestReporter {
 	}
 
 	private void buildSplitDetails(Split requestSplit, List<Split> splits, StringBuilder messageBuilder) {
-		Map<String, StopwatchInfo> stopwatchInfos = new HashMap<String, StopwatchInfo>();
+		Map<String, StopwatchInfo> stopwatchInfos = new HashMap<>();
 
 		processSplitsAndAddSignificantOnes(requestSplit, splits, messageBuilder, stopwatchInfos);
 		addStopwatchSplitDistribution(messageBuilder, stopwatchInfos);
@@ -94,7 +94,7 @@ public class DefaultRequestReporter implements RequestReporter {
 
 	private void addStopwatchSplitDistribution(StringBuilder messageBuilder, Map<String, StopwatchInfo> stopwatchInfos) {
 		messageBuilder.append("\nStopwatch/Split count/total/max for this request (sorted by total descending):");
-		Set<StopwatchInfo> sortedInfos = new TreeSet<StopwatchInfo>(stopwatchInfos.values());
+		Set<StopwatchInfo> sortedInfos = new TreeSet<>(stopwatchInfos.values());
 		for (StopwatchInfo info : sortedInfos) {
 			if (shouldBeAddedStopwatchInfo(info)) {
 				addStopwatchInfo(messageBuilder, info);
@@ -130,7 +130,7 @@ public class DefaultRequestReporter implements RequestReporter {
 	// naturally sorted by total time descending
 	protected class StopwatchInfo implements Comparable<StopwatchInfo> {
 		Stopwatch stopwatch;
-		List<Split> splits = new ArrayList<Split>();
+		List<Split> splits = new ArrayList<>();
 		Split maxSplit;
 		long total;
 

@@ -75,7 +75,7 @@ public class CompositeStringifier implements Stringifier<Object> {
 	/**
 	 * Main attribute of this class as it contains the dictionnary
 	 */
-	private final Map<StringifierKey, Stringifier> stringifiers = new HashMap<StringifierKey, Stringifier>();
+	private final Map<StringifierKey, Stringifier> stringifiers = new HashMap<>();
 	/**
 	 * Null stringifier used to format null values
 	 */

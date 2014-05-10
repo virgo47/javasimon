@@ -60,7 +60,7 @@ public final class ManagerConfiguration {
 
 	/** Clears any previously loaded configuration. */
 	public void clear() {
-		configs = new LinkedHashMap<SimonPattern, SimonConfiguration>();
+		configs = new LinkedHashMap<>();
 	}
 
 	/**
@@ -169,7 +169,7 @@ public final class ManagerConfiguration {
 		String pattern = null;
 		FilterRule.Type type = FilterRule.Type.SUFFICE;
 		String condition = null;
-		List<Callback.Event> events = new ArrayList<Callback.Event>();
+		List<Callback.Event> events = new ArrayList<>();
 
 		Map<String, String> attrs = processStartElement(xr, "rule");
 		if (attrs.get("condition") != null) {
@@ -288,7 +288,7 @@ public final class ManagerConfiguration {
 	}
 
 	private Map<String, String> readAttributes(XMLStreamReader reader) {
-		Map<String, String> attributes = new LinkedHashMap<String, String>();
+		Map<String, String> attributes = new LinkedHashMap<>();
 		int attrCount = reader.getAttributeCount();
 		for (int i = 0; i < attrCount; i++) {
 			attributes.put(reader.getAttributeName(i).toString(), reader.getAttributeValue(i));

@@ -21,33 +21,6 @@ package org.javasimon;
  * {@link org.javasimon.SimonManager} should always be used to get the stopwatch before using it,
  * because otherwise the code will not reflect enable/disable of the whole API.
  *
- * <h3>Disable/enable considerations</h3>
- *
- * While Counter's usage is atomic, Stopwatch measures splits and every measurement involves two
- * calls (start/stop) over a period of time. It's important to know how various management actions
- * affect measurement:
- * <ul>
- * <li>If start OR stop is called with disabled Simon, nothing is measured. That means that if
- * stopwatch is disabled or enabled between these calls, stop always returns 0 and totals are
- * not updated.
- * <li>If stopwatch is obtained from enabled Manager (API is enabled) and Manager is later
- * disabled before stop, this split is measured because real stopwatch instance was obtained
- * (considering that the Stopwatch itself is enabled).
- * If it's other way around then the split is not measured because obtained instance is "null"
- * Simon.
- * </ul>
- *
- * While API disable causes that the code works with "null" Simons, state of the real Simon is
- * perfectly preserved. Disabling particular Simon on the other hand resets some of its state.
- * When the stopwatch is disabled, its active count is set to 0 and before it is enabled again both
- * its thread-local split map and keyed-object split map is cleared. Of course, all totals/counts
- * are preserved.
- * <h3>Other usages</h3>
- * Reset of the stopwatch resets all stats except usages that are rather management related and
- * should not be reset. Reset is used often for various sampling purposes which requires that only
- * cumulative stats are reset, but all running splits are preserved. Running splits will be added
- * to the stopwatch after reset when respective stop methods are called.
- *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public interface Stopwatch extends Simon {
@@ -129,13 +102,6 @@ public interface Stopwatch extends Simon {
 	long getMinTimestamp();
 
 	/**
-	 * Resets the Simon - clears total time, min, max, usage stats, etc. Split times that
-	 * started before reset will be counted when appropriate stop is called, so no split
-	 * time is ignored by the stopwatch. Active count is not reset.
-	 */
-	void reset();
-
-	/**
 	 * Returns current number of measured splits (concurrently running). This counter can show more
 	 * splits than is measured at any moment if some splits were "forgotten" (not stopped and garbage
 	 * collected). This does not imply any resource leak, just bad practice of not stopping Splits somewhere
@@ -194,10 +160,6 @@ public interface Stopwatch extends Simon {
 
 	@Override
 	StopwatchSample sample();
-
-	@Override
-	@Deprecated
-	StopwatchSample sampleAndReset();
 
 	StopwatchSample sampleIncrement(Object key);
 }

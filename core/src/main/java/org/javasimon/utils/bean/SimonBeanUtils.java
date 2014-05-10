@@ -21,7 +21,7 @@ public class SimonBeanUtils {
 
 	private static final SimonBeanUtils INSTANCE = new SimonBeanUtils();
 
-	private final Map<Class<?>, Converter> converters = new ConcurrentHashMap<Class<?>, Converter>();
+	private final Map<Class<?>, Converter> converters = new ConcurrentHashMap<>();
 
 	public SimonBeanUtils() {
 		converters.put(String.class, new ToStringConverter());

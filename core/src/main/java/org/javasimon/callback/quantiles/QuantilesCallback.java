@@ -4,7 +4,6 @@ import static org.javasimon.callback.logging.LogTemplates.disabled;
 import static org.javasimon.callback.logging.LogTemplates.everyNSeconds;
 import static org.javasimon.callback.logging.LogTemplates.toSLF4J;
 
-import org.javasimon.Simon;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
 import org.javasimon.StopwatchSample;
@@ -164,17 +163,5 @@ public abstract class QuantilesCallback extends CallbackSkeleton {
 	@Override
 	public void onStopwatchAdd(Stopwatch stopwatch, Split split, StopwatchSample sample) {
 		onStopwatchSplit(split.getStopwatch(), split);
-	}
-
-	/** When the Stopwatch is reset, so are the buckets. */
-	@Override
-	public void onSimonReset(Simon simon) {
-		if (simon instanceof Stopwatch) {
-			Stopwatch stopwatch = (Stopwatch) simon;
-			Buckets buckets = getBuckets(stopwatch);
-			if (buckets != null) {
-				buckets.clear();
-			}
-		}
 	}
 }

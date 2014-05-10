@@ -39,7 +39,7 @@ public final class CompositeFilterCallback implements FilterCallback, CompositeC
 
 	/** Constructs composite filter callback. */
 	public CompositeFilterCallback() {
-		rules = new EnumMap<Event, List<FilterRule>>(Event.class);
+		rules = new EnumMap<>(Event.class);
 		for (Event event : Event.values()) {
 			rules.put(event, new CopyOnWriteArrayList<FilterRule>());
 		}
@@ -73,13 +73,6 @@ public final class CompositeFilterCallback implements FilterCallback, CompositeC
 	@Override
 	public void cleanup() {
 		callback.cleanup();
-	}
-
-	@Override
-	public void onSimonReset(Simon simon) {
-		if (rulesApplyTo(simon, Event.RESET)) {
-			callback.onSimonReset(simon);
-		}
 	}
 
 	@Override

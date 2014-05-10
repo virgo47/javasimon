@@ -27,7 +27,7 @@ public final class GoogleChartImageGenerator {
 	private static final String TYPE_BAR2 = "&chco=2d69f9,a6c9fd,d0eeff&chxt=y,x,x";
 	private static final DecimalFormat NUMBER_FORMAT = new DecimalFormat("0.00", new DecimalFormatSymbols(Locale.US));
 
-	private static final List<Replacer> REPLACERS = new LinkedList<Replacer>();
+	private static final List<Replacer> REPLACERS = new LinkedList<>();
 
 	private static final int TEN_BASE = 10;
 	private StopwatchSample[] samples;

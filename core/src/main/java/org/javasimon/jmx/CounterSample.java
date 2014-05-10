@@ -29,7 +29,6 @@ public final class CounterSample extends org.javasimon.CounterSample {
 	 * @param note note (provided optionally)
 	 * @param firstUsage first usage ms timestamp
 	 * @param lastUsage last usage ms timestamp
-	 * @param lastReset last reset ms timestamp
 	 * @param counter actual counter value
 	 * @param min minimal counter value
 	 * @param max maximal counter value
@@ -38,15 +37,14 @@ public final class CounterSample extends org.javasimon.CounterSample {
 	 * @param incSum sum of all increments
 	 * @param decSum sum of all decrements
 	 */
-	@ConstructorProperties({"name", "note", "firstUsage", "lastUsage", "lastReset", "counter", "min",
+	@ConstructorProperties({"name", "note", "firstUsage", "lastUsage", "counter", "min",
 		"max", "minTimestamp", "maxTimestamp", "incrementSum", "decrementSum"})
-	public CounterSample(String name, String note, long firstUsage, long lastUsage, long lastReset, long counter,
+	public CounterSample(String name, String note, long firstUsage, long lastUsage, long counter,
 	                     long min, long max, long minTimestamp, long maxTimestamp, long incSum, long decSum) {
 		setName(name);
 		setNote(note);
 		setFirstUsage(firstUsage);
 		setLastUsage(lastUsage);
-		setLastReset(lastReset);
 
 		setCounter(counter);
 		setMin(min);
@@ -68,7 +66,6 @@ public final class CounterSample extends org.javasimon.CounterSample {
 		setNote(sample.getNote());
 		setFirstUsage(sample.getFirstUsage());
 		setLastUsage(sample.getLastUsage());
-		setLastReset(sample.getLastReset());
 
 		setCounter(sample.getCounter());
 		setMin(sample.getMin());
@@ -113,24 +110,6 @@ public final class CounterSample extends org.javasimon.CounterSample {
 	 */
 	public Date getLastUsageAsDate() {
 		return new Date(getLastUsage());
-	}
-
-	/**
-	 * Timestamp of the last reset from the sampled Simon as a formatted string.
-	 *
-	 * @return Simon's last reset timestamp as string
-	 */
-	public String getLastResetAsString() {
-		return SimonUtils.presentTimestamp(getLastReset());
-	}
-
-	/**
-	 * Timestamp of the last reset from the sampled Simon as a formatted date.
-	 *
-	 * @return Simon's last reset timestamp as date
-	 */
-	public Date getLastResetAsDate() {
-		return new Date(getLastReset());
 	}
 
 	/**

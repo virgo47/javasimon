@@ -22,7 +22,7 @@ public class ResourceAction extends Action {
 
 	public static final String PREFIX = "/resource";
 
-	private static final Map<String, String> CONTENT_TYPES = new HashMap<String, String>();
+	private static final Map<String, String> CONTENT_TYPES = new HashMap<>();
 
 	static {
 		CONTENT_TYPES.put("gif", "image/gif");

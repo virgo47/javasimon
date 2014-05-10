@@ -47,7 +47,7 @@ public final class SimonDataSource extends AbstractSimonDataSource implements Da
 		if (ds == null) {
 			ds = createDataSource(DataSource.class);
 			ds.setLogWriter(logWriter);
-			wrapperSupport = new WrapperSupport<DataSource>(ds, DataSource.class);
+			wrapperSupport = new WrapperSupport<>(ds, DataSource.class);
 		}
 		return ds;
 	}

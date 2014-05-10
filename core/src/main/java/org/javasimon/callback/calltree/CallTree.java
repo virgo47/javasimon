@@ -18,7 +18,7 @@ public class CallTree implements LogMessageSource<Split> {
 	private final Long logThreshold;
 
 	/** Call stack is the path (made of tree nodes) from root tree node to the current tree node. */
-	private final LinkedList<CallTreeNode> callStack = new LinkedList<CallTreeNode>();
+	private final LinkedList<CallTreeNode> callStack = new LinkedList<>();
 
 	/** Root call tree node. */
 	private CallTreeNode rootNode;

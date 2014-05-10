@@ -73,7 +73,6 @@ public class DetailHtmlAction extends Action {
 			.endRow()
 			.beginRow()
 			.simonProperty(simon, "First Use", "firstUsage")
-			.simonProperty(simon, "Last Reset", "lastReset")
 			.simonProperty(simon, "Last Use", "lastUsage")
 			.endRow()
 			.endSection();

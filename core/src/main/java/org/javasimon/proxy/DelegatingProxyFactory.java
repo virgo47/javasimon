@@ -27,7 +27,7 @@ public class DelegatingProxyFactory<T> implements InvocationHandler, Delegating<
 	}
 
 	public final Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-		return invoke(new DelegatingMethodInvocation<T>(delegate, proxy, method, args));
+		return invoke(new DelegatingMethodInvocation<>(delegate, proxy, method, args));
 	}
 
 	/**

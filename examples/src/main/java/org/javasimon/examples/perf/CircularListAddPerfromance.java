@@ -18,14 +18,14 @@ public class CircularListAddPerfromance {
 	public static final int ITERATIONS = 1000000;
 
 	public static void main(String... args) {
-		List<Integer> circularList = new CircularList<Integer>(10);
+		List<Integer> circularList = new CircularList<>(10);
 		Stopwatch stopwatch = SimonManager.getStopwatch(CircularListAddPerfromance.class.getName() + ".testAddPerformance");
 		Split split = stopwatch.start();
 		for (int i = 0; i < ITERATIONS; i++) {
 			circularList.add(i);
 		}
 		long circular = split.stop().runningFor();
-		LinkedList<Integer> linkedList = new LinkedList<Integer>();
+		LinkedList<Integer> linkedList = new LinkedList<>();
 		split = stopwatch.start();
 		for (int i = 0; i < ITERATIONS; i++) {
 			linkedList.add(i);

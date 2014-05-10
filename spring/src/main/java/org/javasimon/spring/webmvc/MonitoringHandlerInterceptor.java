@@ -27,7 +27,7 @@ public class MonitoringHandlerInterceptor implements HandlerInterceptor {
 	/**
 	 * Current thread running split, if any.
 	 */
-	private final ThreadLocal<HandlerLocation> threadLocation = new ThreadLocal<HandlerLocation>();
+	private final ThreadLocal<HandlerLocation> threadLocation = new ThreadLocal<>();
 
 	/**
 	 * Stopwatch source.

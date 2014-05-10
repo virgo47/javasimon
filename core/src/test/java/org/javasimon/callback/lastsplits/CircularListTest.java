@@ -15,7 +15,7 @@ public class CircularListTest extends SimonUnitTest {
 
 	@Test
 	public void testAddAndSize() {
-		CircularList<String> list = new CircularList<String>(5);
+		CircularList<String> list = new CircularList<>(5);
 		assertEquals(0, list.size());
 		list.add("A");
 		assertEquals(1, list.size());
@@ -49,7 +49,7 @@ public class CircularListTest extends SimonUnitTest {
 
 	@Test
 	public void testIterator() {
-		CircularList<String> list = new CircularList<String>(5);
+		CircularList<String> list = new CircularList<>(5);
 		assertEquals("", toString(list));
 		list.addAll(Arrays.asList("A"));
 		assertEquals("A", toString(list));
@@ -72,7 +72,7 @@ public class CircularListTest extends SimonUnitTest {
 
 	@Test
 	public void testToArray() {
-		CircularList<String> list = new CircularList<String>(5);
+		CircularList<String> list = new CircularList<>(5);
 		assertArrayEquals(new String[0], list.toArray());
 		list.addAll(Arrays.asList("A", "B", "C"));
 		assertArrayEquals(new String[]{"A", "B", "C"}, list.toArray());

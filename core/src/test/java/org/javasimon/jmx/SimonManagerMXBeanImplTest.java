@@ -242,16 +242,6 @@ public class SimonManagerMXBeanImplTest {
 	}
 
 	@Test(expectedExceptions = SimonException.class, expectedExceptionsMessageRegExp = "Unknown Simon.*")
-	public void getCounterSampleAndResetForNonExistingSimon() {
-		managerMXBean.getCounterSampleAndReset("non.existing");
-	}
-
-	@Test(expectedExceptions = SimonException.class, expectedExceptionsMessageRegExp = "Wrong Simon type")
-	public void getCounterSampleAndResetForWrongType() {
-		managerMXBean.getCounterSampleAndReset("base.stopwatch.aaa");
-	}
-
-	@Test(expectedExceptions = SimonException.class, expectedExceptionsMessageRegExp = "Unknown Simon.*")
 	public void getIncrementCounterSampleForNonExistingSimon() {
 		managerMXBean.getIncrementCounterSample("non.existing", "key");
 	}
@@ -270,16 +260,6 @@ public class SimonManagerMXBeanImplTest {
 	@Test(expectedExceptions = SimonException.class, expectedExceptionsMessageRegExp = "Wrong Simon type")
 	public void getStopwatchSampleForWrongType() {
 		managerMXBean.getStopwatchSample("base.counter.aaa");
-	}
-
-	@Test(expectedExceptions = SimonException.class, expectedExceptionsMessageRegExp = "Unknown Simon.*")
-	public void getStopwatchSampleAndResetForNonExistingSimon() {
-		managerMXBean.getStopwatchSampleAndReset("non.existing");
-	}
-
-	@Test(expectedExceptions = SimonException.class, expectedExceptionsMessageRegExp = "Wrong Simon type")
-	public void getStopwatchSampleAndResetForWrongType() {
-		managerMXBean.getStopwatchSampleAndReset("base.counter.aaa");
 	}
 
 	@Test(expectedExceptions = SimonException.class, expectedExceptionsMessageRegExp = "Unknown Simon.*")

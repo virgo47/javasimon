@@ -25,7 +25,7 @@ public class SimonStatement implements Statement {
 	/**
 	 * List of batched SQL statements.
 	 */
-	protected final List<String> batchSql = new LinkedList<String>();
+	protected final List<String> batchSql = new LinkedList<>();
 
 	/**
 	 * SQL connection.
@@ -67,7 +67,7 @@ public class SimonStatement implements Statement {
 		this.conn = conn;
 		this.stmt = stmt;
 		this.prefix = prefix;
-		this.wrapperSupport = new WrapperSupport<Statement>(stmt, Statement.class);
+		this.wrapperSupport = new WrapperSupport<>(stmt, Statement.class);
 		split = SimonManager.getStopwatch(prefix + ".stmt").start();
 	}
 

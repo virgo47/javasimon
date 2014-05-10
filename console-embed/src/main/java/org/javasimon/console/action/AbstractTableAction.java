@@ -50,13 +50,11 @@ public class AbstractTableAction extends Action {
 	/** Types for Simon type filtering. */
 	private Set<SimonType> types;
 	/** Column list in response. */
-	private List<Column> columns = new ArrayList<Column>();
+	private List<Column> columns = new ArrayList<>();
 	/** Content type of response. */
 	protected final String contentType;
 	/** Decimal format pattern used for printing doubles. */
 	protected String numberPattern = StringifierFactory.READABLE_NUMBER_PATTERN;
-	/** Flag indicating if simons should be reset during sampling. */
-	protected boolean reset;
 
 	/** Base constructor initializes columns list. */
 	protected AbstractTableAction(ActionContext context, String contentType) {
@@ -113,7 +111,6 @@ public class AbstractTableAction extends Action {
 			numberPattern);
 		pattern = getContext().getParameterAsString("pattern", null);
 		types = getContext().getParametersAsEnums("type", SimonType.class, null);
-		reset = getContext().getParameterAsBoolean("reset", Boolean.FALSE);
 	}
 
 	protected void printTable(PrintWriter writer) throws IOException {
@@ -136,8 +133,7 @@ public class AbstractTableAction extends Action {
 	}
 
 	protected void printBodyRow(Simon simon, PrintWriter writer) throws IOException {
-		final Sample sample = reset ? simon.sampleAndReset() : simon.sample();
-		printBodyRow(sample, writer);
+		printBodyRow(simon.sample(), writer);
 	}
 
 	protected void printBodyRow(Sample sample, PrintWriter writer) throws IOException {

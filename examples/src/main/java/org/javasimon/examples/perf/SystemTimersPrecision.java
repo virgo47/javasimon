@@ -29,8 +29,8 @@ public final class SystemTimersPrecision {
 	 */
 	public static void main(String[] args) {
 		for (int round = 1; round <= 5; round++) {
-			Map<Long, Integer> deltaMsCount = new TreeMap<Long, Integer>();
-			Map<Long, Integer> deltaNsCount = new TreeMap<Long, Integer>();
+			Map<Long, Integer> deltaMsCount = new TreeMap<>();
+			Map<Long, Integer> deltaNsCount = new TreeMap<>();
 			System.out.println("\nRound: " + round);
 			long msChanges = 0;
 			long nsChanges = 0;

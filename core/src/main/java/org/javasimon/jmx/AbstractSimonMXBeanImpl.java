@@ -29,7 +29,7 @@ public abstract class AbstractSimonMXBeanImpl implements SimonSuperMXBean {
 
 	@Override
 	public final List<String> getChildrenNames() {
-		List<String> names = new ArrayList<String>();
+		List<String> names = new ArrayList<>();
 		for (Simon child : simon().getChildren()) {
 			names.add(child.getName());
 		}
@@ -49,12 +49,6 @@ public abstract class AbstractSimonMXBeanImpl implements SimonSuperMXBean {
 	@Override
 	public final boolean isEnabled() {
 		return simon().isEnabled();
-	}
-
-	@Override
-	@Deprecated
-	public final void reset() {
-		simon().reset();
 	}
 
 	@Override

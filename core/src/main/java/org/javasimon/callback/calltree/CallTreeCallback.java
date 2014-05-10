@@ -32,7 +32,7 @@ import org.javasimon.callback.logging.SplitThresholdLogTemplate;
 public class CallTreeCallback extends CallbackSkeleton {
 
 	/** Call tree of current thread. */
-	private final ThreadLocal<CallTree> threadCallTree = new ThreadLocal<CallTree>();
+	private final ThreadLocal<CallTree> threadCallTree = new ThreadLocal<>();
 
 	/** Log template used for printing call tree. */
 	private LogTemplate<Split> callTreeLogTemplate;

@@ -19,24 +19,11 @@ final class UnknownSimon extends AbstractSimon {
 	}
 
 	@Override
-	@Deprecated
-	void concreteReset() {
-		// nothing to do
-	}
-
-	@Override
 	public synchronized Sample sample() {
 		UnknownSample sample = new UnknownSample();
 		sampleCommon(sample);
 		return sample;
 
-	}
-
-	@Override
-	@Deprecated
-	public synchronized Sample sampleAndReset() {
-		// reset is not needed
-		return sample();
 	}
 
 	@Override

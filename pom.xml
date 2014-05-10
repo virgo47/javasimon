@@ -9,7 +9,7 @@
 	<name>Java Simon</name>
 	<description>Java Simon - simple monitoring library</description>
 	<url>http://code.google.com/p/javasimon/</url>
-	<version>3.5.1-SNAPSHOT</version>
+	<version>4.0.0-SNAPSHOT</version>
 
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
@@ -19,7 +19,7 @@
 
 	<modules>
 		<module>core</module>
-		<module>jdbc4</module>
+		<module>jdbc41</module>
 		<module>javaee</module>
 		<module>spring</module>
 		<module>console-embed</module>
@@ -29,6 +29,9 @@
 	</modules>
 
 	<properties>
+		<maven.compiler.source>1.7</maven.compiler.source>
+		<maven.compiler.target>1.7</maven.compiler.target>
+
 		<version.javaee-api>6.0</version.javaee-api>
 		<version.spring>3.2.0.RELEASE</version.spring>
 		<version.testng>6.5.2</version.testng>

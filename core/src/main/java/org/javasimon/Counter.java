@@ -132,9 +132,5 @@ public interface Counter extends Simon {
 	@Override
 	CounterSample sample();
 
-	@Override
-	@Deprecated
-	CounterSample sampleAndReset();
-
 	CounterSample sampleIncrement(Object key);
 }

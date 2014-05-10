@@ -30,7 +30,7 @@ public class LastSplits implements LogMessageSource<Split> {
 	 * @param capacity Buffer size
 	 */
 	public LastSplits(int capacity) {
-		this.splits = new CircularList<Split>(capacity);
+		this.splits = new CircularList<>(capacity);
 	}
 
 	/**

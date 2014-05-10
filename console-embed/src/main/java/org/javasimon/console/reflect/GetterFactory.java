@@ -18,7 +18,7 @@ import java.util.Properties;
  * @author gquintana
  */
 public class GetterFactory {
-	private static final Map<Class, Map<String, Getter>> GETTER_CACHE = new HashMap<Class, Map<String, Getter>>();
+	private static final Map<Class, Map<String, Getter>> GETTER_CACHE = new HashMap<>();
 
 	/** Test whether method is a getter. */
 	private static boolean isGetterMethod(Method method) {
@@ -88,7 +88,7 @@ public class GetterFactory {
 	private static Map<String, Getter> getGettersAsMap(Class type) {
 		Map<String, Getter> typeGetters = GETTER_CACHE.get(type);
 		if (typeGetters == null) {
-			typeGetters = new HashMap<String, Getter>();
+			typeGetters = new HashMap<>();
 			for (Method method : type.getMethods()) {
 				if (isGetterMethod(method)) {
 					String propertyName = getPropertyName(method);

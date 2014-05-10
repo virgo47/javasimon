@@ -45,54 +45,6 @@ public final class StopwatchTest extends SimonUnitTest {
 		assertStopwatchAndSampleAreEqual(stopwatch);
 	}
 
-	// remove in 4.0
-	@Test
-	@Deprecated
-	public void resetTest() throws Exception {
-		// with raw current millis this test is unstable - this is not a problem in real-life situations though
-		// point is to check that timestamps are set, not that they are set off by 1 ms or so
-		TestClock testClock = new TestClock();
-		testClock.setMillisNanosFollow(1000);
-		long ts = testClock.milliTime();
-		Stopwatch stopwatch = SimonManager.getStopwatch(null);
-		stopwatch.reset();
-		stopwatch.addSplit(Split.create(100));
-		Assert.assertEquals(stopwatch.getTotal(), 100);
-		Assert.assertEquals(stopwatch.getMax(), 100);
-		Assert.assertEquals(stopwatch.getMin(), 100);
-		long maxTimestamp = stopwatch.getMaxTimestamp();
-		Assert.assertTrue(maxTimestamp >= ts, "maxTimestamp=" + maxTimestamp + ", ts=" + ts);
-		Assert.assertEquals(stopwatch.getMinTimestamp(), maxTimestamp);
-		Assert.assertEquals(stopwatch.getLastUsage(), maxTimestamp);
-		Assert.assertEquals(stopwatch.getFirstUsage(), maxTimestamp);
-		Assert.assertEquals(stopwatch.getCounter(), 1);
-		StopwatchSample sample = stopwatch.sample();
-		Assert.assertEquals(sample.getName(), stopwatch.getName());
-		Assert.assertEquals(sample.getCounter(), 1);
-		Assert.assertEquals(sample.getTotal(), 100);
-		Assert.assertEquals(sample.getMean(), 100d);
-		Assert.assertEquals(sample.getStandardDeviation(), 0d);
-		Assert.assertEquals(sample.getVariance(), 0d);
-		Assert.assertEquals(sample.getVarianceN(), 0d);
-
-		stopwatch.reset();
-		Assert.assertEquals(stopwatch.getTotal(), 0);
-		Assert.assertEquals(stopwatch.getMax(), 0);
-		Assert.assertEquals(stopwatch.getMin(), Long.MAX_VALUE);
-		Assert.assertEquals(stopwatch.getMaxTimestamp(), 0);
-		Assert.assertEquals(stopwatch.getMinTimestamp(), 0);
-		Assert.assertTrue(stopwatch.getLastUsage() >= ts); // usages are NOT clear!
-		Assert.assertTrue(stopwatch.getFirstUsage() >= ts);
-		Assert.assertEquals(stopwatch.getCounter(), 0);
-		sample = stopwatch.sample();
-		Assert.assertEquals(sample.getCounter(), 0);
-		Assert.assertEquals(sample.getTotal(), 0);
-		Assert.assertEquals(sample.getMean(), 0d);
-		Assert.assertEquals(sample.getStandardDeviation(), Double.NaN);
-		Assert.assertEquals(sample.getVariance(), Double.NaN);
-		Assert.assertEquals(sample.getVarianceN(), Double.NaN);
-	}
-
 	@Test
 	public void disableEnableInsideSplit() throws Exception {
 		Stopwatch stopwatch = SimonManager.getStopwatch(null);

@@ -26,7 +26,7 @@ public class LogTemplates {
 	 * @return Logger
 	 */
 	public static <C> LogTemplate<C> everyNSplits(LogTemplate<C> delegateLogger, int period) {
-		return new CounterLogTemplate<C>(delegateLogger, period);
+		return new CounterLogTemplate<>(delegateLogger, period);
 	}
 
 	/**
@@ -37,7 +37,7 @@ public class LogTemplates {
 	 * @return Logger
 	 */
 	public static <C> LogTemplate<C> everyNMilliseconds(LogTemplate<C> delegateLogger, long period) {
-		return new PeriodicLogTemplate<C>(delegateLogger, period);
+		return new PeriodicLogTemplate<>(delegateLogger, period);
 	}
 
 	/**
@@ -49,7 +49,7 @@ public class LogTemplates {
 	 * @return Logger
 	 */
 	static <C> LogTemplate<C> everyNMilliseconds(LogTemplate<C> delegateLogger, long period, Clock clock) {
-		return new PeriodicLogTemplate<C>(delegateLogger, period, clock);
+		return new PeriodicLogTemplate<>(delegateLogger, period, clock);
 	}
 
 	/**
@@ -74,11 +74,11 @@ public class LogTemplates {
 	public static <C> SLF4JLogTemplate<C> toSLF4J(String loggerName, String levelName, String markerName) {
 		levelName = levelName.toLowerCase();
 		if ("debug".equals(levelName)) {
-			return new SLF4JLogTemplate.Debug<C>(loggerName, markerName);
+			return new SLF4JLogTemplate.Debug<>(loggerName, markerName);
 		} else if ("info".equals(levelName)) {
-			return new SLF4JLogTemplate.Info<C>(loggerName, markerName);
+			return new SLF4JLogTemplate.Info<>(loggerName, markerName);
 		} else if ("warn".equals(levelName)) {
-			return new SLF4JLogTemplate.Warn<C>(loggerName, markerName);
+			return new SLF4JLogTemplate.Warn<>(loggerName, markerName);
 		} else {
 			throw new IllegalArgumentException("Invalid level name " + levelName);
 		}
@@ -103,7 +103,7 @@ public class LogTemplates {
 	 * @return Logger
 	 */
 	public static <C> JULLogTemplate<C> toJUL(String loggerName, Level level) {
-		return new JULLogTemplate<C>(loggerName, level);
+		return new JULLogTemplate<>(loggerName, level);
 	}
 
 	/**

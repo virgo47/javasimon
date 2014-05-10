@@ -72,28 +72,6 @@ public interface Simon extends HasAttributes {
 	boolean isEnabled();
 
 	/**
-	 * Resets the Simon values related to the measuring, timestamps and so on - usage timestamps, state,
-	 * attributes are not affected. Timestamp of the last reset can be obtained by the method {@link #getLastReset()}.
-	 * Reset is performed even for disabled Simons.
-	 *
-	 * @deprecated will be removed in 4.0 - use {@link #sampleIncrement(Object)} for similar purposes
-	 */
-	@Deprecated
-	void reset();
-
-	/**
-	 * Returns ms timestamp of the last recent usage of the {@link #reset()} method on the Simon.
-	 * Returns 0 if {@code reset} was not called yet. This timestamp is useful for rate measuring
-	 * when reset is called on a regular basis - likely via {@link #sampleAndReset()}. While
-	 * client code could store the timestamp too it is not necessary with this method.
-	 *
-	 * @return ms timestamp of the last reset or 0 if reset was not called yet
-	 * @deprecated will be removed in 4.0
-	 */
-	@Deprecated
-	long getLastReset();
-
-	/**
 	 * Returns note for the Simon. Note enables Simon with an additional information in human
 	 * readable form.
 	 *
@@ -133,16 +111,6 @@ public interface Simon extends HasAttributes {
 	 * @return sample containing all Simon values
 	 */
 	Sample sample();
-
-	/**
-	 * Samples Simon values and returns them in a Java Bean derived from Sample interface
-	 * and resets the Simon. Operation is synchronized to assure atomicity.
-	 *
-	 * @return sample containing all Simon values
-	 * @deprecated will be removed in 4.0 - use {@link #sampleIncrement(Object)} instead
-	 */
-	@Deprecated
-	Sample sampleAndReset();
 
 	/**
 	 * Samples increment in Simon values since the previous call of this method with the

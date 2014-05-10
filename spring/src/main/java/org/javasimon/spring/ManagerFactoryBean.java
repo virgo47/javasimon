@@ -44,7 +44,7 @@ public class ManagerFactoryBean implements FactoryBean<Manager> {
 	/**
 	 * List of callbacks to add to the manager
 	 */
-	private List<Callback> callbacks = new ArrayList<Callback>();
+	private List<Callback> callbacks = new ArrayList<>();
 	/**
 	 * Flag indicated whether Simon manager should enabled or not.
 	 * Defaults to true.

@@ -15,7 +15,7 @@ import java.util.Map;
 public class SimonTypeFactory {
 
 	/** Cache Class (either Simon or Sample descendants) &rarr; Simon Type. */
-	private static final Map<Class, SimonType> SIMON_TYPE_CACHE = new HashMap<Class, SimonType>();
+	private static final Map<Class, SimonType> SIMON_TYPE_CACHE = new HashMap<>();
 
 	/** Interface of function to check if Simon type matches Simon or Simon Sample class. */
 	private static interface SimonTypeMatcher<T> {

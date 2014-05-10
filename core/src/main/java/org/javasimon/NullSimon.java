@@ -62,16 +62,6 @@ class NullSimon implements Simon {
 	}
 
 	@Override
-	public void reset() {
-		// nothing to do
-	}
-
-	@Override
-	public long getLastReset() {
-		return 0;
-	}
-
-	@Override
 	public long getFirstUsage() {
 		return 0;
 	}
@@ -102,11 +92,6 @@ class NullSimon implements Simon {
 
 	@Override
 	public Sample sample() {
-		return null;
-	}
-
-	@Override
-	public Sample sampleAndReset() {
 		return null;
 	}
 
@@ -318,11 +303,6 @@ final class NullStopwatch extends NullSimon implements Stopwatch {
 	}
 
 	@Override
-	public StopwatchSample sampleAndReset() {
-		return null;
-	}
-
-	@Override
 	public StopwatchSample sampleIncrement(Object key) {
 		return null;
 	}
@@ -407,11 +387,6 @@ final class NullCounter extends NullSimon implements Counter {
 
 	@Override
 	public CounterSample sample() {
-		return null;
-	}
-
-	@Override
-	public CounterSample sampleAndReset() {
 		return null;
 	}
 

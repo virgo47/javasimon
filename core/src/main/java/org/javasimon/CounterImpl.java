@@ -215,26 +215,6 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	}
 
 	@Override
-	@Deprecated
-	void concreteReset() {
-		counter = 0;
-		max = Long.MIN_VALUE;
-		maxTimestamp = 0;
-		min = Long.MAX_VALUE;
-		minTimestamp = 0;
-		incrementSum = 0;
-		decrementSum = 0;
-	}
-
-	@Override
-	@Deprecated
-	public synchronized CounterSample sampleAndReset() {
-		CounterSample sample = sample();
-		reset();
-		return sample;
-	}
-
-	@Override
 	public synchronized CounterSample sample() {
 		CounterSample sample = new CounterSample();
 		sample.setCounter(counter);

@@ -23,7 +23,7 @@ public final class EnabledManager implements Manager {
 
 	private UnknownSimon rootSimon;
 
-	private final Map<String, AbstractSimon> allSimons = new ConcurrentHashMap<String, AbstractSimon>();
+	private final Map<String, AbstractSimon> allSimons = new ConcurrentHashMap<>();
 
 	private final CompositeCallback callback = new CompositeCallbackImpl();
 
@@ -97,7 +97,7 @@ public final class EnabledManager implements Manager {
 		if (simonFilter == null) {
 			return Collections.unmodifiableCollection((Collection) allSimons.values());
 		}
-		Collection<Simon> simons = new ArrayList<Simon>();
+		Collection<Simon> simons = new ArrayList<>();
 		for (AbstractSimon simon : allSimons.values()) {
 			if (simonFilter.accept(simon)) {
 				simons.add(simon);

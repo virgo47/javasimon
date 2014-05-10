@@ -36,7 +36,7 @@ public class ToDoControllerTest {
 
     @Test
     public void getAll() {
-        List<ToDoItem> items = new ArrayList<ToDoItem>();
+        List<ToDoItem> items = new ArrayList<>();
         ToDoItem item = new ToDoItem();
         item.setDone(false);
         item.setDescription("Item description");

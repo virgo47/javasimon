@@ -137,7 +137,7 @@ public final class ManagerTest extends SimonUnitTest {
 		stopwatch.start().stop();
 		Assert.assertNotNull(((AbstractSimon) stopwatch).manager);
 
-		final Queue<String> messages = new LinkedList<String>();
+		final Queue<String> messages = new LinkedList<>();
 		SimonManager.callback().removeAllCallbacks();
 		SimonManager.callback().addCallback(new CallbackSkeleton() {
 			public void onStopwatchStart(Split split) {
@@ -171,7 +171,7 @@ public final class ManagerTest extends SimonUnitTest {
 
 	@Test
 	public void failedInitialization() {
-		final Queue<String> messages = new LinkedList<String>();
+		final Queue<String> messages = new LinkedList<>();
 		SimonManager.callback().removeAllCallbacks();
 		SimonManager.callback().addCallback(new CallbackSkeleton() {
 			public void onManagerWarning(String warning, Exception cause) {

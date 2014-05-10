@@ -61,7 +61,7 @@ public class TreeJsonActionTest {
 		String json = context.toString();
 		// Test JSON format with an external library
 		JSONTokener jsonTokener = new JSONTokener(json);
-		Set<String> names = new HashSet<String>();
+		Set<String> names = new HashSet<>();
 		names.add("A");
 		names.add("B");
 		names.add("C");

@@ -26,14 +26,6 @@ $(document).ready(function() {
 	$('#refreshButton')
 		.button({label:"Refresh",icons: {primary: "ui-icon-search"}})
 		.click(function() {document.oDataTreeTable.fnReloadAjax(); return false; });
-	$('#resetAllButton')
-		.button({label:"Reset All", icons: {primary: "ui-icon-trash"}})
-		.click(function() {
-			javasimon.ResetService.fnResetAll({}, function() {
-				document.oDataTreeTable.fnReloadAjax();
-			});
-			return false;
-		});
 	$('#clearAllButton')
 		.button({label:"Clear All", icons: {primary: "ui-icon-circle-minus"}})
 		.click(function() {
@@ -151,7 +143,6 @@ $(document).ready(function() {
 					</table>
 				    <div class="filterButtons fg-toolbar ui-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-corner-bl ui-corner-br ui-helper-clearfix">
 					    <button id="refreshButton" name="refreshButton">Refresh</button>
-					    <button id="resetAllButton" name="resetAllButton">Reset All</button>
 					    <button id="clearAllButton" name="clearAllButton">Clear All</button>
 					    <span id="exportSpan">Export:</span>
 					    <button id="xmlButton" name="xmlButton">XML</button>					   
