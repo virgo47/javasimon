@@ -186,9 +186,12 @@ public class SimonServletFilter implements Filter {
 	}
 
 	private void setStopwatchSourceProperties(FilterConfig filterConfig, StopwatchSource<HttpServletRequest> stopwatchSource) {
-		registerEnumConverter();
-
 		String properties = filterConfig.getInitParameter(INIT_PARAM_STOPWATCH_SOURCE_PROPS);
+		if (properties == null) {
+			return;
+		}
+
+		registerEnumConverter();
 		for (String keyValStr : properties.split(";")) {
 			String[] keyVal = keyValStr.split("=");
 			String key = keyVal[0];
