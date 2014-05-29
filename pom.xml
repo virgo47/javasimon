@@ -29,6 +29,9 @@
 	</modules>
 
 	<properties>
+		<maven.compiler.source>1.6</maven.compiler.source>
+		<maven.compiler.target>1.6</maven.compiler.target>
+
 		<version.javaee-api>6.0</version.javaee-api>
 		<version.spring>3.2.0.RELEASE</version.spring>
 		<version.testng>6.5.2</version.testng>
