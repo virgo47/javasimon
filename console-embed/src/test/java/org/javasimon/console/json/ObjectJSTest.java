@@ -54,7 +54,7 @@ public class ObjectJSTest {
 	public void testWrite() {
 		Foo foo = new Foo(123L, "Hello");
 		ObjectJS fooJS = ObjectJS.create(foo, stringifierFactory);
-		String json = fooJS.toString();
-		assertEquals(json, "{\"baz\":\"Hello\",\"bar\":123}");
+		assertEquals(fooJS.getAttribute("baz").toString(), "\"Hello\"");
+		assertEquals(Integer.parseInt(fooJS.getAttribute("bar").toString()), 123);
 	}
 }
