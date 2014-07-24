@@ -9,7 +9,7 @@ import org.javasimon.utils.BenchmarkUtils;
 import org.javasimon.utils.GoogleChartImageGenerator;
 
 /**
- * Various timer calles compared along with stopwatch start/stop calls.
+ * Various timer calls compared along with stopwatch start/stop calls.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
@@ -33,6 +33,7 @@ public final class NanoMillisComparison {
 			new BenchmarkUtils.Task("empty") {
 				@Override
 				public void perform() throws Exception {
+					//noinspection StatementWithEmptyBody
 					for (int i = 0; i < LOOP; i++) {
 					}
 				}

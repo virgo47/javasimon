@@ -1,10 +1,10 @@
 package org.javasimon;
 
-import org.javasimon.clock.Clock;
-import org.javasimon.utils.SimonUtils;
-
 import java.util.Iterator;
 import java.util.Map;
+
+import org.javasimon.clock.Clock;
+import org.javasimon.utils.SimonUtils;
 
 /**
  * Represents single time split - one Stopwatch measurement. Object is obtained by {@link org.javasimon.Stopwatch#start()}
@@ -16,11 +16,13 @@ import java.util.Map;
  * <p/>
  * Split can never be running ({@link #isRunning()}) if it is disabled. Enabled split is running until it is stopped.
  * Stopped split (not running) will never again be running. Split never changes enabled flag after creation.
+ * <p/>
+ * Split implements {@link java.lang.AutoCloseable} hence it can be used in try-with-resource construction.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @see Stopwatch
  */
-public final class Split implements HasAttributes {
+public final class Split implements HasAttributes, AutoCloseable {
 
 	/** Disabled split (implies not running) for cases where monitoring is disabled and {@code null} value is not an option. */
 	public static final Split DISABLED = new Split();
@@ -109,8 +111,8 @@ public final class Split implements HasAttributes {
 	 * Creates a new Split for direct use without {@link Stopwatch} ("anonymous split") based on system time.
 	 * Equivalent of {@code Split.start(Clock.SYSTEM)}.
 	 *
-	 * @since 3.4
 	 * @see #start(Clock)
+	 * @since 3.4
 	 */
 	public static Split start() {
 		return start(Clock.SYSTEM);
@@ -137,8 +139,8 @@ public final class Split implements HasAttributes {
 	 *
 	 * @param nanos Split's total time in nanos
 	 * @return created Split
-	 * @since 3.5
 	 * @see #create(long, Clock)
+	 * @since 3.5
 	 */
 	public static Split create(long nanos) {
 		return create(nanos, Clock.SYSTEM);
@@ -324,6 +326,16 @@ public final class Split implements HasAttributes {
 	@Override
 	public Map<String, Object> getCopyAsSortedMap() {
 		return attributesSupport.getCopyAsSortedMap();
+	}
+
+	/**
+	 * Allows to use Split as a resource in try-with-resource construct. Calls {@link #stop()} internally.
+	 *
+	 * @since 4.0
+	 */
+	@Override
+	public void close() {
+		stop();
 	}
 
 	/**

@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Random;
+
 import javax.management.JMException;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
@@ -105,10 +106,10 @@ public class MonitoredApplication {
 			}
 			SimonManagerMXBeanImpl simon = new SimonManagerMXBeanImpl(SimonManager.manager());
 			mbs.registerMBean(simon, name);
-			System.out.println("SimonManagerMXBean registerd under name: "+name);
+			System.out.println("SimonManagerMXBean registerd under name: " + name);
 			return simon;
 		} catch (JMException e) {
-			System.out.println("SimonManagerMXBean registration failed!\n"+e);
+			System.out.println("SimonManagerMXBean registration failed!\n" + e);
 		}
 		return null;
 	}
@@ -122,7 +123,7 @@ public class MonitoredApplication {
 			}
 			System.out.println("SimonManagerMXBean was unregisterd");
 		} catch (JMException e) {
-			System.out.println("SimonManagerMXBean unregistration failed!\n"+e);
+			System.out.println("SimonManagerMXBean unregistration failed!\n" + e);
 		}
 	}
 
@@ -141,27 +142,28 @@ public class MonitoredApplication {
 	 * @throws Exception sometimes bad things can happen
 	 */
 	public static void main(String[] args) throws Exception {
-		Split main = SimonManager.getStopwatch("org.javasimon.examples.jmx.main").start();
-		Class.forName("org.h2.Driver");
-		Class.forName("org.javasimon.jdbc4.Driver");
+		try (Split ignored = SimonManager.getStopwatch("org.javasimon.examples.jmx.main").start()) {
+			Class.forName("org.h2.Driver");
+			Class.forName("org.javasimon.jdbc4.Driver");
 
-		MonitoredApplication s = new MonitoredApplication();
-		s.setUp();
+			MonitoredApplication s = new MonitoredApplication();
+			s.setUp();
 
-		Connection conn = null;
-		try {
-			conn = DriverManager.getConnection("jdbc:simon:h2:mem:db1");
+			Connection conn = null;
+			try {
+				conn = DriverManager.getConnection("jdbc:simon:h2:mem:db1");
 
-			Split ops = SimonManager.getStopwatch("org.javasimon.examples.jmx.sql").start();
-			s.doInsert(conn);
-			s.doSelect(conn);
-			ops.stop();
-		} finally {
-			if (conn != null) {
-				conn.close();
+				//noinspection UnusedDeclaration
+				try (Split ops = SimonManager.getStopwatch("org.javasimon.examples.jmx.sql").start()) {
+					s.doInsert(conn);
+					s.doSelect(conn);
+				}
+			} finally {
+				if (conn != null) {
+					conn.close();
+				}
 			}
 		}
-		main.stop();
 
 		System.out.println("Simon monitor hierarchy:\n" + SimonUtils.simonTreeString(SimonManager.getRootSimon()));
 

@@ -1,14 +1,14 @@
 package org.javasimon.examples;
 
+import java.util.List;
+import java.util.Random;
+
 import org.javasimon.Manager;
 import org.javasimon.Simon;
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
 import org.javasimon.utils.SimonUtils;
-
-import java.util.List;
-import java.util.Random;
 
 /**
  * Example shows how to aggregate results from multiple Stopwatch. Before version 3.5 one has to work around it,
@@ -33,9 +33,9 @@ public final class AggregationExample {
 	public static void main(String[] args) {
 		System.out.println("Wait for it... (~10s or more)");
 		for (int i = 0; i < ITERATIONS; i++) {
-			Split split = SimonManager.getStopwatch(STOPWATCH_PARENT + Manager.HIERARCHY_DELIMITER + random.nextInt(STOPWATCH_COUNT)).start();
-			ExampleUtils.waitRandomlySquared(20);
-			split.stop();
+			try (Split ignored = SimonManager.getStopwatch(STOPWATCH_PARENT + Manager.HIERARCHY_DELIMITER + random.nextInt(STOPWATCH_COUNT)).start()) {
+				ExampleUtils.waitRandomlySquared(20);
+			}
 		}
 		// this is "null" Simon, but you don't care - just take all the children and do the stuff you want
 		Simon parent = SimonManager.getSimon(STOPWATCH_PARENT);

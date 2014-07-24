@@ -75,11 +75,11 @@ public class MultithreadedTester extends Thread {
 		public void run() {
 			for (int i = 0; i < loop; i++) {
 				Stopwatch stopwatch = SimonManager.getStopwatch(NAME);
-				Split split = stopwatch.start();
-				StopwatchSample sample = stopwatch.sample();
-				//noinspection ResultOfMethodCallIgnored
-				sample.toString();
-				split.stop();
+				try (Split ignored = stopwatch.start()) {
+					StopwatchSample sample = stopwatch.sample();
+					//noinspection ResultOfMethodCallIgnored
+					sample.toString();
+				}
 			}
 			// signal to latch that the thread is finished
 			latch.countDown();

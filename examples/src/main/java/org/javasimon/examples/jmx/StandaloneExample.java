@@ -1,6 +1,7 @@
 package org.javasimon.examples.jmx;
 
 import java.lang.management.ManagementFactory;
+
 import javax.management.JMException;
 import javax.management.JMX;
 import javax.management.MBeanServer;
@@ -37,10 +38,10 @@ public class StandaloneExample {
 			}
 			SimonManagerMXBean simonManagerMXBean = new SimonManagerMXBeanImpl(SimonManager.manager());
 			mbs.registerMBean(simonManagerMXBean, name);
-			System.out.println("SimonManagerMXBean registerd under name: "+name);
+			System.out.println("SimonManagerMXBean registerd under name: " + name);
 			return simonManagerMXBean;
 		} catch (JMException e) {
-			System.out.println("SimonManagerMXBean registration failed!\n"+e);
+			System.out.println("SimonManagerMXBean registration failed!\n" + e);
 		}
 		return null;
 	}
@@ -58,7 +59,7 @@ public class StandaloneExample {
 			}
 			System.out.println("SimonManagerMXBean was unregisterd");
 		} catch (JMException e) {
-			System.out.println("SimonManagerMXBean unregistration failed!\n"+e);
+			System.out.println("SimonManagerMXBean unregistration failed!\n" + e);
 		}
 	}
 
@@ -74,9 +75,9 @@ public class StandaloneExample {
 		Counter counter = SimonManager.getCounter("org.javasimon.jmx.example2");
 
 		// Do little measurement for stopwatch Simon ...
-		Split s = stopwatch.start();
-		try { Thread.sleep(632); } catch (InterruptedException e) { /* do nothing */ }
-		s.stop();
+		try (Split ignored = stopwatch.start()) {
+			Thread.sleep(632);
+		} catch (InterruptedException e) { /* do nothing */ }
 
 		// ... and few usage of counter Simon.
 		counter.increase(52);
@@ -97,11 +98,11 @@ public class StandaloneExample {
 		SimonManagerMXBean simonManagerMXBean = JMX.newMXBeanProxy(ManagementFactory.getPlatformMBeanServer(),
 			new ObjectName("org.javasimon.jmx.example:type=Simon"), SimonManagerMXBean.class);
 
-		// Now, we can freely retrieve smples for counter and stopwatch example Simons
+		// Now, we can freely retrieve samples for counter and stopwatch example Simons
 		System.out.println("counter = " + simonManagerMXBean.getCounterSample("org.javasimon.jmx.example2"));
 		System.out.println("stopwatch = " + simonManagerMXBean.getStopwatchSample("org.javasimon.jmx.example1"));
 
-		// Aftera all, it's good manner to clean up, so we unregister MXBean
+		// After all, it's good manner to clean up, so we unregister MXBean
 		unregister();
 	}
 }

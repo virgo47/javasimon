@@ -1,11 +1,11 @@
 package org.javasimon.examples.jmx;
 
+import java.util.Random;
+
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
 import org.javasimon.jmx.JmxReporter;
-
-import java.util.Random;
 
 /**
  * {@link JmxReporter} allows for quick set up of {@link org.javasimon.jmx.SimonManagerMXBean} and
@@ -33,13 +33,11 @@ public class JmxReporterExample {
 		// loop will finish when ExistingStopwatch is set to disabled
 		// go to jconsole/jvisualvm, find MBean for ExistingStopwatch, go to Operations and call setState(DISABLED,true)
 		while (existingStopwatch.isEnabled()) {
-			Split split = stopwatch.start();
-			try {
+			try (Split ignored = stopwatch.start()) {
 				Thread.sleep(random.nextInt(1000));
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			split.stop();
 		}
 
 		reporter.stop();

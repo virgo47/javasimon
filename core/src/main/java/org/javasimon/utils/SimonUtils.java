@@ -1,13 +1,5 @@
 package org.javasimon.utils;
 
-import org.javasimon.Counter;
-import org.javasimon.Manager;
-import org.javasimon.Simon;
-import org.javasimon.SimonFilter;
-import org.javasimon.SimonManager;
-import org.javasimon.Split;
-import org.javasimon.Stopwatch;
-
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
@@ -15,6 +7,14 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.Callable;
 import java.util.regex.Pattern;
+
+import org.javasimon.Counter;
+import org.javasimon.Manager;
+import org.javasimon.Simon;
+import org.javasimon.SimonFilter;
+import org.javasimon.SimonManager;
+import org.javasimon.Split;
+import org.javasimon.Stopwatch;
 
 /**
  * SimonUtils provides static utility methods.
@@ -336,11 +336,8 @@ public final class SimonUtils {
 	 * @since 3.0
 	 */
 	public static <T> T doWithStopwatch(String name, Callable<T> callable) throws Exception {
-		Split split = SimonManager.getStopwatch(name).start();
-		try {
+		try (Split split = SimonManager.getStopwatch(name).start()) {
 			return callable.call();
-		} finally {
-			split.stop();
 		}
 	}
 
@@ -353,11 +350,8 @@ public final class SimonUtils {
 	 * @since 3.0
 	 */
 	public static void doWithStopwatch(String name, Runnable runnable) {
-		Split split = SimonManager.getStopwatch(name).start();
-		try {
+		try (Split split = SimonManager.getStopwatch(name).start()) {
 			runnable.run();
-		} finally {
-			split.stop();
 		}
 	}
 

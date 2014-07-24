@@ -69,11 +69,8 @@ public final class SimonResultSet implements ResultSet {
 	 */
 	@Override
 	public boolean next() throws SQLException {
-		Split s = SimonManager.getStopwatch(stmtPrefix + ".next").start();
-		try {
+		try (Split ignored = SimonManager.getStopwatch(stmtPrefix + ".next").start()) {
 			return rset.next();
-		} finally {
-			s.stop();
 		}
 	}
 
@@ -974,17 +971,17 @@ public final class SimonResultSet implements ResultSet {
 		rset.updateNClob(columnLabel, reader);
 	}
 
-    @Override
-    public <T> T getObject(int columnIndex, Class<T> type) throws SQLException {
-        return rset.getObject(columnIndex, type);
-    }
+	@Override
+	public <T> T getObject(int columnIndex, Class<T> type) throws SQLException {
+		return rset.getObject(columnIndex, type);
+	}
 
-    @Override
-    public <T> T getObject(String columnLabel, Class<T> type) throws SQLException {
-        return rset.getObject(columnLabel, type);
-    }
+	@Override
+	public <T> T getObject(String columnLabel, Class<T> type) throws SQLException {
+		return rset.getObject(columnLabel, type);
+	}
 
-    @Override
+	@Override
 	public <T> T unwrap(Class<T> iface) throws SQLException {
 		return wrapperSupport.unwrap(iface);
 	}

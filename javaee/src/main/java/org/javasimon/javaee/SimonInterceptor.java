@@ -63,11 +63,8 @@ public class SimonInterceptor {
 	public Object monitor(InvocationContext context) throws Exception {
 		if (isMonitored(context)) {
 			String simonName = getSimonName(context);
-			Split split = SimonManager.getStopwatch(simonName).start();
-			try {
+			try (Split ignored = SimonManager.getStopwatch(simonName).start()) {
 				return context.proceed();
-			} finally {
-				split.stop();
 			}
 		} else {
 			return context.proceed();

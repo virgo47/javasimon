@@ -32,6 +32,11 @@ public final class HelloWorld {
 		System.out.println("Hello world, " + stopwatch);
 		split.stop();
 
+		// or this way using try-with-resource construction
+		try (Split ignored = stopwatch.start()){
+			System.out.println("Hello world (try-with-resource), " + stopwatch);
+		}
+
 		System.out.println("Result: " + stopwatch);
 	}
 }

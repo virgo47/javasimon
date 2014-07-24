@@ -16,9 +16,9 @@ public final class LoopingRandomMethod {
 	public static void main(String[] args) {
 		Stopwatch stopwatch = SimonManager.getStopwatch("stopwatch");
 		for (int i = 1; i <= 10; i++) {
-			Split split = SimonManager.getStopwatch("stopwatch").start();
-			ExampleUtils.waitRandomlySquared(50);
-			split.stop();
+			try (Split ignored = SimonManager.getStopwatch("stopwatch").start()) {
+				ExampleUtils.waitRandomlySquared(50);
+			}
 			System.out.println("Stopwatch after round " + i + ": " + stopwatch);
 		}
 		System.out.println("stopwatch.sample() = " + stopwatch.sample());
