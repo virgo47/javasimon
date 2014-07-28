@@ -1,6 +1,6 @@
 package org.javasimon;
 
-import org.javasimon.clock.Clock;
+import org.javasimon.clock.SimonClock;
 import org.javasimon.utils.SimonUtils;
 
 import java.util.Iterator;
@@ -10,7 +10,7 @@ import java.util.Map;
  * Represents single time split - one Stopwatch measurement. Object is obtained by {@link org.javasimon.Stopwatch#start()}
  * and the measurement is ended using {@link #stop()} method on this object. Split will return 0 as the result
  * if the related Stopwatch was disabled when the Split was obtained. The Split can be stopped in any other thread.
- * Split measures real time (based on {@link org.javasimon.clock.Clock#nanoTime()}), it does not measure CPU time. Split can be garbage collected
+ * Split measures real time (based on {@link SimonClock#nanoTime()}), it does not measure CPU time. Split can be garbage collected
  * and no resource leak occurs if it is not stopped, however Stopwatch's active counter ({@link org.javasimon.Stopwatch#getActive()})
  * will be stay incremented.
  * <p/>
@@ -30,7 +30,7 @@ public final class Split implements HasAttributes {
 
 	private volatile Stopwatch stopwatch;
 	private final boolean enabled;
-	private final Clock clock;
+	private final SimonClock clock;
 	private volatile boolean running;
 
 	private volatile long start;
@@ -43,7 +43,7 @@ public final class Split implements HasAttributes {
 		clock = null;
 	}
 
-	private Split(boolean enabled, Clock clock) {
+	private Split(boolean enabled, SimonClock clock) {
 		this.enabled = enabled;
 		this.clock = clock;
 		start = clock.nanoTime();
@@ -56,7 +56,7 @@ public final class Split implements HasAttributes {
 	 * @param clock Clock for this Split
 	 * @param start start timestamp in nanoseconds
 	 */
-	Split(Stopwatch stopwatch, Clock clock, long start) {
+	Split(Stopwatch stopwatch, SimonClock clock, long start) {
 		assert start > 0 : "start ns value should not be 0 in this constructor!";
 
 		this.stopwatch = stopwatch;
@@ -72,7 +72,7 @@ public final class Split implements HasAttributes {
 	 * @param stopwatch owning Stopwatch (disabled)
 	 * @param clock Clock for this Split
 	 */
-	Split(Stopwatch stopwatch, Clock clock) {
+	Split(Stopwatch stopwatch, SimonClock clock) {
 		assert !(stopwatch.isEnabled()) : "stopwatch must be disabled in this constructor!";
 		this.enabled = false;
 		this.stopwatch = stopwatch;
@@ -80,7 +80,7 @@ public final class Split implements HasAttributes {
 	}
 
 	/**
-	 * Creates a new Split for direct use without {@link Stopwatch} ("anonymous split") based on specified {@link Clock}.
+	 * Creates a new Split for direct use without {@link Stopwatch} ("anonymous split") based on specified {@link SimonClock}.
 	 * Stop will not update any Stopwatch, value can be added to any chosen Stopwatch using
 	 * {@link Stopwatch#addSplit(Split)} - even in conjunction with {@link #stop()} like this:
 	 * <p/>
@@ -99,7 +99,7 @@ public final class Split implements HasAttributes {
 	 * @param clock Clock for this Split
 	 * @since 3.5
 	 */
-	public static Split start(Clock clock) {
+	public static Split start(SimonClock clock) {
 		Split split = new Split(true, clock);
 		split.running = true;
 		return split;
@@ -110,10 +110,10 @@ public final class Split implements HasAttributes {
 	 * Equivalent of {@code Split.start(Clock.SYSTEM)}.
 	 *
 	 * @since 3.4
-	 * @see #start(Clock)
+	 * @see #start(SimonClock)
 	 */
 	public static Split start() {
-		return start(Clock.SYSTEM);
+		return start(SimonClock.SYSTEM);
 	}
 
 	/**
@@ -125,7 +125,7 @@ public final class Split implements HasAttributes {
 	 * @return created Split
 	 * @since 3.5
 	 */
-	public static Split create(long nanos, Clock clock) {
+	public static Split create(long nanos, SimonClock clock) {
 		Split split = new Split(false, clock);
 		split.total = nanos;
 		return split;
@@ -133,15 +133,15 @@ public final class Split implements HasAttributes {
 
 	/**
 	 * Creates simulated non-running Split that took specific time in nanos.
-	 * No callbacks are called for this Split. Start of this Split is based on {@link Clock#SYSTEM}.
+	 * No callbacks are called for this Split. Start of this Split is based on {@link SimonClock#SYSTEM}.
 	 *
 	 * @param nanos Split's total time in nanos
 	 * @return created Split
 	 * @since 3.5
-	 * @see #create(long, Clock)
+	 * @see #create(long, SimonClock)
 	 */
 	public static Split create(long nanos) {
-		return create(nanos, Clock.SYSTEM);
+		return create(nanos, SimonClock.SYSTEM);
 	}
 
 	/**

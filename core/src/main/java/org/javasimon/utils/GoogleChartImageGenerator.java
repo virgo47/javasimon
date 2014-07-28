@@ -1,18 +1,20 @@
 package org.javasimon.utils;
 
-import org.javasimon.StopwatchSample;
-
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
+import org.javasimon.StopwatchSample;
+import org.javasimon.clock.SimonUnit;
+
 /**
  * Produces URLs for Google Chart Image API - column type.
  * http://code.google.com/apis/chart/image/
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
+ * @noinspection UnusedDeclaration
  */
 public final class GoogleChartImageGenerator {
 
@@ -29,11 +31,12 @@ public final class GoogleChartImageGenerator {
 
 	private static final List<Replacer> REPLACERS = new LinkedList<>();
 
+	private static final String DEFAULT_TITLE = "Java Simon chart";
+
 	private static final int TEN_BASE = 10;
 	private StopwatchSample[] samples;
 	private String title;
-	private double divisor;
-	private String unit;
+	private final SimonUnit unit;
 	private boolean showMaxMin;
 
 	private double max = 0;
@@ -45,10 +48,9 @@ public final class GoogleChartImageGenerator {
 		REPLACERS.add(new Replacer("&", "%26"));
 	}
 
-	private GoogleChartImageGenerator(StopwatchSample[] samples, String title, double divisor, String unit, boolean showMaxMin) {
+	private GoogleChartImageGenerator(StopwatchSample[] samples, String title, SimonUnit unit, boolean showMaxMin) {
 		this.samples = samples;
 		this.title = title;
-		this.divisor = divisor;
 		this.unit = unit;
 		this.showMaxMin = showMaxMin;
 	}
@@ -58,14 +60,45 @@ public final class GoogleChartImageGenerator {
 	 *
 	 * @param samples stopwatch samples
 	 * @param title chart title
-	 * @param divisor value divisor. For example: if values are in ns and ms are required,
-	 * divisor should be set to 1000000.
-	 * @param unit unit shown after values under every bar
+	 * @param unit unit requested for displaying results
 	 * @param showMaxMin true if additional datasets for max and min values should be shown
 	 * @return URL generating the bar chart
 	 */
-	public static String barChart(StopwatchSample[] samples, String title, double divisor, String unit, boolean showMaxMin) {
-		return new GoogleChartImageGenerator(samples, title, divisor, unit, showMaxMin).process();
+	public static String barChart(StopwatchSample[] samples, String title, SimonUnit unit, boolean showMaxMin) {
+		return new GoogleChartImageGenerator(samples, title, unit, showMaxMin).process();
+	}
+
+	/**
+	 * Generates Google bar chart URL for the provided samples showing only mean values.
+	 *
+	 * @param samples stopwatch samples
+	 * @param title chart title
+	 * @param unit unit requested for displaying results
+	 * @return URL generating the bar chart
+	 */
+	public static String barChart(StopwatchSample[] samples, String title, SimonUnit unit) {
+		return new GoogleChartImageGenerator(samples, title, unit, false).process();
+	}
+
+	/**
+	 * Generates Google bar chart URL for the provided samples showing mean values in milliseconds.
+	 *
+	 * @param samples stopwatch samples
+	 * @param title chart title
+	 * @return URL generating the bar chart
+	 */
+	public static String barChart(StopwatchSample[] samples, String title) {
+		return new GoogleChartImageGenerator(samples, title, SimonUnit.MILLISECOND, false).process();
+	}
+
+	/**
+	 * Generates Google bar chart URL for the provided samples showing mean values in milliseconds with default title.
+	 *
+	 * @param samples stopwatch samples
+	 * @return URL generating the bar chart
+	 */
+	public static String barChart(StopwatchSample[] samples) {
+		return new GoogleChartImageGenerator(samples, DEFAULT_TITLE, SimonUnit.MILLISECOND, false).process();
 	}
 
 	private String process() {
@@ -125,13 +158,13 @@ public final class GoogleChartImageGenerator {
 	}
 
 	private String addValueToAxis(StringBuilder axis, double value) {
-		value = value / divisor;
+		value = value / unit.getDivisor();
 		if (value > max) {
 			max = value;
 		}
 
 		String formattedValue = NUMBER_FORMAT.format(value);
-		axis.append('|').append(formattedValue).append("+").append(unit);
+		axis.append('|').append(formattedValue).append("+").append(unit.getSymbol());
 		return formattedValue;
 	}
 

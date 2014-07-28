@@ -14,7 +14,7 @@ import java.lang.management.ThreadMXBean;
  *
  * @since 3.5
  */
-final class CpuClock implements Clock {
+final class CpuClock implements SimonClock {
 
 	private final ThreadMXBean threadMXBean;
 
@@ -41,9 +41,9 @@ final class CpuClock implements Clock {
 		return millisForNano(nanoTime());
 	}
 
-	/** Here millis are simply nanos divided by {@link org.javasimon.clock.ClockUtils#NANOS_IN_MILLIS}. */
+	/** Here millis are simply nanos divided by {@link SimonClock#NANOS_IN_MILLIS}. */
 	@Override
 	public long millisForNano(long nanos) {
-		return nanos / ClockUtils.NANOS_IN_MILLIS;
+		return nanos / NANOS_IN_MILLIS;
 	}
 }

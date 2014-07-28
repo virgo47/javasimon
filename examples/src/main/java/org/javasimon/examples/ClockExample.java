@@ -2,11 +2,11 @@ package org.javasimon.examples;
 
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
-import org.javasimon.clock.Clock;
+import org.javasimon.clock.SimonClock;
 
 /**
  * This example shows how different Clock sources for Splits affect the measured values.
- * Using {@link Split} with {@link Clock#CPU} is quick way to measure real CPU time (as real as it is for JVM).
+ * Using {@link Split} with {@link SimonClock#CPU} is quick way to measure real CPU time (as real as it is for JVM).
  * <b>Obviously - one should not stop such a split in different thread than it was started, because
  * it may be based on timers/counters valid for a single thread.</b>
  */
@@ -15,7 +15,7 @@ public class ClockExample {
 	public static void main(String[] args) throws InterruptedException {
 		String stopwatchName = "stopwatch";
 
-		Split cpuSplit = Split.start(Clock.CPU);
+		Split cpuSplit = Split.start(SimonClock.CPU);
 		Split systemSplit = Split.start();
 
 		System.out.println("cpuSplit = " + cpuSplit);

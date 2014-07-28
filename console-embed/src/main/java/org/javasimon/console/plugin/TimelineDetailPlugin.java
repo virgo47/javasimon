@@ -9,7 +9,7 @@ import org.javasimon.callback.timeline.TimeRange;
 import org.javasimon.callback.timeline.Timeline;
 import org.javasimon.callback.timeline.TimelineCallback;
 import org.javasimon.callback.timeline.TimelineSample;
-import org.javasimon.clock.ClockUtils;
+import org.javasimon.clock.SimonClock;
 import org.javasimon.console.ActionContext;
 import org.javasimon.console.SimonCallbacks;
 import org.javasimon.console.action.DetailHtmlBuilder;
@@ -48,6 +48,7 @@ public class TimelineDetailPlugin extends DetailPlugin {
 	public TimelineDetailPlugin() {
 		this("timeline", "Timeline", TimelineCallback.TIMELINE_ATTRIBUTE_NAME);
 	}
+
 	/**
 	 * Indicate that this plugin only applies on Stopwatches.
 	 */
@@ -85,7 +86,7 @@ public class TimelineDetailPlugin extends DetailPlugin {
 					.labelCell("Capacity")
 					.valueCell(htmlStringifierFactory.toString(timelineSample.getCapacity()))
 					.labelCell("Width")
-					.valueCell(htmlStringifierFactory.toString(timelineSample.getWidth()* ClockUtils.NANOS_IN_MILLIS,"Time"))
+					.valueCell(htmlStringifierFactory.toString(timelineSample.getWidth()* SimonClock.NANOS_IN_MILLIS,"Time"))
 					.endRow();
 				htmlBuilder.beginRow().labelCell("Evolution").beginValueCell(" colspan=\"3\"");
 				htmlBuilder.begin("table").begin("thead")
@@ -109,7 +110,7 @@ public class TimelineDetailPlugin extends DetailPlugin {
 							.valueCell(htmlStringifierFactory.toString(sTimeRange.getMax(),"Time"))
 							.valueCell(htmlStringifierFactory.toString(sTimeRange.getStandardDeviation(),"Time"));
 					}
-					htmlBuilder.endRow();				
+					htmlBuilder.endRow();
 				}
 				htmlBuilder.end("tbody").end("table");
 				htmlBuilder.endValueCell().endRow();

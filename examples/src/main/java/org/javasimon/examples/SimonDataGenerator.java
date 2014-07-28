@@ -4,7 +4,7 @@ import org.javasimon.Counter;
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
-import org.javasimon.clock.ClockUtils;
+import org.javasimon.clock.SimonClock;
 
 import java.util.Random;
 import java.util.Timer;
@@ -51,7 +51,7 @@ public class SimonDataGenerator {
 
 	private static void addTime(String name, long sleep) {
 		Stopwatch stopwatch = SimonManager.manager().getStopwatch(name);
-		stopwatch.addSplit(Split.create(sleep * ClockUtils.NANOS_IN_MILLIS));
+		stopwatch.addSplit(Split.create(sleep * SimonClock.NANOS_IN_MILLIS));
 	}
 
 
@@ -138,7 +138,7 @@ public class SimonDataGenerator {
 		} finally {
 			split.stop();
 		}
-		return split.runningFor() / ClockUtils.NANOS_IN_MILLIS;
+		return split.runningFor() / SimonClock.NANOS_IN_MILLIS;
 	}
 
 	/**

@@ -1,14 +1,24 @@
 package org.javasimon.clock;
 
 /**
- * Interface for getting current time. By default {@link Clock#SYSTEM} is used to match System timers,
+ * Interface for getting current time. By default {@link SimonClock#SYSTEM} is used to match System timers,
  * but different implementation can be used to provide different time for {@link org.javasimon.Manager}.
  * This also allows easier testing without sleeping.
  *
  * @author <a href="mailto:ivan.mushketyk@gmail.com">Ivan Mushketyk</a>
  * @since 3.5
+ * @noinspection UnusedDeclaration
  */
-public interface Clock {
+public interface SimonClock {
+
+	/** Number of milliseconds in one second. */
+	long MILLIS_IN_SECOND = 1000;
+
+	/** Number of nanoseconds in one millisecond. */
+	long NANOS_IN_MILLIS = SimonUnit.MILLISECOND.getDivisor();
+
+	/** Number of nanoseconds in one second. */
+	long NANOS_IN_SECOND = SimonUnit.SECOND.getDivisor();
 
 	/**
 	 * Gets current time in nanoseconds.
@@ -36,7 +46,7 @@ public interface Clock {
 	long millisForNano(long nanos);
 
 	/** Default implementation using {@link java.lang.System#currentTimeMillis()} and {@link java.lang.System#nanoTime()}. */
-	Clock SYSTEM = new Clock() {
+	SimonClock SYSTEM = new SimonClock() {
 		@Override
 		public long nanoTime() {
 			return System.nanoTime();
@@ -49,10 +59,10 @@ public interface Clock {
 
 		@Override
 		public long millisForNano(long nanos) {
-			return ClockUtils.millisForNano(nanos);
+			return SimonClockUtils.millisForNano(nanos);
 		}
 	};
 
 	/** Clock implementation measuring CPU time. */
-	Clock CPU = new CpuClock();
+	SimonClock CPU = new CpuClock();
 }

@@ -2,7 +2,7 @@ package org.javasimon;
 
 import org.javasimon.callback.CompositeCallback;
 import org.javasimon.callback.CompositeCallbackImpl;
-import org.javasimon.clock.Clock;
+import org.javasimon.clock.SimonClock;
 import org.javasimon.utils.SimonUtils;
 
 import java.lang.reflect.Constructor;
@@ -29,14 +29,14 @@ public final class EnabledManager implements Manager {
 
 	private final ManagerConfiguration configuration;
 
-	private final Clock clock;
+	private final SimonClock clock;
 
 	/** Creates new enabled manager. */
 	public EnabledManager() {
-		this(Clock.SYSTEM);
+		this(SimonClock.SYSTEM);
 	}
 
-	public EnabledManager(Clock clock) {
+	public EnabledManager(SimonClock clock) {
 		this.clock = clock;
 		rootSimon = new UnknownSimon(ROOT_SIMON_NAME, this);
 		allSimons.put(ROOT_SIMON_NAME, rootSimon);

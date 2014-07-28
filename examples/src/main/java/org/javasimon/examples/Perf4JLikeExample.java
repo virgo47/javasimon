@@ -5,7 +5,7 @@ import org.javasimon.Split;
 import org.javasimon.Stopwatch;
 import org.javasimon.StopwatchSample;
 import org.javasimon.callback.CallbackSkeleton;
-import org.javasimon.clock.ClockUtils;
+import org.javasimon.clock.SimonClock;
 
 /**
  * Shows how to get outputs similar to Perf4J with Simon.
@@ -57,7 +57,7 @@ public class Perf4JLikeExample {
 			}
 
 			private void printPerf4JLog(Split split, StopwatchSample sample) {
-				System.out.println("INFO: start[" + split.getStartMillis() + "] time[" + (split.runningFor() / ClockUtils.NANOS_IN_MILLIS) + "] tag[" + sample.getName() + "]");
+				System.out.println("INFO: start[" + split.getStartMillis() + "] time[" + (split.runningFor() / SimonClock.NANOS_IN_MILLIS) + "] tag[" + sample.getName() + "]");
 			}
 		});
 		for (int i = 0; i < 20; i++) {

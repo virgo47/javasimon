@@ -4,7 +4,7 @@ import org.javasimon.Manager;
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
 import org.javasimon.callback.CallbackSkeleton;
-import org.javasimon.clock.ClockUtils;
+import org.javasimon.clock.SimonClock;
 import org.javasimon.javaee.reqreporter.RequestReporter;
 import org.javasimon.source.DisabledMonitorSource;
 import org.javasimon.source.StopwatchSource;
@@ -170,7 +170,7 @@ public class SimonServletFilter implements Filter {
 		String reportThreshold = filterConfig.getInitParameter(INIT_PARAM_REPORT_THRESHOLD_MS);
 		if (reportThreshold != null) {
 			try {
-				this.reportThresholdNanos = Long.parseLong(reportThreshold) * ClockUtils.NANOS_IN_MILLIS;
+				this.reportThresholdNanos = Long.parseLong(reportThreshold) * SimonClock.NANOS_IN_MILLIS;
 				splitSaverCallback = new SplitSaverCallback();
 				manager.callback().addCallback(splitSaverCallback);
 			} catch (NumberFormatException e) {

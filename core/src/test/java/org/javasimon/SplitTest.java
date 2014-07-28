@@ -1,6 +1,6 @@
 package org.javasimon;
 
-import org.javasimon.clock.ClockUtils;
+import org.javasimon.clock.SimonClock;
 import org.javasimon.clock.TestClock;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -48,11 +48,11 @@ public final class SplitTest extends SimonUnitTest {
 
 		clock.setMillisNanosFollow(20);
 		long runningFor = split.runningFor();
-		Assert.assertTrue(runningFor == 10 * ClockUtils.NANOS_IN_MILLIS);
+		Assert.assertTrue(runningFor == 10 * SimonClock.NANOS_IN_MILLIS);
 
 		Assert.assertEquals(split.stop(), split);
 		runningFor = split.runningFor();
-		Assert.assertTrue(runningFor == 10 * ClockUtils.NANOS_IN_MILLIS);
+		Assert.assertTrue(runningFor == 10 * SimonClock.NANOS_IN_MILLIS);
 
 		clock.setMillisNanosFollow(30);
 		Assert.assertEquals(runningFor, split.runningFor());

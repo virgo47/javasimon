@@ -1,7 +1,8 @@
 package org.javasimon.callback.timeline;
 
 import org.javasimon.Split;
-import org.javasimon.clock.ClockUtils;
+import org.javasimon.clock.SimonClock;
+import org.javasimon.clock.SimonClockUtils;
 
 import java.lang.reflect.Field;
 import java.util.Calendar;
@@ -24,7 +25,7 @@ public final class TimeUtil {
 	}
 
 	public static long millisToNano(long millis) {
-		return ClockUtils.INIT_NANOS + (millis - ClockUtils.INIT_MILLIS) * ClockUtils.NANOS_IN_MILLIS;
+		return SimonClockUtils.INIT_NANOS + (millis - SimonClockUtils.INIT_MILLIS) * SimonClock.NANOS_IN_MILLIS;
 	}
 
 	private static void setField(Object object, String fieldName, Object fieldValue) {

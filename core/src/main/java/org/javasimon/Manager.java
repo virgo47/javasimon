@@ -1,7 +1,7 @@
 package org.javasimon;
 
 import org.javasimon.callback.CompositeCallback;
-import org.javasimon.clock.Clock;
+import org.javasimon.clock.SimonClock;
 
 import java.util.Collection;
 
@@ -20,7 +20,7 @@ import java.util.Collection;
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
-public interface Manager extends Clock {
+public interface Manager extends SimonClock {
 
 	/** Name of the root Simon. */
 	String ROOT_SIMON_NAME = "";

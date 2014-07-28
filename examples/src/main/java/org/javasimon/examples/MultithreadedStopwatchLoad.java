@@ -1,12 +1,11 @@
 package org.javasimon.examples;
 
-import org.javasimon.StopwatchSample;
-import org.javasimon.clock.ClockUtils;
-import org.javasimon.utils.BenchmarkUtils;
-import org.javasimon.utils.GoogleChartImageGenerator;
-
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import org.javasimon.StopwatchSample;
+import org.javasimon.utils.BenchmarkUtils;
+import org.javasimon.utils.GoogleChartImageGenerator;
 
 /**
  * Measures how long it takes to execute a lot of get-start-stop cycles in heavily multithreaded environment.
@@ -15,6 +14,7 @@ import java.util.concurrent.Executors;
  * @since 3.1
  */
 public final class MultithreadedStopwatchLoad extends Thread {
+
 	public static final int TOTAL_TASK_RUNS = 300000;
 
 	private MultithreadedStopwatchLoad() {
@@ -69,8 +69,8 @@ public final class MultithreadedStopwatchLoad extends Thread {
 		);
 		executorService.shutdown();
 
-		System.out.println("\nGoogle Chart avg:\n" + GoogleChartImageGenerator.barChart(
-			results, "Multithreaded test", ClockUtils.NANOS_IN_MILLIS, "ms", false));
+		System.out.println("\nGoogle Chart avg:\n" +
+			GoogleChartImageGenerator.barChart(results, "Multithreaded test"));
 	}
 }
 

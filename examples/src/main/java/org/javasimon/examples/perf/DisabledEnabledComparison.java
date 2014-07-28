@@ -4,7 +4,6 @@ import org.javasimon.SimonManager;
 import org.javasimon.SimonState;
 import org.javasimon.Stopwatch;
 import org.javasimon.StopwatchSample;
-import org.javasimon.clock.ClockUtils;
 import org.javasimon.utils.BenchmarkUtils;
 import org.javasimon.utils.GoogleChartImageGenerator;
 
@@ -15,6 +14,7 @@ import org.javasimon.utils.GoogleChartImageGenerator;
  */
 @SuppressWarnings("UnusedDeclaration")
 public final class DisabledEnabledComparison {
+
 	private static final int LOOP = 10000000;
 
 	private DisabledEnabledComparison() {
@@ -80,7 +80,7 @@ public final class DisabledEnabledComparison {
 			}
 		);
 
-		System.out.println("\nGoogle Chart avg:\n" + GoogleChartImageGenerator.barChart(
-			results, "10M-loop duration", ClockUtils.NANOS_IN_MILLIS, "ms", false));
+		System.out.println("\nGoogle Chart avg:\n" +
+			GoogleChartImageGenerator.barChart(results, "10M-loop duration"));
 	}
 }

@@ -1,6 +1,6 @@
 package org.javasimon.callback.logging;
 
-import org.javasimon.clock.Clock;
+import org.javasimon.clock.SimonClock;
 import org.javasimon.SimonUnitTest;
 import org.testng.annotations.Test;
 
@@ -108,7 +108,7 @@ public class LogTemplateTest extends SimonUnitTest implements LogMessageSource<O
 	public void testPeriodic() throws InterruptedException {
 		TestLogTemplate logTemplate1 = new TestLogTemplate();
 		logMessage = "Test Periodic";
-		Clock clock = mock(Clock.class);
+		SimonClock clock = mock(SimonClock.class);
 		long startTime = 1000;
 		when(clock.milliTime()).thenReturn(startTime);
 

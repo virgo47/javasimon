@@ -1,8 +1,7 @@
 package org.javasimon.callback.logging;
 
-import org.javasimon.clock.Clock;
+import org.javasimon.clock.SimonClock;
 import org.javasimon.Split;
-import org.javasimon.clock.ClockUtils;
 
 import java.util.logging.Level;
 
@@ -48,7 +47,7 @@ public class LogTemplates {
 	 * @param clock clock to get current system time
 	 * @return Logger
 	 */
-	static <C> LogTemplate<C> everyNMilliseconds(LogTemplate<C> delegateLogger, long period, Clock clock) {
+	static <C> LogTemplate<C> everyNMilliseconds(LogTemplate<C> delegateLogger, long period, SimonClock clock) {
 		return new PeriodicLogTemplate<>(delegateLogger, period, clock);
 	}
 
@@ -60,7 +59,7 @@ public class LogTemplates {
 	 * @return Logger
 	 */
 	public static <C> LogTemplate<C> everyNSeconds(LogTemplate<C> delegateLogger, long period) {
-		return everyNMilliseconds(delegateLogger, period * ClockUtils.MILLIS_IN_SECOND);
+		return everyNMilliseconds(delegateLogger, period * SimonClock.MILLIS_IN_SECOND);
 	}
 
 	/**
@@ -125,6 +124,6 @@ public class LogTemplates {
 	 * @return Logger
 	 */
 	public static SplitThresholdLogTemplate whenSplitLongerThanMilliseconds(LogTemplate<Split> delegateLogger, long threshold) {
-		return whenSplitLongerThanNanoseconds(delegateLogger, threshold * ClockUtils.NANOS_IN_MILLIS);
+		return whenSplitLongerThanNanoseconds(delegateLogger, threshold * SimonClock.NANOS_IN_MILLIS);
 	}
 }

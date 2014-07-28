@@ -1,10 +1,9 @@
 package org.javasimon.spring.webmvc;
 
-import org.javasimon.clock.Clock;
+import org.javasimon.clock.SimonClock;
 import org.javasimon.EnabledManager;
 import org.javasimon.SimonManager;
 import org.javasimon.Stopwatch;
-import org.javasimon.clock.ClockUtils;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,12 +28,12 @@ public class MonitoringHandlerInterceptorTest {
 	 * Tested interceptor.
 	 */
 	private MonitoringHandlerInterceptor interceptor;
-	private Clock clock;
+	private SimonClock clock;
 	private EnabledManager manager;
 
 	@BeforeMethod
 	public void beforeMethod() {
-		clock = mock(Clock.class);
+		clock = mock(SimonClock.class);
 		manager = new EnabledManager(clock);
 		interceptor = new MonitoringHandlerInterceptor(manager);
 	}
@@ -74,7 +73,7 @@ public class MonitoringHandlerInterceptorTest {
 
 	private void setMockTime(long currentTime) {
 		when(clock.milliTime()).thenReturn(currentTime);
-		when(clock.nanoTime()).thenReturn(currentTime * ClockUtils.NANOS_IN_MILLIS);
+		when(clock.nanoTime()).thenReturn(currentTime * SimonClock.NANOS_IN_MILLIS);
 	}
 
 	/**
@@ -82,7 +81,7 @@ public class MonitoringHandlerInterceptorTest {
 	 */
 	@Test
 	public void testRequestWithHandlerMethod() throws Exception {
-		// Initialize 
+		// Initialize
 		SimonManager.clear();
 		// Play scenario
 		processRequest("request/uri", new HandlerMethod(new Object(), Object.class.getDeclaredMethod("toString", new Class[0])), 500L, "view", 100L);
@@ -100,7 +99,7 @@ public class MonitoringHandlerInterceptorTest {
 	 */
 	@Test
 	public void testRequestWithHandlerObject() throws InterruptedException {
-		// Initialize 
+		// Initialize
 		SimonManager.clear();
 		// Play scenario
 		processRequest("request/uri", new Object(), 500L, "view", 100L);

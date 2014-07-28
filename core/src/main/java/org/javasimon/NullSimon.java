@@ -1,6 +1,6 @@
 package org.javasimon;
 
-import org.javasimon.clock.Clock;
+import org.javasimon.clock.SimonClock;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -192,7 +192,7 @@ final class NullStopwatch extends NullSimon implements Stopwatch {
 	 */
 	static final NullStopwatch INSTANCE = new NullStopwatch();
 
-	private static final Split NULL_SPLIT = new Split(INSTANCE, Clock.SYSTEM);
+	private static final Split NULL_SPLIT = new Split(INSTANCE, SimonClock.SYSTEM);
 
 	private NullStopwatch() {
 	}

@@ -59,7 +59,6 @@ import java.util.regex.Pattern;
  * @author Radovan Sninsky
  * @since 1.0
  */
-@SuppressWarnings({"UnusedDeclaration"})
 public final class SimonUtils {
 
 	/** Regex character class content for {@link #NAME_PATTERN}. */

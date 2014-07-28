@@ -1,7 +1,7 @@
 package org.javasimon.callback.quantiles;
 
 import org.javasimon.Stopwatch;
-import org.javasimon.clock.ClockUtils;
+import org.javasimon.clock.SimonClock;
 
 /**
  * Callback which stores data in buckets to compute quantiles.
@@ -48,7 +48,7 @@ public class FixedQuantilesCallback extends QuantilesCallback {
 	 */
 	@Override
 	protected Buckets createBuckets(Stopwatch stopwatch) {
-		return createBuckets(stopwatch, min * ClockUtils.NANOS_IN_MILLIS, max * ClockUtils.NANOS_IN_MILLIS, bucketNb);
+		return createBuckets(stopwatch, min * SimonClock.NANOS_IN_MILLIS, max * SimonClock.NANOS_IN_MILLIS, bucketNb);
 	}
 
 	public long getMin() {
