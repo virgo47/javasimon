@@ -33,9 +33,9 @@ public final class JmxCallbackExample {
 		System.out.println("Now open jconsole and check it out...\nWatch org.javasimon.examples.jmx.stopwatch for changes.");
 		while (true) {
 			counter.increase();
-			Split split = stopwatch.start();
-			ExampleUtils.waitRandomlySquared(40);
-			split.stop();
+			try (Split ignored = stopwatch.start()) {
+				ExampleUtils.waitRandomlySquared(40);
+			}
 		}
 	}
 }

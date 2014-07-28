@@ -1,26 +1,28 @@
 package org.javasimon;
 
-import org.javasimon.clock.SimonClock;
-import org.javasimon.utils.SimonUtils;
-
 import java.util.Iterator;
 import java.util.Map;
+
+import org.javasimon.clock.Clock;
+import org.javasimon.utils.SimonUtils;
 
 /**
  * Represents single time split - one Stopwatch measurement. Object is obtained by {@link org.javasimon.Stopwatch#start()}
  * and the measurement is ended using {@link #stop()} method on this object. Split will return 0 as the result
  * if the related Stopwatch was disabled when the Split was obtained. The Split can be stopped in any other thread.
- * Split measures real time (based on {@link SimonClock#nanoTime()}), it does not measure CPU time. Split can be garbage collected
+ * Split measures real time (based on {@link org.javasimon.clock.Clock#nanoTime()}), it does not measure CPU time. Split can be garbage collected
  * and no resource leak occurs if it is not stopped, however Stopwatch's active counter ({@link org.javasimon.Stopwatch#getActive()})
  * will be stay incremented.
  * <p/>
  * Split can never be running ({@link #isRunning()}) if it is disabled. Enabled split is running until it is stopped.
  * Stopped split (not running) will never again be running. Split never changes enabled flag after creation.
+ * <p/>
+ * Split implements {@link java.lang.AutoCloseable} hence it can be used in try-with-resource construction.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @see Stopwatch
  */
-public final class Split implements HasAttributes {
+public final class Split implements HasAttributes, AutoCloseable {
 
 	/** Disabled split (implies not running) for cases where monitoring is disabled and {@code null} value is not an option. */
 	public static final Split DISABLED = new Split();
@@ -30,7 +32,7 @@ public final class Split implements HasAttributes {
 
 	private volatile Stopwatch stopwatch;
 	private final boolean enabled;
-	private final SimonClock clock;
+	private final Clock clock;
 	private volatile boolean running;
 
 	private volatile long start;
@@ -43,7 +45,7 @@ public final class Split implements HasAttributes {
 		clock = null;
 	}
 
-	private Split(boolean enabled, SimonClock clock) {
+	private Split(boolean enabled, Clock clock) {
 		this.enabled = enabled;
 		this.clock = clock;
 		start = clock.nanoTime();
@@ -56,7 +58,7 @@ public final class Split implements HasAttributes {
 	 * @param clock Clock for this Split
 	 * @param start start timestamp in nanoseconds
 	 */
-	Split(Stopwatch stopwatch, SimonClock clock, long start) {
+	Split(Stopwatch stopwatch, Clock clock, long start) {
 		assert start > 0 : "start ns value should not be 0 in this constructor!";
 
 		this.stopwatch = stopwatch;
@@ -72,7 +74,7 @@ public final class Split implements HasAttributes {
 	 * @param stopwatch owning Stopwatch (disabled)
 	 * @param clock Clock for this Split
 	 */
-	Split(Stopwatch stopwatch, SimonClock clock) {
+	Split(Stopwatch stopwatch, Clock clock) {
 		assert !(stopwatch.isEnabled()) : "stopwatch must be disabled in this constructor!";
 		this.enabled = false;
 		this.stopwatch = stopwatch;
@@ -80,7 +82,7 @@ public final class Split implements HasAttributes {
 	}
 
 	/**
-	 * Creates a new Split for direct use without {@link Stopwatch} ("anonymous split") based on specified {@link SimonClock}.
+	 * Creates a new Split for direct use without {@link Stopwatch} ("anonymous split") based on specified {@link Clock}.
 	 * Stop will not update any Stopwatch, value can be added to any chosen Stopwatch using
 	 * {@link Stopwatch#addSplit(Split)} - even in conjunction with {@link #stop()} like this:
 	 * <p/>
@@ -99,7 +101,7 @@ public final class Split implements HasAttributes {
 	 * @param clock Clock for this Split
 	 * @since 3.5
 	 */
-	public static Split start(SimonClock clock) {
+	public static Split start(Clock clock) {
 		Split split = new Split(true, clock);
 		split.running = true;
 		return split;
@@ -109,11 +111,11 @@ public final class Split implements HasAttributes {
 	 * Creates a new Split for direct use without {@link Stopwatch} ("anonymous split") based on system time.
 	 * Equivalent of {@code Split.start(Clock.SYSTEM)}.
 	 *
+	 * @see #start(Clock)
 	 * @since 3.4
-	 * @see #start(SimonClock)
 	 */
 	public static Split start() {
-		return start(SimonClock.SYSTEM);
+		return start(Clock.SYSTEM);
 	}
 
 	/**
@@ -125,7 +127,7 @@ public final class Split implements HasAttributes {
 	 * @return created Split
 	 * @since 3.5
 	 */
-	public static Split create(long nanos, SimonClock clock) {
+	public static Split create(long nanos, Clock clock) {
 		Split split = new Split(false, clock);
 		split.total = nanos;
 		return split;
@@ -133,15 +135,15 @@ public final class Split implements HasAttributes {
 
 	/**
 	 * Creates simulated non-running Split that took specific time in nanos.
-	 * No callbacks are called for this Split. Start of this Split is based on {@link SimonClock#SYSTEM}.
+	 * No callbacks are called for this Split. Start of this Split is based on {@link Clock#SYSTEM}.
 	 *
 	 * @param nanos Split's total time in nanos
 	 * @return created Split
+	 * @see #create(long, Clock)
 	 * @since 3.5
-	 * @see #create(long, SimonClock)
 	 */
 	public static Split create(long nanos) {
-		return create(nanos, SimonClock.SYSTEM);
+		return create(nanos, Clock.SYSTEM);
 	}
 
 	/**
@@ -324,6 +326,16 @@ public final class Split implements HasAttributes {
 	@Override
 	public Map<String, Object> getCopyAsSortedMap() {
 		return attributesSupport.getCopyAsSortedMap();
+	}
+
+	/**
+	 * Allows to use Split as a resource in try-with-resource construct. Calls {@link #stop()} internally.
+	 *
+	 * @since 4.0
+	 */
+	@Override
+	public void close() {
+		stop();
 	}
 
 	/**

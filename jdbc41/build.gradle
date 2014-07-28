@@ -1,4 +1,4 @@
-archivesBaseName = 'javasimon-jdbc4'
+archivesBaseName = 'javasimon-jdbc41'
 
 dependencies {
     compile project(':core')

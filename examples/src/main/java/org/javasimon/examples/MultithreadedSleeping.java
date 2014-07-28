@@ -55,13 +55,11 @@ public final class MultithreadedSleeping extends Thread {
 	@Override
 	public void run() {
 		Stopwatch stopwatch = SimonManager.getStopwatch(NAME);
-		Split split = stopwatch.start();
-		try {
+		try (Split ignored = stopwatch.start();) {
 			sleep(SLEEP);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		split.stop();
 		// signal to latch that the thread is finished
 		latch.countDown();
 	}

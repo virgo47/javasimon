@@ -2,6 +2,8 @@ package org.javasimon;
 
 import org.javasimon.utils.SimonUtils;
 
+import java.io.Serializable;
+
 /**
  * Sample contains all relevant values of the Simon that are obtained by the
  * {@link org.javasimon.Simon#sample()} and {@link org.javasimon.Simon#sampleIncrement(Object)} methods.
@@ -13,7 +15,7 @@ import org.javasimon.utils.SimonUtils;
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
-public abstract class Sample {
+public abstract class Sample implements Serializable {
 
 	private String name;
 	private String note;

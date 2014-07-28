@@ -47,8 +47,8 @@ subprojects {
 
     version = '4.0.0-SNAPSHOT'
 
-    sourceCompatibility = '1.6'
-    targetCompatibility = '1.6'
+    sourceCompatibility = '1.7'
+    targetCompatibility = '1.7'
 
     jar {
         manifest.attributes provider: 'gradle'

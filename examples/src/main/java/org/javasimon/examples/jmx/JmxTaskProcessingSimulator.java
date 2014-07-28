@@ -3,6 +3,7 @@ package org.javasimon.examples.jmx;
 import java.lang.management.ManagementFactory;
 import java.util.Random;
 import java.util.logging.Level;
+
 import javax.management.JMException;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
@@ -21,7 +22,7 @@ import org.javasimon.utils.LoggingCallback;
  *
  * It is not possible to graph values via {@code jconsole}, but it is possible to use operation
  * {@code getStopwatchSample} with value {@code org.javasimon.examples.jmx.tasksw} to get to the
- * stopwatch values. 
+ * stopwatch values.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
@@ -101,13 +102,11 @@ public final class JmxTaskProcessingSimulator {
 				final int task = random.nextInt(TASK_SPREAD) + TASK_MIN;
 				new Thread() {
 					public void run() {
-						Split split = SimonManager.getStopwatch(TASK_STOPWATCH).start();
-						try {
+						try (Split split = SimonManager.getStopwatch(TASK_STOPWATCH).start()) {
 							Thread.sleep(task);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
-						split.stop();
 					}
 				}.start();
 				int sleep = random.nextInt(NEW_TASK_SPREAD) + NEW_TASK_MIN;
