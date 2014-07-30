@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * Spring MVC interceptor monitors time spent in handlers (usually controllers)
  * and views. Spring configuration:
- * <pre>{@literal
+ * <pre>{@code
  * <mvc:interceptors>
  *    <bean class="org.javasimon.spring.webmvc.MonitoringHandlerInterceptor"/>
  * </mvc:interceptors>

@@ -52,12 +52,8 @@ public final class SimonManager {
 			manager.configuration().clear();
 			String fileName = System.getProperty(PROPERTY_CONFIG_FILE_NAME);
 			if (fileName != null) {
-				FileReader fileReader = new FileReader(fileName);
-				try {
+				try (FileReader fileReader = new FileReader(fileName)) {
 					manager.configuration().readConfig(fileReader);
-				}
-				finally {
-					fileReader.close();
 				}
 			}
 			String resourceName = System.getProperty(PROPERTY_CONFIG_RESOURCE_NAME);

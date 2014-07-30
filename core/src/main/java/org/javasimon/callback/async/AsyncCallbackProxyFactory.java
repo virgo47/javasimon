@@ -56,10 +56,8 @@ public final class AsyncCallbackProxyFactory extends ExecutorProxyFactory<Callba
 	private Method findGetDelegateMethod() {
 		try {
 			return Delegating.class.getDeclaredMethod("getDelegate", new Class[0]);
-		} catch (NoSuchMethodException noSuchMethodException) {
+		} catch (NoSuchMethodException | SecurityException noSuchMethodException) {
 			throw new IllegalStateException("getDelegate method not found on Delegating interface", noSuchMethodException);
-		} catch (SecurityException securityException) {
-			throw new IllegalStateException("getDelegate method not found on Delegating interface", securityException);
 		}
 	}
 

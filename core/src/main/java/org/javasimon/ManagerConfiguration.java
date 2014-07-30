@@ -33,7 +33,7 @@ import javax.xml.stream.XMLStreamReader;
  * {@link org.javasimon.SimonManager#PROPERTY_CONFIG_RESOURCE_NAME}) is used.
  * <p/>
  * <b>Structure of the configuration XML:</b>
- * <pre>{@literal
+ * <pre>{@code
  * <simon-configuration>
  * ... TODO
  * </simon-configuration>}</pre>
@@ -108,13 +108,7 @@ public final class ManagerConfiguration {
 		Callback callback;
 		try {
 			callback = (Callback) Class.forName(klass).newInstance();
-		} catch (InstantiationException e) {
-			throw new SimonException(e);
-		} catch (IllegalAccessException e) {
-			throw new SimonException(e);
-		} catch (ClassNotFoundException e) {
-			throw new SimonException(e);
-		} catch (ClassCastException e) {
+		} catch (InstantiationException | ClassCastException | ClassNotFoundException | IllegalAccessException e) {
 			throw new SimonException(e);
 		}
 
@@ -132,13 +126,7 @@ public final class ManagerConfiguration {
 		FilterCallback callback;
 		try {
 			callback = (FilterCallback) Class.forName(klass).newInstance();
-		} catch (InstantiationException e) {
-			throw new SimonException(e);
-		} catch (IllegalAccessException e) {
-			throw new SimonException(e);
-		} catch (ClassNotFoundException e) {
-			throw new SimonException(e);
-		} catch (ClassCastException e) {
+		} catch (InstantiationException | ClassCastException | ClassNotFoundException | IllegalAccessException e) {
 			throw new SimonException(e);
 		}
 
@@ -216,11 +204,7 @@ public final class ManagerConfiguration {
 			} else {
 				callback.getClass().getMethod(setterName(property)).invoke(callback);
 			}
-		} catch (NoSuchMethodException e) {
-			throw new SimonException(e);
-		} catch (IllegalAccessException e) {
-			throw new SimonException(e);
-		} catch (InvocationTargetException e) {
+		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
 			throw new SimonException(e);
 		}
 	}

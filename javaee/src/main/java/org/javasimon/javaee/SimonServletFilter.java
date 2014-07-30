@@ -154,7 +154,7 @@ public class SimonServletFilter implements Filter {
 	private RequestReporter requestReporter;
 
 	/**
-	 * Initialization method that processes various init parameters from {@literal web.xml} and sets manager, if
+	 * Initialization method that processes various init parameters from {@code web.xml} and sets manager, if
 	 * {@link org.javasimon.utils.SimonUtils#MANAGER_SERVLET_CTX_ATTRIBUTE} servlet context attribute is not {@code null}.
 	 *
 	 * @param filterConfig filter config object

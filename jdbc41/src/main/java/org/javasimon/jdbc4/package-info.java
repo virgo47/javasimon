@@ -98,7 +98,7 @@
  * in the config file (for more information see {@code SimonConfigTest.java} example).
  * <p>
  * Hierarchy of Simons in Simon JDBC proxy driver is following:
- * <pre>{@literal
+ * <pre>{@code
  * org.javasimon.jdbc
  * |
  * +-> .conn

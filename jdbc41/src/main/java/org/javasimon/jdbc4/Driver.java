@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  * Connection conn = DriverManager.getConnection("jdbc:simon:oracle:thin:...", "scott", "tiger");</pre>
  *
  * Simon driver has following format of JDBC connection string:
- * <pre>{@literal
+ * <pre>{@code
  * jdbc:simon:<real driver conn string>;<param1>=<value1>;...}</pre>
  * Simon driver recognizes two parameters:
  * <ul>

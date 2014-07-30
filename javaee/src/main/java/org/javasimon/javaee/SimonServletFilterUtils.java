@@ -104,13 +104,7 @@ public class SimonServletFilterUtils {
 		try {
 			Class<?> monitorClass = Class.forName(stopwatchSourceClass);
 			return  monitorSourceNewInstance(manager, monitorClass);
-		} catch (ClassNotFoundException e) {
-			throw new IllegalArgumentException("Invalid Stopwatch source class name", e);
-		} catch (ClassCastException e) {
-			throw new IllegalArgumentException("Invalid Stopwatch source class name", e);
-		} catch (InstantiationException e) {
-			throw new IllegalArgumentException("Invalid Stopwatch source class name", e);
-		} catch (IllegalAccessException e) {
+		} catch (ClassNotFoundException | IllegalAccessException | InstantiationException | ClassCastException e) {
 			throw new IllegalArgumentException("Invalid Stopwatch source class name", e);
 		}
 	}
@@ -120,18 +114,14 @@ public class SimonServletFilterUtils {
 		StopwatchSource<HttpServletRequest> stopwatchSource = null;
 		try {
 			stopwatchSource = (StopwatchSource<HttpServletRequest>) monitorClass.getConstructor(Manager.class).newInstance(manager);
-		} catch (NoSuchMethodException e) {
+		} catch (NoSuchMethodException | InvocationTargetException e) {
 			// safe to ignore here - we'll try default constructor + setter
-		} catch (InvocationTargetException e) {
-			// safe to ignore here
 		}
 		if (stopwatchSource == null) {
 			stopwatchSource = (StopwatchSource<HttpServletRequest>) monitorClass.newInstance();
 			try {
 				monitorClass.getMethod("setManager", Manager.class).invoke(stopwatchSource, manager);
-			} catch (NoSuchMethodException e) {
-				throw new IllegalArgumentException("Stopwatch source class must have public constructor or public setter with Manager argument (used class " + monitorClass.getName() + ")", e);
-			} catch (InvocationTargetException e) {
+			} catch (NoSuchMethodException | InvocationTargetException e) {
 				throw new IllegalArgumentException("Stopwatch source class must have public constructor or public setter with Manager argument (used class " + monitorClass.getName() + ")", e);
 			}
 		}
@@ -149,12 +139,8 @@ public class SimonServletFilterUtils {
 		} else {
 			try {
 				return (RequestReporter) Class.forName(className).newInstance();
-			} catch (ClassNotFoundException classNotFoundException) {
+			} catch (ClassNotFoundException | IllegalAccessException | InstantiationException classNotFoundException) {
 				throw new IllegalArgumentException("Invalid Request reporter class name", classNotFoundException);
-			} catch (InstantiationException instantiationException) {
-				throw new IllegalArgumentException("Invalid Request reporter class name", instantiationException);
-			} catch (IllegalAccessException illegalAccessException) {
-				throw new IllegalArgumentException("Invalid Request reporter class name", illegalAccessException);
 			}
 		}
 	}

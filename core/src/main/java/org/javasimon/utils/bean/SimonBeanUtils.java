@@ -135,9 +135,7 @@ public class SimonBeanUtils {
 		try {
 			setter.setAccessible(true);
 			setter.invoke(target, value);
-		} catch (IllegalAccessException e) {
-			throw new BeanUtilsException(e);
-		} catch (InvocationTargetException e) {
+		} catch (IllegalAccessException | InvocationTargetException e) {
 			throw new BeanUtilsException(e);
 		}
 	}
@@ -146,10 +144,8 @@ public class SimonBeanUtils {
 		try {
 			field.setAccessible(true);
 			field.set(target, value);
-		} catch (SecurityException ex) {
+		} catch (SecurityException | IllegalAccessException ex) {
 			throw new BeanUtilsException(ex);
-		} catch (IllegalAccessException e) {
-			throw new BeanUtilsException(e);
 		}
 	}
 

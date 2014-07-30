@@ -179,13 +179,7 @@ public final class EnabledManager implements Manager {
 		try {
 			Constructor<? extends AbstractSimon> constructor = simonClass.getDeclaredConstructor(String.class, Manager.class);
 			simon = constructor.newInstance(name, this);
-		} catch (NoSuchMethodException e) {
-			throw new SimonException(e);
-		} catch (InvocationTargetException e) {
-			throw new SimonException(e);
-		} catch (IllegalAccessException e) {
-			throw new SimonException(e);
-		} catch (InstantiationException e) {
+		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e) {
 			throw new SimonException(e);
 		}
 		return simon;

@@ -13,7 +13,7 @@ import org.springframework.beans.factory.FactoryBean;
 /**
  * Factory bean which produces Simon manager.
  * Spring configuration:
- * <pre>{@literal
+ * <pre>{@code
  * <bean id="jmxServer" class="org.springframework.jmx.support.MBeanServerFactoryBean">
  *     <property name="locateExistingServerIfPossible" value="true"/>
  * </bean>

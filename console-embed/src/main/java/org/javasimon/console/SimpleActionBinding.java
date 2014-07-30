@@ -11,6 +11,7 @@ import java.lang.reflect.InvocationTargetException;
  */
 @SuppressWarnings("UnusedDeclaration")
 public class SimpleActionBinding<T extends Action> implements ActionBinding<T> {
+
 	/**
 	 * Path
 	 */
@@ -77,12 +78,8 @@ public class SimpleActionBinding<T extends Action> implements ActionBinding<T> {
 					throw new IllegalStateException("Invalid argument number in action constructor: " + actionConstructorParams.length);
 			}
 			return action;
-		} catch (InstantiationException instantiationException) {
+		} catch (InstantiationException | InvocationTargetException | IllegalAccessException instantiationException) {
 			throw new IllegalStateException("Failed to create action", instantiationException);
-		} catch (IllegalAccessException illegalAccessException) {
-			throw new IllegalStateException("Failed to create action", illegalAccessException);
-		} catch (InvocationTargetException invocationTargetException) {
-			throw new IllegalStateException("Failed to create action", invocationTargetException);
 		}
 	}
 

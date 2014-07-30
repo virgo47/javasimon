@@ -12,7 +12,7 @@ import org.javasimon.jdbc4.WrapperSupport;
 /**
  * WrappingSimonDataSource allows to wrap existing datasource instead of providing
  * the Driver and URL information. For example - it can be used with Spring easily:
- * <pre>{@literal
+ * <pre>{@code
  * <bean id="dataSource" class="org.javasimon.jdbcx.WrappingSimonDataSource">
  *     <property name="dataSource" ref="pooledDataSource"/>
  *     <property name="prefix" value="sky.batchpricer.skydb"/>

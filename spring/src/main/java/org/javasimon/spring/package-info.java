@@ -3,12 +3,12 @@
  *
  * <p>Usage instructions:
  *
- * <p>Step -1- Make sure the Spring configuration file {@literal org/javasimon/spring/monitoring.xml} is loaded as one
+ * <p>Step -1- Make sure the Spring configuration file {@code org/javasimon/spring/monitoring.xml} is loaded as one
  * of the first configuration files.
  *
  * <p>For example, if you use the {@code org.springframework.web.context.ContextLoaderListener} in your
- * {@literal web.xml}, the {@literal contextConfigLocation} context parameter will look something like this:
- * <pre>{@literal
+ * {@code web.xml}, the {@code contextConfigLocation} context parameter will look something like this:
+ * <pre>{@code
 <context-param>
 <param-name>contextConfigLocation</param-name>
 <param-value>
