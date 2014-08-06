@@ -2,6 +2,7 @@ package org.javasimon.jmx;
 
 import org.javasimon.Sample;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ import java.util.List;
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
-public interface SimonSuperMXBean {
+public interface SimonSuperMXBean extends Serializable {
 
 	/**
 	 * Returns Simon name. While Simon names can be {@code null} for anonymous

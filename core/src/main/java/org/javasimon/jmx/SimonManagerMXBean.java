@@ -2,6 +2,7 @@ package org.javasimon.jmx;
 
 import org.javasimon.StopwatchSample;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ import java.util.List;
  * @since 2.0
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface SimonManagerMXBean {
+public interface SimonManagerMXBean extends Serializable {
 
 	/**
 	 * Enables the Simon Manager, enable monitoring application by Simons.

@@ -269,15 +269,9 @@ public class JmxReporterTest extends SimonUnitTest {
 			}
 
 			JmxRegisterCallback registerCallback = (JmxRegisterCallback) o;
-			if (!registerCallback.getDomain().equals(domain)) {
-				return false;
-			}
 
-			if (registerCallback.getBeanServer() != beanServer) {
-				return false;
-			}
-
-			return true;
+			return registerCallback.getDomain().equals(domain)
+				&& registerCallback.getBeanServer() == beanServer;
 		}
 	}
 }
