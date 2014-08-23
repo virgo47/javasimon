@@ -1,161 +1,170 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Simon Console: Tree</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <link  href="resource/css/start/jquery-ui.css" rel="stylesheet" type="text/css" />
-        <link  href="resource/css/javasimon.css" rel="stylesheet" type="text/css" />
-        <script src="resource/js/jquery.js" type="text/javascript"></script>
-        <script src="resource/js/jquery-ui.js" type="text/javascript"></script>
-        <script src="resource/js/javasimon-service.js" type="text/javascript"></script>
-        <script src="resource/js/javasimon-util.js" type="text/javascript"></script>
-        <script src="resource/js/javasimon-dataTreeTable.js" type="text/javascript"></script>
-        <script src="resource/js/javasimon-autorefresh.js" type="text/javascript"></script>
-        <script src="resource/js/javasimon-customization.js" type="text/javascript"></script>
-        <script type="text/javascript">
-$(document).ready(function() {
-	var onTreeDataReceived = javasimon.onTreeDataReceived || function() {};
-	var onTreeElementDrawn = javasimon.onTreeElementDrawn || function() {};
+<head>
+	<title>Simon Console: Tree</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<link href="resource/css/start/jquery-ui.css" rel="stylesheet" type="text/css"/>
+	<link href="resource/css/javasimon.css" rel="stylesheet" type="text/css"/>
+	<script src="resource/js/jquery.js" type="text/javascript"></script>
+	<script src="resource/js/jquery-ui.js" type="text/javascript"></script>
+	<script src="resource/js/javasimon-service.js" type="text/javascript"></script>
+	<script src="resource/js/javasimon-util.js" type="text/javascript"></script>
+	<script src="resource/js/javasimon-dataTreeTable.js" type="text/javascript"></script>
+	<script src="resource/js/javasimon-autorefresh.js" type="text/javascript"></script>
+	<script src="resource/js/javasimon-customization.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		$(function () {
+			var onTreeDataReceived = javasimon.onTreeDataReceived || function () {
+			};
+			var onTreeElementDrawn = javasimon.onTreeElementDrawn || function () {
+			};
 
-	var autorefreshController = new javasimon.AutoRefreshController($("#autorefreshSelect"), function() {
-		oDataTreeTable.fnReloadAjax();	
-	});
-
-	$('#listLink')
-		.button();
-	$('#refreshButton')
-		.button({label:"Refresh",icons: {primary: "ui-icon-search"}})
-		.click(function() {document.oDataTreeTable.fnReloadAjax(); return false; });
-	$('#clearAllButton')
-		.button({label:"Clear All", icons: {primary: "ui-icon-circle-minus"}})
-		.click(function() {
-			javasimon.ClearService.fnClearAll(function() {
-				document.oDataTreeTable.fnReloadAjax();
+			var autorefreshController = new javasimon.AutoRefreshController($("#autorefreshSelect"), function () {
+				oDataTreeTable.fnReloadAjax();
 			});
-			return false;
-		});
-	$('#xmlButton')
-		.button({label:"XML",icons: {primary: "ui-icon-script"}})
-		.click(function() {
-			javasimon.TreeService.fnGetDataAsXml({});
-			return false;
-		});
 
-	$('#timeFormatSelect').val(javasimon.SettingsService.get('sTimeFormat'));
-	$('#timeFormatSelect').change(function(event) {
-		$timeFormatSelect = $(event.target);
-		var timeUnit = $timeFormatSelect.val();
-		javasimon.SettingsService.set({'sTimeFormat': timeUnit});
-		oDataTreeTable.fnReloadAjax();	
-	});
-	var eTable=document.getElementById('dataTreeTable');
-	var oDataTreeTable=new javasimon.DataTreeTable(eTable,{
-			aoColumns:[
-				{sTitle:"Name",		sField:"name", 		sClass:'string',
-					fnRender:function(oNode, eCell, oDataTreeTable) {
-						// Append Simon type icon
-						var sType=oNode.oData["type"],
-							sValue=oNode.oData[this.sField],
-							domUtil=javasimon.DOMUtil, eLink;
-						// Append Link
-						eLink=domUtil.fnAppendChildElement(eCell,"a",{href:"detail.html?name="+encodeURIComponent(sValue)});
-						domUtil.fnAppendSimonTypeImage(eLink, sType);
-						// Fix name
-						if (oNode.oParent!==null) {
-							var sParentValue=oNode.oParent.oData[this.sField];
-							if (sValue.substring(0,sParentValue.length)===sParentValue) {
-								sValue=sValue.substring(sParentValue.length);
-								if (sValue.charAt(0)==='.') {
-									sValue=sValue.substring(1);
+			$('#listLink')
+				.button();
+			$('#refreshButton')
+				.button({label: "Refresh", icons: {primary: "ui-icon-search"}})
+				.click(function () {
+					document.oDataTreeTable.fnReloadAjax();
+					return false;
+				});
+			$('#clearAllButton')
+				.button({label: "Clear All", icons: {primary: "ui-icon-circle-minus"}})
+				.click(function () {
+					javasimon.ClearService.fnClearAll(function () {
+						document.oDataTreeTable.fnReloadAjax();
+					});
+					return false;
+				});
+			$('#xmlButton')
+				.button({label: "XML", icons: {primary: "ui-icon-script"}})
+				.click(function () {
+					javasimon.TreeService.fnGetDataAsXml({});
+					return false;
+				});
+
+			$('#timeFormatSelect').val(javasimon.SettingsService.get('sTimeFormat'));
+			$('#timeFormatSelect').change(function (event) {
+				var $timeFormatSelect = $(event.target);
+				var timeUnit = $timeFormatSelect.val();
+				javasimon.SettingsService.set({'sTimeFormat': timeUnit});
+				oDataTreeTable.fnReloadAjax();
+			});
+			var eTable = document.getElementById('dataTreeTable');
+			var oDataTreeTable = new javasimon.DataTreeTable(eTable, {
+					aoColumns: [
+						{sTitle: "Name", sField: "name", sClass: 'string',
+							fnRender: function (oNode, eCell, oDataTreeTable) {
+								// Append Simon type icon
+								var sType = oNode.oData["type"],
+									sValue = oNode.oData[this.sField],
+									domUtil = javasimon.DOMUtil, eLink;
+								// Append Link
+								eLink = domUtil.fnAppendChildElement(eCell, "a", {href: "detail.html?name=" + encodeURIComponent(sValue)});
+								domUtil.fnAppendSimonTypeImage(eLink, sType);
+								// Fix name
+								if (oNode.oParent !== null) {
+									var sParentValue = oNode.oParent.oData[this.sField];
+									if (sValue.substring(0, sParentValue.length) === sParentValue) {
+										sValue = sValue.substring(sParentValue.length);
+										if (sValue.charAt(0) === '.') {
+											sValue = sValue.substring(1);
+										}
+									}
 								}
+								if (sValue === "") {
+									sValue = "-";
+								}
+								sValue = " " + sValue + " ";
+								// Append Simon name
+								domUtil.fnAppendChildText(eLink, sValue);
+								domUtil.fnAppendClass(eCell, "headCell");
+								onTreeElementDrawn(oNode, javasimon.SettingsService.get('sTimeFormat'));
 							}
-						}
-						if (sValue==="") {
-							sValue="-";
-						}
-						sValue=" "+sValue+" ";
-						// Append Simon name
-						domUtil.fnAppendChildText(eLink, sValue);
-						domUtil.fnAppendClass(eCell, "headCell");
-						onTreeElementDrawn(oNode, javasimon.SettingsService.get('sTimeFormat'));
-					}
-				},
-				{sTitle:"Count",	sField:"counter",	sClass:"number"},
-				{sTitle:"Total",	sField:"total",		sClass:"number" },
-				{sTitle:"Min",		sField:"min",		sClass:"number" },
-				{sTitle:"Mean",		sField:"mean",		sClass:"number" },
-				{sTitle:"Max",		sField:"max",		sClass:"number" },
-				{sTitle:"StdDev",	sField:"standardDeviation",sClass:"number" },
-				{sTitle:"Last",	sField:"last",		sClass:"number" },
-				{sTitle:"First Use",	sField:"firstUsage",	sClass:"date" },
-				{sTitle:"Last Use",	sField:"lastUsage",	sClass:"date"  }
-			]
-		}
-	);
-	oDataTreeTable.fnReloadAjax=function() {
-		javasimon.TreeService.fnGetDataAsJson({timeFormat:javasimon.SettingsService.get('sTimeFormat')},
-			function(oData) {
-				onTreeDataReceived(oData, javasimon.SettingsService.get('sTimeFormat'));
+						},
+						{sTitle: "Count", sField: "counter", sClass: "number"},
+						{sTitle: "Total", sField: "total", sClass: "number" },
+						{sTitle: "Min", sField: "min", sClass: "number" },
+						{sTitle: "Mean", sField: "mean", sClass: "number" },
+						{sTitle: "Max", sField: "max", sClass: "number" },
+						{sTitle: "StdDev", sField: "standardDeviation", sClass: "number" },
+						{sTitle: "Last", sField: "last", sClass: "number" },
+						{sTitle: "First Use", sField: "firstUsage", sClass: "date" },
+						{sTitle: "Last Use", sField: "lastUsage", sClass: "date" }
+					]
+				}
+			);
+			oDataTreeTable.fnReloadAjax = function () {
+				javasimon.TreeService.fnGetDataAsJson({timeFormat: javasimon.SettingsService.get('sTimeFormat')},
+					function (oData) {
+						onTreeDataReceived(oData, javasimon.SettingsService.get('sTimeFormat'));
 
-				var oDataTreeTable=document.oDataTreeTable;
-				oDataTreeTable.fnSetRootData(oData);
-				oDataTreeTable.fnDraw();
-			});
-	};
-	oDataTreeTable.fnDrawHeader();
-	oDataTreeTable.fnReloadAjax();
-	document.oDataTreeTable=oDataTreeTable;
-	$("#mainTabs").tabs({selected:1});
-} );
-        </script>
-    </head>
-    <body>
-	    <h1><img id="logo" src="resource/images/logo.png" alt="Logo" />Simon Console</h1>
-	    <div id="mainTabs">
-		    <ul>
-			    <li><a href="#listView" onclick="document.location.href='index.html';return false;">List View</a></li>
-			    <li><a href="#treeView" onclick="document.location.href='tree.html';return false;">Tree View</a></li>
-		    </ul>
-		    <div id="treeView">
-			    <div id="filterPanel">
-			    	<table class="formTable">						
-						<tr>							
-							<td class="label">Time format</td>
-							<td class="value">
-								<select id="timeFormatSelect" name="type">
-									<option value="SECOND">s</option>
-									<option value="MILLISECOND">ms</option>
-									<option value="MICROSECOND">&micro;s</option>
-									<option value="NANOSECOND">ns</option>
-								</select>
-							</td>
-							<td class="label">Auto refresh</td>
-							<td class="value">
-								<select id="autorefreshSelect" name="type">
-									<option value="1 sec">1 sec</option>
-									<option value="10 sec">10 sec</option>
-									<option value="30 sec">30 sec</option>
-									<option value="60 sec">60 sec</option>
-									<option value="never">never</option>
-								</select>
-							</td>
-						</tr>
-					</table>
-				    <div class="filterButtons fg-toolbar ui-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-corner-bl ui-corner-br ui-helper-clearfix">
-					    <button id="refreshButton" name="refreshButton">Refresh</button>
-					    <button id="clearAllButton" name="clearAllButton">Clear All</button>
-					    <span id="exportSpan">Export:</span>
-					    <button id="xmlButton" name="xmlButton">XML</button>					   
-				    </div>
-			    </div>
-			    <div id="dataPanel">
-				    <div class="fg-toolbar ui-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix" style="height:20px;"></div>
-				    <table id="dataTreeTable" class="dataTreeTable">
-					    
-				    </table>
-				    <div class="fg-toolbar ui-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix" style="height:20px;"></div>
-			    </div>
-		    </div>
-	    </div>
-    </body>
+						var oDataTreeTable = document.oDataTreeTable;
+						oDataTreeTable.fnSetRootData(oData);
+						oDataTreeTable.fnDraw();
+					});
+			};
+			oDataTreeTable.fnDrawHeader();
+			oDataTreeTable.fnReloadAjax();
+			document.oDataTreeTable = oDataTreeTable;
+			$("#mainTabs").tabs({selected: 1});
+		});
+	</script>
+</head>
+<body>
+<h1><img id="logo" src="resource/images/logo.png" alt="Logo"/>Simon Console</h1>
+
+<div id="mainTabs">
+	<ul>
+		<li><a href="#listView" onclick="document.location.href='index.html';return false;">List View</a></li>
+		<li><a href="#treeView" onclick="document.location.href='tree.html';return false;">Tree View</a></li>
+	</ul>
+	<div id="treeView">
+		<div id="filterPanel">
+			<table class="formTable">
+				<tr>
+					<td class="label">Time format</td>
+					<td class="value">
+						<select id="timeFormatSelect" name="type">
+							<option value="SECOND">s</option>
+							<option value="MILLISECOND">ms</option>
+							<option value="MICROSECOND">&micro;s</option>
+							<option value="NANOSECOND">ns</option>
+						</select>
+					</td>
+					<td class="label">Auto refresh</td>
+					<td class="value">
+						<select id="autorefreshSelect" name="type">
+							<option value="1 sec">1 sec</option>
+							<option value="10 sec">10 sec</option>
+							<option value="30 sec">30 sec</option>
+							<option value="60 sec">60 sec</option>
+							<option value="never">never</option>
+						</select>
+					</td>
+				</tr>
+			</table>
+			<div
+				class="filterButtons fg-toolbar ui-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-corner-bl ui-corner-br ui-helper-clearfix">
+				<button id="refreshButton" name="refreshButton">Refresh</button>
+				<button id="clearAllButton" name="clearAllButton">Clear All</button>
+				<span id="exportSpan">Export:</span>
+				<button id="xmlButton" name="xmlButton">XML</button>
+			</div>
+		</div>
+		<div id="dataPanel">
+			<div class="fg-toolbar ui-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix"
+				style="height:20px;"></div>
+			<table id="dataTreeTable" class="dataTreeTable">
+
+			</table>
+			<div class="fg-toolbar ui-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix"
+				style="height:20px;"></div>
+		</div>
+	</div>
+</div>
+</body>
 </html>

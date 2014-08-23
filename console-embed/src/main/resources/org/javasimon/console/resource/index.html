@@ -1,217 +1,239 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Simon Console</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <link  href="resource/css/start/jquery-ui.css" rel="stylesheet" type="text/css" />
-        <link  href="resource/css/javasimon.css" rel="stylesheet" type="text/css" />
-        <script src="resource/js/jquery.js" type="text/javascript"></script>
-        <script src="resource/js/jquery-ui.js" type="text/javascript"></script>
-        <script src="resource/js/jquery-dataTables.js" type="text/javascript"></script>
-        <script src="resource/js/jquery-dataTables-reloadAjax.js" type="text/javascript"></script>
-        <script src="resource/js/jquery-getUrlParam.js" type="text/javascript"></script>
-        <script src="resource/js/javasimon-filter.js" type="text/javascript"></script>
-        <script src="resource/js/javasimon-service.js" type="text/javascript"></script>
-        <script src="resource/js/javasimon-autorefresh.js" type="text/javascript"></script>
-        <script src="resource/js/javasimon-customization.js" type="text/javascript"></script>
-        <script type="text/javascript">
-$(document).ready(function() {
-	var onTableData = javasimon.onTableData || function() {};
-	var timeFormatSelect = $('#timeFormatSelect');
-	var autorefreshController = new javasimon.AutoRefreshController($("#autorefreshSelect"), function() {
-		oDataTable.fnReloadAjax();	
-	});
-
-	javasimon.SettingsService.load();
-	var oFilterCtrl=new javasimon.FilterController(
-		$('#patternText'),
-		$('#patternHelp'),
-		$('#stopwatchTypeCheck'),$('#counterTypeCheck'),$('#unknownTypeCheck'),$("#typeChecks"),
-		$('#timeFormatSelect'));
-	oFilterCtrl.fnSetValFromUrlParams();
-	document.oFilterCtrl=oFilterCtrl;
-
-	$('#treeLink')
-		.button();
-	$('#filterForm')
-		.submit(function() {document.oFilterCtrl.fnFilter(); return false; });
-	$('#filterButton')
-		.button({label:"Refresh",icons: {primary: "ui-icon-search"}})
-		.click(function() {document.oFilterCtrl.fnFilter(); return false; });
-	$('#noteButton')
-		.button({label:"Name/Note", icons: {primary: "ui-icon-note"}})
-		.click(function() {document.oFilterCtrl.fnToggleNoteColumnVis(); return false; });
-	$('#clearAllButton')
-		.button({label:"Clear All", icons: {primary: "ui-icon-circle-minus"}})
-		.click(function() {
-			javasimon.ClearService.fnClearAll(function() {
-				document.oDataTable.fnReloadAjax();
+<head>
+	<title>Simon Console</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<link href="resource/css/start/jquery-ui.css" rel="stylesheet" type="text/css"/>
+	<link href="resource/css/javasimon.css" rel="stylesheet" type="text/css"/>
+	<script src="resource/js/jquery.js" type="text/javascript"></script>
+	<script src="resource/js/jquery-ui.js" type="text/javascript"></script>
+	<script src="resource/js/jquery-dataTables.js" type="text/javascript"></script>
+	<script src="resource/js/jquery-dataTables-reloadAjax.js" type="text/javascript"></script>
+	<script src="resource/js/jquery-getUrlParam.js" type="text/javascript"></script>
+	<script src="resource/js/javasimon-filter.js" type="text/javascript"></script>
+	<script src="resource/js/javasimon-service.js" type="text/javascript"></script>
+	<script src="resource/js/javasimon-autorefresh.js" type="text/javascript"></script>
+	<script src="resource/js/javasimon-customization.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		$(function () {
+			var onTableData = javasimon.onTableData || function () {
+			};
+			var timeFormatSelect = $('#timeFormatSelect');
+			var autorefreshController = new javasimon.AutoRefreshController($("#autorefreshSelect"), function () {
+				oDataTable.fnReloadAjax();
 			});
-			return false;
-		});
-	$('#csvButton')
-		.button({label:"CSV", icons: {primary: "ui-icon-calculator"}})
-		.click(function() {document.oFilterCtrl.fnExportCsv(); return false; });
-	$('#htmlButton')
-		.button({label:"HTML",icons: {primary: "ui-icon-print"}})
-		.click(function() {document.oFilterCtrl.fnExportHtml(); return false; });
-	var oDataTable=$('#dataTable').dataTable( {
-		bJQueryUI: true,
-		bProcessing: true,
-		bAutoWidth:false,
-		// Length menu
-		iDisplayLength: javasimon.SettingsService.get("iDataTableLength"),
-		aLengthMenu: [[25, 50, 100, -1], [25, 50, 100, "All"]],
-		// Save parameter in cookie
-		bStateSave:true,
-		fnStateSave: function (oSettings, oData) {
-			javasimon.SettingsService.set({iDataTableLength:oData.iLength});
-			javasimon.SettingsService.save();
-		},
-		sAjaxSource: 'data/table.json',
-		fnServerData: function( sUrl, aoData, fnCallback ) {
-			var oVal=document.oFilterCtrl.fnGetVal();
-			aoData.push( { name: "pattern", value: oVal.sPattern } );
-			for(var i=0; i<oVal.asTypes.length; i++) {
-				aoData.push( { name: "type", value: oVal.asTypes[i] } );
-			}
-			aoData.push( { name: "timeFormat", value: oVal.sTimeFormat} );
-			javasimon.TableService.fnGetDataAsJson(aoData, function(json) {
-				if (json) {
-					if (!json.aaData) {
-						json = {aaData:json};
+
+			javasimon.SettingsService.load();
+			var oFilterCtrl = new javasimon.FilterController(
+				$('#patternText'),
+				$('#patternHelp'),
+				$('#stopwatchTypeCheck'), $('#counterTypeCheck'), $('#unknownTypeCheck'), $("#typeChecks"),
+				timeFormatSelect);
+			oFilterCtrl.fnSetValFromUrlParams();
+			document.oFilterCtrl = oFilterCtrl;
+
+			$('#treeLink')
+				.button();
+			$('#filterForm')
+				.submit(function () {
+					document.oFilterCtrl.fnFilter();
+					return false;
+				});
+			$('#filterButton')
+				.button({label: "Refresh", icons: {primary: "ui-icon-search"}})
+				.click(function () {
+					document.oFilterCtrl.fnFilter();
+					return false;
+				});
+			$('#noteButton')
+				.button({label: "Name/Note", icons: {primary: "ui-icon-note"}})
+				.click(function () {
+					document.oFilterCtrl.fnToggleNoteColumnVis();
+					return false;
+				});
+			$('#clearAllButton')
+				.button({label: "Clear All", icons: {primary: "ui-icon-circle-minus"}})
+				.click(function () {
+					javasimon.ClearService.fnClearAll(function () {
+						document.oDataTable.fnReloadAjax();
+					});
+					return false;
+				});
+			$('#csvButton')
+				.button({label: "CSV", icons: {primary: "ui-icon-calculator"}})
+				.click(function () {
+					document.oFilterCtrl.fnExportCsv();
+					return false;
+				});
+			$('#htmlButton')
+				.button({label: "HTML", icons: {primary: "ui-icon-print"}})
+				.click(function () {
+					document.oFilterCtrl.fnExportHtml();
+					return false;
+				});
+			var oDataTable = $('#dataTable').dataTable({
+				bJQueryUI: true,
+				bProcessing: true,
+				bAutoWidth: false,
+				// Length menu
+				iDisplayLength: javasimon.SettingsService.get("iDataTableLength"),
+				aLengthMenu: [
+					[25, 50, 100, -1],
+					[25, 50, 100, "All"]
+				],
+				// Save parameter in cookie
+				bStateSave: true,
+				fnStateSave: function (oSettings, oData) {
+					javasimon.SettingsService.set({iDataTableLength: oData.iLength});
+					javasimon.SettingsService.save();
+				},
+				sAjaxSource: 'data/table.json',
+				fnServerData: function (sUrl, aoData, fnCallback) {
+					var oVal = document.oFilterCtrl.fnGetVal();
+					aoData.push({ name: "pattern", value: oVal.sPattern });
+					for (var i = 0; i < oVal.asTypes.length; i++) {
+						aoData.push({ name: "type", value: oVal.asTypes[i] });
 					}
-					fnCallback(json);
-                    onTableData(json.aaData, timeFormatSelect.val());
-				}
-			});
-		},
-		aoColumns: [
-			{sTitle:"Name", mDataProp: "name",bSearchable: true,sType:"string",sClass:'dataString',sWidth: "40%",bUseRendered:false,
-				fnRender:function(oObject) {
-					var sName=oObject.aData[this.mDataProp]
-						sResult="<a href='detail.html?name="+encodeURIComponent(sName)+"'>"+sName+"</a>";
-					return sResult;
-				}
-			},
-			{sTitle:"Note", mDataProp: "note",bSearchable: true,sType:"string",sClass:'dataString',sWidth: "40%",bVisible:false},
-			{sTitle:"Type", mDataProp: "type",bSearchable: false,sType:"string",bUseRendered:false,
-				fnRender:function(oObject) {
-					var sType=oObject.aData[this.mDataProp];
-					var sImage, oImages;
-					var sResult="";
-					if (sType) {
-						oImages={
-							"unknown":"resource/images/TypeUnknown.png",
-							"counter":"resource/images/TypeCounter.png",
-							"stopwatch":"resource/images/TypeStopwatch.png"
-						};
-						sImage=oImages[sType.toLowerCase()];
-						if (sImage) {
-							sResult="<img src=\""+sImage
-								+"\" class=\"icon\" />";
-								+"\" alt=\""+sType+"\" />";
+					aoData.push({ name: "timeFormat", value: oVal.sTimeFormat});
+					javasimon.TableService.fnGetDataAsJson(aoData, function (json) {
+						if (json) {
+							if (!json.aaData) {
+								json = {aaData: json};
+							}
+							fnCallback(json);
+							onTableData(json.aaData, timeFormatSelect.val());
 						}
-					}
-					return sResult;
-				}
-			},
-			{sTitle:"Count", mDataProp: "counter",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric",asSorting: ["desc","asc" ] },
-			{sTitle:"Total", mDataProp: "total",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric",asSorting: ["desc","asc" ] },
-			{sTitle:"Min", mDataProp: "min",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric",asSorting: ["desc","asc" ] },
-			{sTitle:"Mean", mDataProp: "mean",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric",asSorting: ["desc","asc" ] },
-			{sTitle:"Max", mDataProp: "max",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric",asSorting: ["desc","asc" ] },
-			{sTitle:"StdDev", mDataProp: "standardDeviation",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric",asSorting: ["desc","asc" ] },
-			{sTitle:"Last", mDataProp: "last",bSearchable: false,sType:"numeric",sWidth: "5%",sClass:"numeric",asSorting: ["desc","asc" ] },
-			{sTitle:"First Use", mDataProp: "firstUsage",bSearchable: false,sWidth: "10%",sClass:"numeric" },
-			{sTitle:"Last Use", mDataProp: "lastUsage",bSearchable: false,sWidth: "10%",sClass:"numeric",asSorting: ["desc","asc" ] }
-		],
-		aaSorting: [[ 0, "asc" ]]
-	} );
-	oFilterCtrl.oDataTable=oDataTable;
-	document.oDataTable=oDataTable;
-	$(window).bind('resize', function () {
-		document.oDataTable.fnAdjustColumnSizing();
-	} );
-	$("#mainTabs").tabs({selected:0});
+					});
+				},
+				aoColumns: [
+					{sTitle: "Name", mDataProp: "name", bSearchable: true, sType: "string", sClass: 'dataString', sWidth: "40%", bUseRendered: false,
+						fnRender: function (oObject) {
+							var sName = oObject.aData[this.mDataProp];
+							return "<a href='detail.html?name=" + encodeURIComponent(sName) + "'>" + sName + "</a>";
+						}
+					},
+					{sTitle: "Note", mDataProp: "note", bSearchable: true, sType: "string", sClass: 'dataString', sWidth: "40%", bVisible: false},
+					{sTitle: "Type", mDataProp: "type", bSearchable: false, sType: "string", bUseRendered: false,
+						fnRender: function (oObject) {
+							var sType = oObject.aData[this.mDataProp];
+							var sImage, oImages;
+							var sResult = "";
+							if (sType) {
+								oImages = {
+									"unknown": "resource/images/TypeUnknown.png",
+									"counter": "resource/images/TypeCounter.png",
+									"stopwatch": "resource/images/TypeStopwatch.png"
+								};
+								sImage = oImages[sType.toLowerCase()];
+								if (sImage) {
+									sResult = "<img src=\"" + sImage +
+										"\" class=\"icon\"" + "\" alt=\"" + sType + "\" />";
+								}
+							}
+							return sResult;
+						}
+					},
+					{sTitle: "Count", mDataProp: "counter", bSearchable: false, sType: "numeric", sWidth: "5%", sClass: "numeric", asSorting: ["desc", "asc" ] },
+					{sTitle: "Total", mDataProp: "total", bSearchable: false, sType: "numeric", sWidth: "5%", sClass: "numeric", asSorting: ["desc", "asc" ] },
+					{sTitle: "Min", mDataProp: "min", bSearchable: false, sType: "numeric", sWidth: "5%", sClass: "numeric", asSorting: ["desc", "asc" ] },
+					{sTitle: "Mean", mDataProp: "mean", bSearchable: false, sType: "numeric", sWidth: "5%", sClass: "numeric", asSorting: ["desc", "asc" ] },
+					{sTitle: "Max", mDataProp: "max", bSearchable: false, sType: "numeric", sWidth: "5%", sClass: "numeric", asSorting: ["desc", "asc" ] },
+					{sTitle: "StdDev", mDataProp: "standardDeviation", bSearchable: false, sType: "numeric", sWidth: "5%", sClass: "numeric", asSorting: ["desc", "asc" ] },
+					{sTitle: "Last", mDataProp: "last", bSearchable: false, sType: "numeric", sWidth: "5%", sClass: "numeric", asSorting: ["desc", "asc" ] },
+					{sTitle: "First Use", mDataProp: "firstUsage", bSearchable: false, sWidth: "10%", sClass: "numeric" },
+					{sTitle: "Last Use", mDataProp: "lastUsage", bSearchable: false, sWidth: "10%", sClass: "numeric", asSorting: ["desc", "asc" ] }
+				],
+				aaSorting: [
+					[ 0, "asc" ]
+				]
+			});
+			oFilterCtrl.oDataTable = oDataTable;
+			document.oDataTable = oDataTable;
+			$(window).bind('resize', function () {
+				document.oDataTable.fnAdjustColumnSizing();
+			});
+			$("#mainTabs").tabs({selected: 0});
 
-} );
+		});
 
-        </script>
-    </head>
-    <body>
-        <h1><img id="logo" src="resource/images/logo.png" alt="Logo" />Simon Console</h1>
-	<div id="mainTabs">
-		<ul>
-			<li><a href="#listView" onclick="document.location.href='index.html';return false;">List View</a></li>
-			<li><a href="#treeView" onclick="document.location.href='tree.html';return false;">Tree View</a></li>
-		</ul>
-		<div id="listView">
-			<div id="filterPanel" class="ui-widget-content ui-corner-all">
-				<form id="filterForm">
-					<table class="formTable">
-						<tr>
-							<td class="label">Pattern</td>
-							<td class="value" colspan="3">
-								<input id="patternText" name="pattern" type="text" size="64"/>
-								<div id="patternHelp" class="hidden">Allowed patterns:
-									<ul>
-										<li><em>abcd</em> must match exactly abcd,</li>
-										<li><em>*</em> matches anything (the same like empty pattern),</li>
-										<li><em>*abcd</em> must end with abcd,</li>
-										<li><em>abcd*</em> must start with abcd,</li>
-										<li><em>*abcd*</em> must contains abcd,</li>
-										<li><em>ab*cd</em> must start with ab and end with cd</li>
-									</ul>
-								</div></td>
-						</tr>
-						<tr>
-							<td class="label">Type</td>
-							<td class="value">
-								<div id="typeChecks">
-									<input type="checkbox" id="stopwatchTypeCheck" name="type" value="STOPWATCH" />Stopwatch
-									<input type="checkbox" id="counterTypeCheck" name="type" value="COUNTER" />Counter
-									<input type="checkbox" id="unknownTypeCheck" name="type" value="UNKNOWN" />Group
-								</div>
-							</td>
-							<td class="label">Time format</td>
-							<td class="value">
-								<select id="timeFormatSelect" name="type">
-									<option value="SECOND">s</option>
-									<option value="MILLISECOND">ms</option>
-									<option value="MICROSECOND">&micro;s</option>
-									<option value="NANOSECOND">ns</option>
-								</select>
-							</td>
-							<td class="label">Auto refresh</td>
-							<td class="value">
-								<select id="autorefreshSelect" name="type">
-									<option value="1 sec">1 sec</option>
-									<option value="10 sec">10 sec</option>
-									<option value="30 sec">30 sec</option>
-									<option value="60 sec">60 sec</option>
-									<option value="never">never</option>
-								</select>
-							</td>
-						</tr>
-					</table>
-					<div class="filterButtons ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix">
-						<button id="filterButton" name="filterButton">Refresh</button>
-						<button id="noteButton" name="noteButton">Name/Note</button>
-						<button id="clearAllButton" name="clearAllButton">Clear All</button>
-						<span id="exportSpan">Export:</span>
-						<button id="csvButton" name="csvButton">CSV</button>
-						<button id="htmlButton" name="htmlButton">HTML</button>
-					</div>
-				</form>
-			</div>
-			<div id="dataTablePanel">
-				<table id="dataTable">
+	</script>
+</head>
+<body>
+<h1><img id="logo" src="resource/images/logo.png" alt="Logo"/>Simon Console</h1>
 
+<div id="mainTabs">
+	<ul>
+		<li><a href="#listView" onclick="document.location.href='index.html';return false;">List View</a></li>
+		<li><a href="#treeView" onclick="document.location.href='tree.html';return false;">Tree View</a></li>
+	</ul>
+	<div id="listView">
+		<div id="filterPanel" class="ui-widget-content ui-corner-all">
+			<form id="filterForm">
+				<table class="formTable">
+					<tr>
+						<td class="label">Pattern</td>
+						<td class="value" colspan="3">
+							<input id="patternText" name="pattern" type="text" size="64"/>
+
+							<div id="patternHelp" class="hidden">Allowed patterns:
+								<ul>
+									<li><em>abcd</em> must match exactly abcd,</li>
+									<li><em>*</em> matches anything (the same like empty pattern),</li>
+									<li><em>*abcd</em> must end with abcd,</li>
+									<li><em>abcd*</em> must start with abcd,</li>
+									<li><em>*abcd*</em> must contains abcd,</li>
+									<li><em>ab*cd</em> must start with ab and end with cd</li>
+								</ul>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Type</td>
+						<td class="value">
+							<div id="typeChecks">
+								<input type="checkbox" id="stopwatchTypeCheck" name="type" value="STOPWATCH"/>Stopwatch
+								<input type="checkbox" id="counterTypeCheck" name="type" value="COUNTER"/>Counter
+								<input type="checkbox" id="unknownTypeCheck" name="type" value="UNKNOWN"/>Group
+							</div>
+						</td>
+						<td class="label">Time format</td>
+						<td class="value">
+							<select id="timeFormatSelect" name="type">
+								<option value="SECOND">s</option>
+								<option value="MILLISECOND">ms</option>
+								<option value="MICROSECOND">&micro;s</option>
+								<option value="NANOSECOND">ns</option>
+							</select>
+						</td>
+						<td class="label">Auto refresh</td>
+						<td class="value">
+							<select id="autorefreshSelect" name="type">
+								<option value="1 sec">1 sec</option>
+								<option value="10 sec">10 sec</option>
+								<option value="30 sec">30 sec</option>
+								<option value="60 sec">60 sec</option>
+								<option value="never">never</option>
+							</select>
+						</td>
+					</tr>
 				</table>
-			</div>
+				<div class="filterButtons ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix">
+					<button id="filterButton" name="filterButton">Refresh</button>
+					<button id="noteButton" name="noteButton">Name/Note</button>
+					<button id="clearAllButton" name="clearAllButton">Clear All</button>
+					<span id="exportSpan">Export:</span>
+					<button id="csvButton" name="csvButton">CSV</button>
+					<button id="htmlButton" name="htmlButton">HTML</button>
+				</div>
+			</form>
 		</div>
-        </div>
-    </body>
+		<div id="dataTablePanel">
+			<table id="dataTable">
+
+			</table>
+		</div>
+	</div>
+</div>
+</body>
 </html>
 

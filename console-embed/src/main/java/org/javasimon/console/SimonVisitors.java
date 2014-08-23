@@ -23,7 +23,7 @@ public class SimonVisitors {
 
 	/**
 	 * Visit simons as a list.
-	 * Calls {@link  Manager#getSimons(org.javasimon.SimonFilter)} method
+	 * Calls {@link Manager#getSimons(org.javasimon.SimonFilter)} method
 	 * then Simons are sorted by name and filtered by type
 	 * finally the visitor is called on each of them.
 	 *
@@ -46,18 +46,6 @@ public class SimonVisitors {
 				visitor.visit(simon);
 			}
 		}
-	}
-
-	/**
-	 * Visit Simons recursively as a tree starting from the specified name or root Simon if the name is {@code null}.
-	 *
-	 * @param manager Simon manager
-	 * @param visitor Visitor
-	 * @throws IOException
-	 */
-	public static void visitTree(Manager manager, String rootName, SimonVisitor visitor) throws IOException {
-		Simon root = rootName == null ? manager.getRootSimon() : manager.getSimon(rootName);
-		visitTree(root, visitor);
 	}
 
 	/**

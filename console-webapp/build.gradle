@@ -1,19 +1,18 @@
 archivesBaseName = 'javasimon-console-webapp'
 
 configurations {
-    provided
+	provided
 }
 sourceSets {
-    main { compileClasspath += configurations.provided }
+	main { compileClasspath += configurations.provided }
 }
 
 dependencies {
-    compile project(':console-embed')
+	compile project(':console-embed')
 
-    provided project(':core')
-
+	provided project(':core')
 }
 
 test {
-    useTestNG()
+	useTestNG()
 }

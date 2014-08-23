@@ -1,97 +1,86 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-    version="2.5">
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
 
-    <display-name>Simon Demo Web Application</display-name>
+	<display-name>Simon Demo Web Application</display-name>
 
-    <filter>
-        <filter-name>simon-filter</filter-name>
-        <filter-class>org.javasimon.javaee.SimonServletFilter</filter-class>
-        <init-param>
-            <param-name>prefix</param-name>
-            <param-value>javasimon.demoapp</param-value>
-        </init-param>
-        <init-param>
-            <param-name>console-path</param-name>
-            <param-value>/simon</param-value>
-        </init-param>
-        <init-param>
-            <param-name>report-threshold-ms</param-name>
-            <param-value>4</param-value>
-        </init-param>
-        <init-param>
-            <param-name>stopwatch-source-props</param-name>
-            <param-value>includeHttpMethodName=ALWAYS</param-value>
-        </init-param>
-    </filter>
+	<filter>
+		<filter-name>simon-filter</filter-name>
+		<filter-class>org.javasimon.javaee.SimonServletFilter</filter-class>
+		<init-param>
+			<param-name>prefix</param-name>
+			<param-value>javasimon.demoapp</param-value>
+		</init-param>
+		<init-param>
+			<param-name>console-path</param-name>
+			<param-value>/simon</param-value>
+		</init-param>
+		<init-param>
+			<param-name>report-threshold-ms</param-name>
+			<param-value>4</param-value>
+		</init-param>
+		<init-param>
+			<param-name>stopwatch-source-props</param-name>
+			<param-value>includeHttpMethodName=ALWAYS</param-value>
+		</init-param>
+	</filter>
 
-    <filter>
-        <filter-name>simon-console-filter</filter-name>
-        <filter-class>org.javasimon.console.SimonConsoleFilter</filter-class>
-        <init-param>
-            <param-name>url-prefix</param-name>
-            <param-value>/console-filter</param-value>
-        </init-param>
-    </filter>
+	<filter>
+		<filter-name>simon-console-filter</filter-name>
+		<filter-class>org.javasimon.console.SimonConsoleFilter</filter-class>
+		<init-param>
+			<param-name>url-prefix</param-name>
+			<param-value>/console-filter</param-value>
+		</init-param>
+	</filter>
 
-    <filter-mapping>
-        <filter-name>simon-console-filter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
+	<filter-mapping>
+		<filter-name>simon-console-filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 
-    <filter-mapping>
-        <filter-name>simon-filter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
+	<filter-mapping>
+		<filter-name>simon-filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 
-    <servlet>
-        <servlet-name>SpringDispatcher</servlet-name>
-        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <init-param>
-            <param-name>contextConfigLocation</param-name>
-            <param-value>classpath:/servlet-context.xml</param-value>
-        </init-param>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
+	<servlet>
+		<servlet-name>SpringDispatcher</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:/servlet-context.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
 
-    <servlet>
-        <servlet-name>DefaultServlet</servlet-name>
-        <servlet-class>org.eclipse.jetty.servlet.DefaultServlet</servlet-class>
-    </servlet>
+	<servlet>
+		<servlet-name>DefaultServlet</servlet-name>
+		<servlet-class>org.eclipse.jetty.servlet.DefaultServlet</servlet-class>
+	</servlet>
 
-    <servlet>
-        <servlet-name>SimonConsoleServlet</servlet-name>
-        <servlet-class>org.javasimon.console.SimonConsoleServlet</servlet-class>
-        <init-param>
-            <param-name>url-prefix</param-name>
-            <param-value>/console-servlet</param-value>
-        </init-param>
-    </servlet>
+	<servlet>
+		<servlet-name>SimonConsoleServlet</servlet-name>
+		<servlet-class>org.javasimon.console.SimonConsoleServlet</servlet-class>
+		<init-param>
+			<param-name>url-prefix</param-name>
+			<param-value>/console-servlet</param-value>
+		</init-param>
+	</servlet>
 
-    <servlet-mapping>
-        <servlet-name>SimonConsoleServlet</servlet-name>
-        <url-pattern>/console-servlet/*</url-pattern>
-    </servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>SimonConsoleServlet</servlet-name>
+		<url-pattern>/console-servlet/*</url-pattern>
+	</servlet-mapping>
 
-    <servlet-mapping>
-        <servlet-name>SpringDispatcher</servlet-name>
-        <url-pattern>/app/*</url-pattern>
-    </servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>SpringDispatcher</servlet-name>
+		<url-pattern>/app/*</url-pattern>
+	</servlet-mapping>
 
-    <servlet-mapping>
-        <servlet-name>DefaultServlet</servlet-name>
-        <url-pattern>/*</url-pattern>
-    </servlet-mapping>
-
-    <!--listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener-->
-
-    <!--context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>/WEB-INF/servlet-context.xml</param-value>
-    </context-param-->
-
-
+	<servlet-mapping>
+		<servlet-name>DefaultServlet</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
 </web-app>

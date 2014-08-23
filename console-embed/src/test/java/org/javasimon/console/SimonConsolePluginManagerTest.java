@@ -3,14 +3,14 @@ package org.javasimon.console;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import java.util.List;
+
 import org.javasimon.console.action.DetailPlugin;
 import org.javasimon.console.plugin.DummyDetailPlugin;
 import org.javasimon.console.plugin.DummyOtherPlugin;
 import org.javasimon.console.plugin.QuantilesDetailPlugin;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import java.util.List;
 
 /**
  * Unit test for {@link SimonConsolePluginManager}

@@ -1,25 +1,25 @@
 archivesBaseName = 'javasimon-spring'
 
 configurations {
-    provided
+	provided
 }
 sourceSets {
-    main { compileClasspath += configurations.provided }
+	main { compileClasspath += configurations.provided }
 }
 
 dependencies {
-    compile project(':core')
+	compile project(':core')
 
-    compile libs.spring_core
-    compile libs.spring_aop
-    compile libs.spring_mvc
+	compile libs.spring_core
+	compile libs.spring_aop
+	compile libs.spring_mvc
 
-    provided libs.javaee_api
+	provided libs.javaee_api
 
-    testCompile libs.spring_test
-    testCompile 'org.apache.geronimo.specs:geronimo-servlet_3.0_spec:1.0'
+	testCompile libs.spring_test
+	testCompile 'org.apache.geronimo.specs:geronimo-servlet_3.0_spec:1.0'
 }
 
 test {
-    useTestNG()
+	useTestNG()
 }
