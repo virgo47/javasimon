@@ -6,6 +6,6 @@ package org.javasimon.spring.webmvc;
  * @author gquintana
  */
 public enum HandlerStep {
-	CONTROLLER, 
-	VIEW    
+	CONTROLLER,
+	VIEW
 }

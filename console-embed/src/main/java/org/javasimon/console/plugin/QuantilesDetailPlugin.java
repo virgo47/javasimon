@@ -81,7 +81,7 @@ public class QuantilesDetailPlugin extends DetailPlugin {
 					.endRow();
 				htmlBuilder.beginRow().labelCell("Distribution").beginValueCell();
 				htmlBuilder.begin("table")
-					.beginRow().labelCell("Min").labelCell("Max").labelCell("Counter").endRow();				
+					.beginRow().labelCell("Min").labelCell("Max").labelCell("Counter").endRow();
 				Integer maxCount = bucketsSample.getMaxCount();
 				for(BucketSample bucketSample:bucketsSample.getBuckets()) {
 					final int count = bucketSample.getCount();
@@ -90,7 +90,7 @@ public class QuantilesDetailPlugin extends DetailPlugin {
 						.beginValueCell().value(bucketSample.getMin(),"Time").endValueCell()
 						.beginValueCell().value(bucketSample.getMax(),"Time").endValueCell()
 						.beginValueCell().write("<div class=\"bar\" style=\"width:").write(Integer.toString(barSize)).write("px\">&nbsp;").end("div").value(count, null).endValueCell()
-					.endRow();				
+					.endRow();
 				}
 				htmlBuilder.end("table");
 				htmlBuilder.endValueCell().endRow();

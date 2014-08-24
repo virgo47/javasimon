@@ -108,7 +108,7 @@ public class CallTreeDetailPlugin extends DetailPlugin {
 						.beginValueCell().begin("ul");
 						htmlTreeNode(callTree.getRootNode(), htmlBuilder, htmlStringifierFactory)
 						.end("ul").endValueCell()
-					.endRow();				
+					.endRow();
 			}
 		} else {
 			htmlMessage(htmlBuilder, NO_CALLBACK_MESSAGE);

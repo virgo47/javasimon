@@ -4,6 +4,10 @@ Java Simon is a simple monitoring API that allows you to follow and better under
 Monitors (familiarly called Simons) are placed directly into your code and you can choose whether you
 want to count something or measure time/duration.
 
+* Stable version: 3.5.1 (May 2014, requires Java 6)
+* In development: 4.0.0 (requires Java 7)
+* [History of releases](docs/History.md)
+
 ## Getting started
 
 Easiest way to start with Java Simon is adding Maven dependencies into your Maven project.
@@ -55,12 +59,29 @@ or our Javadoc, that actually contains something on the overview page (under pac
 
 ## Resources
 
-Project is [hosted on GitHub](https://github.com/virgo47/javasimon/), these are related pages: 
+Project is [hosted on GitHub](https://github.com/virgo47/javasimon/), these are related pages:
 
 * Our homepage on Google+: http://www.javasimon.org or https://plus.google.com/b/115141838919870730025/115141838919870730025
 * Javadoc API: http://javasimon.googlecode.com/svn/javadoc/api-3.5/index.html
 * Ohloh page: http://www.ohloh.net/p/javasimon
 * Former project page on Google Code: http://code.google.com/p/javasimon/
+
+## Why Java Simon?
+
+Back in 2008 we wanted to use something like JAMon for our products originally, but we lacked two important features:
+
+* better way (or any way for that matter) to organize all those monitors;
+* nanosecond resolution.
+
+Simon API gives you **better control** over all those monitors in your big - possibly Java EE - application.
+Simons are **organized in a hierarchy** similar to what you can see in virtually any logging API.
+
+Simons **can be disabled** which minimizes their overhead influencing your application. These operations
+can be performed on the whole subtrees of Simons which makes partial application monitoring easier.
+See [Simon Hierarchy](docs/SimonHierarchy.md) for more.
+
+**Simon measures times in nanos** - and since 2008 nanos have been getting better with every OS and JDK release.
+Believe it or not it can make the difference on current very fast machines. See `SystemTimersGranularity` page for more.
 
 ## Wanna contribute?
 
@@ -70,6 +91,13 @@ only core, jdbc, javaee and spring in it. Console and demo application will be d
 projects.
 
 Of course, feel free to fork, suggest your patches, etc. Please, check our [Development guide](docs/Development.md).
+
+## Wanna tell us something?
+
+So tell us! Visit our [Google Group](http://groups.google.com/group/javasimon) (preferably)
+or file an issue here on GitHub, whatever. We can't promise to fulfill all your dreams
+but we want to produce the library YOU like (and so do we - of course ;-)). So if you know
+how to make Simon better, without making it something it is not, let us know! We want to know.
 
 ## Java Simon name
 

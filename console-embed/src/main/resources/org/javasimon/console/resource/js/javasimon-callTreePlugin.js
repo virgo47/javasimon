@@ -16,8 +16,8 @@ if (javasimon) {
 				row=this.fnAppendRow(eTableBody);
 				this.fnAppendLabelCell(row,"Tree");
 				eTreeTable=domUtil.fnAppendChildElement(
-					this.fnAppendValueCell(row, null, 1), 
-					"table", 
+					this.fnAppendValueCell(row, null, 1),
+					"table",
 					{id:"callDataTreeTable", style:"width:auto","class":"dataTreeTable"}
 				);
 				oDataTreeTable=new javasimon.DataTreeTable(

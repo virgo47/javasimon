@@ -4,7 +4,7 @@ if (javasimon) {
 	(function(domUtil, viewPluginMgr) {
 		viewPluginMgr.fnAddPluginRenderer("quantiles",function(eTableBody, oQuantiles) {
 			var row=this.fnAppendRow(eTableBody),
-				i,subTable,subRow, subTableSection, oBucket, 
+				i,subTable,subRow, subTableSection, oBucket,
 				eBucketCell,nBucketWidth;
 			if (oQuantiles.message) {
 				this.fnAppendLabelValueCell(row,"Message", oQuantiles.message, 3);

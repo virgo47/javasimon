@@ -4,7 +4,8 @@ import org.javasimon.console.SimonConsolePlugin;
 import org.javasimon.console.html.HtmlResourceType;
 
 /**
- * Plugin for testing purpose
+ * Plugin for testing purpose.
+ *
  * @author gquintana
  */
 public class DummyOtherPlugin extends SimonConsolePlugin {
@@ -14,5 +15,4 @@ public class DummyOtherPlugin extends SimonConsolePlugin {
 		addResource("js/other.js", HtmlResourceType.JS);
 		addResource("js/other.css", HtmlResourceType.CSS);
 	}
-	
 }

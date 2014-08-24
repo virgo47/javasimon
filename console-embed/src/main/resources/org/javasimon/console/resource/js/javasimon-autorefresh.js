@@ -1,19 +1,19 @@
 "use strict";
-var javasimon=window.javasimon||{};
-window.javasimon=javasimon;
+var javasimon = window.javasimon || {};
+window.javasimon = javasimon;
 /**
  * Auto refresh controller
  */
-javasimon.AutoRefreshController = function(oRefreshTimeSelect, fnOnRefresh) {
+javasimon.AutoRefreshController = function (oRefreshTimeSelect, fnOnRefresh) {
 
 	var SECOND = 1000;
 	var NEVER = "never";
 
 	this.timeoutMap = {
-		"1 sec"  : SECOND,
-		"10 sec" : 10 * SECOND,
-		"30 sec" : 30 * SECOND,
-		"60 sec" : 60 * SECOND
+		"1 sec": SECOND,
+		"10 sec": 10 * SECOND,
+		"30 sec": 30 * SECOND,
+		"60 sec": 60 * SECOND
 	};
 
 	this.oRefreshTimeSelect = oRefreshTimeSelect;
@@ -22,28 +22,26 @@ javasimon.AutoRefreshController = function(oRefreshTimeSelect, fnOnRefresh) {
 
 	var that = this;
 
-	this.oRefreshTimeSelect.change(function() {
+	this.oRefreshTimeSelect.change(function () {
 
 		if (that.timeoutHandle) {
 			clearInterval(that.timeoutHandle);
 		}
 
-		that.restartTimer();		
+		that.restartTimer();
 	});
-
-
 	this.restartTimer();
 };
 
 javasimon.AutoRefreshController.prototype = {
-	restartTimer: function() {
+	restartTimer: function () {
 		var sRefreshVal = this.oRefreshTimeSelect.val();
 		var iTimeoutVal = this.getTimeoutVal(sRefreshVal);
 
 		if (iTimeoutVal) {
 			var that = this;
 
-			this.timeoutHandle = setTimeout(function() {
+			this.timeoutHandle = setTimeout(function () {
 				that.fnOnRefresh();
 				that.restartTimer();
 			}, iTimeoutVal);
@@ -51,8 +49,7 @@ javasimon.AutoRefreshController.prototype = {
 		}
 	},
 
-	getTimeoutVal: function(sRefreshVal) {
-		var iTimeoutVal = this.timeoutMap[sRefreshVal];
-		return iTimeoutVal;
+	getTimeoutVal: function (sRefreshVal) {
+		return this.timeoutMap[sRefreshVal];
 	}
 };
