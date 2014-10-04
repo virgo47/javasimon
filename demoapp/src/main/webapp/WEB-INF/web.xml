@@ -18,11 +18,15 @@
 		</init-param>
 		<init-param>
 			<param-name>report-threshold-ms</param-name>
-			<param-value>4</param-value>
+			<param-value>1</param-value>
 		</init-param>
 		<init-param>
 			<param-name>stopwatch-source-props</param-name>
 			<param-value>includeHttpMethodName=ALWAYS</param-value>
+		</init-param>
+		<init-param>
+			<param-name>request-reporter-class</param-name>
+			<param-value>org.javasimon.javaee.reqreporter.StandardRequestReporter</param-value>
 		</init-param>
 	</filter>
 
