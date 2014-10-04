@@ -1,5 +1,6 @@
 package org.javasimon;
 
+import org.javasimon.callback.Callback;
 import org.javasimon.callback.CompositeCallback;
 import org.javasimon.callback.CompositeCallbackImpl;
 import org.javasimon.clock.SimonClock;
@@ -106,7 +107,12 @@ public final class EnabledManager implements Manager {
 		return simons;
 	}
 
-	private Simon getOrCreateSimon(String name, Class<? extends AbstractSimon> simonClass) {
+	/**
+	 * Even with ConcurrentHashMap we want to synchronize here, so newly created Simons can be fully
+	 * set up with {@link Callback#onSimonCreated(Simon)}. ConcurrentHashMap still works fine for
+	 * listing Simons, etc.
+	 */
+	private synchronized Simon getOrCreateSimon(String name, Class<? extends AbstractSimon> simonClass) {
 		if (name == null) {
 			// create an "anonymous" Simon - Manager does not care about it anymore
 			return instantiateSimon(null, simonClass);
@@ -121,7 +127,7 @@ public final class EnabledManager implements Manager {
 		return createOrReplaceUnknownSimon(name, simonClass);
 	}
 
-	private synchronized AbstractSimon createOrReplaceUnknownSimon(String name, Class<? extends AbstractSimon> simonClass) {
+	private AbstractSimon createOrReplaceUnknownSimon(String name, Class<? extends AbstractSimon> simonClass) {
 		// we will rather check the map in synchronized block before we try to create/replace the Simon
 		AbstractSimon simon = allSimons.get(name);
 		if (simon != null && simonClass.isInstance(simon)) {
