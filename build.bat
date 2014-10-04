@@ -3,14 +3,14 @@ REM if your JDKs lie in Program Files (or other path with spaces) prefer short d
 
 REM MOST OF THE STUFF - JAVA 6
 set JAVA_HOME=%JAVA6_HOME%
-call mvn clean package
+call mvn clean install
 
 REM JAVA 7 STUFF
 cd jdbc41
 set JAVA_HOME=%JAVA7_HOME%
-call mvn clean package
+call mvn clean install
 
-REM SOURCES AND JAVADOCS (using JDK6 fo Javadoc)
+REM SOURCES AND JAVADOCS
 cd ..
 set JAVA_HOME=%JAVA6_HOME%
 call mvn javadoc:aggregate-jar
