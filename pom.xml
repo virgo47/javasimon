@@ -43,8 +43,8 @@
 
 	<scm>
 		<url>https://github.com/virgo47/javasimon</url>
-		<connection>scm:git:https://github.com/virgo47/javasimon</connection>
-		<developerConnection>scm:git:https://github.com/virgo47/javasimon</developerConnection>
+		<connection>scm:git:git://github.com/virgo47/javasimon.git</connection>
+		<developerConnection>scm:git:git@github.com:virgo47/javasimon.git</developerConnection>
 	</scm>
 
 	<licenses>
