@@ -147,7 +147,7 @@
 					These resources are usually in src/main/javadoc instead of docs/api -->
 					<javadocDirectory>docs/api</javadocDirectory>
 					<stylesheetfile>docs/api/stylesheet.css</stylesheetfile>
-					<overview>overview.html</overview>
+					<overview>docs/api/overview.html</overview>
 					<!-- End -->
 					<docfilessubdirs>true</docfilessubdirs>
 					<show>protected</show>
