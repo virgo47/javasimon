@@ -8,7 +8,7 @@
 	<packaging>pom</packaging>
 	<name>Java Simon</name>
 	<description>Java Simon - simple monitoring library</description>
-	<url>http://code.google.com/p/javasimon/</url>
+	<url>https://github.com/virgo47/javasimon</url>
 	<version>3.5.2-SNAPSHOT</version>
 
 	<parent>
@@ -42,9 +42,9 @@
 	</properties>
 
 	<scm>
-		<url>https://javasimon.googlecode.com/svn/trunk/</url>
-		<connection>scm:git:https://code.google.com/p/javasimon/</connection>
-		<developerConnection>scm:git:https://code.google.com/p/javasimon/</developerConnection>
+		<url>https://github.com/virgo47/javasimon</url>
+		<connection>scm:git:git://github.com/virgo47/javasimon.git</connection>
+		<developerConnection>scm:git:git@github.com:virgo47/javasimon.git</developerConnection>
 	</scm>
 
 	<licenses>
