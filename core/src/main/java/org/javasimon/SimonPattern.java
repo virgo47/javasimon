@@ -110,9 +110,7 @@ public final class SimonPattern implements SimonFilter {
 		if (!pattern.contains(WILDCARD_STAR)) {
 			// no wildcard, we're going for complete match (all)
 			all = pattern;
-			if (!SimonUtils.checkName(all)) {
-				throw new SimonException(INVALID_PATTERN + pattern);
-			}
+			validatePattern(all, pattern);
 			return;
 		}
 		if (pattern.equals(WILDCARD_STAR)) {
@@ -121,26 +119,27 @@ public final class SimonPattern implements SimonFilter {
 		}
 		if (pattern.startsWith(WILDCARD_STAR) && pattern.endsWith(WILDCARD_STAR) && pattern.length() > 2) {
 			middle = pattern.substring(1, pattern.length() - 2);
-			if (!SimonUtils.checkName(middle)) {
-				throw new SimonException(INVALID_PATTERN + pattern);
-			}
+			validatePattern(middle, pattern);
 			return;
 		}
+
 		int ix = pattern.lastIndexOf('*');
 		if (ix != pattern.indexOf('*')) {
 			throw new SimonException(INVALID_PATTERN + pattern);
 		}
 		if (!pattern.endsWith(WILDCARD_STAR)) {
 			end = pattern.substring(ix + 1);
-			if (!SimonUtils.checkName(end)) {
-				throw new SimonException(INVALID_PATTERN + pattern);
-			}
+			validatePattern(end, pattern);
 		}
 		if (!pattern.startsWith(WILDCARD_STAR)) {
 			start = pattern.substring(0, ix);
-			if (!SimonUtils.checkName(start)) {
-				throw new SimonException(INVALID_PATTERN + pattern);
-			}
+			validatePattern(start, pattern);
+		}
+	}
+
+	private void validatePattern(String simonNamePart, String pattern) {
+		if (!SimonUtils.checkName(simonNamePart)) {
+			throw new SimonException(INVALID_PATTERN + pattern);
 		}
 	}
 
@@ -151,7 +150,8 @@ public final class SimonPattern implements SimonFilter {
 	 * @param simon Simon to be tested
 	 * @return true if Simon's name matches this pattern
 	 */
-	public boolean accept(Simon simon) {
+	public boolean accept(Simon simon)
+	{
 		return isCorrectType(simon) && matches(simon.getName());
 	}
 
@@ -178,6 +178,7 @@ public final class SimonPattern implements SimonFilter {
 		if (start != null && !name.startsWith(start)) {
 			return false;
 		}
+
 		return end == null || name.endsWith(end);
 	}
 
@@ -213,8 +214,8 @@ public final class SimonPattern implements SimonFilter {
 	@Override
 	public String toString() {
 		return "SimonPattern {" +
-				"pattern='" + pattern + '\'' +
-				", expectedType=" + expectedType +
-				'}';
+			"pattern='" + pattern + '\'' +
+			", expectedType=" + expectedType +
+			'}';
 	}
 }
