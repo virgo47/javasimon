@@ -37,7 +37,7 @@ public final class AggregationExample {
 			ExampleUtils.waitRandomlySquared(20);
 			split.stop();
 		}
-		// this is "null" Simon, but you don't care - just take all the children and do the stuff you want
+		// this is "unknown" Simon, but you don't care - just take all the children and do the stuff you want
 		Simon parent = SimonManager.getSimon(STOPWATCH_PARENT);
 		List<Simon> children = parent.getChildren();
 		System.out.println("parent.children count = " + children.size() + '\n');

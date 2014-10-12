@@ -123,21 +123,8 @@ public final class EnabledManager implements Manager {
 		AbstractSimon simon = allSimons.get(name);
 		if (simon != null && simonClass.isInstance(simon)) {
 			return simon;
-		}
-		return createOrReplaceUnknownSimon(name, simonClass);
-	}
-
-	private AbstractSimon createOrReplaceUnknownSimon(String name, Class<? extends AbstractSimon> simonClass) {
-		// we will rather check the map in synchronized block before we try to create/replace the Simon
-		AbstractSimon simon = allSimons.get(name);
-		if (simon != null && simonClass.isInstance(simon)) {
-			return simon; // the same return like in non-synchronized getOrCreateSimon - you just never know
-		}
-
-		if (simon == null) {
-			if (name != null && !SimonUtils.checkName(name)) {
-				throw new SimonException("Simon name must match following pattern: '" + SimonUtils.NAME_PATTERN.pattern() + "', used name: " + name);
-			}
+		} else if (simon == null) {
+			SimonUtils.validateSimonName(name);
 			simon = newSimon(name, simonClass);
 		} else if (simon instanceof UnknownSimon) {
 			simon = replaceUnknownSimon(simon, simonClass);

@@ -3,6 +3,7 @@ package org.javasimon.utils;
 import org.javasimon.Counter;
 import org.javasimon.Manager;
 import org.javasimon.Simon;
+import org.javasimon.SimonException;
 import org.javasimon.SimonFilter;
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
@@ -302,11 +303,23 @@ public final class SimonUtils {
 	 * Checks if the input string is correct Simon name. Simon name is checked against
 	 * public {@link #NAME_PATTERN}.
 	 *
-	 * @param name checked string
+	 * @param name checked Simon name
 	 * @return true if the string is proper Simon name
 	 */
 	public static boolean checkName(String name) {
 		return NAME_PATTERN.matcher(name).matches();
+	}
+
+	/**
+	 * Checks if the input string is correct Simon name and throws {@link SimonException} otherwise.
+	 *
+	 * @param name checked Simon name
+	 * @throws SimonException if the string is not proper Simon name
+	 */
+	public static void validateSimonName(String name) {
+		if (!checkName(name)) {
+			throw new SimonException("Simon name must match following pattern: '" + SimonUtils.NAME_PATTERN.pattern() + "', used name: " + name);
+		}
 	}
 
 	/**
