@@ -99,8 +99,8 @@ public final class NanoMillisComparison {
 		);
 
 		System.out.println("\nGoogle Chart avg:\n" +
-			GoogleChartImageGenerator.barChart(results, "10M-loop duration"));
+			GoogleChartImageGenerator.barChart("10M-loop duration", results));
 		System.out.println("\nGoogle Chart avg/max/min:\n" +
-			GoogleChartImageGenerator.barChart(results, "10M-loop duration"));
+			GoogleChartImageGenerator.barChart("10M-loop duration", results));
 	}
 }

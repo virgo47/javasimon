@@ -81,6 +81,6 @@ public final class DisabledEnabledComparison {
 		);
 
 		System.out.println("\nGoogle Chart avg:\n" +
-			GoogleChartImageGenerator.barChart(results, "10M-loop duration"));
+			GoogleChartImageGenerator.barChart("10M-loop duration", results));
 	}
 }

@@ -1,28 +1,28 @@
 package org.javasimon.examples;
 
 import org.javasimon.SimonManager;
-import org.javasimon.Split;
 import org.javasimon.Stopwatch;
 import org.javasimon.StopwatchSample;
+import org.javasimon.clock.SimonUnit;
 import org.javasimon.utils.BenchmarkUtils;
 import org.javasimon.utils.GoogleChartImageGenerator;
-import org.javasimon.utils.SimonUtils;
 
+import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * Measures how long it takes to execute a lot of get-start-stop cycles in heavily multithreaded environment.
- *
- * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
- * @since 3.1
+ * Measures nothing with a single stopwatch with varying thread count. Results
+ * should be close to 0, but that is hard to expect. :-)
  */
-public final class MultithreadedStopwatchLoad extends Thread {
+public class MultithreadedContention {
 
-	public static final int TOTAL_TASK_RUNS = 300000;
+	public static final int TOTAL_TASK_RUNS = 2000000;
+	public static final int AVAILABLE_PROCESSORS = Runtime.getRuntime().availableProcessors();
 
-	private MultithreadedStopwatchLoad() {
+	private MultithreadedContention() {
 	}
 
 	/**
@@ -32,50 +32,51 @@ public final class MultithreadedStopwatchLoad extends Thread {
 	 * @throws InterruptedException when sleep is interrupted
 	 */
 	public static void main(String[] args) throws InterruptedException {
-		ExampleUtils.fillManagerWithSimons(100000);
 		final ExecutorService executorService = Executors.newFixedThreadPool(1000);
-		StopwatchSample[] results = BenchmarkUtils.run(1, 2,
+		BenchmarkUtils.run(1, 2,
+			// low contention - single thread
 			new BenchmarkUtils.Task("1") {
 				@Override
 				public void perform() throws Exception {
 					new MultithreadedTester(TOTAL_TASK_RUNS, 1, executorService).execute();
 				}
 			},
-			new BenchmarkUtils.Task("2") {
+			// medium contention
+			new BenchmarkUtils.Task("CPU") {
 				@Override
 				public void perform() throws Exception {
-					new MultithreadedTester(TOTAL_TASK_RUNS, 2, executorService).execute();
+					new MultithreadedTester(TOTAL_TASK_RUNS, AVAILABLE_PROCESSORS, executorService).execute();
 				}
 			},
-			new BenchmarkUtils.Task("3") {
+			// High contention
+			new BenchmarkUtils.Task("400") {
 				@Override
 				public void perform() throws Exception {
-					new MultithreadedTester(TOTAL_TASK_RUNS, 3, executorService).execute();
-				}
-			},
-			new BenchmarkUtils.Task("4") {
-				@Override
-				public void perform() throws Exception {
-					new MultithreadedTester(TOTAL_TASK_RUNS, 4, executorService).execute();
-				}
-			},
-			new BenchmarkUtils.Task("5") {
-				@Override
-				public void perform() throws Exception {
-					new MultithreadedTester(TOTAL_TASK_RUNS, 5, executorService).execute();
-				}
-			},
-			new BenchmarkUtils.Task("100") {
-				@Override
-				public void perform() throws Exception {
-					new MultithreadedTester(TOTAL_TASK_RUNS, 100, executorService).execute();
+					new MultithreadedTester(TOTAL_TASK_RUNS, 400, executorService).execute();
 				}
 			}
 		);
 		executorService.shutdown();
 
+		// we're not using Benchmark results here this time, so we have to extract them on our own
+		StopwatchSample sampleLo = SimonManager.getStopwatch("MT-1").sample();
+		StopwatchSample sampleCpu = SimonManager.getStopwatch("MT-" + AVAILABLE_PROCESSORS).sample();
+		StopwatchSample sampleHi = SimonManager.getStopwatch("MT-400").sample();
+
+		System.out.println("\nsampleLo = " + sampleLo);
+		System.out.println("sampleCpu = " + sampleCpu);
+		System.out.println("sampleHi = " + sampleHi);
+
 		System.out.println("\nGoogle Chart avg:\n" +
-			GoogleChartImageGenerator.barChart("Multithreaded test", results));
+			GoogleChartImageGenerator.barChart("MultithreadedContention", SimonUnit.NANOSECOND,
+				sampleLo,
+				sampleCpu,
+				sampleHi));
+		System.out.println("\nGoogle Chart avg/min/max:\n" +
+			GoogleChartImageGenerator.barChart("MultithreadedContention", SimonUnit.NANOSECOND, true,
+				sampleLo,
+				sampleCpu,
+				sampleHi));
 	}
 
 	/**
@@ -86,15 +87,15 @@ public final class MultithreadedStopwatchLoad extends Thread {
 	private static class MultithreadedTester extends Thread {
 
 		// name of the Simon will be the same like the name of this class
-		private final String NAME = SimonUtils.generateName();
+		private final String name;
 
 		private final int threads;
 		private final int loop;
 		private ExecutorService executorService;
-
 		private final Runnable task = new TestTask();
 
 		private final CountDownLatch latch;
+		private final CyclicBarrier barrier;
 
 		/**
 		 * Creates the tester specifying total number of task runs, number of threads and thread pool
@@ -109,22 +110,23 @@ public final class MultithreadedStopwatchLoad extends Thread {
 			this.threads = threads;
 			this.loop = taskRuns / threads;
 			this.executorService = executorService;
+			name = "MT-" + threads;
 
 			latch = new CountDownLatch(threads);
+			barrier = new CyclicBarrier(threads + 1);
 		}
 
 		void execute() throws InterruptedException {
-			Stopwatch stopwatch = SimonManager.getStopwatch(NAME);
+			Stopwatch stopwatch = SimonManager.getStopwatch(name);
 			for (int i = 1; i <= threads; i++) {
 				startTask();
-				if (i % 500 == 0) {
-					System.out.println("Created thread: " + i +
-						" (already executed loops " + stopwatch.getCounter() +
-						", currently active " + stopwatch.getActive() + ")");
-				}
 			}
-			System.out.println("All threads created (already executed loops " + stopwatch.getCounter() +
-				", currently active " + stopwatch.getActive() + ")");
+			System.out.println("Threads created, ready... starting");
+			try {
+				barrier.await();
+			} catch (InterruptedException | BrokenBarrierException e) {
+				e.printStackTrace();
+			}
 			// here we wait for all threads to end
 			latch.await();
 			System.out.println("All threads finished: " + stopwatch.sample());
@@ -142,13 +144,14 @@ public final class MultithreadedStopwatchLoad extends Thread {
 			/** Run method implementing the code performed by the thread. */
 			@Override
 			public void run() {
+				try {
+					barrier.await();
+				} catch (InterruptedException | BrokenBarrierException e) {
+					e.printStackTrace();
+				}
+				Stopwatch stopwatch = SimonManager.getStopwatch(name);
 				for (int i = 0; i < loop; i++) {
-					Stopwatch stopwatch = SimonManager.getStopwatch(NAME);
-					try (Split ignored = stopwatch.start()) {
-						StopwatchSample sample = stopwatch.sample();
-						//noinspection ResultOfMethodCallIgnored
-						sample.toString();
-					}
+					stopwatch.start().stop();
 				}
 				// signal to latch that the thread is finished
 				latch.countDown();

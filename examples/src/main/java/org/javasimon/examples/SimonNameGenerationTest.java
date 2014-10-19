@@ -67,8 +67,8 @@ public final class SimonNameGenerationTest {
 		);
 
 		System.out.println("\nGoogle Chart avg:\n" +
-			GoogleChartImageGenerator.barChart(results, "200k-loop duration"));
+			GoogleChartImageGenerator.barChart("200k-loop duration", results));
 		System.out.println("\nGoogle Chart avg/max/min:\n" +
-			GoogleChartImageGenerator.barChart(results, "200k-loop duration", SimonUnit.MILLISECOND, true));
+			GoogleChartImageGenerator.barChart("200k-loop duration", SimonUnit.MILLISECOND, true, results));
 	}
 }

@@ -83,13 +83,11 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 			return new Split(this, manager);
 		}
 
-		long nowNanos = manager.nanoTime();
-		Split split;
 		synchronized (this) {
-			updateUsagesNanos(nowNanos);
+			updateUsages(manager.milliTime());
 			activeStart();
 		}
-		split = new Split(this, manager, nowNanos);
+		Split split = new Split(this, manager, manager.nanoTime());
 		manager.callback().onStopwatchStart(split);
 		return split;
 	}

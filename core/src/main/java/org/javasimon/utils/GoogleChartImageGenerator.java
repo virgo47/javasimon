@@ -58,36 +58,36 @@ public final class GoogleChartImageGenerator {
 	/**
 	 * Generates Google bar chart URL for the provided samples.
 	 *
-	 * @param samples stopwatch samples
 	 * @param title chart title
 	 * @param unit unit requested for displaying results
 	 * @param showMaxMin true if additional datasets for max and min values should be shown
+	 * @param samples stopwatch samples
 	 * @return URL generating the bar chart
 	 */
-	public static String barChart(StopwatchSample[] samples, String title, SimonUnit unit, boolean showMaxMin) {
+	public static String barChart(String title, SimonUnit unit, boolean showMaxMin, StopwatchSample... samples) {
 		return new GoogleChartImageGenerator(samples, title, unit, showMaxMin).process();
 	}
 
 	/**
 	 * Generates Google bar chart URL for the provided samples showing only mean values.
 	 *
-	 * @param samples stopwatch samples
 	 * @param title chart title
 	 * @param unit unit requested for displaying results
+	 * @param samples stopwatch samples
 	 * @return URL generating the bar chart
 	 */
-	public static String barChart(StopwatchSample[] samples, String title, SimonUnit unit) {
+	public static String barChart(String title, SimonUnit unit, StopwatchSample... samples) {
 		return new GoogleChartImageGenerator(samples, title, unit, false).process();
 	}
 
 	/**
 	 * Generates Google bar chart URL for the provided samples showing mean values in milliseconds.
 	 *
-	 * @param samples stopwatch samples
 	 * @param title chart title
+	 * @param samples stopwatch samples
 	 * @return URL generating the bar chart
 	 */
-	public static String barChart(StopwatchSample[] samples, String title) {
+	public static String barChart(String title, StopwatchSample... samples) {
 		return new GoogleChartImageGenerator(samples, title, SimonUnit.MILLISECOND, false).process();
 	}
 
@@ -97,7 +97,7 @@ public final class GoogleChartImageGenerator {
 	 * @param samples stopwatch samples
 	 * @return URL generating the bar chart
 	 */
-	public static String barChart(StopwatchSample[] samples) {
+	public static String barChart(StopwatchSample... samples) {
 		return new GoogleChartImageGenerator(samples, DEFAULT_TITLE, SimonUnit.MILLISECOND, false).process();
 	}
 
