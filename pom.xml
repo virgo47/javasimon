@@ -178,14 +178,15 @@
 					<docfilessubdirs>true</docfilessubdirs>
 					<show>protected</show>
 					<linksource>true</linksource>
-					<doctitle>Java Simon API</doctitle>
-					<windowtitle>Java Simon API</windowtitle>
-					<!--<header>&lt;table&gt;&lt;tr&gt;&lt;td style='valign: middle;'&gt;&lt;span style='font-weight: bold;-->
-					<!--margin-right: 16px;'&gt;Java-->
-					<!--Simon ${project.version}&lt;/span&gt;&lt;/td&gt;&lt;td&gt;&lt;div-->
-					<!--class='logo'/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</header>-->
 					<finalName>javasimon-all-${project.version}</finalName>
 					<attach>true</attach>
+					<header><![CDATA[<div class="logo">${project.version}</div>]]></header>
+					<tags>
+						<tag>
+							<name>noinspection</name>
+							<placement>X</placement>
+						</tag>
+					</tags>
 				</configuration>
 			</plugin>
 		</plugins>

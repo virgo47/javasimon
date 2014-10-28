@@ -85,11 +85,11 @@ Document title and Copyright styles
 }
 
 .aboutLanguage {
-    float: right;
-    padding: 0 21px;
-    font-size: .8em;
-    z-index: 200;
-    margin-top: -7px;
+    /*float: right;*/
+    /*padding: 0 21px;*/
+    /*font-size: .8em;*/
+    /*z-index: 200;*/
+    /*margin-top: -7px;*/
 }
 
 .legalCopy {
@@ -108,8 +108,8 @@ Document title and Copyright styles
 .bar {
     background-color: #ffeeee;
     color: #000000;
-    padding: .8em .5em .4em .8em;
-    height: auto; /*height:1.8em;*/
+    padding: 6px 10px;
+    height: 24px;
     font-size: 1em;
     margin: 0;
 }
@@ -118,10 +118,10 @@ Document title and Copyright styles
     background-color: #ffeeee;
     color: #000000;
     float: left;
-    padding: 4px;
     width: 100%;
     clear: right;
-    height: 2em;
+    padding: 6px 0;
+    height: 24px;
     overflow: hidden;
 }
 
@@ -132,8 +132,8 @@ Document title and Copyright styles
     float: left;
     width: 100%;
     clear: right;
-    height: 2em;
-    padding: 4px;
+    padding: 6px 0;
+    height: 24px;
     overflow: hidden;
 }
 
@@ -543,4 +543,20 @@ table code {
     background-color: transparent;
     border: none;
     border-radius: 4px;
+}
+
+div.logo {
+    float: right;
+    margin: -5px 10px 0;
+    padding: 18px 0 0 130px;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 13px;
+    vertical-align: baseline;
+    height: 36px;
+    background: url("resources/simonlogo120.png") no-repeat;
+}
+
+.bar div.logo {
+    margin-right: 0;
 }
