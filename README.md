@@ -4,8 +4,8 @@ Java Simon is a simple monitoring API that allows you to follow and better under
 Monitors (familiarly called Simons) are placed directly into your code and you can choose whether you
 want to count something or measure time/duration.
 
-* Stable version: 3.5.1 (May 2014, requires Java 6)
-* In development: 4.0.0 (requires Java 7)
+* Current version: 4.0.0 (requires Java 7)
+* Previous version: 3.5.1 (May 2014, requires Java 6)
 * [History of releases](docs/History.md)
 
 ## Getting started

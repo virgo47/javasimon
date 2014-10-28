@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.javasimon</groupId>
@@ -8,7 +9,7 @@
 	<name>Java Simon</name>
 	<description>Java Simon - simple monitoring library</description>
 	<url>https://github.com/virgo47/javasimon</url>
-	<version>4.0.0-SNAPSHOT</version>
+	<version>4.0.0</version>
 
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
@@ -36,8 +37,6 @@
 		<version.testng>6.5.2</version.testng>
 		<version.h2database>1.3.170</version.h2database>
 		<version.slf4j>1.7.2</version.slf4j>
-		<version.surefire-plugin>2.17</version.surefire-plugin>
-		<version.compiler-plugin>2.5.1</version.compiler-plugin>
 	</properties>
 
 	<scm>
@@ -127,17 +126,45 @@
 	</dependencyManagement>
 
 	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>2.5</version>
+					<configuration>
+						<encoding>UTF-8</encoding>
+					</configuration>
+				</plugin>
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>2.5.1</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>2.9.1</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<version>2.8.2</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>2.5</version>
+				</plugin>
+				<plugin>
+					<groupId>org.mortbay.jetty</groupId>
+					<artifactId>maven-jetty-plugin</artifactId>
+					<version>6.1.26</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
 		<plugins>
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.5</version>
-				<configuration>
-					<encoding>UTF-8</encoding>
-				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.9.1</version>
 				<configuration>
 					<excludePackageNames>
 						org.javasimon.examples:org.javasimon.examples.*:org.javasimon.demoapp:org.javasimon.demoapp.*
@@ -154,9 +181,9 @@
 					<doctitle>Java Simon API</doctitle>
 					<windowtitle>Java Simon API</windowtitle>
 					<!--<header>&lt;table&gt;&lt;tr&gt;&lt;td style='valign: middle;'&gt;&lt;span style='font-weight: bold;-->
-						<!--margin-right: 16px;'&gt;Java-->
-						<!--Simon ${project.version}&lt;/span&gt;&lt;/td&gt;&lt;td&gt;&lt;div-->
-						<!--class='logo'/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</header>-->
+					<!--margin-right: 16px;'&gt;Java-->
+					<!--Simon ${project.version}&lt;/span&gt;&lt;/td&gt;&lt;td&gt;&lt;div-->
+					<!--class='logo'/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</header>-->
 					<finalName>javasimon-all-${project.version}</finalName>
 					<attach>true</attach>
 				</configuration>

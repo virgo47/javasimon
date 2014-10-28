@@ -14,7 +14,14 @@ bug-fixing (thanks to our users) we added **Maven support** and basic **Java EE 
 **October 11th, 2011**. We moved to **Maven Central** (group-id org.javasimon) and further improved Java EE support.
 Embeddable web-console was added in version 3.2.
 
-Version 4 will move baseline to Java SE 7 sometime during 2014.
+## 4.0.0 - 2014-10-28
+
+* Version 4 requires Java 7 or higher
+* Fix https://github.com/virgo47/javasimon/issues/1
+
+## 3.5.2 - 2014-10-13
+
+* Fix: https://code.google.com/p/javasimon/issues/detail?id=129
 
 ## 3.5.1 released (2014-05-31)
 
