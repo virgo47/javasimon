@@ -1,2 +1,5 @@
 language: java
 jdk: oraclejdk7
+
+after_success:
+    - coveralls
