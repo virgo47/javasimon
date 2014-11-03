@@ -1,4 +1,6 @@
-# Java Simon - Simple Monitors for Java
+Java Simon - Simple Monitors for Java
+=====================================
+[![Build Status](https://travis-ci.org/virgo47/javasimon.svg?branch=master)](https://travis-ci.org/virgo47/javasimon) [![Coverage Status](https://img.shields.io/coveralls/virgo47/javasimon.svg)](https://coveralls.io/r/virgo47/javasimon)
 
 Java Simon is a simple monitoring API that allows you to follow and better understand your application.
 Monitors (familiarly called Simons) are placed directly into your code and you can choose whether you
@@ -7,6 +9,7 @@ want to count something or measure time/duration.
 * Current version: 4.0.0 (requires Java 7) [Javadoc](http://virgo47.github.io/javasimon/api/4.0/)
 * Previous version: 3.5.1 (May 2014, requires Java 6) [Javadoc](http://javasimon.googlecode.com/svn/javadoc/api-3.5/index.html)
 * [History of releases](docs/History.md)
+* License: [New BSD License](license.txt)
 
 ## Getting started
 
