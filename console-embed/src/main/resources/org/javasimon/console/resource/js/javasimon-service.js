@@ -2,9 +2,20 @@
 var javasimon=window.javasimon||{};
 window.javasimon=javasimon;
 (function($, tns) {
-	tns.fnDefaultAjaxErrorCallback=function(content) {
-		window.alert("Server request failed:" +content);
-	};
+        $(document).ajaxError(function(oEvent, oJqXHR, oAjaxSettings, sThrownError) {
+            if (tns.oGlobalErrorPanel) {
+                tns.oGlobalErrorPanel.html("Ajax request failed:" +sThrownError);
+                tns.oGlobalErrorPanel.removeClass("hidden");
+                window.setTimeout(function() {
+                    tns.oGlobalErrorPanel.addClass("hidden");
+                }, 60000);
+            }
+        });
+        $(document).ajaxSuccess(function(oEvent, oJqXHR, oAjaxSettings, oData) {
+            if (tns.oGlobalErrorPanel) {
+                tns.oGlobalErrorPanel.addClass("hidden");
+            }
+        });
 	/**
 	* Service to reset Simons through Ajax HTTP requests
 	*/
@@ -34,7 +45,7 @@ window.javasimon=javasimon;
 		* @param fnAjaxCallback {function} Callback
 		*/
 		fnReset: function(oData, fnAjaxCallback) {
-			$.post(this.sUrl, oData, fnAjaxCallback, tns.fnDefaultAjaxErrorCallback);
+			$.post(this.sUrl, oData, fnAjaxCallback);
 		}
 	};
 	/**
@@ -56,7 +67,7 @@ window.javasimon=javasimon;
 		* @param fnAjaxCallback {function} Callback
 		*/
 		fnClear: function(fnAjaxCallback) {
-			$.post(this.sUrl, {}, fnAjaxCallback, tns.fnDefaultAjaxErrorCallback);
+			$.post(this.sUrl, {}, fnAjaxCallback);
 		}
 	};
 	/**
@@ -90,7 +101,6 @@ window.javasimon=javasimon;
 				url: this.sUrl+".json",
 				data: oParam,
 				success: fnAjaxCallback,
-				error: tns.fnDefaultAjaxErrorCallback,
 				dataType: "json"
 			});
 		}
@@ -112,7 +122,6 @@ window.javasimon=javasimon;
 				url: this.sUrl+".json",
 				data: oParam,
 				success: fnAjaxCallback,
-				error: tns.fnDefaultAjaxErrorCallback,
 				dataType: "json"
 			});
 		}
@@ -131,7 +140,6 @@ window.javasimon=javasimon;
 				url: this.sUrl+".json",
 				data: oParam,
 				success: fnAjaxCallback,
-				error: tns.fnDefaultAjaxErrorCallback,
 				dataType: "json"
 			});
 		}

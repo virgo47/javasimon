@@ -22,7 +22,7 @@
 			var autorefreshController = new javasimon.AutoRefreshController($("#autorefreshSelect"), function () {
 				oDataTable.fnReloadAjax();
 			});
-
+                        javasimon.oGlobalErrorPanel = $('#globalErrorPanel');
 			javasimon.SettingsService.load();
 			var oFilterCtrl = new javasimon.FilterController(
 				$('#patternText'),
@@ -168,6 +168,7 @@
 		<li><a href="#treeView" onclick="document.location.href='tree.html';return false;">Tree View</a></li>
 	</ul>
 	<div id="listView">
+                <div id="globalErrorPanel" class="ui-corner-all hidden"></div>
 		<div id="filterPanel" class="ui-widget-content ui-corner-all">
 			<form id="filterForm">
 				<table class="formTable">
