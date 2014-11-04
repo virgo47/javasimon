@@ -59,7 +59,7 @@ public class ResourceAction extends Action {
 		try {
 			resourceIStream = getClass().getResourceAsStream("/org/javasimon/console/resource" + resourcePath);
 			if (resourceIStream == null) {
-				getContext().getResponse().sendError(HttpServletResponse.SC_NOT_FOUND);
+				getContext().getResponse().setStatus(HttpServletResponse.SC_NOT_FOUND);
 				throw new ActionException("Resource " + resourcePath + " not found");
 			}
 			String extension = resourcePath.substring(resourcePath.lastIndexOf('.') + 1).toLowerCase();
