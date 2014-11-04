@@ -71,12 +71,13 @@
 					document.oFilterCtrl.fnExportHtml();
 					return false;
 				});
+			var sDisplayLength= javasimon.SettingsService.get("iDataTableLength");
 			var oDataTable = $('#dataTable').dataTable({
 				bJQueryUI: true,
 				bProcessing: true,
 				bAutoWidth: false,
 				// Length menu
-				iDisplayLength: javasimon.SettingsService.get("iDataTableLength"),
+				iDisplayLength: sDisplayLength ? parseInt(sDisplayLength) : 25,
 				aLengthMenu: [
 					[25, 50, 100, -1],
 					[25, 50, 100, "All"]
