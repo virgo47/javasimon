@@ -31,6 +31,15 @@ div.hidden {
 /* -----------------------------------------------------------------------------
  * General Form layout
  * ---------------------------------------------------------------------------*/
+div#globalErrorPanel {
+    font-weight: bold;
+    color: red;
+    text-align: center;
+    border: solid 1px red;
+    padding: 1em;
+    margin-bottom: 1em;
+}
+
 table.formTable {
 	width: 100%;
 }

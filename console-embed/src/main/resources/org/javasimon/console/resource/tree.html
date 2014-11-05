@@ -22,7 +22,7 @@
 			var autorefreshController = new javasimon.AutoRefreshController($("#autorefreshSelect"), function () {
 				oDataTreeTable.fnReloadAjax();
 			});
-
+                        javasimon.oGlobalErrorPanel = $('#globalErrorPanel');
 			$('#listLink')
 				.button();
 			$('#refreshButton')
@@ -123,6 +123,7 @@
 		<li><a href="#treeView" onclick="document.location.href='tree.html';return false;">Tree View</a></li>
 	</ul>
 	<div id="treeView">
+                <div id="globalErrorPanel" class="ui-corner hidden"></div>
 		<div id="filterPanel">
 			<table class="formTable">
 				<tr>

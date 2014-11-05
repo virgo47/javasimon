@@ -22,7 +22,7 @@
 			var autorefreshController = new javasimon.AutoRefreshController($("#autorefreshSelect"), function () {
 				oDataTable.fnReloadAjax();
 			});
-
+                        javasimon.oGlobalErrorPanel = $('#globalErrorPanel');
 			javasimon.SettingsService.load();
 			var oFilterCtrl = new javasimon.FilterController(
 				$('#patternText'),
@@ -71,12 +71,13 @@
 					document.oFilterCtrl.fnExportHtml();
 					return false;
 				});
+			var sDisplayLength= javasimon.SettingsService.get("iDataTableLength");
 			var oDataTable = $('#dataTable').dataTable({
 				bJQueryUI: true,
 				bProcessing: true,
 				bAutoWidth: false,
 				// Length menu
-				iDisplayLength: javasimon.SettingsService.get("iDataTableLength"),
+				iDisplayLength: sDisplayLength ? parseInt(sDisplayLength) : 25,
 				aLengthMenu: [
 					[25, 50, 100, -1],
 					[25, 50, 100, "All"]
@@ -167,6 +168,7 @@
 		<li><a href="#treeView" onclick="document.location.href='tree.html';return false;">Tree View</a></li>
 	</ul>
 	<div id="listView">
+                <div id="globalErrorPanel" class="ui-corner-all hidden"></div>
 		<div id="filterPanel" class="ui-widget-content ui-corner-all">
 			<form id="filterForm">
 				<table class="formTable">
