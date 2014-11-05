@@ -35,7 +35,7 @@ public class ResourceActionTest {
 			action.execute();
 		} finally {
 			HttpServletResponse response = context.getResponse();
-			verify(response).sendError(HttpServletResponse.SC_NOT_FOUND);
+			verify(response).setStatus(HttpServletResponse.SC_NOT_FOUND);
 		}
 	}
 }
