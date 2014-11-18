@@ -1,3 +1,0 @@
-include "core", "jdbc4" , "javaee", "examples", "spring" , "console-embed", "console-webapp", "demoapp"
-// jdbc41 must be built separately, this will keep the things easier
-// Java Simon 4.0 will be based on JDK 7 already
