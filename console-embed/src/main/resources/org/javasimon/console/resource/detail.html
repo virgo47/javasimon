@@ -14,7 +14,7 @@
 	<script src="resource/js/javasimon-detailView.js" type="text/javascript"></script>
 	<script type="text/javascript">
 		$(function () {
-                        javasimon.oGlobalErrorPanel = $('#globalErrorPanel');
+			javasimon.oGlobalErrorPanel = $('#globalErrorPanel');
 			javasimon.ViewPluginManager.fnLoadPlugins(
 				"org.javasimon.console.action.DetailPlugin", function (aoPlugins) {
 					var oDetailViewCtrl = new javasimon.DetailView(document.getElementById('dataPanel'));
@@ -34,7 +34,8 @@
 					oDetailViewCtrl.fnLoadAjax = function (sName) {
 						javasimon.DetailService.fnGetDataAsJson({
 								name: sName,
-								timeFormat: javasimon.SettingsService.get('sTimeFormat')},
+								timeFormat: javasimon.SettingsService.get('sTimeFormat')
+							},
 							function (oData) {
 								document.oDetailViewCtrl.fnSetData(oData);
 							});
@@ -55,10 +56,10 @@
 	<ul>
 		<li><a href="#listView" onclick="document.location.href='index.html';return false;">List View</a></li>
 		<li><a href="#treeView" onclick="document.location.href='tree.html';return false;">Tree View</a></li>
-		<li><a href="#detailView" onclick="document.location.href='detail.html';return false;">Detail View</a></li>
+		<li><a href="#detailView">Detail View</a></li>
 	</ul>
 	<div id="detailView">
-                <div id="globalErrorPanel" class="ui-corner-all hidden"></div>
+		<div id="globalErrorPanel" class="ui-corner-all hidden"></div>
 		<div id="filterPanel">
 			<div
 				class="filterButtons fg-toolbar ui-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-corner-bl ui-corner-br ui-helper-clearfix">

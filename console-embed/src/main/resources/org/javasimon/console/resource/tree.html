@@ -59,12 +59,14 @@
 						{sTitle: "Name", sField: "name", sClass: 'string',
 							fnRender: function (oNode, eCell, oDataTreeTable) {
 								// Append Simon type icon
-								var sType = oNode.oData["type"],
-									sValue = oNode.oData[this.sField],
-									domUtil = javasimon.DOMUtil, eLink;
-								// Append Link
-								eLink = domUtil.fnAppendChildElement(eCell, "a", {href: "detail.html?name=" + encodeURIComponent(sValue)});
-								domUtil.fnAppendSimonTypeImage(eLink, sType);
+								var sType = oNode.oData["type"];
+								var sValue = oNode.oData[this.sField];
+								var domUtil = javasimon.DOMUtil;
+								var detailContainer = eCell; // will be link or eCell for UNKNOWN Simons (they don't have link)
+								if (sType !== 'UNKNOWN') {
+									detailContainer = domUtil.fnAppendChildElement(eCell, "a", {href: "detail.html?name=" + encodeURIComponent(sValue)});
+								}
+								domUtil.fnAppendSimonTypeImage(detailContainer, sType);
 								// Fix name
 								if (oNode.oParent !== null) {
 									var sParentValue = oNode.oParent.oData[this.sField];
@@ -80,7 +82,7 @@
 								}
 								sValue = " " + sValue + " ";
 								// Append Simon name
-								domUtil.fnAppendChildText(eLink, sValue);
+								domUtil.fnAppendChildText(detailContainer, sValue);
 								domUtil.fnAppendClass(eCell, "headCell");
 								onTreeElementDrawn(oNode, javasimon.SettingsService.get('sTimeFormat'));
 							}
