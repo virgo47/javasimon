@@ -1,14 +1,14 @@
 package org.javasimon.spring;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.javasimon.Manager;
 import org.javasimon.SimonManager;
 import org.javasimon.SwitchingManager;
 import org.javasimon.callback.Callback;
 
 import org.springframework.beans.factory.FactoryBean;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Factory bean which produces Simon manager.
@@ -36,19 +36,14 @@ import org.springframework.beans.factory.FactoryBean;
  * @author gquintana
  */
 public class ManagerFactoryBean implements FactoryBean<Manager> {
-	/**
-	 * Flag indicating whether Simon manager singleton should be used.
-	 * Defaults to true.
-	 */
+
+	/** Flag indicating whether Simon manager singleton should be used. Defaults to true. */
 	private boolean singleton = true;
-	/**
-	 * List of callbacks to add to the manager
-	 */
+
+	/** List of callbacks to add to the manager */
 	private List<Callback> callbacks = new ArrayList<>();
-	/**
-	 * Flag indicated whether Simon manager should enabled or not.
-	 * Defaults to true.
-	 */
+
+	/** Flag indicated whether Simon manager should enabled or not. Defaults to true. */
 	private boolean enabled = true;
 
 	/**
@@ -74,7 +69,7 @@ public class ManagerFactoryBean implements FactoryBean<Manager> {
 	/**
 	 * @return Always Manager class
 	 */
-	public Class<?> getObjectType() {
+	public Class<Manager> getObjectType() {
 		return Manager.class;
 	}
 
