@@ -2,6 +2,7 @@ package org.javasimon.console;
 
 import java.io.IOException;
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -35,36 +36,29 @@ public class SimonConsoleServlet extends HttpServlet {
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-
-		pickUpSharedManagerIfExists(config);
-
+		// Manager
+		Manager manager = getManager(config.getServletContext());
+		// URL Prefix
 		String urlPrefix = config.getInitParameter(URL_PREFIX_INIT_PARAMETER);
+		// Plugin classes
 		String pluginClasses = config.getInitParameter(PLUGIN_CLASSES_INIT_PARAMETER);
-		initRequestProcessor(urlPrefix, pluginClasses);
+		// Create request processor
+		requestProcessor = SimonConsoleRequestProcessor.create(urlPrefix, manager, pluginClasses);
 	}
 
-	public void initRequestProcessor(String urlPrefix, String pluginClasses) {
-		if (urlPrefix == null) {
-			urlPrefix = "";
-		} else {
-			urlPrefix = urlPrefix.trim();
+	/**
+	 * Get manager stored in servlet context (if any)
+	 */
+	public static Manager getManager(ServletContext servletContext) {
+		Object managerObject = servletContext.getAttribute(SimonUtils.MANAGER_SERVLET_CTX_ATTRIBUTE);
+		Manager manager = null;
+		if (managerObject instanceof Manager) {
+			manager =(Manager) managerObject;
 		}
-		requestProcessor = new SimonConsoleRequestProcessor(urlPrefix);
-		if (pluginClasses != null) {
-			requestProcessor.getPluginManager().addPlugins(pluginClasses);
-		}
-		requestProcessor.initActionBindings();
+		return manager;
 	}
-
 	public SimonConsoleRequestProcessor getRequestProcessor() {
 		return requestProcessor;
-	}
-
-	private void pickUpSharedManagerIfExists(ServletConfig config) {
-		Object managerObject = config.getServletContext().getAttribute(SimonUtils.MANAGER_SERVLET_CTX_ATTRIBUTE);
-		if (managerObject != null && managerObject instanceof Manager) {
-			requestProcessor.setManager((Manager) managerObject);
-		}
 	}
 
 	/**

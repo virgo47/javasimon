@@ -187,7 +187,8 @@ class SimonConsoleRequestProcessor {
 			for(ActionBinding actionBinding: actionBindings) {
 				if (actionBinding instanceof SimpleActionBinding) {
 					SimpleActionBinding simpleActionBinding = (SimpleActionBinding) actionBinding;
-					logBuilder.append(simpleActionBinding.getPath()).append(':').append(simpleActionBinding.getActionClass().getName()).append(' ');
+					logBuilder.append(urlPrefix).append(simpleActionBinding.getPath()).append(':')
+							.append(simpleActionBinding.getActionClass().getName()).append(' ');
 				}
 			}
 			LOGGER.debug(logBuilder.append("actions bound").toString());
@@ -260,5 +261,22 @@ class SimonConsoleRequestProcessor {
 	public SimonConsolePluginManager getPluginManager() {
 		return pluginManager;
 	}
-
+	/**
+	 * Instanciate the request processor (factory method)
+	 * @param urlPrefix Url prefix (null allowed)
+	 * @param manager Manager (null allowed)
+	 * @param pluginClasses Plugin classes (null allowed)
+	 */
+	public static SimonConsoleRequestProcessor create(String urlPrefix, Manager manager, String pluginClasses) {
+		SimonConsoleRequestProcessor requestProcessor = new SimonConsoleRequestProcessor(urlPrefix);
+		if (manager != null) {
+			// Defaults to global manager
+			requestProcessor.setManager(manager);
+		}
+		if (pluginClasses != null) {
+			requestProcessor.getPluginManager().addPlugins(pluginClasses);
+		}
+		requestProcessor.initActionBindings();
+		return requestProcessor;
+	}
 }

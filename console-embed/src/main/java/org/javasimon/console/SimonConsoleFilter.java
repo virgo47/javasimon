@@ -26,18 +26,16 @@ public class SimonConsoleFilter implements Filter {
 	private SimonConsoleRequestProcessor requestProcessor;
 
 	@Override
-	public final void init(FilterConfig filterConfig) {
-		requestProcessor = new SimonConsoleRequestProcessor(
-			filterConfig.getInitParameter(SimonConsoleServlet.URL_PREFIX_INIT_PARAMETER));
-		requestProcessor.initActionBindings();
-		pickUpSharedManagerIfExists(filterConfig);
-	}
+	public final void init(FilterConfig config) {
+		// Manager
+		Manager manager = SimonConsoleServlet.getManager(config.getServletContext());
+		// URL Prefix
+		String urlPrefix = config.getInitParameter(SimonConsoleServlet.URL_PREFIX_INIT_PARAMETER);
+		// Plugin classes
+		String pluginClasses = config.getInitParameter(SimonConsoleServlet.PLUGIN_CLASSES_INIT_PARAMETER);
+		// Create request processor
+		requestProcessor = SimonConsoleRequestProcessor.create(urlPrefix, manager, pluginClasses);
 
-	private void pickUpSharedManagerIfExists(FilterConfig filterConfig) {
-		Object managerObject = filterConfig.getServletContext().getAttribute(SimonUtils.MANAGER_SERVLET_CTX_ATTRIBUTE);
-		if (managerObject != null && managerObject instanceof Manager) {
-			requestProcessor.setManager((Manager) managerObject);
-		}
 	}
 
 	/**
