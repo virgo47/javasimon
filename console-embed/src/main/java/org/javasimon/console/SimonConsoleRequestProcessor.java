@@ -15,6 +15,8 @@ import org.javasimon.console.action.TableHtmlAction;
 import org.javasimon.console.action.TableJsonAction;
 import org.javasimon.console.action.TreeJsonAction;
 import org.javasimon.console.action.TreeXmlAction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,6 +34,10 @@ import javax.servlet.http.HttpServletResponse;
  */
 class SimonConsoleRequestProcessor {
 	/**
+	 * Logger
+	 */
+	private static Logger LOGGER = LoggerFactory.getLogger(SimonConsoleRequestProcessor.class);
+	/**
 	 * Root page path.
 	 */
 	public static final String ROOT_PATH = "/index.html";
@@ -42,7 +48,7 @@ class SimonConsoleRequestProcessor {
 	public static final String TREE_PATH = "/tree.html";
 
 	/**
-	 * Tree page path.
+	 * Detail page path.
 	 */
 	public static final String DETAIL_PATH = "/detail.html";
 
@@ -167,6 +173,24 @@ class SimonConsoleRequestProcessor {
 		addSimpleActionBinding(PluginsJsonAction.PATH, PluginsJsonAction.class);
 		for (ActionBinding actionBinding : pluginManager.getActionBindings()) {
 			addActionBinding(actionBinding);
+		}
+		if (LOGGER.isDebugEnabled()) {
+			// Log
+			if (!pluginManager.getPlugins().isEmpty()) {
+				StringBuilder logBuilder = new StringBuilder();
+				for(SimonConsolePlugin plugin: pluginManager.getPlugins()) {
+					logBuilder.append(plugin.getId()).append(':').append(plugin.getClass().getName()).append(' ');
+				}
+				LOGGER.debug(logBuilder.append("plugins registered").toString());
+			}
+			StringBuilder logBuilder = new StringBuilder();
+			for(ActionBinding actionBinding: actionBindings) {
+				if (actionBinding instanceof SimpleActionBinding) {
+					SimpleActionBinding simpleActionBinding = (SimpleActionBinding) actionBinding;
+					logBuilder.append(simpleActionBinding.getPath()).append(':').append(simpleActionBinding.getActionClass().getName()).append(' ');
+				}
+			}
+			LOGGER.debug(logBuilder.append("actions bound").toString());
 		}
 	}
 
