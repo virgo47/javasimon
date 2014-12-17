@@ -13,6 +13,11 @@ call mvn source:aggregate
 
 REM DISTRIBUTION ZIP (rename as needed)
 if exist dist.zip del dist.zip
-zip -j dist.zip console-embed\target\javasimon*.jar console-webapp\target\javasimon*.war ^
-  core\target\javasimon*.jar examples\target\javasimon*.jar javaee\target\javasimon*.jar ^
-  jdbc41\target\javasimon*.jar target\javasimon*.jar
+zip -j dist.zip console-embed\target\javasimon-console-embed-%VERSION%.jar ^
+  console-webapp\target\javasimon-console-webapp.war ^
+  core\target\javasimon-core-%VERSION%.jar ^
+  examples\target\javasimon-examples-%VERSION%.jar ^
+  javaee\target\javasimon-javaee-%VERSION%.jar ^
+  jdbc41\target\javasimon-jdbc41-%VERSION%.jar ^
+  spring\target\javasimon-spring-%VERSION%.jar ^
+  target\javasimon*.jar
