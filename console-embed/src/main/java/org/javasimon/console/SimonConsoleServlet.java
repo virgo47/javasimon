@@ -39,21 +39,20 @@ public class SimonConsoleServlet extends HttpServlet {
 		pickUpSharedManagerIfExists(config);
 
 		String urlPrefix = config.getInitParameter(URL_PREFIX_INIT_PARAMETER);
-		initRequestProcessor(urlPrefix);
-
 		String pluginClasses = config.getInitParameter(PLUGIN_CLASSES_INIT_PARAMETER);
-		if (pluginClasses != null) {
-			requestProcessor.getPluginManager().addPlugins(pluginClasses);
-		}
+		initRequestProcessor(urlPrefix, pluginClasses);
 	}
 
-	public void initRequestProcessor(String urlPrefix) {
+	public void initRequestProcessor(String urlPrefix, String pluginClasses) {
 		if (urlPrefix == null) {
 			urlPrefix = "";
 		} else {
 			urlPrefix = urlPrefix.trim();
 		}
 		requestProcessor = new SimonConsoleRequestProcessor(urlPrefix);
+		if (pluginClasses != null) {
+			requestProcessor.getPluginManager().addPlugins(pluginClasses);
+		}
 		requestProcessor.initActionBindings();
 	}
 
