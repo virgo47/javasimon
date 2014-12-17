@@ -21,14 +21,15 @@ javasimon.AutoRefreshController = function(oRefreshTimeSelect, fnOnRefresh) {
 	this.timeoutHandle = null;
 
 	var that = this;
-
+	// Disable by default because it may be a burden for server side
+	this.oRefreshTimeSelect.val("never");
 	this.oRefreshTimeSelect.change(function() {
 
 		if (that.timeoutHandle) {
 			clearInterval(that.timeoutHandle);
 		}
 
-		that.restartTimer();		
+		that.restartTimer();
 	});
 
 

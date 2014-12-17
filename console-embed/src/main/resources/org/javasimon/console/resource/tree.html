@@ -18,9 +18,9 @@ $(document).ready(function() {
 	var onTreeElementDrawn = javasimon.onTreeElementDrawn || function() {};
 
 	var autorefreshController = new javasimon.AutoRefreshController($("#autorefreshSelect"), function() {
-		oDataTreeTable.fnReloadAjax();	
+		oDataTreeTable.fnReloadAjax();
 	});
-
+	javasimon.oGlobalErrorPanel = $('#globalErrorPanel');
 	$('#listLink')
 		.button();
 	$('#refreshButton')
@@ -54,7 +54,7 @@ $(document).ready(function() {
 		$timeFormatSelect = $(event.target);
 		var timeUnit = $timeFormatSelect.val();
 		javasimon.SettingsService.set({'sTimeFormat': timeUnit});
-		oDataTreeTable.fnReloadAjax();	
+		oDataTreeTable.fnReloadAjax();
 	});
 	var eTable=document.getElementById('dataTreeTable');
 	var oDataTreeTable=new javasimon.DataTreeTable(eTable,{
@@ -126,8 +126,8 @@ $(document).ready(function() {
 		    </ul>
 		    <div id="treeView">
 			    <div id="filterPanel">
-			    	<table class="formTable">						
-						<tr>							
+			    	<table class="formTable">
+						<tr>
 							<td class="label">Time format</td>
 							<td class="value">
 								<select id="timeFormatSelect" name="type">
@@ -154,13 +154,13 @@ $(document).ready(function() {
 					    <button id="resetAllButton" name="resetAllButton">Reset All</button>
 					    <button id="clearAllButton" name="clearAllButton">Clear All</button>
 					    <span id="exportSpan">Export:</span>
-					    <button id="xmlButton" name="xmlButton">XML</button>					   
+					    <button id="xmlButton" name="xmlButton">XML</button>
 				    </div>
 			    </div>
 			    <div id="dataPanel">
 				    <div class="fg-toolbar ui-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix" style="height:20px;"></div>
 				    <table id="dataTreeTable" class="dataTreeTable">
-					    
+
 				    </table>
 				    <div class="fg-toolbar ui-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix" style="height:20px;"></div>
 			    </div>
