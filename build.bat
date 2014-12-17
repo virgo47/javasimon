@@ -5,11 +5,6 @@ REM MOST OF THE STUFF - JAVA 6
 set JAVA_HOME=%JAVA6_HOME%
 call mvn clean install
 
-REM JAVA 7 STUFF
-cd jdbc41
-set JAVA_HOME=%JAVA7_HOME%
-call mvn clean install
-
 REM SOURCES AND JAVADOCS
 cd ..
 set JAVA_HOME=%JAVA6_HOME%
@@ -20,5 +15,4 @@ REM DISTRIBUTION ZIP (rename as needed)
 if exist dist.zip del dist.zip
 zip -j dist.zip console-embed\target\javasimon*.jar console-webapp\target\javasimon*.war ^
   core\target\javasimon*.jar examples\target\javasimon*.jar javaee\target\javasimon*.jar ^
-  jdbc4\target\javasimon*.jar jdbc41\target\javasimon*.jar ^
-  target\javasimon*.jar
+  jdbc4\target\javasimon*.jar target\javasimon*.jar
