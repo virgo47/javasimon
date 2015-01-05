@@ -105,18 +105,20 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		synchronized (this) {
 			active--;
 			updateUsagesNanos(nowNanos);
-			if (subSimon != null) {
-				Stopwatch effectiveStopwatch = manager.getStopwatch(getName() + Manager.HIERARCHY_DELIMITER + subSimon);
-				split.setAttribute(Split.ATTR_EFFECTIVE_STOPWATCH, effectiveStopwatch);
-				effectiveStopwatch.addSplit(split);
-				return;
+			if (subSimon == null) {
+				long splitNs = nowNanos - start;
+				addSplit(splitNs);
+				if (!manager.callback().callbacks().isEmpty()) {
+					sample = sample();
+				}
+				updateIncrementalSimons(splitNs, nowNanos);
 			}
-			long splitNs = nowNanos - start;
-			addSplit(splitNs);
-			if (!manager.callback().callbacks().isEmpty()) {
-				sample = sample();
-			}
-			updateIncrementalSimons(splitNs, nowNanos);
+		}
+		if (subSimon != null) {
+			Stopwatch effectiveStopwatch = manager.getStopwatch(getName() + Manager.HIERARCHY_DELIMITER + subSimon);
+			split.setAttribute(Split.ATTR_EFFECTIVE_STOPWATCH, effectiveStopwatch);
+			effectiveStopwatch.addSplit(split);
+			return;
 		}
 		manager.callback().onStopwatchStop(split, sample);
 	}

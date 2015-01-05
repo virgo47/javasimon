@@ -82,7 +82,7 @@ abstract class AbstractSimon implements Simon {
 	 *
 	 * @param simon future child of this Simon
 	 */
-	final synchronized void addChild(AbstractSimon simon) {
+	final void addChild(AbstractSimon simon) {
 		children.add(simon);
 		simon.setParent(this);
 		simon.enabled = enabled;
