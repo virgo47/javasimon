@@ -80,7 +80,7 @@ abstract class AbstractSimon implements Simon {
 	 *
 	 * @param simon future child of this Simon
 	 */
-	final synchronized void addChild(AbstractSimon simon) {
+	final void addChild(AbstractSimon simon) {
 		children.add(simon);
 		simon.setParent(this);
 		simon.enabled = enabled;
@@ -263,15 +263,6 @@ abstract class AbstractSimon implements Simon {
 		return incrementalSimons != null ? incrementalSimons.values() : null;
 	}
 
-	Simon getAndResetSampleKey(Object key, Simon newSimon) {
-		if (incrementalSimons == null) {
-			incrementalSimons = new HashMap<>();
-		}
-		Simon simon = incrementalSimons.get(key);
-		incrementalSimons.put(key, newSimon);
-		return simon;
-	}
-
 	Sample sampleIncrementHelper(Object key, Simon newSimon) {
 		Simon simon = getAndResetSampleKey(key, newSimon);
 		if (simon != null) {
@@ -279,6 +270,15 @@ abstract class AbstractSimon implements Simon {
 		} else {
 			return sample();
 		}
+	}
+
+	private Simon getAndResetSampleKey(Object key, Simon newSimon) {
+		if (incrementalSimons == null) {
+			incrementalSimons = new HashMap<>();
+		}
+		Simon simon = incrementalSimons.get(key);
+		incrementalSimons.put(key, newSimon);
+		return simon;
 	}
 
 	@Override
