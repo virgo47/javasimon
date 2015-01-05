@@ -101,6 +101,11 @@ class NullSimon implements Simon {
 	}
 
 	@Override
+	public Sample sampleIncrementNoReset(Object key) {
+		return null;
+	}
+
+	@Override
 	public boolean stopIncrementalSampling(Object key) {
 		return false;
 	}
@@ -306,6 +311,11 @@ final class NullStopwatch extends NullSimon implements Stopwatch {
 	public StopwatchSample sampleIncrement(Object key) {
 		return null;
 	}
+
+	@Override
+	public StopwatchSample sampleIncrementNoReset(Object key) {
+		return null;
+	}
 }
 
 /**
@@ -392,6 +402,11 @@ final class NullCounter extends NullSimon implements Counter {
 
 	@Override
 	public CounterSample sampleIncrement(Object key) {
+		return null;
+	}
+
+	@Override
+	public CounterSample sampleIncrementNoReset(Object key) {
 		return null;
 	}
 }

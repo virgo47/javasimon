@@ -162,4 +162,5 @@ public interface Stopwatch extends Simon {
 	StopwatchSample sample();
 
 	StopwatchSample sampleIncrement(Object key);
+	StopwatchSample sampleIncrementNoReset(Object key);
 }

@@ -133,4 +133,5 @@ public interface Counter extends Simon {
 	CounterSample sample();
 
 	CounterSample sampleIncrement(Object key);
+	CounterSample sampleIncrementNoReset(Object key);
 }

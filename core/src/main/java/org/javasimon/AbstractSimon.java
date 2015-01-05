@@ -281,6 +281,19 @@ abstract class AbstractSimon implements Simon {
 		return simon;
 	}
 
+	Sample sampleIncrementNoResetHelper(Object key) {
+		Simon simon = null;
+		if (incrementalSimons != null) {
+			simon = incrementalSimons.get(key);
+		}
+
+		if (simon != null) {
+			return simon.sample();
+		} else {
+			return sample();
+		}
+	}
+
 	@Override
 	public synchronized boolean stopIncrementalSampling(Object key) {
 		return incrementalSimons != null && incrementalSimons.remove(key) != null;

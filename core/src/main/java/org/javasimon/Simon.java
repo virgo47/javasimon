@@ -129,6 +129,19 @@ public interface Simon extends HasAttributes {
 	Sample sampleIncrement(Object key);
 
 	/**
+	 * Samples current value of incremental Simon. Works like {@link #sampleIncrement(Object)} but
+	 * does not reset the incremental Simon. This method <b>does not</b> start incremental sampling
+	 * and keeps returning values from {@link #sample()} for any key that was not used with
+	 * {@link #sampleIncrement(Object)} before.
+	 *
+	 * @param key sampling key used to access incremental sample
+	 * @return {@link org.javasimon.Sample} with value increments
+	 * @see #sampleIncrement(Object)
+	 * @since 4.1
+	 */
+	Sample sampleIncrementNoReset(Object key);
+
+	/**
 	 * Stops incremental sampling for the key, removing any internal information for the key.
 	 * Next call to {@link #sampleIncrement(Object)} for the key will be considered the first
 	 * call for the key.

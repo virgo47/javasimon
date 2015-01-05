@@ -83,6 +83,7 @@ public final class StopwatchTest extends SimonUnitTest {
 		assertZeroSample(stopwatch.sampleIncrement(""));
 
 		stopwatch.addSplit(Split.create(10));
+		assertIncrementalSampleAfterIncrease(stopwatch.sampleIncrementNoReset(""));
 		assertIncrementalSampleAfterIncrease(stopwatch.sampleIncrement(""));
 
 		// another change produces the same incremental sample

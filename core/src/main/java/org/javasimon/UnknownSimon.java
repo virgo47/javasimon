@@ -32,6 +32,11 @@ final class UnknownSimon extends AbstractSimon {
 	}
 
 	@Override
+	public Sample sampleIncrementNoReset(Object key) {
+		return sample();
+	}
+
+	@Override
 	public boolean stopIncrementalSampling(Object key) {
 		return false;
 	}

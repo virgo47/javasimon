@@ -260,6 +260,11 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		return (StopwatchSample) sampleIncrementHelper(key, new StopwatchImpl(null, manager));
 	}
 
+	@Override
+	public StopwatchSample sampleIncrementNoReset(Object key) {
+		return (StopwatchSample) sampleIncrementNoResetHelper(key);
+	}
+
 	/**
 	 * Updates usage statistics without using {@link System#currentTimeMillis()} if client code already has
 	 * current nano timer value.

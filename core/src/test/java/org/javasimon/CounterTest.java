@@ -140,6 +140,7 @@ public final class CounterTest extends SimonUnitTest {
 		assertZeroSample(counter.sampleIncrement(""));
 
 		counter.increase();
+		assertIncrementalSampleAfterIncrease(counter.sampleIncrementNoReset(""));
 		assertIncrementalSampleAfterIncrease(counter.sampleIncrement(""));
 
 		// another increase produces the same incremental sample

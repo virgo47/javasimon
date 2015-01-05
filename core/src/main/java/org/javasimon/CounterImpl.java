@@ -233,6 +233,11 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		return (CounterSample) sampleIncrementHelper(key, new CounterImpl(null, manager));
 	}
 
+	@Override
+	public CounterSample sampleIncrementNoReset(Object key) {
+		return (CounterSample) sampleIncrementNoResetHelper(key);
+	}
+
 	/**
 	 * Returns Simon basic information, counter, max value and min value as a human readable string.
 	 *
