@@ -16,8 +16,7 @@ want to count something or measure time/duration.
 
 ## Getting started
 
-Easiest way to start with Java Simon is adding Maven dependencies into your Maven project.
-See http://code.google.com/p/javasimon/wiki/MavenSupport for more.
+Easiest way to start with Java Simon is to [add Maven dependencies into your Maven project](docs/Maven.md).
 
 A monitors in Java Simon is called "Simon". There are two types of Simons available: `Counter` and `Stopwatch`.
 Counter tracks single long value, its maximum and minimum. Stopwatch measures time and tracks
