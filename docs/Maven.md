@@ -51,8 +51,8 @@ version (master branch) requires Java SE 7. You can still use 3.5 branch on Java
 of artifact names (group is always `org.javasimon`) based on JDK you need to use:
 
 | Artifact | Java 6/JDBC 4.0 | Java 7/JDBC 4.1 |
-| ------------- |:-------------:| -----:|
+| ------------- |:-------------:| :-----|
 | `javasimon-core` | 3.5.x | 4.x |
-| `javasimon-jdbc4` | 3.5.x | N/A (only in older version, but not maintained since 4.0 is available) |
+| `javasimon-jdbc4` | 3.5.x | N/A<br>(only in older version, but not maintained since 4.0 is available) |
 | `javasimon-jdbc41` | N/A | 4.x |
-| `javasimon-*` (everything else) | 3.5.x | 4.x |
+| `javasimon-*`<br>(and everything else) | 3.5.x | 4.x |
