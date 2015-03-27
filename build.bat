@@ -6,8 +6,6 @@ set JAVA_HOME=%JAVA6_HOME%
 call mvn clean install
 
 REM SOURCES AND JAVADOCS
-cd ..
-set JAVA_HOME=%JAVA6_HOME%
 call mvn javadoc:aggregate-jar
 call mvn source:aggregate
 
