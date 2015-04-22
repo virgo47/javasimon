@@ -25,6 +25,14 @@
 			<groupId>org.codehaus.groovy</groupId>
 			<artifactId>groovy-all</artifactId>
 			<version>${groovy.version}</version>
+			<!--
+			With "runtime" EXE output is: engineFactories = [jdk.nashorn.api.scripting.NashornScriptEngineFactory@140e19d]
+			That is - groovy is missing.
+			If you comment this out (making it effectively "compile"), mvn package, run EXE - output is:
+            engineFactories = [org.codehaus.groovy.jsr223.GroovyScriptEngineFactory@ad8086, jdk.nashorn.api.scripting.NashornScriptEngineFactory@140e19d]
+            That is - groovy is found.
+            It should be found in both cases.
+			-->
 			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
