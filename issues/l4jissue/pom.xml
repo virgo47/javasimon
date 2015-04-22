@@ -78,9 +78,7 @@
 								<productName>${project.name}</productName>
 								<companyName>xxx</companyName>
 								<internalName>xxx</internalName>
-								<!--suppress MavenModelInspection - defined in POM where used -->
-								<originalFilename>xxx.exe
-								</originalFilename>
+								<originalFilename>xxx.exe</originalFilename>
 							</versionInfo>
 						</configuration>
 					</execution>
