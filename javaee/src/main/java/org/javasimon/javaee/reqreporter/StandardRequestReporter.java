@@ -14,11 +14,11 @@ public class StandardRequestReporter extends DefaultRequestReporter {
 	}
 
 	@Override
-	protected boolean shouldBeAddedStopwatchInfo(StopwatchInfo info) {
+	protected boolean shouldBeAddedStopwatchInfo(ReporterStopwatchInfo info) {
 		return !(isJdbcResultSetNextSimon(info));
 	}
 
-	private boolean isJdbcResultSetNextSimon(StopwatchInfo info) {
+	private boolean isJdbcResultSetNextSimon(ReporterStopwatchInfo info) {
 		return info.stopwatch.getName().contains(".sql.") && info.stopwatch.getName().endsWith(".next");
 	}
 }

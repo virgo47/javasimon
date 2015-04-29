@@ -1,6 +1,5 @@
 package org.javasimon.javaee.reqreporter;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +8,6 @@ import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 
 import org.javasimon.Split;
-import org.javasimon.Stopwatch;
 import org.javasimon.javaee.SimonServletFilter;
 import org.javasimon.utils.SimonUtils;
 
@@ -20,7 +18,7 @@ import org.javasimon.utils.SimonUtils;
  * <li>Where the report goes - override {@link #reportMessage(String)},</li>
  * <li>what is significant split - override {@link #isSignificantSplit(org.javasimon.Split, org.javasimon.Split)},</li>
  * <li>whether stopwatch info (from stopwatch distribution part) should be included -
- * override {@link #shouldBeAddedStopwatchInfo(DefaultRequestReporter.StopwatchInfo)}.</li>
+ * override {@link #shouldBeAddedStopwatchInfo(ReporterStopwatchInfo)}.</li>
  * </ul>
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
@@ -57,17 +55,17 @@ public class DefaultRequestReporter implements RequestReporter {
 	}
 
 	private void buildSplitDetails(Split requestSplit, List<Split> splits, StringBuilder messageBuilder) {
-		Map<String, StopwatchInfo> stopwatchInfos = new HashMap<>();
+		Map<String, ReporterStopwatchInfo> stopwatchInfos = new HashMap<>();
 
 		processSplitsAndAddSignificantOnes(requestSplit, splits, messageBuilder, stopwatchInfos);
 		addStopwatchSplitDistribution(messageBuilder, stopwatchInfos);
 	}
 
-	private void processSplitsAndAddSignificantOnes(Split requestSplit, List<Split> splits, StringBuilder messageBuilder, Map<String, StopwatchInfo> stopwatchInfos) {
+	private void processSplitsAndAddSignificantOnes(Split requestSplit, List<Split> splits, StringBuilder messageBuilder, Map<String, ReporterStopwatchInfo> stopwatchInfos) {
 		for (Split split : splits) {
-			StopwatchInfo stopwatchInfo = stopwatchInfos.get(split.getStopwatch().getName());
+			ReporterStopwatchInfo stopwatchInfo = stopwatchInfos.get(split.getStopwatch().getName());
 			if (stopwatchInfo == null) {
-				stopwatchInfo = new StopwatchInfo(split.getStopwatch());
+				stopwatchInfo = new ReporterStopwatchInfo(split.getStopwatch());
 				stopwatchInfos.put(split.getStopwatch().getName(), stopwatchInfo);
 			}
 			stopwatchInfo.addSplit(split);
@@ -92,10 +90,10 @@ public class DefaultRequestReporter implements RequestReporter {
 		return split.runningFor() > (requestSplit.runningFor() / 20); // is more than 5%
 	}
 
-	private void addStopwatchSplitDistribution(StringBuilder messageBuilder, Map<String, StopwatchInfo> stopwatchInfos) {
+	private void addStopwatchSplitDistribution(StringBuilder messageBuilder, Map<String, ReporterStopwatchInfo> stopwatchInfos) {
 		messageBuilder.append("\nStopwatch/Split count/total/max for this request (sorted by total descending):");
-		Set<StopwatchInfo> sortedInfos = new TreeSet<>(stopwatchInfos.values());
-		for (StopwatchInfo info : sortedInfos) {
+		Set<ReporterStopwatchInfo> sortedInfos = new TreeSet<>(stopwatchInfos.values());
+		for (ReporterStopwatchInfo info : sortedInfos) {
 			if (shouldBeAddedStopwatchInfo(info)) {
 				addStopwatchInfo(messageBuilder, info);
 			}
@@ -109,11 +107,11 @@ public class DefaultRequestReporter implements RequestReporter {
 	 * @return true, if the stopatch info should be reported
 	 */
 	@SuppressWarnings("UnusedParameters")
-	protected boolean shouldBeAddedStopwatchInfo(StopwatchInfo info) {
+	protected boolean shouldBeAddedStopwatchInfo(ReporterStopwatchInfo info) {
 		return true;
 	}
 
-	private void addStopwatchInfo(StringBuilder messageBuilder, StopwatchInfo info) {
+	private void addStopwatchInfo(StringBuilder messageBuilder, ReporterStopwatchInfo info) {
 		messageBuilder.append("\n\t").append(info.stopwatch.getName()).append(": ").append(info.splits.size()).
 			append("x, total: ").append(SimonUtils.presentNanoTime(info.total)).
 			append(", max: ").append(SimonUtils.presentNanoTime(info.maxSplit.runningFor()));
@@ -125,31 +123,5 @@ public class DefaultRequestReporter implements RequestReporter {
 	@Override
 	public void setSimonServletFilter(SimonServletFilter simonServletFilter) {
 		this.simonServletFilter = simonServletFilter;
-	}
-
-	// naturally sorted by total time descending
-	protected class StopwatchInfo implements Comparable<StopwatchInfo> {
-		Stopwatch stopwatch;
-		List<Split> splits = new ArrayList<>();
-		Split maxSplit;
-		long total;
-
-		StopwatchInfo(Stopwatch stopwatch) {
-			this.stopwatch = stopwatch;
-		}
-
-		@Override
-		public int compareTo(StopwatchInfo o) {
-			return total < o.total ? 1 : total == o.total ? 0 : -1;
-		}
-
-		public void addSplit(Split split) {
-			splits.add(split);
-			long runningFor = split.runningFor();
-			if (maxSplit == null || runningFor > maxSplit.runningFor()) {
-				maxSplit = split;
-			}
-			total += runningFor;
-		}
 	}
 }
