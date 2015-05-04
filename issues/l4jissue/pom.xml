@@ -47,7 +47,10 @@
 			<plugin>
 				<groupId>com.akathist.maven.plugins.launch4j</groupId>
 				<artifactId>launch4j-maven-plugin</artifactId>
-				<version>1.7.1</version>
+				<!-- Suffers from: https://github.com/lukaszlenart/launch4j-maven-plugin/issues/5 -->
+				<!--<version>1.7.5</version>-->
+				<!-- Fixed version -->
+				<version>1.7.6</version>
 				<executions>
 					<execution>
 						<id>l4j-clui</id>
