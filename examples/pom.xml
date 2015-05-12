@@ -20,6 +20,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.javasimon</groupId>
+			<artifactId>javasimon-jdbc41</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.javasimon</groupId>
 			<artifactId>javasimon-console-embed</artifactId>
 			<version>${project.version}</version>
 		</dependency>
