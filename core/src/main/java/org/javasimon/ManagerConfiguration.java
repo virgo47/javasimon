@@ -1,13 +1,5 @@
 package org.javasimon;
 
-import org.javasimon.callback.Callback;
-import org.javasimon.callback.CompositeCallback;
-import org.javasimon.callback.CompositeCallbackImpl;
-import org.javasimon.callback.CompositeFilterCallback;
-import org.javasimon.callback.FilterCallback;
-import org.javasimon.callback.FilterRule;
-import org.javasimon.utils.bean.SimonBeanUtils;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
@@ -19,6 +11,14 @@ import java.util.Map;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
+
+import org.javasimon.callback.Callback;
+import org.javasimon.callback.CompositeCallback;
+import org.javasimon.callback.CompositeCallbackImpl;
+import org.javasimon.callback.CompositeFilterCallback;
+import org.javasimon.callback.FilterCallback;
+import org.javasimon.callback.FilterRule;
+import org.javasimon.utils.bean.SimonBeanUtils;
 
 /**
  * Holds configuration for one Simon Manager. Configuration is read from the stream
@@ -172,7 +172,7 @@ public final class ManagerConfiguration {
 		if (attrs.get("events") != null) {
 			String[] sa = attrs.get("events").trim().split(" *, *");
 			for (String eventName : sa) {
-				events.add(Callback.Event.forCode(eventName.toLowerCase()));
+				events.add(Callback.Event.forCode(eventName));
 			}
 		}
 		if (isStartTag(xr, "condition")) {

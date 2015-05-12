@@ -198,7 +198,7 @@ public interface Callback {
 
 		static {
 			for (Event value : values()) {
-				codeValues.put(value.code, value);
+				codeValues.put(value.code.toLowerCase(), value);
 			}
 		}
 
@@ -218,7 +218,7 @@ public interface Callback {
 		 * @return Event object
 		 */
 		public static Event forCode(String code) {
-			return codeValues.get(code);
+			return codeValues.get(code.toLowerCase());
 		}
 	}
 }
