@@ -99,7 +99,7 @@ Of course, feel free to fork, suggest your patches, etc. Please, check our [Deve
 
 ## Wanna tell us something?
 
-So tell us! Visit our [Google Group](http://groups.google.com/group/javasimon) (preferably)
+So tell us! Visit our [Google Group](http://groups.google.com/group/javasimon)
 or file an issue here on GitHub, whatever. We can't promise to fulfill all your dreams
 but we want to produce the library YOU like (and so do we - of course ;-)). So if you know
 how to make Simon better, without making it something it is not, let us know! We want to know.
