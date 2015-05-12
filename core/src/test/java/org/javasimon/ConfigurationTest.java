@@ -1,5 +1,11 @@
 package org.javasimon;
 
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.logging.Level;
+
+import javax.script.ScriptException;
+
 import org.javasimon.callback.Callback;
 import org.javasimon.callback.CallbackSkeleton;
 import org.javasimon.callback.CompositeCallback;
@@ -10,12 +16,6 @@ import org.javasimon.utils.LoggingCallback;
 import org.javasimon.utils.SystemDebugCallback;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.io.IOException;
-import java.io.StringReader;
-import java.util.logging.Level;
-
-import javax.script.ScriptException;
 
 /**
  * Tests for the configuration facility (callbacks, {@link ManagerConfiguration}).
@@ -70,6 +70,11 @@ public final class ConfigurationTest extends SimonUnitTest {
 		Assert.assertTrue(new FilterRule(null, "value == 1ms", null).checkCondition(split.getStopwatch(), SimonClock.NANOS_IN_MILLIS));
 		Assert.assertTrue(new FilterRule(null, "value == 1us", null).checkCondition(split.getStopwatch(), 1000L));
 		Assert.assertTrue(new FilterRule(null, "value == 1", null).checkCondition(split.getStopwatch(), 1L));
+	}
+
+	@Test(expectedExceptions = SimonException.class, expectedExceptionsMessageRegExp = "Expression 'split' does not return boolean\\.")
+	public void nonBooleanConditionThrowsException() {
+		new FilterRule(null, "split", null);
 	}
 
 	// Callback helper class that does sets trigger on start/stop events
