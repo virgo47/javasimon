@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
  * Prior to Simon 3.4, this class was known as org.javasimon.jdbc4.Driver.Url and only used in {@link Driver}.
  * It was externalized and is now used in both {@code org.javasimon.jdbc4.Driver}
  * and {@link org.javasimon.jdbcx4.SimonDataSource} and other Simon DataSources.
+ *
  * @author Radovan Sninsky
  * @author gquintana
  * @since 3.4
@@ -80,7 +81,9 @@ public class SimonConnectionConfiguration {
 			// TODO: limited to known drivers, better find driver later based on JDBC connection URL without "simon" word
 			Properties properties = new Properties();
 			stream = Thread.currentThread().getContextClassLoader().getResourceAsStream("org/javasimon/jdbc4/drivers.properties");
-			properties.load(stream);
+			if (stream != null) {
+				properties.load(stream);
+			}
 			return properties;
 		} catch (IOException e) {
 			throw new IllegalStateException(e);

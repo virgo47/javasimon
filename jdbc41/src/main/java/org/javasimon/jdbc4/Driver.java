@@ -191,5 +191,4 @@ public final class Driver implements java.sql.Driver {
     public Logger getParentLogger() throws SQLFeatureNotSupportedException {
         return driver.getParentLogger();
     }
-
 }
