@@ -105,5 +105,6 @@ public class JdbcExample {
 					" start TIMESTAMP," +
 					" nanos BIGINT)");
 		}
+		System.out.println("Connection schema: " + connection.getSchema());
 	}
 }
