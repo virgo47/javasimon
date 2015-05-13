@@ -1,0 +1,37 @@
+apply plugin: 'maven'
+apply plugin: 'java'
+apply plugin: 'idea'
+
+repositories {
+	mavenCentral()
+}
+
+configurations {
+	provided
+}
+sourceSets {
+	main {
+		compileClasspath += configurations.provided
+		test.compileClasspath += configurations.provided
+		test.runtimeClasspath += configurations.provided
+	}
+}
+
+// if you use 'idea' plugin, otherwise fails with: Could not find method idea() for arguments...
+idea {
+	module {
+		/*
+		 * If you omit [ ] around, it fails with: Cannot change configuration ':provided' after it has been resolved
+         * This is due Gradle 2.x using Groovy 2.3 that does not allow += for single elements addition.
+         * More: https://discuss.gradle.org/t/custom-provided-configuration-not-working-with-gradle-2-0-rc2-in-multi-project-mode/2459
+		 */
+		scopes.PROVIDED.plus += [configurations.provided]
+		downloadJavadoc = true
+		downloadSources = true
+	}
+}
+
+dependencies {
+	compile 'com.google.guava:guava:17.0'
+	provided 'javax:javaee-api:7.0'
+}

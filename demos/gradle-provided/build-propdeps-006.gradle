@@ -1,0 +1,29 @@
+apply plugin: 'maven'
+apply plugin: 'java'
+apply plugin: 'idea'
+
+repositories {
+	mavenCentral()
+}
+
+buildscript {
+	repositories {
+		maven { url 'http://repo.spring.io/plugins-release' }
+	}
+	dependencies {
+		classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.6'
+	}
+}
+
+configure(allprojects) {
+	apply plugin: 'propdeps'
+	apply plugin: 'propdeps-maven'
+	// following line causes Cannot change configuration ':provided' with Gradle 2.x (uses += without [ ] internally)
+	apply plugin: 'propdeps-idea'
+	apply plugin: 'propdeps-eclipse'
+}
+
+dependencies {
+	compile 'com.google.guava:guava:17.0'
+	provided 'javax:javaee-api:7.0'
+}

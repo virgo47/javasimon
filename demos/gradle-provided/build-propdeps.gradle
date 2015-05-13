@@ -1,0 +1,31 @@
+apply plugin: 'maven'
+apply plugin: 'java'
+apply plugin: 'idea'
+
+repositories {
+	mavenCentral()
+}
+
+buildscript {
+	repositories {
+		maven { url 'http://repo.spring.io/plugins-release' }
+	}
+	dependencies {
+		classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.7'
+	}
+}
+
+// Advantage of this over manual solution is that we can apply even propdeps-eclipse plugin
+// and it doesn't fail without eclipse plugin. I don't recommend using unused plugins of course.
+// Manual solution fails with Could not find method eclipse (or idea, ...)
+configure(allprojects) {
+	apply plugin: 'propdeps'
+	apply plugin: 'propdeps-maven'
+	apply plugin: 'propdeps-idea'
+	apply plugin: 'propdeps-eclipse'
+}
+
+dependencies {
+	compile 'com.google.guava:guava:17.0'
+	provided 'javax:javaee-api:7.0'
+}
