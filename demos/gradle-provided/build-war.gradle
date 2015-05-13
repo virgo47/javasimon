@@ -1,0 +1,11 @@
+apply plugin: 'maven'
+apply plugin: 'war'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	compile 'com.google.guava:guava:17.0'
+	providedCompile 'javax:javaee-api:7.0'
+}
