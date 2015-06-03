@@ -1,5 +1,5 @@
-// Gradle build is still not actively used because it seems that Maven still has better integration to IDEA,
-// its syntax is not that supported, it doesn't have "provided" scope (hassle free), etc...
+// Gradle build is actively used for Travis CI build (from GitHub)
+// Maven is still used for release though
 apply plugin: 'idea'
 apply plugin: 'maven'
 
