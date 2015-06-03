@@ -90,12 +90,14 @@ Believe it or not it can make the difference on current very fast machines. See 
 
 ## Wanna contribute?
 
-OK, this is the tricky one. Over the years I found that I'm less enthusiastic about Java Simon. Project got bigger,
-there are even parts I don't know properly. That's why I decided that I'll downsize the core project and leave
-only core, jdbc, javaee and spring in it. Console and demo application will be developed as separate companion
-projects.
+OK, this is the tricky one. Over the years the project got bigger and there
+are even parts I don't know properly. That's why I decided that I'll downsize
+the core project and leave only core, jdbc, javaee and spring in it. Console
+and demo application will be developed as separate companion projects (but
+will be retained in the project as-are until that happens).
 
-Of course, feel free to fork, suggest your patches, etc. Please, check our [Development guide](docs/Development.md).
+But feel free to fork, suggest your patches, file an issues, etc. Please,
+check our [Development guide](docs/Development.md).
 
 ## Wanna tell us something?
 
