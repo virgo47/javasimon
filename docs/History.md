@@ -14,6 +14,11 @@ bug-fixing (thanks to our users) we added **Maven support** and basic **Java EE 
 **October 11th, 2011**. We moved to **Maven Central** (group-id org.javasimon) and further improved Java EE support.
 Embeddable web-console was added in version 3.2.
 
+## 4.1.0 - 2015-06-03
+
+* [Deadlock problem when using Split.stop(String) with more than one subSimon name and SimonManager.clear()](https://github.com/virgo47/javasimon/issues/11)
+* [Add support for sampleIncrementNoReset](https://github.com/virgo47/javasimon/issues/12)
+
 ## 4.0.1 - 2014-12-17
 
 Console bugfixes:

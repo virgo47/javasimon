@@ -5,7 +5,7 @@ Java Simon is now fully Maven 3.x compliant. Artifacts for Maven users are hoste
 ```
         <properties>
 ...
-                <javasimon.version>4.0.1</javasimon.version>
+                <javasimon.version>4.1.0</javasimon.version>
 ...
         </properties>
 
