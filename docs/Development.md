@@ -44,7 +44,7 @@ of their guide. Alternatively you can login into https://oss.sonatype.org/ and f
 
 Then, version should be set to the next snapshot, for example:
 ```
-call mvn versions:set 4.1.1-SNAPSHOT
+call mvn versions:set -DnewVersion=4.1.1-SNAPSHOT
 call mvn versions:commit
 ```
 
