@@ -18,6 +18,9 @@ Embeddable web-console was added in version 3.2.
 
 * [Deadlock problem when using Split.stop(String) with more than one subSimon name and SimonManager.clear()](https://github.com/virgo47/javasimon/issues/11)
 * [Add support for sampleIncrementNoReset](https://github.com/virgo47/javasimon/issues/12)
+* pushing `StopwatchInfo` to upper level under name `ReporterStopwatchInfo`, it didn't make sense to have it as inner class of `DefaultRequestReporter` (probably historical reason)
+* JDBC fixes: fixed driver class name (accident) and NPE if `driver.properties` are not found
+* `Callback.Event` codes are internally lowercased before used as a key or when returning event by the code (fixes matching)
 
 ## 4.0.1 - 2014-12-17
 

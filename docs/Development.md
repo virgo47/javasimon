@@ -37,6 +37,11 @@ snapshot version, of course) and GPG passphrase, Maven will do the rest. There i
 After everything runs OK, local version is set to specified version. One can perform some final touches
 (only to documentation, not to sources!) and commit/push.
 
+When all previous steps succeed, our artifacts are staged. If we want to promote them
+(really, really Release). To promote them, you may use [this section](http://central.sonatype.org/pages/apache-maven.html#releasing-the-deployment-to-the-central-repository)
+of their guide. Alternatively you can login into https://oss.sonatype.org/ and follow
+[these instructions](http://central.sonatype.org/pages/releasing-the-deployment.html). 
+
 Then, version should be set to the next snapshot, for example:
 ```
 call mvn versions:set 4.1.1-SNAPSHOT
