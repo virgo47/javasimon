@@ -1,9 +1,12 @@
 package org.javasimon.utils;
 
+import org.javasimon.Simon;
+import org.javasimon.SimonFilter;
 import org.javasimon.StopwatchSample;
 
 /**
- * Object that holds aggregate values from all stopwatches in hierarchy.
+ * Holds aggregate values for stopwatches in a hierarchy as a result of
+ * {@link SimonUtils#calculateStopwatchAggregate(Simon)} (optionally with {@link SimonFilter}).
  *
  * @author <a href="mailto:ivan.mushketyk@gmail.com">Ivan Mushketyk</a>
  * @since 3.5

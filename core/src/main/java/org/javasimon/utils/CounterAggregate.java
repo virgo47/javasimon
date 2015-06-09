@@ -1,9 +1,12 @@
 package org.javasimon.utils;
 
 import org.javasimon.CounterSample;
+import org.javasimon.Simon;
+import org.javasimon.SimonFilter;
 
 /**
- * Object that holds aggregate values from all counters in hierarchy.
+ * Holds aggregate values for counters in a hierarchy as a result of
+ * {@link SimonUtils#calculateCounterAggregate(Simon)} (optionally with {@link SimonFilter}).
  *
  * @author <a href="mailto:ivan.mushketyk@gmail.com">Ivan Mushketyk</a>
  * @since 3.5
