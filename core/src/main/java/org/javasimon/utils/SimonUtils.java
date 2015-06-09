@@ -1,5 +1,13 @@
 package org.javasimon.utils;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.concurrent.Callable;
+import java.util.regex.Pattern;
+
 import org.javasimon.Counter;
 import org.javasimon.Manager;
 import org.javasimon.Simon;
@@ -8,14 +16,6 @@ import org.javasimon.SimonFilter;
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
 import org.javasimon.Stopwatch;
-
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.concurrent.Callable;
-import java.util.regex.Pattern;
 
 /**
  * SimonUtils provides static utility methods.
@@ -111,13 +111,6 @@ public final class SimonUtils {
 		}
 		CLIENT_CODE_STACK_INDEX = i;
 	}
-
-	private static final SimonFilter ACCEPT_ALL_FILTER = new SimonFilter() {
-		@Override
-		public boolean accept(Simon simon) {
-			return true;
-		}
-	};
 
 	private SimonUtils() {
 		throw new AssertionError();
@@ -412,11 +405,8 @@ public final class SimonUtils {
 	 */
 	public static StopwatchAggregate calculateStopwatchAggregate(Simon simon, SimonFilter filter) {
 		StopwatchAggregate stopwatchAggregate = new StopwatchAggregate();
-		if (filter != null) {
-			aggregateStopwatches(stopwatchAggregate, simon, filter);
-		} else {
-			aggregateStopwatches(stopwatchAggregate, simon, ACCEPT_ALL_FILTER);
-		}
+		aggregateStopwatches(stopwatchAggregate, simon,
+			filter != null ? filter : SimonFilter.ACCEPT_ALL_FILTER);
 
 		return stopwatchAggregate;
 	}
@@ -457,11 +447,9 @@ public final class SimonUtils {
 	 */
 	public static CounterAggregate calculateCounterAggregate(Simon simon, SimonFilter filter) {
 		CounterAggregate aggregate = new CounterAggregate();
-		if (filter != null) {
-			aggregateCounters(aggregate, simon, filter);
-		} else {
-			aggregateCounters(aggregate, simon, ACCEPT_ALL_FILTER);
-		}
+		aggregateCounters(aggregate, simon,
+			filter != null ? filter : SimonFilter.ACCEPT_ALL_FILTER);
+
 		return aggregate;
 	}
 

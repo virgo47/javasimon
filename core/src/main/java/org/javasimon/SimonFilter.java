@@ -7,6 +7,14 @@ package org.javasimon;
  */
 public interface SimonFilter {
 
+	/** Filter accepting all Simons. */
+	SimonFilter ACCEPT_ALL_FILTER = new SimonFilter() {
+		@Override
+		public boolean accept(Simon simon) {
+			return true;
+		}
+	};
+
 	/**
 	 * Checks whether current Simon should be used/considered.
 	 *
