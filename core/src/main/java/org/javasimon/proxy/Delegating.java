@@ -7,6 +7,7 @@ package org.javasimon.proxy;
  * @author gerald
  */
 public interface Delegating<T> {
+
 	/**
 	 * Get wrapped object.
 	 *

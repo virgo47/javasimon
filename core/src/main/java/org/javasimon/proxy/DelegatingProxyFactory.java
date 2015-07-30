@@ -75,6 +75,6 @@ public class DelegatingProxyFactory<T> implements InvocationHandler, Delegating<
 	 * @return proxy
 	 */
 	public <X> X newProxy(Class<X> interfaces) {
-		return (X) newProxy(new Class[]{interfaces});
+		return (X) newProxy(new Class[] {interfaces});
 	}
 }

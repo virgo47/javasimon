@@ -1,10 +1,10 @@
 package org.javasimon.proxy;
 
+import java.lang.reflect.Method;
+
 import org.javasimon.Manager;
 import org.javasimon.SimonManager;
 import org.javasimon.source.AbstractMethodStopwatchSource;
-
-import java.lang.reflect.Method;
 
 /**
  * Stopwatch source for use with proxy.

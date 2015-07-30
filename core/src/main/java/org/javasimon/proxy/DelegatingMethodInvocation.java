@@ -12,10 +12,13 @@ public class DelegatingMethodInvocation<T> implements Delegating<T>, Runnable, C
 
 	/** Target (real) object. */
 	private final T delegate;
+
 	/** Proxy. */
 	private final Object proxy;
+
 	/** Method. */
 	private final Method method;
+
 	/** Invocation arguments. */
 	private final Object[] args;
 
