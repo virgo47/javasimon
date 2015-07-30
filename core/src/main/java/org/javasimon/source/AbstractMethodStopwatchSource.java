@@ -3,7 +3,6 @@ package org.javasimon.source;
 import java.lang.reflect.Method;
 
 import org.javasimon.Manager;
-import org.javasimon.Stopwatch;
 
 /**
  * Base class for Stopwatch sources working on method locations.
@@ -36,16 +35,6 @@ public abstract class AbstractMethodStopwatchSource<T> extends AbstractStopwatch
 	 * @return Target method
 	 */
 	protected abstract Method getTargetMethod(T location);
-
-	/** Returns the Stopwatch for given join point. */
-	@Override
-	public Stopwatch getMonitor(T location) {
-		final Stopwatch stopwatch = super.getMonitor(location);
-		if (stopwatch.getNote() == null) {
-			stopwatch.setNote(getTargetClass(location).getName() + "." + getTargetMethod(location).getName());
-		}
-		return stopwatch;
-	}
 
 	/**
 	 * Wraps this data source in a cache.

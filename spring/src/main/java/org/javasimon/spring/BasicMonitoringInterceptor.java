@@ -2,13 +2,12 @@ package org.javasimon.spring;
 
 import java.io.Serializable;
 
+import org.aopalliance.intercept.MethodInterceptor;
+import org.aopalliance.intercept.MethodInvocation;
 import org.javasimon.Manager;
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
 import org.javasimon.source.StopwatchSource;
-
-import org.aopalliance.intercept.MethodInterceptor;
-import org.aopalliance.intercept.MethodInvocation;
 
 /**
  * Basic method interceptor that measures the duration of the intercepted call with a Stopwatch.
@@ -29,18 +28,14 @@ public class BasicMonitoringInterceptor implements MethodInterceptor, Serializab
 		this.stopwatchSource = stopwatchSource;
 	}
 
-	/**
-	 * Constructor with specified {@link org.javasimon.Manager}.
-	 */
+	/** Constructor with specified {@link org.javasimon.Manager}. */
 	public BasicMonitoringInterceptor(Manager manager) {
-		this(new SpringStopwatchSource(manager).cache());
+		this(new SpringStopwatchSource(manager));
 	}
 
-	/**
-	 * Default constructor using {@link org.javasimon.SimonManager#manager}.
-	 */
+	/** Default constructor using {@link org.javasimon.SimonManager#manager}. */
 	public BasicMonitoringInterceptor() {
-		this(new SpringStopwatchSource(SimonManager.manager()).cache());
+		this(new SpringStopwatchSource(SimonManager.manager()));
 	}
 
 	/**
@@ -67,7 +62,6 @@ public class BasicMonitoringInterceptor implements MethodInterceptor, Serializab
 	 * @param invocation method invocation
 	 * @param split running split for this monitored action
 	 * @return return object from the method
-	 * @throws Throwable
 	 */
 	protected Object processInvoke(MethodInvocation invocation, @SuppressWarnings("UnusedParameters") Split split) throws Throwable {
 		return invocation.proceed();

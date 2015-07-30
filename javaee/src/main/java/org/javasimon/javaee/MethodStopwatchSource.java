@@ -1,6 +1,7 @@
 package org.javasimon.javaee;
 
 import java.lang.reflect.Method;
+
 import javax.interceptor.InvocationContext;
 
 import org.javasimon.Manager;
@@ -11,17 +12,15 @@ import org.javasimon.source.AbstractMethodStopwatchSource;
  * Used by {@link SimonInterceptor} as default stopwatch source.
  * Can be overridden to customize monitored EJB methods and their
  * related Simon name.
+ *
  * @author gquintana
  */
 public class MethodStopwatchSource extends AbstractMethodStopwatchSource<InvocationContext> {
-	/**
-	 * Default prefix for Simon names
-	 */
+
+	/** Default prefix for Simon names. */
 	public static final String DEFAULT_PREFIX = "org.javasimon.business";
 
-	/**
-	 * Simon name prefix - can be overridden in subclasses.
-	 */
+	/** Simon name prefix - can be overridden in subclasses. */
 	protected String prefix = DEFAULT_PREFIX;
 
 	public MethodStopwatchSource(Manager manager) {

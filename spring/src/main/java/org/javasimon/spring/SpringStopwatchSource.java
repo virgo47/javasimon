@@ -2,11 +2,10 @@ package org.javasimon.spring;
 
 import java.lang.reflect.Method;
 
+import org.aopalliance.intercept.MethodInvocation;
 import org.javasimon.Manager;
 import org.javasimon.aop.Monitored;
 import org.javasimon.source.AbstractMethodStopwatchSource;
-
-import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.aop.SpringProxy;
 import org.springframework.aop.framework.Advised;
 import org.springframework.aop.support.AopUtils;
@@ -41,7 +40,11 @@ public class SpringStopwatchSource extends AbstractMethodStopwatchSource<MethodI
 	 */
 	@Override
 	protected Method getTargetMethod(MethodInvocation methodInvocation) {
-		return AopUtils.getMostSpecificMethod(methodInvocation.getMethod(), getTargetClass(methodInvocation));
+		return getTargetMethod(methodInvocation, getTargetClass(methodInvocation));
+	}
+
+	private Method getTargetMethod(MethodInvocation methodInvocation, Class<?> targetClass) {
+		return AopUtils.getMostSpecificMethod(methodInvocation.getMethod(), targetClass);
 	}
 
 	/**
@@ -66,7 +69,7 @@ public class SpringStopwatchSource extends AbstractMethodStopwatchSource<MethodI
 	 */
 	protected String getMonitorName(MethodInvocation methodInvocation) {
 		Class<?> targetClass = getTargetClass(methodInvocation);
-		Method targetMethod = getTargetMethod(methodInvocation);
+		Method targetMethod = getTargetMethod(methodInvocation, targetClass);
 
 		Monitored methodAnnotation = AnnotationUtils.findAnnotation(targetMethod, Monitored.class);
 		if (methodAnnotation != null && methodAnnotation.name() != null && methodAnnotation.name().length() > 0) {
