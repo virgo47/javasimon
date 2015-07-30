@@ -5,5 +5,4 @@ public class AbstractService implements MonitoredService {
 	@Override
 	public void run() {
 	}
-
 }

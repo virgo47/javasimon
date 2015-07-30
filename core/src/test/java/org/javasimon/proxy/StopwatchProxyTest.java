@@ -1,14 +1,14 @@
 package org.javasimon.proxy;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+
 import org.javasimon.SimonManager;
 import org.javasimon.SimonUnitTest;
 import org.javasimon.Stopwatch;
 import org.javasimon.source.DisabledStopwatchSource;
 import org.javasimon.source.StopwatchSource;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
 
 /**
  * Unit test for StopwatchProxy, AbstractMethodSource, etc.

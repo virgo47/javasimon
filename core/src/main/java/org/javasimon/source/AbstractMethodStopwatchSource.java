@@ -48,26 +48,26 @@ public abstract class AbstractMethodStopwatchSource<T> extends AbstractStopwatch
 	}
 
 	/**
-	 * Wraps given stopwatch source in a cache.
-	 *
-	 * @param stopwatchSource Stopwatch source
-	 * @return Cached stopwatch source
-	 */
-	public static <T> CachedStopwatchSource<T, Method> newCacheStopwatchSource(final AbstractMethodStopwatchSource<T> stopwatchSource) {
-		return new CachedStopwatchSource<T, Method>(stopwatchSource) {
-			@Override
-			protected Method getLocationKey(T location) {
-				return stopwatchSource.getTargetMethod(location);
-			}
-		};
-	}
-
-	/**
 	 * Wraps this data source in a cache.
 	 *
 	 * @return Cache monitor source
 	 */
 	public CachedStopwatchSource<T, Method> cache() {
 		return newCacheStopwatchSource(this);
+	}
+
+	/**
+	 * Wraps given stopwatch source in a cache.
+	 *
+	 * @param stopwatchSource Stopwatch source
+	 * @return Cached stopwatch source
+	 */
+	private static <T> CachedStopwatchSource<T, Method> newCacheStopwatchSource(final AbstractMethodStopwatchSource<T> stopwatchSource) {
+		return new CachedStopwatchSource<T, Method>(stopwatchSource) {
+			@Override
+			protected Method getLocationKey(T location) {
+				return stopwatchSource.getTargetMethod(location);
+			}
+		};
 	}
 }

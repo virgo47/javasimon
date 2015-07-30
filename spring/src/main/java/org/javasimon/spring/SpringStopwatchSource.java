@@ -18,6 +18,7 @@ import org.springframework.core.annotation.AnnotationUtils;
  * @author gquintana
  */
 public class SpringStopwatchSource extends AbstractMethodStopwatchSource<MethodInvocation> {
+
 	/**
 	 * Constructor with specified {@link Manager}.
 	 *
@@ -27,9 +28,7 @@ public class SpringStopwatchSource extends AbstractMethodStopwatchSource<MethodI
 		super(manager);
 	}
 
-	/**
-	 * Get target class.
-	 */
+	/** Get target class. */
 	protected final Class<?> getTargetClass(MethodInvocation methodInvocation) {
 		return AopUtils.getTargetClass(methodInvocation.getThis());
 	}
