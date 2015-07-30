@@ -1,7 +1,5 @@
 package org.javasimon.spring;
 
-public class ServiceOne implements MonitoredService {
+public class ServiceOne extends AbstractService {
 
-	public void run() {
-	}
 }
