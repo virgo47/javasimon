@@ -33,7 +33,7 @@ import org.javasimon.Split;
 public class AsciiUtils {
 
 	public static final String TEST_STRING =
-		"Ĺúbime normálne písmenká s diakritkou (mäkčene a DĹŽNE): ľšťčšľžýžéí, æøå";
+		"Ĺúbime normálne písmenká s diakritkou (mäkčene a DĹŽNE): ľšťčšľžýžéí, æøåℌð";
 	// "æøåáℌð";
 
 	public static final char SUBSTITUTE = '\u001a';
