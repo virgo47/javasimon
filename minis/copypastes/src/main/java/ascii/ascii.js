@@ -26,4 +26,4 @@ function stripDiacritics(source) {
 	return result.join('');
 }
 
-stripDiacritics("Šupa, èo? ¾šèı???");
+stripDiacritics("Å upa, Äo? Ä¾Å¡Å¥ÄÅ¾Ã½Ã¦Ã¸Ã¥");
