@@ -107,12 +107,7 @@ public final class EnabledManager implements Manager {
 		return simons;
 	}
 
-	/**
-	 * Even with ConcurrentHashMap we want to synchronize here, so newly created Simons can be fully
-	 * set up with {@link Callback#onSimonCreated(Simon)}. ConcurrentHashMap still works fine for
-	 * listing Simons, etc.
-	 */
-	private synchronized Simon getOrCreateSimon(String name, Class<? extends AbstractSimon> simonClass) {
+	private Simon getOrCreateSimon(String name, Class<? extends AbstractSimon> simonClass) {
 		if (name == null) {
 			// create an "anonymous" Simon - Manager does not care about it anymore
 			return instantiateSimon(null, simonClass);
@@ -123,13 +118,26 @@ public final class EnabledManager implements Manager {
 		AbstractSimon simon = allSimons.get(name);
 		if (simon != null && simonClass.isInstance(simon)) {
 			return simon;
-		} else if (simon == null) {
+		} else if (simon != null && !(simon instanceof UnknownSimon)) {
+			throw new SimonException("Simon named '" + name + "' already exists and its type is '" +
+				simon.getClass().getName() + "' while requested type is '" + simonClass.getName() + "'.");
+		} else {
+			return createSimon(name, simonClass);
+		}
+	}
+
+	/**
+	 * Even with ConcurrentHashMap we want to synchronize here, so newly created Simons can be fully
+	 * set up with {@link Callback#onSimonCreated(Simon)}. ConcurrentHashMap still works fine for
+	 * listing Simons, etc.
+	 */
+	private synchronized Simon createSimon(String name, Class<? extends AbstractSimon> simonClass) {
+		AbstractSimon simon = allSimons.get(name);
+		if (simon == null) {
 			SimonUtils.validateSimonName(name);
 			simon = newSimon(name, simonClass);
 		} else if (simon instanceof UnknownSimon) {
 			simon = replaceUnknownSimon(simon, simonClass);
-		} else {
-			throw new SimonException("Simon named '" + name + "' already exists and its type is '" + simon.getClass().getName() + "' while requested type is '" + simonClass.getName() + "'.");
 		}
 		callback.onSimonCreated(simon);
 		return simon;

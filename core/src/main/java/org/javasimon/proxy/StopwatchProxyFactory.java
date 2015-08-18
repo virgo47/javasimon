@@ -30,7 +30,7 @@ public final class StopwatchProxyFactory<T> extends DelegatingProxyFactory<T> {
 	}
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @param delegate Wrapped object
 	 */
