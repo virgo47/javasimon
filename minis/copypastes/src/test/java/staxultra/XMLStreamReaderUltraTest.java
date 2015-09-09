@@ -1,4 +1,4 @@
-package sk.finrisk.marketdata.process.ecb;
+package staxultra;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -10,7 +10,6 @@ import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 
 import org.testng.annotations.Test;
-import staxultra.XMLStreamReaderUltra;
 
 public class XMLStreamReaderUltraTest {
 
@@ -97,14 +96,28 @@ public class XMLStreamReaderUltraTest {
 		return new XMLStreamReaderUltra(XMLInputFactory.newFactory()
 			.createXMLStreamReader(new StringReader(xml)));
 	}
-	
+
 	@Test
-	public void testProcessTextElement() throws XMLStreamException {
-		XMLStreamReaderUltra xr = newReader("<Cube>\n" +
-			"asdfa" +
-			"</Cube>");
-		xr.processTextElement("Cube");
+	public void textElementValueCanBeEasilyObtained() throws XMLStreamException {
+		XMLStreamReaderUltra xr = newReader("<Cube>asdfa</Cube>");
+		String value = xr.processTextElement("Cube");
+		assertEquals(value, "asdfa");
 		assertTrue(xr.getEventType() == XMLStreamConstants.END_DOCUMENT);
 	}
 
+	@Test
+	public void textElementValueCanBeEasilyObtainedEvenWhenComments() throws XMLStreamException {
+		XMLStreamReaderUltra xr = newReader("<Cube><!-- X -->asdfa<!-- X -->more</Cube>");
+		String value = xr.processTextElement("Cube");
+		assertEquals(value, "asdfamore");
+		assertTrue(xr.getEventType() == XMLStreamConstants.END_DOCUMENT);
+	}
+
+	@Test
+	public void emptyTextElementReturnsEmptyStringNotNull() throws XMLStreamException {
+		XMLStreamReaderUltra xr = newReader("<Cube/>");
+		String value = xr.processTextElement("Cube");
+		assertEquals(value, "");
+		assertTrue(xr.getEventType() == XMLStreamConstants.END_DOCUMENT);
+	}
 }

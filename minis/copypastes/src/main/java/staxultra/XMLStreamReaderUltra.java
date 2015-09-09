@@ -249,9 +249,18 @@ public class XMLStreamReaderUltra implements XMLStreamReader {
 		assertStartTag(elementName);
 		xmlStreamReader.next();
 		String position = currentPosition();
-		String text = getText();
-		processEndElement(elementName);
-		return new TextElementResult(text, position);
+		StringBuilder text = new StringBuilder();
+		while (true) {
+			if (xmlStreamReader.getEventType() == CHARACTERS) {
+				text.append(getText());
+			}
+			if (xmlStreamReader.getEventType() == END_ELEMENT) {
+				break;
+			}
+			xmlStreamReader.next();
+		}
+		findAndProcessEndElement(elementName);
+		return new TextElementResult(text.toString(), position);
 	}
 
 	public <T extends Enum<T>> T processTextElementAsEnum(String elementName, Class<T> enumClass) throws XMLStreamException {
