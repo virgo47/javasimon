@@ -97,4 +97,14 @@ public class XMLStreamReaderUltraTest {
 		return new XMLStreamReaderUltra(XMLInputFactory.newFactory()
 			.createXMLStreamReader(new StringReader(xml)));
 	}
+	
+	@Test
+	public void testProcessTextElement() throws XMLStreamException {
+		XMLStreamReaderUltra xr = newReader("<Cube>\n" +
+			"asdfa" +
+			"</Cube>");
+		xr.processTextElement("Cube");
+		assertTrue(xr.getEventType() == XMLStreamConstants.END_DOCUMENT);
+	}
+
 }
