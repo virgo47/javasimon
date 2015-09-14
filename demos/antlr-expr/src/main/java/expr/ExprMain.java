@@ -1,9 +1,13 @@
+package expr;
+
+import expr.grammar.ExprLexer;
+import expr.grammar.ExprParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 /**
- * Should I cache parseTree for repeting use? Example: "(three + 5) / 3"
+ * Should I cache parseTree for repeating use? Example: "(three + 5) / 3"
  * 1M parse+visit: ~9.8 s; 1M visit <0.7 s
  * Yes, we should cache it, otherwise parsing may take ~93%
  * Note that this depends on visit logic - the more complex it is, the lower the "savings",
