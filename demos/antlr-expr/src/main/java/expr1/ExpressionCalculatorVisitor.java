@@ -1,18 +1,13 @@
-package expr;
+package expr1;
 
-import expr.grammar.ExprBaseVisitor;
-import expr.grammar.ExprParser;
+import expr1.grammar.ExprBaseVisitor;
+import expr1.grammar.ExprParser;
 
 public class ExpressionCalculatorVisitor extends ExprBaseVisitor<Integer> {
 
 	@Override
 	public Integer visitInt(ExprParser.IntContext ctx) {
 		return Integer.valueOf(ctx.INT().getText());
-	}
-
-	@Override
-	public Integer visitId(ExprParser.IdContext ctx) {
-		return ctx.ID().getText().length();
 	}
 
 	@Override

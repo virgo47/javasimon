@@ -1,4 +1,5 @@
-apply plugin: 'antlr'
+// ANTLR stuff is commented out, because we generate in IDE and commit the generated files directly
+//apply plugin: 'antlr'
 apply plugin: 'java'
 
 repositories {
@@ -6,10 +7,12 @@ repositories {
 }
 
 dependencies {
-	antlr "org.antlr:antlr4:4.5.1"
+//	antlr "org.antlr:antlr4:4.5.1"
+	compile "org.antlr:antlr4:4.5.1"
+	testCompile 'org.testng:testng:6.8.21'
 }
 
-generateGrammarSource {
-	maxHeapSize = "64m"
-	arguments += ["-visitor", "-long-messages"]
-}
+//generateGrammarSource {
+//	maxHeapSize = "64m"
+//	arguments += ["-visitor", "-long-messages"]
+//}
