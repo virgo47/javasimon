@@ -1,7 +1,7 @@
-package expr;
+package expr2;
 
-import expr.grammar.ExprLexer;
-import expr.grammar.ExprParser;
+import expr2.grammar.ExprLexer;
+import expr2.grammar.ExprParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -41,7 +41,7 @@ public class ExprMain {
 		for (int times = 0; times < 3; times++) {
 			long ms = System.currentTimeMillis();
 			for (int i = 0; i < 1000000; i++) {
-//				parseTree = parseTree(expr);
+				parseTree = parseTree(expr);
 				result = new ExpressionCalculatorVisitor().visit(parseTree);
 			}
 			ms = System.currentTimeMillis() - ms;
