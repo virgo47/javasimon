@@ -5,14 +5,28 @@ import expr2.grammar.ExprParser;
 
 public class ExpressionCalculatorVisitor extends ExprBaseVisitor<Integer> {
 
+	private final ExpressionVariableResolver variableResolver;
+
+	public ExpressionCalculatorVisitor(ExpressionVariableResolver variableResolver) {
+		if (variableResolver == null) {
+			throw new IllegalArgumentException("Variable resolver must be provided");
+		}
+		this.variableResolver = variableResolver;
+	}
+
 	@Override
 	public Integer visitInt(ExprParser.IntContext ctx) {
 		return Integer.valueOf(ctx.INT().getText());
 	}
 
 	@Override
-	public Integer visitId(ExprParser.IdContext ctx) {
-		return ctx.ID().getText().length();
+	public Integer visitVariable(ExprParser.VariableContext ctx) {
+		Object value = variableResolver.resolve(ctx.ID().getText());
+		return convertToSupportedType(value);
+	}
+
+	private Integer convertToSupportedType(Object value) {
+		return Integer.valueOf(value.toString());
 	}
 
 	@Override

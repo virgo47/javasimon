@@ -1,4 +1,4 @@
-// Generated from C:/work/litterbin/demos/antlr-expr/src/main/java/expr/grammar\Expr.g4 by ANTLR 4.5.1
+// Generated from C:/work/litterbin/demos/antlr-expr/src/main/java/expr2/grammar\Expr.g4 by ANTLR 4.5.1
 package expr2.grammar;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
@@ -24,14 +24,14 @@ public class ExprBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements E
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitArithmetic(ExprParser.ArithmeticContext ctx) { return visitChildren(ctx); }
+	@Override public T visitVariable(ExprParser.VariableContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitId(ExprParser.IdContext ctx) { return visitChildren(ctx); }
+	@Override public T visitArithmetic(ExprParser.ArithmeticContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -1,10 +1,13 @@
-// Generated from C:/work/litterbin/demos/antlr-expr/src/main/java/expr/grammar\Expr.g4 by ANTLR 4.5.1
+// Generated from C:/work/litterbin/demos/antlr-expr/src/main/java/expr2/grammar\Expr.g4 by ANTLR 4.5.1
 package expr2.grammar;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.misc.*;
 import org.antlr.v4.runtime.tree.*;
 import java.util.List;
+import java.util.Iterator;
+import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class ExprParser extends Parser {
@@ -25,7 +28,7 @@ public class ExprParser extends Parser {
 		null, "'('", "')'", "'+'", "'-'", "'*'", "'/'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, null, null, "OP_ADD", "OP_SUB", "OP_MUL", "OP_DIV", "INT", "ID",
+		null, null, null, "OP_ADD", "OP_SUB", "OP_MUL", "OP_DIV", "INT", "ID", 
 		"WS"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
@@ -82,7 +85,7 @@ public class ExprParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_expr; }
-
+	 
 		public ExprContext() { }
 		public void copyFrom(ExprContext ctx) {
 			super.copyFrom(ctx);
@@ -96,6 +99,15 @@ public class ExprParser extends Parser {
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof ExprVisitor ) return ((ExprVisitor<? extends T>)visitor).visitParens(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class VariableContext extends ExprContext {
+		public TerminalNode ID() { return getToken(ExprParser.ID, 0); }
+		public VariableContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ExprVisitor ) return ((ExprVisitor<? extends T>)visitor).visitVariable(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -115,15 +127,6 @@ public class ExprParser extends Parser {
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof ExprVisitor ) return ((ExprVisitor<? extends T>)visitor).visitArithmetic(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class IdContext extends ExprContext {
-		public TerminalNode ID() { return getToken(ExprParser.ID, 0); }
-		public IdContext(ExprContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ExprVisitor ) return ((ExprVisitor<? extends T>)visitor).visitId(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -167,7 +170,7 @@ public class ExprParser extends Parser {
 				break;
 			case ID:
 				{
-				_localctx = new IdContext(_localctx);
+				_localctx = new VariableContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
 				setState(4);
@@ -238,7 +241,7 @@ public class ExprParser extends Parser {
 						}
 						break;
 					}
-					}
+					} 
 				}
 				setState(21);
 				_errHandler.sync(this);

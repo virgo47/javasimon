@@ -20,7 +20,7 @@ public class ExprMain {
 		ParseTree parseTree = parseTree(expr);
 
 		System.out.println("VISITOR:");
-		Object result = new ExpressionCalculatorVisitor().visit(parseTree);
+		Object result = new ExpressionCalculatorVisitor(var -> null).visit(parseTree);
 		System.out.println("result = " + result);
 
 		// performance test
@@ -42,7 +42,7 @@ public class ExprMain {
 			long ms = System.currentTimeMillis();
 			for (int i = 0; i < 1000000; i++) {
 				parseTree = parseTree(expr);
-				result = new ExpressionCalculatorVisitor().visit(parseTree);
+				result = new ExpressionCalculatorVisitor(var -> null).visit(parseTree);
 			}
 			ms = System.currentTimeMillis() - ms;
 			System.out.println("ms = " + ms);

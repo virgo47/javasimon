@@ -1,10 +1,13 @@
-// Generated from C:/work/litterbin/demos/antlr-expr/src/main/java/expr/grammar\Expr.g4 by ANTLR 4.5.1
+// Generated from C:/work/litterbin/demos/antlr-expr/src/main/java/expr2/grammar\Expr.g4 by ANTLR 4.5.1
 package expr2.grammar;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
+import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class ExprLexer extends Lexer {
@@ -27,7 +30,7 @@ public class ExprLexer extends Lexer {
 		null, "'('", "')'", "'+'", "'-'", "'*'", "'/'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, null, null, "OP_ADD", "OP_SUB", "OP_MUL", "OP_DIV", "INT", "ID",
+		null, null, null, "OP_ADD", "OP_SUB", "OP_MUL", "OP_DIV", "INT", "ID", 
 		"WS"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);

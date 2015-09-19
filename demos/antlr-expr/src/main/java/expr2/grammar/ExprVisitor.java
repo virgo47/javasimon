@@ -1,4 +1,4 @@
-// Generated from C:/work/litterbin/demos/antlr-expr/src/main/java/expr/grammar\Expr.g4 by ANTLR 4.5.1
+// Generated from C:/work/litterbin/demos/antlr-expr/src/main/java/expr2/grammar\Expr.g4 by ANTLR 4.5.1
 package expr2.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -18,19 +18,19 @@ public interface ExprVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitParens(ExprParser.ParensContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code variable}
+	 * labeled alternative in {@link ExprParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVariable(ExprParser.VariableContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code arithmetic}
 	 * labeled alternative in {@link ExprParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitArithmetic(ExprParser.ArithmeticContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code id}
-	 * labeled alternative in {@link ExprParser#expr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitId(ExprParser.IdContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code int}
 	 * labeled alternative in {@link ExprParser#expr}.
