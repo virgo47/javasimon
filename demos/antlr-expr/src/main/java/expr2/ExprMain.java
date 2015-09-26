@@ -16,11 +16,11 @@ import org.antlr.v4.runtime.tree.ParseTree;
 public class ExprMain {
 
 	public static void main(String[] args) {
-		String expr = "(three + 5) / 3";
+		String expr = "(1 + 5) / 3";
 		ParseTree parseTree = parseTree(expr);
 
 		System.out.println("VISITOR:");
-		Object result = new ExpressionCalculatorVisitor(var -> null).visit(parseTree);
+		Object result = new ExpressionCalculatorVisitor().visit(parseTree);
 		System.out.println("result = " + result);
 
 		// performance test
@@ -42,7 +42,7 @@ public class ExprMain {
 			long ms = System.currentTimeMillis();
 			for (int i = 0; i < 1000000; i++) {
 				parseTree = parseTree(expr);
-				result = new ExpressionCalculatorVisitor(var -> null).visit(parseTree);
+				result = new ExpressionCalculatorVisitor().visit(parseTree);
 			}
 			ms = System.currentTimeMillis() - ms;
 			System.out.println("ms = " + ms);

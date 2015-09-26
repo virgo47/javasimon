@@ -21,14 +21,12 @@ result: expr;
 expr: STRING_LITERAL # stringLiteral
    	| BOOLEAN_LITERAL # booleanLiteral
    	| NUMERIC_LITERAL # numericLiteral
-	| NULL_LITERAL # nullLiteral
 	| op=('-' | '+') expr # unarySign
 	| expr op=(OP_MUL | OP_DIV | OP_MOD) expr # arithmeticOp
 	| expr op=(OP_ADD | OP_SUB) expr # arithmeticOp
 	| expr op=(OP_LT | OP_GT | OP_EQ | OP_NE | OP_LE | OP_GE) expr # comparisonOp
 	| OP_NOT expr # logicNot
 	| expr op=(OP_AND | OP_OR) expr # logicOp
-	| ID # variable
 	| '(' expr ')' # parens
 	;
 
@@ -47,8 +45,6 @@ OP_MUL: '*';
 OP_DIV: '/';
 OP_MOD: '%';
 
-NULL_LITERAL : N U L L;
-
 BOOLEAN_LITERAL: T R U E | T
 	| F A L S E | F
 	;
@@ -59,7 +55,6 @@ NUMERIC_LITERAL : DIGIT+ ( '.' DIGIT* )? ( E [-+]? DIGIT+ )?
 
 STRING_LITERAL : '\'' ( ~'\'' | '\'\'' )* '\'';
 
-ID: [a-zA-Z$_][a-zA-Z0-9$_.]*;
 WS: [ \t\r\n]+ -> skip;
 
 fragment DIGIT : [0-9];

@@ -19,7 +19,6 @@ import static expr2.grammar.ExprParser.OP_SUB;
 import static expr2.grammar.ExprParser.ParensContext;
 import static expr2.grammar.ExprParser.StringLiteralContext;
 import static expr2.grammar.ExprParser.UnarySignContext;
-import static expr2.grammar.ExprParser.VariableContext;
 
 import java.math.BigDecimal;
 
@@ -31,18 +30,9 @@ public class ExpressionCalculatorVisitor extends ExprBaseVisitor {
 	public static final int DEFAULT_MAX_SCALE = 15;
 	public static final int DEFAULT_MAX_RESULT_SCALE = 6;
 
-	private final ExpressionVariableResolver variableResolver;
-
 	private int maxScale = DEFAULT_MAX_SCALE;
 	private int maxResultScale = DEFAULT_MAX_RESULT_SCALE;
 	private int roundingMode = BigDecimal.ROUND_HALF_UP;
-
-	public ExpressionCalculatorVisitor(ExpressionVariableResolver variableResolver) {
-		if (variableResolver == null) {
-			throw new IllegalArgumentException("Variable resolver must be provided");
-		}
-		this.variableResolver = variableResolver;
-	}
 
 	/** Maximum BigDecimal scale used during computations. */
 	public ExpressionCalculatorVisitor maxScale(int maxScale) {
@@ -72,6 +62,11 @@ public class ExpressionCalculatorVisitor extends ExprBaseVisitor {
 
 	private boolean booleanRightSide(ExprParser.LogicOpContext ctx) {
 		return (boolean) visit(ctx.expr(1));
+	}
+
+	@Override
+	public Boolean visitLogicNot(ExprParser.LogicNotContext ctx) {
+		return !(Boolean) visit(ctx.expr());
 	}
 
 	@Override
@@ -129,12 +124,6 @@ public class ExpressionCalculatorVisitor extends ExprBaseVisitor {
 	}
 
 	@Override
-	public Object visitVariable(VariableContext ctx) {
-		Object value = variableResolver.resolve(ctx.ID().getText());
-		return convertToSupportedType(value);
-	}
-
-	@Override
 	public String visitStringLiteral(StringLiteralContext ctx) {
 		String text = ctx.STRING_LITERAL().getText();
 		text = text.substring(1, text.length() - 1)
@@ -180,28 +169,7 @@ public class ExpressionCalculatorVisitor extends ExprBaseVisitor {
 		return visit(ctx.expr());
 	}
 
-	private Object convertToSupportedType(Object value) {
-		// directly supported types and null
-		if (value == null
-			|| value instanceof BigDecimal
-			|| value instanceof String
-			|| value instanceof Boolean)
-		{
-			return value;
-		}
-
-		if (value instanceof Number) {
-			return stringToNumber(value.toString());
-		}
-
-		return value;
-	}
-
 	@Override
-	public Boolean visitLogicNot(ExprParser.LogicNotContext ctx) {
-		return !(Boolean) visit(ctx.expr());
-	}
-
 	public Object visitResult(ExprParser.ResultContext ctx) {
 		Object result = visit(ctx.expr());
 		if (result instanceof BigDecimal) {
