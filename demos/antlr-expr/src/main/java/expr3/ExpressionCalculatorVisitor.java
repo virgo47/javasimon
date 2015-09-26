@@ -1,30 +1,34 @@
-package expr2;
+package expr3;
 
-import static expr2.grammar.ExprParser.BooleanLiteralContext;
-import static expr2.grammar.ExprParser.NullLiteralContext;
-import static expr2.grammar.ExprParser.NumericLiteralContext;
-import static expr2.grammar.ExprParser.OP_ADD;
-import static expr2.grammar.ExprParser.OP_AND;
-import static expr2.grammar.ExprParser.OP_DIV;
-import static expr2.grammar.ExprParser.OP_EQ;
-import static expr2.grammar.ExprParser.OP_GE;
-import static expr2.grammar.ExprParser.OP_GT;
-import static expr2.grammar.ExprParser.OP_LE;
-import static expr2.grammar.ExprParser.OP_LT;
-import static expr2.grammar.ExprParser.OP_MOD;
-import static expr2.grammar.ExprParser.OP_MUL;
-import static expr2.grammar.ExprParser.OP_NE;
-import static expr2.grammar.ExprParser.OP_OR;
-import static expr2.grammar.ExprParser.OP_SUB;
-import static expr2.grammar.ExprParser.ParensContext;
-import static expr2.grammar.ExprParser.StringLiteralContext;
-import static expr2.grammar.ExprParser.UnarySignContext;
-import static expr2.grammar.ExprParser.VariableContext;
+import static expr3.grammar.ExprParser.BooleanLiteralContext;
+import static expr3.grammar.ExprParser.NullLiteralContext;
+import static expr3.grammar.ExprParser.NumericLiteralContext;
+import static expr3.grammar.ExprParser.OP_ADD;
+import static expr3.grammar.ExprParser.OP_AND;
+import static expr3.grammar.ExprParser.OP_DIV;
+import static expr3.grammar.ExprParser.OP_EQ;
+import static expr3.grammar.ExprParser.OP_GE;
+import static expr3.grammar.ExprParser.OP_GT;
+import static expr3.grammar.ExprParser.OP_LE;
+import static expr3.grammar.ExprParser.OP_LT;
+import static expr3.grammar.ExprParser.OP_MOD;
+import static expr3.grammar.ExprParser.OP_MUL;
+import static expr3.grammar.ExprParser.OP_NE;
+import static expr3.grammar.ExprParser.OP_OR;
+import static expr3.grammar.ExprParser.OP_SUB;
+import static expr3.grammar.ExprParser.ParensContext;
+import static expr3.grammar.ExprParser.StringLiteralContext;
+import static expr3.grammar.ExprParser.UnarySignContext;
+import static expr3.grammar.ExprParser.VariableContext;
 
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-import expr2.grammar.ExprBaseVisitor;
-import expr2.grammar.ExprParser;
+import expr3.grammar.ExprBaseVisitor;
+import expr3.grammar.ExprParser;
 
 public class ExpressionCalculatorVisitor extends ExprBaseVisitor {
 
@@ -45,7 +49,7 @@ public class ExpressionCalculatorVisitor extends ExprBaseVisitor {
 	}
 
 	/** Maximum BigDecimal scale used during computations. */
-	public ExpressionCalculatorVisitor maxScale(int maxScale) {
+	public expr3.ExpressionCalculatorVisitor maxScale(int maxScale) {
 		this.maxScale = maxScale;
 		return this;
 	}
@@ -75,10 +79,17 @@ public class ExpressionCalculatorVisitor extends ExprBaseVisitor {
 	}
 
 	@Override
-	public BigDecimal visitArithmeticOp(ExprParser.ArithmeticOpContext ctx) {
-		BigDecimal left = (BigDecimal) visit(ctx.expr(0));
-		BigDecimal right = (BigDecimal) visit(ctx.expr(1));
-		return bigDecimalArithmetic(ctx, left, right);
+	public Number visitArithmeticOp(ExprParser.ArithmeticOpContext ctx) {
+		Number left = (Number) visit(ctx.expr(0));
+		Number right = (Number) visit(ctx.expr(1));
+		if (left instanceof BigDecimal && right instanceof BigDecimal) {
+			return bigDecimalArithmetic(ctx, (BigDecimal) left, (BigDecimal) right);
+		} else if (left instanceof BigDecimal) {
+			return bigDecimalArithmetic(ctx, (BigDecimal) left, new BigDecimal(right.toString()));
+		} else if (right instanceof BigDecimal) {
+			return bigDecimalArithmetic(ctx, new BigDecimal(left.toString()), (BigDecimal) right);
+		}
+		return integerArithmetic(ctx, left.intValue(), right.intValue());
 	}
 
 	private BigDecimal bigDecimalArithmetic(ExprParser.ArithmeticOpContext ctx, BigDecimal left, BigDecimal right) {
@@ -98,14 +109,39 @@ public class ExpressionCalculatorVisitor extends ExprBaseVisitor {
 		}
 	}
 
+	private Number integerArithmetic(ExprParser.ArithmeticOpContext ctx, int left, int right) {
+		switch (ctx.op.getType()) {
+			case OP_ADD:
+				return left + right;
+			case OP_SUB:
+				return left - right;
+			case OP_MUL:
+				return left * right;
+			case OP_DIV:
+				return left / right;
+			case OP_MOD:
+				return left % right;
+			default:
+				throw new IllegalStateException("Unknown operator " + ctx.op);
+		}
+	}
+
 	@Override
 	public Boolean visitComparisonOp(ExprParser.ComparisonOpContext ctx) {
 		Comparable left = (Comparable) visit(ctx.expr(0));
 		Comparable right = (Comparable) visit(ctx.expr(1));
 		int operator = ctx.op.getType();
 		if (left == null || right == null) {
+			// TODO alebo chceme vyhodit vynimku ked operator nie je EQ/NE?
 			return left == null && right == null && operator == OP_EQ
 				|| (left != null || right != null) && operator == OP_NE;
+		}
+		// if one side is integer and the other BigDecimal, we want to unify it to BigDecimal
+		if (left instanceof BigDecimal && right instanceof Integer) {
+			right = new BigDecimal(right.toString());
+		}
+		if (right instanceof BigDecimal && left instanceof Integer) {
+			left = new BigDecimal(left.toString());
 		}
 
 		//noinspection unchecked
@@ -148,12 +184,19 @@ public class ExpressionCalculatorVisitor extends ExprBaseVisitor {
 	}
 
 	@Override
-	public BigDecimal visitNumericLiteral(NumericLiteralContext ctx) {
+	public Number visitNumericLiteral(NumericLiteralContext ctx) {
 		String text = ctx.NUMERIC_LITERAL().getText();
 		return stringToNumber(text);
 	}
 
-	private BigDecimal stringToNumber(String text) {
+	private Number stringToNumber(String text) {
+		try {
+			if (text.indexOf('.') == -1) {
+				return new Integer(text);
+			}
+		} catch (NumberFormatException e) {
+			// ignored, we will just try BigDecimal
+		}
 		BigDecimal bigDecimal = new BigDecimal(text);
 
 		return bigDecimal.scale() < 0
@@ -167,11 +210,11 @@ public class ExpressionCalculatorVisitor extends ExprBaseVisitor {
 	}
 
 	@Override
-	public BigDecimal visitUnarySign(UnarySignContext ctx) {
-		BigDecimal result = (BigDecimal) visit(ctx.expr());
+	public Number visitUnarySign(UnarySignContext ctx) {
+		Number result = (Number) visit(ctx.expr());
 		boolean unaryMinus = ctx.op.getText().equals("-");
 		return unaryMinus
-			? result.negate()
+			? (result instanceof BigDecimal ? ((BigDecimal) result).negate() : -result.intValue())
 			: result;
 	}
 
@@ -183,9 +226,8 @@ public class ExpressionCalculatorVisitor extends ExprBaseVisitor {
 	private Object convertToSupportedType(Object value) {
 		// directly supported types and null
 		if (value == null
-			|| value instanceof BigDecimal
-			|| value instanceof String
-			|| value instanceof Boolean)
+			|| value instanceof Integer || value instanceof BigDecimal
+			|| value instanceof String || value instanceof Boolean)
 		{
 			return value;
 		}
@@ -194,6 +236,15 @@ public class ExpressionCalculatorVisitor extends ExprBaseVisitor {
 			return stringToNumber(value.toString());
 		}
 
+		if (value instanceof LocalDate) {
+			return DateTimeFormatter.ISO_LOCAL_DATE.format((LocalDate) value);
+		}
+		if (value instanceof LocalDateTime) {
+			return DateTimeFormatter.ISO_LOCAL_DATE_TIME.format((LocalDateTime) value);
+		}
+		if (value instanceof Instant) {
+			return DateTimeFormatter.ISO_INSTANT.format((Instant) value);
+		}
 		return value;
 	}
 

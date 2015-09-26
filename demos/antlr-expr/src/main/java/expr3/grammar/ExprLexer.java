@@ -1,5 +1,5 @@
-// Generated from C:/work/litterbin/demos/antlr-expr/src/main/java/expr2/grammar\Expr.g4 by ANTLR 4.5.1
-package expr2.grammar;
+// Generated from C:/work/litterbin/demos/antlr-expr/src/main/java/expr3/grammar\Expr.g4 by ANTLR 4.5.1
+package expr3.grammar;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
@@ -17,31 +17,31 @@ public class ExprLexer extends Lexer {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, OP_LT=3, OP_GT=4, OP_LE=5, OP_GE=6, OP_EQ=7, OP_NE=8, 
-		OP_AND=9, OP_OR=10, OP_NOT=11, OP_ADD=12, OP_SUB=13, OP_MUL=14, OP_DIV=15, 
-		OP_MOD=16, NULL_LITERAL=17, BOOLEAN_LITERAL=18, NUMERIC_LITERAL=19, STRING_LITERAL=20, 
+		T__0=1, T__1=2, OP_LT=3, OP_GT=4, OP_LE=5, OP_GE=6, OP_EQ=7, OP_NE=8,
+		OP_AND=9, OP_OR=10, OP_NOT=11, OP_ADD=12, OP_SUB=13, OP_MUL=14, OP_DIV=15,
+		OP_MOD=16, NULL_LITERAL=17, BOOLEAN_LITERAL=18, NUMERIC_LITERAL=19, STRING_LITERAL=20,
 		ID=21, WS=22;
 	public static String[] modeNames = {
 		"DEFAULT_MODE"
 	};
 
 	public static final String[] ruleNames = {
-		"T__0", "T__1", "OP_LT", "OP_GT", "OP_LE", "OP_GE", "OP_EQ", "OP_NE", 
-		"OP_AND", "OP_OR", "OP_NOT", "OP_ADD", "OP_SUB", "OP_MUL", "OP_DIV", "OP_MOD", 
-		"NULL_LITERAL", "BOOLEAN_LITERAL", "NUMERIC_LITERAL", "STRING_LITERAL", 
-		"ID", "WS", "DIGIT", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", 
-		"K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", 
+		"T__0", "T__1", "OP_LT", "OP_GT", "OP_LE", "OP_GE", "OP_EQ", "OP_NE",
+		"OP_AND", "OP_OR", "OP_NOT", "OP_ADD", "OP_SUB", "OP_MUL", "OP_DIV", "OP_MOD",
+		"NULL_LITERAL", "BOOLEAN_LITERAL", "NUMERIC_LITERAL", "STRING_LITERAL",
+		"ID", "WS", "DIGIT", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
+		"K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X",
 		"Y", "Z"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "'('", "')'", null, null, null, null, null, null, null, null, null, 
+		null, "'('", "')'", null, null, null, null, null, null, null, null, null,
 		"'+'", "'-'", "'*'", "'/'", "'%'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, null, null, "OP_LT", "OP_GT", "OP_LE", "OP_GE", "OP_EQ", "OP_NE", 
-		"OP_AND", "OP_OR", "OP_NOT", "OP_ADD", "OP_SUB", "OP_MUL", "OP_DIV", "OP_MOD", 
-		"NULL_LITERAL", "BOOLEAN_LITERAL", "NUMERIC_LITERAL", "STRING_LITERAL", 
+		null, null, null, "OP_LT", "OP_GT", "OP_LE", "OP_GE", "OP_EQ", "OP_NE",
+		"OP_AND", "OP_OR", "OP_NOT", "OP_ADD", "OP_SUB", "OP_MUL", "OP_DIV", "OP_MOD",
+		"NULL_LITERAL", "BOOLEAN_LITERAL", "NUMERIC_LITERAL", "STRING_LITERAL",
 		"ID", "WS"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);

@@ -1,5 +1,7 @@
-// Generated from C:/work/litterbin/demos/antlr-expr/src/main/java/expr2/grammar\Expr.g4 by ANTLR 4.5.1
-package expr2.grammar;
+// Generated from C:/work/litterbin/demos/antlr-expr/src/main/java/expr3/grammar\Expr.g4 by ANTLR 4.5.1
+package expr3.grammar;
+import expr3.grammar.*;
+import expr3.grammar.ExprVisitor;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -17,9 +19,9 @@ public class ExprParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, OP_LT=3, OP_GT=4, OP_LE=5, OP_GE=6, OP_EQ=7, OP_NE=8, 
-		OP_AND=9, OP_OR=10, OP_NOT=11, OP_ADD=12, OP_SUB=13, OP_MUL=14, OP_DIV=15, 
-		OP_MOD=16, NULL_LITERAL=17, BOOLEAN_LITERAL=18, NUMERIC_LITERAL=19, STRING_LITERAL=20, 
+		T__0=1, T__1=2, OP_LT=3, OP_GT=4, OP_LE=5, OP_GE=6, OP_EQ=7, OP_NE=8,
+		OP_AND=9, OP_OR=10, OP_NOT=11, OP_ADD=12, OP_SUB=13, OP_MUL=14, OP_DIV=15,
+		OP_MOD=16, NULL_LITERAL=17, BOOLEAN_LITERAL=18, NUMERIC_LITERAL=19, STRING_LITERAL=20,
 		ID=21, WS=22;
 	public static final int
 		RULE_result = 0, RULE_expr = 1;
@@ -28,13 +30,13 @@ public class ExprParser extends Parser {
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "'('", "')'", null, null, null, null, null, null, null, null, null, 
+		null, "'('", "')'", null, null, null, null, null, null, null, null, null,
 		"'+'", "'-'", "'*'", "'/'", "'%'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, null, null, "OP_LT", "OP_GT", "OP_LE", "OP_GE", "OP_EQ", "OP_NE", 
-		"OP_AND", "OP_OR", "OP_NOT", "OP_ADD", "OP_SUB", "OP_MUL", "OP_DIV", "OP_MOD", 
-		"NULL_LITERAL", "BOOLEAN_LITERAL", "NUMERIC_LITERAL", "STRING_LITERAL", 
+		null, null, null, "OP_LT", "OP_GT", "OP_LE", "OP_GE", "OP_EQ", "OP_NE",
+		"OP_AND", "OP_OR", "OP_NOT", "OP_ADD", "OP_SUB", "OP_MUL", "OP_DIV", "OP_MOD",
+		"NULL_LITERAL", "BOOLEAN_LITERAL", "NUMERIC_LITERAL", "STRING_LITERAL",
 		"ID", "WS"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
@@ -96,7 +98,7 @@ public class ExprParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_result; }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ExprVisitor ) return ((ExprVisitor<? extends T>)visitor).visitResult(this);
+			if ( visitor instanceof expr3.grammar.ExprVisitor) return ((expr3.grammar.ExprVisitor<? extends T>)visitor).visitResult(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -127,7 +129,7 @@ public class ExprParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_expr; }
-	 
+
 		public ExprContext() { }
 		public void copyFrom(ExprContext ctx) {
 			super.copyFrom(ctx);
@@ -141,7 +143,7 @@ public class ExprParser extends Parser {
 		public UnarySignContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ExprVisitor ) return ((ExprVisitor<? extends T>)visitor).visitUnarySign(this);
+			if ( visitor instanceof expr3.grammar.ExprVisitor) return ((expr3.grammar.ExprVisitor<? extends T>)visitor).visitUnarySign(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -152,7 +154,7 @@ public class ExprParser extends Parser {
 		public ParensContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ExprVisitor ) return ((ExprVisitor<? extends T>)visitor).visitParens(this);
+			if ( visitor instanceof expr3.grammar.ExprVisitor) return ((expr3.grammar.ExprVisitor<? extends T>)visitor).visitParens(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -161,25 +163,25 @@ public class ExprParser extends Parser {
 		public NullLiteralContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ExprVisitor ) return ((ExprVisitor<? extends T>)visitor).visitNullLiteral(this);
+			if ( visitor instanceof expr3.grammar.ExprVisitor) return ((expr3.grammar.ExprVisitor<? extends T>)visitor).visitNullLiteral(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 	public static class StringLiteralContext extends ExprContext {
-		public TerminalNode STRING_LITERAL() { return getToken(ExprParser.STRING_LITERAL, 0); }
+		public TerminalNode STRING_LITERAL() { return getToken(expr3.grammar.ExprParser.STRING_LITERAL, 0); }
 		public StringLiteralContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ExprVisitor ) return ((ExprVisitor<? extends T>)visitor).visitStringLiteral(this);
+			if ( visitor instanceof expr3.grammar.ExprVisitor) return ((expr3.grammar.ExprVisitor<? extends T>)visitor).visitStringLiteral(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 	public static class VariableContext extends ExprContext {
-		public TerminalNode ID() { return getToken(ExprParser.ID, 0); }
+		public TerminalNode ID() { return getToken(expr3.grammar.ExprParser.ID, 0); }
 		public VariableContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ExprVisitor ) return ((ExprVisitor<? extends T>)visitor).visitVariable(this);
+			if ( visitor instanceof expr3.grammar.ExprVisitor) return ((expr3.grammar.ExprVisitor<? extends T>)visitor).visitVariable(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -191,12 +193,12 @@ public class ExprParser extends Parser {
 		public ExprContext expr(int i) {
 			return getRuleContext(ExprContext.class,i);
 		}
-		public TerminalNode OP_AND() { return getToken(ExprParser.OP_AND, 0); }
-		public TerminalNode OP_OR() { return getToken(ExprParser.OP_OR, 0); }
+		public TerminalNode OP_AND() { return getToken(expr3.grammar.ExprParser.OP_AND, 0); }
+		public TerminalNode OP_OR() { return getToken(expr3.grammar.ExprParser.OP_OR, 0); }
 		public LogicOpContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ExprVisitor ) return ((ExprVisitor<? extends T>)visitor).visitLogicOp(this);
+			if ( visitor instanceof expr3.grammar.ExprVisitor) return ((expr3.grammar.ExprVisitor<? extends T>)visitor).visitLogicOp(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -208,16 +210,16 @@ public class ExprParser extends Parser {
 		public ExprContext expr(int i) {
 			return getRuleContext(ExprContext.class,i);
 		}
-		public TerminalNode OP_LT() { return getToken(ExprParser.OP_LT, 0); }
-		public TerminalNode OP_GT() { return getToken(ExprParser.OP_GT, 0); }
-		public TerminalNode OP_EQ() { return getToken(ExprParser.OP_EQ, 0); }
-		public TerminalNode OP_NE() { return getToken(ExprParser.OP_NE, 0); }
-		public TerminalNode OP_LE() { return getToken(ExprParser.OP_LE, 0); }
-		public TerminalNode OP_GE() { return getToken(ExprParser.OP_GE, 0); }
+		public TerminalNode OP_LT() { return getToken(expr3.grammar.ExprParser.OP_LT, 0); }
+		public TerminalNode OP_GT() { return getToken(expr3.grammar.ExprParser.OP_GT, 0); }
+		public TerminalNode OP_EQ() { return getToken(expr3.grammar.ExprParser.OP_EQ, 0); }
+		public TerminalNode OP_NE() { return getToken(expr3.grammar.ExprParser.OP_NE, 0); }
+		public TerminalNode OP_LE() { return getToken(expr3.grammar.ExprParser.OP_LE, 0); }
+		public TerminalNode OP_GE() { return getToken(expr3.grammar.ExprParser.OP_GE, 0); }
 		public ComparisonOpContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ExprVisitor ) return ((ExprVisitor<? extends T>)visitor).visitComparisonOp(this);
+			if ( visitor instanceof expr3.grammar.ExprVisitor) return ((expr3.grammar.ExprVisitor<? extends T>)visitor).visitComparisonOp(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -227,47 +229,47 @@ public class ExprParser extends Parser {
 			return getRuleContexts(ExprContext.class);
 		}
 		public ExprContext expr(int i) {
-			return getRuleContext(ExprContext.class,i);
+			return getRuleContext(ExprContext.class, i);
 		}
-		public TerminalNode OP_MUL() { return getToken(ExprParser.OP_MUL, 0); }
-		public TerminalNode OP_DIV() { return getToken(ExprParser.OP_DIV, 0); }
-		public TerminalNode OP_MOD() { return getToken(ExprParser.OP_MOD, 0); }
-		public TerminalNode OP_ADD() { return getToken(ExprParser.OP_ADD, 0); }
-		public TerminalNode OP_SUB() { return getToken(ExprParser.OP_SUB, 0); }
+		public TerminalNode OP_MUL() { return getToken(expr3.grammar.ExprParser.OP_MUL, 0); }
+		public TerminalNode OP_DIV() { return getToken(expr3.grammar.ExprParser.OP_DIV, 0); }
+		public TerminalNode OP_MOD() { return getToken(expr3.grammar.ExprParser.OP_MOD, 0); }
+		public TerminalNode OP_ADD() { return getToken(expr3.grammar.ExprParser.OP_ADD, 0); }
+		public TerminalNode OP_SUB() { return getToken(expr3.grammar.ExprParser.OP_SUB, 0); }
 		public ArithmeticOpContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ExprVisitor ) return ((ExprVisitor<? extends T>)visitor).visitArithmeticOp(this);
+			if ( visitor instanceof expr3.grammar.ExprVisitor) return ((expr3.grammar.ExprVisitor<? extends T>)visitor).visitArithmeticOp(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 	public static class BooleanLiteralContext extends ExprContext {
-		public TerminalNode BOOLEAN_LITERAL() { return getToken(ExprParser.BOOLEAN_LITERAL, 0); }
+		public TerminalNode BOOLEAN_LITERAL() { return getToken(expr3.grammar.ExprParser.BOOLEAN_LITERAL, 0); }
 		public BooleanLiteralContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ExprVisitor ) return ((ExprVisitor<? extends T>)visitor).visitBooleanLiteral(this);
+			if ( visitor instanceof expr3.grammar.ExprVisitor) return ((expr3.grammar.ExprVisitor<? extends T>)visitor).visitBooleanLiteral(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 	public static class NumericLiteralContext extends ExprContext {
-		public TerminalNode NUMERIC_LITERAL() { return getToken(ExprParser.NUMERIC_LITERAL, 0); }
+		public TerminalNode NUMERIC_LITERAL() { return getToken(expr3.grammar.ExprParser.NUMERIC_LITERAL, 0); }
 		public NumericLiteralContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ExprVisitor ) return ((ExprVisitor<? extends T>)visitor).visitNumericLiteral(this);
+			if ( visitor instanceof expr3.grammar.ExprVisitor) return ((expr3.grammar.ExprVisitor<? extends T>)visitor).visitNumericLiteral(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 	public static class LogicNotContext extends ExprContext {
-		public TerminalNode OP_NOT() { return getToken(ExprParser.OP_NOT, 0); }
+		public TerminalNode OP_NOT() { return getToken(expr3.grammar.ExprParser.OP_NOT, 0); }
 		public ExprContext expr() {
-			return getRuleContext(ExprContext.class,0);
+			return getRuleContext(ExprContext.class, 0);
 		}
 		public LogicNotContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ExprVisitor ) return ((ExprVisitor<? extends T>)visitor).visitLogicNot(this);
+			if ( visitor instanceof expr3.grammar.ExprVisitor) return ((ExprVisitor<? extends T>)visitor).visitLogicNot(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -385,7 +387,7 @@ public class ExprParser extends Parser {
 			setState(36);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,2,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
@@ -465,7 +467,7 @@ public class ExprParser extends Parser {
 						}
 						break;
 					}
-					} 
+					}
 				}
 				setState(38);
 				_errHandler.sync(this);

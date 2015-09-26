@@ -1,7 +1,9 @@
-package expr2;
+package expr3;
 
-import expr2.grammar.ExprParser;
-import expr2.grammar.ExprLexer;
+import expr3.*;
+import expr3.ExpressionException;
+import expr3.grammar.ExprParser;
+import expr3.grammar.ExprLexer;
 import org.antlr.v4.runtime.ANTLRErrorListener;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.BaseErrorListener;
@@ -21,7 +23,7 @@ public class ExpressionUtils {
 		ExprParser parser = new ExprParser(tokens);
 		parser.removeErrorListeners();
 		parser.addErrorListener(ERROR_LISTENER);
-		return parser.result();
+		return parser.expr();
 	}
 
 	public static class ExceptionThrowingErrorListener extends BaseErrorListener {
