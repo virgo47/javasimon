@@ -7,4 +7,4 @@ How to checkout particular subdirectory: http://stackoverflow.com/questions/7106
 
 Use SVN like: `svn export https://github.com/virgo47/litterbin/trunk/issues/querydsl-npe`
 
-(`trunk` replaces `tree/master` from URL)
+(`trunk` replaces `tree/master` or `blob/master` from URL)
