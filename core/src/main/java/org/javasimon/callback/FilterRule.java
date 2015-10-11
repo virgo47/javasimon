@@ -13,7 +13,6 @@ import java.math.BigDecimal;
 import javax.script.Bindings;
 import javax.script.Compilable;
 import javax.script.CompiledScript;
-import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
@@ -79,7 +78,7 @@ public class FilterRule {
 
 	private static final ScriptEngine ECMA_SCRIPT_ENGINE = new ScriptEngineManager().getEngineByName("ecmascript");
 
-	private static final Replacer[] CONDITION_REPLACERS = new Replacer[]{
+	private static final Replacer[] CONDITION_REPLACERS = new Replacer[] {
 		new Replacer(" lt ", " < "),
 		new Replacer(" le ", " <= "),
 		new Replacer(" eq ", " == "),
@@ -118,7 +117,7 @@ public class FilterRule {
 			}
 			try {
 				expression = ((Compilable) ECMA_SCRIPT_ENGINE).compile(condition);
-				Bindings bindings = ECMA_SCRIPT_ENGINE.getBindings(ScriptContext.ENGINE_SCOPE);
+				Bindings bindings = ECMA_SCRIPT_ENGINE.createBindings();
 				bindings.put(VAR_ACTIVE, 0);
 				bindings.put(VAR_COUNTER, 0);
 				bindings.put(VAR_MAX, 0);
@@ -186,7 +185,7 @@ public class FilterRule {
 	}
 
 	private boolean checkCounter(Counter counter, Object... params) throws ScriptException {
-		Bindings bindings = ECMA_SCRIPT_ENGINE.getBindings(ScriptContext.ENGINE_SCOPE);
+		Bindings bindings = ECMA_SCRIPT_ENGINE.createBindings();
 		processParams(bindings, params);
 		bindings.put(VAR_COUNTER, counter.getCounter());
 		bindings.put(VAR_MAX, counter.getMax());
@@ -195,7 +194,7 @@ public class FilterRule {
 	}
 
 	private boolean checkStopwtach(Stopwatch stopwatch, Object... params) throws ScriptException {
-		Bindings bindings = ECMA_SCRIPT_ENGINE.getBindings(ScriptContext.ENGINE_SCOPE);
+		Bindings bindings = ECMA_SCRIPT_ENGINE.createBindings();
 		processParams(bindings, params);
 		bindings.put(VAR_ACTIVE, stopwatch.getActive());
 		bindings.put(VAR_COUNTER, stopwatch.getCounter());

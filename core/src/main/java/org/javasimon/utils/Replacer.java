@@ -1,6 +1,5 @@
 package org.javasimon.utils;
 
-import java.util.Arrays;
 import java.util.regex.Pattern;
 
 /**
@@ -15,11 +14,11 @@ import java.util.regex.Pattern;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  */
 public final class Replacer {
+
 	private final Pattern from;
 	private String to;
 	private boolean repeatUntilUnchanged;
 	private boolean ignoreCase;
-	private Modificator[] modificators;
 
 	/**
 	 * Creates the replacer with from->to regex specification.
@@ -33,7 +32,6 @@ public final class Replacer {
 
 		this.from = ignoreCase ? Pattern.compile(from, Pattern.CASE_INSENSITIVE) : Pattern.compile(from);
 		this.to = to;
-		this.modificators = modificators;
 	}
 
 	private void processModificators(Modificator... modificators) {
@@ -76,16 +74,14 @@ public final class Replacer {
 	 * @return replaced string
 	 */
 	public String process(final String in) {
-		if (repeatUntilUnchanged) {
-			String retVal = in;
-			String old = "";
-			while (!old.equals(retVal)) {
-				old = retVal;
-				retVal = from.matcher(retVal).replaceAll(to);
-			}
-			return retVal;
-		}
-		return from.matcher(in).replaceAll(to);
+		String retVal = in;
+		String old;
+		do {
+			old = retVal;
+			retVal = from.matcher(retVal).replaceAll(to);
+		} while (repeatUntilUnchanged && !old.equals(retVal));
+
+		return retVal;
 	}
 
 	/**
@@ -106,17 +102,13 @@ public final class Replacer {
 		IGNORE_CASE
 	}
 
-	/**
-	 * Returns from, to and untilUnchanged fields as a human readable string.
-	 *
-	 * @return internal details of the replacer as a string
-	 */
 	@Override
 	public String toString() {
 		return "Replacer{" +
-			"from='" + from.pattern() + '\'' +
+			"from=" + from +
 			", to='" + to + '\'' +
-			", mods=" + Arrays.toString(modificators) +
+			", repeatUntilUnchanged=" + repeatUntilUnchanged +
+			", ignoreCase=" + ignoreCase +
 			'}';
 	}
 }
