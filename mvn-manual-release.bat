@@ -8,12 +8,12 @@ call mvn versions:set -DnewVersion=%VERSION%
 call mvn versions:commit
 call mvn clean deploy -P sonatype-oss-release -Dgpg.passphrase=%GPGPP%
 
-call mvn javadoc:aggregate-jar
-call mvn source:aggregate
-
 goto :eof
 
 REM DISTRIBUTION ZIP (rename as needed) - skipped, not needed anymore
+call mvn javadoc:aggregate-jar
+call mvn source:aggregate
+
 if exist dist.zip del dist.zip
 zip -j dist.zip console-embed\target\javasimon-console-embed-%VERSION%.jar ^
   console-webapp\target\javasimon-console-webapp.war ^
