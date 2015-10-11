@@ -14,6 +14,11 @@ bug-fixing (thanks to our users) we added **Maven support** and basic **Java EE 
 **October 11th, 2011**. We moved to **Maven Central** (group-id org.javasimon) and further improved Java EE support.
 Embeddable web-console was added in version 3.2.
 
+## 4.1.1 - 2015-10-11
+
+* Fixed [Spring StopWatch show wrong classname.methodname in case of class hierarchy](https://github.com/virgo47/javasimon/issues/14)
+* Fixed [EnabledManager.getOrCreateSimon() is synchronized](https://github.com/virgo47/javasimon/issues/13)
+
 ## 4.1.0 - 2015-06-03
 
 * [Deadlock problem when using Split.stop(String) with more than one subSimon name and SimonManager.clear()](https://github.com/virgo47/javasimon/issues/11)
