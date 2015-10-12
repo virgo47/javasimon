@@ -55,10 +55,10 @@ public class AsciiUtils {
 		System.out.println("strippedWithTable = (" + strippedWithTable.length() + ")\n" + strippedWithTable);
 		System.out.println("strippedApache = (" + strippedApache.length() + ")\n" + strippedApache);
 		System.out.println();
-		System.out.println("isAscii(strippedWithRegex) = " + isAscii(strippedWithRegex));
-		System.out.println("isAscii(strippedNfdAndCycle) = " + isAscii(strippedNfdAndCycle));
-		System.out.println("isAscii(strippedWithTable) = " + isAscii(strippedWithTable));
-		System.out.println("isAscii(strippedApache) = " + isAscii(strippedApache));
+		System.out.println("isAscii(strippedWithRegex) = " + firstNonAsciiChar(strippedWithRegex));
+		System.out.println("isAscii(strippedNfdAndCycle) = " + firstNonAsciiChar(strippedNfdAndCycle));
+		System.out.println("isAscii(strippedWithTable) = " + firstNonAsciiChar(strippedWithTable));
+		System.out.println("isAscii(strippedApache) = " + firstNonAsciiChar(strippedApache));
 
 		for (int times = 0; times < 3; times++) {
 			testPerf();
@@ -126,11 +126,11 @@ public class AsciiUtils {
 		return new String(result);
 	}
 
-	public static boolean isAscii(String s) {
+	public static int firstNonAsciiChar(String s) {
 		for (int i = 0; i < s.length(); i++) {
-			if (s.charAt(i) > ASCII_MAX) return false;
+			if (s.charAt(i) > ASCII_MAX) return s.charAt(i);
 		}
-		return true;
+		return 0;
 	}
 
 	/**
