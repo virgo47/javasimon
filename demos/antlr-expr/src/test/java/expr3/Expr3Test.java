@@ -1,8 +1,6 @@
 package expr3;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -219,8 +217,8 @@ public class Expr3Test {
 		assertEquals(expr("5 + 1"), 6);
 		// any non-integer promotes the whole result to BigDecimal, also notice how scale is set
 		assertEquals(expr("5 + 1."), new BigDecimal("6"));
-		assertEquals(expr("5 + 1.0"), new BigDecimal("6.0"));
-		assertEquals(expr("1 - 1.050"), new BigDecimal("-0.050"));
+		assertEquals(expr("5 + 1.0"), new BigDecimal("6")); // trailing zeroes are stripped
+		assertEquals(expr("1 - 1.050"), new BigDecimal("-0.05"));
 		assertEquals(expr("5 - 6"), -1);
 		// integer division
 		assertEquals(expr("5 / 2"), 2);
@@ -233,6 +231,15 @@ public class Expr3Test {
 		assertEquals(expr("1 / 3"), 0); // integer result
 		assertEquals(((BigDecimal) expr("1 / 3.")).scale(), ExpressionCalculatorVisitor.DEFAULT_MAX_RESULT_SCALE);
 		assertEquals(expr("1 / 4."), new BigDecimal("0.25")); // but trailing zeroes are always trimmed
+	}
+
+	@Test
+	public void customResultScale() {
+		ParseTree parseTree = ExpressionUtils.createParseTree("1 / 3.");
+		Object result = new ExpressionCalculatorVisitor(variableResolver)
+			.maxResultScale(8)
+			.visit(parseTree);
+		assertEquals(((BigDecimal) result).scale(), 8);
 	}
 
 	private Object expr(String expression) {

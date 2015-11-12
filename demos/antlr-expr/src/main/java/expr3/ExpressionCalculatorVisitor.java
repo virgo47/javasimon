@@ -99,7 +99,7 @@ public class ExpressionCalculatorVisitor extends ExprBaseVisitor {
 			case OP_SUB:
 				return left.subtract(right);
 			case OP_MUL:
-				return left.multiply(right);
+				return left.multiply(right).stripTrailingZeros();
 			case OP_DIV:
 				return left.divide(right, maxScale, roundingMode).stripTrailingZeros();
 			case OP_MOD:
@@ -201,7 +201,7 @@ public class ExpressionCalculatorVisitor extends ExprBaseVisitor {
 
 		return bigDecimal.scale() < 0
 			? bigDecimal.setScale(0, roundingMode)
-			: bigDecimal;
+			: bigDecimal.stripTrailingZeros();
 	}
 
 	@Override
