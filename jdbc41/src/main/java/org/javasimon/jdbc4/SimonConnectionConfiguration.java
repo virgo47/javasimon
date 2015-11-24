@@ -119,8 +119,8 @@ public class SimonConnectionConfiguration {
 			//java:simon:oracle
 			simonUrl = url;
 			StringTokenizer st = new StringTokenizer(url, ";");
-			String lRealDriver = getProperty(driverId, "driver"),
-				lPrefix = DEFAULT_PREFIX;
+			String lRealDriver = getProperty(driverId, "driver");
+			String lPrefix = DEFAULT_PREFIX;
 			StringBuilder realUrlBuilder = new StringBuilder();
 			while (st.hasMoreTokens()) {
 				String tokenPairStr = st.nextToken().trim();
