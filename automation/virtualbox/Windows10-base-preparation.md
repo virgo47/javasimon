@@ -3,7 +3,9 @@
 Based on: http://huestones.co.uk/node/305
 Some command sequences copied here for convenience.
 
-Other ideas: http://www.hurryupandwait.io/blog/in-search-of-a-light-weight-windows-vagrant-box
+Other ideas:
+* http://www.hurryupandwait.io/blog/in-search-of-a-light-weight-windows-vagrant-box
+* https://github.com/majkinetor/posher
 
 This actually contains most of the process using PowerShell commands, but it's Win2012 server.
 Discussion contains some gist/script references, tips to disable USB driver before packaging the
