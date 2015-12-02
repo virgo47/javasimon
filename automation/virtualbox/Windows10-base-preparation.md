@@ -11,6 +11,7 @@ No problem, mostly manual. *I guess it can be partially executed with commands.*
 
 **Before UAC Disable download some other browser, because with UAC disabled IE/Edge won't start.**
 About UAC disable/enable with command: http://superuser.com/questions/227860
+
 First is enable (1), second to disable (0). In any case, restart is required.
 ```
 reg ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
@@ -41,3 +42,33 @@ powershell -Command "Set-ExecutionPolicy -ExecutionPolicy Unrestricted"
 Then from "Enable remote connection to your box" we're back to manual...
 
 Running `sdelete.exe` may seem to get stuck, just focus to cmd and press enter to "push it". :-)
+
+## Part 4
+
+Vagrantfile is next to this MD file. Do the following in this directory:
+```
+# this creates ~5GB windows.box file
+vagrant package --base "Windows 10" --output c:\work\tools\vagrant-boxes\windows.box --vagrantfile Vagrantfile
+# this creates vagrant box in VAGRANT_HOME (~/.vagrant.d), roughly the same size + some metadata
+vagrant box add c:\work\tools\vagrant-boxes\windows.box --name windows10
+```
+
+Now go to another dedicated "environment" directory for this box. First time it is an empty dir:
+```
+# see: https://docs.vagrantup.com/v2/cli/init.html
+vagrant init windows10
+```
+
+Following commands also have to be executed from "environment" directory:
+```
+# this will take a lot of time - but only for the first time
+vagrant up
+# now to check that the box is up and running (VirtualBox UI shows the same)
+vagrant status
+# and to connect - use .\vagrant as the name, forgetting the domain part causes login failure
+vagrant rdp
+```
+
+...and BTW, while the RDP session is running it seems that Ctrl+V (copy/paste in general) is messy,
+e.g. it doesn't work on your local machine (like now in IDEA). See here for more:
+http://www.gfi.com/blog/copy-paste-working-remote-desktop-connection-whats-wrong/
