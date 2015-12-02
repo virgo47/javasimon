@@ -59,7 +59,11 @@ Now go to another dedicated "environment" directory for this box. First time it 
 vagrant init windows10
 ```
 
-Following commands also have to be executed from "environment" directory:
+Now we may configure it a bit more: https://docs.vagrantup.com/v2/virtualbox/configuration.html
+
+Otherwise it will have some tmp/random name, etc. When we're done editing the `Vagrantfile`, it's
+time to start it up. All the following commands also have to be executed from aforementioned
+"environment" directory:
 ```
 # this will take a lot of time - but only for the first time
 vagrant up
