@@ -3,6 +3,12 @@
 Based on: http://huestones.co.uk/node/305
 Some command sequences copied here for convenience.
 
+Other ideas: http://www.hurryupandwait.io/blog/in-search-of-a-light-weight-windows-vagrant-box
+
+This actually contains most of the process using PowerShell commands, but it's Win2012 server.
+Discussion contains some gist/script references, tips to disable USB driver before packaging the
+box, etc.
+
 ## Part 1 & 2
 
 No problem, mostly manual. *I guess it can be partially executed with commands.*
