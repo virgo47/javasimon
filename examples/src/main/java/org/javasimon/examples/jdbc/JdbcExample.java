@@ -27,7 +27,7 @@ public class JdbcExample {
 		// JDBC URL:
 		// 1) it has :simon: between jdbc and real driver name
 		// 2) it specifies the simon namespace where to put JDBC simons (any.sql instead of default)
-		try (Connection connection = DriverManager.getConnection("jdbc:simon:h2:mem;simon_prefix=any.sql")) {
+		try (Connection connection = DriverManager.getConnection("jdbc:simon:h2:mem:;simon_prefix=any.sql")) {
 			prepareTable(connection);
 			runDemo(connection);
 		}
@@ -105,6 +105,5 @@ public class JdbcExample {
 					" start TIMESTAMP," +
 					" nanos BIGINT)");
 		}
-		System.out.println("Connection schema: " + connection.getSchema());
 	}
 }
