@@ -6,13 +6,10 @@
 
 	<persistence-unit name="testcase" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-		<class>org.hibernate.bugs.model.MyEntity</class>
 		<properties>
 			<property name="hibernate.connection.url" value="jdbc:h2:mem:test;TRACE_LEVEL_SYSTEM_OUT=2"/>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
-			<property name="hibernate.connection.driver_class" value="org.h2.Driver"/>
 			<property name="hibernate.hbm2ddl.auto" value="update"/>
-			<property name="org.hibernate.envers.revision_on_collection_change" value="false"/>
 		</properties>
 	</persistence-unit>
 
