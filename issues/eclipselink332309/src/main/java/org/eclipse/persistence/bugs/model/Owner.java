@@ -22,7 +22,7 @@ public class Owner implements Serializable {
 
 	@ManyToMany
 	@JoinTable(name = "Owner_Dog",
-		joinColumns = @JoinColumn(name = "onwer_uniqid", referencedColumnName = "uniqId"),
+		joinColumns = @JoinColumn(name = "owner_uniqid", referencedColumnName = "uniqId"),
 		inverseJoinColumns = @JoinColumn(name = "dog_id", referencedColumnName = "id"))
 	private Set<Dog> dogs;
 
