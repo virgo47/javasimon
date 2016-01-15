@@ -1,0 +1,15 @@
+plugins {
+	id 'nebula.provided-base' version '3.0.3'
+// id 'nebula.optional-base' version '3.0.3' // for optional
+	id 'java'
+	id 'idea'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	compile 'com.google.guava:guava:17.0'
+	provided 'javax:javaee-api:7.0'
+}
