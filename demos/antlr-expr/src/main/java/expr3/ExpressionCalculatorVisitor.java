@@ -132,7 +132,6 @@ public class ExpressionCalculatorVisitor extends ExprBaseVisitor {
 		Comparable right = (Comparable) visit(ctx.expr(1));
 		int operator = ctx.op.getType();
 		if (left == null || right == null) {
-			// TODO alebo chceme vyhodit vynimku ked operator nie je EQ/NE?
 			return left == null && right == null && operator == OP_EQ
 				|| (left != null || right != null) && operator == OP_NE;
 		}
