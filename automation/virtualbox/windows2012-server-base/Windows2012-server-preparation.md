@@ -1,5 +1,14 @@
 # Base image for Windows 2012 Server on VirtualBox
 
+Most important resources related to automation (Vagrant/Packer) by Matt Wrock:
+
+* Using Vagrant: http://www.hurryupandwait.io/blog/in-search-of-a-light-weight-windows-vagrant-box
+* Packer/Boxstarter: http://www.hurryupandwait.io/blog/creating-windows-base-images-for-virtualbox-and-hyper-v-using-packer-boxstarter-and-vagrant
+* Sources: https://github.com/mwrock/packer-templates
+* Finished Vagrant boxes: https://atlas.hashicorp.com/mwrock
+
+## Raw ISO - not good
+
 * Download from: https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2012-r2
 * Choose VHD, this can be used with VirtualBox directly.
 * **Copy** downloaded VHD to some dedicated directory for VirtualBox media, e.g. Disks.
@@ -11,22 +20,18 @@ and browse to the copied VHD file.
 
 **Ctrl+Alt+Del** in VirtualBox = Host key (**Compose** in my case) + **Del**
 
-## Resources
+Further reading:
 
-* http://www.hurryupandwait.io/blog/in-search-of-a-light-weight-windows-vagrant-box
-
-* http://www.itpro.co.uk/desktop-software/20510/windows-server-2012-installation-and-setup
+* Setup: http://www.itpro.co.uk/desktop-software/20510/windows-server-2012-installation-and-setup
 
 ## Packer/Boxstarter way
 
-* Post: http://www.hurryupandwait.io/blog/creating-windows-base-images-for-virtualbox-and-hyper-v-using-packer-boxstarter-and-vagrant
-* Sources: https://github.com/mwrock/packer-templates
 
 ### Preparation steps to install Packer via Chocolatey
 
 In Administrator's `cmd`:
 ```
-@powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))" && SET PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin
+@powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))"
 ```
 
 Close/reopen Administrator's `cmd`:

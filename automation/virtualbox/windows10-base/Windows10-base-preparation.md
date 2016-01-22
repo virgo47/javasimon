@@ -1,5 +1,8 @@
 # Base image for Windows 10 on VirtualBox
 
+Most of this is manual. Matt Wrock's work referenced [here](../windows2012-server-base/Windows2012-server-preparation.md)
+is much better fit for what we want.
+
 Based on: http://huestones.co.uk/node/305
 Some command sequences copied here for convenience.
 
