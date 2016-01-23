@@ -1,0 +1,66 @@
+{
+  "variables": {
+    "guest_additions_mode": "upload",
+    "headless": "false",
+    "iso_checksum": "93845bbcc9677000df76cb2a5267c8eb52995bae",
+    "iso_url": "file:///g:/work/vm-images/10586.0.151029-1700.TH2_RELEASE_CLIENTENTERPRISEEVAL_OEMRET_X64FRE_EN-US.ISO"
+  },
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--natpf1",
+          "guest_winrm,tcp,,55985,,5985"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "2048"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--vram",
+          "48"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "2"
+        ]
+      ],
+      "guest_additions_mode": "{{ user `guest_additions_mode` }}",
+      "guest_additions_path": "C:/users/vagrant/VBoxGuestAdditions.iso",
+      "guest_os_type": "Windows10_64",
+      "headless": "{{ user `headless` }}",
+      "iso_url": "{{ user `iso_url` }}",
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "sha1",
+      "communicator": "winrm",
+      "winrm_username": "vagrant",
+      "winrm_password": "vagrant",
+      "winrm_timeout": "8h",
+      "shutdown_command": "a:/PackerShutdown.bat",
+      "shutdown_timeout": "15m",
+      "floppy_files": [
+        "floppy/Autounattend.xml",
+        "floppy/PackerShutdown.bat"
+      ]
+    }
+  ],
+  "post-processors": [
+    [
+      {
+        "type": "vagrant",
+        "keep_input_artifact": true,
+        "output": "windows2012r2min-{{.Provider}}.box",
+        "vagrantfile_template": "Vagrantfile"
+      }
+    ]
+  ]
+}
