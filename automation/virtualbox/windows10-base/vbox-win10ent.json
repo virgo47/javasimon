@@ -34,7 +34,7 @@
           "2"
         ]
       ],
-      "guest_additions_mode": "{{ user `guest_additions_mode` }}",
+      "guest_additions_mode": "upload",
       "guest_additions_path": "C:/users/vagrant/VBoxGuestAdditions.iso",
       "guest_os_type": "Windows10_64",
       "headless": "{{ user `headless` }}",
@@ -49,6 +49,8 @@
       "shutdown_timeout": "15m",
       "floppy_files": [
         "floppy/Autounattend.xml",
+        "floppy/boxstarter.ps1",
+        "floppy/package.ps1",
         "floppy/PackerShutdown.bat"
       ]
     }
@@ -58,7 +60,7 @@
       {
         "type": "vagrant",
         "keep_input_artifact": true,
-        "output": "windows2012r2min-{{.Provider}}.box",
+        "output": "windows10-{{.Provider}}.box",
         "vagrantfile_template": "Vagrantfile"
       }
     ]
