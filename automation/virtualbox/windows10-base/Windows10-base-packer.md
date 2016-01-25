@@ -89,3 +89,4 @@ and how to use it [here](https://www.petri.com/getting-started-with-dism-powersh
 the ISO is not available before.
 * How to make Vagrant virtualbox run on foreground?
 * Matt used postunattend in shutdown script (sysprep), why? How should I modify it for Windows 10?
+* Disable OneDrive completely.

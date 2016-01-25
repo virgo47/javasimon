@@ -49,10 +49,17 @@
       "shutdown_timeout": "15m",
       "floppy_files": [
         "floppy/Autounattend.xml",
+        "floppy/oracle.cer",
         "floppy/boxstarter.ps1",
         "floppy/package.ps1",
         "floppy/PackerShutdown.bat"
       ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "powershell",
+      "script": "floppy/provision.ps1"
     }
   ],
   "post-processors": [
