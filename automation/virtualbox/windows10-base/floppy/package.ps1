@@ -8,11 +8,11 @@ Set-ItemProperty -Path $pageFileMemoryKey -Name PagingFiles -Value ""
 
 Update-ExecutionPolicy -Policy Unrestricted
 
-Write-BoxstarterMessage "Removing unused features..."
+Write-BoxstarterMessage "Removing unused features...DISABLED"
 Import-Module dism
-Get-WindowsOptionalFeature -online | where {$_.State -eq 'disabled'} | Disable-WindowsOptionalFeature -Remove -online
+#Get-WindowsOptionalFeature -online | where {$_.State -eq 'disabled'} | Disable-WindowsOptionalFeature -Remove -online
 
-Install-WindowsUpdate -AcceptEula
+#Install-WindowsUpdate -AcceptEula
 if(Test-PendingReboot){ Invoke-Reboot }
 
 Write-BoxstarterMessage "Cleaning SxS..."
@@ -37,28 +37,24 @@ Dism.exe /online /Cleanup-Image /StartComponentCleanup /ResetBase
 Write-BoxstarterMessage "defragging..."
 #Optimize-Volume -DriveLetter C
 
-Write-BoxstarterMessage "0ing out empty space..."
+Write-BoxstarterMessage "0ing out empty space...DISABLED"
 # this fails right now
 wget http://download.sysinternals.com/files/SDelete.zip -OutFile sdelete.zip
 [System.Reflection.Assembly]::LoadWithPartialName("System.IO.Compression.FileSystem")
 [System.IO.Compression.ZipFile]::ExtractToDirectory("sdelete.zip", ".")
 ./sdelete.exe /accepteula -z c:
 
-# currently this unattend.xml prevents sysprep from shutting down
-#mkdir C:\Windows\Panther\Unattend
-#copy-item a:\postunattend.xml C:\Windows\Panther\Unattend\unattend.xml
-
 Write-BoxstarterMessage "Recreate pagefile after sysprep"
 $System = GWMI Win32_ComputerSystem -EnableAllPrivileges
 $System.AutomaticManagedPagefile = $true
 $System.Put()
 
-Write-BoxstarterMessage "Setting up winrm"
+Write-BoxstarterMessage "Setting up winrmDISABLED"
 Set-NetFirewallRule -Name WINRM-HTTP-In-TCP-PUBLIC -RemoteAddress Any
 Enable-WSManCredSSP -Force -Role Server
 
-Enable-PSRemoting -Force -SkipNetworkProfileCheck
-winrm set winrm/config/client/auth '@{Basic="true"}'
-winrm set winrm/config/service/auth '@{Basic="true"}'
-winrm set winrm/config/service '@{AllowUnencrypted="true"}'
+#Enable-PSRemoting -Force -SkipNetworkProfileCheck
+#winrm set winrm/config/client/auth '@{Basic="true"}'
+#winrm set winrm/config/service/auth '@{Basic="true"}'
+#winrm set winrm/config/service '@{AllowUnencrypted="true"}'
 Write-BoxstarterMessage "winrm setup complete"

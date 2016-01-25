@@ -68,13 +68,6 @@ finally {
 
 Del $FilePath
 
-#Write-Host "copying auto unattend file"
-#mkdir C:\Windows\setup\scripts
-#copy-item a:\SetupComplete-2012.cmd C:\Windows\setup\scripts\SetupComplete.cmd -Force
-
-#mkdir C:\Windows\Panther\Unattend
-#copy-item a:\postunattend.xml C:\Windows\Panther\Unattend\unattend.xml
-
 Write-Host "Recreate pagefile after sysprep"
 $System = GWMI Win32_ComputerSystem -EnableAllPrivileges
 if ($system -ne $null) {

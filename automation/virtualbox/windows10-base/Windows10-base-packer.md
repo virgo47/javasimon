@@ -10,6 +10,11 @@ Problem: no Windows 10 image
 packer build -force vbox-win10ent.json
 ```
 
+Or with different ISO:
+```
+packer build -force -var 'iso_url=file:///c:/work/iso-images/Windows10.iso' -var 'iso_checksum=d083c55ecb86158e3419032f4ed651e93e37c347' vbox-win10ent.json
+```
+
 Current problems:
 * in virtual there is some bug with 0ing empty space, wget fails (try again in existing windows10-dev box)
 * check the rest of the `package.ps1` script, there were more errors following
@@ -83,3 +88,4 @@ and how to use it [here](https://www.petri.com/getting-started-with-dism-powersh
 * Still not finished with guest additions, seems that provision.ps1 is necessary for this? Probably
 the ISO is not available before.
 * How to make Vagrant virtualbox run on foreground?
+* Matt used postunattend in shutdown script (sysprep), why? How should I modify it for Windows 10?
