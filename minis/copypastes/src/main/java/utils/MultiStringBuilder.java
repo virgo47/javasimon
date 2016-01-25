@@ -11,17 +11,19 @@ import java.util.stream.IntStream;
  * in both constructors.
  * <p>
  * Optionally, it can be constructed with prefix/postfix {@link CharSequence} which will be
- * prepended/appended to the result. Prefix is appended during the construction, postfix is
- * appended when {@link #toString()} is called. Because of this feature it is forbidden to
- * modify the content after {@link #toString()} is called and any mutating method will throw
- * {@link IllegalStateException}. However non-mutating methods and {@link #toString()} can
- * still be called.
+ * prepended/appended to the result. It is still possible to combine {@link #toString()} with
+ * mutating methods, postfix will be placed properly after the end.
+ * <p>
+ * Insert methods index from the start of the buffer with prefix included. It is possible to
+ * insert something before prefix with index 0. TODO: maybe this should index from the current item?
+ * Generally all methods using indexes and all "low-level" methods (like {@link #setLength(int)}
+ * or {@link #reverse()}) have not very clear semantics for multi-string builder. (yet)
  * <p>
  * Typical usage may look like this:
  * <pre>{@code
-MultiStringBuilder sb = new MultiStringBuilder("[", "]", ",");
-IntStream.rangeClosed(1, 5)
-	.forEach(i -> sb.newEntry().append(i));}</pre>
+ * MultiStringBuilder sb = new MultiStringBuilder("[", "]", ",");
+ * IntStream.rangeClosed(1, 5)
+ * .forEach(i -> sb.newEntry().append(i));}</pre>
  * <p>
  * This will produce the string: [1,2,3,4,5]
  */
@@ -50,7 +52,7 @@ public class MultiStringBuilder implements Appendable, CharSequence, Serializabl
 	 * appended except before the first entry.
 	 */
 	public MultiStringBuilder newEntry() {
-		notFinishedCheck();
+		unfinish();
 		if (noEntryYet) {
 			noEntryYet = false;
 			return this;
@@ -61,195 +63,198 @@ public class MultiStringBuilder implements Appendable, CharSequence, Serializabl
 	}
 
 	public MultiStringBuilder append(String str) {
-		notFinishedCheck();
+		unfinish();
 		delegate.append(str);
 		return this;
 	}
 
 	@Override
 	public MultiStringBuilder append(CharSequence s) {
-		notFinishedCheck();
+		unfinish();
 		delegate.append(s);
 		return this;
 	}
 
 	@Override
 	public MultiStringBuilder append(CharSequence s, int start, int end) {
-		notFinishedCheck();
+		unfinish();
 		delegate.append(s, start, end);
 		return this;
 	}
 
 	public MultiStringBuilder append(char[] str) {
-		notFinishedCheck();
+		unfinish();
 		delegate.append(str);
 		return this;
 	}
 
 	public MultiStringBuilder append(char[] str, int offset, int len) {
-		notFinishedCheck();
+		unfinish();
 		delegate.append(str, offset, len);
 		return this;
 	}
 
 	public MultiStringBuilder append(Object obj) {
-		notFinishedCheck();
+		unfinish();
 		delegate.append(obj);
 		return this;
 	}
 
 	public MultiStringBuilder append(boolean b) {
-		notFinishedCheck();
+		unfinish();
 		delegate.append(b);
 		return this;
 	}
 
 	@Override
 	public MultiStringBuilder append(char c) {
-		notFinishedCheck();
+		unfinish();
 		delegate.append(c);
 		return this;
 	}
 
 	public MultiStringBuilder append(double d) {
-		notFinishedCheck();
+		unfinish();
 		delegate.append(d);
 		return this;
 	}
 
 	public MultiStringBuilder append(float f) {
-		notFinishedCheck();
+		unfinish();
 		delegate.append(f);
 		return this;
 	}
 
 	public MultiStringBuilder append(int i) {
-		notFinishedCheck();
+		unfinish();
 		delegate.append(i);
 		return this;
 	}
 
 	public MultiStringBuilder append(long lng) {
-		notFinishedCheck();
+		unfinish();
 		delegate.append(lng);
 		return this;
 	}
 
 	public MultiStringBuilder appendCodePoint(int codePoint) {
-		notFinishedCheck();
+		unfinish();
 		delegate.appendCodePoint(codePoint);
 		return this;
 	}
 
 	public MultiStringBuilder insert(int offset, String str) {
-		notFinishedCheck();
+		unfinish();
 		delegate.insert(offset, str);
 		return this;
 	}
 
 	public MultiStringBuilder insert(int dstOffset, CharSequence s) {
-		notFinishedCheck();
+		unfinish();
 		delegate.insert(dstOffset, s);
 		return this;
 	}
 
 	public MultiStringBuilder insert(int dstOffset, CharSequence s, int start, int end) {
-		notFinishedCheck();
+		unfinish();
 		delegate.insert(dstOffset, s, start, end);
 		return this;
 	}
 
 	public MultiStringBuilder insert(int offset, char[] str) {
-		notFinishedCheck();
+		unfinish();
 		delegate.insert(offset, str);
 		return this;
 	}
 
 	public MultiStringBuilder insert(int index, char[] str, int offset, int len) {
-		notFinishedCheck();
+		unfinish();
 		delegate.insert(index, str, offset, len);
 		return this;
 	}
 
 	public MultiStringBuilder insert(int offset, Object obj) {
-		notFinishedCheck();
+		unfinish();
 		delegate.insert(offset, obj);
 		return this;
 	}
 
 	public MultiStringBuilder insert(int offset, boolean b) {
-		notFinishedCheck();
+		unfinish();
 		delegate.insert(offset, b);
 		return this;
 	}
 
 	public MultiStringBuilder insert(int offset, char c) {
-		notFinishedCheck();
+		unfinish();
 		delegate.insert(offset, c);
 		return this;
 	}
 
 	public MultiStringBuilder insert(int offset, double d) {
-		notFinishedCheck();
+		unfinish();
 		delegate.insert(offset, d);
 		return this;
 	}
 
 	public MultiStringBuilder insert(int offset, float f) {
-		notFinishedCheck();
+		unfinish();
 		delegate.insert(offset, f);
 		return this;
 	}
 
 	public MultiStringBuilder insert(int offset, int i) {
-		notFinishedCheck();
+		unfinish();
 		delegate.insert(offset, i);
 		return this;
 	}
 
 	public MultiStringBuilder insert(int offset, long l) {
-		notFinishedCheck();
+		unfinish();
 		delegate.insert(offset, l);
 		return this;
 	}
 
 	public MultiStringBuilder delete(int start, int end) {
-		notFinishedCheck();
+		unfinish();
 		delegate.delete(start, end);
 		return this;
 	}
 
 	public MultiStringBuilder deleteCharAt(int index) {
-		notFinishedCheck();
+		unfinish();
 		delegate.deleteCharAt(index);
 		return this;
 	}
 
 	public MultiStringBuilder replace(int start, int end, String str) {
-		notFinishedCheck();
+		unfinish();
 		delegate.replace(start, end, str);
 		return this;
 	}
 
+	/**
+	 * Currently reverses underlying string completely - prefix/postfix included.
+	 * TODO: Do we want different semantics? Only for item? Unsupported? Only within prefix/suffix?
+	 */
 	public MultiStringBuilder reverse() {
-		notFinishedCheck();
 		delegate.reverse();
 		return this;
 	}
 
+	/** Works on complete buffer. What should be the semantics here? */
 	public void setCharAt(int index, char ch) {
-		notFinishedCheck();
 		delegate.setCharAt(index, ch);
 	}
 
+	/** Works on complete buffer. What should be the semantics here? */
 	public void setLength(int newLength) {
-		notFinishedCheck();
 		delegate.setLength(newLength);
 	}
 
 	// doesn't make sense if we don't want to change it, so the finished check is here as well
 	public void ensureCapacity(int minimumCapacity) {
-		notFinishedCheck();
+		unfinish();
 		delegate.ensureCapacity(minimumCapacity);
 	}
 
@@ -337,10 +342,12 @@ public class MultiStringBuilder implements Appendable, CharSequence, Serializabl
 		delegate.trimToSize();
 	}
 
-	private void notFinishedCheck() {
-		if (finished) {
-			throw new IllegalStateException("MultiStringBuilder was finished already (toString was called)");
+	/** Used internally by all mutating methods. */
+	private void unfinish() {
+		if (finished && postfix.length() > 0) {
+			delegate.setLength(delegate.length() - postfix.length());
 		}
+		finished = false;
 	}
 
 	/** @noinspection NullableProblems */
@@ -351,5 +358,10 @@ public class MultiStringBuilder implements Appendable, CharSequence, Serializabl
 			delegate.append(postfix);
 		}
 		return delegate.toString();
+	}
+
+	/** Returns original delegate - kind of backdoor to the content, use with caution. */
+	public StringBuilder toStringBuilder() {
+		return delegate;
 	}
 }
