@@ -6,6 +6,10 @@
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
 Vagrant.configure(2) do |config|
+  config.vm.provider "virtualbox" do |v|
+    v.gui = true
+  end
+
   config.vm.guest = :windows
   config.vm.communicator = "winrm"
   config.vm.boot_timeout = 600

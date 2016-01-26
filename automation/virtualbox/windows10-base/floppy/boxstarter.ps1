@@ -1,3 +1,8 @@
+# Execution Policy 64-bit
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force
+# Execution Policy 32-bit
+C:\Windows\SysWOW64\cmd.exe /c powershell -Command "Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force"
+
 $WinlogonPath = "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon"
 Remove-ItemProperty -Path $WinlogonPath -Name AutoAdminLogon
 Remove-ItemProperty -Path $WinlogonPath -Name DefaultUserName

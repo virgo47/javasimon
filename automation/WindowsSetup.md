@@ -15,7 +15,7 @@ cinst -y 7zip
 cinst -y zip
 cinst -y unzip
 cinst -y notepad2
-cinst -y notepadreplacer
+cinst -y notepadreplacer -installarguments '/notepad=C:\Progra~1\Notepad2\Notepad2.exe /verysilent'
 cinst -y vim
 cinst -y rapidee
 cinst -y classic-shell

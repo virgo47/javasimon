@@ -8,6 +8,7 @@ Write-BoxstarterMessage "Removing unused features...DISABLED"
 Import-Module dism
 #Get-WindowsOptionalFeature -online | where {$_.State -eq 'disabled'} | Disable-WindowsOptionalFeature -Remove -online
 
+Write-BoxstarterMessage "Installing Windows Updtates...DISABLED"
 #Install-WindowsUpdate -AcceptEula
 
 Write-BoxstarterMessage "Removing page file"
@@ -16,8 +17,7 @@ Set-ItemProperty -Path $pageFileMemoryKey -Name PagingFiles -Value ""
 
 if(Test-PendingReboot){ Invoke-Reboot }
 
-
-Write-BoxstarterMessage "Setting up winrmDISABLED"
+Write-BoxstarterMessage "Setting up winrm"
 netsh advfirewall firewall add rule name="WinRM-HTTP" dir=in localport=5985 protocol=TCP action=allow
 
 Enable-PSRemoting -Force -SkipNetworkProfileCheck
@@ -25,5 +25,3 @@ Enable-WSManCredSSP -Force -Role Server
 winrm set winrm/config/client/auth '@{Basic="true"}'
 winrm set winrm/config/service/auth '@{Basic="true"}'
 winrm set winrm/config/service '@{AllowUnencrypted="true"}'
-Write-BoxstarterMessage "winrm setup complete (press any key...)"
-$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');

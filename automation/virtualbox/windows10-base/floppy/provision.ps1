@@ -1,11 +1,13 @@
-# TODO: Disabled - in this script no interaction is possible, so no press any key or Inquire, etc.
+# TODO: Disabled because now we still have some errors in the script (marked by TODO)
+# in this script no interaction is possible, so no press any key or Inquire, etc.
 #$ErrorActionPreference = "Stop"
 
 Write-Host "Enabling file sharing firewale rules"
 netsh advfirewall firewall set rule group="File and Printer Sharing" new enable=yes
 
-if(Test-Path "C:\Users\vagrant\VBoxGuestAdditions.iso") {
-	Write-Host "Installing Guest Additions"
+# Test whether Guest Additions are uploaded
+if (Test-Path "C:\Users\vagrant\VBoxGuestAdditions.iso") {
+	Write-Host "Installing uploaded Guest Additions"
 	certutil -addstore -f "TrustedPublisher" A:\oracle.cer
 	cinst 7zip.commandline -y
 	Move-Item C:\Users\vagrant\VBoxGuestAdditions.iso C:\Windows\Temp
@@ -13,18 +15,33 @@ if(Test-Path "C:\Users\vagrant\VBoxGuestAdditions.iso") {
 
 	Start-Process -FilePath "C:\Windows\Temp\virtualbox\VBoxWindowsAdditions.exe" -ArgumentList "/S" -WorkingDirectory "C:\Windows\Temp\virtualbox" -Wait
 
-	# TODO: disabled now
-	#Remove-Item C:\Windows\Temp\virtualbox -Recurse -Force
-	#Remove-Item C:\Windows\Temp\VBoxGuestAdditions.iso -Force
+	Remove-Item C:\Windows\Temp\virtualbox -Recurse -Force
+	Remove-Item C:\Windows\Temp\VBoxGuestAdditions.iso -Force
 }
+
+# Test whether Guest Additions are uploaded
+if (Test-Path "E:\VBoxWindowsAdditions.exe") {
+	Write-Host "Installing attached Guest Additions"
+	Start-Process -FilePath "E:\VBoxWindowsAdditions.exe" -ArgumentList "/S" -WorkingDirectory "E:\" -Wait
+}
+
+cinst -y firefox
+# how to say it's default browser and skip question about import from IE?
+cinst -y classic-shell
+# how to do the initial setup automatically?
+cinst -y notepad2
+cinst -y notepadreplacer -installarguments '/notepad=''C:\Program Files\Notepad2\Notepad2.exe'' /verysilent'
+
 
 Write-Host "Cleaning SxS..."
 Dism.exe /online /Cleanup-Image /StartComponentCleanup /ResetBase
 
+# TODO: windir\logs and localappdata\temp cannot be cleaned completely
+tasklist /v
 @(
 	"$env:localappdata\Nuget",
 	"$env:localappdata\temp\*",
-	"$env:windir\logs",
+#	"$env:windir\logs",
 	"$env:windir\panther",
 	"$env:windir\temp\*",
 	"$env:windir\winsxs\manifestcache"
@@ -66,7 +83,7 @@ Write-Host "0ing out empty space..."
 #
 #Del $FilePath
 #
-## TODO: disabled now
+## TODO: disabled now - don't know what is added value by these
 #Write-Host "copying auto unattend file"
 ##mkdir C:\Windows\setup\scripts
 ##copy-item a:\SetupComplete-2012.cmd C:\Windows\setup\scripts\SetupComplete.cmd -Force
@@ -74,6 +91,7 @@ Write-Host "0ing out empty space..."
 ##mkdir C:\Windows\Panther\Unattend
 ##copy-item a:\postunattend.xml C:\Windows\Panther\Unattend\unattend.xml
 #
+
 Write-Host "Recreate pagefile after sysprep"
 $System = GWMI Win32_ComputerSystem -EnableAllPrivileges
 if ($system -ne $null) {
