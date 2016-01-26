@@ -23,6 +23,15 @@ vagrant.exe box add --force windows10-dev windows10-virtualbox.box
 
 ### Current problems
 
+* Packer finishes OK, but after `vagrant box add` and `vagrant up` (remove previous virtual box
+before!) the OS does not start properly, but starts asking questions about timezone and some more
+settings, restarts - and again.
+
+Test:
+* how it works with sysprep shutdown (right now I'm not sure)
+* with shutdown /s it worked OK after vagrant up
+* but now I skipped all installations (cinst) and guest addtions
+
 ### What happens
 
 After the unattended installation finishes, `boxstarter.ps1` takes over in Administrator `cmd.exe`
@@ -91,8 +100,7 @@ and how to use it [here](https://www.petri.com/getting-started-with-dism-powersh
 * How to avoid one reboot after `vagrant up` with Finalizing setings?
 * How to get rid of Network sidebar?
 * How to uninstall cortana?
-* Still not finished with guest additions, seems that provision.ps1 is necessary for this? Probably
-the ISO is not available before.
+* Guest additions still not working.
 * How to make Vagrant virtualbox run on foreground?
 * Matt used postunattend in shutdown script (sysprep), why? How should I modify it for Windows 10?
 * Disable OneDrive completely.

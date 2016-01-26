@@ -20,18 +20,17 @@ if (Test-Path "C:\Users\vagrant\VBoxGuestAdditions.iso") {
 }
 
 # Test whether Guest Additions are uploaded
-if (Test-Path "E:\VBoxWindowsAdditions.exe") {
-	Write-Host "Installing attached Guest Additions"
-	Start-Process -FilePath "E:\VBoxWindowsAdditions.exe" -ArgumentList "/S" -WorkingDirectory "E:\" -Wait
-}
+#if (Test-Path "E:\VBoxWindowsAdditions.exe") {
+#	Write-Host "Installing attached Guest Additions"
+#	Start-Process -FilePath "E:\VBoxWindowsAdditions.exe" -ArgumentList "/S" -WorkingDirectory "E:\" -Wait
+#}
 
-cinst -y firefox
+#cinst -y firefox
 # how to say it's default browser and skip question about import from IE?
-cinst -y classic-shell
+#cinst -y classic-shell
 # how to do the initial setup automatically?
-cinst -y notepad2
-cinst -y notepadreplacer -installarguments '/notepad=''C:\Program Files\Notepad2\Notepad2.exe'' /verysilent'
-
+#cinst -y notepad2
+#cinst -y notepadreplacer -installarguments '/notepad="C:\Progra~1\Notepad2\Notepad2.exe" /verysilent'
 
 Write-Host "Cleaning SxS..."
 Dism.exe /online /Cleanup-Image /StartComponentCleanup /ResetBase
@@ -82,15 +81,6 @@ Write-Host "0ing out empty space..."
 #}
 #
 #Del $FilePath
-#
-## TODO: disabled now - don't know what is added value by these
-#Write-Host "copying auto unattend file"
-##mkdir C:\Windows\setup\scripts
-##copy-item a:\SetupComplete-2012.cmd C:\Windows\setup\scripts\SetupComplete.cmd -Force
-#
-##mkdir C:\Windows\Panther\Unattend
-##copy-item a:\postunattend.xml C:\Windows\Panther\Unattend\unattend.xml
-#
 
 Write-Host "Recreate pagefile after sysprep"
 $System = GWMI Win32_ComputerSystem -EnableAllPrivileges
