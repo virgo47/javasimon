@@ -16,7 +16,46 @@ packer build -force -var 'iso_url=file:///c:/work/iso-images/Windows10.iso' -var
 ```
 
 Current problems:
-* in virtual there is some bug with 0ing empty space, wget fails (try again in existing windows10-dev box)
+* In `provision.ps1` when removing `$env:windir\logs` failures occur because some logs are used by
+another processes, permission problems or directories are not empty -- obviously something is
+working in this dir:
+```
+    virtualbox-iso: +                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    virtualbox-iso: + CategoryInfo          : PermissionDenied: (C:\Users\vagran...mp\rvw5hshh.dll:FileInfo) [Remove-Item], Unauthoriz
+    virtualbox-iso: edAccessException
+    virtualbox-iso: + FullyQualifiedErrorId : RemoveFileSystemItemUnAuthorizedAccess,Microsoft.PowerShell.Commands.RemoveItemCommand
+    virtualbox-iso: Remove-Item : Cannot remove item C:\Windows\logs\CBS\CBS.log: The process cannot access the file 'CBS.log' because it
+    virtualbox-iso: is being used by another process.
+    virtualbox-iso: At C:\Windows\Temp\script.ps1:37 char:5
+    virtualbox-iso: +                 Remove-Item $_ -Recurse -Force | Out-Null
+    virtualbox-iso: +                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    virtualbox-iso: + CategoryInfo          : WriteError: (CBS.log:FileInfo) [Remove-Item], IOException
+    virtualbox-iso: + FullyQualifiedErrorId : RemoveFileSystemItemIOError,Microsoft.PowerShell.Commands.RemoveItemCommand
+    virtualbox-iso: Remove-Item : Cannot remove item C:\Windows\logs\CBS: The directory is not empty.
+    virtualbox-iso: At C:\Windows\Temp\script.ps1:37 char:5
+    virtualbox-iso: +                 Remove-Item $_ -Recurse -Force | Out-Null
+    virtualbox-iso: +                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    virtualbox-iso: + CategoryInfo          : WriteError: (CBS:DirectoryInfo) [Remove-Item], IOException
+    virtualbox-iso: + FullyQualifiedErrorId : RemoveFileSystemItemIOError,Microsoft.PowerShell.Commands.RemoveItemCommand
+    virtualbox-iso: Remove-Item : Cannot remove item C:\Windows\logs\WindowsUpdate: The directory is not empty.
+    virtualbox-iso: At C:\Windows\Temp\script.ps1:37 char:5
+    virtualbox-iso: +                 Remove-Item $_ -Recurse -Force | Out-Null
+    virtualbox-iso: +                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    virtualbox-iso: + CategoryInfo          : WriteError: (WindowsUpdate:DirectoryInfo) [Remove-Item], IOException
+    virtualbox-iso: + FullyQualifiedErrorId : RemoveFileSystemItemIOError,Microsoft.PowerShell.Commands.RemoveItemCommand
+    virtualbox-iso: Remove-Item : Cannot remove item C:\Windows\logs: The directory is not empty.
+    virtualbox-iso: At C:\Windows\Temp\script.ps1:37 char:5
+    virtualbox-iso: +                 Remove-Item $_ -Recurse -Force | Out-Null
+    virtualbox-iso: +                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    virtualbox-iso: + CategoryInfo          : WriteError: (C:\Windows\logs:DirectoryInfo) [Remove-Item], IOException
+    virtualbox-iso: + FullyQualifiedErrorId : RemoveFileSystemItemIOError,Microsoft.PowerShell.Commands.RemoveItemCommand
+    virtualbox-iso: Remove-Item : Cannot remove item C:\Windows\winsxs\manifestcache: The directory is not empty.
+    virtualbox-iso: At C:\Windows\Temp\script.ps1:37 char:5
+    virtualbox-iso: +                 Remove-Item $_ -Recurse -Force | Out-Null
+    virtualbox-iso: +                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    virtualbox-iso: + CategoryInfo          : WriteError: (C:\Windows\winsxs\manifestcache:DirectoryInfo) [Remove-Item], IOException
+    virtualbox-iso: + FullyQualifiedErrorId : RemoveFileSystemItemIOError,Microsoft.PowerShell.Commands.RemoveItemCommand
+```
 * check the rest of the `package.ps1` script, there were more errors following
 * after shutdown packer console says:
 ```
