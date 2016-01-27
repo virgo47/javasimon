@@ -6,10 +6,6 @@
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
 Vagrant.configure(2) do |config|
-  config.vm.provider "virtualbox" do |v|
-    v.gui = true
-  end
-
   config.vm.guest = :windows
   config.vm.communicator = "winrm"
   config.vm.boot_timeout = 600
@@ -22,8 +18,10 @@ Vagrant.configure(2) do |config|
   config.vm.network :forwarded_port, guest: 3389, host: 3389
   config.vm.network :forwarded_port, guest: 5985, host: 5985, id: "winrm", auto_correct: true
 
-  # config.vm.provider "virtualbox" do |vb|
-  #    # Customize the name of VM in VirtualBox manager UI:
-  #    vb.name = "yourcompany-yourbox"
-  # end
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = "windows10-dev"
+    vb.gui = true
+    vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
+    vb.customize ["setextradata", :id, "GUI/SuppressMessages", "all"]
+  end
 end
