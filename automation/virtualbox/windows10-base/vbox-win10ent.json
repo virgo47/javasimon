@@ -3,7 +3,8 @@
 		"guest_additions_mode": "attach",
 		"headless": "false",
 		"iso_checksum": "93845bbcc9677000df76cb2a5267c8eb52995bae",
-		"iso_url": "file:///g:/work/vm-images/10586.0.151029-1700.TH2_RELEASE_CLIENTENTERPRISEEVAL_OEMRET_X64FRE_EN-US.ISO"
+		"iso_url": "file:///g:/work/vm-images/10586.0.151029-1700.TH2_RELEASE_CLIENTENTERPRISEEVAL_OEMRET_X64FRE_EN-US.ISO",
+		"_iso_url": "http://care.dlservice.microsoft.com/dl/download/B/B/3/BB3611B6-9781-437F-A293-AB43B85C2190/10586.0.151029-1700.TH2_RELEASE_CLIENTENTERPRISEEVAL_OEMRET_X64FRE_EN-US.ISO"
 	},
 	"builders": [
 		{
