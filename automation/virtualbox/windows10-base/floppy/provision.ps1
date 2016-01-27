@@ -20,10 +20,11 @@ if (Test-Path "C:\Users\vagrant\VBoxGuestAdditions.iso") {
 }
 
 # Test whether Guest Additions are uploaded
-#if (Test-Path "E:\VBoxWindowsAdditions.exe") {
-#	Write-Host "Installing attached Guest Additions"
-#	Start-Process -FilePath "E:\VBoxWindowsAdditions.exe" -ArgumentList "/S" -WorkingDirectory "E:\" -Wait
-#}
+if (Test-Path "E:\VBoxWindowsAdditions.exe") {
+	Write-Host "Installing attached Guest Additions"
+	Start-Process -FilePath "E:\cert\VBoxCertUtil.exe" -ArgumentList @("add-trusted-publisher", "oracle-vbox.cer") -WorkingDirectory "E:\cert" -Wait
+	Start-Process -FilePath "E:\VBoxWindowsAdditions.exe" -ArgumentList "/S" -WorkingDirectory "E:\" -Wait
+}
 
 #cinst -y firefox
 # how to say it's default browser and skip question about import from IE?
