@@ -9,13 +9,26 @@ To find out what is installed using Chocolatey, use `choco list -l` or shortcut 
 Without `-l` it prints all available packages. Using `clist -li` prints also applications
 that are not installed using Chocolatey, but could have been.
 
-We can install and download virtually any other favourite tool:
+We can install and download virtually any other favourite tool (lines with `#` comments run
+in PowerShell/Boxstarter Shell, in `cmd` you need to strip the end):
 ```
-cinst -y 7zip
-cinst -y zip
-cinst -y unzip
+cinst -y 7zip.commandline
 cinst -y notepad2
 cinst -y notepadreplacer -installarguments '/notepad=C:\Progra~1\Notepad2\Notepad2.exe /verysilent'
+cinst -y gnuwin32-coreutils.portable
+
+cinst -y firefox
+
+# developer's tools, probably for host, not for virtual guest
+cinst -y git
+cinst -y vagrant
+cinst -y packer
+cinst -y StrawberryPerl
+```
+
+Untested:
+```
+cinst -y unzip
 cinst -y vim
 cinst -y rapidee
 cinst -y classic-shell
@@ -23,7 +36,6 @@ cinst -y classic-shell
 cinst -y Handle
 cinst -y procexp
 
-cinst -y Firefox
 cinst -y GoogleChrome
 cinst -y FoxitReader
 
@@ -32,11 +44,7 @@ cinst -y putty
 cinst -y winscp
 cinst -y TotalCommander
 
-cinst -y vagrant
-cinst -y packer
-cinst -y StrawberryPerl
 cinst -y gpg4win-light
-cinst -y git
 cinst -y tortoisesvn
 cinst -y openvpn-community
 cinst -y ruby
@@ -44,7 +52,7 @@ cinst -y licecap
 cinst -y virtualbox
 cinst -y nodejs
 cinst -y k-litecodecpackfull
-cinst -y ghc
+cinst -y ghc # Haskell
 cinst -y gimp
 cinst -y foobar2000
 ```

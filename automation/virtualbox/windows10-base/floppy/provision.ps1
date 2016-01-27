@@ -5,11 +5,19 @@
 Write-Host "Enabling file sharing firewale rules"
 netsh advfirewall firewall set rule group="File and Printer Sharing" new enable=yes
 
+# Time for tool installation!
+cinst -y 7zip.commandline
+cinst -y firefox
+# how to say it's default browser and skip question about import from IE?
+cinst -y notepad2
+cinst -y notepadreplacer -installarguments '/notepad="C:\Progra~1\Notepad2\Notepad2.exe" /verysilent'
+#cinst -y classic-shell
+# how to do the initial setup automatically?
+
 # Test whether Guest Additions are uploaded
 if (Test-Path "C:\Users\vagrant\VBoxGuestAdditions.iso") {
 	Write-Host "Installing uploaded Guest Additions"
 	certutil -addstore -f "TrustedPublisher" A:\oracle.cer
-	cinst 7zip.commandline -y
 	Move-Item C:\Users\vagrant\VBoxGuestAdditions.iso C:\Windows\Temp
 	7z x C:\Windows\Temp\VBoxGuestAdditions.iso -oC:\Windows\Temp\virtualbox
 
@@ -25,13 +33,6 @@ if (Test-Path "E:\VBoxWindowsAdditions.exe") {
 	Start-Process -FilePath "E:\cert\VBoxCertUtil.exe" -ArgumentList @("add-trusted-publisher", "oracle-vbox.cer") -WorkingDirectory "E:\cert" -Wait
 	Start-Process -FilePath "E:\VBoxWindowsAdditions.exe" -ArgumentList "/S" -WorkingDirectory "E:\" -Wait
 }
-
-cinst -y firefox
-# how to say it's default browser and skip question about import from IE?
-cinst -y notepad2
-cinst -y notepadreplacer -installarguments '/notepad="C:\Progra~1\Notepad2\Notepad2.exe" /verysilent'
-#cinst -y classic-shell
-# how to do the initial setup automatically?
 
 Write-Host "Cleaning SxS..."
 Dism.exe /online /Cleanup-Image /StartComponentCleanup /ResetBase
