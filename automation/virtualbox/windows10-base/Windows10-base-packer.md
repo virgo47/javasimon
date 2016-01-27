@@ -28,9 +28,16 @@ containing `Vagrantfile` (may be empty before `init`):
 First `vagrant up` takes longer as it has to create virtual machine and machine itself is
 fresh and needs longer to configure and restart during initial boot. Subsequent runs are faster.
 
+Also - I build the box with GUI enabled. Another option is keep it disabled and use RDP, which
+still works: `vagrant rdp` (use `.\vagrant` as a name, just `vagrant` may not work!)
+
+...and BTW, while the RDP session is running it seems that Ctrl+V (copy/paste in general) is messy,
+e.g. it doesn't work on your local machine (like now in IDEA). See more
+[here](http://www.gfi.com/blog/copy-paste-working-remote-desktop-connection-whats-wrong/).
+
 ### Current problems
 
-### What happens
+## Packer process overview
 
 After the unattended installation finishes, `boxstarter.ps1` takes over in Administrator `cmd.exe`
 window. Packer console says: `Waiting for WinRM to become available...`
@@ -58,9 +65,8 @@ virtual box when the installation starts. This completely removes human interact
 ### How to get it
 
 * Generate it here: http://windowsafg.no-ip.org/win10x86_x64.html
-* Remove `<ProductKey>----</ProductKey>` from the wrong sections (component
-`Microsoft-Windows-Shell-Setup`). You may use `<ProductKey><WillShowUI>OnError</WillShowUI></ProductKey>`
-in `UserData` sections, but it's not necessary.
+* Remove all `<ProductKey>----</ProductKey>` -- they are in wrong sections and not necessary
+anyway.
 * You may remove all sections with `processorArchitecture="x86"` for 64-bit installation, or with
 `processorArchitecture="amd64"` for 32-bit system. You may leave both though if you plan install
 both Windows versions.
@@ -121,6 +127,8 @@ not necessary.
 * Disable OneDrive completely.
 * Display file extensions in Win Explorer.
 * Do I want to eject guest additions CD? Do I want CD drive at all?
+* How to pin/unpin programs with a command?
+* Does feature uninstallation works? Why is the image shrinked (defrag/0ing) so little?
 * In `provision.ps1` when removing `$env:windir\logs` failures occur because some logs are used by
 another processes, permission problems or directories are not empty -- obviously something is
 working in this dir:
