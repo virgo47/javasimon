@@ -15,22 +15,17 @@ Or with different ISO (can be just different path, `iso_checksum` doesn't have t
 packer build -force -var 'iso_url=file:///c:/work/iso-images/Windows10.iso' -var 'iso_checksum=d083c55ecb86158e3419032f4ed651e93e37c347' vbox-win10ent.json
 ```
 
-When everything finishes, `windows10-virtualbox.box` will appear in the directory. To add it as
-Vagrant box, run (force for overwrite existing one):
-```
-vagrant.exe box add --force windows10-dev windows10-virtualbox.box
-```
+When everything finishes, `windows10-virtualbox.box` will appear in the directory. Next steps
+are all for Vagrant and starting with `init` they must be executed inside "environment" directory
+containing `Vagrantfile` (may be empty before `init`):
+* To add Vagrant box (`-f` overwrites existing one): `vagrant box add --force windows10-dev windows10-virtualbox.box`
+* To initialize Vagrant environment directory, use: `vagrant init -mf windows10-dev`
+* To remove any previous virtual machine: `vagrant destroy -f`
+* To run the virtual machine: `vagrant up`
+* Ant to stop it (can be shut down from inside, of course): `vagrant halt`
+* Status: `vagrant status`
 
 ### Current problems
-
-* Packer finishes OK, but after `vagrant box add` and `vagrant up` (remove previous virtual box
-before!) the OS does not start properly, but starts asking questions about timezone and some more
-settings, restarts - and again.
-
-Test:
-* how it works with sysprep shutdown (right now I'm not sure)
-* with shutdown /s it worked OK after vagrant up
-* but now I skipped all installations (cinst) and guest addtions
 
 ### What happens
 
@@ -47,7 +42,10 @@ fail with ugly error full of XML, because uploading big files via WinRM is fragi
 script supports both modes, so leave it to `attach`.
 
 After that it continues with provisioning script that does NOT show in the virtualbox Windows,
-the output goes to packer console directly.
+the output goes to packer console directly. When this all finishes, it shuts down using
+`PackerShutdown.bat` (utilizing `postunattend.xml` and `SetupComplete.cmd` copied/renamed to
+proper places by `provision.ps1`) and packs it to `*.box` file. From there see the Vagrant steps
+mentioned above.
 
 ## Autounattend.xml
 
@@ -95,14 +93,24 @@ on server versions. More about it [here](http://peter.hahndorf.eu/blog/WindowsFe
 and how to use it [here](https://www.petri.com/getting-started-with-dism-powershell-cmdlets).
 * ...
 
+## Shutdown command
+
+Shutdown is taken care of by `PackerShutdown.bat` which uses `sysprep`. Without `/unattend`
+it does not "finish" the system properly and after first boot with Vagrant it starts asking
+for settings, restarts and asks again.
+
+Besides `/unattend` with provided `postunattend.xml` (copied from `a:` to harddisk by
+`provision.ps1`) there is also `SetupComlete.cmd` that goes to `%WINDIR%\Setup\Scripts`.
+Details [here](https://technet.microsoft.com/en-us/library/cc766314%28v=ws.10%29.aspx).
+
+Simple `shutdown /s` would work too, but doesn't prepare the image properly (generalization?).
+
 ## Other ideas
 
 * How to avoid one reboot after `vagrant up` with Finalizing setings?
-* How to get rid of Network sidebar?
+* How to get rid of Networks sidebar (asking about PC to be discoverable)?
 * How to uninstall cortana?
 * Guest additions still not working.
-* How to make Vagrant virtualbox run on foreground?
-* Matt used postunattend in shutdown script (sysprep), why? How should I modify it for Windows 10?
 * Disable OneDrive completely.
 * Display file extensions in Win Explorer.
 * In `provision.ps1` when removing `$env:windir\logs` failures occur because some logs are used by
