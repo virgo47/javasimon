@@ -25,6 +25,9 @@ containing `Vagrantfile` (may be empty before `init`):
 * Ant to stop it (can be shut down from inside, of course): `vagrant halt`
 * Status: `vagrant status`
 
+First `vagrant up` takes longer as it has to create virtual machine and machine itself is
+fresh and needs longer to configure and restart during initial boot. Subsequent runs are faster.
+
 ### Current problems
 
 ### What happens
@@ -107,10 +110,10 @@ Simple `shutdown /s` would work too, but doesn't prepare the image properly (gen
 
 ## Other ideas
 
-* How to avoid one reboot after `vagrant up` with Finalizing setings?
+* How to avoid one reboot after `vagrant up` with Finalizing setings? Maybe not possible, but also
+not necessary.
 * How to get rid of Networks sidebar (asking about PC to be discoverable)?
 * How to uninstall cortana?
-* Guest additions still not working.
 * Disable OneDrive completely.
 * Display file extensions in Win Explorer.
 * In `provision.ps1` when removing `$env:windir\logs` failures occur because some logs are used by
