@@ -108,6 +108,10 @@ Details [here](https://technet.microsoft.com/en-us/library/cc766314%28v=ws.10%29
 
 Simple `shutdown /s` would work too, but doesn't prepare the image properly (generalization?).
 
+## Vagrantfile
+
+For VirtualBox customize options, see: https://www.virtualbox.org/manual/ch08.html
+
 ## Other ideas
 
 * How to avoid one reboot after `vagrant up` with Finalizing setings? Maybe not possible, but also
@@ -116,6 +120,7 @@ not necessary.
 * How to uninstall cortana?
 * Disable OneDrive completely.
 * Display file extensions in Win Explorer.
+* Do I want to eject guest additions CD? Do I want CD drive at all?
 * In `provision.ps1` when removing `$env:windir\logs` failures occur because some logs are used by
 another processes, permission problems or directories are not empty -- obviously something is
 working in this dir:

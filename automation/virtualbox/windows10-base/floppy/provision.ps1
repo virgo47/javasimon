@@ -26,12 +26,12 @@ if (Test-Path "E:\VBoxWindowsAdditions.exe") {
 	Start-Process -FilePath "E:\VBoxWindowsAdditions.exe" -ArgumentList "/S" -WorkingDirectory "E:\" -Wait
 }
 
-#cinst -y firefox
+cinst -y firefox
 # how to say it's default browser and skip question about import from IE?
+cinst -y notepad2
+cinst -y notepadreplacer -installarguments '/notepad="C:\Progra~1\Notepad2\Notepad2.exe" /verysilent'
 #cinst -y classic-shell
 # how to do the initial setup automatically?
-#cinst -y notepad2
-#cinst -y notepadreplacer -installarguments '/notepad="C:\Progra~1\Notepad2\Notepad2.exe" /verysilent'
 
 Write-Host "Cleaning SxS..."
 Dism.exe /online /Cleanup-Image /StartComponentCleanup /ResetBase
@@ -57,31 +57,31 @@ tasklist /v
 	}
 
 Write-Host "defragging..."
-#Optimize-Volume -DriveLetter C
+Optimize-Volume -DriveLetter C
 
 Write-Host "0ing out empty space..."
-#$FilePath="c:\zero.tmp"
-#$Volume = Get-WmiObject win32_logicaldisk -filter "DeviceID='C:'"
-#$ArraySize= 64kb
-#$SpaceToLeave= $Volume.Size * 0.05
-#$FileSize= $Volume.FreeSpace - $SpacetoLeave
-#$ZeroArray= new-object byte[]($ArraySize)
+$FilePath="c:\zero.tmp"
+$Volume = Get-WmiObject win32_logicaldisk -filter "DeviceID='C:'"
+$ArraySize= 64kb
+$SpaceToLeave= $Volume.Size * 0.05
+$FileSize= $Volume.FreeSpace - $SpacetoLeave
+$ZeroArray= new-object byte[]($ArraySize)
 
-#$Stream= [io.File]::OpenWrite($FilePath)
-#try {
-#	$CurFileSize = 0
-#	while($CurFileSize -lt $FileSize) {
-#		$Stream.Write($ZeroArray,0, $ZeroArray.Length)
-#		$CurFileSize +=$ZeroArray.Length
-#	}
-#}
-#finally {
-#	if($Stream) {
-#		$Stream.Close()
-#	}
-#}
-#
-#Del $FilePath
+$Stream= [io.File]::OpenWrite($FilePath)
+try {
+	$CurFileSize = 0
+	while($CurFileSize -lt $FileSize) {
+		$Stream.Write($ZeroArray,0, $ZeroArray.Length)
+		$CurFileSize +=$ZeroArray.Length
+	}
+}
+finally {
+	if($Stream) {
+		$Stream.Close()
+	}
+}
+
+Del $FilePath
 
 Write-Host "copying auto unattend file"
 mkdir C:\Windows\setup\scripts

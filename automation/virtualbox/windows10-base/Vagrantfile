@@ -22,6 +22,6 @@ Vagrant.configure(2) do |config|
     vb.name = "windows10-dev"
     vb.gui = true
     vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
-    vb.customize ["setextradata", :id, "GUI/SuppressMessages", "all"]
+    vb.customize ["setextradata", "global", "GUI/SuppressMessages", "all"]
   end
 end
