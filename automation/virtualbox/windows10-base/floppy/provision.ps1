@@ -11,7 +11,7 @@ cinst -y firefox
 # how to say it's default browser and skip question about import from IE?
 cinst -y notepad2
 cinst -y notepadreplacer -installarguments '/notepad="C:\Progra~1\Notepad2\Notepad2.exe" /verysilent'
-#cinst -y classic-shell
+cinst -y classic-shell
 # how to do the initial setup automatically?
 
 # Test whether Guest Additions are uploaded

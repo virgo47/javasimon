@@ -15,6 +15,12 @@ Or with different ISO (can be just different path, `iso_checksum` doesn't have t
 packer build -force -var 'iso_url=file:///c:/work/iso-images/Windows10.iso' -var 'iso_checksum=d083c55ecb86158e3419032f4ed651e93e37c347' vbox-win10ent.json
 ```
 
+This would take roughly ~30 mins on my i5 machine (with updates/optimizing/zeroing), resulting
+box-file is 3.8GB. With everything on it takes still under 60 mins (most of it is update and then
+`Optimize-Volume`), with box-file size 4.6GB (is the size bigger because of the updates?).
+In any case, vagrant steps are a matter of 5 minutes top, most of it taken by the initial
+`vagrant up`.
+
 When everything finishes, `windows10-virtualbox.box` will appear in the directory. Next steps
 are all for Vagrant and starting with `init` they must be executed inside "environment" directory
 containing `Vagrantfile` (may be empty before `init`):
