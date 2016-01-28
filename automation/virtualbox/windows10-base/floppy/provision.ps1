@@ -11,8 +11,9 @@ cinst -y firefox
 # how to say it's default browser and skip question about import from IE?
 cinst -y notepad2
 cinst -y notepadreplacer -installarguments '/notepad="C:\Progra~1\Notepad2\Notepad2.exe" /verysilent'
+# classic-shell, first registry init TODO: DOES NOT appear in finished Vagrant box
+regedit /s a:\classicshell-init.reg
 cinst -y classic-shell
-# how to do the initial setup automatically?
 
 # Test whether Guest Additions are uploaded
 if (Test-Path "C:\Users\vagrant\VBoxGuestAdditions.iso") {
@@ -34,8 +35,9 @@ if (Test-Path "E:\VBoxWindowsAdditions.exe") {
 	Start-Process -FilePath "E:\VBoxWindowsAdditions.exe" -ArgumentList "/S" -WorkingDirectory "E:\" -Wait
 }
 
+# This may take most of the preparation time
 Write-Host "Cleaning SxS..."
-Dism.exe /online /Cleanup-Image /StartComponentCleanup /ResetBase
+# TODO: Dism.exe /online /Cleanup-Image /StartComponentCleanup /ResetBase
 
 # TODO: windir\logs and localappdata\temp cannot be cleaned completely
 tasklist /v
