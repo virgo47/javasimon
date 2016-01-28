@@ -9,28 +9,25 @@ Import-Module dism
 Get-WindowsOptionalFeature -online | where {$_.State -eq 'disabled'} | Disable-WindowsOptionalFeature -Remove -online
 
 Write-BoxstarterMessage "Installing Windows Updtates..."
-Install-WindowsUpdate -AcceptEula
+#TODO: Install-WindowsUpdate -AcceptEula
 
 # Remove modern apps
-Get-AppxPackage -Name *WindowsCamera* | Remove-AppxPackage
-Get-AppxPackage -Name *ZuneMusic* | Remove-AppxPackage
-Get-AppxPackage -Name *WindowsMaps* | Remove-AppxPackage
-Get-AppxPackage -Name *MicrosoftSolitaireCollection* | Remove-AppxPackage
-Get-AppxPackage -Name *BingFinance* | Remove-AppxPackage
-Get-AppxPackage -Name *ZuneVideo* | Remove-AppxPackage
-Get-AppxPackage -Name *BingNews* | Remove-AppxPackage
-Get-AppxPackage -Name *WindowsPhone* | Remove-AppxPackage
-Get-AppxPackage -Name *Windows.Photos* | Remove-AppxPackage
-Get-AppxPackage -Name *BingSports* | Remove-AppxPackage
-Get-AppxPackage -Name *XboxApp* | Remove-AppxPackage
-Get-AppxPackage -Name *BingWeather* | Remove-AppxPackage
-Get-AppxPackage -Name *WindowsSoundRecorder* | Remove-AppxPackage
-Get-AppxPackage -Name *3DBuilder* | Remove-AppxPackage
-Get-AppxPackage -Name *SkypeApp* | Remove-AppxPackage
-Get-AppxPackage -Name *MicrosoftOfficeHub* | Remove-AppxPackage
+$apps = @("WindowsCamera", "ZuneMusic", "WindowsMaps", "MicrosoftSolitaireCollection",
+	"BingFinance", "ZuneVideo", "BingNews", "WindowsPhone", "Windows.Photos", "BingSports",
+	"XboxApp", "Microsoft.Office.OneNote", "Microsoft.CommsPhone", "Microsoft.Messaging"
+	"BingWeather", "WindowsSoundRecorder", "3DBuilder", "SkypeApp", "MicrosoftOfficeHub",
+	"Microsoft.People", "Microsoft.Office.Sway", "Microsoft.Getstarted", "Microsoft.Appconnector")
+foreach ($app in $apps) {
+	Write-BoxstarterMessage "Removing: $app"
+	Get-AppxPackage -Name "*$app*" | Remove-AppxPackage
+    Get-AppxProvisionedPackage -Online | where-object {$_.packagename -like "*$app*"} | Remove-AppxProvisionedPackage -Online
+}
 
+# TODO: what of this can do Boxstarter? definitely some of it (e.g. file extensions)
 # removing Show Task View icon
 Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Name 'ShowTaskViewButton' -Value 0
+# display extensions in File Explorer
+Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Name 'HideFileExt' -Value 0
 # disabling Cortana
 New-Item 'HKCU:\Software\Policies\Microsoft\Windows\Windows Search' -Force | New-ItemProperty -Name 'AllowCortana' -PropertyType 'DWord' -Value 0 -Force | Out-Null
 New-Item 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Search' -Force | New-ItemProperty -Name  'SearchboxTaskbarMode' -PropertyType 'DWord' -Value 0 -Force | Out-Null
