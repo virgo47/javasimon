@@ -32,7 +32,7 @@ VBoxManage list runningvms
 # or the same with vagrant:
 vagrant status
 
-# and later to shutdown it:
+# and later to shutdown it (requires WinRM and GuestAdditions):
 vagrant halt
 # or if it refuses:
 vagrant halt -f

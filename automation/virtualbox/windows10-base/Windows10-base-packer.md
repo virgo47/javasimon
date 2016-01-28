@@ -15,11 +15,10 @@ Or with different ISO (can be just different path, `iso_checksum` doesn't have t
 packer build -force -var 'iso_url=file:///c:/work/iso-images/Windows10.iso' -var 'iso_checksum=d083c55ecb86158e3419032f4ed651e93e37c347' vbox-win10ent.json
 ```
 
-This would take roughly ~30 mins on my i5 machine (with updates/optimizing/zeroing), resulting
-box-file is 3.8GB. With everything on it takes still under 60 mins (most of it is update and then
-`Optimize-Volume`), with box-file size 4.6GB (is the size bigger because of the updates?).
-In any case, vagrant steps are a matter of 5 minutes top, most of it taken by the initial
-`vagrant up`.
+This would take roughly ~30 mins on my i5 machine (with updates/SxS/optimizing/zeroing), resulting
+box-file is 3.8GB. With everything on it takes still under 60 mins (most of it is SxS cleanup),
+with box-file size 4.6GB (is the size bigger because of the updates?). In any case, vagrant steps
+are a matter of 5 minutes top, most of it taken by the initial `vagrant up`.
 
 When everything finishes, `windows10-virtualbox.box` will appear in the directory. Next steps
 are all for Vagrant and starting with `init` they must be executed inside "environment" directory
@@ -42,6 +41,9 @@ e.g. it doesn't work on your local machine (like now in IDEA). See more
 [here](http://www.gfi.com/blog/copy-paste-working-remote-desktop-connection-whats-wrong/).
 
 ### Current problems
+
+* Some registry settings made in package/provision.ps1 (e.g. unpinning or ClassicShell setup)
+does not appear in the finished box. They are the right commands, but all get "reverted".
 
 ## Packer process overview
 
@@ -119,6 +121,7 @@ Besides `/unattend` with provided `postunattend.xml` (copied from `a:` to harddi
 Details [here](https://technet.microsoft.com/en-us/library/cc766314%28v=ws.10%29.aspx).
 
 Simple `shutdown /s` would work too, but doesn't prepare the image properly (generalization?).
+On the other hand, some people use it in their packer templates.
 
 ## Vagrantfile
 
@@ -126,15 +129,24 @@ For VirtualBox customize options, see: https://www.virtualbox.org/manual/ch08.ht
 
 ## Other ideas
 
-* How to avoid one reboot after `vagrant up` with Finalizing setings? Maybe not possible, but also
-not necessary.
+* How to avoid one reboot after `vagrant up` with Finalizing setings? This would allow me to
+add further customizations that are "nuked" during sysprep (probably), e.g. removing pinned
+programs from the tasklist, etc.
 * How to get rid of Networks sidebar (asking about PC to be discoverable)?
-* How to uninstall cortana?
 * Disable OneDrive completely.
 * Display file extensions in Win Explorer.
 * Do I want to eject guest additions CD? Do I want CD drive at all?
-* How to pin/unpin programs with a command?
-* Does feature uninstallation works? Why is the image shrinked (defrag/0ing) so little?
+I tried `vboxmanage_post` section, which works, but also leads to this error (nonfatal though):
+```
+==> virtualbox-iso: Exporting virtual machine...
+    virtualbox-iso: Executing: export packer-virtualbox-iso-1453981832 --output output-virtualbox-iso\packer-virtualbox-iso-1453981832.ovf
+==> virtualbox-iso: Error unregistering guest additions: VBoxManage error: VBoxManage.exe: error: No storage device attached to device slot 0 on port 1 of controller 'IDE Controller'
+==> virtualbox-iso: VBoxManage.exe: error: Details: code VBOX_E_OBJECT_NOT_FOUND (0x80bb0001), component SessionMachine, interface IMachine, callee IUnknown
+==> virtualbox-iso: VBoxManage.exe: error: Context: "DetachDevice(Bstr(pszCtl).raw(), port, device)" at line 393 of file VBoxManageStorageController.cpp
+==> virtualbox-iso: Unregistering and deleting virtual machine...
+```
+* How to pin/unpin programs with a command? Best with exe path, but needs to be done later,
+something refreshes it (sysprep?).
 * In `provision.ps1` when removing `$env:windir\logs` failures occur because some logs are used by
 another processes, permission problems or directories are not empty -- obviously something is
 working in this dir:
@@ -175,3 +187,5 @@ working in this dir:
     virtualbox-iso: + CategoryInfo          : WriteError: (C:\Windows\winsxs\manifestcache:DirectoryInfo) [Remove-Item], IOException
     virtualbox-iso: + FullyQualifiedErrorId : RemoveFileSystemItemIOError,Microsoft.PowerShell.Commands.RemoveItemCommand
 ```
+* Go over other `windows packer` or specifically `windows 10 packer` projects on GitHub. That
+can teach me new tricks. :-)
