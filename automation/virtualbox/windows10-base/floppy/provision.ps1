@@ -6,14 +6,14 @@ Write-Host "Enabling file sharing firewale rules"
 netsh advfirewall firewall set rule group="File and Printer Sharing" new enable=yes
 
 # Time for tool installation!
-cinst -y 7zip.commandline
-cinst -y firefox
+#cinst -y 7zip.commandline
+#cinst -y firefox
 # how to say it's default browser and skip question about import from IE?
-cinst -y notepad2
-cinst -y notepadreplacer -installarguments '/notepad="C:\Progra~1\Notepad2\Notepad2.exe" /verysilent'
+#cinst -y notepad2
+#cinst -y notepadreplacer -installarguments '/notepad="C:\Progra~1\Notepad2\Notepad2.exe" /verysilent'
 # classic-shell, first registry init TODO: DOES NOT appear in finished Vagrant box
-regedit /s a:\classicshell-init.reg
-cinst -y classic-shell
+#regedit /s a:\classicshell-init.reg
+#cinst -y classic-shell
 
 # Test whether Guest Additions are uploaded
 if (Test-Path "C:\Users\vagrant\VBoxGuestAdditions.iso") {
@@ -60,31 +60,31 @@ tasklist /v
 	}
 
 Write-Host "defragging..."
-Optimize-Volume -DriveLetter C
+#Optimize-Volume -DriveLetter C
 
 Write-Host "0ing out empty space..."
-$FilePath="c:\zero.tmp"
-$Volume = Get-WmiObject win32_logicaldisk -filter "DeviceID='C:'"
-$ArraySize= 64kb
-$SpaceToLeave= $Volume.Size * 0.05
-$FileSize= $Volume.FreeSpace - $SpacetoLeave
-$ZeroArray= new-object byte[]($ArraySize)
-
-$Stream= [io.File]::OpenWrite($FilePath)
-try {
-	$CurFileSize = 0
-	while($CurFileSize -lt $FileSize) {
-		$Stream.Write($ZeroArray,0, $ZeroArray.Length)
-		$CurFileSize +=$ZeroArray.Length
-	}
-}
-finally {
-	if($Stream) {
-		$Stream.Close()
-	}
-}
-
-Del $FilePath
+#$FilePath="c:\zero.tmp"
+#$Volume = Get-WmiObject win32_logicaldisk -filter "DeviceID='C:'"
+#$ArraySize= 64kb
+#$SpaceToLeave= $Volume.Size * 0.05
+#$FileSize= $Volume.FreeSpace - $SpacetoLeave
+#$ZeroArray= new-object byte[]($ArraySize)
+#
+#$Stream= [io.File]::OpenWrite($FilePath)
+#try {
+#	$CurFileSize = 0
+#	while($CurFileSize -lt $FileSize) {
+#		$Stream.Write($ZeroArray,0, $ZeroArray.Length)
+#		$CurFileSize +=$ZeroArray.Length
+#	}
+#}
+#finally {
+#	if($Stream) {
+#		$Stream.Close()
+#	}
+#}
+#
+#Del $FilePath
 
 Write-Host "copying auto unattend file"
 mkdir C:\Windows\setup\scripts

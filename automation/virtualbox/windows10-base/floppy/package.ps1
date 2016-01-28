@@ -6,17 +6,18 @@ Update-ExecutionPolicy -Policy Unrestricted
 
 Write-BoxstarterMessage "Removing unused features..."
 Import-Module dism
-Get-WindowsOptionalFeature -online | where {$_.State -eq 'disabled'} | Disable-WindowsOptionalFeature -Remove -online
+#TODO: Get-WindowsOptionalFeature -online | where {$_.State -eq 'disabled'} | Disable-WindowsOptionalFeature -Remove -online
 
 Write-BoxstarterMessage "Installing Windows Updtates..."
 #TODO: Install-WindowsUpdate -AcceptEula
 
 # Remove modern apps
-$apps = @("WindowsCamera", "ZuneMusic", "WindowsMaps", "MicrosoftSolitaireCollection",
-	"BingFinance", "ZuneVideo", "BingNews", "WindowsPhone", "Windows.Photos", "BingSports",
-	"XboxApp", "Microsoft.Office.OneNote", "Microsoft.CommsPhone", "Microsoft.Messaging"
-	"BingWeather", "WindowsSoundRecorder", "3DBuilder", "SkypeApp", "MicrosoftOfficeHub",
-	"Microsoft.People", "Microsoft.Office.Sway", "Microsoft.Getstarted", "Microsoft.Appconnector")
+$apps = @()
+#	"WindowsCamera", "ZuneMusic", "WindowsMaps", "MicrosoftSolitaireCollection",
+#	"BingFinance", "ZuneVideo", "BingNews", "WindowsPhone", "Windows.Photos", "BingSports",
+#	"XboxApp", "Microsoft.Office.OneNote", "Microsoft.CommsPhone", "Microsoft.Messaging"
+#	"BingWeather", "WindowsSoundRecorder", "3DBuilder", "SkypeApp", "MicrosoftOfficeHub",
+#	"Microsoft.People", "Microsoft.Office.Sway", "Microsoft.Getstarted", "Microsoft.Appconnector")
 foreach ($app in $apps) {
 	Write-BoxstarterMessage "Removing: $app"
 	Get-AppxPackage -Name "*$app*" | Remove-AppxPackage
@@ -31,9 +32,6 @@ Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer
 # disabling Cortana
 New-Item 'HKCU:\Software\Policies\Microsoft\Windows\Windows Search' -Force | New-ItemProperty -Name 'AllowCortana' -PropertyType 'DWord' -Value 0 -Force | Out-Null
 New-Item 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Search' -Force | New-ItemProperty -Name  'SearchboxTaskbarMode' -PropertyType 'DWord' -Value 0 -Force | Out-Null
-# TODO: cleaning pinned-to-tasklist applications - this normally works, but does not have effect after vagrant up
-Remove-Item "$Env:AppData\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar\*"
-Remove-Item "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband"
 
 Write-BoxstarterMessage "Removing page file"
 $pageFileMemoryKey = "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management"
