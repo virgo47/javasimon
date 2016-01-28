@@ -57,6 +57,20 @@
 				"floppy/postunattend.xml",
 				"floppy/SetupComplete.cmd",
 				"floppy/PackerShutdown.bat"
+			],
+			"vboxmanage_post": [
+				[
+					"storageattach",
+					"{{.Name}}",
+					"--storagectl",
+					"IDE Controller",
+					"--port",
+					"1",
+					"--device",
+					"0",
+					"--medium",
+					"none"
+				]
 			]
 		}
 	],
