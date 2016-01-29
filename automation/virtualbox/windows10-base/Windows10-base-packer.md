@@ -189,3 +189,9 @@ working in this dir:
 ```
 * Go over other `windows packer` or specifically `windows 10 packer` projects on GitHub. That
 can teach me new tricks. :-)
+* Experiment in `vbox-win10ent-alt.json` tries to shutdown with sysprep using `windows-restart`
+provisioner, then to run other part of the provision (now in `setup-complete.ps1`) and finally
+shutdown it again. Doesn't work, as it complains that first windows-restart command ends with
+exit code 1. Experiment `vbox-win10ent-test.json` is the part before sysprep, so I can experiment
+with it. But calling sysprep works just fine, so I don't know what is the problem (does sysprep
+returns exit code 1?).

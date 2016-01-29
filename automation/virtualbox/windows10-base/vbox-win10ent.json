@@ -45,7 +45,7 @@
 			"communicator": "winrm",
 			"winrm_username": "vagrant",
 			"winrm_password": "vagrant",
-			"winrm_timeout": "8h",
+			"winrm_timeout": "2h",
 			"shutdown_command": "a:/PackerShutdown.bat",
 			"shutdown_timeout": "15m",
 			"floppy_files": [
@@ -56,6 +56,8 @@
 				"floppy/oracle.cer",
 				"floppy/postunattend.xml",
 				"floppy/SetupComplete.cmd",
+				"floppy/setup-complete.ps1",
+				"floppy/classicshell-init.reg",
 				"floppy/PackerShutdown.bat"
 			],
 			"vboxmanage_post": [
@@ -78,9 +80,6 @@
 		{
 			"type": "powershell",
 			"script": "floppy/provision.ps1"
-		},
-		{
-			"type": "windows-restart"
 		}
 	],
 	"post-processors": [

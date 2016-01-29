@@ -175,7 +175,6 @@
 				does not prevent shutdown). -->
 				<SynchronousCommand wcm:action="add">
 					<CommandLine>cmd.exe /k powershell -ExecutionPolicy ByPass -File a:\boxstarter.ps1</CommandLine>
-					<!--<CommandLine>cmd.exe /k C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -ExecutionPolicy ByPass -File a:\boxstarter.ps1</CommandLine>-->
 					<Order>1</Order>
 				</SynchronousCommand>
 				<!-- TODO: Originally generated here, but should go to provision.ps1

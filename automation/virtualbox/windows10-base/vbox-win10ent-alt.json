@@ -85,7 +85,7 @@
 		},
 		{
 			"type": "powershell",
-			"script": "floppy/provision-post.ps1"
+			"script": "floppy/setup-complete.ps1"
 		},
 		{
 			"type": "windows-restart"
