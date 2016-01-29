@@ -7,6 +7,8 @@ Most important resources related to automation (Vagrant/Packer) by Matt Wrock:
 * Sources: https://github.com/mwrock/packer-templates
 * Finished Vagrant boxes: https://atlas.hashicorp.com/mwrock
 
+This is actually copy/based on Matt Wrock's packer template for Windows Server 2012
+
 ## Raw ISO - not good
 
 * Download from: https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2012-r2
