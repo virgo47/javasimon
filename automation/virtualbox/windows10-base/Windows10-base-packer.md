@@ -40,10 +40,9 @@ still works: `vagrant rdp` (use `.\vagrant` as a name, just `vagrant` may not wo
 e.g. it doesn't work on your local machine (like now in IDEA). See more
 [here](http://www.gfi.com/blog/copy-paste-working-remote-desktop-connection-whats-wrong/).
 
-### Current problems
-
-* Some registry settings made in package/provision.ps1 (e.g. unpinning or ClassicShell setup)
-does not appear in the finished box. They are the right commands, but all get "reverted".
+After first logon in your virtual machine, you may use `C:\Vagrant\customize.ps1` script (call
+it from within Boxstarte Shell for instance) to finish your settings. It may take some time for
+this directory to be properly synchronized with the host.
 
 ## Packer process overview
 

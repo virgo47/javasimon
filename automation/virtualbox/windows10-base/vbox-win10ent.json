@@ -56,8 +56,6 @@
 				"floppy/oracle.cer",
 				"floppy/postunattend.xml",
 				"floppy/SetupComplete.cmd",
-				"floppy/setup-complete.ps1",
-				"floppy/classicshell-init.reg",
 				"floppy/PackerShutdown.bat"
 			],
 			"vboxmanage_post": [

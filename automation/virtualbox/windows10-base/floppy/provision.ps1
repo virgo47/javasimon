@@ -7,7 +7,7 @@ netsh advfirewall firewall set rule group="File and Printer Sharing" new enable=
 
 # removing Show Task View icon
 Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Name 'ShowTaskViewButton' -Value 0
-Set-WindowsExplorerOptions -EnableShowHiddenFilesFoldersDrives -EnableShowProtectedOSFiles -EnableShowFileExtensions -EnableShowFullPathInTitleBar
+Set-WindowsExplorerOptions -EnableShowFileExtensions -EnableShowFullPathInTitleBar
 # disabling Cortana
 New-Item 'HKCU:\Software\Policies\Microsoft\Windows\Windows Search' -Force | New-ItemProperty -Name 'AllowCortana' -PropertyType 'DWord' -Value 0 -Force | Out-Null
 New-Item 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Search' -Force | New-ItemProperty -Name  'SearchboxTaskbarMode' -PropertyType 'DWord' -Value 0 -Force | Out-Null
@@ -96,10 +96,6 @@ copy-item a:\SetupComplete.cmd C:\Windows\setup\scripts\SetupComplete.cmd -Force
 
 mkdir C:\Windows\Panther\Unattend
 copy-item a:\postunattend.xml C:\Windows\Panther\Unattend\unattend.xml
-
-# TODO: for manual run right now, because their effect disappears after first logon anyway
-copy-item a:\setup-complete.ps1 C:\Windows\setup\scripts\ -Force
-copy-item a:\classicshell-init.reg C:\Windows\setup\scripts\ -Force
 
 Write-Host "Recreate pagefile after sysprep"
 $System = GWMI Win32_ComputerSystem -EnableAllPrivileges
