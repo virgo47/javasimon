@@ -1,57 +1,93 @@
 {
-  "variables": {
-    "guest_additions_mode": "upload",
-    "headless": "false",
-    "iso_checksum": "849734f37346385dac2c101e4aacba4626bb141c",
-    "iso_url": "file:///g:/work/vm-images/9600.17050.WINBLUE_REFRESH.140317-1640_X64FRE_SERVER_EVAL_EN-US-IR3_SSS_X64FREE_EN-US_DV9.ISO",
-    "_iso_url": "http://care.dlservice.microsoft.com/dl/download/6/2/A/62A76ABB-9990-4EFC-A4FE-C7D698DAEB96/9600.17050.WINBLUE_REFRESH.140317-1640_X64FRE_SERVER_EVAL_EN-US-IR3_SSS_X64FREE_EN-US_DV9.ISO"
-  },
-  "builders": [
-    {
-      "type": "virtualbox-iso",
-      "vboxmanage": [
-        [ "modifyvm", "{{.Name}}", "--natpf1", "guest_winrm,tcp,,55985,,5985" ],
-        [ "modifyvm", "{{.Name}}", "--memory", "2048" ],
-        [ "modifyvm", "{{.Name}}", "--vram", "48" ],
-        [ "modifyvm", "{{.Name}}", "--cpus", "2" ]
-      ],
-      "guest_additions_mode": "{{ user `guest_additions_mode` }}",
-      "guest_additions_path": "C:/users/vagrant/VBoxGuestAdditions.iso",
-      "guest_os_type": "Windows2012_64",
-      "headless": "{{ user `headless` }}",
-      "iso_url": "{{ user `iso_url` }}",
-      "iso_checksum": "{{ user `iso_checksum` }}",
-      "iso_checksum_type": "sha1",
-      "communicator": "winrm",
-      "winrm_username": "vagrant",
-      "winrm_password": "vagrant",
-      "winrm_timeout": "8h",
-      "shutdown_command": "a:/PackerShutdown.bat",
-      "shutdown_timeout": "15m",
-      "floppy_files": [
-        "floppy/Autounattend.xml",
-        "floppy/oracle.cer",
-        "floppy/postunattend.xml",
-        "floppy/boxstarter.ps1",
-        "floppy/PackerShutdown.bat",
-        "floppy/package.ps1",
-        "floppy/SetupComplete.cmd",
-        "floppy/Test-Command.ps1"
-      ]
-    }
-  ],
-  "provisioners": [
-    {
-      "type": "powershell",
-      "script": "floppy/provision.ps1"
-    }
-  ],
-  "post-processors": [
-    [{
-      "type": "vagrant",
-      "keep_input_artifact": true,
-      "output": "windows2012r2min-{{.Provider}}.box",
-      "vagrantfile_template": "vagrantfile-windows.template"
-    }]
-  ]
+	"variables": {
+		"guest_additions_mode": "attach",
+		"headless": "false",
+		"iso_checksum": "849734f37346385dac2c101e4aacba4626bb141c",
+		"iso_url": "file:///g:/work/vm-images/9600.17050.WINBLUE_REFRESH.140317-1640_X64FRE_SERVER_EVAL_EN-US-IR3_SSS_X64FREE_EN-US_DV9.ISO",
+		"_iso_url": "http://care.dlservice.microsoft.com/dl/download/6/2/A/62A76ABB-9990-4EFC-A4FE-C7D698DAEB96/9600.17050.WINBLUE_REFRESH.140317-1640_X64FRE_SERVER_EVAL_EN-US-IR3_SSS_X64FREE_EN-US_DV9.ISO"
+	},
+	"builders": [
+		{
+			"type": "virtualbox-iso",
+			"vboxmanage": [
+				[
+					"modifyvm",
+					"{{.Name}}",
+					"--natpf1",
+					"guest_winrm,tcp,,55985,,5985"
+				],
+				[
+					"modifyvm",
+					"{{.Name}}",
+					"--memory",
+					"2048"
+				],
+				[
+					"modifyvm",
+					"{{.Name}}",
+					"--vram",
+					"48"
+				],
+				[
+					"modifyvm",
+					"{{.Name}}",
+					"--cpus",
+					"2"
+				]
+			],
+			"guest_additions_mode": "{{ user `guest_additions_mode` }}",
+			"guest_additions_path": "C:/users/vagrant/VBoxGuestAdditions.iso",
+			"guest_os_type": "Windows2012_64",
+			"headless": "{{ user `headless` }}",
+			"iso_url": "{{ user `iso_url` }}",
+			"iso_checksum": "{{ user `iso_checksum` }}",
+			"iso_checksum_type": "sha1",
+			"communicator": "winrm",
+			"winrm_username": "vagrant",
+			"winrm_password": "vagrant",
+			"winrm_timeout": "8h",
+			"shutdown_command": "a:/PackerShutdown.bat",
+			"shutdown_timeout": "15m",
+			"floppy_files": [
+				"floppy/Autounattend.xml",
+				"floppy/boxstarter.ps1",
+				"floppy/package.ps1",
+				"floppy/oracle.cer",
+				"floppy/postunattend.xml",
+				"floppy/SetupComplete.cmd",
+				"floppy/Test-Command.ps1",
+				"floppy/PackerShutdown.bat"
+			],
+			"vboxmanage_post": [
+				[
+					"storageattach",
+					"{{.Name}}",
+					"--storagectl",
+					"IDE Controller",
+					"--port",
+					"1",
+					"--device",
+					"0",
+					"--medium",
+					"none"
+				]
+			]
+		}
+	],
+	"provisioners": [
+		{
+			"type": "powershell",
+			"script": "floppy/provision.ps1"
+		}
+	],
+	"post-processors": [
+		[
+			{
+				"type": "vagrant",
+				"keep_input_artifact": true,
+				"output": "windows2012r2min-{{.Provider}}.box",
+				"vagrantfile_template": "Vagrantfile.template"
+			}
+		]
+	]
 }
