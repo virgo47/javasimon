@@ -79,3 +79,18 @@ vagrant destroy
 ```
 Optionally can be run with -f to force it without asking. You can further delete the `Vagrantfile`
 and the directory if needed.
+
+
+## Making guest accessible from host
+
+First, we need host-only interface on the host. TODO: Needs double-check, and probably DHCP settings.
+```
+# lists existing host-only interfaces, these appear in host's ip/ifconfig
+VBoxManage.exe list hostonlyifs
+# if no 'VirtualBox Host-Only Ethernet Adapter' exists, add one (default name is good)
+VBoxManage.exe hostonlyif create
+# if you accidentally added more and/or you want to remove one, use:
+VBoxManage.exe hostonlyif remove 'VirtualBox Host-Only Ethernet Adapter #2'
+# and this adds NIC to the virtual machine using host-only with default name
+VBoxManage.exe modifyvm winserver2012-dev --nic2 hostonly
+```
