@@ -2,6 +2,8 @@ Starting from fresh virtual with [Windows 10](virtualbox/windows10-base/Windows1
 we can use `choco` and similar tools. Our goal is to automate process of installing SQL database,
 initialize the instance, etc.
 
+## Installation and first test
+
 In the Boxstarter shell:
 ```
 cinst -y mssqlserver2014express
@@ -9,10 +11,12 @@ cinst -y mssqlserver2014express
 
 This installs local instance `SQLEXPRESS`. To connect:
 ```
+sqlcmd
+# or more explicitly
 sqlcmd -E -S .\SQLEXPRESS
 ```
 
-TODO: database, user, login
+In SQL then, we will create our user we will be connecting to:
 ```
 create login test with password = '...', check_expiration=off, check_policy=off;
 GO
@@ -66,12 +70,15 @@ $Tcp.IsEnabled = $true
 $TcpIpAll = $Tcp.IPAddresses["IPAll"]
 $TcpIpAll.IPAddressProperties["TcpPort"].Value ="1433"
 $Tcp.Alter()
+
+# This just creates var with default instance, we can use it for tests later
+$DfltInstance = $Wmi.Services["$instname"]
 ```
 
 ### Change authentication mode
 
 ```
-$srv = new-object ($smo + 'Server') $compname\$instname
+$srv = new-object ($smo + 'Server') @("$compname\$instname")[$DfltInstance -ne $null] 
 $srv.Settings.LoginMode = [Microsoft.SqlServer.Management.SMO.ServerLoginMode]::Mixed
 $srv.Alter()
 ```
@@ -82,42 +89,52 @@ $srv.Alter()
 # repeat the lines from previous script all the way to the $instname definition
 
 # Get a reference to the default instance of the Database Engine.
-$DfltInstance = $Wmi.Services["MSSQL`$$instname"]
-$DfltInstance.Stop();
+$instprefix = @('MSSQL$')[$DfltInstance -ne $null]
+$inst = $Wmi.Services["$instprefix$instname"]
+$inst.Stop();
 do {
 	"Waiting for stopped"
 	Start-Sleep -Seconds 2
-	$DfltInstance.Refresh()
-} while ($DfltInstance.ServiceState -ne "Stopped") 
-$DfltInstance # refresh the cache and display (not necessary) 
-$DfltInstance.Start();
+	$inst.Refresh()
+} while ($inst.ServiceState -ne "Stopped") 
+$inst # refresh the cache and display (not necessary) 
+$inst.Start();
 do {
 	"Waiting for stopped"
 	Start-Sleep -Seconds 2
-	$DfltInstance.Refresh()
-} while ($DfltInstance.ServiceState -ne "Running")
+	$inst.Refresh()
+} while ($inst.ServiceState -ne "Running")
 # Refresh the cache and display the state of the service.
-$DfltInstance.Refresh(); $DfltInstance
+$inst.Refresh(); $inst
 ```
 
 ### Enable and start SQL Browser
 
+This is necessary if we don't use the default instance.
+
 ```
-Set-Service SqlBrowser -startuptype "automatic"
-Start-Service SqlBrowser
+if (-not $DfltInstance) {
+	Set-Service SqlBrowser -startuptype "automatic"
+	Start-Service SqlBrowser
+}
 ```
 
 ### Allow ports in firewall
 
 ```
 netsh advfirewall firewall add rule name=SQLPort dir=in protocol=tcp action=allow localport=1433 remoteip=localsubnet profile=PUBLIC
-netsh advfirewall firewall add rule name=SQLUdpPort dir=in protocol=udp action=allow localport=1434 remoteip=localsubnet profile=PUBLIC
+if (-not $DfltInstance) {
+	netsh advfirewall firewall add rule name=SQLUdpPort dir=in protocol=udp action=allow localport=1434 remoteip=localsubnet profile=PUBLIC
+}
 ```
 You may change profile to DOMAIN or PRIVATE and remoteip can also by customized, but localsubnet
 will work in VirtualBox host -> guest scenario using hostonly LAN.
 
 After this, check your IP with `ipconfig` (e.g. on Ethernet 2, if `hostonly` is set for network
-adapter #2). With this 
+adapter #2). We can telnet to this IP from the host machine using port 1433. If we don't use the
+default SQL instance, opening UDP port 1434 is required as well. Now we can try SQL Management
+Studio, use `<guest-IP>\SQLEXPESS`, SQL Server Authentication, login `test` and passord.
+
 
 ## Customize install parameters
 
@@ -134,3 +151,9 @@ This can all be found in `chocolatey.log`. It may be handy to use `MSSQLSERVER` 
 because that one is default for other tools, but there is no problem with SQLEXPRESS either, you
 just need to state it explicitly after hostname (e.g. in Management studio, for _Server name_ use
 `dbhost_or_IP\SQLEXPRESS`).
+
+## Alternative with default instance
+
+We can use `cinst -y mssql2014express-defaultinstance` which uses SQL Server Express, but the
+only instance acts as a default one. This one does not have `sqlcmd` in path, we have to add
+it or use `"c:\Program Files\Microsoft SQL Server\Client SDK\ODBC\110\Tools\Binn\SQLCMD.EXE"`.
