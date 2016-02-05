@@ -5,19 +5,19 @@ initialize the instance, etc.
 ## Installation and first test
 
 In the Boxstarter shell:
-```
+```dos.bat
 cinst -y mssqlserver2014express
 ```
 
 This installs local instance `SQLEXPRESS`. To connect:
-```
+```dos.bat
 sqlcmd
 # or more explicitly
 sqlcmd -E -S .\SQLEXPRESS
 ```
 
 In SQL then, we will create our user we will be connecting to:
-```
+```sql
 create login test with password = '...', check_expiration=off, check_policy=off;
 GO
 ```
@@ -35,7 +35,7 @@ for SQL Browser.
 ### Potential problems with sqlps
 
 Runnign `sqlps` failed with:
-```
+```powershell
 import-module : File C:\Program Files (x86)\Microsoft SQL Server\120\Tools\PowerShell\Modules\SQLPS\Sqlps.ps1 cannot
 be loaded because running scripts is disabled on this system. For more information, see about_Execution_Policies at
 http://go.microsoft.com/fwlink/?LinkID=135170.
@@ -47,7 +47,7 @@ At line:1 char:1
 ```
 ...and I couldn't make it run whatever execution policy I set. But we can make classic PowerShell
 to imitate `sqlps` starting with the following lines:
-```
+```powershell
 # Load the assemblies
 [reflection.assembly]::LoadWithPartialName("Microsoft.SqlServer.Smo")
 [reflection.assembly]::LoadWithPartialName("Microsoft.SqlServer.SqlWmiManagement")
@@ -57,7 +57,7 @@ prompt. It can be run even if it does not fail, that means it can be run anytime
 
 ### Enable TCP/IP and set the port
 
-```
+```powershell
 # For locally run script we can determine the comptuter name automatically, otherwise set it here
 $compname = (get-item env:\computername).Value
 $instname = 'SQLEXPRESS' # or default MSSQLSERVER
@@ -79,7 +79,7 @@ $DfltInstance = $Wmi.Services["$instname"]
 
 ### Change authentication mode
 
-```
+```powershell
 $srv = new-object ($smo + 'Server') @($null, "$compname\$instname")[$DfltInstance -eq $null] 
 $srv.Settings.LoginMode = [Microsoft.SqlServer.Management.SMO.ServerLoginMode]::Mixed
 $srv.Alter()
@@ -92,7 +92,7 @@ with array of false/true.
 
 ### Restart MS SQL Server
 
-```
+```powershell
 # repeat the lines from previous script all the way to the $instname definition
 
 # Get a reference to the default instance of the Database Engine.
@@ -118,7 +118,7 @@ $inst # show results, not necessary
 
 This is necessary if we don't use the default instance.
 
-```
+```powershell
 if (-not $DfltInstance) {
 	Set-Service SqlBrowser -startuptype "automatic"
 	Start-Service SqlBrowser
@@ -127,7 +127,7 @@ if (-not $DfltInstance) {
 
 ### Allow ports in firewall
 
-```
+```powershell
 netsh advfirewall firewall add rule name=SQLPort dir=in protocol=tcp action=allow localport=1433 remoteip=localsubnet profile=PUBLIC
 if (-not $DfltInstance) {
 	netsh advfirewall firewall add rule name=SQLUdpPort dir=in protocol=udp action=allow localport=1434 remoteip=localsubnet profile=PUBLIC
@@ -171,7 +171,7 @@ The rest is resolved in scripts using conditions based on `$DfltInstance`.
 ## Handy SQL commands
 
 When using `sqlcmd` you need to use GO (batch terminator) on separate line to run the command/batch.
-```
+```sql
 -- returns current database
 select db_name()
 -- current schema
