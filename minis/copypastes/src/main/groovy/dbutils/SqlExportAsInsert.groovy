@@ -9,9 +9,14 @@ import static dbutils.DbInit.*
 
 @Field def sqlOutput = System.out // stream or writer, default is stdout
 
-@Field String dir = "test-support/src/main/resources/h2/"
+@Field String dir = "copypastes/src/main/resources/h2/"
 
-connect("jdbc:some:url", "user", "password")
+// INPUT PROPERTIES
+def url = System.getProperty("jdbc.url", "jdbc:some:url")
+def user = System.getProperty("jdbc.user", "user")
+def password = System.getProperty("jdbc.password", "password")
+
+connect(url, user, password)
 
 def userAdminId = find('User', [name: 'Administrator']).id
 dumpTables('populate-base-data.sql',
