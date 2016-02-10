@@ -60,4 +60,12 @@ cinst -y foobar2000
 Notes:
 * ghc is haskell
 * gpg4win-light -- I'm not sure here, there is also Gpg4win, but can light be enough?
-* notepadreplacer, never tried it: https://chocolatey.org/packages/notepadreplacer
+
+## ConEmu settings and tips
+
+* Go to Settings `Win+Alt+P`
+* Global minimize/restore `Ctrl+``` collides with IDEA, change to `<None>` (using `Win+2` anyway).
+* Switch to previous/next console change to `Alt+Left/Right`
+* Open new console popup is `Win+N` (good)
+* In **Features** check **Inject ConEmuHk** to support colors in shells properly
+* Settings XML can be placed next to `conemu.exe` and will be loaded instead of registry
