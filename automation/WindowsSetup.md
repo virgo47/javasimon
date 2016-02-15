@@ -5,6 +5,16 @@ Start with Chocolatey package system - in *administrative* cmd:
 @powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))"
 ```
 
+By default Chocolatey downloads into TEMP directory, which results in repeated downloads, when
+you experiment a lot with the same package. You may point it to a specific directory like this:
+```
+choco config set cacheLocation 'c:\ProgramData\Chocolatey\tmp-cache'
+```
+Also [see here](https://github.com/chocolatey/choco/wiki/How-To-Change-Cache). As a result
+you have to take care of the directory and maybe clean it up sometimes. You can also pack this
+cache directory and move it elsewhere to do offline installation.
+(!) TODO: check how this works, because [there is more to it](http://stackoverflow.com/questions/18528919/how-to-install-chocolatey-packages-offline).
+
 To find out what is installed using Chocolatey, use `choco list -l` or shortcut `clist -l`.
 Without `-l` it prints all available packages. Using `clist -li` prints also applications
 that are not installed using Chocolatey, but could have been.
