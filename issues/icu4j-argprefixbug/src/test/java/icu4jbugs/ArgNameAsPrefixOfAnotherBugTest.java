@@ -5,15 +5,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.ibm.icu.text.MessageFormat;
 import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.text.SimpleDateFormat;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class ArgNameAsPrefixOfAnotherBug {
-
-	@BeforeClass
-	public static void up() {
-		System.out.println("RUNNING");
-	}
+public class ArgNameAsPrefixOfAnotherBugTest {
 
 	@Test
 	public void argShouldNotIgnoreFormatIfPreviousArgIsItsPrefix() {
