@@ -4,14 +4,15 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>eclipselink466271</artifactId>
-	<properties>
-		<eclipselink.version>2.6.0</eclipselink.version>
-	</properties>
 	<groupId>issues</groupId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>eclipselink466271</name>
 	<description>Abstract mapped superclass is not enhanced by EclipseLink static weaving</description>
+
+	<properties>
+		<eclipselink.version>2.6.0</eclipselink.version>
+	</properties>
 
 	<dependencies>
 		<!-- JPA Eclipselink -->
@@ -41,8 +42,7 @@
 							<goal>weave</goal>
 						</goals>
 						<configuration>
-							<persistenceXMLLocation>META-INF/persistence.xml
-							</persistenceXMLLocation>
+							<persistenceXMLLocation>META-INF/persistence.xml</persistenceXMLLocation>
 							<logLevel>FINE</logLevel>
 						</configuration>
 					</execution>
