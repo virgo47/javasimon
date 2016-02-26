@@ -13,7 +13,6 @@
 
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:test;TRACE_LEVEL_SYSTEM_OUT=2"/>
-			<property name="javax.persistence.schema-generation.database.action" value="create"/>
 		</properties>
 	</persistence-unit>
 </persistence>
