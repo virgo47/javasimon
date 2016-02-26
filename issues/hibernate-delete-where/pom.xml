@@ -3,10 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.hibernate.bugs</groupId>
-	<artifactId>hibernate-testcase</artifactId>
+	<artifactId>hibernate-delete-where</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0-SNAPSHOT</version>
-	<name>Hibernate test case</name>
+	<name>Hibernate DELETE across join</name>
 
 
 	<dependencies>
@@ -19,7 +19,7 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>5.0.6.Final</version>
+			<version>5.1.0.Final</version>
 		</dependency>
 
 		<dependency>
