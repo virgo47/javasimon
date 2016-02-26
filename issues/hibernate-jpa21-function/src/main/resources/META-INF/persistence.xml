@@ -13,6 +13,7 @@
 
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:test;TRACE_LEVEL_SYSTEM_OUT=2"/>
+			<property name="hibernate.show_sql" value="true"/>
 		</properties>
 	</persistence-unit>
 </persistence>
