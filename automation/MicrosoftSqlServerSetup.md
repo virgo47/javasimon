@@ -170,6 +170,11 @@ The rest is resolved in scripts using conditions based on `$DfltInstance`.
 
 ## Handy SQL commands
 
+To connect to a remote SQL server (if `\INSTANCE` is skipped, it defaults to MSSQLSERVER):
+```
+sqlcmd -S 192.168.30.101\SQLEXPRESS -U test
+```
+
 When using `sqlcmd` you need to use GO (batch terminator) on separate line to run the command/batch.
 ```sql
 -- returns current database
