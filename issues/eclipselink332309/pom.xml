@@ -3,10 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.eclipse.persistence.bugs</groupId>
-	<artifactId>eclipselink-testcase</artifactId>
+	<artifactId>eclipselink332309</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0-SNAPSHOT</version>
-	<name>Eclipselink test case</name>
+	<name>eclipselink-relationship-via-nonid</name>
 
 
 	<dependencies>
