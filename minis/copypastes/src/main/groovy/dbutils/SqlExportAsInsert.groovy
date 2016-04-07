@@ -2,14 +2,15 @@ package dbutils
 
 import groovy.transform.Field
 
+import java.sql.Clob
 import static dbutils.DbInit.*
+
+@Field String dir = "copypastes/src/main/resources/h2/"
 
 // names we want to escape
 @Field List specialNames = ['order', 'action', 'default', 'group', 'user', 'sign', 'from', 'to', 'key']
-
 @Field def sqlOutput = System.out // stream or writer, default is stdout
 
-@Field String dir = "copypastes/src/main/resources/h2/"
 
 // INPUT PROPERTIES
 def url = System.getProperty("jdbc.url", "jdbc:some:url")
@@ -18,9 +19,10 @@ def password = System.getProperty("jdbc.password", "password")
 
 connect(url, user, password)
 
+// just a demo code, here comes custom part of the script with dumpTables calls
 def userAdminId = find('User', [name: 'Administrator']).id
 dumpTables('populate-base-data.sql',
-	'User where id = $userAdminId',
+	"User where id = $userAdminId",
 	'Role where id < 0',
 	'User_Role where user_id = $userAdminId',
 	'OtherTable')
@@ -28,6 +30,8 @@ dumpTables('populate-base-data.sql',
 def dumpTables(String outFileName, String... tableSpecs) {
 	println "\nPreparing $outFileName"
 	sqlOutput = new FileWriter(dir + outFileName)
+	sqlOutput.println "-- noinspection SqlResolveForFile"
+	sqlOutput.println "-- Generated with SqlExporterAsInsert.groovy"
 	tableSpecs.each {
 		dumpTable(it)
 	}
@@ -63,6 +67,9 @@ def processValue(Object value) {
 	}
 	if (value instanceof Number) {
 		return value
+	}
+	if (value instanceof Clob) {
+		value = value.getSubString(1L, (int) value.length())
 	}
 	String strValue = value.toString().replace("'", "''")
 	if (value instanceof Date && strValue.endsWith(" 00:00:00.0")) {

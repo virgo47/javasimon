@@ -9,7 +9,10 @@ class DbInit {
 
 	static Sql sql
 
-	/** If false, then map "defaults" in findOrCreate is used only for inserts. If true, it is used to update as well. */
+	/**
+	 * If false, then map "defaults" in findOrCreate is used only for inserts.
+	 * If true, it is used to update as well.
+	 */
 	static def updateWithDefaults = false
 	static def verbose = false
 	/** If true, dates are converted to timestamp - handy for old MSSQL 2005. */
@@ -34,25 +37,38 @@ class DbInit {
 	 * <ul>
 	 * <li>Object is found in a table using selector map.
 	 * <li>If insertParams are present, object is updated accordingly.
-	 * <li>If insertParams is null object (or null if not found) is return - no insert/update is executed.
-	 * <li>If object is not found and insertParams are not null (they can be if we only want to find object) we try to insert it.
-	 * <li>If insert is required provide at least [:] as insertParams, preferably specify also defaults for user convenience.
-	 * <li>If insert is executed effective insertParams are constructed as: selector (without any keys with operators though) + defaults + insertParams
-	 * (For this reason any selector entries with operators (for instance 'flags & 2':2) should appear with matching explicit value in insertParams (e.g.
-	 * flags:3, that will be found by condition flags & 2 = 2). Otherwise subsequent runs may not find previously created entity - which may cause
-	 * constraint violation or their repetition. Not sure what is worse. :-))
+	 * <li>If insertParams is null object (or null if not found) is return - no insert/update
+	 * is executed.
+	 * <li>If object is not found and insertParams are not null (they can be if we only want to
+	 * find object) we try to insert it.
+	 * <li>If insert is required provide at least [:] as insertParams, preferably specify also
+	 * defaults for user convenience.
+	 * <li>If insert is executed effective insertParams are constructed as: selector (without
+	 * any keys with operators though) + defaults + insertParams. For this reason any selector
+	 * entries with operators (for instance 'flags & 2':2) should appear with matching explicit
+	 * value in insertParams (e.g. flags:3, that will be found by condition flags & 2 = 2).
+	 * Otherwise subsequent runs may not find previously created entity - which may cause
+	 * constraint violation or their repetition. Not sure what is worse. :-)
 	 * <li>If object is found but differences are detected against insertMap it will be updated.
-	 * <li>Default map is used for inserts or for updates as well, based on {@link #updateWithDefaults} boolean flag. Can be null, then acts like [:].
+	 * <li>Default map is used for inserts or for updates as well, based on
+	 * {@link #updateWithDefaults} boolean flag. Can be null, then acts like [:].
 	 * In any case, values in insertParams always override defaults.
-	 * <li>If insert is executed, id is always returned (or list of them if there is not single autoincrement).
-	 * <li>If entity is just found or updated, id is returned based on "resultProperty" parameter, that defaults to 'id'.
+	 * <li>If insert is executed, id is always returned (or list of them if there is not
+	 * single autoincrement).
+	 * <li>If entity is just found or updated, id is returned based on "resultProperty"
+	 * parameter, that defaults to 'id'.
 	 * <li>If resultProperty is set to null, the whole object is returned.
-	 * <li>Selector implies = operation, but allows for other using # in the name of the key, e.g. 'col#>':5 will result in 'col > 5' condition.
-	 * <li>Selector's key can be column or other expression, e.g. flags & 2. Equality is still implied, but this can be combined with # construct, e.g.: 'sqrt(col)#>':5
+	 * <li>Selector implies = operation, but allows for other using # in the name of the key,
+	 * e.g. 'col#>':5 will result in 'col > 5' condition.
+	 * <li>Selector's key can be column or other expression, e.g. flags & 2. Equality is still
+	 * implied, but this can be combined with # construct, e.g.: 'sqrt(col)#>':5
 	 * </ul>
-	 * Column list and values with question-marks is constructed automatically from merged selector and insertParams map.
+	 * Column list and values with question-marks is constructed automatically from merged
+	 * selector and insertParams map.
 	 */
-	static Object findOrCreate(String tableName, Map selector, Map insertParams = null, Map defaults = [:], String resultProperty = 'id') {
+	static Object findOrCreate(String tableName, Map selector,
+		Map insertParams = null, Map defaults = [:], String resultProperty = 'id')
+	{
 		defaults = defaults ?: [:]
 
 		// here we construct where part and list of actual parameters
@@ -63,7 +79,9 @@ class DbInit {
 		def objectOrId = objectOrId(object, resultProperty)
 		if (object != null) {
 			// defaults must always go first in +, so they can be overridden
-			if (insertParams != null && updateNeeded(object, (updateWithDefaults ? defaults : [:]) + insertParams)) {
+			if (insertParams != null
+				&& updateNeeded(object, (updateWithDefaults ? defaults : [:]) + insertParams))
+			{
 				// UPDATE time :-)
 				updateInternal(tableName, wherePart, whereParams, defaults + insertParams)
 				println "$tableName UPDATED (id=$objectOrId)"
@@ -78,7 +96,8 @@ class DbInit {
 		// here we construct column list, question marks and list of actual parameters
 		def pureSelector = purifySelector(selector)
 		List<List<Object>> keys = insert(tableName, pureSelector + defaults + insertParams)
-		// lastly we extract single key of possible, otherwise we return the whole row of returned autoincrement values (unlikely)
+		// lastly we extract single key of possible, otherwise we return the whole row
+		// of returned autoincrement values (unlikely)
 		def id = keys[0]
 		if (id.size() == 1) {
 			id = id[0]
@@ -87,17 +106,23 @@ class DbInit {
 		return id
 	}
 
-	private
-	static int updateInternal(String tableName, String wherePart, List<Object> whereParams, Map params) {
+	private static int updateInternal(
+		String tableName, String wherePart, List<Object> whereParams, Map params)
+	{
 		def (String setPart, List<Object> updateParams) = processUpdateMap(params)
 		updates++
 		def finalUpdateParams = updateParams + whereParams
-		def query = wherePart != null ? "update $tableName set $setPart where $wherePart" : "update $tableName set $setPart"
+		def query = (wherePart != null
+			? "update $tableName set $setPart where $wherePart"
+			: "update $tableName set $setPart")
 		debug(query, finalUpdateParams)
 		return sql.executeUpdate(query, finalUpdateParams)
 	}
 
-	/** Update table, where goes first, update params second (unlike SQL, but in line with {@link #findOrCreate(java.lang.String, java.util.Map)}). */
+	/**
+	 * Update table, where goes first, update params second
+	 * (unlike SQL, but in line with {@link #findOrCreate(java.lang.String, java.util.Map)}).
+	 */
 	static int update(String tableName, Map selector, Map params) {
 		def (String wherePart, List<Object> whereParams) = processSelector(selector)
 		def cnt = updateInternal(tableName, wherePart, whereParams, params)
@@ -141,8 +166,11 @@ class DbInit {
 	/** Deletes from table based on selector. */
 	static int delete(String tableName, Map selector = null) {
 		def (String wherePart, List<Object> whereParams) = processSelector(selector)
-		// we need to take out the Gstring from executeUpdate, because it's interpreted there more than we want (IN would not work)
-		def query = selector != null ? "delete from $tableName where $wherePart" : "delete from $tableName"
+		// we need to take out the Gstring from executeUpdate, because it's interpreted
+		// there more than we want (IN would not work)
+		def query = (selector != null
+			? "delete from $tableName where $wherePart"
+			: "delete from $tableName")
 		debug(query, whereParams)
 		deletes++
 		def cnt = sql.executeUpdate(query, whereParams)
@@ -196,7 +224,8 @@ class DbInit {
 	/** Simple insert into table, no default values. */
 	static List<List<Object>> insert(String tableName, Map params) {
 		def (String insertColumns, String questionMarks, List<Object> insertParams) = processInsertMap(params)
-		def query = 'insert into ' + tableName + ' (' + insertColumns + ') values (' + questionMarks + ')'
+		def query = 'insert into ' + tableName +
+			' (' + insertColumns + ') values (' + questionMarks + ')'
 		debug(query, insertParams)
 		inserts++
 		return sql.executeInsert(query, insertParams)
@@ -221,7 +250,9 @@ class DbInit {
 		sql.execute(query)
 	}
 
-	static void joinWithMany(String relationTable, String oneIdColumn, String manyIdColumn, Integer oneId, List<Integer> manyIds) {
+	static void joinWithMany(String relationTable, String oneIdColumn,
+		String manyIdColumn, Integer oneId, List<Integer> manyIds)
+	{
 		if (manyIds != null) {
 			def currentRoleIds = list(relationTable, [(oneIdColumn): oneId]).collect {
 				it[manyIdColumn]
