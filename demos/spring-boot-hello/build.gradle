@@ -1,0 +1,28 @@
+buildscript {
+	repositories {
+		jcenter()
+	}
+	dependencies {
+		classpath('org.springframework.boot:spring-boot-gradle-plugin:1.3.3.RELEASE')
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'spring-boot'
+
+jar {
+	baseName = 'spring-boot-hello'
+	version = '0.0.1-SNAPSHOT'
+}
+
+repositories {
+	jcenter()
+}
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-undertow')
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.boot:spring-boot-starter-security')
+//	compile 'org.springframework.security.kerberos:spring-security-kerberos-web:1.0.1.RELEASE'
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
