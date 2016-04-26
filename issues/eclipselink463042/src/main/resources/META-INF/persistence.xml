@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+		http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+
+	<persistence-unit name="testcase" transaction-type="RESOURCE_LOCAL">
+		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+
+		<class>org.eclipse.persistence.bugs.model.Dog</class>
+
+		<!-- I tried NONE, ALL and other values, does not seem to affect the test results -->
+		<shared-cache-mode>NONE</shared-cache-mode>
+
+		<properties>
+			<property name="javax.persistence.jdbc.url"
+				value="jdbc:h2:mem:test;TRACE_LEVEL_SYSTEM_OUT=2"/>
+			<property name="javax.persistence.jdbc.user" value="sa"/>
+			<property name="javax.persistence.jdbc.password" value=""/>
+			<property name="javax.persistence.schema-generation.database.action" value="create"/>
+
+			<property name="eclipselink.logging.parameters" value="true"/>
+			<property name="eclipselink.logging.level" value="FINE"/>
+		</properties>
+	</persistence-unit>
+
+</persistence>

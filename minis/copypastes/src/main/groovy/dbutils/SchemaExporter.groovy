@@ -8,6 +8,8 @@ import java.sql.ResultSet
 import static dbutils.DbInit.connect
 import static dbutils.DbInit.sql
 
+def outputFileName = 'create-schema.sql'
+
 // LIST of tables, order is important, later can depend on sooner, but not other way around
 // keys in the resulting map are all lower-case
 @Field Map<String, TableDef> tableDefs = emptyTableDefs(
@@ -40,7 +42,7 @@ tableDefs.keySet().each {
 	investigateIndexes(metaData.getIndexInfo(catalog, schemaPattern, it, false, false))
 }
 investigateOtherDefinitions()
-printSchema('create-schema.sql')
+printSchema(outputFileName)
 
 private void investigateColumns(ResultSet rs) {
 	processResultSet(rs, 'TABLE_NAME') { tableDef ->
@@ -79,6 +81,7 @@ private String replaceMicrosoftSqlFunctions(String definition, int sqlType) {
 		.replaceAll('datepart\\(year,(.*)\\)', 'YEAR($1)')
 }
 
+@SuppressWarnings("GrEqualsBetweenInconvertibleTypes")
 String currentDateFunction(int sqlType) {
 	sqlType == 91 ? 'CURRENT_DATE()'
 		: sqlType == 93 || sqlType == 2014 ? 'CURRENT_TIMESTAMP()'
@@ -128,7 +131,8 @@ private void processResultSet(ResultSet rs, String tableColName, Closure process
 		if (tableDef == null) {
 			continue
 		};
-		// we fill in the table name "lazily" from metadata, so the casing is from DB
+		// we fill in the table name "lazily" from metadata,
+		// so the casing is from DB, not from our list
 		if (tableDef.tableName == null) {
 			tableDef.tableName = tableName
 		}
@@ -257,7 +261,8 @@ class ColumnDef {
 	@Override
 	String toString() {
 		StringBuilder sb = new StringBuilder(SpecialColumns.escape(name))
-			.append(' ').append(sqlTypeString())
+			.append(' ')
+			.append(sqlTypeString())
 		if (autoIncrement) {
 			sb.append(' AUTO_INCREMENT')
 			// IDENTITY implies PK, which may not be always true, PK are also covered by constraints
