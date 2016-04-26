@@ -29,15 +29,15 @@ public class TestBug {
 	public void deleteWithWhereAcrossRelationsShouldWork() {
 		// data preparation, 2 dogs and owner with both of them
 		em.getTransaction().begin();
-		Dog lassie = new Dog("Lassie"); // we will try to remove this one from collection later
-		em.persist(lassie);
+		Dog lessie = new Dog("Lessie"); // we will try to remove this one from collection later
+		em.persist(lessie);
 		Dog rex = new Dog("Rex");
 		em.persist(rex);
 
 		Owner owner = new Owner();
 		owner.setUniqId(47);
 		HashSet<Dog> dogs = new HashSet<Dog>();
-		dogs.add(lassie);
+		dogs.add(lessie);
 		dogs.add(rex);
 		owner.setDogs(dogs);
 		em.persist(owner);
@@ -47,7 +47,7 @@ public class TestBug {
 
 		// now removal of one dog
 		em.getTransaction().begin();
-		owner.getDogs().remove(lassie);
+		owner.getDogs().remove(lessie);
 		Assert.assertEquals(owner.getDogs().size(), 1);
 		Assert.assertNotNull(owner.getUniqId());
 		em.getTransaction().commit();
