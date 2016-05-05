@@ -206,3 +206,12 @@ create user test for login test with default_schema=dbo
 -- adding test to db_owner role, so it can do anything
 alter role db_owner add member test
 ```
+
+## WIP: Adding SSL for SQL server
+
+TODO: Find the way to do this with a script.
+
+* Seems I need to install certificate first. I tried:
+http://www.careexchange.in/how-to-install-certificate-authority-on-windows-server-2012/
+  * In step 2: without Web Enrolment, that seems to be for self-service
+  * Step 3: TODO (on home virtual)
