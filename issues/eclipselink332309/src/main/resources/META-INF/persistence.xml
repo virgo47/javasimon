@@ -22,7 +22,7 @@
 			<property name="eclipselink.logging.parameters" value="true"/>
 			<property name="eclipselink.logging.level" value="FINE"/>
 
-			<property name="hibernate.hbm2ddl.auto" value="update"/>
+			<property name="hibernate.hbm2ddl.auto" value="create-drop"/>
 		</properties>
 	</persistence-unit>
 

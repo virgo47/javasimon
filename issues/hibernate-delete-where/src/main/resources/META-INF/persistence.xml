@@ -10,7 +10,7 @@
 		<properties>
 			<property name="hibernate.connection.url" value="jdbc:h2:mem:test;TRACE_LEVEL_SYSTEM_OUT=2"/>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
-			<property name="hibernate.hbm2ddl.auto" value="update"/>
+			<property name="hibernate.hbm2ddl.auto" value="create-drop"/>
 		</properties>
 	</persistence-unit>
 </persistence>
