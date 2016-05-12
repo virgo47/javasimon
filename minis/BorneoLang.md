@@ -3,7 +3,7 @@ Notes about imaginary "Java really 2"
 
 ## Generic ideas or questions
 
-* No language-level serialization - Brian Goetz could go on about this forever: https://youtu.be/K__bKr5mGXY
+* No language-level serialization - Brian Goetz could go on about this forever
 * Operator overloading for sure.
 * "Code-literals", not just class, but also methods, fields, anything. This can help with some
 problems currently solved by reflection, meta-programming, things like JPA where you need to
@@ -26,7 +26,11 @@ utility function? Can these be some default extending methods? Can this be redef
 * Memory management? JVM-like? Go? With or without GC (like Rust)?
 * What runtime? No chance to make own VM... How to provide "Unsafe"-like things?
 * Concurrency? Definitely not with every object being a monitor?
+* Objects with identity vs Values (no primitives needed).
+* Memory collocation.
 
+Sources:
+* Brian Goetz, [Move Deliberately and Don’t Break Anything](https://youtu.be/K__bKr5mGXY)
 
 ## Why not Scala?
 
