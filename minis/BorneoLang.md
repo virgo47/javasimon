@@ -26,6 +26,10 @@ utility function? Can these be some default extending methods? Can this be redef
 * Memory management? JVM-like? Go? With or without GC (like Rust)?
 * What runtime? No chance to make own VM... How to provide "Unsafe"-like things?
 * Concurrency? Definitely not with every object being a monitor?
+* Thread attributes? Like Takipi is recommending setting names, but why not have richer map-like
+API? It can still be cleared at start of the request. Is there other good implicit solution for
+this? Thread-local vars are not the same, as we have to somehow reach them and they actuall can
+leak memory easier than thread attributes (at least I think so).
 * Objects with identity vs Values (no primitives needed).
 * Memory collocation.
 
