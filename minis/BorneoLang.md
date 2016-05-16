@@ -32,6 +32,8 @@ this? Thread-local vars are not the same, as we have to somehow reach them and t
 leak memory easier than thread attributes (at least I think so).
 * Objects with identity vs Values (no primitives needed).
 * Memory collocation.
+* Annotations where any parameter can be marked as default (e.g. parameter with name "name" can
+be default and used without explicit "name =").
 
 Sources:
 * Brian Goetz, [Move Deliberately and Don’t Break Anything](https://youtu.be/K__bKr5mGXY)
