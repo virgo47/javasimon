@@ -8,6 +8,7 @@
 	<artifactId>icu4j-argprefixbug</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0-SNAPSHOT</version>
+	<url>http://bugs.icu-project.org/trac/ticket/12172</url>
 
 	<properties>
 		<!--<maven.compiler.source>1.8</maven.compiler.source>-->
@@ -17,7 +18,8 @@
 		<!--<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>-->
 
 		<assertj.version>3.2.0</assertj.version>
-		<icu4j.version>56.1</icu4j.version>
+		<!-- buggy in 56.1, now passing in 57.1 -->
+		<icu4j.version>57.1</icu4j.version>
 	</properties>
 
 	<dependencies>
