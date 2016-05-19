@@ -16,24 +16,24 @@ public class SimpleIcuApproach {
 	}
 
 	private static void showDemo(String domainObject, Locale locale) {
+		ResourceBundle bundle = ResourceBundle.getBundle("SimpleIcu", locale);
 		System.out.println("\nLOCALE: " + locale);
-		print(locale, domainObject + ".saved", Collections.emptyMap());
-		print(locale, domainObject + ".saved.alt", Collections.emptyMap());
+		print(bundle, domainObject + ".saved", Collections.emptyMap());
+		print(bundle, domainObject + ".saved.alt", Collections.emptyMap());
 		for (Integer count : Arrays.asList(0, 1, 2, 4, 5, 99)) {
-			print(locale, domainObject + ".deleted", Collections.singletonMap("count", count));
+			print(bundle, domainObject + ".deleted", Collections.singletonMap("count", count));
 		}
 	}
 
-	private static void print(Locale locale, String messageKey, Map args) {
-		String message = format(locale, messageKey, args);
+	private static void print(ResourceBundle bundle, String messageKey, Map args) {
+		String message = format(bundle, messageKey, args);
 		System.out.println(messageKey + args + ": " + message);
 	}
 
-	private static String format(Locale locale, String key, Map args) {
-		ResourceBundle bundle = ResourceBundle.getBundle("SimpleIcu", locale);
+	private static String format(ResourceBundle bundle, String key, Map args) {
 		try {
 			String pattern = bundle.getString(key);
-			return new MessageFormat(pattern, locale)
+			return new MessageFormat(pattern, bundle.getLocale())
 				.format(args);
 		} catch (MissingResourceException e) {
 			return "";

@@ -13,24 +13,24 @@ public class SimpleApproach {
 	}
 
 	private static void showDemo(String domainObject, Locale locale) {
+		ResourceBundle bundle = ResourceBundle.getBundle("Simple", locale);
 		System.out.println("\nLOCALE: " + locale);
-		print(locale, domainObject + ".saved");
-		print(locale, domainObject + ".saved.alt");
+		print(bundle, domainObject + ".saved");
+		print(bundle, domainObject + ".saved.alt");
 		for (Integer count : Arrays.asList(0, 1, 2, 4, 5, 99)) {
-			print(locale, domainObject + ".deleted", count);
+			print(bundle, domainObject + ".deleted", count);
 		}
 	}
 
-	private static void print(Locale locale, String messageKey, Object... args) {
-		String message = format(locale, messageKey, args);
+	private static void print(ResourceBundle bundle, String messageKey, Object... args) {
+		String message = format(bundle, messageKey, args);
 		System.out.println(messageKey + Arrays.toString(args) + ": " + message);
 	}
 
-	private static String format(Locale locale, String key, Object... args) {
-		ResourceBundle bundle = ResourceBundle.getBundle("Simple", locale);
+	private static String format(ResourceBundle bundle, String key, Object... args) {
 		try {
 			String pattern = bundle.getString(key);
-			return new MessageFormat(pattern, locale)
+			return new MessageFormat(pattern, bundle.getLocale())
 				.format(args);
 		} catch (MissingResourceException e) {
 			return "";

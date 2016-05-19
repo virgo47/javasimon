@@ -584,13 +584,13 @@ That's it! Not just 1 insertion anymore, but N - we know only two cardinalities 
 ## Your API for translation sucks!
 
 There is no API, these are just demo programs. I'd aim for something much more fluent indeed.
-Resource bundle would be somehow available, the same for locale (for current user for instance).
+Resource bundle would be somehow available, for instance for current user's locale.
 Then the code could go like this:
 ```java
-String message = new LocalizedMessage(resource, "delete.object")
+String message = new LocalizedMessage(resourceBundle, "delete.object")
   .withParam("count", deletedCount)
   .forDomainObject(editor.getDomainObjectName()) // optional role parameter possible
-  .format(locale);
+  .format();
 ```
 
 This code can be in some unified object(s) deleted confirmation dialog that can be reused across
