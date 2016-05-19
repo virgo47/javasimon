@@ -1,4 +1,4 @@
-# Troubles with gender and case localization
+# Templating localization with gender and case
 
 In this article we will explore the problem how to localize messages that repeat a lot and only
 a small part of the message varies. The variable part will be typically some domain object and
@@ -474,6 +474,107 @@ concrete form names? With the map structure serialized in the domain object key 
 Sure, the generic messages are a bit more messy, but we don't repeat ourselves anymore. It seems
 that combo gender-select/plural works for most cases. There are probably even more demanding
 messages, but I believe that the deletion message with count shows worthiness of this solution.
+
+## Multiple inserted words?
+
+What if we want to insert multiple nouns? What if the sentence is something like "**Transaction**
+for **client** *XY* is above limit"? Here "transaction" and "client" are the domain objects and
+"XY" is a concrete name of a client (not a problem, we - hopefully - don't want to inflect that).
+If we merge form maps for `domain.object.transaction` and `domain.object.client` one will override
+the other. That's not good. What we need is to give these guys some *role*.
+
+Before going on, I have to admit that this example is not a good one, because if only transactions
+can break limits and if we always want to show a client there, this would be message with a key
+like `transaction.above.limit` and in all words in all languages would be there verbatim, no
+insertion, only the name of the client would really be an argument. So before we get carried away
+but the opportunity to use it everywhere we need to think and prefer NOT to use it when not
+necessary. Just because we have our "multi-form" dictionary of domain objects doesn't mean we want
+to use it. There is one legitimate case when you might to - when you expect that you change the
+word for "transaction" and/or "client". But even if you think it may be acutally useful for
+American vs British or similar - again, don't. You want different bundles for both language
+variants with country specified.
+
+We should not go on with wrong example, right? So how about the sentence "There are some
+**transactions** for a **client** *XY* - do you want to delete them as well?" From business point
+this still is silly, because we probably don't want to delete anything like this, but at least
+we can see that this sentence can be used over and over for various combinations of domain objects.
+
+I'll not implement the whole solution here, let's just shed a bit of light on it. Messages in
+English - this time we introduced singular with indefinite article (`singwa`):
+```
+domain.object.transaction=sing:transaction,singwa:a transaction,pl:transactions
+domain.object.client=sing:client,singwa:a client,pl:clients
+
+object.delete.constraint.warning=There are some {slave.pl} for {master.singwa} {name} - do you...?
+```
+
+The same in Slovak:
+```
+domain.object.transaction=gend:fem,nom:transakcia,gen:transakcie,\
+  pl:transakcie,plgen:transakcií
+domain.object.client=gend:mas,nom:klient,gen:klienta,\
+  pl:klienti,plgen:klientov
+
+object.delete.constraint.warning=Pre {master_gen} {name} existujú {slave_pl} - zmažeme...?
+```
+
+This time it was easy, no gender, but you can expect it can get more complicated. The point is
+we indicated the *role* of the domain object with the prefix, like `master_`. Now how we call
+message formatting to work like this? I'll offer a snippet of code, but again, its API can be
+groomed, but you'll probably finish this design with your needs in mind anyway:
+```
+...
+print(loc, "object.delete.constraint.warning",
+	Collections.singletonMap("name", "SuperCo."),
+	new DomainObject("client", "master"),
+	new DomainObject("transaction", "slave"));
+...
+
+private static void print(
+	Locale locale, String messageKey, Map args, DomainObject... domainObjects)
+{
+	ResourceBundle bundle = ResourceBundle.getBundle("TemplateIcu", locale);
+
+	// not generified, sorry
+	Map finalArgs = new HashMap(args);
+	for (DomainObject domainObject : domainObjects) {
+		finalArgs.putAll(domainObject.parseObjectInfo(bundle));
+	}
+
+	String message = format(bundle, locale, messageKey, finalArgs);
+	System.out.println(messageKey + args + ": " + message);
+}
+
+// format method like before, parseObjectInfo is embedded into following class:
+public class DomainObject {
+	private final String domainObject;
+	private final String role;
+
+	public DomainObject(String domainObject, String role) {
+		this.domainObject = domainObject;
+		this.role = role;
+	}
+
+	public DomainObject(String domainObject) {
+		this.domainObject = domainObject;
+		this.role = null;
+	}
+
+	// no sanity checking here, but there should be some
+	Map parseObjectInfo(ResourceBundle bundle) {
+		String objectInfoString = bundle.getString("domain.object." + domainObject);
+		Map map = new HashMap();
+		for (String form : objectInfoString.split(" *, *")) {
+			String[] sa = form.split(" *: *");
+			String key = role != null ? role + '_' + sa[0] : sa[0];
+			map.put(key, sa[1]);
+		}
+		return map;
+	}
+}
+```
+
+That's it! Not just 1 insertion anymore, but N - we know only two cardinalities 1 and N, right?
 
 ## Conclusion
 
