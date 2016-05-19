@@ -99,7 +99,7 @@ for the formatting mechanism (some choice/select format).*
 * We may need to use various cases of the same noun, depending on the message or even a parameter
 of the message (like the count of transactions).
 
-## And what about the Client?
+### And what about the Client?
 
 You can imagine the messages with "client" in English, just replace the single word. No inflection,
 no cases, just respect the number and letter casing depending on the position in the sentence.
@@ -145,7 +145,7 @@ client.deleted={0,choice,0#Žiadny klient nebol zmazaný|1#Jeden klient bol zmaz
 ```
 
 And some demo program to print it out:
-```
+```java
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Locale;
@@ -225,7 +225,7 @@ client.deleted={count,plural,=0 {Žiadny klient nebol zmazaný}\
 ```
 
 Program listing:
-```
+```java
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Locale;
@@ -370,7 +370,7 @@ we would already save some characters - granted we don't need more forms and gen
 for Slovak at least, we would add neuter gender too, but that's about it.
 
 Now the code that runs it:
-```
+```java
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -489,7 +489,7 @@ the other. That's not good. What we need is to give these guys some *role*.
 
 Before going on, I have to admit that this example is not a good one, because if only transactions
 can break limits and if we always want to show a client there, this would be message with a key
-like `transaction.above.limit` and in all words in all languages would be there verbatim, no
+like `transaction.above.limit` and all inserted words in all languages would be there verbatim, no
 insertion, only the name of the client would really be an argument. So before we get carried away
 but the opportunity to use it everywhere we need to think and prefer NOT to use it when not
 necessary. Just because we have our "multi-form" dictionary of domain objects doesn't mean we want
@@ -526,7 +526,7 @@ This time it was easy, no gender, but you can expect it can get more complicated
 we indicated the *role* of the domain object with the prefix, like `master_`. Now how we call
 message formatting to work like this? I'll offer a snippet of code, but again, its API can be
 groomed, but you'll probably finish this design with your needs in mind anyway:
-```
+```java
 ...
 print(loc, "object.delete.constraint.warning",
 	Collections.singletonMap("name", "SuperCo."),
@@ -586,7 +586,7 @@ That's it! Not just 1 insertion anymore, but N - we know only two cardinalities 
 There is no API, these are just demo programs. I'd aim for something much more fluent indeed.
 Resource bundle would be somehow available, the same for locale (for current user for instance).
 Then the code could go like this:
-```
+```java
 String message = new LocalizedMessage(resource, "delete.object")
   .withParam("count", deletedCount)
   .forDomainObject(editor.getDomainObjectName()) // optional role parameter possible
