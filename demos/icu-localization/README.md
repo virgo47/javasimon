@@ -80,7 +80,7 @@ the number plays the "nominative" role and the whole subject here is roughly lik
 transactions" and instead of "of" Slovak uses genitive case.)
 
 Alternative example for "Transaction was successfully saved", something like "Saving of transaction
-was successfull":
+was successful":
 
 * Ukladanie **transakcie** bolo úspešné. (Here none of the words are affected by the noun gender,
 it wouldn't even be affected by the number. However, the noun itself is not in "nominative" case
@@ -88,7 +88,7 @@ anymore, instead it is in "genitive". This cannot be generalized to some "object
 to normal "subject" case) as objects in Slovak can be in different cases, mostly "accusative".
 This information also cannot be worked with in the code, not even if the code is related to a
 single message localization, because this information relates to a single language, here Slovak.
-We explore the possiblities with various approaches lower.)
+We explore the possibilities with various approaches lower.)
 
 Problems:
 
@@ -312,16 +312,20 @@ the noun knows - and only in a particular language.
 We don't even know what forms for a particular template are needed - the writer or the template
 knows. We can only settle on a set of needed forms for the nouns. In case we need a new form, for
 instance for some new template, we have to add the new form for all existing nouns. But this
-desing is still ortoghonal. The question is - how to offer all the available forms to the template?
+design is still orthogonal. The question is - how to offer all the available forms to the template?
 
 ### ICU4J solution
 
 I'll start with ICU4J because it allows those named parameters we already used in the simple
-approach. We can just fill the map with all possible forms of the word and let the template do the
-job. So how can we get a map of all the forms? Will we have multiple keys in the bundle with some
-suffix? I don't like that. Let's do something more brutal - we put some serialized map into a
-single key. I'd go for JSON, but as I don't want to import any JSON library, I'll use some special
-characters I really don't expect in the names of the domain objects.
+approach. We can just fill the map with all possible forms of the word (and gender or other
+required meta-information) and let the template do the job. So how can we get a map of all the
+forms? Will we have multiple keys in the bundle with some suffix? I don't like that. Let's do
+something more brutal - we put some serialized map into a single key.
+
+We can go for JSON, but as I don't want to import any JSON library, I'll use some special
+characters I really don't expect in the names of the domain objects. If you expect to use comma
+in the text, use ; and if that's too similar to : for your taste, use |. This simple map format
+is actually much better for manual editing.
 
 English resource file `TemplateIcu.properties` is pretty boring:
 ```
@@ -454,7 +458,7 @@ use this solution in JavaScript - which is very important for us.
 ### Pure Java solution
 
 It is not completely impossible to do this in Java, but you'd need to use indexes - and that sucks.
-If you needed to find all the occurences of nominative it's easy with ICU's named paramters. Just
+If you needed to find all the occurrences of nominative it's easy with ICU's named parameters. Just
 search for `{nom}` which is pretty distinct pattern. With Java you'd have to decide fixed indexes
 for the forms and then ... put the real arguments as indexes after these? What?! What if I discover
 I need to add another form? Will I renumber all arguments (only for that language, mind you) to
@@ -490,9 +494,9 @@ insertion, only the name of the client would really be an argument. So before we
 but the opportunity to use it everywhere we need to think and prefer NOT to use it when not
 necessary. Just because we have our "multi-form" dictionary of domain objects doesn't mean we want
 to use it. There is one legitimate case when you might to - when you expect that you change the
-word for "transaction" and/or "client". But even if you think it may be acutally useful for
+word for "transaction" and/or "client". But even if you think it may be actually useful for
 American vs British or similar - again, don't. You want different bundles for both language
-variants with country specified.
+variants with specified country.
 
 We should not go on with wrong example, right? So how about the sentence "There are some
 **transactions** for a **client** *XY* - do you want to delete them as well?" From business point
@@ -542,6 +546,7 @@ private static void print(
 	}
 
 	String message = format(bundle, locale, messageKey, finalArgs);
+	// sentence capitalization missing, or done using various forms (I like that more and more)
 	System.out.println(messageKey + args + ": " + message);
 }
 
@@ -575,6 +580,23 @@ public class DomainObject {
 ```
 
 That's it! Not just 1 insertion anymore, but N - we know only two cardinalities 1 and N, right?
+
+## Your API for translation sucks!
+
+There is no API, these are just demo programs. I'd aim for something much more fluent indeed.
+Resource bundle would be somehow available, the same for locale (for current user for instance).
+Then the code could go like this:
+```
+String message = new LocalizedMessage(resource, "delete.object")
+  .withParam("count", deletedCount)
+  .forDomainObject(editor.getDomainObjectName()) // optional role parameter possible
+  .format(locale);
+```
+
+This code can be in some unified object(s) deleted confirmation dialog that can be reused across
+many specific editors. Editor merely needs to provide the name of the domain object (generic one
+like "transaction", not the name for the particular instance). I guess this API makes sense and
+it's easy to get there.
 
 ## Conclusion
 
