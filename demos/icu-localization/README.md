@@ -443,9 +443,9 @@ like `{nom, capitalizeFirst}`, but I can't find any mechanism to do that with th
 class. But that is rather minor issue.
 
 Actually, there may be better alternative - just use two separate keys for nominative, that is
-"Nom" and "nom" with respective casing of the first letter. We don't need this distinction for
-other forms, at least not here, not yet. Most of the cases will hardly appear at the start of the
-sentence.
+"Nom" and "nom" (that is sing/Sing in English resources) with respective casing of the first
+letter. We don't need this distinction for other forms, at least not here, not yet. Most of the
+cases will hardly appear at the start of the sentence.
 
 We can easily create a tool that checks validity of the keys starting with "domain.object." and
 indicate those that don't have expected forms for a particular language. And we can also easily
