@@ -18,7 +18,11 @@ existing entity. That would probably also require extension mechanism.
 * How to treat null?
 * var/val
 * strongly typed with type inference
-* Objects with identity vs Values (no primitives needed).
+* Objects with identity vs Values, no primitives needed.
+* Numeric types: Offer old-school Int with overflow for low-level stuff, but otherwise prefer
+safer version without overflow. Should it NaN or throw an exception? In Pragmatic Programmer they
+consider NaN not good (fail early), which is probably better (although IEEE754 prescribes how to
+use NaN, so for these types we have to obey).
 * Annotations where any parameter can be marked as default (e.g. parameter with name "name" can
 be default and used without explicit "name =").
 * Method/function default parameters? I'd go for it (trailing).
