@@ -14,14 +14,27 @@ generate metadata (now you'd have it) or anywhere you now use attribute paths as
 existing entity. That would probably also require extension mechanism.
 * Extension methods.
 * Lambda, method reference (synergy with code-literals), ... generally Java 8 functional stuff.
-* Pattern matching.
+* Pattern matching (Scala like, what has Haskell in addition to that?)
 * How to treat null?
 * var/val
 * strongly typed with type inference
 * Objects with identity vs Values (no primitives needed).
 * Annotations where any parameter can be marked as default (e.g. parameter with name "name" can
 be default and used without explicit "name =").
+* Method/function default parameters? I'd go for it (trailing).
 * More control over package visibility (like sub-packages are not the same as outside packages).
+
+### Language - questionable and/or radical
+
+* Generators - how do ES6 function*/yield relate to Scala sequence comprehension? Resumable return
+seems quite messy to me. Also see [Python vs Scala](http://stackoverflow.com/questions/2137619/scala-equivalent-to-python-generators).
+* [Crockford on ES6](http://bdadam.com/blog/video-douglas-crockford-about-the-new-good-parts.html):
+what about classes? Do we really need/want them? He doesn't like generators (my feeling exactly).
+* Crockford also mentions [DEC64](http://dec64.com/) - do we want it, and if do we need it as
+built-in type.
+* Desctructuring looks good, should work fine with tuples too.
+* Is there a nice syntax for multiple ... parameters? This is not possible with Java, but how can
+we make it nicer? Is collection literal enough? (Probably should be if it's short enough.)
 
 ### Concurrency
 
