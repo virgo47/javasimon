@@ -1,8 +1,11 @@
-**Command Query Responsibility Segregation (CQRS)**, architectural pattern,
-(on Wikipedia since 2003, Bertrand Mayer, Eiffel, probably much older),
+**Command Query Responsibility Segregation (CQRS)**, architectural pattern (application of CQS),
 http://martinfowler.com/bliki/CQRS.html,
 https://en.wikipedia.org/wiki/Command%E2%80%93query_separation,
 https://msdn.microsoft.com/en-us/library/dn568103.aspx?f=255&MSPPError=-2147217396
+
+**Command–query separation (CQS)**, principle of imperative computer programming,
+Bertrand Mayer (author of Eiffel)
+https://en.wikipedia.org/wiki/Command%E2%80%93query_separation
 
 **Saga pattern**, architectural pattern, 1987.
 "...a distribution of multiple workflows across multiple systems, each providing a path (fork) of
