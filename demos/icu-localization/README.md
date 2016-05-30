@@ -329,16 +329,16 @@ is actually much better for manual editing.
 
 English resource file `TemplateIcu.properties` is pretty boring:
 ```
-domain.object.transaction=sing:transaction,pl:transactions
-domain.object.client=sing:client,pl:clients
+domain.object.transaction=sg:transaction,pl:transactions
+domain.object.client=sg:client,pl:clients
 
-object.saved={sing} was successfully saved.
-object.deleted={count,plural,=0 {No {sing} was}\
-  one {One {sing} was}\
+object.saved={sg} was successfully saved.
+object.deleted={count,plural,=0 {No {sg} was}\
+  one {One {sg} was}\
   other {{count} {pl} were}} deleted.
 ```
 
-We have both domain object names in singular (sing) and plural (pl) forms. Templating for English
+We have both domain object names in singular (sg) and plural (pl) forms. Templating for English
 is obviously a no-brainer, with only two templates for two objects we are already saving a lot of
 characters. How about Slovak property file `TemplateIcu_sk.properties`?
 ```
@@ -447,7 +447,7 @@ like `{nom, capitalizeFirst}`, but I can't find any mechanism to do that with th
 class. But that is rather minor issue.
 
 Actually, there may be better alternative - just use two separate keys for nominative, that is
-"Nom" and "nom" (that is sing/Sing in English resources) with respective casing of the first
+"Nom" and "nom" (that is sg/Sg in English resources) with respective casing of the first
 letter. We don't need this distinction for other forms, at least not here, not yet. Most of the
 cases will hardly appear at the start of the sentence.
 
@@ -504,12 +504,12 @@ this still is silly, because we probably don't want to delete anything like this
 we can see that this sentence can be used over and over for various combinations of domain objects.
 
 I'll not implement the whole solution here, let's just shed a bit of light on it. Messages in
-English - this time we introduced singular with indefinite article (`singwa`):
+English - this time we introduced singular with indefinite article (`sgwa`):
 ```
-domain.object.transaction=sing:transaction,singwa:a transaction,pl:transactions
-domain.object.client=sing:client,singwa:a client,pl:clients
+domain.object.transaction=sg:transaction,sgwa:a transaction,pl:transactions
+domain.object.client=sg:client,sgwa:a client,pl:clients
 
-object.delete.constraint.warning=There are some {slave.pl} for {master.singwa} {name} - do you...?
+object.delete.constraint.warning=There are some {slave.pl} for {master.sgwa} {name} - do you...?
 ```
 
 The same in Slovak:
