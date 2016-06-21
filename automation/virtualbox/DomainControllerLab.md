@@ -85,3 +85,17 @@ Create Computer account on the DC for the new computer (e.g. `vagrant1`).
 
 Then on the computer change the name and domain for the computer, which will request domain admin
 user/password (NAIVE\vagrant). Done.
+
+To be precise, this means **Start**, right-click **This PC**, click **Change settings**
+in *Computer name...* section and click **Change** button. TODO: What exactly do I have to eneter? `naive.test`? `NAIVE`?
+
+What to do when previous computer with the same name does not exist? E.g. `vagrant1` was used
+as a name for previous (now expired) virtual box. See how to [remove computer from domain](https://technet.microsoft.com/en-us/library/dd277423.aspx).
+
+Problem: ["duplicate (potentially the shorter NETBIOS) name exists on the network"](https://social.technet.microsoft.com/Forums/office/en-US/711f3433-cd1b-4783-bb49-9287e4240212/duplicate-potentially-the-shorter-netbios-name-exists-on-the-network-win2008r2?forum=winservergen)
+`nbtstat -RR` does not help. Following [this discussion](https://social.technet.microsoft.com/Forums/office/en-US/711f3433-cd1b-4783-bb49-9287e4240212/duplicate-potentially-the-shorter-netbios-name-exists-on-the-network-win2008r2?forum=winservergen)
+indicates that we need to:
+
+* remove computer from a domain (see above)
+* remove the server from AD
+* remove from DNS
