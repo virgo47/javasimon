@@ -99,3 +99,12 @@ Chocolatey installation, probably default as well) **and** set **Run as administ
 shortcut (advanced) settings.
 
 TODO: How to script this?
+
+## Setting PATH and other environment variables permanently
+
+SETX is the command that should handle it, `/M` tells it to use system environment, not local one.
+```
+SETX /M JAVA_HOME "c:\Program Files\Java\jdk1.8.0_92"
+```
+
+TODO: Is it possible ot use other variable in PATH? How to display unexpanded variable string?
