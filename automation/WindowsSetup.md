@@ -74,8 +74,28 @@ Notes:
 ## ConEmu settings and tips
 
 * Go to Settings `Win+Alt+P`
-* Global minimize/restore `Ctrl+``` collides with IDEA, change to `<None>` (using `Win+2` anyway).
-* Switch to previous/next console change to `Alt+Left/Right`
-* Open new console popup is `Win+N` (good)
+* In **Keys & Macro**:
+** Global hotkey for *Minimize/Restore* `Ctrl+``` collides with IDEA, change to `<None>`
+(using `Win+2` anyway).
+** Switch to previous/next console change to `Alt+Left/Right`
+** Open new console popup is `Win+N` (good)
+** In **Keyboard** subscreen uncheck **Win+Number - activate console**.
 * In **Features** check **Inject ConEmuHk** to support colors in shells properly
 * Settings XML can be placed next to `conemu.exe` and will be loaded instead of registry
+* Set it [as default term] (even if we run `cmd` from Start it will use ConEmu). Go to
+**Integration**, **Default term** and check first checkboxes (Force..., Register..., Leave in TSA).
+
+### Problem - Pin to task bar for Admin
+
+If we pin `powershell` to the task bar, it will start in ConEmu, but if we change its properties
+**Shortcut/Advanced...** and check **Run as administrator** it will not use ConEmu anymore.
+On the ohter hand, ff we add `-new_console:a` after the command in **Shortcut**, **Target** input
+field it runs as Admin - but it creates new taskbar icon not on the same position (e.g. I can't
+use `Win+2` to switch to it, instead it creates new tab with new Admin powershell).
+
+Better solution is to use shortcut with target
+`"c:\Program Files\ConEmu\ConEmu64.exe" powershell.exe -new_console:a` (ConEmu location with
+Chocolatey installation, probably default as well) **and** set **Run as administrator** via
+shortcut (advanced) settings.
+
+TODO: How to script this?
