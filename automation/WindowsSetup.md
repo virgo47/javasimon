@@ -65,6 +65,7 @@ cinst -y k-litecodecpackfull
 cinst -y ghc # Haskell
 cinst -y gimp
 cinst -y foobar2000
+cinst -y wireshark # instal WinPcap in advance manually, seems the chocolatey package is broken
 ```
 
 Notes:
