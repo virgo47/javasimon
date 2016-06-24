@@ -45,12 +45,25 @@ server:
     port: 8080
 app:
     ad-domain: naive.test
-    ad-server: ldap://NAIVE-DC1.naive.test/
+    ad-server: ldap://naive-dc1.naive.test/
     service-principal: HTTP/mysvc.naive.test@naive.test
     keytab-location: c:/vagrant/tomcat.keytab
     ldap-search-base: cn=Users,dc=naive,dc=test
     ldap-search-filter: "(| (userPrincipalName={0}) (sAMAccountName={0}))"
 ```
+
+Important to know that {0} parameter in the filter is what comes from the login form username
+concatenated with `ad-domain` value like this `vagrant@naive.test`, but when `ad-domain` is `null`
+only name is used. In my DC I had no user attribute containing `vagrant@naive.test`, so I tried to
+put `ad-domain` null and also changed the filter to `(cn={0})`.
+
+But username without domain is used only for bind - in my case still successful even without
+domain name. Before the actual search method `ActiveDirectoryLdapAuthenticationProvider#searchRootFromPrincipal`
+throws `BadCredentialsException` - which sucks. This means we have to add `vagrant@naive.test`
+into our DC (LDAP) into some attribute anyway. Best way is the Windows way - open user
+*Properties*, tab *Account* and set *User Logon Name* to `vagrant` with domain select set to
+`@naive.test` (will be offered). This goes into `userPrincipalName` and we can use original filter
+without changes.
 
 ## Preparing service on active directory
 
@@ -221,6 +234,16 @@ SuiteKrbSample {
 
 ## Troubleshooting
 
+### Is YML configuration OK and does form login work?
+
+Perhaps first we should see whether the LDAP search against DC works. This is best checked with
+Wireshark, watching for LDAP packets between the host with application and the DC. This helped
+me to fix my user in DC (YML configuration was OK, domain must not be null there).
+
+Any success with login/password doesn't seem to affect the troubles with SPNEGO/Kerberos.
+
+### Other
+
 http://stackoverflow.com/questions/25289231/using-gssmanager-to-validate-a-kerberos-ticket
 
 Kerberos is case sensitive?! See `echo %USERDNSDOMAIN%` in `cmd`. In our case it's `NAIVE.TEST`.
@@ -229,5 +252,5 @@ I followed the instructions, added keytab and INI file to the mix - no result, s
 
 Wireshark filter used for monitoring (add more ignored protocols as needed):
 ```
-ip.addr == 192.168.151.101 && !(dhcpv6 || dns || browser)
+ip.addr == 192.168.151.101 && !(dhcpv6 || dns || browser || nbns || nbss)
 ```
