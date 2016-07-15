@@ -77,7 +77,7 @@ not work). Again, if all users are from a single domain we can put domain name i
 
 If we don't need to read anything else from LDAP/AD, bind may be enough, but if we want to check
 the username against some filter too each authenticated user must have search rights in the
-directory. Searching may not be absolutely necessary, but allows to check for `class` and
+directory. Searching may not be absolutely necessary, but allows to check for `objectClass` and
 `memberOf` attributes (among other).
 
 
