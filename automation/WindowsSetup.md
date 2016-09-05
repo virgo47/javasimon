@@ -76,11 +76,11 @@ Notes:
 
 * Go to Settings `Win+Alt+P`
 * In **Keys & Macro**:
-** Global hotkey for *Minimize/Restore* `Ctrl+``` collides with IDEA, change to `<None>`
+	* Global hotkey for *Minimize/Restore* `Ctrl+``` collides with IDEA, change to `&lt;None&gt;`
 (using `Win+2` anyway).
-** Switch to previous/next console change to `Alt+Left/Right`
-** Open new console popup is `Win+N` (good)
-** In **Keyboard** subscreen uncheck **Win+Number - activate console**.
+	* Switch to previous/next console change to `Alt+Left/Right`
+	* Open new console popup is `Win+N` (good)
+	* In **Keyboard** subscreen uncheck **Win+Number - activate console**.
 * In **Features** check **Inject ConEmuHk** to support colors in shells properly
 * Settings XML can be placed next to `conemu.exe` and will be loaded instead of registry
 * Set it [as default term] (even if we run `cmd` from Start it will use ConEmu). Go to
@@ -90,7 +90,7 @@ Notes:
 
 If we pin `powershell` to the task bar, it will start in ConEmu, but if we change its properties
 **Shortcut/Advanced...** and check **Run as administrator** it will not use ConEmu anymore.
-On the ohter hand, ff we add `-new_console:a` after the command in **Shortcut**, **Target** input
+On the other hand, ff we add `-new_console:a` after the command in **Shortcut**, **Target** input
 field it runs as Admin - but it creates new taskbar icon not on the same position (e.g. I can't
 use `Win+2` to switch to it, instead it creates new tab with new Admin powershell).
 
@@ -109,3 +109,14 @@ SETX /M JAVA_HOME "c:\Program Files\Java\jdk1.8.0_92"
 ```
 
 TODO: Is it possible ot use other variable in PATH? How to display unexpanded variable string?
+
+
+## Problem: Windows 10 and sticky corners on dual monitor
+
+Could have been solved in Windows 8.1 with registry trick, not anymore. Microsoft screwed big time.
+
+
+## Problem: Blurry fonts on dual monitor
+
+Set both monitors to the same size of font (typically it is 125% on the notebook and 100% on
+external monitor, 125% is rather too much for the monitor, so 100% is better for both).
