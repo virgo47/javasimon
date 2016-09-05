@@ -76,7 +76,7 @@ Notes:
 
 * Go to Settings `Win+Alt+P`
 * In **Keys & Macro**:
-	* Global hotkey for *Minimize/Restore* `` Ctrl+` `` collides with IDEA, change to `&lt;None&gt;`
+	* Global hotkey for *Minimize/Restore* `` Ctrl+` `` collides with IDEA, change to `<None>`
 (using `Win+2` anyway).
 	* Switch to previous/next console change to `Alt+Left/Right`
 	* Open new console popup is `Win+N` (good)
