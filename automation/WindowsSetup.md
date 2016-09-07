@@ -15,12 +15,18 @@ you have to take care of the directory and maybe clean it up sometimes. You can 
 cache directory and move it elsewhere to do offline installation.
 (!) TODO: check how this works, because [there is more to it](http://stackoverflow.com/questions/18528919/how-to-install-chocolatey-packages-offline).
 
+To allow packages without checksums (avoiding prompt every time):
+```
+choco feature enable -n allowEmptyChecksums
+```
+
 To find out what is installed using Chocolatey, use `choco list -l` or shortcut `clist -l`.
 Without `-l` it prints all available packages. Using `clist -li` prints also applications
 that are not installed using Chocolatey, but could have been.
 
 We can install and download virtually any other favourite tool (lines with `#` comments run
-in PowerShell/Boxstarter Shell, in `cmd` you need to strip the end):
+in PowerShell/Boxstarter Shell, in `cmd` you need to strip the end and replace `'` with `"`
+as needed):
 ```
 cinst -y 7zip.commandline
 cinst -y notepad2
@@ -66,6 +72,7 @@ cinst -y ghc # Haskell
 cinst -y gimp
 cinst -y foobar2000
 cinst -y wireshark # instal WinPcap in advance manually, seems the chocolatey package is broken
+cinst -y fsviewer
 ```
 
 Notes:
@@ -90,7 +97,7 @@ Notes:
 
 If we pin `powershell` to the task bar, it will start in ConEmu, but if we change its properties
 **Shortcut/Advanced...** and check **Run as administrator** it will not use ConEmu anymore.
-On the other hand, ff we add `-new_console:a` after the command in **Shortcut**, **Target** input
+On the other hand, if we add `-new_console:a` after the command in **Shortcut**, **Target** input
 field it runs as Admin - but it creates new taskbar icon not on the same position (e.g. I can't
 use `Win+2` to switch to it, instead it creates new tab with new Admin powershell).
 
