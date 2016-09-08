@@ -64,7 +64,7 @@ cinst -y gpg4win-light
 cinst -y tortoisesvn
 cinst -y openvpn-community
 cinst -y ruby
-cinst -y licecap                                                      
+cinst -y licecap
 cinst -y virtualbox
 cinst -y nodejs
 cinst -y k-litecodecpackfull
@@ -74,7 +74,7 @@ cinst -y foobar2000
 cinst -y wireshark # instal WinPcap in advance manually, seems the chocolatey package is broken
 cinst -y fsviewer
 ```
-                                                                      
+
 Notes:
 * ghc is haskell
 * gpg4win-light -- I'm not sure here, there is also Gpg4win, but can light be enough?
