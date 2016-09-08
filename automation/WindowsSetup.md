@@ -64,7 +64,7 @@ cinst -y gpg4win-light
 cinst -y tortoisesvn
 cinst -y openvpn-community
 cinst -y ruby
-cinst -y licecap
+cinst -y licecap                                                      
 cinst -y virtualbox
 cinst -y nodejs
 cinst -y k-litecodecpackfull
@@ -74,7 +74,7 @@ cinst -y foobar2000
 cinst -y wireshark # instal WinPcap in advance manually, seems the chocolatey package is broken
 cinst -y fsviewer
 ```
-
+                                                                      
 Notes:
 * ghc is haskell
 * gpg4win-light -- I'm not sure here, there is also Gpg4win, but can light be enough?
@@ -127,3 +127,28 @@ Could have been solved in Windows 8.1 with registry trick, not anymore. Microsof
 
 Set both monitors to the same size of font (typically it is 125% on the notebook and 100% on
 external monitor, 125% is rather too much for the monitor, so 100% is better for both).
+
+
+## Git Bash Here in Total Commander
+
+Based on [my blog](https://virgo47.wordpress.com/2013/05/05/git-bash-here-in-console2-in-total-commander-with-keyboard-shortcut-hotkey/)
+where it is for Console2 - this time for ConEmu. Setup for user command in Total Commander is (as
+found in `AppData\Roaming\GHISLER\usercmd.ini`):
+
+```
+[em_git_bash_here]
+button=C:\Program Files\Git\git-bash.exe
+cmd=""C:\Program Files\ConEmu\ConEmu64.exe""
+param=-run "C:\Program Files\Git\git-bash.exe" --no-cd --command=usr/bin/bash.exe -l -i
+menu=Git Bash Here
+```
+
+`-run` is important otherwise every space separated parameter would be interpreted as a new
+console and using quotes around everything wouldn't work either. Then also add this to `wincmd.ini`
+in the same directory like `usercmd.ini` (both `Alt+B` and `Ctrl+B` launch Git Bash):
+
+```
+[Shortcuts]
+C+B=em_git_bash_here
+A+B=em_git_bash_here
+```
