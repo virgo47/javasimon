@@ -92,6 +92,8 @@ Notes:
 * Settings XML can be placed next to `conemu.exe` and will be loaded instead of registry
 * Set it [as default term] (even if we run `cmd` from Start it will use ConEmu). Go to
 **Integration**, **Default term** and check first checkboxes (Force..., Register..., Leave in TSA).
+To support `cmd` in ConEmu from Total Commander as well, change the list of hooked executables to:
+`explorer.exe|totalcmd.exe` (add more at will).
 
 ### Problem - Pin to task bar for Admin
 
