@@ -69,10 +69,12 @@ cinst -y virtualbox
 cinst -y nodejs
 cinst -y k-litecodecpackfull
 cinst -y ghc # Haskell
-cinst -y gimp
 cinst -y foobar2000
 cinst -y wireshark # instal WinPcap in advance manually, seems the chocolatey package is broken
+
+cinst -y gimp
 cinst -y fsviewer
+cinst -y imagemagick
 ```
 
 Notes:
@@ -87,6 +89,7 @@ Notes:
 (using `Win+2` anyway).
 	* Switch to previous/next console change to `Alt+Left/Right`
 	* Open new console popup is `Win+N` (good)
+	* Scroll buffer one page up/down - change to `Shift+PgUp/Dn` (`Ctrl` by default) 
 	* In **Keyboard** subscreen uncheck **Win+Number - activate console**.
 * In **Features** check **Inject ConEmuHk** to support colors in shells properly
 * Settings XML can be placed next to `conemu.exe` and will be loaded instead of registry
