@@ -31,7 +31,6 @@ as needed):
 cinst -y 7zip.commandline
 cinst -y notepad2
 cinst -y notepadreplacer -installarguments '/notepad=C:\Progra~1\Notepad2\Notepad2.exe /verysilent'
-cinst -y gnuwin32-coreutils.portable
 
 cinst -y firefox
 
@@ -60,7 +59,7 @@ cinst -y putty
 cinst -y winscp
 cinst -y TotalCommander
 
-cinst -y gpg4win-light
+cinst -y gpg4win-light # see the note lower
 cinst -y tortoisesvn
 cinst -y openvpn-community
 cinst -y ruby
@@ -80,6 +79,18 @@ cinst -y imagemagick
 Notes:
 * ghc is haskell
 * gpg4win-light -- I'm not sure here, there is also Gpg4win, but can light be enough?
+Also, there is `gpg` installed with Git, is it sufficient? I had some gpg collisions before,
+but maybe the situation changed.
+
+We can install various GnuWin32 packages:
+```
+cinst -y gnuwin32-coreutils.install
+cinst -y gnuwin32-grep.install
+cinst -y gnuwin32-sed.install
+```
+
+**But instead** we can use existing Git and add `c:\Program Files\Git\usr\bin` and
+`c:\Program Files\Git\mingw64\bin` to the `PATH` (especially the first one).
 
 ## ConEmu settings and tips
 
