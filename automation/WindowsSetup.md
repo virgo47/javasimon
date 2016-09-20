@@ -111,16 +111,18 @@ To support `cmd` in ConEmu from Total Commander as well, change the list of hook
 
 ### Problem - Pin to task bar for Admin
 
-If we pin `powershell` to the task bar, it will start in ConEmu, but if we change its properties
-**Shortcut/Advanced...** and check **Run as administrator** it will not use ConEmu anymore.
-On the other hand, if we add `-new_console:a` after the command in **Shortcut**, **Target** input
-field it runs as Admin - but it creates new taskbar icon not on the same position (e.g. I can't
-use `Win+2` to switch to it, instead it creates new tab with new Admin powershell).
+If we pin `powershell` (or `cmd.exe`) to the task bar, it will start in ConEmu, but if we change
+its properties **Shortcut/Advanced...** and check **Run as administrator** it will not use ConEmu
+anymore. On the other hand, if we add `-new_console:a` after the command in **Shortcut**,
+**Target** input field it runs as Admin - but it creates new taskbar icon not on the same position
+(e.g. I can't use `Win+2` to switch to it, instead it creates new tab with new Admin PowerShell).
 
 Better solution is to use shortcut with target
 `"c:\Program Files\ConEmu\ConEmu64.exe" powershell.exe -new_console:a` (ConEmu location with
 Chocolatey installation, probably default as well) **and** set **Run as administrator** via
 shortcut (advanced) settings.
+
+If we prefer `cmd.exe` instead, just use that instead of `powershell.exe`.
 
 TODO: How to script this?
 
