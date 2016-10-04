@@ -228,3 +228,39 @@ There seems to be more potential reasons:
 * Probably the simplest reason is that the VT-x is really disabled in the BIOS.
 * As described [here](http://stackoverflow.com/q/37955942/658826) we may need to turn of
 **Hyper-V** in Windows **OptionalFeatures**. But it may also be off already.
+
+
+## Failed finish
+
+First it stopped doing anything after:
+
+```
+==> virtualbox-iso: Gracefully halting virtual machine...
+    virtualbox-iso:
+    virtualbox-iso: C:\Users\vagrant>netsh advfirewall firewall set rule name="WinRM-HTTP" new action=block
+```
+
+I shut down the machine from VirtualBox and it printed:
+
+```
+    virtualbox-iso: Removing floppy drive...
+==> virtualbox-iso: Error removing floppy controller: VBoxManage error: VBoxManage.exe: error: The machine 'packer-virtualbox-iso-1475597286' is already locked for a session (or being unlocked)
+==> virtualbox-iso: VBoxManage.exe: error: Details: code VBOX_E_INVALID_OBJECT_STATE (0x80bb0007), component MachineWrap, interface IMachine, callee IUnknown
+==> virtualbox-iso: VBoxManage.exe: error: Context: "LockMachine(a->session, LockType_Write)" at line 1038 of file VBoxManageStorageController.cpp
+==> virtualbox-iso: Unregistering and deleting virtual machine...
+==> virtualbox-iso: Deleting output directory...
+Build 'virtualbox-iso' errored: Error removing floppy controller: VBoxManage error: VBoxManage.exe: error: The machine 'packer-virtualbox-iso-1475597286' is already locked for a session (or being unlocked)
+VBoxManage.exe: error: Details: code VBOX_E_INVALID_OBJECT_STATE (0x80bb0007), component MachineWrap, interface IMachine, callee IUnknown
+VBoxManage.exe: error: Context: "LockMachine(a->session, LockType_Write)" at line 1038 of file VBoxManageStorageController.cpp
+
+==> Some builds didn't complete successfully and had errors:
+--> virtualbox-iso: Error removing floppy controller: VBoxManage error: VBoxManage.exe: error: The machine 'packer-virtualbox-iso-1475597286' is already locked for a session (or being unlocked)
+VBoxManage.exe: error: Details: code VBOX_E_INVALID_OBJECT_STATE (0x80bb0007), component MachineWrap, interface IMachine, callee IUnknown
+VBoxManage.exe: error: Context: "LockMachine(a->session, LockType_Write)" at line 1038 of file VBoxManageStorageController.cpp
+
+==> Builds finished but no artifacts were created.
+```
+
+See the discussion here: https://github.com/mitchellh/packer/issues/409
+
+Output directory was lost, let's try again (without long-running optimizations).
