@@ -1,8 +1,10 @@
 # Creating Windows 10 base image automatically
 
-Based on: http://www.hurryupandwait.io/blog/creating-windows-base-images-for-virtualbox-and-hyper-v-using-packer-boxstarter-and-vagrant
-His packer templates: https://github.com/mwrock/packer-templates
-Problem: no Windows 10 template
+* Based on: http://www.hurryupandwait.io/blog/creating-windows-base-images-for-virtualbox-and-hyper-v-using-packer-boxstarter-and-vagrant
+* His packer templates: https://github.com/mwrock/packer-templates
+* Problem: no Windows 10 template
+* Source of ISO: https://www.microsoft.com/en-us/evalcenter/evaluate-windows-10-enterprise
+* Windows 10 version: after Anniversary Update (2016 July)
 
 ## How to run it?
 
@@ -14,6 +16,8 @@ Or with different ISO (can be just different path, `iso_checksum` doesn't have t
 ```
 packer build -force -var 'iso_url=file:///c:/work/iso-images/Windows10.iso' -var 'iso_checksum=d083c55ecb86158e3419032f4ed651e93e37c347' vbox-win10ent.json
 ```
+
+This was for bash, in `cmd` use double-quotes instead of single-quotes.
 
 This would take roughly ~30 mins on my i5 machine (with updates/SxS/optimizing/zeroing), resulting
 box-file is 3.8GB. With everything on it takes still under 60 mins (most of it is SxS cleanup),
@@ -194,3 +198,33 @@ shutdown it again. Doesn't work, as it complains that first windows-restart comm
 exit code 1. Experiment `vbox-win10ent-test.json` is the part before sysprep, so I can experiment
 with it. But calling sysprep works just fine, so I don't know what is the problem (does sysprep
 returns exit code 1?).
+
+
+## Checksum problems
+
+**In the template I use "none" for checksum for developer's convenience.**
+
+To find out the sum, check the type of sum used (e.g. `sha1`) and run appropriate program:
+
+```
+$ sha1sum.exe /c/work/iso-images/Win10_1607_N_English_x64.iso
+8e21b5ec1c2a0955f55ac6e0c77aa9634d832570 */c/work/iso-images/Win10_1607_N_English_x64.iso
+```
+
+Alternatively use `-var 'iso_checksum_type=none'` to avoid checksum. It also makes the process
+faster. If repeated for the checked image there is no risk of corruption and if the ISO is
+downloaded without checksum provided it doesn't make sense to check it either.
+
+
+## VT-x is disabled when starting VM
+ 
+```
+Error starting VM: VBoxManage error: VBoxManage.exe: error:
+VT-x is disabled in the BIOS for all CPU modes (VERR_VMX_MSR_ALL_VMX_DISABLED)
+```
+
+There seems to be more potential reasons:
+
+* Probably the simplest reason is that the VT-x is really disabled in the BIOS.
+* As described [here](http://stackoverflow.com/q/37955942/658826) we may need to turn of
+**Hyper-V** in Windows **OptionalFeatures**. But it may also be off already.
