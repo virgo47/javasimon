@@ -263,4 +263,5 @@ VBoxManage.exe: error: Context: "LockMachine(a->session, LockType_Write)" at lin
 
 See the discussion here: https://github.com/mitchellh/packer/issues/409
 
-Output directory was lost, let's try again (without long-running optimizations).
+Output directory was lost, let's try again (without long-running optimizations). It seems that
+`headless=true` solves the problem although nobody knows exactly why.

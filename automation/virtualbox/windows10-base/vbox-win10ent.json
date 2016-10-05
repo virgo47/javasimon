@@ -1,7 +1,7 @@
 {
 	"variables": {
 		"guest_additions_mode": "attach",
-		"headless": "false",
+		"headless": "true",
 		"iso_checksum_type": "none",
 		"iso_checksum": "a86ae3d664553cd0ee9a6bcd83a5dbe92e3dc41a",
 		"_iso_checksum": "93845bbcc9677000df76cb2a5267c8eb52995bae",
