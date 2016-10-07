@@ -126,6 +126,16 @@ If we prefer `cmd.exe` instead, just use that instead of `powershell.exe`.
 
 TODO: How to script this?
 
+### Problem - refresh of environment variables
+
+Because any terminal window is attached to the existing ConEmu, not even `Win`, `cmd`, **Enter**
+will create a command line with current environment variables after change. We have to close all
+existing console tabs first, restart the ConEmu completely and then see the result.
+
+To try it we can start `ConEmu64.exe -nosingle` which forces new window and process. After that
+all the new consoles open there and the old ones can be closed at our leisure.
+
+
 ## Setting PATH and other environment variables permanently
 
 SETX is the command that should handle it, `/M` tells it to use system environment, not local one.
@@ -145,6 +155,13 @@ Could have been solved in Windows 8.1 with registry trick, not anymore. Microsof
 
 Set both monitors to the same size of font (typically it is 125% on the notebook and 100% on
 external monitor, 125% is rather too much for the monitor, so 100% is better for both).
+
+
+## Problem: `Ctrl+Alt+F8` resets monitors
+
+This combo also collides with IDEA. It's used by *Intel HD Graphics Control Panel Service* and
+cannot be disabled (unlike other shortcuts of that service). The whole service can be disabled
+as [described here](http://stackoverflow.com/a/35109007/658826).
 
 
 ## Git Bash Here in Total Commander
