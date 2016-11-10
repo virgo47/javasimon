@@ -2,9 +2,9 @@ package org.javasimon.jdbcx4;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import javax.sql.ConnectionEventListener;
-import javax.sql.PooledConnection;
-import javax.sql.StatementEventListener;
+import java.util.HashMap;
+import java.util.Map;
+import javax.sql.*;
 
 import org.javasimon.jdbc4.SimonConnection;
 
@@ -22,8 +22,49 @@ import org.javasimon.jdbc4.SimonConnection;
  * @since 2.4
  */
 public class SimonPooledConnection implements PooledConnection {
+
+	private class SimonConnectionEventListener implements ConnectionEventListener {
+
+		private final ConnectionEventListener originalListener;
+
+		SimonConnectionEventListener(ConnectionEventListener originalListener) {
+			this.originalListener = originalListener;
+		}
+
+		@Override
+		public void connectionClosed(ConnectionEvent event) {
+			originalListener.connectionClosed(new ConnectionEvent(SimonPooledConnection.this, event.getSQLException()));
+		}
+
+		@Override
+		public void connectionErrorOccurred(ConnectionEvent event) {
+			originalListener.connectionErrorOccurred(new ConnectionEvent(SimonPooledConnection.this, event.getSQLException()));
+		}
+	}
+
+	private class SimonStatementEventListener implements StatementEventListener {
+
+		private final StatementEventListener originalListener;
+
+		SimonStatementEventListener(StatementEventListener originalListener) {
+			this.originalListener = originalListener;
+		}
+
+		@Override
+		public void statementClosed(StatementEvent event) {
+			originalListener.statementClosed(new StatementEvent(SimonPooledConnection.this, event.getStatement()));
+		}
+
+		@Override
+		public void statementErrorOccurred(StatementEvent event) {
+			originalListener.statementErrorOccurred(new StatementEvent(SimonPooledConnection.this, event.getStatement(), event.getSQLException()));
+		}
+	}
+
 	private final PooledConnection pooledConn;
 	private final String prefix;
+	private Map<ConnectionEventListener, SimonConnectionEventListener> connListeners = new HashMap<>();
+	private Map<StatementEventListener, SimonStatementEventListener> stmtListeners = new HashMap<>();
 
 	/**
 	 * Class constructor.
@@ -48,21 +89,25 @@ public class SimonPooledConnection implements PooledConnection {
 
 	@Override
 	public final void addConnectionEventListener(ConnectionEventListener listener) {
-		pooledConn.addConnectionEventListener(listener);
+		connListeners.put(listener, new SimonConnectionEventListener(listener));
+		pooledConn.addConnectionEventListener(connListeners.get(listener));
 	}
 
 	@Override
 	public final void removeConnectionEventListener(ConnectionEventListener listener) {
-		pooledConn.removeConnectionEventListener(listener);
+		pooledConn.removeConnectionEventListener(connListeners.get(listener));
+		connListeners.remove(listener);
 	}
 
 	@Override
 	public void addStatementEventListener(StatementEventListener listener) {
-		pooledConn.addStatementEventListener(listener);
+		stmtListeners.put(listener, new SimonStatementEventListener(listener));
+		pooledConn.addStatementEventListener(stmtListeners.get(listener));
 	}
 
 	@Override
 	public void removeStatementEventListener(StatementEventListener listener) {
-		pooledConn.removeStatementEventListener(listener);
+		pooledConn.removeStatementEventListener(stmtListeners.get(listener));
+		stmtListeners.remove(listener);
 	}
 }
