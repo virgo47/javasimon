@@ -15,17 +15,22 @@ you have to take care of the directory and maybe clean it up sometimes. You can 
 cache directory and move it elsewhere to do offline installation.
 (!) TODO: check how this works, because [there is more to it](http://stackoverflow.com/questions/18528919/how-to-install-chocolatey-packages-offline).
 
+To allow packages without checksums (avoiding prompt every time):
+```
+choco feature enable -n allowEmptyChecksums
+```
+
 To find out what is installed using Chocolatey, use `choco list -l` or shortcut `clist -l`.
 Without `-l` it prints all available packages. Using `clist -li` prints also applications
 that are not installed using Chocolatey, but could have been.
 
 We can install and download virtually any other favourite tool (lines with `#` comments run
-in PowerShell/Boxstarter Shell, in `cmd` you need to strip the end):
+in PowerShell/Boxstarter Shell, in `cmd` you need to strip the end and replace `'` with `"`
+as needed):
 ```
 cinst -y 7zip.commandline
 cinst -y notepad2
 cinst -y notepadreplacer -installarguments '/notepad=C:\Progra~1\Notepad2\Notepad2.exe /verysilent'
-cinst -y gnuwin32-coreutils.portable
 
 cinst -y firefox
 
@@ -54,7 +59,7 @@ cinst -y putty
 cinst -y winscp
 cinst -y TotalCommander
 
-cinst -y gpg4win-light
+cinst -y gpg4win-light # see the note lower
 cinst -y tortoisesvn
 cinst -y openvpn-community
 cinst -y ruby
@@ -63,19 +68,105 @@ cinst -y virtualbox
 cinst -y nodejs
 cinst -y k-litecodecpackfull
 cinst -y ghc # Haskell
-cinst -y gimp
 cinst -y foobar2000
+cinst -y wireshark # instal WinPcap in advance manually, seems the chocolatey package is broken
+
+cinst -y gimp
+cinst -y fsviewer
+cinst -y imagemagick
 ```
 
 Notes:
 * ghc is haskell
 * gpg4win-light -- I'm not sure here, there is also Gpg4win, but can light be enough?
+Also, there is `gpg` installed with Git, is it sufficient? I had some gpg collisions before,
+but maybe the situation changed.
+
+We can install various GnuWin32 packages:
+```
+cinst -y gnuwin32-coreutils.install
+cinst -y gnuwin32-grep.install
+cinst -y gnuwin32-sed.install
+```
+
+**But instead** we can use existing Git and add `c:\Program Files\Git\usr\bin` and
+`c:\Program Files\Git\mingw64\bin` to the `PATH` (especially the first one).
 
 ## ConEmu settings and tips
 
 * Go to Settings `Win+Alt+P`
-* Global minimize/restore `Ctrl+``` collides with IDEA, change to `<None>` (using `Win+2` anyway).
-* Switch to previous/next console change to `Alt+Left/Right`
-* Open new console popup is `Win+N` (good)
+* In **Keys & Macro**:
+	* Global hotkey for *Minimize/Restore* `` Ctrl+` `` collides with IDEA, change to `<None>`
+(using `Win+2` anyway).
+	* Switch to previous/next console change to `Alt+Left/Right`
+	* Open new console popup is `Win+N` (good)
+	* Scroll buffer one page up/down - change to `Shift+PgUp/Dn` (`Ctrl` by default) 
+	* In **Keyboard** subscreen uncheck **Win+Number - activate console**.
 * In **Features** check **Inject ConEmuHk** to support colors in shells properly
 * Settings XML can be placed next to `conemu.exe` and will be loaded instead of registry
+* Set it [as default term] (even if we run `cmd` from Start it will use ConEmu). Go to
+**Integration**, **Default term** and check first checkboxes (Force..., Register..., Leave in TSA).
+To support `cmd` in ConEmu from Total Commander as well, change the list of hooked executables to:
+`explorer.exe|totalcmd.exe` (add more at will).
+
+### Problem - Pin to task bar for Admin
+
+If we pin `powershell` (or `cmd.exe`) to the task bar, it will start in ConEmu, but if we change
+its properties **Shortcut/Advanced...** and check **Run as administrator** it will not use ConEmu
+anymore. On the other hand, if we add `-new_console:a` after the command in **Shortcut**,
+**Target** input field it runs as Admin - but it creates new taskbar icon not on the same position
+(e.g. I can't use `Win+2` to switch to it, instead it creates new tab with new Admin PowerShell).
+
+Better solution is to use shortcut with target
+`"c:\Program Files\ConEmu\ConEmu64.exe" powershell.exe -new_console:a` (ConEmu location with
+Chocolatey installation, probably default as well) **and** set **Run as administrator** via
+shortcut (advanced) settings.
+
+If we prefer `cmd.exe` instead, just use that instead of `powershell.exe`.
+
+TODO: How to script this?
+
+## Setting PATH and other environment variables permanently
+
+SETX is the command that should handle it, `/M` tells it to use system environment, not local one.
+```
+SETX /M JAVA_HOME "c:\Program Files\Java\jdk1.8.0_92"
+```
+
+TODO: Is it possible ot use other variable in PATH? How to display unexpanded variable string?
+
+
+## Problem: Windows 10 and sticky corners on dual monitor
+
+Could have been solved in Windows 8.1 with registry trick, not anymore. Microsoft screwed big time.
+
+
+## Problem: Blurry fonts on dual monitor
+
+Set both monitors to the same size of font (typically it is 125% on the notebook and 100% on
+external monitor, 125% is rather too much for the monitor, so 100% is better for both).
+
+
+## Git Bash Here in Total Commander
+
+Based on [my blog](https://virgo47.wordpress.com/2013/05/05/git-bash-here-in-console2-in-total-commander-with-keyboard-shortcut-hotkey/)
+where it is for Console2 - this time for ConEmu. Setup for user command in Total Commander is (as
+found in `AppData\Roaming\GHISLER\usercmd.ini`):
+
+```
+[em_git_bash_here]
+button=C:\Program Files\Git\git-bash.exe
+cmd=""C:\Program Files\ConEmu\ConEmu64.exe""
+param=-run "C:\Program Files\Git\git-bash.exe" --no-cd --command=usr/bin/bash.exe -l -i
+menu=Git Bash Here
+```
+
+`-run` is important otherwise every space separated parameter would be interpreted as a new
+console and using quotes around everything wouldn't work either. Then also add this to `wincmd.ini`
+in the same directory like `usercmd.ini` (both `Alt+B` and `Ctrl+B` launch Git Bash):
+
+```
+[Shortcuts]
+C+B=em_git_bash_here
+A+B=em_git_bash_here
+```
