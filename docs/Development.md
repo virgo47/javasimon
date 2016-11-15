@@ -56,6 +56,8 @@ call mvn versions:set -DnewVersion=4.1.1-SNAPSHOT
 call mvn versions:commit
 ```
 
+Again, commit and push.
+
 ## Javadoc
 
 Javadoc needs to be updated when API is changed (should corellate with changes of major/minor
