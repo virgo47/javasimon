@@ -40,7 +40,15 @@ After everything runs OK, local version is set to specified version. One can per
 When all previous steps succeed, our artifacts are staged. If we want to promote them
 (really, really Release). To promote them, you may use [this section](http://central.sonatype.org/pages/apache-maven.html#releasing-the-deployment-to-the-central-repository)
 of their guide. Alternatively you can login into https://oss.sonatype.org/ and follow
-[these instructions](http://central.sonatype.org/pages/releasing-the-deployment.html). 
+[these instructions](http://central.sonatype.org/pages/releasing-the-deployment.html).
+
+Shortly:
+* Choose [Staging Repositories](https://oss.sonatype.org/#stagingRepositories).
+* Find `org.javasimon...` somewhere at the end of the list.
+* Choose it, click `Close`.
+* Wait until `Release` is available (enabled), click `Release`, leave `Drop` in the next
+dialogue ticked.
+* After some time the new version should appear [in the repository](http://repo1.maven.org/maven2/org/javasimon/javasimon-parent/).
 
 Then, version should be set to the next snapshot, for example:
 ```
