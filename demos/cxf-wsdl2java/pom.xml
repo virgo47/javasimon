@@ -35,7 +35,7 @@
 							<sourceRoot>${project.build.directory}/generated/cxf</sourceRoot>
 							<wsdlOptions>
 								<wsdlOption>
-									<wsdl>${basedir}/src/main/resources/MyService.wsdl</wsdl>
+									<wsdl>${basedir}/../cxf-java2ws/target/generated/wsdl/MyService.wsdl</wsdl>
 								</wsdlOption>
 							</wsdlOptions>
 						</configuration>
