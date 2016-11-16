@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="MyServiceService" targetNamespace="http://service.lbin/service" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://service.lbin/service" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://service.lbin/types" version="1.0">
+
+      <xs:complexType name="myRequest">
+        <xs:sequence/>
+      </xs:complexType>
+
+      <xs:complexType name="myResponse">
+        <xs:sequence/>
+      </xs:complexType>
+
+    </xs:schema>
+    <xs:schema xmlns:ns0="http://service.lbin/faults" xmlns:ns1="http://service.lbin/types" xmlns:tns="http://service.lbin/service" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://service.lbin/service">
+      <xs:import namespace="http://service.lbin/types"/>
+      <xs:import namespace="http://service.lbin/faults"/>
+      <xs:element name="myOperation" type="tns:myOperation"/>
+      <xs:element name="myOperationResponse" type="tns:myOperationResponse"/>
+      <xs:complexType name="myOperation">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="ns1:myRequest"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="myOperationResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="ns1:myResponse"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="MyFault" type="ns0:MyFault"/>
+      <xs:element name="OtherFault" type="ns0:OtherFault"/>
+    </xs:schema>
+    <xsd:schema xmlns:tns="http://service.lbin/faults" xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://service.lbin/faults">
+      <xsd:complexType name="MyFault">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="msg" type="xsd:string"/>
+          <xsd:element minOccurs="0" name="message" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="OtherFault">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="message" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="myOperationResponse">
+    <wsdl:part name="parameters" element="tns:myOperationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="OtherFault">
+    <wsdl:part name="OtherFault" element="tns:OtherFault">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="myOperation">
+    <wsdl:part name="parameters" element="tns:myOperation">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="MyFault">
+    <wsdl:part name="MyFault" element="tns:MyFault">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="MyService">
+    <wsdl:operation name="myOperation">
+      <wsdl:input name="myOperation" message="tns:myOperation">
+      </wsdl:input>
+      <wsdl:output name="myOperationResponse" message="tns:myOperationResponse">
+      </wsdl:output>
+      <wsdl:fault name="MyFault" message="tns:MyFault">
+      </wsdl:fault>
+      <wsdl:fault name="OtherFault" message="tns:OtherFault">
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="MyServiceServiceSoapBinding" type="tns:MyService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="myOperation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="myOperation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="myOperationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="MyFault">
+        <soap:fault name="MyFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OtherFault">
+        <soap:fault name="OtherFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MyServiceService">
+    <wsdl:port name="MyServicePort" binding="tns:MyServiceServiceSoapBinding">
+      <soap:address location="http://localhost:9090/MyServicePort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
