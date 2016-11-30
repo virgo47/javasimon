@@ -20,7 +20,9 @@ class DbInit {
 
 	private static int inserts;
 	private static int deletes;
+	private static int deletedRows;
 	private static int updates;
+	private static int updatedRows;
 
 	static void connect(url, user, password) {
 		if (sql != null) {
@@ -29,7 +31,7 @@ class DbInit {
 		}
 		println "=== Connecting to $url, user $user with password $password"
 		sql = Sql.newInstance(url, user, password)
-		inserts = deletes = updates = 0
+		inserts = deletes = deletedRows = updates = updatedRows = 0
 	}
 
 	/**
@@ -116,7 +118,9 @@ class DbInit {
 			? "update $tableName set $setPart where $wherePart"
 			: "update $tableName set $setPart")
 		debug(query, finalUpdateParams)
-		return sql.executeUpdate(query, finalUpdateParams)
+		def cnt = sql.executeUpdate(query, finalUpdateParams)
+		updatedRows += cnt
+		return cnt
 	}
 
 	/**
@@ -174,6 +178,7 @@ class DbInit {
 		debug(query, whereParams)
 		deletes++
 		def cnt = sql.executeUpdate(query, whereParams)
+		deletedRows += cnt
 		println "$tableName DELETED: $cnt"
 		return cnt
 	}
@@ -294,9 +299,9 @@ class DbInit {
 		}
 	}
 
-	static void stats() {
-		println "inserts = $inserts"
-		println "updates = $updates"
-		println "deletes = $deletes"
+	static void printStatistics() {
+		println "\ninserts = $inserts"
+		println "updates = $updates (rows $updatedRows)"
+		println "deletes = $deletes (rows $deletedRows)"
 	}
 }
