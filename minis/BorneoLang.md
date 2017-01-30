@@ -7,9 +7,21 @@ Notes about imaginary "Java really 2"
 
 * No language-level serialization - Brian Goetz could go on about this forever
 * Operator overloading for sure.
-* "Code-literals", not just class, but also methods, fields, anything. This can help with some
+* "Code-literals"/references, not just class, but also methods, fields, anything. This can help with some
 problems currently solved by reflection, meta-programming, things like JPA where you need to
 generate metadata (now you'd have it) or anywhere you now use attribute paths as strings.
+* Support for delegation:
+	* What should `this` mean in the delegate?
+	* Can I create stateless delegates that would completely cover behavior in superclass?
+	* But what about the state? Can we define delegates that reach out for some properties?
+	* Delegate can be convenient way how to "add" functionality regardless of is-a/has-a relationship.
+	* Can delegate help with template method pattern? (If that pattern is even appropriate/needed.)
+It seems it can, in this case we would create an object with the template method (how to create
+new instances?) and give it delegate (or more delegates) with concrete implementation of template
+method steps. In this case delegates work as subclasses in class-based language.
+	* Is there a way how to let delegate call back the main object? Is it needed? E.g. calling
+a method on this, if this means current object and delegate doesn't count as different object.
+But is it the right thing to do? Shouldn't we distinguish between delegates and some mixin?
 * Meta-data from annotation - imagine Querydsl doesn't need to generate anything and just use
 existing entity. That would probably also require extension mechanism.
 * Extension methods.
@@ -27,6 +39,11 @@ use NaN, so for these types we have to obey).
 be default and used without explicit "name =").
 * Method/function default parameters? I'd go for it (trailing).
 * More control over package visibility (like sub-packages are not the same as outside packages).
+* Object literals like JavaScript, that is just cool. Do we even need "schema" for these objects?
+Sometimes it can be useful (framework, DTO, generation or WS, ...).
+	* Object literal in JS is object creation on the spot, whatever its structure is. Sometimes
+	we may want to conform to some structure. For that we need to predefine the structure. What
+	syntax for that? That also implies types - simple and structured (classes?) as well.
 
 ### Language - questionable and/or radical
 
