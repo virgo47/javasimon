@@ -29,7 +29,7 @@ class DbInit {
 			println "=== Closing existing connection $sql"
 			sql.close()
 		}
-		println "=== Connecting to $url, user $user with password $password"
+		println "=== Connecting to $url, user $user"
 		sql = Sql.newInstance(url, user, password)
 		inserts = deletes = deletedRows = updates = updatedRows = 0
 	}
