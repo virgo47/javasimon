@@ -215,3 +215,11 @@ TODO: Find the way to do this with a script.
 http://www.careexchange.in/how-to-install-certificate-authority-on-windows-server-2012/
   * In step 2: without Web Enrolment, that seems to be for self-service
   * Step 3: TODO (on home virtual)
+
+## Collation to no accents, case insensitive
+
+Sometimes we need to query regardless of accents/diacritics and casing:
+
+```
+select * from Municipality where (Name COLLATE Latin1_general_CI_AI) like 'niz%'
+```
