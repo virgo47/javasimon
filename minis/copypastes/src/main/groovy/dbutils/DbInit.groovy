@@ -62,6 +62,8 @@ class DbInit {
 	 * <li>If resultProperty is set to null, the whole object is returned.
 	 * <li>Selector implies = operation, but allows for other using # in the name of the key,
 	 * e.g. 'col#>':5 will result in 'col > 5' condition.
+	 * <li>If 'col#is ...' is used as a key, 'col is ...' is used (NULL check). "Falsy" value is
+	 * ignored, "truthy" value is added to params, <b>but user is responsible for adding ?.</b>
 	 * <li>Selector's key can be column or other expression, e.g. flags & 2. Equality is still
 	 * implied, but this can be combined with # construct, e.g.: 'sqrt(col)#>':5
 	 * </ul>
@@ -159,6 +161,21 @@ class DbInit {
 		return sql.firstRow(query, whereParams)
 	}
 
+	/**
+	 * Selects first matching object from the table based on selector,
+	 * throws exception if not exactly 1 result.
+	 */
+	static Object findUnique(String tableName, Map selector) {
+		def results = list(tableName, selector)
+		if (results.size() > 1) {
+			throw new RuntimeException("Too many results for $tableName: $selector")
+		}
+		if (results.isEmpty()) {
+			throw new RuntimeException("No result for $tableName: $selector")
+		}
+		return results[0]
+	}
+
 	/** Returns list from table based on selector. */
 	static List<GroovyRowResult> list(String tableName, Map selector = [:]) {
 		def (String wherePart, List<Object> whereParams) = processSelector(selector)
@@ -214,14 +231,25 @@ class DbInit {
 				sb.append(separator)
 			}
 			def colWithOp = key
-			def opSeparatorIndex = key.indexOf('#')
+			def value = selector.get(key)
+			def opSeparatorIndex = colWithOp.indexOf('#')
 			if (opSeparatorIndex != -1) {
 				sb.append(colWithOp.replace('#', ' '))
+				// for #IS cases we don't want to add parameter
+				// unless it's "truthy"(and user must provide ? in the key)
+				if (colWithOp.length() > opSeparatorIndex + 3
+					&& colWithOp.substring(opSeparatorIndex + 1, opSeparatorIndex + 3).equalsIgnoreCase("IS"))
+				{
+					if (value) {
+						params.add(value)
+					}
+					continue
+				}
 			} else {
 				sb.append(colWithOp).append(' =')
 			}
 			sb.append(' ?')
-			params.add(selector.get(key))
+			params.add(value)
 		}
 		return [sb.toString(), params]
 	}
