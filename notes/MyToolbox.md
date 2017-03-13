@@ -7,3 +7,4 @@ examination, etc.
 * [SchemaSpy](http://schemaspy.sourceforge.net/) for new DB schema exploration.
 * [FastStone Image Viewer](http://www.faststone.org/) for image browsing (arrows/`PgUp/Down`,
 `R`/`L` for rotation)
+* [Boomerang SOAP & REST Client](https://chrome.google.com/webstore/detail/boomerang-soap-rest-clien/eipdnjedkpcnlmmdfdkgfpljanehloah?hl=en) - Chrome app, creates testing requests easily for WSDL
