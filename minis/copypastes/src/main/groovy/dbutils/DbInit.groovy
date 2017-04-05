@@ -177,6 +177,14 @@ class DbInit {
 	}
 
 	/** Returns list from table based on selector. */
+	static Object count(String tableName, Map selector = [:]) {
+		def (String wherePart, List<Object> whereParams) = processSelector(selector)
+		def query = "select count(*) from $tableName" + (wherePart ? " where $wherePart" : "")
+		debug(query, whereParams)
+		return sql.rows(query, whereParams)[0][0]
+	}
+
+	/** Returns list from table based on selector. */
 	static List<GroovyRowResult> list(String tableName, Map selector = [:]) {
 		def (String wherePart, List<Object> whereParams) = processSelector(selector)
 		def query = "select * from $tableName" + (wherePart ? " where $wherePart" : "")
