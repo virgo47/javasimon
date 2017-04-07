@@ -49,6 +49,7 @@ class SqlDataExporter {
 				.join(", ")
 			sqlOutput.println ');'
 		}
+		sqlOutput.println()
 		sqlOutput.flush()
 	}
 
