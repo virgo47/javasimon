@@ -6,7 +6,7 @@ import static dbutils.DbInit.list
 
 class SqlDataExporter {
 
-	String dir = "copypastes/src/main/resources/h2/"
+	String dir = ""
 
 	/** Names we want to escape. */
 	List specialNames = ['order', 'action', 'default', 'group', 'user', 'sign', 'from', 'to', 'key']
@@ -49,13 +49,14 @@ class SqlDataExporter {
 				.join(", ")
 			sqlOutput.println ');'
 		}
+		sqlOutput.flush()
 	}
 
 	def columnName(String column) {
 		return specialNames.contains(column) ? "\"$column\"" : column
 	}
 
-	def processValue(Object value) {
+	static def processValue(Object value) {
 		if (value == null) {
 			return "NULL"
 		}
