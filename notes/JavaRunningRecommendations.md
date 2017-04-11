@@ -32,6 +32,13 @@ java -server -showversion -XX:+PrintCommandLineFlags -XX:+HeapDumpOnOutOfMemoryE
   -XX:+PrintGCDetails -XX:+PrintTenuringDistribution -Xloggc:/var/tmp/heapdumps
 ```
 
+## Java 9 JVM logging
+
+See changes in: https://www.infoq.com/presentations/java-9-gc
+
+We can use multiple of `-Xlog:<tag>[=level][:[<output>][:<decorators>]]` options.
+
+
 ## Monitoring
 
 Resources:
