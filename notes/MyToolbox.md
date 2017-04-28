@@ -8,3 +8,5 @@ examination, etc.
 * [FastStone Image Viewer](http://www.faststone.org/) for image browsing (arrows/`PgUp/Down`,
 `R`/`L` for rotation)
 * [Boomerang SOAP & REST Client](https://chrome.google.com/webstore/detail/boomerang-soap-rest-clien/eipdnjedkpcnlmmdfdkgfpljanehloah?hl=en) - Chrome app, creates testing requests easily for WSDL
+* [Ditto](http://ditto-cp.sourceforge.net/) clipboard manager with history, set global hotkey
+(e.g. `Win+backtick`), `Shift+Enter` pastes plain-text
