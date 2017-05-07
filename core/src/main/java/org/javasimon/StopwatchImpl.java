@@ -2,8 +2,6 @@ package org.javasimon;
 
 import org.javasimon.utils.SimonUtils;
 
-import java.util.Collection;
-
 /**
  * Class implements {@link org.javasimon.Stopwatch} interface - see there for how to use Stopwatch.
  *
@@ -30,6 +28,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	 *
 	 * @param name Simon's name
 	 * @param manager owning manager
+	 * @noinspection WeakerAccess (EnabledManager calls this via reflection)
 	 */
 	StopwatchImpl(String name, Manager manager) {
 		super(name, manager);
@@ -66,14 +65,12 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		}
 	}
 
+	@MustBeInSynchronized
 	private void updateIncrementalSimons(long splitNs, long nowNanos) {
-		Collection<Simon> simons = incrementalSimons();
-		if (simons != null) {
-			for (Simon simon : simons) {
-				StopwatchImpl stopwatch = (StopwatchImpl) simon;
-				stopwatch.addSplit(splitNs);
-				stopwatch.updateUsagesNanos(nowNanos);
-			}
+		for (Simon simon : incrementalSimons.values()) {
+			StopwatchImpl stopwatch = (StopwatchImpl) simon;
+			stopwatch.addSplit(splitNs);
+			stopwatch.updateUsagesNanos(nowNanos);
 		}
 	}
 
@@ -132,7 +129,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		}
 	}
 
-	private long addSplit(long split) {
+	private void addSplit(long split) {
 		last = split;
 		total += split;
 		counter++;
@@ -148,8 +145,6 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 		double delta = split - mean;
 		mean = ((double) total) / counter;
 		mean2 += delta * (split - mean);
-
-		return split;
 	}
 
 	@Override
@@ -256,7 +251,7 @@ final class StopwatchImpl extends AbstractSimon implements Stopwatch {
 	}
 
 	@Override
-	public synchronized StopwatchSample sampleIncrement(Object key) {
+	public StopwatchSample sampleIncrement(Object key) {
 		return (StopwatchSample) sampleIncrementHelper(key, new StopwatchImpl(null, manager));
 	}
 

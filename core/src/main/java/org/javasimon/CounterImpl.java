@@ -2,8 +2,6 @@ package org.javasimon;
 
 import org.javasimon.utils.SimonUtils;
 
-import java.util.Collection;
-
 /**
  * Class implements {@link org.javasimon.Counter} interface - see there for how to use Counter.
  *
@@ -36,6 +34,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 	 *
 	 * @param name Simon's name
 	 * @param manager owning manager
+	 * @noinspection WeakerAccess (EnabledManager calls this via reflection)
 	 */
 	CounterImpl(String name, Manager manager) {
 		super(name, manager);
@@ -58,6 +57,7 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		return this;
 	}
 
+	@MustBeInSynchronized
 	private void setPrivate(long val, long now) {
 		updateUsages(now);
 		counter = val;
@@ -65,12 +65,10 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		updateMin();
 	}
 
+	@MustBeInSynchronized
 	private void updateIncrementalSimonsSet(long val, long now) {
-		Collection<Simon> simons = incrementalSimons();
-		if (simons != null) {
-			for (Simon simon : simons) {
-				((CounterImpl) simon).setPrivate(val, now);
-			}
+		for (Simon simon : incrementalSimons.values()) {
+			((CounterImpl) simon).setPrivate(val, now);
 		}
 	}
 
@@ -121,12 +119,10 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		}
 	}
 
+	// must be called from synchronized block (CHECKED)
 	private void updateIncrementalSimonsIncrease(long inc, long now) {
-		Collection<Simon> simons = incrementalSimons();
-		if (simons != null) {
-			for (Simon simon : simons) {
-				((CounterImpl) simon).increasePrivate(inc, now);
-			}
+		for (Simon simon : incrementalSimons.values()) {
+			((CounterImpl) simon).increasePrivate(inc, now);
 		}
 	}
 
@@ -163,12 +159,10 @@ final class CounterImpl extends AbstractSimon implements Counter {
 		}
 	}
 
+	@MustBeInSynchronized
 	private void updateIncrementalSimonsDecrease(long dec, long now) {
-		Collection<Simon> simons = incrementalSimons();
-		if (simons != null) {
-			for (Simon simon : simons) {
-				((CounterImpl) simon).decreasePrivate(dec, now);
-			}
+		for (Simon simon : incrementalSimons.values()) {
+			((CounterImpl) simon).decreasePrivate(dec, now);
 		}
 	}
 

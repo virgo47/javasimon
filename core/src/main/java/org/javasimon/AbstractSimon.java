@@ -1,10 +1,9 @@
 package org.javasimon;
 
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -39,7 +38,7 @@ abstract class AbstractSimon implements Simon {
 
 	private AttributesSupport attributesSupport = new AttributesSupport();
 
-	private Map<Object, Simon> incrementalSimons;
+	final Map<Object, Simon> incrementalSimons = new ConcurrentHashMap<>();
 
 	/**
 	 * Constructor of the abstract Simon is used internally by subclasses.
@@ -258,12 +257,7 @@ abstract class AbstractSimon implements Simon {
 		sample.setLastUsage(lastUsage);
 	}
 
-	// incremental Simons methods
-	Collection<Simon> incrementalSimons() {
-		return incrementalSimons != null ? incrementalSimons.values() : null;
-	}
-
-	Sample sampleIncrementHelper(Object key, Simon newSimon) {
+	synchronized Sample sampleIncrementHelper(Object key, Simon newSimon) {
 		Simon simon = getAndResetSampleKey(key, newSimon);
 		if (simon != null) {
 			return simon.sample();
@@ -272,20 +266,15 @@ abstract class AbstractSimon implements Simon {
 		}
 	}
 
+	@MustBeInSynchronized
 	private Simon getAndResetSampleKey(Object key, Simon newSimon) {
-		if (incrementalSimons == null) {
-			incrementalSimons = new HashMap<>();
-		}
 		Simon simon = incrementalSimons.get(key);
 		incrementalSimons.put(key, newSimon);
 		return simon;
 	}
 
-	Sample sampleIncrementNoResetHelper(Object key) {
-		Simon simon = null;
-		if (incrementalSimons != null) {
-			simon = incrementalSimons.get(key);
-		}
+	synchronized Sample sampleIncrementNoResetHelper(Object key) {
+		Simon simon = incrementalSimons.get(key);
 
 		if (simon != null) {
 			return simon.sample();
@@ -296,13 +285,10 @@ abstract class AbstractSimon implements Simon {
 
 	@Override
 	public synchronized boolean stopIncrementalSampling(Object key) {
-		return incrementalSimons != null && incrementalSimons.remove(key) != null;
+		return incrementalSimons.remove(key) != null;
 	}
 
 	synchronized void purgeIncrementalSimonsOlderThan(long thresholdMs) {
-		if (incrementalSimons == null) {
-			return;
-		}
 		Iterator<Map.Entry<Object, Simon>> iterator = incrementalSimons.entrySet().iterator();
 		while (iterator.hasNext()) {
 			Map.Entry<Object, Simon> entry = iterator.next();
@@ -311,7 +297,7 @@ abstract class AbstractSimon implements Simon {
 			}
 		}
 		if (incrementalSimons.isEmpty()) {
-			incrementalSimons = null;
+			incrementalSimons.clear();
 		}
 	}
 
