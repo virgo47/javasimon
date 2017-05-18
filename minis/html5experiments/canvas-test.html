@@ -14,6 +14,9 @@
       var canvas = document.getElementById('myCanvas');
       var context = canvas.getContext('2d');
 
+// One way how to avoid blurry lines of width 1 (this makes lines with even widths blurry, but that's far less annoying)
+// http://stackoverflow.com/questions/8696631/canvas-drawings-like-lines-are-blurry
+// Alternative: to position odd width objects to x.5, y.5 coordinates (or to do the same for even-width ones after this translate)
       context.translate(0.5, 0.5);
 
       context.beginPath();
