@@ -1,3 +1,4 @@
+/*
 buildscript {
 	repositories {
 		mavenCentral()
@@ -10,6 +11,12 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
+*/
+
+plugins {
+	id 'org.springframework.boot' version '1.5.2.RELEASE'
+	id 'java'
+}
 
 jar {
 	baseName = 'http-method-checker'
@@ -17,17 +24,22 @@ jar {
 }
 
 repositories {
-	mavenCentral()
+//	mavenCentral()
+	jcenter()
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+//sourceCompatibility = 1.8
+//targetCompatibility = 1.8
 
 dependencies {
+	compile("org.springframework.boot:spring-boot-starter-web")
+
+/*
 	// tag::jetty[]
 	compile("org.springframework.boot:spring-boot-starter-web") {
 		exclude module: "spring-boot-starter-tomcat"
 	}
 	compile("org.springframework.boot:spring-boot-starter-jetty")
 	// end::jetty[]
+*/
 }

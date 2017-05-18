@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hurra</title>
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.js"
+            integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+MEGA!
+
+<p onclick="getreq(this)">Poďme na to!</p>
+<p>
+    Request na /get: <span id="getresult">idem na to</span>
+</p>
+
+<table>
+    <thead>
+    <tr>
+        <th>Method</th>
+        <th>/all</th>
+        <th>/get</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>GET</td>
+        <td data-expected-status="200" style="color: blue;">200</td>
+        <td>200</td>
+    </tr>
+    </tbody>
+</table>
+
+<script>
+
+	function getreq(e) {
+		var jqe = $(e);
+		$.ajax({
+			url: "/get",
+			data: {
+				zipcode: 97201
+			},
+			success: function (result, status, xhr) {
+				$("#getresult").html("<strong>" + result + "</strong> degrees");
+				jqe.html("WHOW!");
+			}
+		});
+	}
+</script>
+</body>
+</html>
