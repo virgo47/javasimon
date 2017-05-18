@@ -5,7 +5,6 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -22,7 +21,7 @@ public class MethodCheckerMain {
 	}
 
 	@RequestMapping(value = "/get", method = GET)
-	public String get(@RequestParam(name = "zipcode") String zipcode) {
-		return "OK-get" + zipcode;
+	public String get() {
+		return "OK-get";
 	}
 }

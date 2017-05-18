@@ -8,47 +8,79 @@
             integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
             crossorigin="anonymous"></script>
 </head>
-
 <body>
-MEGA!
+<h1>Browser supported method checker</h1>
 
-<p onclick="getreq(this)">Poďme na to!</p>
-<p>
-    Request na /get: <span id="getresult">idem na to</span>
-</p>
+<button onclick="test()">Poďme na to!</button>
 
 <table>
     <thead>
     <tr>
         <th>Method</th>
-        <th>/all</th>
-        <th>/get</th>
+        <th>URL</th>
+        <th>Expected</th>
+        <th>Actual</th>
     </tr>
     </thead>
     <tbody>
     <tr>
         <td>GET</td>
-        <td data-expected-status="200" style="color: blue;">200</td>
+        <td>/all</td>
         <td>200</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>POST</td>
+        <td>/all</td>
+        <td>200</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>GET</td>
+        <td>/get</td>
+        <td>200</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>POST</td>
+        <td>/get</td>
+        <td>405</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>CUSTOM</td>
+        <td>/all</td>
+        <td>200</td>
+        <td></td>
     </tr>
     </tbody>
 </table>
 
 <script>
 
-	function getreq(e) {
-		var jqe = $(e);
-		$.ajax({
-			url: "/get",
-			data: {
-				zipcode: 97201
-			},
-			success: function (result, status, xhr) {
-				$("#getresult").html("<strong>" + result + "</strong> degrees");
-				jqe.html("WHOW!");
-			}
-		});
-	}
+    function test() {
+        $("tbody tr").each(function (ix, tr) {
+                var method = tr.children[0].textContent;
+                var path = tr.children[1].textContent;
+                var expectedStatus = tr.children[2].textContent;
+                var actualStatus = tr.children[3];
+                actualStatus.style = '';
+                actualStatus.textContent = '';
+
+                $.ajax({
+                    url: path,
+                    method: method,
+                    complete: function (xhr) {
+                        var status = String(xhr.status);
+                        actualStatus.textContent = status;
+                        if (status !== expectedStatus) {
+                            actualStatus.style = 'background-color: red;'
+                        }
+                    }
+                });
+            }
+        );
+    }
 </script>
 </body>
 </html>
