@@ -1,0 +1,1 @@
+Also check: http://andreinc.net/2012/11/14/painting-and-wrapping-a-text-inside-a-rectangular-area-html5-canvas/

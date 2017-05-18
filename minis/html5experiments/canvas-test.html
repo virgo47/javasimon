@@ -1,0 +1,112 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="myCanvas" width="800" height="600" style="border: solid thin red;"></canvas>
+    <script>
+      var canvas = document.getElementById('myCanvas');
+      var context = canvas.getContext('2d');
+
+      context.translate(0.5, 0.5);
+
+      context.beginPath();
+      context.moveTo(100, 150);
+      context.lineTo(450, 50);
+      context.lineWidth = 10;
+
+      // set line color
+      context.strokeStyle = '#ff0000';
+      context.stroke();
+
+      // butt line cap (top line)
+      context.beginPath();
+      context.moveTo(200, 200);
+      context.lineTo(600, 200);
+      context.lineWidth = 20;
+      context.strokeStyle = '#0000ff';
+      context.lineCap = 'butt';
+      context.stroke();
+
+      // round line cap (middle line)
+      context.beginPath();
+      context.moveTo(200, 250);
+      context.lineTo(600, 250);
+      context.lineWidth = 20;
+      context.strokeStyle = '#0000ff';
+      context.lineCap = 'round';
+      context.stroke();
+
+      // square line cap (bottom line)
+      context.beginPath();
+      context.moveTo(200, 300);
+      context.lineTo(600, 300);
+      context.lineWidth = 20;
+      context.strokeStyle = '#0000ff';
+      context.lineCap = 'square';
+      context.stroke();
+
+      // points in the starts of the blue lines above
+      context.strokeStyle = '#000000';
+      for (var i = 200; i <= 300; i += 50) {
+	      context.fillRect(200, i, 1, 1);
+	      context.fillRect(600, i, 1, 1);
+      }
+
+      context.beginPath();
+      context.moveTo(200, 400);
+      context.lineTo(350, 400);
+      context.lineTo(350, 480);
+      context.lineTo(200, 480);
+      context.lineTo(200, 400);
+      context.lineWidth = 2;
+      context.strokeStyle = '#222';
+      context.lineCap = 'round';
+      context.lineJoin = 'round';
+      context.stroke();
+
+      context.beginPath();
+      context.rect(400, 400, 500, 280);
+      context.lineWidth = 2;
+      context.strokeStyle = '#222';
+      context.lineCap = 'round';
+      context.lineJoin = 'round';
+      context.fillStyle = '#ddd';
+      context.fill();
+      context.stroke();
+
+      // text with measuring it
+      var height = 40;
+      context.font = height + 'px Calibri';
+//      context.textAlign = 'center';
+      var text = 'Whatever may come';
+      var x = 147;
+      var y = 500;
+      var baseOffset = Math.ceil(height / 4);
+      var lineHeight = Math.ceil(height * 1.2);
+
+      // get text metrics
+      var metrics = context.measureText(text);
+      var width = Math.ceil(metrics.width);
+
+      // now box around it
+      context.beginPath();
+      context.rect(x, y, width, -lineHeight);
+      context.lineWidth = 1;
+      context.strokeStyle = '#222';
+      context.fillStyle = '#cfc';
+      context.fill();
+      context.stroke();
+
+      context.fillStyle = 'black';
+      context.fillText(text, x, y - baseOffset);
+
+    </script>
+  </body>
+</html>
