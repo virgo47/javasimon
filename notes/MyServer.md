@@ -72,6 +72,68 @@ particular:
 * https://coderwall.com/p/e7gzbq/https-with-certbot-for-nginx-on-amazon-linux
 * https://nouveauframework.org/blog/installing-letsencrypts-free-ssl-amazon-linux/
 
+
+#### What actually worked after problems with zope module
+
+After reading comments in [this issue](https://github.com/certbot/certbot/issues/2872) I found
+
+```
+pip install pip --upgrade
+pip install virtualenv --upgrade
+virtualenv -p /usr/bin/python27 venv27
+. venv27/bin/activate
+git clone https://github.com/letsencrypt/letsencrypt
+cd letsencrypt
+# Nginx MUST be down for this
+./letsencrypt-auto certonly --debug --standalone -d virgo47.com
+```
+
+This worked without problem. Certificate is [only for 90 days](https://letsencrypt.org/2015/11/09/why-90-days.html)
+though, so automating the above (or the renew command) must be considered:
+
+```
+IMPORTANT NOTES:
+ - Congratulations! Your certificate and chain have been saved at
+   /etc/letsencrypt/live/virgo47.com/fullchain.pem. Your cert will
+   expire on 2017-09-15. To obtain a new or tweaked version of this
+   certificate in the future, simply run letsencrypt-auto again. To
+   non-interactively renew *all* of your certificates, run
+   "letsencrypt-auto renew"
+ - Your account credentials have been saved in your Certbot
+   configuration directory at /etc/letsencrypt. You should make a
+   secure backup of this folder now. This configuration directory will
+   also contain certificates and private keys obtained by Certbot so
+   making regular backups of this folder is ideal.
+ - If you like Certbot, please consider supporting our work by:
+
+   Donating to ISRG / Let's Encrypt:   https://letsencrypt.org/donate
+   Donating to EFF:                    https://eff.org/donate-le
+```
+
+Content of `/etc/letsencrypt/live/virgo47.com/`:
+```
+cert.pem  chain.pem  fullchain.pem  privkey.pem  README
+```
+
+`README` explains that `fullchain.pem` should probably used, not `cert.pem`.
+
+This changes our lines in `nginx.conf` as so:
+
+```
+        ssl_certificate "/etc/letsencrypt/live/virgo47.com/fullchain.pem";
+        ssl_certificate_key "/etc/letsencrypt/live/virgo47.com/privkey.pem";
+```
+
+Because Let's Encrypt does NOT offer wildcard certificates we need to repeat the process
+for `www.virgo47.com` as well and set another server sections in `nginx.conf` for it
+with different `server_name` and different paths to key and certificate. Not a big deal
+(except for the duplication :-)).
+
+
+#### Non-working standard process
+
+I tried this one first, but I ended
+
 ```
 sudo -i
 mkdir tmp
@@ -95,6 +157,23 @@ So for certbot documentaion I chose *I'm using* **None of the above** *on* **Oth
 which leads here: https://certbot.eff.org/#pip-other
 
 But even with `./certbot-auto certonly` it still complaints. We can try to add `--debug` which
-installs some new packages (ptyhon27, etc.) but the command fails afterwards anyway.
+installs some new packages (ptyhon27, etc.) but the command fails afterwards anyway:
 
-Hm... can I still use Let's Encrypt?
+```
+# ./certbot-auto certonly --standalne --debug -d virgo47.com -n
+Error: couldn't get currently installed version for /root/.local/share/letsencrypt/bin/letsencrypt:
+Traceback (most recent call last):
+  File "/root/.local/share/letsencrypt/bin/letsencrypt", line 7, in <module>
+    from certbot.main import main
+  File "/root/.local/share/letsencrypt/local/lib/python2.7/dist-packages/certbot/main.py", line 7, in <module>
+    import zope.component
+  File "/root/.local/share/letsencrypt/local/lib/python2.7/dist-packages/zope/component/__init__.py", line 16, in <module>
+    from zope.interface import Interface
+ImportError: No module named interface
+```
+
+See the process above with virtualenv.
+
+
+#### Renewal script
+
