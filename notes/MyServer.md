@@ -15,6 +15,11 @@ and combined it with AMI specific instructions (Google it).
 
 ## HTTPS setup
 
+Tutorials:
+* Very good presentation of HTTPS basics: https://www.nginx.com/blog/nginx-https-101-ssl-basics-getting-started/
+* HTTPS setup on NGINX: http://nginx.org/en/docs/http/configuring_https_servers.html
+
+
 ### First with self-signed cert
 
 Let's try to setup HTTPS first before we try to get some trusted certificate.
@@ -177,3 +182,59 @@ See the process above with virtualenv.
 
 #### Renewal script
 
+
+### Checking configuration
+
+We can see in the browser that it works and what certification authority issued the certificate.
+But we can also use `curl` to test the connection with various SSL protocols as we don't want
+to support all the versions anyway.
+
+```
+curl --head -vi https://virgo47.com
+```
+
+This shows that by default TLSv1.2 is selected and also displays something about the certificate:
+```
+* SSL connection using TLSv1.2 / ECDHE-RSA-AES256-GCM-SHA384
+* ALPN, server did not agree to a protocol
+* Server certificate:
+*        subject: CN=virgo47.com
+*        start date: Jun 17 06:56:00 2017 GMT
+*        expire date: Sep 15 06:56:00 2017 GMT
+*        subjectAltName: virgo47.com matched
+*        issuer: C=US; O=Let's Encrypt; CN=Let's Encrypt Authority X3
+*        SSL certificate verify ok.
+```
+
+We can enforce other version of TLS/SSL like so:
+
+```
+curl --sslv2 --head -vi https://virgo47.com
+...
+* SSLv2 (OUT), , Client hello (1):
+* Unknown SSL protocol error in connection to virgo47.com:443
+* Closing connection 0
+curl: (35) Unknown SSL protocol error in connection to virgo47.com:443
+```
+
+Using `--ssl` means to enable SSL/TLS in general, we can choose concrete version with `--sslv2`
+or `--sslv3`. By default both are refused. We can also see that TLS is supported including
+version 1.0:
+
+```
+curl --tlsv1.0 --head -vi https://virgo47.com
+...
+* SSL connection using TLSv1.0 / ECDHE-RSA-AES256-SHA
+...
+```
+
+Using `--tlsv1` will negotiate any TLSv1.x, preferring 1.2, of course.
+
+Supporting anything from TLS 1.0 higher is OK, 1.2 only would be a bit harsh for our purpose.
+
+We can also test various cipher suits with `curl --ciphers ...`.
+
+
+### What next?
+
+HTTP/2  
