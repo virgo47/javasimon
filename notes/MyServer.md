@@ -12,6 +12,13 @@ I probably used something [like this](https://www.howtoforge.com/tutorial/instal
 and combined it with AMI specific instructions (Google it).
 [This Gist](https://gist.github.com/nrollr/56e933e6040820aae84f82621be16670) also seems interesting.
 
+To remove `X-Powered-By` header with PHP version edit `/etc/php-7.0.ini`, search for
+`expose_php = On` and set it to `Off`. Restart of `php-fpm` is required (maybe `nginx` as well).
+
+Removing NGINX's `Server` header seems to be more tricky, but if removing the version number is
+enough we can add `server_tokens off;` to `http` section of our `nginx.conf` (and restart the
+service).
+
 
 ## HTTPS setup
 
@@ -65,6 +72,8 @@ Next edit `/etc/nginx/nginx.conf` and enable TLS:
 SSL works. Somehow. If browser can't get there (to https) at all we forgot to allow HTTPS (port 443)
 in our Lightsail console, Firewall section.
 
+I also generated my own `dhparams.pem` as recommended in the `nginx.conf` and enabled the line.
+
 
 ### Proper certificate
 
@@ -72,7 +81,7 @@ I wanted free trusted certificate, I chose
 [Let's Encrypt](https://letsencrypt.org/getting-started/).
 
 There are couple of tutorials for AWS EC2 and Certbot, often about Lightsail and Let's Encrypt in
-particular:
+particular (but not always working for current versions, rather used as an inspiration):
 * http://www.alondiamant.com/2016-12-20-using-lets-encrypt-certificates-with-wordpress-on-amazon-lightsail
 * https://coderwall.com/p/e7gzbq/https-with-certbot-for-nginx-on-amazon-linux
 * https://nouveauframework.org/blog/installing-letsencrypts-free-ssl-amazon-linux/
@@ -93,9 +102,7 @@ cd letsencrypt
 ./letsencrypt-auto certonly --debug --standalone -d virgo47.com
 ```
 
-This worked without problem. Certificate is [only for 90 days](https://letsencrypt.org/2015/11/09/why-90-days.html)
-though, so automating the above (or the renew command) must be considered:
-
+This worked without problem:
 ```
 IMPORTANT NOTES:
  - Congratulations! Your certificate and chain have been saved at
@@ -115,15 +122,18 @@ IMPORTANT NOTES:
    Donating to EFF:                    https://eff.org/donate-le
 ```
 
-Content of `/etc/letsencrypt/live/virgo47.com/`:
+Certificate is valid [only for 90 days](https://letsencrypt.org/2015/11/09/why-90-days.html)
+though so we want to automate the renewal process (lower).
+
+Content of `/etc/letsencrypt/live/virgo47.com/` directory:
 ```
 cert.pem  chain.pem  fullchain.pem  privkey.pem  README
 ```
 
-`README` explains that `fullchain.pem` should probably used, not `cert.pem`.
+`README` shortly explains that `fullchain.pem` should probably used, not `cert.pem`. More
+thorough documentation is [here](https://certbot.eff.org/docs/using.html#where-are-my-certificates).
 
 This changes our lines in `nginx.conf` as so:
-
 ```
         ssl_certificate "/etc/letsencrypt/live/virgo47.com/fullchain.pem";
         ssl_certificate_key "/etc/letsencrypt/live/virgo47.com/privkey.pem";
@@ -182,6 +192,27 @@ See the process above with virtualenv.
 
 #### Renewal script
 
+Renewing is pretty straightforward. Using `letsencrypt-auto`:
+
+```
+./letsencrypt-auto renew --pre-hook "service nginx stop" --post-hook "service nginx start"
+```
+
+As described in the [certbot docs](https://certbot.eff.org/docs/using.html#renewing-certificates)
+When it does not need to renew it will try to renew all known certificates but it will not renew
+unless 30 days before expiration.
+
+I guess it requires `virtualenv` when it actually starts renewing, so the script can be:
+```
+#!/bin/sh
+cd /root
+. venv27/bin/activate
+cd letsencrypt
+./letsencrypt-auto renew --pre-hook "service nginx stop" --post-hook "service nginx start"
+```
+
+TODO: Cron script with logging
+
 
 ### Checking configuration
 
@@ -235,6 +266,72 @@ Supporting anything from TLS 1.0 higher is OK, 1.2 only would be a bit harsh for
 We can also test various cipher suits with `curl --ciphers ...`.
 
 
-### What next?
+### OCSP Stapling
 
-HTTP/2  
+[OCSP Stapling](https://en.wikipedia.org/wiki/OCSP_stapling) (or also [here](https://www.keycdn.com/support/ocsp-stapling/))
+makes the TLS negotiation faster. It requires the following changes in HTTPS `server` sections:
+```
+server {
+...
+        ssl_stapling on;
+        ssl_stapling_verify on;
+        ssl_trusted_certificate "/etc/letsencrypt/live/www.virgo47.com/chain.pem";
+        resolver 8.8.8.8 8.8.4.4;
+```
+
+We can test it with:
+```
+openssl s_client -connect www.virgo47.com:443 -tls1 -tlsextdebug -status
+```
+
+After server restart it may first say:
+```
+OCSP response: no response sent
+```
+
+But it [should work the next time](https://www.vlent.nl/weblog/2014/04/19/ocsp-stapling-in-nginx/).
+
+I also experimented with OCSP Stapling enabled in section for `www.virgo47.com` but not in the
+`virgo47.com` one. That seemed to not work consistently, not even for requests to `www` virtual
+server. I made it consistent as planned.
+
+
+### HTTP/2
+
+Setting [HTTP/2](https://en.wikipedia.org/wiki/HTTP/2) should be easy in the config - adding
+`http2` into `listen` directives will do:
+```
+    server {
+        listen       443 ssl http2;
+        listen       [::]:443 ssl http2;
+...
+```
+
+After restart it still seems not to working in browsers, but it works with
+[HTTP/2 test](https://tools.keycdn.com/http2-test). However, this test also says that
+[ANLP is not supported](https://serverfault.com/questions/831534/why-is-alpn-not-supported-by-my-server).
+What does that mean?
+
+[ALNP](https://en.wikipedia.org/wiki/Application-Layer_Protocol_Negotiation) is used by browsers
+to upgrade to HTTP/2 -- and that's why it does not work in them. The reason is that at the time
+of writing NGINX Amazon Linux is built with OpenSSL 1.0.1 which does not support ANLP.
+
+To some [this is a big issue](https://forums.aws.amazon.com/thread.jspa?messageID=752725) (requires
+login), I'll probably just wait for the support as I don't require HTTP/2 yet.
+
+
+### Testing with SSL Labs
+
+Try this: https://www.ssllabs.com/ssltest/analyze.html?d=virgo47.com&latest
+
+This is a thorough test and will report a lot of various facts and issues. After my rating
+was lowered to A- because of [Forward secrecy](https://blog.qualys.com/ssllabs/2013/06/25/ssl-labs-deploying-forward-secrecy)
+I also added/enabled the following lines in both my secured `server` sections:
+```
+        ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+        ssl_prefer_server_ciphers on;
+        ssl_ciphers ECDH+AESGCM:ECDH+AES256:ECDH+AES128:DHE+AES128:!ADH:!AECDH:!MD5;
+```
+
+These were also recommended in other articles and the rating went to A. I passed on the
+[DNS CAA: No](https://blog.qualys.com/ssllabs/2017/03/13/caa-mandated-by-cabrowser-forum) warning.
