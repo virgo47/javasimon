@@ -161,7 +161,7 @@ class SqlSchemaExporter {
 	}
 
 	private void processResultSet(ResultSet rs, String tableColName, Closure processColumn) {
-		while (++rs) { // rs.next() in Groovish
+		while (rs.next()) { // ++rs should work, but at least on JDK 7 + Groovy 2.4 it does not
 			def tableName = rs.getString(tableColName)
 			def tableDef = getTableDef(tableName)
 			if (tableDef == null) {
