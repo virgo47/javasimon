@@ -3,7 +3,7 @@ Java Simon - Simple Monitors for Java
 [![Build Status](https://travis-ci.org/virgo47/javasimon.svg?branch=master)](https://travis-ci.org/virgo47/javasimon)
 [![Coverage Status](https://img.shields.io/coveralls/virgo47/javasimon.svg)](https://coveralls.io/r/virgo47/javasimon)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.javasimon/javasimon-parent/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.javasimon/javasimon-parent)
-[![License](http://img.shields.io/:license-New BSD-blue.svg)](https://github.com/virgo47/javasimon/blob/master/license.txt)
+[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
 Java Simon is a simple monitoring API that allows you to follow and better understand your application.
 Monitors (familiarly called Simons) are placed directly into your code and you can choose whether you
