@@ -4,6 +4,8 @@ jdk: oraclejdk7
 # Needs much more tweaking in Gradle so it seems
 #after_success:
 #    - coveralls
+after_success:
+- ./gradlew cobertura coveralls
 
 branches:
   only:
