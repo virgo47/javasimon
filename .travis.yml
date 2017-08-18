@@ -4,8 +4,10 @@ jdk: oraclejdk7
 # Needs much more tweaking in Gradle so it seems
 #after_success:
 #    - coveralls
-after_success:
-- ./gradlew cobertura coveralls
+# With jacoco: however we still need to merge it, possibly look here:
+# https://github.com/ben-manes/caffeine/blob/master/build.gradle
+#after_success:
+#- ./gradlew jacocoTestReport coveralls
 
 branches:
   only:
