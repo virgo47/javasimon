@@ -14,6 +14,16 @@ bug-fixing (thanks to our users) we added **Maven support** and basic **Java EE 
 **October 11th, 2011**. We moved to **Maven Central** (group-id org.javasimon) and further improved Java EE support.
 Embeddable web-console was added in version 3.2.
 
+## 4.1.4 - 2017-05-07
+
+* Fixed [AbstractSimon is not thread-safe](https://github.com/virgo47/javasimon/issues/20)
+
+## 4.1.2 - 2016-11-15
+
+* Fixed [Mismatched Jackson lib in demo](https://github.com/virgo47/javasimon/issues/16)
+* Added missing connection and statement listeners for proper handling of connection and statement
+events. If missing, they cause a wrong propagation of real connection instead of Simon connection.
+
 ## 4.1.1 - 2015-10-11
 
 * Fixed [Spring StopWatch show wrong classname.methodname in case of class hierarchy](https://github.com/virgo47/javasimon/issues/14)
