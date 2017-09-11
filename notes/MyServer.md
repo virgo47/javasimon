@@ -147,7 +147,7 @@ with different `server_name` and different paths to key and certificate. Not a b
 
 #### Non-working standard process
 
-I tried this one first, but I ended
+I tried this one first, but I ended up with:
 
 ```
 sudo -i
@@ -195,23 +195,36 @@ See the process above with virtualenv.
 Renewing is pretty straightforward. Using `letsencrypt-auto`:
 
 ```
-./letsencrypt-auto renew --pre-hook "service nginx stop" --post-hook "service nginx start"
+~/letsencrypt/letsencrypt-auto renew --pre-hook "service nginx stop" --post-hook "service nginx start"
 ```
 
 As described in the [certbot docs](https://certbot.eff.org/docs/using.html#renewing-certificates)
 When it does not need to renew it will try to renew all known certificates but it will not renew
 unless 30 days before expiration.
 
-I guess it requires `virtualenv` when it actually starts renewing, so the script can be:
+This does not require `virtualenv` (tested with successful renewal) so the script can just
+contain the single line. I added some "logging", put it directly into root's home
+and named it `renew-certs.sh`):
+
 ```
 #!/bin/sh
-cd /root
-. venv27/bin/activate
-cd letsencrypt
-./letsencrypt-auto renew --pre-hook "service nginx stop" --post-hook "service nginx start"
+
+~/letsencrypt/letsencrypt-auto renew \
+  --pre-hook "service nginx stop" \
+  --post-hook "service nginx start" &> \
+  ~/renewal-`date +%FT%T`.log
 ```
 
-TODO: Cron script with logging
+Set the executable flag and setup the crontab:
+
+```
+cd
+chmod 700 renew-certs.sh
+(crontab -l; echo "47 0 * * * ~/renew-certs.sh") | crontab -
+```
+
+Later check whether some log files appear in root's home directory. Weekly period (e.g.
+`47 0 * * 0` for Sunday) is possible when we feel confident. :-)
 
 
 ### Checking configuration
