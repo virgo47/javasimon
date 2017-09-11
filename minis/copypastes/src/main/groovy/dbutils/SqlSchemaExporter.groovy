@@ -24,6 +24,7 @@ class SqlSchemaExporter {
 	Map<String, TableDef> tableDefs
 	List<String> sequences = []
 
+	@SuppressWarnings("GroovyUnusedDeclaration")
 	SqlSchemaExporter(String filename) {
 		this(new FileWriter(filename))
 		println "\nPreparing $filename"
@@ -161,7 +162,8 @@ class SqlSchemaExporter {
 	}
 
 	private void processResultSet(ResultSet rs, String tableColName, Closure processColumn) {
-		while (++rs) { // rs.next() in Groovish
+		//noinspection ChangeToOperator
+		while (rs.next()) { // ++rs should work, but at least on JDK 7 + Groovy 2.4 it does not
 			def tableName = rs.getString(tableColName)
 			def tableDef = getTableDef(tableName)
 			if (tableDef == null) {
