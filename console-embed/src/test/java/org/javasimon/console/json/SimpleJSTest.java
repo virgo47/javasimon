@@ -44,8 +44,8 @@ public class SimpleJSTest {
 
 	@Test
 	public void testString() {
-		SimpleJS<String> simpleJS = new SimpleJS<>("Hello world! \"\\/", stringifierFactory.getStringifier(String.class));
+		SimpleJS<String> simpleJS = new SimpleJS<>("\"Hello, /\r\n world!\"", stringifierFactory.getStringifier(String.class));
 		String json = simpleJS.toString();
-		assertEquals(json, "\"Hello world! \\\"\\\\\\/\"");
+		assertEquals(json, "\"\\\"Hello, \\/\\r\\n world!\\\"\"");
 	}
 }
