@@ -1,19 +1,21 @@
 package org.javasimon.examples;
 
-import org.javasimon.Counter;
-import org.javasimon.SimonManager;
-import org.javasimon.Split;
-import org.javasimon.Stopwatch;
-import org.javasimon.clock.SimonClock;
-
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.javasimon.Counter;
+import org.javasimon.SimonManager;
+import org.javasimon.Split;
+import org.javasimon.Stopwatch;
+import org.javasimon.clock.SimonClock;
+
 /**
- * Fills Simon manager with random data for demo purpose
+ * Fills Simon manager with random data for demo purpose.
+ *
+ * @noinspection WeakerAccess
  */
 public class SimonDataGenerator {
 
@@ -21,6 +23,7 @@ public class SimonDataGenerator {
 
 	private final Random random = new Random();
 	private Lock lock = new ReentrantLock();
+
 	/** Time for changing Simons. */
 	private Timer timer = new Timer();
 
@@ -34,27 +37,23 @@ public class SimonDataGenerator {
 		return randomInt((int) min, (int) max);
 	}
 
-	/**
-	 * Wait random time.
-	 *
-	 * @return Waited random time
-	 */
-	public long randomWait(long min, long max) {
+	/** Wait random time. */
+	public void randomWait(long min, long max) {
 		final long waitTime = randomLong(min, max);
 		try {
 			Thread.sleep(waitTime);
 		} catch (InterruptedException interruptedException) {
 			// ignored
 		}
-		return waitTime;
 	}
 
 	private static void addTime(String name, long sleep) {
 		Stopwatch stopwatch = SimonManager.manager().getStopwatch(name);
+		stopwatch.setNote(name + "\r\nBefore tab\tafter tabb\b\fenough");
 		stopwatch.addSplit(Split.create(sleep * SimonClock.NANOS_IN_MILLIS));
 	}
 
-
+	/** @noinspection SameParameterValue*/
 	private static void addCounter(String name, long value) {
 		Counter counter = SimonManager.manager().getCounter(name);
 		counter.set(value);
@@ -109,7 +108,6 @@ public class SimonDataGenerator {
 			}
 		}.start();
 	}
-
 
 	/** Recursively Add many Simons for performances testing. */
 	private void addManySimons(String prefix, int depth, int groupWidth, int leafWidth, int splitWidth) {

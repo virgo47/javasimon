@@ -14,7 +14,7 @@ public abstract class AnyJS {
 	/** Renders the response. */
 	public abstract void write(Writer writer) throws IOException;
 
-	protected final void writeString(Writer writer, String string) throws IOException {
+	final void writeString(Writer writer, String string) throws IOException {
 		writer.write("\"");
 		writer.write(string);
 		writer.write("\"");

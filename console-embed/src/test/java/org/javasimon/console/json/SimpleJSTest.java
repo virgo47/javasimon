@@ -1,10 +1,8 @@
 package org.javasimon.console.json;
 
 import org.javasimon.console.TimeFormatType;
-
-import org.testng.annotations.Test;
-
 import static org.testng.Assert.assertEquals;
+import org.testng.annotations.Test;
 
 /**
  * Unit test for {@link SimpleJS}.
@@ -21,12 +19,27 @@ public class SimpleJSTest {
 	}
 
 	@Test
+	public void testDouble() {
+		SimpleJS<Double> simpleJS = new SimpleJS<>(5e15d, stringifierFactory.getStringifier(Double.class));
+		String json = simpleJS.toString();
+		assertEquals(json, "5000000000000000.000");
+	}
+
+	@Test
+	public void testDoubleNaN() {
+		SimpleJS<Double> simpleJS = new SimpleJS<>(Double.NaN, stringifierFactory.getStringifier(Double.class));
+		String json = simpleJS.toString();
+		assertEquals(json, "\"\"");
+	}
+
+	@Test
 	public void testLong() {
 		SimpleJS<Long> simpleJS = new SimpleJS<>(12345L, stringifierFactory.getStringifier(Long.class));
 		String json = simpleJS.toString();
 		assertEquals(json, "12345");
 	}
 
+	/** @noinspection SameParameterValue*/
 	private void testTime(long inputTime, TimeFormatType timeFormat, String outputTime) {
 		stringifierFactory = createStringifierFactory(timeFormat);
 		SimpleJS<Long> simpleJS = new SimpleJS<>(inputTime, stringifierFactory.getStringifier(Long.class, JsonStringifierFactory.TIME_SUBTYPE));

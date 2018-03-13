@@ -1,14 +1,11 @@
 package org.javasimon.console.action;
 
-import org.javasimon.Simon;
-import org.javasimon.console.ActionContext;
-import org.javasimon.console.ActionException;
-import org.javasimon.console.json.ArrayJS;
-import org.javasimon.console.json.ObjectJS;
-
 import java.io.IOException;
 
-import javax.servlet.ServletException;
+import org.javasimon.Simon;
+import org.javasimon.console.ActionContext;
+import org.javasimon.console.json.ArrayJS;
+import org.javasimon.console.json.ObjectJS;
 
 /**
  * Export Simons as a hierarchical JSON object for display in a tree-table.
@@ -26,6 +23,7 @@ public class TreeJsonAction extends AbstractJsonAction {
 	 */
 	private String name;
 
+	/** @noinspection WeakerAccess*/
 	public TreeJsonAction(ActionContext context) {
 		super(context);
 	}
@@ -49,7 +47,7 @@ public class TreeJsonAction extends AbstractJsonAction {
 	}
 
 	@Override
-	public void execute() throws ServletException, IOException, ActionException {
+	public void execute() throws IOException {
 		getContext().setContentType("application/json");
 		Simon simon = name == null ? getContext().getManager().getRootSimon() : getContext().getManager().getSimon(name);
 		ObjectJS simonRootJS = createObjectJS(simon);

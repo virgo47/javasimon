@@ -142,9 +142,8 @@ public class StringifierFactory {
 		final Stringifier<Float> floatStringifier = new NumberStringifier<Float>(nullStringifier, numberPattern) {
 			@Override
 			protected boolean isValid(Float f) {
-				return super.isValid(f) && !(f == Float.MIN_VALUE || f == Float.MAX_VALUE
-					|| f == Float.NEGATIVE_INFINITY || f == Float.POSITIVE_INFINITY
-					|| f == Float.NaN);
+				return super.isValid(f) && !(
+					f == Float.MIN_VALUE || f == Float.MAX_VALUE || f.isInfinite() || f.isNaN());
 			}
 		};
 		compositeStringifier.add(Float.class, floatStringifier);
@@ -154,9 +153,8 @@ public class StringifierFactory {
 		final Stringifier<Double> doubleStringifier = new NumberStringifier<Double>(nullStringifier, numberPattern) {
 			@Override
 			protected boolean isValid(Double d) {
-				return super.isValid(d) && !(d == Double.MIN_VALUE || d == Double.MAX_VALUE
-					|| d == Double.NEGATIVE_INFINITY || d == Double.POSITIVE_INFINITY
-					|| d == Double.NaN);
+				return super.isValid(d) && !(
+					d == Double.MIN_VALUE || d == Double.MAX_VALUE || d.isInfinite() || d.isNaN());
 			}
 		};
 		registerDoubleStringifier(null, doubleStringifier);

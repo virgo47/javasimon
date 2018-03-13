@@ -14,10 +14,10 @@ public class SimpleJS<T> extends AnyJS {
 
 	/** Simple value. */
 	protected final T value;
-	/** Value formatter. */
-	protected final Stringifier<T> valueStringifier;
 
-	// TODO how hidden is this?
+	/** Value formatter. */
+	private final Stringifier<T> valueStringifier;
+
 	/** Hidden constructor use factory methods instead. */
 	public SimpleJS(T value, Stringifier<T> valueStringifier) {
 		this.value = value;
@@ -28,12 +28,8 @@ public class SimpleJS<T> extends AnyJS {
 		return value;
 	}
 
-	public String getFormattedValue() {
-		return valueStringifier.toString(value);
-	}
-
 	@Override
 	public void write(Writer writer) throws IOException {
-		writer.write(getFormattedValue());
+		writer.write(valueStringifier.toString(value));
 	}
 }
