@@ -1,6 +1,14 @@
 # Ignore Maven output files
-*/target/*
+target/
+
+# Gradle ignored files
+build/
 
 # Ignore IDEA files
-.idea/*
+.idea/
 *.iml
+*.ipr
+*.iws
+
+# Other
+*.h2.db
