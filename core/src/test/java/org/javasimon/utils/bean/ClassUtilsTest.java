@@ -10,12 +10,14 @@ import java.util.Set;
 
 /**
  * @author <a href="mailto:ivan.mushketyk@gmail.com">Ivan Mushketyk</a>
+ * @author <a href="mailto:anton.rybochkin@axibase.com">Anton Rybochkin</a>
  */
 public class ClassUtilsTest extends SimonUnitTest {
 
 	private static class TestBean {
 		int intField;
 		String strField;
+		boolean boolField;
 
 		public int getIntField() {
 			return intField;
@@ -35,6 +37,14 @@ public class ClassUtilsTest extends SimonUnitTest {
 
 		public void setStrField(TestBean bean) {
 
+		}
+
+		public boolean isBoolField() {
+			return boolField;
+		}
+
+		public void setBoolField(boolean boolField) {
+			this.boolField = boolField;
 		}
 
 		public void otherMethod(String str, int i) {
@@ -134,6 +144,12 @@ public class ClassUtilsTest extends SimonUnitTest {
 	public void getGetter() throws Exception {
 		Method getter = ClassUtils.getGetter(TestBean.class, "intField");
 		Assert.assertEquals(getter, TestBean.class.getDeclaredMethod("getIntField"));
+	}
+
+	@Test
+	public void getBooleanGetter() throws Exception {
+		Method getter = ClassUtils.getGetter(TestBean.class, "boolField");
+		Assert.assertEquals(getter, TestBean.class.getDeclaredMethod("isBoolField"));
 	}
 
 	@Test
