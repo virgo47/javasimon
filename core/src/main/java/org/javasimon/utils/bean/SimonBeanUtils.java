@@ -90,10 +90,10 @@ public class SimonBeanUtils {
 					converted = true;
 					break;
 				} else {
-					logger.debug(String.format("Failed to find converter for method '%s'", setter.toString()));
+					logger.debug("Failed to find converter for method '{}'", setter);
 				}
 			} catch (ConvertException ex) {
-				logger.debug(String.format("Failed to convert value '%s' for method '%s'", strVal, setter.toString()));
+				logger.debug("Failed to convert value '{}' for method '{}'", strVal, setter);
 			}
 		}
 
