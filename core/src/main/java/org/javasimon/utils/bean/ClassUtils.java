@@ -12,6 +12,7 @@ import java.util.Set;
  * Utility methods for working with class objects.
  *
  * @author <a href="mailto:ivan.mushketyk@gmail.com">Ivan Mushketyk</a>
+ * @author <a href="mailto:anton.rybochkin@axibase.com">Anton Rybochkin</a>
  */
 class ClassUtils {
 
@@ -50,8 +51,17 @@ class ClassUtils {
 	 * @return setter method for the specified property that accepts specified type if one exists, null otherwise
 	 */
 	static Method getSetter(Class<?> targetClass, String propertyName, Class<?> type) {
+		if (targetClass == null) {
+			return null;
+		}
 		String setterMethodName = setterName(propertyName);
-
+		try {
+			Method setter = targetClass.getMethod(setterMethodName, type);
+			logger.debug("Found public setter {} in class {}", setterMethodName, setter.getDeclaringClass().getName());
+			return setter;
+		} catch (NoSuchMethodException e) {
+			logger.debug("Failed to found public setter {} in class {}", setterMethodName, targetClass.getName());
+		}
 		while (targetClass != null) {
 			try {
 				Method setter = targetClass.getDeclaredMethod(setterMethodName, type);
@@ -67,7 +77,7 @@ class ClassUtils {
 	}
 
 	private static String setterName(String name) {
-		return "set" + name.substring(0, 1).toUpperCase() + name.substring(1);
+		return "set" + Character.toUpperCase(name.charAt(0)) + name.substring(1);
 	}
 
 	/**
@@ -116,23 +126,55 @@ class ClassUtils {
 	 * @return getter of a specified property if one exists, null otherwise
 	 */
 	static Method getGetter(Class<?> targetClass, String propertyName) {
-		String getterName = getterName(propertyName);
-
-		while (targetClass != null) {
-			try {
-				Method getter = targetClass.getDeclaredMethod(getterName);
-				logger.debug("Found getter {} in class {}", getter.getName(), targetClass.getName());
-				return getter;
-			} catch (NoSuchMethodException e) {
-				logger.debug("Failed  to find getter for property {} in class {}", propertyName, targetClass.getName());
+		if (targetClass == null) {
+			return null;
+		}
+		final String getterName = getterName(propertyName, false);
+		Method result = findPublicGetter(targetClass, getterName, propertyName, false);
+		if (result == null) {
+			final String booleanGetterName = getterName(propertyName, true);
+			result = findPublicGetter(targetClass, booleanGetterName, propertyName, true);
+			if (result == null) {
+				do {
+					result = findNonPublicGetter(targetClass, getterName, propertyName, false);
+					if (result == null) {
+						result = findNonPublicGetter(targetClass, booleanGetterName, propertyName, true);
+					}
+				} while (result == null && (targetClass = targetClass.getSuperclass()) != null);
 			}
-			targetClass = targetClass.getSuperclass();
 		}
 
-		return null;
+		return result;
 	}
 
-	private static String getterName(String propertyName) {
-		return "get" + propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1);
+	private static Method findPublicGetter(Class<?> targetClass, String getterName, String propertyName, boolean logError) {
+		try {
+			Method getter = targetClass.getMethod(getterName);
+			logger.debug("Found public getter {} in class {}", getter.getName(), getter.getDeclaringClass().getName());
+			return getter;
+		} catch (NoSuchMethodException e) {
+			if (logError) {
+				logger.debug("Failed to find public getter for property {} in class {}", propertyName, targetClass.getName());
+			}
+			return null;
+		}
+	}
+
+	private static Method findNonPublicGetter(Class<?> targetClass, String getterName, String propertyName, boolean logError) {
+		try {
+			Method getter = targetClass.getDeclaredMethod(getterName);
+			logger.debug("Found getter {} in class {}", getter.getName(), targetClass.getName());
+			return getter;
+		} catch (NoSuchMethodException e) {
+			if (logError) {
+				logger.debug("Failed to find getter for property {} in class {}", propertyName, targetClass.getName());
+			}
+			return null;
+		}
+	}
+
+	private static String getterName(String propertyName, boolean isBooleanProperty) {
+		final String prefix = isBooleanProperty ? "is" : "get";
+		return prefix + Character.toUpperCase(propertyName.charAt(0)) + propertyName.substring(1);
 	}
 }
