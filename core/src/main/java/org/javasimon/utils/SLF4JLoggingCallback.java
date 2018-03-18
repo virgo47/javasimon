@@ -28,7 +28,7 @@ public class SLF4JLoggingCallback extends CallbackSkeleton {
 	 */
 	@Override
 	public void onStopwatchStart(Split split) {
-		logger.debug(marker, "SIMON START: {}");
+		logger.debug(marker, "SIMON START: {}", split.getStopwatch());
 	}
 
 	/**
@@ -39,7 +39,7 @@ public class SLF4JLoggingCallback extends CallbackSkeleton {
 	 */
 	@Override
 	public void onStopwatchStop(Split split, StopwatchSample sample) {
-		logger.debug(marker, "SIMON STOP: {} ({})", split.runningFor());
+		logger.debug(marker, "SIMON STOP: {} ({})", sample.toString(), split.runningFor());
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class SLF4JLoggingCallback extends CallbackSkeleton {
 	 */
 	@Override
 	public void onManagerWarning(String warning, Exception cause) {
-		logger.debug(marker, "SIMON WARNING: {}", cause);
+		logger.debug(marker, "SIMON WARNING: {}", warning, cause);
 	}
 
 	/**
