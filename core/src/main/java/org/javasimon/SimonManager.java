@@ -35,7 +35,7 @@ public final class SimonManager {
 
 	private static Manager manager = new SwitchingManager();
 
-	/** Calls {@link #init()}. */
+	/* Calls {@link #init()}. */
 	static {
 		init();
 	}
