@@ -71,12 +71,11 @@ public class LogTemplates {
 	 * @return Logger
 	 */
 	public static <C> SLF4JLogTemplate<C> toSLF4J(String loggerName, String levelName, String markerName) {
-		levelName = levelName.toLowerCase();
-		if ("debug".equals(levelName)) {
+		if ("debug".equalsIgnoreCase(levelName)) {
 			return new SLF4JLogTemplate.Debug<>(loggerName, markerName);
-		} else if ("info".equals(levelName)) {
+		} else if ("info".equalsIgnoreCase(levelName)) {
 			return new SLF4JLogTemplate.Info<>(loggerName, markerName);
-		} else if ("warn".equals(levelName)) {
+		} else if ("warn".equalsIgnoreCase(levelName)) {
 			return new SLF4JLogTemplate.Warn<>(loggerName, markerName);
 		} else {
 			throw new IllegalArgumentException("Invalid level name " + levelName);
