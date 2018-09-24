@@ -71,7 +71,8 @@ Project is [hosted on GitHub](https://github.com/virgo47/javasimon/), these are 
 
 ## Why Java Simon?
 
-Back in 2008 we wanted to use something like JAMon for our products originally, but we lacked two important features:
+Back in 2008 we wanted to use something like JAMon for our products originally,
+but we missed two important features:
 
 * better way (or any way for that matter) to organize all those monitors;
 * nanosecond resolution.
