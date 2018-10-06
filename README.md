@@ -64,10 +64,9 @@ or our Javadoc, that actually contains something on the overview page (under pac
 
 Project is [hosted on GitHub](https://github.com/virgo47/javasimon/), these are related pages:
 
-* Our homepage on Google+: http://www.javasimon.org or https://plus.google.com/b/115141838919870730025/115141838919870730025
-* Javadoc API: http://virgo47.github.io/javasimon/api/4.0/
+* Javadoc API: http://virgo47.github.io/docs/javasimon/api/4.1/
 * Ohloh page: http://www.ohloh.net/p/javasimon
-* Former project page on Google Code: http://code.google.com/p/javasimon/
+* JavaSimon on Google+: https://plus.google.com/b/115141838919870730025/115141838919870730025
 
 ## Why Java Simon?
 

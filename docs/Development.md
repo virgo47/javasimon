@@ -61,16 +61,16 @@ Again, commit and push.
 ## Javadoc
 
 Javadoc needs to be updated when API is changed (should corellate with changes of major/minor
-versions, not with patch versions). Javadoc is to be copied after release (see
-`mvn-manual-release.bat`) from ... to branch called `gh-pages`, directory `api/<major.minor>`.
-It is recommended to keep this branch in separate directory for convenience. Example:
+versions, not with patch versions).
+Repository `docs` needs to be cloned/pulled, and newly built Javadoc is to be copied after release
+(see `mvn-manual-release.bat`) to `docs/javadoc/api/<major.minor>`.
 ```
 # in git-bash after mvn-manual-release.bat (BAT was run in cmd)
-mv javasimon/target/apidocs/ javasimon-pages/api/4.1
-git add api/4.1
+mv javasimon/target/apidocs/ github-docs/javasimon/api/4.1
+cd github-docs
+git add javadoc/api/4.1
 git commit -m "added 4.1 javadoc"
 git push
-# ...enter name/password
 ```
-After `git commit`, `git push`, it is possible to see the Javadoc here: http://virgo47.github.io/javasimon/api/4.1/
-(Change version number as necessary. It is not possible to browse `api` directory.)
+After `git commit`, `git push`, it is possible to see the Javadoc here: http://virgo47.github.io/docs/javasimon/api/4.1/
+(Change version number as necessary.)

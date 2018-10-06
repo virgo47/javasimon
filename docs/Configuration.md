@@ -75,7 +75,7 @@ First two elements add Callback to the Manager, third element sets up Simon or
 set of Simons. You can use any number of these elements in any order. While
 Simon configuration is now not used too much, Callback configuration is the
 major part of the configuration facility.
-(See [ManagerConfiguration javadoc](http://virgo47.github.io/javasimon/api/4.0/org/javasimon/ManagerConfiguration.html))
+(See [ManagerConfiguration javadoc](http://virgo47.github.io/docs/javasimon/api/4.1/org/javasimon/ManagerConfiguration.html))
 
 ### Simon setup
 
@@ -98,7 +98,7 @@ This part of the configuration is rather questionable and may be changed in the
 future. Loading of the config-file does NOT affect state of existing Simons -
 this is also questionable, as you can't use config files for batch state
 changes. Functions of this element are open to discussion.
-(Javadoc for [SimonPattern](http://virgo47.github.io/javasimon/api/4.0/org/javasimon/SimonPattern.html))
+(Javadoc for [SimonPattern](http://virgo47.github.io/docs/javasimon/api/4.1/org/javasimon/SimonPattern.html))
 
 ### Callbacks
 
@@ -195,7 +195,7 @@ event are processed.
 #### Patterns and Conditions
 
 Finally there are two attributes that really decide if the rule is satisfied
-or not - `pattern` and `condition`. See (Javadoc for [SimonPattern](http://virgo47.github.io/javasimon/api/4.0/org/javasimon/SimonPattern.html))
+or not - `pattern` and `condition`. See (Javadoc for [SimonPattern](http://virgo47.github.io/docs/javasimon/api/4.1/org/javasimon/SimonPattern.html))
 for the format of the pattern.
 
 Condition allows you to use various values from the event context and use
