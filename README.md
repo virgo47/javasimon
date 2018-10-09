@@ -9,6 +9,7 @@ Monitors (familiarly called Simons) are placed directly into your code and you c
 want to count something or measure time/duration.
 
 * Current version: 4.1.4 (March 2018, requires Java 7) [Javadoc](http://virgo47.github.io/javasimon/api/4.1/)
+* Version for Java 6: 3.5.2 (October 2014) [Javadoc](https://virgo47.github.io/docs/javasimon/api/3.5/)
 * [History of releases](docs/History.md)
 * License: [New BSD License](license.txt)
 
