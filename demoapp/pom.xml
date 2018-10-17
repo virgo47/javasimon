@@ -19,7 +19,7 @@
 		<glassfish.javax-impl.version>2.2</glassfish.javax-impl.version>
 		<glassfish.jstl.version>1.2</glassfish.jstl.version>
 
-		<jackson.version>2.5.4</jackson.version>
+		<jackson.version>2.9.5</jackson.version>
 	</properties>
 
 	<dependencies>
