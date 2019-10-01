@@ -33,15 +33,14 @@ public final class SimonCallableStatement extends SimonPreparedStatement impleme
 
 	/**
 	 * Class constructor, initializes Simons (lifespan, active) related to statement.
-	 *
-	 * @param conn database connection (simon impl.)
+	 *  @param conn database connection (simon impl.)
 	 * @param stmt real callable statement
 	 * @param sql sql command
 	 * @param prefix hierarchy prefix for statement Simons
+	 * @param sqlNormalizerFactory factory to map queries to Simon keys
 	 */
-	SimonCallableStatement(Connection conn, CallableStatement stmt, String sql, String prefix) {
-		super(conn, stmt, sql, prefix);
-
+	SimonCallableStatement(Connection conn, CallableStatement stmt, String sql, String prefix, SqlNormalizerFactory sqlNormalizerFactory) {
+		super(conn, stmt, sql, prefix, sqlNormalizerFactory);
 		this.stmt = stmt;
 	}
 

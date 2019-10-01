@@ -56,19 +56,22 @@ public class SimonStatement implements Statement {
 
 	private final WrapperSupport<Statement> wrapperSupport;
 
+	private final SqlNormalizerFactory sqlNormalizerFactory;
+
 	/**
 	 * Class constructor, initializes Simons (lifespan, active) related to statement.
-	 *
-	 * @param conn database connection (simon impl.)
+	 *  @param conn database connection (simon impl.)
 	 * @param stmt real statement
-	 * @param prefix hierarchy preffix for JDBC Simons
+	 * @param prefix hierarchy prefix for JDBC Simons
+	 * @param sqlNormalizerFactory factory to map queries to Simon keys
 	 */
-	SimonStatement(Connection conn, Statement stmt, String prefix) {
+	SimonStatement(Connection conn, Statement stmt, String prefix, SqlNormalizerFactory sqlNormalizerFactory) {
 		this.conn = conn;
 		this.stmt = stmt;
 		this.prefix = prefix;
 		this.wrapperSupport = new WrapperSupport<>(stmt, Statement.class);
-		split = SimonManager.getStopwatch(prefix + ".stmt").start();
+		this.split = SimonManager.getStopwatch(prefix + ".stmt").start();
+		this.sqlNormalizerFactory = sqlNormalizerFactory;
 	}
 
 	/**
@@ -102,7 +105,7 @@ public class SimonStatement implements Statement {
 	 */
 	protected final Split prepare(String sql) {
 		if (sql != null && !sql.equals("")) {
-			sqlNormalizer = new SqlNormalizer(sql);
+			sqlNormalizer = sqlNormalizerFactory.getNormalizer(sql);
 			sqlCmdLabel = prefix + ".sql." + sqlNormalizer.getType();
 			return startSplit();
 		} else {
@@ -112,14 +115,14 @@ public class SimonStatement implements Statement {
 
 	/**
 	 * Called before each SQL command execution. Prepares (obtains and starts) {@link org.javasimon.Stopwatch Stopwatch Simon}
-	 * for measure bach SQL operations.
+	 * for measure batch SQL operations.
 	 *
 	 * @param sqls list of sql commands
 	 * @return Simon stopwatch object or null if sql is null or empty
 	 */
 	protected final Split prepare(List<String> sqls) {
 		if (!sqls.isEmpty()) {
-			sqlNormalizer = sqls.size() == 1 ? new SqlNormalizer(sqls.get(0)) : new SqlNormalizer(sqls);
+			sqlNormalizer = sqls.size() == 1 ? sqlNormalizerFactory.getNormalizer(sqls.get(0)) : sqlNormalizerFactory.getNormalizer(sqls);
 			sqlCmdLabel = prefix + ".sql." + sqlNormalizer.getType();
 			return startSplit();
 		} else {
@@ -129,7 +132,7 @@ public class SimonStatement implements Statement {
 
 	/**
 	 * Starts the split for the SQL specific stopwatch, sets the note and returns the split.
-	 * Used in the statment and prepared statement classes to measure runs of "execute" methods.
+	 * Used in the statement and prepared statement classes to measure runs of "execute" methods.
 	 *
 	 * @return split for the execution of the specific SQL command
 	 */

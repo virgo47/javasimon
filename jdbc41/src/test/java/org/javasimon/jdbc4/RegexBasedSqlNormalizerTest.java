@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @since 2.4
  */
-public final class SqlNormalizerTest {
+public final class RegexBasedSqlNormalizerTest {
 	@DataProvider(name = "dp1")
 	public Object[][] createTestData() {
 		return new Object[][] {
@@ -59,7 +59,7 @@ public final class SqlNormalizerTest {
 
 	@Test(dataProvider = "dp1")
 	public void sqlNormalizerTest(String sql, String type, String normSql) {
-		SqlNormalizer sn = new SqlNormalizer(sql);
+		SqlNormalizer sn = new RegexBasedSqlNormalizer(sql);
 
 		Assert.assertEquals(sn.getType(), type);
 		Assert.assertEquals(sn.getNormalizedSql(), normSql);
@@ -67,13 +67,13 @@ public final class SqlNormalizerTest {
 
 	@Test
 	public void batchNormalizationTest() {
-		SqlNormalizer sn = new SqlNormalizer(Arrays.asList("update trn set amount=50.6,type='bubu' where id=4", "insert into foo ('bufo', 4.47)"));
+		SqlNormalizer sn = new RegexBasedSqlNormalizer(Arrays.asList("update trn set amount=50.6,type='bubu' where id=4", "insert into foo ('bufo', 4.47)"));
 
 		Assert.assertEquals(sn.getType(), "batch");
 		Assert.assertEquals(sn.getSql(), "batch");
 		Assert.assertEquals(sn.getNormalizedSql(), "update trn set amount = ?, type = ? where id = ?; insert into foo (?, ?)");
 
-		sn = new SqlNormalizer(Arrays.asList(
+		sn = new RegexBasedSqlNormalizer(Arrays.asList(
 			"insert into fuu values (?, ?, ?, ?, ?)",
 			"insert into fuu values (?, ?, ?, ?, ?)",
 			"insert into fuu values (?, ?, ?, ?, ?)",

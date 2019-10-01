@@ -5,7 +5,9 @@ import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import org.javasimon.jdbc4.RegexBasedNormalizerFactory;
 import org.javasimon.jdbc4.SimonConnectionConfiguration;
+import org.javasimon.jdbc4.SqlNormalizerFactory;
 
 /**
  * SimonCommonDataSource is parent for all three datasource implementation classes.
@@ -30,6 +32,12 @@ public abstract class AbstractSimonDataSource {
 	 * Properties specific to the real datasource
 	 */
 	private Properties properties;
+
+	protected SqlNormalizerFactory sqlNormalizerFactory = new RegexBasedNormalizerFactory();
+
+	public void setSqlNormalizerFactory(SqlNormalizerFactory sqlNormalizerFactory) {
+		this.sqlNormalizerFactory = sqlNormalizerFactory;
+	}
 
 	/**
 	 * Retrieves the log writer for this <code>DataSource</code> object.

@@ -60,7 +60,7 @@ public final class SimonDataSource extends AbstractSimonDataSource implements Da
 	 */
 	@Override
 	public Connection getConnection() throws SQLException {
-		return new SimonConnection(datasource().getConnection(), getPrefix());
+		return new SimonConnection(datasource().getConnection(), getPrefix(), sqlNormalizerFactory);
 	}
 
 	/**
@@ -73,7 +73,7 @@ public final class SimonDataSource extends AbstractSimonDataSource implements Da
 	 */
 	@Override
 	public Connection getConnection(String user, String password) throws SQLException {
-		return new SimonConnection(datasource().getConnection(user, password), getPrefix());
+		return new SimonConnection(datasource().getConnection(user, password), getPrefix(), sqlNormalizerFactory);
 	}
 
 	@Override

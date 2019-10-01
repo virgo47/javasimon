@@ -6,7 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.sql.*;
 
+import org.javasimon.jdbc4.RegexBasedNormalizerFactory;
 import org.javasimon.jdbc4.SimonConnection;
+import org.javasimon.jdbc4.SqlNormalizerFactory;
 
 /**
  * Simon implementation of <code>PooledConnection</code>, needed for
@@ -65,6 +67,7 @@ public class SimonPooledConnection implements PooledConnection {
 	private final String prefix;
 	private Map<ConnectionEventListener, SimonConnectionEventListener> connListeners = new HashMap<>();
 	private Map<StatementEventListener, SimonStatementEventListener> stmtListeners = new HashMap<>();
+	private SqlNormalizerFactory sqlNormalizerFactory = new RegexBasedNormalizerFactory();
 
 	/**
 	 * Class constructor.
@@ -77,9 +80,14 @@ public class SimonPooledConnection implements PooledConnection {
 		this.prefix = prefix;
 	}
 
+	public SimonPooledConnection withSqlNormalizerFactory(SqlNormalizerFactory sqlNormalizerFactory) {
+		this.sqlNormalizerFactory = sqlNormalizerFactory;
+		return this;
+	}
+
 	@Override
 	public final Connection getConnection() throws SQLException {
-		return new SimonConnection(pooledConn.getConnection(), prefix);
+		return new SimonConnection(pooledConn.getConnection(), prefix, sqlNormalizerFactory);
 	}
 
 	@Override
