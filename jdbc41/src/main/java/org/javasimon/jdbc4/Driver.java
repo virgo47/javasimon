@@ -103,7 +103,7 @@ public final class Driver implements java.sql.Driver {
 		SimonConnectionConfiguration url = new SimonConnectionConfiguration(simonUrl);
         driver = getRealDriver(url, info);
 
-        return new SimonConnection(driver.connect(url.getRealUrl(), info), url.getPrefix());
+        return new SimonConnection(driver.connect(url.getRealUrl(), info), url.getPrefix(), new RegexBasedNormalizerFactory());
 	}
 
 	/**

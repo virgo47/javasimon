@@ -41,19 +41,22 @@ public class SimonPreparedStatement extends SimonStatement implements PreparedSt
 
 	private PreparedStatement stmt;
 
+	private final SqlNormalizerFactory sqlNormalizerFactory;
+
 	/**
 	 * Class constructor, initializes Simons (lifespan, active) related to statement.
-	 *
-	 * @param conn database connection (simon impl.)
+	 *  @param conn database connection (simon impl.)
 	 * @param stmt real prepared statement
 	 * @param sql sql command
 	 * @param prefix hierarchy prefix for statement Simons
+	 * @param sqlNormalizerFactory factory to map queries to Simon keys
 	 */
-	SimonPreparedStatement(Connection conn, PreparedStatement stmt, String sql, String prefix) {
-		super(conn, stmt, prefix);
+	SimonPreparedStatement(Connection conn, PreparedStatement stmt, String sql, String prefix, SqlNormalizerFactory sqlNormalizerFactory) {
+		super(conn, stmt, prefix, sqlNormalizerFactory);
 
 		this.stmt = stmt;
 		this.sql = sql;
+		this.sqlNormalizerFactory = sqlNormalizerFactory;
 	}
 
 	/**
@@ -64,7 +67,7 @@ public class SimonPreparedStatement extends SimonStatement implements PreparedSt
 	 */
 	private Split prepare() {
 		if (sql != null && !sql.equals("")) {
-			sqlNormalizer = new SqlNormalizer(sql);
+			sqlNormalizer = sqlNormalizerFactory.getNormalizer(sql);
 			sqlCmdLabel = prefix + ".sql." + sqlNormalizer.getType();
 			return startSplit();
 		} else {

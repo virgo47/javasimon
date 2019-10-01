@@ -28,12 +28,12 @@ public final class SimonConnectionPoolDataSource extends AbstractSimonDataSource
 
 	@Override
 	public PooledConnection getPooledConnection() throws SQLException {
-		return new SimonPooledConnection(datasource().getPooledConnection(), getPrefix());
+		return new SimonPooledConnection(datasource().getPooledConnection(), getPrefix()).withSqlNormalizerFactory(sqlNormalizerFactory);
 	}
 
 	@Override
 	public PooledConnection getPooledConnection(String user, String password) throws SQLException {
-		return new SimonPooledConnection(datasource().getPooledConnection(user, password), getPrefix());
+		return new SimonPooledConnection(datasource().getPooledConnection(user, password), getPrefix()).withSqlNormalizerFactory(sqlNormalizerFactory);
 	}
 
 	@Override
