@@ -14,9 +14,9 @@ public interface SqlNormalizerFactory {
 	SqlNormalizer getNormalizer(String sql);
 
 	/**
-	 * Create normalizer for batch query. Typically it should
-	 * @param batch
-	 * @return
+	 * Create normalizer for batch query. Typically it should store "batch" in sql and type properties
+	 * @param batch list of batch queries
+	 * @return normalizer for batch queries
 	 */
 	SqlNormalizer getNormalizer(List<String> batch);
 }
