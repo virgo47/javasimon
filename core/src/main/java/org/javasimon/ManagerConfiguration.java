@@ -1,13 +1,11 @@
 package org.javasimon;
 
-import java.io.IOException;
 import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
@@ -67,9 +65,8 @@ public final class ManagerConfiguration {
 	 * Reads config from provided buffered reader. Reader is not closed after this method finishes.
 	 *
 	 * @param reader reader containing configuration
-	 * @throws IOException thrown if problem occurs while reading from the reader
 	 */
-	public void readConfig(Reader reader) throws IOException {
+	public synchronized void readConfig(Reader reader) {
 		try {
 			XMLStreamReader xr = XMLInputFactory.newInstance().createXMLStreamReader(reader);
 			try {
@@ -227,12 +224,12 @@ public final class ManagerConfiguration {
 	 * @param name Simon name
 	 * @return configuration for that particular Simon
 	 */
-	SimonConfiguration getConfig(String name) {
+	synchronized SimonConfiguration getConfig(String name) {
 		SimonState state = null;
 
-		for (SimonPattern pattern : configs.keySet()) {
-			if (pattern.matches(name)) {
-				SimonConfiguration config = configs.get(pattern);
+		for (Map.Entry<SimonPattern, SimonConfiguration> entry : configs.entrySet()) {
+			if (entry.getKey().matches(name)) {
+				SimonConfiguration config = entry.getValue();
 				if (config.getState() != null) {
 					state = config.getState();
 				}

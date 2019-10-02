@@ -48,11 +48,12 @@ public class SimonConfigurationBean implements InitializingBean {
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		if (configurationPath != null) {
-			InputStream is = getClass().getClassLoader().getResourceAsStream(configurationPath);
-			if (is == null) {
-				throw new FileNotFoundException(configurationPath);
+			try (InputStream is = getClass().getClassLoader().getResourceAsStream(configurationPath)) {
+				if (is == null) {
+					throw new FileNotFoundException(configurationPath);
+				}
+				simonManager.configuration().readConfig(new InputStreamReader(is));
 			}
-			simonManager.configuration().readConfig(new InputStreamReader(is));
 		}
 	}
 }
