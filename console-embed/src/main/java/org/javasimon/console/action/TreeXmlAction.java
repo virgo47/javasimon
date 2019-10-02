@@ -43,7 +43,7 @@ public class TreeXmlAction extends AbstractXmlAction {
 
 	@Override
 	protected void fillDocument(Document document) {
-		Simon simon = name == null ? getContext().getManager().getRootSimon() : getContext().getManager().getSimon(name);
+		Simon simon = name == null ? getContext().getManager().getRootSimon() : findSimonByName(name);
 		Element rootElement = createElement(document, simon);
 		document.appendChild(rootElement);
 	}

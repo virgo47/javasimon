@@ -1,17 +1,16 @@
 package org.javasimon.console.action;
 
+import java.io.IOException;
+import javax.servlet.ServletException;
+
 import org.javasimon.Simon;
 import org.javasimon.console.ActionContext;
 import org.javasimon.console.ActionException;
 import org.javasimon.console.json.ArrayJS;
 import org.javasimon.console.json.ObjectJS;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-
 /**
- * Export one Simons as a JSON object for display in detail view.
+ * Export one Simon as a JSON object for display in detail view.
  * All attributes of simons are exported.
  * Path: http://.../data/detail.html?name=o.j...SimonName&timeFormat=MILLISECOND
  *
@@ -42,7 +41,7 @@ public class DetailJsonAction extends AbstractJsonAction {
 		if (name == null) {
 			throw new ActionException("Null name");
 		}
-		Simon simon = getContext().getManager().getSimon(name);
+		Simon simon = findSimonByName(name);
 		if (simon == null) {
 			throw new ActionException("Simon \"" + name + "\" not found");
 		}

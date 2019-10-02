@@ -18,7 +18,7 @@ jQuery.fn.extend({
 * To get the document params:
 * @example value = $(document).getUrlParam("paramName");
 * 
-* To get the params of a html-attribut (uses src attribute)
+* To get the params of an html-attribute (uses src attribute)
 * @example value = $('#imgLink').getUrlParam("paramName");
 */ 
     getUrlParam: function(strParamName){

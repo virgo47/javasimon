@@ -49,7 +49,7 @@ public class TreeJsonAction extends AbstractJsonAction {
 	@Override
 	public void execute() throws IOException {
 		getContext().setContentType("application/json");
-		Simon simon = name == null ? getContext().getManager().getRootSimon() : getContext().getManager().getSimon(name);
+		Simon simon = name == null ? getContext().getManager().getRootSimon() : findSimonByName(name);
 		ObjectJS simonRootJS = createObjectJS(simon);
 		simonRootJS.write(getContext().getWriter());
 	}
