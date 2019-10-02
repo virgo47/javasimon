@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.Collection;
 
 import org.javasimon.callback.Callback;
@@ -58,11 +59,12 @@ public final class SimonManager {
 			}
 			String resourceName = System.getProperty(PROPERTY_CONFIG_RESOURCE_NAME);
 			if (resourceName != null) {
-				try (InputStream is = SimonManager.class.getClassLoader().getResourceAsStream(resourceName)) {
-					if (is == null) {
-						throw new FileNotFoundException(resourceName);
-					}
-					manager.configuration().readConfig(new InputStreamReader(is));
+				InputStream is = SimonManager.class.getClassLoader().getResourceAsStream(resourceName);
+				if (is == null) {
+					throw new FileNotFoundException(resourceName);
+				}
+				try (Reader reader = new InputStreamReader(is)) {
+					manager.configuration().readConfig(reader);
 				}
 			}
 		} catch (Exception e) {
