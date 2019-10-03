@@ -1,5 +1,8 @@
 package org.javasimon.console.action;
 
+import java.io.IOException;
+import javax.servlet.ServletException;
+
 import org.javasimon.Simon;
 import org.javasimon.console.Action;
 import org.javasimon.console.ActionContext;
@@ -8,10 +11,6 @@ import org.javasimon.console.SimonType;
 import org.javasimon.console.SimonTypeFactory;
 import org.javasimon.console.TimeFormatType;
 import org.javasimon.console.text.StringifierFactory;
-
-import java.io.IOException;
-
-import javax.servlet.ServletException;
 
 /**
  * Export single Simon data as static HTML for printing purposes.
@@ -48,7 +47,7 @@ public class DetailHtmlAction extends Action {
 		if (name == null) {
 			throw new ActionException("Null name");
 		}
-		Simon simon = getContext().getManager().getSimon(name);
+		Simon simon = findSimonByName(name);
 		if (simon == null) {
 			throw new ActionException("Simon \"" + name + "\" not found");
 		}

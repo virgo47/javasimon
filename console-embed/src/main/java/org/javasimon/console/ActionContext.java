@@ -1,20 +1,17 @@
 package org.javasimon.console;
 
-import org.javasimon.Manager;
-import org.javasimon.SimonManager;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumSet;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.javasimon.Manager;
+import org.javasimon.SimonManager;
 
 /**
  * Action context wraps both HTTP request and response to make unit testing easier.
@@ -86,15 +83,7 @@ public class ActionContext {
 	}
 
 	protected String getParameter(String name) {
-		String value = getRequest().getParameter(name);
-		if (value != null) {
-			try {
-				value = URLDecoder.decode(value, getCharacterEncoding());
-			} catch (UnsupportedEncodingException unsupportedEncodingException) {
-				// Leave value as is
-			}
-		}
-		return value;
+		return getRequest().getParameter(name);
 	}
 
 	protected String[] getParameters(String name) {
