@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 
 import org.javasimon.Manager;
 import org.javasimon.SimonManager;
@@ -52,7 +53,9 @@ public class SimonConfigurationBean implements InitializingBean {
 			if (is == null) {
 				throw new FileNotFoundException(configurationPath);
 			}
-			simonManager.configuration().readConfig(new InputStreamReader(is));
+			try (Reader reader = new InputStreamReader(is)) {
+				simonManager.configuration().readConfig(reader);
+			}
 		}
 	}
 }

@@ -1,14 +1,15 @@
 package org.javasimon;
 
-import org.javasimon.callback.Callback;
-import org.javasimon.callback.CompositeCallback;
-import org.javasimon.utils.SystemDebugCallback;
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.Collection;
+
+import org.javasimon.callback.Callback;
+import org.javasimon.callback.CompositeCallback;
+import org.javasimon.utils.SystemDebugCallback;
 
 /**
  * SimonManager is static utility class providing so called "default {@link org.javasimon.Manager}.
@@ -33,7 +34,7 @@ public final class SimonManager {
 	/** Property name for the Simon configuration resource is "javasimon.config.resource". */
 	public static final String PROPERTY_CONFIG_RESOURCE_NAME = "javasimon.config.resource";
 
-	private static Manager manager = new SwitchingManager();
+	private static final Manager manager = new SwitchingManager();
 
 	/* Calls {@link #init()}. */
 	static {
@@ -62,7 +63,9 @@ public final class SimonManager {
 				if (is == null) {
 					throw new FileNotFoundException(resourceName);
 				}
-				manager.configuration().readConfig(new InputStreamReader(is));
+				try (Reader reader = new InputStreamReader(is)) {
+					manager.configuration().readConfig(reader);
+				}
 			}
 		} catch (Exception e) {
 			manager.callback().onManagerWarning("SimonManager initialization error", e);
