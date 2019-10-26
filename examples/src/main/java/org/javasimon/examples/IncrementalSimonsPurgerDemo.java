@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
  * This demos shows how IncrementalSimonsPurger class can be used to periodically
  * remove old incremental keys. If incremental sampling key was not used for a long
  * period of time it will be removed by IncrementalSimonsPurger.
- * <p/>
+ * <p>
  * Output of this demo shows how IncrementalSimonsPurger removes incremental Simons
  * if they were not used for some period of time. IncrementalSimonsPurger logs a message
  * with DEBUG level when purging is performed.

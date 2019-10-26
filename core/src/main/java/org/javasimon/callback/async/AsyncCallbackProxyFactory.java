@@ -9,13 +9,13 @@ import java.lang.reflect.Method;
 
 /**
  * Callback factory, produces a callback wrapper to make any callback asynchronous.
- * <p/>
+ * <p>
  * Example: {@code Callback myAsyncCallback=new AsyncCallbackProxy(myCallback).newProxy(); }
- * <p/>
+ * <p>
  * The purpose of this wrapping callback is to prevent the wrapped callback
  * from being executed on the main thread. This can be useful when a concrete
  * callback is time consuming, to reduce the impact on application performances.
- * <p/>
+ * <p>
  * It can be used to disable/enable, at runtime, a callback without removing it from
  * the {@link SimonManager}: {@code asyncCallbackProxy.setExecutor(Executors.disabled);}
  *

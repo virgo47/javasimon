@@ -17,7 +17,7 @@ import org.javasimon.utils.SystemDebugCallback;
  * utility-like class. This option may be useful in Java EE environment when it's required to
  * separate Simon trees across different applications. For majority of Java SE applications this
  * class is recommended.
- * <p/>
+ * <p>
  * SimonManager also provides configuration initialization via properties. To initialize configuration
  * with the configuration file following option can be added to JVM executable:
  * <pre>-Djavasimon.config.file=some-path/simon.config.xml</pre>

@@ -12,11 +12,12 @@ import org.javasimon.utils.SimonUtils;
 /**
  * Callback which logs stopwatch splits and manager warnings.
  * By default every split is logged, but one can configure this callback to log
- * only:<ul>
+ * only:
+ * <ul>
  * <li>Splits too long (longer that threshold)</li>
  * <li>One split out of N</li>
  * <li>One split every N milliseconds</li>
- * </li>
+ * </ul>
  */
 public class LoggingCallback extends CallbackSkeleton {
 
@@ -44,7 +45,7 @@ public class LoggingCallback extends CallbackSkeleton {
 	 * Constructor which can be used to customize log templates.
 	 *
 	 * @param stopwatchLogTemplate Logger used for Stopwatch splits
-	 * @param managerLogTemplate Logger used for manager
+	 * @param managerLogTemplate   Logger used for manager
 	 */
 	public LoggingCallback(LogTemplate<Split> stopwatchLogTemplate, LogTemplate<String> managerLogTemplate) {
 		this.stopwatchLogTemplate = stopwatchLogTemplate;
@@ -91,7 +92,7 @@ public class LoggingCallback extends CallbackSkeleton {
 	 * {@inheritDoc}
 	 * Split and stopwatch are logger to log template is enabled.
 	 *
-	 * @param split Split
+	 * @param split  Split
 	 * @param sample Stopwatch sample
 	 */
 	@Override

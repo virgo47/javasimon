@@ -15,7 +15,7 @@ import org.javasimon.callback.logging.SplitThresholdLogTemplate;
  * This callback can give good results only if interceptors/filters have been
  * placed a different level of the application (web/business/data tiers for
  * instance).
- * <p/>
+ * <p>
  * Call tree looks like this:
  * <pre>
  * org.javasimon.web.Controller.execute 123ms

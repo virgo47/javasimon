@@ -13,10 +13,10 @@ import org.javasimon.utils.SimonUtils;
  * Split measures real time (based on {@link org.javasimon.clock.SimonClock#nanoTime()}), it does not measure CPU time. Split can be garbage collected
  * and no resource leak occurs if it is not stopped, however Stopwatch's active counter ({@link org.javasimon.Stopwatch#getActive()})
  * will be stay incremented.
- * <p/>
+ * <p>
  * Split can never be running ({@link #isRunning()}) if it is disabled. Enabled split is running until it is stopped.
  * Stopped split (not running) will never again be running. Split never changes enabled flag after creation.
- * <p/>
+ * <p>
  * Split implements {@link java.lang.AutoCloseable} hence it can be used in try-with-resource construction.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
@@ -85,17 +85,17 @@ public final class Split implements HasAttributes, AutoCloseable {
 	 * Creates a new Split for direct use without {@link Stopwatch} ("anonymous split") based on specified {@link SimonClock}.
 	 * Stop will not update any Stopwatch, value can be added to any chosen Stopwatch using
 	 * {@link Stopwatch#addSplit(Split)} - even in conjunction with {@link #stop()} like this:
-	 * <p/>
+	 * <p>
 	 * <pre>Split split = Split.start();
 	 * ...
 	 * stopwatch.addSplit(split.stop());</pre>
-	 * <p/>
+	 * <p>
 	 * If the split is not needed afterwards (subject to garbage collection) calling {@link #stop()} is not necessary:
-	 * <p/>
+	 * <p>
 	 * <pre>Split split = Split.start();
 	 * ...
 	 * stopwatch.addSplit(split);</pre>
-	 * <p/>
+	 * <p>
 	 * No callbacks are called for this Split.
 	 *
 	 * @param clock Clock for this Split
@@ -168,12 +168,12 @@ public final class Split implements HasAttributes, AutoCloseable {
 	/**
 	 * Stops the split, updates the sub-stopwatch specified by parameter and returns this. Active counter of the original stopwatch
 	 * is decreased as expected. Subsequent calls do not change the state of the split.
-	 * <p/>
+	 * <p>
 	 * <b>Important:</b> While {@link #stop()} (or this stop with {@code null} argument)
 	 * results in {@link org.javasimon.callback.Callback#onStopwatchStop(Split, StopwatchSample)} callback method being invoked,
 	 * if sub-simon is affected then {@link org.javasimon.callback.Callback#onStopwatchAdd(Stopwatch, Split, StopwatchSample)}
 	 * is called instead.
-	 * <p/>
+	 * <p>
 	 * If the split was obtained from disabled Stopwatch, this method does not update sub-simon even if it is enabled, because
 	 * split itself is disabled as well. If split is enabled, but sub-simon is disabled, the latter is not updated.
 	 *

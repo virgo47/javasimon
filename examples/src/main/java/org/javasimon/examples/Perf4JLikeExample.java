@@ -12,7 +12,7 @@ import org.javasimon.clock.SimonClock;
  * This example demonstrates the flexibility of Simon's Callbacks and Split's stop method with sub-stopwatch
  * ({@link Split#stop(String)}. It does not support "message" part, but even that can be achieved using Split's
  * attributes (Split implements {@link org.javasimon.HasAttributes}).
- * <p/>
+ * <p>
  * Result may look like this:
  * <pre>INFO: start[1321403641356] time[527] tag[codeBlock2.failure]
 INFO: start[1321403641884] time[528] tag[codeBlock2.failure]

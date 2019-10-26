@@ -28,7 +28,7 @@ import java.util.List;
  * <li>checks if the request is not longer then a specified threshold and logs warning</li>
  * <li>provides basic "console" function if config parameter {@link #INIT_PARAM_SIMON_CONSOLE_PATH} is used in {@code web.xml}</li>
  * </ul>
- * <p/>
+ * <p>
  * All constants are public and fields protected for easy extension of the class. Following protected methods
  * and classes are provided to override the default function:
  * <ul>

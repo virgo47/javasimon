@@ -19,19 +19,19 @@ import org.javasimon.Stopwatch;
 
 /**
  * SimonUtils provides static utility methods.
- * <p/>
+ * <p>
  * <h3>Human readable outputs</h3>
  * Both {@link org.javasimon.Stopwatch} and {@link org.javasimon.Counter} provide human readable
  * {@code toString} outputs. All nanosecond values are converted into few valid digits with
  * proper unit (ns, us, ms, s) - this is done via method {@link #presentNanoTime(long)}.
  * Max/min counter values are checked for undefined state (max/min long value is converted
  * to string "undef") - via method {@link #presentMinMaxCount(long)}.
- * <p/>
+ * <p>
  * <h3>Aggregation utilities</h3>
  * It is possible to sum up (aggregate) values for a subtree for a particular Simon type using
  * {@link #calculateCounterAggregate(org.javasimon.Simon)} or {@link #calculateStopwatchAggregate(org.javasimon.Simon)}.
  * Methods come also in versions allowing to filter by {@link org.javasimon.SimonFilter}.
- * <p/>
+ * <p>
  * <h3>Simon tree operations</h3>
  * For various debug purposes there is a method that creates string displaying the whole Simon sub-tree.
  * Here is example code that initializes two random Simons and prints the whole Simon hierarchy

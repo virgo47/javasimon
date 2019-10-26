@@ -9,7 +9,7 @@ import java.util.Collection;
  * Manager provides access to Simons and manages them in a tree structure. Any number of Managers
  * can be created. There is also one special Manager (called "default manager") that is accessible
  * via convenient static utility class {@link SimonManager}.
- * <p/>
+ * <p>
  * Three different implementations exist:
  * <ul>
  * <li>{@link EnabledManager} represents fully functional manager in the enabled state;</li>

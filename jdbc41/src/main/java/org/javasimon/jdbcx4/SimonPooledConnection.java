@@ -13,9 +13,9 @@ import org.javasimon.jdbc4.SqlNormalizerFactory;
 /**
  * Simon implementation of <code>PooledConnection</code>, needed for
  * Simon ConnectionPollDataSource implementation.
- * <p/>
+ * <p>
  * All method invokes its real implementation.
- * <p/>
+ * <p>
  * See the {@link org.javasimon.jdbcx4 package description} for more
  * information.
  *

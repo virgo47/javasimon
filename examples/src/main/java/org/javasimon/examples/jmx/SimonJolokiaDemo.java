@@ -28,7 +28,7 @@ import javax.management.ObjectName;
 
 /**
  * Example of using Jolokia with JavaSimon.
- * <p/>
+ * <p>
  * Jolokia Agent starts on http://localhost:8778/jolokia/
  * Search http://localhost:8778/jolokia/search/org.javasimon:*
  * Manager http://localhost:8778/jolokia/read/org.javasimon:type=Manager

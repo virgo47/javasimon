@@ -11,7 +11,7 @@ import org.javasimon.utils.Replacer;
  * Normalized statement is merely used to recognize the original one and also to merge
  * the same statements with various arguments. Its primary purpose is to limit count of
  * distinct per-statement Simons. It doesn't suppose to be perfect or proof to all dialects.
- * <p/>
+ * <p>
  * Usage is simple, you create normalizer with SQL statement and then you can ask the
  * object for normalizedSql and type via respective getters.
  *

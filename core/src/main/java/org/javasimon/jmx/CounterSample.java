@@ -9,7 +9,7 @@ import java.util.Date;
  * Value object for retrieving data from Counter Simon. Basically, it's
  * {@link org.javasimon.CounterSample} with added JMX capabilities to be return as object via
  * MXBean method.
- * <p/>
+ * <p>
  * Example:
  * <pre>
  * SimonManagerMXBean simon = JMX.newMXBeanProxy(..., new ObjectName("domain:type=Simon"), SimonManagerMXBean.class);

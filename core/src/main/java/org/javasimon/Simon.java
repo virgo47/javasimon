@@ -117,7 +117,7 @@ public interface Simon extends HasAttributes {
 	 * same key. When the method is called the first time for the key, current values
 	 * are returned (same like from {@link #sample()}. Any subsequent calls with the key
 	 * provide increments.
-	 * <p/>
+	 * <p>
 	 * Clients can use any sampling key (any Object) which enables safe access to their own increments.
 	 * Using String does not guarantee this as any client can potentially guess the key. This
 	 * may or may not be an issue.

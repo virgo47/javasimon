@@ -7,7 +7,7 @@ import java.util.List;
  * sub-callbacks. Events can be filtered using {@link FilterCallback} which may be set up to pass only specific
  * events under certain circumstances.
  * This can be configured via Manager configuration facility. (Configuration part is still rather WIP.)
- * <p/>
+ * <p>
  * Callback tree has no correlation with Simon tree in the {@link org.javasimon.Manager}).
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>

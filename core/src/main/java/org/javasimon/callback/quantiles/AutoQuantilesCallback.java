@@ -12,23 +12,27 @@ import java.util.List;
  * Callback which stores data in buckets to compute quantiles.
  * Quantiles can only be obtained after warmup period, after which buckets are
  * initialized.
- * For each Simon the following lifecycle occurs:<ol>
- * <li><em>Warm up</em>:<ul>
+ * For each Simon the following lifecycle occurs:
+ * <ol>
+ * <li><em>Warm up</em>:
+ * <ul>
  * <li>Buckets do not exist</li>
  * <li>Quantiles can not be computed</li>
  * <li>Splits are kept</li>
- * </ul>
- * <li><em>Trigger</em>: splits count >= warmup count threshold<ul>
+ * </ul></li>
+ * <li><em>Trigger</em>: splits count &lt;= warmup count threshold
+ * <ul>
  * <li>Buckets are created, configuration (min, max) is determined from kept splits, bucket number is constant</li>
  * <li>Buckets are filled with previously stored splits</li>
  * <li>Retained splits are removed</li>
  * <li>From now on, quantiles can not be computed and splits are not kept anymore</li>
- * </ul>
- * <li><em>Normal</em>: <ul>
+ * </ul></li>
+ * <li><em>Normal</em>:
+ * <ul>
  * <li>Buckets are filled/updated with new splits as they come</li>
  * <li>Quantiles can be computed (provided there is enough splits and buckets are properly configured)</li>
- * </ul>
- * </li></ol>
+ * </ul></li>
+ * </ol>
  *
  * @author gquintana
  * @see Buckets
@@ -101,10 +105,12 @@ public class AutoQuantilesCallback extends QuantilesCallback {
 	/**
 	 * Create the buckets after warmup time.
 	 * Can be overridden to customize buckets configuration.
-	 * By default buckets are create with:<ul>
+	 * By default buckets are create with:
+	 * <ul>
 	 * <li>Min: stopwatch min-10% rounded to inferior millisecond</li>
 	 * <li>Max: stopwatch max+10 rounded to superior millisecond</li>
-	 * <li>Nb buckets: {@link #bucketNb}
+	 * <li>Nb buckets: {@link #bucketNb}</li>
+	 * </ul>
 	 *
 	 * @param stopwatch Stopwatch (containing configuration)
 	 * @return new Buckets objects

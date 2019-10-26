@@ -10,7 +10,7 @@ import org.javasimon.source.StopwatchSource;
  * MonitoredInterface monitoredProxy=new StopwatchProxyFactory(monitoredImplementation).newProxy(MonitoredInterface.class);</pre>
  * or
  * <pre>
- * MonitoredInterface monitoredProxy=new StopwatchProxyFactory(monitoredImplementation, new CustomProxyStopwatchSource<MonitoredInterface>()).newProxy(MonitoredInterface.class);</pre>
+ * MonitoredInterface monitoredProxy=new StopwatchProxyFactory(monitoredImplementation, new CustomProxyStopwatchSource&lt;MonitoredInterface&gt;()).newProxy(MonitoredInterface.class);</pre>
  */
 public final class StopwatchProxyFactory<T> extends DelegatingProxyFactory<T> {
 	/**

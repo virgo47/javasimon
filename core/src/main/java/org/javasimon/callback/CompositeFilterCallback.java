@@ -22,7 +22,7 @@ import javax.script.ScriptException;
  * method and if the rule is satisfied the event is propagated to all
  * children callbacks added via {@link #addCallback(Callback)}. XML facility for configuration
  * is provided via {@link org.javasimon.ManagerConfiguration#readConfig(java.io.Reader)}.
- * <p/>
+ * <p>
  * Filter without any rules does not propagate events (default DENY behavior).
  * Any number of global rules (for {@link Callback.Event#ALL}) and per event rules can be added.
  * Event rules have higher priority and if the filter passes on event rules, global rules are not consulted.

@@ -14,7 +14,7 @@ import org.javasimon.utils.Replacer;
  * Used by {@link SimonServletFilter} as default stopwatch source.
  * Can be overridden to customize monitored HTTP Requests and their
  * related Simon name.
- * <p/>
+ * <p>
  * To select which HTTP Request should be monitored method {@link #isMonitored} can be overridden. Default implementation monitors everything except for
  * typical resource-like requests (images, JS/CSS, ...).
  *
@@ -155,7 +155,7 @@ public class HttpStopwatchSource extends AbstractStopwatchSource<HttpServletRequ
 	/**
 	 * Removes JSESSIONID parameter from URI. By default it is not necessary to handle parameters, as incoming URI already is without
 	 * parameters, but JSESSIONID sometimes come before parameters in other forms and this method tries to remove such forms.
-	 * <p/>
+	 * <p>
 	 * Called by default implementation of {@link #requestToStringForMonitorName(javax.servlet.http.HttpServletRequest)} and extracted
 	 * so it can be used by any overriding implementation of the same method. Method can be overridden if the default behavior is not
 	 * sufficient.
@@ -171,7 +171,7 @@ public class HttpStopwatchSource extends AbstractStopwatchSource<HttpServletRequ
 	/**
 	 * Removes any trailing slashes followed by other characters if none of them is alphabetic. This should take care of some REST
 	 * parameters (numeric id-s) and it also removes trailing slashes to avoid empty local Simon names which is forbidden.
-	 * <p/>
+	 * <p>
 	 * Called by default implementation of {@link #requestToStringForMonitorName(javax.servlet.http.HttpServletRequest)} and extracted
 	 * so it can be used by any overriding implementation of the same method. Method can be overridden if the default behavior is not
 	 * sufficient.

@@ -14,7 +14,7 @@ import java.util.Collections;
  * Export Simons as a flat static HTML table which can be used for printing.
  * Each row as an odd/even CSS class. Each cell as a CSS class corresponding to property name.
  * Only a subset (defined in {@link AbstractTableAction#columns}) of attributes are exported.
- * Path: http://.../data/table.html?pattern=SimonPattern&type=STOPWATCH&type=COUNTER&timeFormat=MILLISECOND
+ * <a href="http://.../data/table.html?pattern=SimonPattern&type=STOPWATCH&type=COUNTER&timeFormat=MILLISECOND">path</a>
  *
  * @author gquintana
  */

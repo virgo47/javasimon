@@ -3,7 +3,7 @@ package org.javasimon.callback.quantiles;
 /**
  * Linearly organized {@link Buckets}.
  * For 100-600 range and 5 bucket count, the following buckets are created:
- * <table>
+ * <table summary="">
  * <tr>
  * <th>Index</th>
  * <th>Min</th><th>Max</th>
@@ -83,7 +83,7 @@ public class LinearBuckets extends Buckets {
 
 	/**
 	 * {@inheritDoc}
-	 * <p/>
+	 * <p>
 	 * Override the base method making it generally faster thanks to linear regression.
 	 */
 	protected Bucket getBucketForValue(long value) {

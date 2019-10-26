@@ -37,7 +37,7 @@ public class ExponentialBuckets extends Buckets {
 
 	/**
 	 * {@inheritDoc}
-	 * <p/>
+	 * <p>
 	 * Override the base method making it faster thanks to exponential regression.
 	 */
 	protected Bucket getBucketForValue(long value) {
@@ -60,7 +60,7 @@ public class ExponentialBuckets extends Buckets {
 
 	/**
 	 * {@inheritDoc}
-	 * <p/>
+	 * <p>
 	 * Used during quantiles computation to do exponential regression over one bucket.
 	 */
 	protected double estimateQuantile(Bucket bucket, double expectedCount, double lastCount) {

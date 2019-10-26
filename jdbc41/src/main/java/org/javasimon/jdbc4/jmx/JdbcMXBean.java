@@ -4,7 +4,7 @@ import org.javasimon.jmx.StopwatchSample;
 
 /**
  * Interface of JDBC management bean (MXBean).
- * <p/>
+ * <p>
  * JDBC MXBean provides management operations for monitoring JDBC driver
  * and operations to retrieve gathered statistics from special JDBC hierarchy of Simons.<br>
  * This JDBC hierarchy of Simon is well known and specified in JDBC javadoc
@@ -17,7 +17,7 @@ import org.javasimon.jmx.StopwatchSample;
  * class constructor ({@link JdbcMXBeanImpl#JdbcMXBeanImpl(org.javasimon.Manager, String)})
  * or later through setter ({@link #setPrefix(String)}). Then is also possible to register Jdbc mxbean
  * for each prefix.
- * <p/>
+ * <p>
  * Monitoring of the JDBC driver is enabled only if Java Simon JDBC proxy driver is used
  * over original JDBC driver (eg. Oracle, PostgreSQL, MySQL etc.). For more details how to do
  * that, please look at {@link org.javasimon.jdbc4.Driver} a package {@link org.javasimon.jdbc4}

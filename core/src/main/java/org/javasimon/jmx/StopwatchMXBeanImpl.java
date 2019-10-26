@@ -8,7 +8,7 @@ import org.javasimon.utils.SimonUtils;
  * MX Bean representing a particular {@link org.javasimon.Stopwatch}. It is not created
  * by default when JMX is activated - it must be created explicitely.
  * {@link JmxRegisterCallback} can be used to automate this.
- * <p/>
+ * <p>
  * Class can be subclassed to override default behavior if desired, {@link #stopwatch} is declared protected for this reason.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>

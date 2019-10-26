@@ -19,9 +19,9 @@ import java.util.Map;
  * {@link CompositeCallback#addCallback(Callback)} all events are propagated to all Callbacks (unless filtered
  * using {@link FilterCallback}). Methods called on various events are named {@code onEventXY} with type of the source
  * clearly mentioned in the name (Manager, Simon, Stopwatch, Counter).
- * <p/>
+ * <p>
  * Callbacks can be configured via Manager configuration facility. (Configuration part is still rather WIP.)
- * <p/>
+ * <p>
  * Callback can have a lifecycle supported with methods {@link #initialize(Manager)} and {@link #cleanup()}.
  * Callback is initialized when it is attached to the manager (anywhere in the callback tree) and
  * deinitialized when the callback is removed from the callback tree.
@@ -37,7 +37,7 @@ public interface Callback {
 	 * Lifecycle method called when the callback is removed from the manager. It should implement
 	 * any necessary cleanup or resources - e.g. release JDBC connection if one was used for Callback
 	 * functionality.
-	 * <p/>
+	 * <p>
 	 * <b>It is important to realize that this method is not guaranteed to be called for all callbacks, only for
 	 * callbacks removed from Manager's callback tree.</b>
 	 */
@@ -152,7 +152,7 @@ public interface Callback {
 	 * configurations meaning that the configuration entry applies to all actions (any action).
 	 * In callback configuration action names in lowercase and with _ replaced for - can be
 	 * used (e.g. "counter-increase" instead for {@link #COUNTER_INCREASE}.
-	 * <p/>
+	 * <p>
 	 * Event codes are used for configuration purposes instead of enum literals.
 	 */
 	enum Event {

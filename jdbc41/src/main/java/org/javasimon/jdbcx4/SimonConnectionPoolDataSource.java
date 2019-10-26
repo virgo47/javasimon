@@ -9,7 +9,7 @@ import javax.sql.PooledConnection;
 /**
  * Wrapper class for real ConnectionPoolDataSource implementation, produces pooled
  * {@link javax.sql.PooledConnection} object.
- * <p/>
+ * <p>
  * See the {@link SimonDataSource} for more information.
  *
  * @author Radovan Sninsky

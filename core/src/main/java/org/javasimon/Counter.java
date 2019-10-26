@@ -6,7 +6,7 @@ package org.javasimon;
  * go bellow 0. Counter can also start from any other arbitrary number that is set after the
  * first change (increment, decrement, set) - this is more typical case for tracking also the
  * min value.
- * <p/>
+ * <p>
  * <h3>Initialization</h3>
  * When a counter is created, it is set to 0, but its maximum/minimum values are undefined:
  * <pre>

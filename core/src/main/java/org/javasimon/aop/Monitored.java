@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
  * Annotation to mark classes and/or methods that should be monitored. A method is monitored when it is annotated,
  * or when it is in a class that is annotated (or any of it's subclasses). {@link org.javasimon.Stopwatch} is used
  * as a monitor.
- * <p/>
+ * <p>
  * The Stopwatch name consists of a "name" part and a "suffix" part - these parts are provided using parameters of
  * the annotation. Rules are as follows:
  * <ul>
@@ -20,7 +20,7 @@ import java.lang.annotation.Target;
  * <li>Suffix parameter overrules default method name. Suffix parameter is ignored on the class annotation.</li>
  * </ul>
  * If no parameter is used, name of the Stopwatch will be: {@code fully.qualified.ClassName.methodName}
- * <p/>
+ * <p>
  * Current name resolution applies since version 3.1.
  *
  * @author Erik van Oosten

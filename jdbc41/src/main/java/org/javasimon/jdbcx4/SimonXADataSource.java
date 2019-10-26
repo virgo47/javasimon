@@ -9,7 +9,7 @@ import javax.sql.XADataSource;
 /**
  * Wrapper class for real XADataSource implementation, produces xa
  * {@link javax.sql.XAConnection} object.
- * <p/>
+ * <p>
  * See the {@link SimonDataSource} for more information.
  *
  * @author Radovan Sninsky

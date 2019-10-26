@@ -8,9 +8,9 @@ import javax.transaction.xa.XAResource;
 /**
  * Simon implementation of <code>XAConnection</code>, needed for
  * Simon XADataSource implementation.
- * <p/>
+ * <p>
  * All method invokes its real implementation.
- * <p/>
+ * <p>
  * See the {@link org.javasimon.jdbcx4 package description} for more
  * information.
  *

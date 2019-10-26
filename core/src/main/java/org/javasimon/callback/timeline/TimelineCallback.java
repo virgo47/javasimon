@@ -10,7 +10,7 @@ import org.javasimon.callback.CallbackSkeleton;
  * Timeline callback aims at keeping simon data for the last N minutes.
  * A "timeline" object is stored in each Simon, it's fixed size ring buffer
  * of "time ranges". A "time range" aggregates Simon data for a fixed duration.
- * <p/>
+ * <p>
  * Example: a timeline containing 6 time ranges of 10 minutes each can be used to
  * see evolution for an hour.
  *

@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * List of buckets and quantiles computer.
  * Samples are not kept in buckets only the counter indicates their presence.
- * <br/>
+ * <p>
  * Some details impact quantiles computation precision:
  * <ul><li><em>Not enough samples</em>: The more samples you have, the more precise interpolation are</li>
  * <li><em>Not enough buckets</em>: the more buckets are used, the more regular the distribution is and the more memory you'll need as well!</li>

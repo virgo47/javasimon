@@ -11,7 +11,7 @@ import org.javasimon.utils.SimonUtils;
  * Compares get/start/stop with a static name and the same cycle with a name generated every time.
  * Typical result (Windows 7, JDK 6u31-32b, Intel Core i5) is:
  * http://chart.apis.google.com/chart?chs=420x320&cht=bvg&chbh=a,3,40&chco=2d69f9,a6c9fd,d0eeff&chxt=y,x,x&chtt=200k-loop+duration&chxr=2,0,4000&chds=0,4000&chxl=0:|0|1000|2000|3000|4000|1:|get-start-stop|gen-get-s-s|generate|get-stacktrace|2:|91.84+ms|3308.45+ms|3098.25+ms|2589.97+ms&chd=t:91.84,3308.45,3098.25,2589.97&chdl=avg&.png
- * <p/>
+ * <p>
  * Morale: Generate your name once, not every time - most of the overhead is stacktrace construction (Java SE/native code).
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>

@@ -12,7 +12,7 @@ import org.javasimon.jdbc4.WrapperSupport;
 /**
  * Wrapper class for real DataSource implementation, produces standard {@link java.sql.Connection}
  * object.
- * <p/>
+ * <p>
  * To use SimonDataSource, <b>MUST</b> properties are:
  * <ul>
  * <li><code>realDataSourceClassName</code> - full qualified classname of real Datasource
@@ -25,11 +25,11 @@ import org.javasimon.jdbc4.WrapperSupport;
  * <ul>
  * <li><code>prefix</code> - Simon prefix (default: <code>org.javasimon.jdbcx4</code></li>
  * </ul>
- * <p/>
+ * <p>
  * As mentioned in package description all <code>getConnection</code> methods
  * just invokes real {@link javax.sql.DataSource} object methods and wraps obtained
  * {@link java.sql.Connection} with {@link org.javasimon.jdbc4.SimonConnection} object.
- * <p/>
+ * <p>
  * Real {@link javax.sql.DataSource} is obtained in method {@link #datasource()}. It tries
  * to instantiate real datasource object by property <code>realDataSourceClassName</code>
  * (setters and getters for properties are in {@link AbstractSimonDataSource}) and then sets

@@ -8,7 +8,7 @@ package org.javasimon;
  * can be used to create finished Split for any nanos value). Both ways effectively
  * updates usage times, increase usage counter by one and updates total time of the stopwatch.
  * Split object enables multiple time-splits to be measured in parallel.
- * <p/>
+ * <p>
  * Example:
  * <pre>
  * Split split = SimonManager.getStopwatch("com.my.stopwatch").start();
@@ -39,7 +39,7 @@ public interface Stopwatch extends Simon {
 	 * Adds {@link Split} to the stopwatch which is useful for aggregation of splits created for other stopwatch.
 	 * Split object should be stopped. Main difference is the callback method called as
 	 * {@link org.javasimon.callback.Callback#onStopwatchAdd(Stopwatch, Split, StopwatchSample)} provides split object to the callback.
-	 * <p/>
+	 * <p>
 	 * Usage examples:
 	 * <pre>Split split = Split.start(); // no stopwatch needed
 	 * ...

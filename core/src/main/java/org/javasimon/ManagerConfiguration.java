@@ -22,14 +22,14 @@ import org.javasimon.utils.bean.SimonBeanUtils;
  * Holds configuration for one Simon Manager. Configuration is read from the stream
  * and it is merged with any existing configuration read before. Method {@link #clear()}
  * must be used in order to reset this configuration object.
- * <p/>
+ * <p>
  * Every {@link org.javasimon.Manager} holds its own configuration and programmer has
  * to take care of the initialization of the configuration. Default {@link org.javasimon.SimonManager}
  * is privileged and can be configured via file or resource when Java property {@code javasimon.config.file}
  * (constant {@link org.javasimon.SimonManager#PROPERTY_CONFIG_FILE_NAME})
  * or {@code javasimon.config.resource} (constant
  * {@link org.javasimon.SimonManager#PROPERTY_CONFIG_RESOURCE_NAME}) is used.
- * <p/>
+ * <p>
  * <b>Structure of the configuration XML:</b>
  * <pre>{@code
  * <simon-configuration>

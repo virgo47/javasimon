@@ -11,7 +11,7 @@ import org.javasimon.jdbc4.SqlNormalizerFactory;
 
 /**
  * SimonCommonDataSource is parent for all three datasource implementation classes.
- * <p/>
+ * <p>
  * It contains getters and setters for basic properties which all three datasource types
  * needs to implement.
  *

@@ -122,7 +122,7 @@ public interface SimonSuperMXBean extends Serializable {
 	 * same key. When the method is called the first time for the key, current values
 	 * are returned (same like from {@link #sample()}. Any subsequent calls with the key
 	 * provide increments.
-	 * <p/>
+	 * <p>
 	 * Clients should use a unique key (GUID, host name, etc.), to avoid interference
 	 * with other clients.
 	 *

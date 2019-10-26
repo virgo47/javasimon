@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
  * because the regex is compiled only once. {@link java.util.regex.Pattern#matcher(CharSequence)}
  * and {@link java.util.regex.Matcher#replaceAll(String)} is used internally, hence {@code to}
  * parameter is regex as well and can reference matched group from the {@code from} String.
- * <p/>
+ * <p>
  * Behavior can be further modified by {@link Modificator}s.
  *
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
@@ -21,7 +21,7 @@ public final class Replacer {
 	private boolean ignoreCase;
 
 	/**
-	 * Creates the replacer with from->to regex specification.
+	 * Creates the replacer with from-&gt;to regex specification.
 	 *
 	 * @param from replaced regex
 	 * @param to replacement string

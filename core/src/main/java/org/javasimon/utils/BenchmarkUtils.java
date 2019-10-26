@@ -18,7 +18,7 @@ public class BenchmarkUtils {
 	 * Runs the list of tasks to be benchmarked and returns {@link StopwatchSample} array with measured results.
 	 * Number of warmup runs (without measuring) and measured runs must be specified.
 	 * {@link Task} provides the name of the {@link org.javasimon.Stopwatch} that will store results.
-	 * <p/>
+	 * <p>
 	 * Tasks should not be extremely short - see {@link Task} javadoc for more.
 	 *
 	 * @param warmupRuns number of runs before the measuring starts
@@ -75,7 +75,7 @@ public class BenchmarkUtils {
 	 * Helper object that requires implementing the {@link #perform()} method with benchmarked block of code.
 	 * Calling {@link #run()} executes the code and measures statistics using the stopwatch named in the
 	 * constructor. Calling {@link #perform()} executes the code without the stopwatch being used.
-	 * <p/>
+	 * <p>
 	 * It is not recommended to implement too short Task repeated for many runs (thousands or millions)
 	 * but rather to impelement loop in the task to measure short operations and run the Task for units
 	 * of times (tens, hundreds). Otherwise Simon overhead (mostly {@link System#nanoTime()} call) may

@@ -65,7 +65,7 @@ public class JULLogTemplate<C> extends LogTemplate<C> {
 
 	/**
 	 * {@inheritDoc }
-	 * <p/>
+	 * <p>
 	 * Logger is enabled if underlying logger is {@link Logger#isLoggable} is true for current level.
 	 */
 	protected boolean isEnabled(C context) {

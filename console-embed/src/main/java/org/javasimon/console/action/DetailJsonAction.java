@@ -12,7 +12,7 @@ import org.javasimon.console.json.ObjectJS;
 /**
  * Export one Simon as a JSON object for display in detail view.
  * All attributes of simons are exported.
- * Path: http://.../data/detail.html?name=o.j...SimonName&timeFormat=MILLISECOND
+ * <a href="http://.../data/detail.html?name=o.j...SimonName&timeFormat=MILLISECOND">path</a>
  *
  * @author gquintana
  */

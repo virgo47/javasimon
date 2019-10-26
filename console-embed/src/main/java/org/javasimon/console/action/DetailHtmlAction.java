@@ -14,7 +14,7 @@ import org.javasimon.console.text.StringifierFactory;
 
 /**
  * Export single Simon data as static HTML for printing purposes.
- * Path: http://.../data/detail.html?name=o.j...SimonName&timeFormat=MILLISECOND
+ * <a href="http://.../data/detail.html?name=o.j...SimonName&timeFormat=MILLISECOND">path</a>
  *
  * @author gquintana
  */

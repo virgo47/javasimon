@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Interface of Simon management bean (MXBean) representing single point of access to a particular Simon
  * {@link org.javasimon.Manager}.
- * <p/>
+ * <p>
  * It provides general management tasks over all Simons for a single Manager (hierarchy of Simons)
  * plus some useful util functions.
  *
@@ -126,7 +126,7 @@ public interface SimonManagerMXBean extends Serializable {
 	 * same key. When the method is called the first time for the key, current values
 	 * are returned (same like from {@link #getCounterSample(String)} }. Any subsequent calls with the key
 	 * provide increments.
-	 * <p/>
+	 * <p>
 	 * Clients should use a unique key (GUID, host name, etc.), to avoid interference
 	 * with other clients.
 	 *
@@ -141,7 +141,7 @@ public interface SimonManagerMXBean extends Serializable {
 	 * same key. When the method is called the first time for the key, current values
 	 * are returned (same like from {@link #getCounterSample(String)} }. Any subsequent calls with the key
 	 * provide increments.
-	 * <p/>
+	 * <p>
 	 * Clients should use a unique key (GUID, host name, etc.), to avoid interference
 	 * with other clients.
 	 *

@@ -8,7 +8,7 @@ import java.lang.management.ThreadMXBean;
  * Uses {@link java.lang.management.ThreadMXBean#getCurrentThreadCpuTime()} internally.
  * This Clock checks if CPU time is supported, but does not enable it, if it is disabled. User has to do this
  * externally calling {@code ManagementFactory.getThreadMXBean().setThreadCpuTimeEnabled(true)}.
- * <p/>
+ * <p>
  * If CPU time is not supported, 0 is returned. If it is disabled, -1 should be returned (check Javadoc for
  * {@link java.lang.management.ThreadMXBean#getCurrentThreadCpuTime()}).
  *
