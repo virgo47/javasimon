@@ -5,8 +5,7 @@ The easiest way how to start playing with Java Simon is to
 that can use Maven Central repository you'll have to download the JARs from
 there manually. If you want to build from the sources, you can either checkout
 from GitHub or just use the "Donwload ZIP" button at the bottom of the right
-bar. Simon can be built by Maven 3.x (still official build for Simon) or
-Gradle (experimental, but working).
+bar. Simon can be built with Maven 3.x.
 
 ## What is Simon?
 

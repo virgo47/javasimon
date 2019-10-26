@@ -9,7 +9,7 @@
 	<name>Java Simon</name>
 	<description>Java Simon - simple monitoring library</description>
 	<url>https://github.com/virgo47/javasimon</url>
-	<version>4.1.5-SNAPSHOT</version>
+	<version>4.2.0-SNAPSHOT</version>
 
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
@@ -51,10 +51,6 @@
 			<url>http://opensource.org/licenses/BSD-3-Clause</url>
 		</license>
 	</licenses>
-
-	<prerequisites>
-		<maven>3.0.0</maven>
-	</prerequisites>
 
 	<dependencyManagement>
 		<dependencies>
