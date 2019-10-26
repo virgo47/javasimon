@@ -1,16 +1,22 @@
 package org.javasimon;
 
-import org.mockito.ArgumentMatcher;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyLong;
+import static org.mockito.Mockito.argThat;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import static org.mockito.Mockito.*;
+import org.mockito.ArgumentMatcher;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
 /**
  * @author <a href="mailto:ivan.mushketyk@gmail.com">Ivan Mushketyk</a>
@@ -25,27 +31,29 @@ public class IncrementalSimonsPurgerTest {
 		executorService = mock(ScheduledExecutorService.class);
 
 		scheduledFuture = mock(ScheduledFuture.class);
-		when(executorService.scheduleWithFixedDelay(any(Runnable.class), anyLong(), anyLong(), any(TimeUnit.class)))
-				.thenReturn(scheduledFuture);
+		when(executorService
+			.scheduleWithFixedDelay(any(Runnable.class), anyLong(), anyLong(), any(TimeUnit.class)))
+			.thenReturn(scheduledFuture);
 	}
 
-	@Test(dataProvider = "managersDataProvider")
+	@Test(dataProvider = "managersProvider")
 	public void testPeriodicalIncrementalSimonsPurge(Manager manager) {
-		IncrementalSimonsPurger incrementalSimonsPurger = new IncrementalSimonsPurger(manager, executorService);
+		IncrementalSimonsPurger incrementalSimonsPurger =
+			new IncrementalSimonsPurger(manager, executorService);
 
 		long duration = 1;
 		TimeUnit timeUnit = TimeUnit.SECONDS;
 		incrementalSimonsPurger.start(duration, timeUnit);
 
 		verify(executorService).scheduleWithFixedDelay(
-				argThat(new PurgerRunnableMatcher(manager)), eq(duration), eq(duration), eq(timeUnit));
+			argThat(new PurgerRunnableMatcher(manager)), eq(duration), eq(duration), eq(timeUnit));
 	}
 
-	private class PurgerRunnableMatcher extends ArgumentMatcher<Runnable> {
+	private static class PurgerRunnableMatcher extends ArgumentMatcher<Runnable> {
 
 		private final Manager expectedManager;
 
-		public PurgerRunnableMatcher(Manager expectedManager) {
+		PurgerRunnableMatcher(Manager expectedManager) {
 			this.expectedManager = expectedManager;
 		}
 
@@ -102,8 +110,8 @@ public class IncrementalSimonsPurgerTest {
 	public Object[][] managersDataProvider() {
 
 		return new Object[][] {
-				{new EnabledManager()},
-				{new SwitchingManager()}
+			{new EnabledManager()},
+			{new SwitchingManager()}
 		};
 	}
 
@@ -137,7 +145,6 @@ public class IncrementalSimonsPurgerTest {
 		Thread thread = threadFactory.newThread(runnable);
 		Assert.assertEquals(thread.getName(), "javasimon-simonsPurger-1");
 	}
-
 
 	@Test
 	public void testDaemonThreadFactoryThreadNameChanges() {
