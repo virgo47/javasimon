@@ -4,19 +4,7 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.math.BigDecimal;
 import java.net.URL;
-import java.sql.Array;
-import java.sql.Blob;
-import java.sql.CallableStatement;
-import java.sql.Clob;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.NClob;
-import java.sql.Ref;
-import java.sql.RowId;
-import java.sql.SQLException;
-import java.sql.SQLXML;
-import java.sql.Time;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.Calendar;
 import java.util.Map;
 
@@ -27,13 +15,14 @@ import java.util.Map;
  * @author <a href="mailto:virgo47@gmail.com">Richard "Virgo" Richter</a>
  * @since 2.4
  */
-@SuppressWarnings("deprecation")
 public final class SimonCallableStatement extends SimonPreparedStatement implements CallableStatement {
+
 	private CallableStatement stmt;
 
 	/**
 	 * Class constructor, initializes Simons (lifespan, active) related to statement.
-	 *  @param conn database connection (simon impl.)
+	 *
+	 * @param conn database connection (simon impl.)
 	 * @param stmt real callable statement
 	 * @param sql sql command
 	 * @param prefix hierarchy prefix for statement Simons
@@ -600,13 +589,13 @@ public final class SimonCallableStatement extends SimonPreparedStatement impleme
 		stmt.setNClob(s, reader);
 	}
 
-    @Override
-    public <T> T getObject(int parameterIndex, Class<T> type) throws SQLException {
-        return stmt.getObject(parameterIndex, type);
-    }
+	@Override
+	public <T> T getObject(int parameterIndex, Class<T> type) throws SQLException {
+		return stmt.getObject(parameterIndex, type);
+	}
 
-    @Override
-    public <T> T getObject(String parameterName, Class<T> type) throws SQLException {
-        return stmt.getObject(parameterName, type);
-    }
+	@Override
+	public <T> T getObject(String parameterName, Class<T> type) throws SQLException {
+		return stmt.getObject(parameterName, type);
+	}
 }
