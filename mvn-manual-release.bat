@@ -2,7 +2,7 @@
 set /P VERSION="Enter new version: "
 set /P GPGPP="Enter GPG pass-phrase: "
 
-set JAVA_HOME=%JAVA7_HOME%
+set JAVA_HOME=%JAVA8_HOME%
 
 call mvn versions:set -DnewVersion=%VERSION%
 call mvn versions:commit
