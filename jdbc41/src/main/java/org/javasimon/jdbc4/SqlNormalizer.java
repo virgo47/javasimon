@@ -5,7 +5,7 @@ package org.javasimon.jdbc4;
  * can be used to treat same queries with different parameters as same query
  *
  * @author Anton Rybochkin
- * @since 4.1.4
+ * @since 4.2.0
  */
 public interface SqlNormalizer {
 	/**
