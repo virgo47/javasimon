@@ -4,75 +4,89 @@ Overall document style
 */
 body {
     background-color: #ffffff;
-    color: #333333;
-    font-family: verdana, arial, helvetica, sans-serif;
-    font-size: 76%;
+    color: #353833;
+    font-family: 'Verdana', Arial, Helvetica, sans-serif;
+    font-size: 14px;
     margin: 0;
 }
 
 a {
     text-decoration: none;
-    color: #1122cc;
+    color: #2222aa;
 }
 
-a:hover {
-    background-color: #ffcccc;
-    border-radius: 4px;
-}
-
-a:hover > code {
+a:hover, a:focus, a:active, a:hover > code, a:focus > code, a:active > code {
+    text-decoration: none;
     background-color: #ffcccc;
     border-radius: 4px;
 }
 
 pre {
-    font-size: 1.3em;
+    font-family: 'DejaVu Sans Mono', monospace;
+    font-size: 14px;
 }
 
 h1 {
-    font-size: 1.8em;
+    font-size: 20px;
 }
 
 h2 {
-    font-size: 1.5em;
+    font-size: 18px;
 }
 
 h3 {
-    font-size: 1.4em;
+    font-size: 16px;
 }
 
 h4 {
-    font-size: 1.3em;
+    font-size: 13px;
 }
 
 h5 {
-    font-size: 1.2em;
+    font-size: 12px;
 }
 
 h6 {
-    font-size: 1.1em;
+    font-size: 11px;
 }
 
 ul {
     list-style-type: disc;
 }
 
-code, pre, tt {
-    font-family: consolas, monospace;
-    font-size: 13px;
+code, tt {
+    font-family: 'DejaVu Sans Mono', monospace;
+    font-size: 14px;
+    /*padding-top:4px;*/
+    margin-top: 8px;
+    line-height: 1.4em;
+
+    background-color: #FFF8F8;
+    border: thin solid #FFAAAA;
+    border-radius: 4px;
+    padding: 0 2px;
+}
+
+pre > code {
+    border: none;
+    background-color: inherit;
 }
 
 dt code {
-    font-size: 1.2em;
+    font-family: 'DejaVu Sans Mono', monospace;
+    font-size: 14px;
+    padding-top: 4px;
 }
 
 table tr td dt code {
-    font-size: 1.2em;
+    font-family: 'DejaVu Sans Mono', monospace;
+    font-size: 14px;
     vertical-align: top;
+    padding-top: 4px;
 }
 
 sup {
-    font-size: .6em;
+    font-size: 8px;
 }
 
 /*
@@ -85,11 +99,11 @@ Document title and Copyright styles
 }
 
 .aboutLanguage {
-    /*float: right;*/
-    /*padding: 0 21px;*/
-    /*font-size: .8em;*/
-    /*z-index: 200;*/
-    /*margin-top: -7px;*/
+    float: right;
+    padding: 0 21px;
+    font-size: 11px;
+    z-index: 200;
+    margin-top: -9px;
 }
 
 .legalCopy {
@@ -98,57 +112,61 @@ Document title and Copyright styles
 
 .tab {
     background-color: #ffeeee;
-    color: #000000;
+    color: #222222;
     padding: 8px;
     width: 5em;
     font-weight: bold;
 }
 
-/* Navigation bar styles */
+/*
+Navigation bar styles
+*/
 .bar {
-    background-color: #ffeeee;
-    color: #000000;
-    padding: 6px 10px;
-    height: 24px;
-    font-size: 1em;
+    background-color: #ffdddd;
+    padding: .8em .5em .4em .8em;
+    height: auto; /*height:1.8em;*/
+    font-size: 11px;
     margin: 0;
 }
 
 .topNav {
-    background-color: #ffeeee;
-    color: #000000;
+    background-color: #ffdddd;
     float: left;
+    padding: 0;
     width: 100%;
     clear: right;
-    padding: 6px 0;
-    height: 24px;
+    height: 2.8em;
+    padding-top: 10px;
     overflow: hidden;
+    font-size: 12px;
 }
 
 .bottomNav {
     margin-top: 10px;
-    background-color: #ffeeee;
-    color: #000000;
+    background-color: #ffdddd;
     float: left;
+    padding: 0;
     width: 100%;
     clear: right;
-    padding: 6px 0;
-    height: 24px;
+    height: 2.8em;
+    padding-top: 10px;
     overflow: hidden;
+    font-size: 12px;
 }
 
 .subNav {
     background-color: #dee3e9;
-    border-bottom: 1px solid #9eadc0;
     float: left;
     width: 100%;
     overflow: hidden;
+    font-size: 12px;
 }
 
 .subNav div {
     clear: left;
     float: left;
     padding: 0 0 5px 6px;
+    text-transform: uppercase;
 }
 
 ul.navList, ul.subNavList {
@@ -160,19 +178,26 @@ ul.navList, ul.subNavList {
 ul.navList li {
     list-style: none;
     float: left;
-    padding: 3px 6px;
+    padding: 5px 6px;
+    text-transform: uppercase;
 }
 
 ul.subNavList li {
     list-style: none;
     float: left;
-    font-size: 90%;
 }
 
 .navBarCell1Rev {
     background-color: #ffbbbb;
-    font-weight: bold;
-    border-radius: 4px;
+    color: #253441;
+    margin: auto 5px;
+}
+
+.skipNav {
+    position: absolute;
+    top: auto;
+    left: -9999px;
+    overflow: hidden;
 }
 
 /*
@@ -189,8 +214,12 @@ Page header and footer styles
     position: relative;
 }
 
+.indexHeader span {
+    margin-right: 15px;
+}
+
 .indexHeader h1 {
-    font-size: 1.3em;
+    font-size: 13px;
 }
 
 .title {
@@ -203,7 +232,7 @@ Page header and footer styles
 }
 
 .header ul {
-    margin: 0 0 25px 0;
+    margin: 0 0 15px 0;
     padding: 0;
 }
 
@@ -213,7 +242,7 @@ Page header and footer styles
 
 .header ul li, .footer ul li {
     list-style: none;
-    font-size: 1.2em;
+    font-size: 13px;
 }
 
 /*
@@ -221,18 +250,16 @@ Heading styles
 */
 div.details ul.blockList ul.blockList ul.blockList li.blockList h4, div.details ul.blockList ul.blockList ul.blockListLast li.blockList h4 {
     background-color: #dee3e9;
-    border-top: 1px solid #9eadc0;
-    border-bottom: 1px solid #9eadc0;
+    border: 1px solid #d0d9e0;
     margin: 0 0 6px -8px;
-    padding: 2px 5px;
+    padding: 7px 5px;
 }
 
 ul.blockList ul.blockList ul.blockList li.blockList h3 {
     background-color: #dee3e9;
-    border-top: 1px solid #9eadc0;
-    border-bottom: 1px solid #9eadc0;
+    border: 1px solid #d0d9e0;
     margin: 0 0 6px -8px;
-    padding: 2px 5px;
+    padding: 7px 5px;
 }
 
 ul.blockList ul.blockList li.blockList h3 {
@@ -256,11 +283,11 @@ Page layout container styles
 .indexContainer {
     margin: 10px;
     position: relative;
-    font-size: 1.0em;
+    font-size: 12px;
 }
 
 .indexContainer h2 {
-    font-size: 1.1em;
+    font-size: 13px;
     padding: 0 0 3px 0;
 }
 
@@ -271,17 +298,20 @@ Page layout container styles
 
 .indexContainer ul li {
     list-style: none;
+    padding-top: 2px;
 }
 
 .contentContainer .description dl dt, .contentContainer .details dl dt, .serializedFormContainer dl dt {
-    font-size: 1.1em;
+    font-size: 12px;
     font-weight: bold;
     margin: 10px 0 0 0;
     color: #4E4E4E;
 }
 
 .contentContainer .description dl dd, .contentContainer .details dl dd, .serializedFormContainer dl dd {
-    margin: 10px 0 10px 20px;
+    margin: 5px 0 10px 0;
+    font-size: 14px;
+    font-family: 'DejaVu Sans Mono', monospace;
 }
 
 .serializedFormContainer dl.nameValue dt {
@@ -328,20 +358,20 @@ ul.blockList, ul.blockListLast {
 
 ul.blockList li.blockList, ul.blockListLast li.blockList {
     list-style: none;
-    margin-bottom: 25px;
+    margin-bottom: 15px;
+    line-height: 1.4;
 }
 
 ul.blockList ul.blockList li.blockList, ul.blockList ul.blockListLast li.blockList {
     padding: 0 20px 5px 10px;
-    border: 1px solid #9eadc0;
-    background-color: #f9f9f9;
+    border: 1px solid #ededed;
+    background-color: #f8f8f8;
 }
 
 ul.blockList ul.blockList ul.blockList li.blockList, ul.blockList ul.blockList ul.blockListLast li.blockList {
     padding: 0 0 5px 8px;
     background-color: #ffffff;
-    border: 1px solid #9eadc0;
-    border-top: none;
+    border: none;
 }
 
 ul.blockList ul.blockList ul.blockList ul.blockList li.blockList {
@@ -349,7 +379,6 @@ ul.blockList ul.blockList ul.blockList ul.blockList li.blockList {
     padding-left: 0;
     padding-bottom: 15px;
     border: none;
-    border-bottom: 1px solid #9eadc0;
 }
 
 ul.blockList ul.blockList ul.blockList ul.blockList li.blockListLast {
@@ -366,67 +395,152 @@ table tr td dl, table tr td dl dt, table tr td dl dd {
 /*
 Table styles
 */
-.contentContainer table, .classUseContainer table, .constantValuesContainer table {
-    border-bottom: 1px solid #9eadc0;
+.overviewSummary, .memberSummary, .typeSummary, .useSummary, .constantsSummary, .deprecatedSummary {
     width: 100%;
+    border-left: 1px solid #EEE;
+    border-right: 1px solid #EEE;
+    border-bottom: 1px solid #EEE;
 }
 
-.contentContainer ul li table, .classUseContainer ul li table, .constantValuesContainer ul li table {
-    width: 100%;
+.overviewSummary, .memberSummary {
+    padding: 0;
 }
 
-.contentContainer .description table, .contentContainer .details table {
-    border-bottom: none;
-}
-
-.contentContainer ul li table th.colOne, .contentContainer ul li table th.colFirst, .contentContainer ul li table th.colLast, .classUseContainer ul li table th, .constantValuesContainer ul li table th, .contentContainer ul li table td.colOne, .contentContainer ul li table td.colFirst, .contentContainer ul li table td.colLast, .classUseContainer ul li table td, .constantValuesContainer ul li table td {
-    vertical-align: top;
-    padding-right: 20px;
-}
-
-.contentContainer ul li table th.colLast, .classUseContainer ul li table th.colLast, .constantValuesContainer ul li table th.colLast,
-.contentContainer ul li table td.colLast, .classUseContainer ul li table td.colLast, .constantValuesContainer ul li table td.colLast,
-.contentContainer ul li table th.colOne, .classUseContainer ul li table th.colOne,
-.contentContainer ul li table td.colOne, .classUseContainer ul li table td.colOne {
-    padding-right: 3px;
-}
-
-.overviewSummary caption, .packageSummary caption, .contentContainer ul.blockList li.blockList caption, .summary caption, .classUseContainer caption, .constantValuesContainer caption {
+.overviewSummary caption, .memberSummary caption, .typeSummary caption,
+.useSummary caption, .constantsSummary caption, .deprecatedSummary caption {
     position: relative;
     text-align: left;
     background-repeat: no-repeat;
-    color: #000000;
+    color: #253441;
     font-weight: bold;
     clear: none;
     overflow: hidden;
     padding: 0;
+    padding-top: 10px;
+    padding-left: 1px;
     margin: 0;
+    white-space: pre;
 }
 
-.overviewSummary caption span, .packageSummary caption span, .contentContainer ul.blockList li.blockList caption span, .summary caption span, .classUseContainer caption span, .constantValuesContainer caption span {
+.overviewSummary caption span, .memberSummary caption span, .typeSummary caption span,
+.useSummary caption span, .constantsSummary caption span, .deprecatedSummary caption span {
     white-space: nowrap;
-    padding: 4px 8px;
-    display: block;
+    padding-top: 5px;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-bottom: 7px;
+    display: inline-block;
     float: left;
-    background-color: #ffeeee;
-    border: 1px solid #9eadc0;
-    border-bottom: none;
+    background-color: #ffdddd;
+    border: none;
+    height: 16px;
 }
 
-.overviewSummary .tabEnd, .packageSummary .tabEnd, .contentContainer ul.blockList li.blockList .tabEnd, .summary .tabEnd, .classUseContainer .tabEnd, .constantValuesContainer .tabEnd {
+.memberSummary caption span.activeTableTab span {
+    white-space: nowrap;
+    padding-top: 5px;
+    padding-left: 12px;
+    padding-right: 12px;
+    margin-right: 3px;
+    display: inline-block;
+    float: left;
+    background-color: #ffdddd;
+    height: 16px;
+}
+
+.memberSummary caption span.tableTab span {
+    white-space: nowrap;
+    padding-top: 5px;
+    padding-left: 12px;
+    padding-right: 12px;
+    margin-right: 3px;
+    display: inline-block;
+    float: left;
+    background-color: #ffdddd;
+    height: 16px;
+}
+
+.memberSummary caption span.tableTab, .memberSummary caption span.activeTableTab {
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
+    background-image: none;
+    float: none;
+    display: inline;
+}
+
+.overviewSummary .tabEnd, .memberSummary .tabEnd, .typeSummary .tabEnd,
+.useSummary .tabEnd, .constantsSummary .tabEnd, .deprecatedSummary .tabEnd {
     display: none;
+    width: 5px;
+    position: relative;
+    float: left;
+    background-color: #ffdddd;
 }
 
-ul.blockList ul.blockList li.blockList table {
-    margin: 0 0 12px 0;
-    width: 100%;
+.memberSummary .activeTableTab .tabEnd {
+    display: none;
+    width: 5px;
+    margin-right: 3px;
+    position: relative;
+    float: left;
+    background-color: #ffdddd;
+}
+
+.memberSummary .tableTab .tabEnd {
+    display: none;
+    width: 5px;
+    margin-right: 3px;
+    position: relative;
+    background-color: #ffdddd;
+    float: left;
+
+}
+
+.overviewSummary td, .memberSummary td, .typeSummary td,
+.useSummary td, .constantsSummary td, .deprecatedSummary td {
+    text-align: left;
+    padding: 0 0 12px 10px;
+}
+
+th.colOne, th.colFirst, th.colLast, .useSummary th, .constantsSummary th,
+td.colOne, td.colFirst, td.colLast, .useSummary td, .constantsSummary td {
+    vertical-align: top;
+    padding-right: 0;
+    padding-top: 8px;
+    padding-bottom: 3px;
+}
+
+th.colFirst, th.colLast, th.colOne, .constantsSummary th {
+    background: #dee3e9;
+    text-align: left;
+    padding: 8px 3px 3px 7px;
+}
+
+td.colFirst, th.colFirst {
+    white-space: nowrap;
+    font-size: 13px;
+}
+
+td.colLast, th.colLast {
+    font-size: 13px;
+}
+
+td.colOne, th.colOne {
+    font-size: 13px;
+}
+
+.overviewSummary td.colFirst, .overviewSummary th.colFirst,
+.useSummary td.colFirst, .useSummary th.colFirst,
+.overviewSummary td.colOne, .overviewSummary th.colOne,
+.memberSummary td.colFirst, .memberSummary th.colFirst,
+.memberSummary td.colOne, .memberSummary th.colOne,
+.typeSummary td.colFirst {
+    width: 25%;
+    vertical-align: top;
 }
 
 .tableSubHeadingColor {
-    background-color: #EEEEFF;
-}
-
-.altColor {
     background-color: #eeeeef;
 }
 
@@ -434,47 +548,8 @@ ul.blockList ul.blockList li.blockList table {
     background-color: #ffffff;
 }
 
-.overviewSummary td, .packageSummary td, .contentContainer ul.blockList li.blockList td, .summary td, .classUseContainer td, .constantValuesContainer td {
-    text-align: left;
-    padding: 3px 3px 3px 7px;
-}
-
-th.colFirst, th.colLast, th.colOne, .constantValuesContainer th {
-    background: #dee3e9;
-    border-top: 1px solid #9eadc0;
-    border-bottom: 1px solid #9eadc0;
-    text-align: left;
-    padding: 3px 3px 3px 7px;
-}
-
-td.colFirst, th.colFirst {
-    border-left: 1px solid #9eadc0;
-    white-space: nowrap;
-}
-
-td.colLast, th.colLast {
-    border-right: 1px solid #9eadc0;
-}
-
-td.colOne, th.colOne {
-    border-right: 1px solid #9eadc0;
-    border-left: 1px solid #9eadc0;
-}
-
-table.overviewSummary {
-    padding: 0;
-    margin-left: 0;
-}
-
-table.overviewSummary td.colFirst, table.overviewSummary th.colFirst,
-table.overviewSummary td.colOne, table.overviewSummary th.colOne {
-    width: 25%;
-    vertical-align: middle;
-}
-
-table.packageSummary td.colFirst, table.overviewSummary th.colFirst {
-    width: 25%;
-    vertical-align: middle;
+.altColor {
+    background-color: #eeeeef;
 }
 
 /*
@@ -493,6 +568,23 @@ Content styles
     padding: 0;
 }
 
+ul.blockList ul.blockList ul.blockList li.blockList h3 {
+    font-style: normal;
+}
+
+div.block {
+    font-size: 14px;
+}
+
+td.colLast div {
+    padding-top: 0;
+}
+
+
+td.colLast a {
+    padding-bottom: 3px;
+}
+
 /*
 Formatting effect styles
 */
@@ -504,59 +596,48 @@ Formatting effect styles
 h1.hidden {
     visibility: hidden;
     overflow: hidden;
-    font-size: .9em;
+    font-size: 10px;
 }
 
 .block {
     display: block;
-    margin: 3px 0 0 0;
+    margin: 3px 10px 2px 0;
+    color: #474747;
 }
 
-.strong {
+.deprecatedLabel, .descfrmTypeLabel, .memberNameLabel, .memberNameLink,
+.overrideSpecifyLabel, .packageHierarchyLabel, .paramLabel, .returnLabel,
+.seeLabel, .simpleTagLabel, .throwsLabel, .typeNameLabel, .typeNameLink {
     font-weight: bold;
 }
 
-pre {
-    padding: 5px;
-    border: 1px solid #888888;
-    background-color: #F4F4F4;
-    border-radius: 4px;
-    overflow-x: auto;
-    line-height: 140%;
+.deprecationComment, .emphasizedPhrase, .interfaceName {
+    font-style: italic;
 }
 
-code {
-    font-weight: bold;
-    background-color: #FFF8F8;
-    border: thin solid #FFAAAA;
-    border-radius: 4px;
-    padding: 0 2px;
-}
-
-a code {
-    font-weight: bold;
-    color: #1122aa;
-    border-radius: 4px;
-}
-
-table code {
-    background-color: transparent;
-    border: none;
-    border-radius: 4px;
-}
-
-div.logo {
-    float: right;
-    margin: -5px 10px 0;
-    padding: 18px 0 0 130px;
+div.block div.block span.deprecationComment, div.block div.block span.emphasizedPhrase,
+div.block div.block span.interfaceName {
     font-style: normal;
+}
+
+div.contentContainer ul.blockList li.blockList h2 {
+    padding-bottom: 0;
+}
+
+/* Logo */
+.logo {
     font-weight: bold;
-    font-size: 13px;
-    vertical-align: baseline;
+    vertical-align: bottom;
     height: 36px;
+    padding: 23px 0 0 130px;
     background: url("resources/simonlogo120.png") no-repeat;
 }
 
-.bar div.logo {
-    margin-right: 0;
+.aboutLanguage .logo {
+    float: right;
+}
+
+.bar .logo {
+    margin-top: -6px;
+    margin-bottom: -21px;
 }
