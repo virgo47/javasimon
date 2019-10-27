@@ -14,6 +14,20 @@ bug-fixing (thanks to our users) we added **Maven support** and basic **Java EE 
 **October 11th, 2011**. We moved to **Maven Central** (group-id org.javasimon) and further improved Java EE support.
 Embeddable web-console was added in version 3.2.
 
+With **Fourth version** in 2014 Java Simon moved to GitHub (from now forgotten Google Code) and to Java 7.
+It continued to be maintained in very slow pace, often with unexpected pull requests from the community (thanks!).
+In 2019 with 4.2.0 we bumped the minimum Java to 8.
+
+## 4.2.0 - 2019-10-26
+
+Fixes for SQL normalizer and upgrade to Java 8:
+
+* Fixed #2 (SqlNormalizer is CPU expensive during JDBC profiling) via #29 (SqlNormalizer extracted)
+* Fixed #31 (Detailed view cannot be refreshed if simon name contains characters that should be url-encoded)
+* Fixed #28 (ConcurrentModificationException in ManagerConfiguration)
+* Compiled with Java 8 (Java Simon 4.1 was based on Java 7)
+* Many dependency upgrades (latest Spring 4.x, H2, TestNG, Jackson, Jetty, ...)
+
 ## 4.1.4 - 2018-03-18
 
 Minor bugfix release mostly around logging and Console JSON stringification:
