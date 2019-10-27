@@ -22,10 +22,11 @@ In 2019 with 4.2.0 we bumped the minimum Java to 8.
 
 Fixes for SQL normalizer and upgrade to Java 8:
 
-* Fixed #2 (SqlNormalizer is CPU expensive during JDBC profiling) via #29 (SqlNormalizer extracted)
-* Fixed #31 (Detailed view cannot be refreshed if simon name contains characters that should be url-encoded)
-* Fixed #28 (ConcurrentModificationException in ManagerConfiguration)
-* Compiled with Java 8 (Java Simon 4.1 was based on Java 7)
+* Fixed [SqlNormalizer is CPU expensive during JDBC profiling](https://github.com/virgo47/javasimon/issues/2)
+via [SqlNormalizer extracted](https://github.com/virgo47/javasimon/pull/29)
+* Fixed [Detailed view cannot be refreshed if simon name contains characters that should be url-encoded](https://github.com/virgo47/javasimon/issues/3)
+* Fixed [ConcurrentModificationException in ManagerConfiguration](https://github.com/virgo47/javasimon/issues/28)
+* Compiled with Java 8 (Java Simon 4.1 was based on Java 7), which means it requires Java 8
 * Many dependency upgrades (latest Spring 4.x, H2, TestNG, Jackson, Jetty, ...)
 
 ## 4.1.4 - 2018-03-18
