@@ -63,6 +63,7 @@ public class SimonClockUtils {
 
 		static {
 			initMillis = System.currentTimeMillis();
+			initNanos = System.nanoTime();
 			long oldNanos;
 			while (true) {
 				oldNanos = System.nanoTime();
