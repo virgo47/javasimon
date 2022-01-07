@@ -35,7 +35,7 @@
 		<version.javaee-api>6.0</version.javaee-api>
 		<version.spring>4.3.25.RELEASE</version.spring>
 		<version.testng>7.0.0</version.testng>
-		<version.h2database>1.4.200</version.h2database>
+		<version.h2database>2.0.206</version.h2database>
 		<version.slf4j>1.7.28</version.slf4j>
 	</properties>
 
