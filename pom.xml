@@ -33,7 +33,7 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 
 		<version.javaee-api>6.0</version.javaee-api>
-		<version.spring>4.3.25.RELEASE</version.spring>
+		<version.spring>5.2.22.RELEASE</version.spring>
 		<version.testng>7.0.0</version.testng>
 		<version.h2database>2.1.210</version.h2database>
 		<version.slf4j>1.7.28</version.slf4j>
